@@ -1,0 +1,10 @@
+{
+	"id": "ice_configurable",
+	"display_name": "Ice Block (Configurable)",
+	"matter_type": "solid",
+	"is_safe": true,
+	"behaviors": {
+		"any_side": ["freeze"]
+	},
+	"params": {}
+}

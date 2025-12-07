@@ -1,0 +1,15 @@
+{
+	"id": "bounce_configurable",
+	"display_name": "Bounce Block (Configurable)",
+	"matter_type": "solid",
+	"is_safe": true,
+	"behaviors": {
+		"any_side": ["bounce"]
+	},
+	"params": {
+		"bounce": {
+			"bounciness": 0.1,
+			"speed_limit": 12500
+		}
+	}
+}

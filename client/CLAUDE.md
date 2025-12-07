@@ -2,13 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Godot Documentation
+- Use the godot-docs MCP server tools to look up Godot classes, methods, properties, and signals before writing code
+- When encountering unfamiliar Godot APIs, use godot_search or godot_get_class for accurate documentation
+- Examples: godot_search for finding APIs, godot_get_class for detailed class info
+
 ## Build Commands
 - Run the game: Open project.godot in Godot Engine and press F5
 - Build for web: `godot --headless --verbose --export-release "Web" $PWD/build/web/index.html`
 - Tests: Run test scenes directly in Godot (open *_test.tscn files and press F5)
 
 ## Code Style
-- Follow Godot's GDScript style guide
 - Indentation: Tabs (not spaces)
 - Line length: <100 characters
 - File/variable/function names: snake_case

@@ -109,3 +109,37 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 func clear():
 	for tile_id in map:
 		map[tile_id].clear()
+
+
+## Load configurable tiles from JSON files in a directory
+func load_configurable_tiles_from_directory(dir_path: String = "res://tiles/configs/") -> int:
+	var configs := TileConfigLoader.load_configs_from_directory(dir_path)
+	var loaded_count := 0
+
+	for config in configs:
+		if register_configurable_tile(config):
+			loaded_count += 1
+
+	return loaded_count
+
+
+## Register a single configurable tile from a config dictionary
+func register_configurable_tile(config: Dictionary) -> bool:
+	if not TileConfigLoader.validate_config(config):
+		return false
+
+	var tile_id: String = config["id"]
+	var tile := ConfigurableTile.new(config)
+	tile.init()
+	map[tile_id] = tile
+
+	return true
+
+
+## Load a single configurable tile from a JSON file
+func load_configurable_tile_from_file(file_path: String) -> bool:
+	var config := TileConfigLoader.load_from_json(file_path)
+	if config.is_empty():
+		return false
+
+	return register_configurable_tile(config)
