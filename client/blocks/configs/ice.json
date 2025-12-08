@@ -1,10 +1,18 @@
 {
-	"id": "ice_configurable",
-	"display_name": "Ice Block (Configurable)",
+	"id": "ice",
+	"display_name": "Ice",
 	"matter_type": "solid",
 	"is_safe": true,
-	"behaviors": {
-		"any_side": ["freeze"]
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 5, "y": 1}
 	},
-	"params": {}
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "freeze",
+				"params": {}
+			}
+		]
+	}
 }

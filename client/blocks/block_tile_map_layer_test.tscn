@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=4 uid="uid://d1e2f3g4h5i6j"]
+
+[ext_resource type="Script" path="res://blocks/block_tile_map_layer_test.gd" id="1_test"]
+[ext_resource type="Script" path="res://blocks/block_tile_map_layer.gd" id="2_tilemap"]
+
+[node name="ConfigurableTileMapLayerTest" type="Node2D"]
+script = ExtResource("1_test")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("2_tilemap")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)

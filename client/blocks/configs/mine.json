@@ -1,15 +1,21 @@
 {
-	"id": "mine_configurable",
-	"display_name": "Mine Block (Configurable)",
+	"id": "mine",
+	"display_name": "Mine",
 	"matter_type": "solid",
 	"is_safe": false,
-	"behaviors": {
-		"any_side": ["explode"]
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 9, "y": 0}
 	},
-	"params": {
-		"explode": {
-			"push_strength": 5000,
-			"hitstun_duration": 2.5
-		}
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "explode",
+				"params": {
+					"push_strength": 5000,
+					"hitstun_duration": 2.5
+				}
+			}
+		]
 	}
 }

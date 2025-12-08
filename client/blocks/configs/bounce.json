@@ -1,15 +1,21 @@
 {
-	"id": "bounce_configurable",
-	"display_name": "Bounce Block (Configurable)",
+	"id": "bounce",
+	"display_name": "Bounce",
 	"matter_type": "solid",
 	"is_safe": true,
-	"behaviors": {
-		"any_side": ["bounce"]
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 2, "y": 1}
 	},
-	"params": {
-		"bounce": {
-			"bounciness": 0.1,
-			"speed_limit": 12500
-		}
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "bounce",
+				"params": {
+					"bounciness": 0.1,
+					"speed_limit": 12500
+				}
+			}
+		]
 	}
 }
