@@ -2,7 +2,6 @@ class_name ConfigurableBlock
 ## Block that is configured via a Dictionary instead of a GDScript class
 ##
 ## Allows runtime creation of tiles with custom behaviors defined in JSON or code.
-## Behaviors are executed via the BehaviorRegistry.
 
 const STATIC := "static"
 const SOLID := "solid"
@@ -15,40 +14,28 @@ const DEACTIVATED_ALT_ID := 2
 const INVISIBLE_DEACTIVATED_ALT_ID := 3
 
 var _config: Dictionary
-var top := []
-var left := []
-var right := []
-var bottom := []
-var any_side := [] # includes top, left, right, and bottom
-var stand := [] # could be any side depending on player rotation
-var bump := [] # could be any side depending on player rotation
-var tick := [] # will run on some interval
-var area := [] # used for blocks with no collision like water
+var _behaviors: Dictionary
 var physics_type := STATIC
 var matter_type := SOLID
 var is_safe: bool = true
 
 
 func init(config: Dictionary) -> void:
+	print("Block::init ", config)
 	_config = config
-	var behaviors = _config.get("behaviors", {})
-
+	_behaviors = _config.get("behaviors", {})
 	matter_type = _config.get("matter_type", ConfigurableBlock.SOLID)
 	physics_type = _config.get("physics_type", "static")
 	is_safe = _config.get("is_safe", true)
 
-	for event_name in behaviors:
-		var behavior_funcs = []
-		var behavior_configs = behaviors[event_name]
-		for behavior_config in behavior_configs:
-			var behavior = BehaviorRegistry.lookup(behavior_config.name)
-			behavior_funcs.append(behavior)
-		set(event_name, behaviors)
 
+func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+	print("Block::on " + event)
+	if event not in _behaviors:
+		return
 
-func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void:
-	for behavior in self[event]:
-		behavior.call(source, target, coords)
+	for behavior in _behaviors[event]:
+		BlockBehaviors.call(behavior.name, body, tile_map_layer, coords, behavior.params)
 
 
 func get_center_position(tile_map_layer: TileMapLayer, coords: Vector2i) -> Vector2:

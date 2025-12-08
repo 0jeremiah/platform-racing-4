@@ -26,6 +26,7 @@ StringUtils="*res://singletons/string_utils.gd"
 Session="*res://singletons/session/session.gd"
 Jukebox="*res://singletons/jukebox/jukebox.tscn"
 CachingLoader="*res://singletons/caching_loader.gd"
+BlockBehaviors="*res://blocks/block_behaviors.gd"
 
 [display]
 
@@ -34,6 +35,10 @@ window/size/viewport_height=1080
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [gui]
 

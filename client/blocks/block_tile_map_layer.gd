@@ -7,6 +7,7 @@ extends TileMapLayer
 
 
 var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas_coords: Vector2i}
+var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
 
 
 ## Initialize the layer with a ConfigurableTileSet
@@ -17,6 +18,9 @@ func setup_from_configs(configs: Array) -> void:
 
 	# Build lookup table: block_id → tile info
 	_build_block_lookup(configs, tileset)
+
+	# Create block instances
+	_create_blocks(configs)
 
 
 ## Build the block_id → tile location mapping
@@ -73,3 +77,31 @@ func get_cell_block_id(coords: Vector2i) -> String:
 			return block_id
 
 	return ""
+
+
+## Create ConfigurableBlock instances from configs
+func _create_blocks(configs: Array) -> void:
+	_blocks.clear()
+
+	for config in configs:
+		if not config.has("id"):
+			continue
+
+		var block_id: String = config.id
+		var block := ConfigurableBlock.new()
+		block.init(config)
+		_blocks[block_id] = block
+
+
+## Trigger block behaviors for a tile collision
+func trigger_tile_behaviors(body: PhysicsBody2D, coords: Vector2i, events: Array[String]) -> void:
+	var block_id := get_cell_block_id(coords)
+	if block_id == "":
+		return
+
+	var block: ConfigurableBlock = _blocks.get(block_id)
+	if not block:
+		return
+
+	for event in events:
+		block.on(event, body, self, coords)

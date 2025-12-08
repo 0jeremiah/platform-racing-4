@@ -1,100 +1,117 @@
-extends Node2D
+extends GutTest
 ## Test for mine block behavior
 ## Expects: Ball gets knocked away with force, mine gets destroyed
 
 
-var initial_ball_position: Vector2
-var test_complete := false
-var test_passed := false
-var test_message := ""
-var mine_coords := Vector2i(4, 4)
+const MINE_COORDS := Vector2i(4, 4)
+const MIN_KNOCKBACK_DISTANCE := 300.0
+const TEST_DURATION := 2.0
 
 
 func _ready() -> void:
-	_setup_tilemap()
-	_setup_ball()
-
-	# Store initial ball position
-	initial_ball_position = $Ball.global_position
-
-	# Start 2-second timer
-	var timer := Timer.new()
-	timer.wait_time = 2.0
-	timer.one_shot = true
-	timer.timeout.connect(_on_test_timeout)
-	add_child(timer)
-	timer.start()
+	# When run directly (not through GUT), set up the scene
+	# GUT doesn't call _ready on test classes, so if _ready is called, we're running standalone
+	_setup_visual_test()
 
 
-func _setup_tilemap() -> void:
-	# Load mine config
+func _setup_visual_test() -> void:
+	# Setup the scene for visual inspection
 	var mine_config := BlockTestUtils.load_config("res://blocks/configs/mine.json")
-
-	# Set up ConfigurableTileMapLayer
 	var tile_map_layer: ConfigurableTileMapLayer = $TileMapLayer
 	tile_map_layer.setup_from_configs([mine_config])
+	tile_map_layer.set_cell_by_id(MINE_COORDS, "mine")
 
-	# Place mine tile by ID
-	tile_map_layer.set_cell_by_id(mine_coords, "mine")
-
-
-func _setup_ball() -> void:
+	# Setup ball
 	var ball: RigidBody2D = $Ball
-
-	# Position ball above the mine to drop onto it
-	var mine_world_pos: Vector2 = Vector2(mine_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-	ball.position = mine_world_pos - Vector2(0, 300)  # 300 pixels above mine
-
-	# Give ball some initial downward velocity to ensure collision
+	var mine_world_pos: Vector2 = Vector2(MINE_COORDS * Settings.tile_size) + Vector2(Settings.tile_size_half)
+	ball.position = mine_world_pos - Vector2(0, 300)
 	ball.linear_velocity = Vector2(0, 300)
 
-	# Create a simple circle sprite for visual feedback
+	# Create ball sprite
+	var sprite: Sprite2D = ball.get_node("Sprite2D")
+	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	image.fill(Color.ORANGE)
+	sprite.texture = ImageTexture.create_from_image(image)
+
+	# Store initial position for checking later
+	var initial_ball_position := ball.global_position
+
+	# Add result label
+	var test_result_label := Label.new()
+	test_result_label.position = Vector2(50, 50)
+	test_result_label.add_theme_font_size_override("font_size", 24)
+	add_child(test_result_label)
+
+	# Start timer to check results
+	await get_tree().create_timer(TEST_DURATION).timeout
+
+	# Check results
+	var distance_moved := initial_ball_position.distance_to(ball.global_position)
+	var mine_exists := tile_map_layer.get_cell_source_id(MINE_COORDS) != -1
+	var passed := distance_moved > MIN_KNOCKBACK_DISTANCE and not mine_exists
+
+	if passed:
+		test_result_label.text = "PASS: Ball knocked %.0f px, mine destroyed" % distance_moved
+		test_result_label.add_theme_color_override("font_color", Color.GREEN)
+	else:
+		test_result_label.text = "FAIL: Ball moved %.0f px, mine exists: %s" % [distance_moved, mine_exists]
+		test_result_label.add_theme_color_override("font_color", Color.RED)
+
+
+func test_mine_explodes_and_knocks_ball_away() -> void:
+	# Load the test scene
+	var scene: Node2D = _create_test_scene()
+	add_child_autofree(scene)
+
+	# Get references
+	var ball: RigidBody2D = scene.get_node("Ball")
+	var tile_map_layer: ConfigurableTileMapLayer = scene.get_node("TileMapLayer")
+
+	# Store initial position
+	var initial_position := ball.global_position
+
+	# Wait for physics simulation
+	await wait_seconds(TEST_DURATION)
+
+	# Check ball was knocked away
+	var distance_moved := initial_position.distance_to(ball.global_position)
+	assert_gt(
+		distance_moved,
+		MIN_KNOCKBACK_DISTANCE,
+		"Ball should be knocked away at least %.0f pixels, but only moved %.1f pixels" % [MIN_KNOCKBACK_DISTANCE, distance_moved]
+	)
+
+	# Check mine was destroyed
+	var mine_exists := tile_map_layer.get_cell_source_id(MINE_COORDS) != -1
+	assert_false(
+		mine_exists,
+		"Mine should be destroyed after collision"
+	)
+
+
+## Create and configure the test scene
+func _create_test_scene() -> Node2D:
+	# Load the scene template
+	var scene_template: PackedScene = load("res://blocks/tests/mine_test.tscn")
+	var scene: Node2D = scene_template.instantiate()
+
+	# Setup tilemap with mine config
+	var mine_config := BlockTestUtils.load_config("res://blocks/configs/mine.json")
+	var tile_map_layer: ConfigurableTileMapLayer = scene.get_node("TileMapLayer")
+	tile_map_layer.setup_from_configs([mine_config])
+	tile_map_layer.set_cell_by_id(MINE_COORDS, "mine")
+
+	# Setup ball
+	var ball: RigidBody2D = scene.get_node("Ball")
+	var mine_world_pos: Vector2 = Vector2(MINE_COORDS * Settings.tile_size) + Vector2(Settings.tile_size_half)
+	ball.position = mine_world_pos - Vector2(0, 300)  # 300 pixels above mine
+	ball.linear_velocity = Vector2(0, 300)  # Initial downward velocity
+
+	# Create ball sprite for visual feedback
 	var sprite: Sprite2D = ball.get_node("Sprite2D")
 	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
 	image.fill(Color.ORANGE)
 	var texture := ImageTexture.create_from_image(image)
 	sprite.texture = texture
 
-
-func _on_test_timeout() -> void:
-	test_complete = true
-
-	# Check if ball was knocked away (moved significantly)
-	var distance_moved := initial_ball_position.distance_to($Ball.global_position)
-	var was_knocked_away := distance_moved > 200.0  # Expect at least 200 pixels of movement
-
-	# Check if mine tile was destroyed
-	var tile_map_layer: TileMapLayer = $TileMapLayer
-	var mine_exists := tile_map_layer.get_cell_source_id(mine_coords) != -1
-
-	# Test passes if ball moved far and mine is gone
-	if was_knocked_away and not mine_exists:
-		test_passed = true
-		test_message = "PASS: Ball knocked away (%.1f px), mine destroyed" % distance_moved
-	elif not was_knocked_away and not mine_exists:
-		test_passed = false
-		test_message = "FAIL: Mine destroyed but ball only moved %.1f px (expected >200)" % distance_moved
-	elif was_knocked_away and mine_exists:
-		test_passed = false
-		test_message = "FAIL: Ball knocked away but mine still exists"
-	else:
-		test_passed = false
-		test_message = "FAIL: Ball not knocked away (%.1f px) and mine still exists" % distance_moved
-
-	print(test_message)
-	print("Ball movement: ", distance_moved, " pixels")
-	print("Mine exists: ", mine_exists)
-
-
-func _process(_delta: float) -> void:
-	if test_complete:
-		# Draw test result on screen
-		queue_redraw()
-
-
-func _draw() -> void:
-	if test_complete:
-		var color := Color.GREEN if test_passed else Color.RED
-		var font := ThemeDB.fallback_font
-		var font_size := 24
-		draw_string(font, Vector2(50, 50), test_message, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
+	return scene
