@@ -9,9 +9,11 @@ const TEST_DURATION := 2.0
 
 
 func _ready() -> void:
+	super._ready()
 	# When run directly (not through GUT), set up the scene
-	# GUT doesn't call _ready on test classes, so if _ready is called, we're running standalone
-	_setup_visual_test()
+	# Check if we have the scene nodes (standalone mode)
+	if has_node("TileMapLayer"):
+		_setup_visual_test()
 
 
 func _setup_visual_test() -> void:
@@ -26,12 +28,6 @@ func _setup_visual_test() -> void:
 	var mine_world_pos: Vector2 = Vector2(MINE_COORDS * Settings.tile_size) + Vector2(Settings.tile_size_half)
 	ball.position = mine_world_pos - Vector2(0, 300)
 	ball.linear_velocity = Vector2(0, 300)
-
-	# Create ball sprite
-	var sprite: Sprite2D = ball.get_node("Sprite2D")
-	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
-	image.fill(Color.ORANGE)
-	sprite.texture = ImageTexture.create_from_image(image)
 
 	# Store initial position for checking later
 	var initial_ball_position := ball.global_position
@@ -106,12 +102,5 @@ func _create_test_scene() -> Node2D:
 	var mine_world_pos: Vector2 = Vector2(MINE_COORDS * Settings.tile_size) + Vector2(Settings.tile_size_half)
 	ball.position = mine_world_pos - Vector2(0, 300)  # 300 pixels above mine
 	ball.linear_velocity = Vector2(0, 300)  # Initial downward velocity
-
-	# Create ball sprite for visual feedback
-	var sprite: Sprite2D = ball.get_node("Sprite2D")
-	var image := Image.create(64, 64, false, Image.FORMAT_RGBA8)
-	image.fill(Color.ORANGE)
-	var texture := ImageTexture.create_from_image(image)
-	sprite.texture = texture
 
 	return scene

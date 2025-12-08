@@ -18,3 +18,9 @@ static func load_config(config_path: String) -> Dictionary:
 		return {}
 
 	return config
+
+
+## Create a test ball instance for physics testing
+static func create_test_ball() -> RigidBody2D:
+	var test_ball_scene: PackedScene = load("res://blocks/tests/test_ball.tscn")
+	return test_ball_scene.instantiate()
