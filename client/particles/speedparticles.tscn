@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://tpaepxggpndx"]
+
+[ext_resource type="Texture2D" uid="uid://bi8oq3hpy1y68" path="res://item_effects/speed_particle.png" id="1_qc1wq"]
+[ext_resource type="Material" uid="uid://dmw0qfgvliixh" path="res://particles/speedparticles.tres" id="2_4j16g"]
+
+[node name="Speedparticles" type="GPUParticles2D"]
+emitting = false
+amount = 15
+texture = ExtResource("1_qc1wq")
+lifetime = 0.57
+fixed_fps = 60
+process_material = ExtResource("2_4j16g")

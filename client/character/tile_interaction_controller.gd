@@ -11,6 +11,7 @@ var high_area: Area2D
 var last_safe_position: Vector2 = Vector2(0, 0)
 var last_safe_layer: Node
 var last_collision: KinematicCollision2D
+var touched_tiles: Dictionary
 
 
 func _init(tiles_node: Tiles, low_area_node: Area2D, high_area_node: Area2D):
@@ -18,16 +19,6 @@ func _init(tiles_node: Tiles, low_area_node: Area2D, high_area_node: Area2D):
 	low_area = low_area_node
 	high_area = high_area_node
 	last_safe_position = Vector2(0, 0)
-
-func get_tile_covering_high_area(character: Character) -> Dictionary:
-	var tiles: Array = get_tiles_overlapping_area(high_area)
-	
-	if tiles.size() == 0:
-		push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
-		return {}
-	
-	var tile = tiles[0]
-	return tile
 
 
 func should_crouch(character: Character) -> bool:
@@ -53,7 +44,8 @@ func interact_with_incoporeal_tiles(character: Character):
 	_tiles.on("area", overlapping_tile.block_id, character, overlapping_tile.tile_map_layer, overlapping_tile.coords)
 
 
-func interact_with_solid_tiles(character: Character, lightning: LightbreakController) -> bool:
+func interact_with_solid_tiles(character: Character, lighting: LightbreakController) -> bool:
+	touched_tiles = {}
 	var collision: KinematicCollision2D = character.get_last_slide_collision()
 	last_collision = collision
 	if !collision:
@@ -69,6 +61,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	var tile_type = CoordinateUtils.to_block_id(atlas_coords)
 	var bumped_tile = {"tile_map_layer": tile_map_layer, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
+	touched_tiles = {"tile_map_layer": tile_map_layer, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
 	
 	character.movement.last_collision_normal = normal
 	
@@ -110,9 +103,9 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 						last_safe_layer = level_manager.layers.block_layers.get_node(str(str(tile_map_layer.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
-	if lightning.direction.length() > 0 and lightning.fire_power > 0:
+	if lighting.direction.length() > 0 and lighting.fire_power > 0:
 		TileEffects.shatter(tile_map_layer, coords, 10)
-		lightning.fire_power -= 1
+		lighting.fire_power -= 1
 		return false
 	else:
 		return true

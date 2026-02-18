@@ -10,6 +10,8 @@ var push_force_stand_idle = 1250
 var push_force_bump = 1250 #
 var phantom_push_force_bump = 400
 var phantom_push_force_bump_decay = 0.85
+
+
 func init():
 	matter_type = Tile.ACTIVE
 

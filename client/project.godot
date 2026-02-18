@@ -26,6 +26,8 @@ StringUtils="*res://singletons/string_utils.gd"
 Session="*res://singletons/session/session.gd"
 Jukebox="*res://singletons/jukebox/jukebox.tscn"
 CachingLoader="*res://singletons/caching_loader.gd"
+BlockBehaviors="*res://blocks/block_behaviors.gd"
+ParticleManager="*res://singletons/particle_manager.gd"
 
 [display]
 

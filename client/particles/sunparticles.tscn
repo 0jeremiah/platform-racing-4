@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://fi3yarhyobcw"]
+
+[ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="1_23es4"]
+[ext_resource type="Material" uid="uid://clbprmjlxhp8i" path="res://particles/sunparticles.tres" id="2_rxber"]
+
+[node name="Sunparticles" type="GPUParticles2D"]
+emitting = false
+amount = 30
+texture = ExtResource("1_23es4")
+lifetime = 0.5
+fixed_fps = 60
+process_material = ExtResource("2_rxber")

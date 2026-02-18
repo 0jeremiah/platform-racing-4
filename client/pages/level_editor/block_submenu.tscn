@@ -5,9 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://byg06nx8shih2" path="res://mega_menu/icons/eraseblock.png" id="2_17vj3"]
 [ext_resource type="Texture2D" uid="uid://b3laclpa364j2" path="res://mega_menu/icons/drawblock.png" id="3_u7n6r"]
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="5_17vj3"]
-[ext_resource type="PackedScene" uid="uid://b7le1iohdrfv2" path="res://ui/gotopage.tscn" id="6_u7n6r"]
-[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="7_20g40"]
+[ext_resource type="Texture2D" uid="uid://cuc3nqt34javl" path="res://engine/objectbox/large_settings_button.png" id="6_sxige"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/new_layer_panel.tscn" id="8_xpnty"]
+[ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="9_nu4fj"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
@@ -44,6 +44,7 @@ filter_clip = true
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpnty"]
 atlas = ExtResource("5_17vj3")
 region = Rect2(0, 0, 128, 128)
+filter_clip = true
 
 [node name="BlockSubmenu" type="Control"]
 layout_mode = 3
@@ -55,8 +56,8 @@ layout_mode = 1
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 108.0
-offset_bottom = 342.0
+offset_right = 98.0
+offset_bottom = 234.0
 
 [node name="Panel" type="Panel" parent="BlockMenu"]
 layout_mode = 1
@@ -80,6 +81,7 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 68.0
 offset_bottom = 68.0
+pivot_offset = Vector2(24, 24)
 tooltip_text = "Carefully move blocks to their destination."
 
 [node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockMover"]
@@ -119,6 +121,7 @@ offset_left = 20.0
 offset_top = 88.0
 offset_right = 68.0
 offset_bottom = 136.0
+pivot_offset = Vector2(24, 24)
 tooltip_text = "This ruthless eraser destroys any block on contact."
 
 [node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockKiller"]
@@ -157,6 +160,7 @@ offset_left = 20.0
 offset_top = 156.0
 offset_right = 68.0
 offset_bottom = 204.0
+pivot_offset = Vector2(24, 24)
 tooltip_text = "Draw blocks!"
 
 [node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockDropper"]
@@ -202,16 +206,18 @@ offset_left = 20.0
 offset_top = 254.0
 offset_right = 68.0
 offset_bottom = 302.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw"]
 layout_mode = 1
 anchors_preset = -1
-offset_right = 128.0
-offset_bottom = 128.0
+offset_right = 192.0
+offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.375, 0.375)
 focus_mode = 1
+button_mask = 3
 texture_normal = SubResource("AtlasTexture_dm6xf")
 
 [node name="TeleportColorin" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton"]
@@ -222,172 +228,68 @@ offset_right = 128.0
 offset_bottom = 128.0
 texture = SubResource("AtlasTexture_xpnty")
 
-[node name="BlockPicker" type="Control" parent="."]
+[node name="BlockPickerPopup" type="Popup" parent="BlockMenu"]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(108, 244)
+size = Vector2i(726, 222)
+
+[node name="Blockpicker" parent="BlockMenu/BlockPickerPopup" instance=ExtResource("9_nu4fj")]
+
+[node name="BlockOptionsPanel" type="Panel" parent="BlockMenu"]
 layout_mode = 1
+anchors_preset = -1
+offset_top = 332.0
+offset_right = 88.0
+offset_bottom = 420.0
+
+[node name="BlockOptions" type="Control" parent="BlockMenu"]
 anchors_preset = 0
-offset_left = 108.0
-offset_top = 244.0
-offset_right = 844.0
-offset_bottom = 748.0
-focus_mode = 2
-
-[node name="BlockPickerPanel" type="Panel" parent="BlockPicker"]
-layout_mode = 1
-anchors_preset = -1
-offset_right = 726.0
-offset_bottom = 222.0
-
-[node name="TabBar" type="TabBar" parent="BlockPicker"]
-layout_mode = 1
-anchors_preset = -1
 offset_left = 20.0
-offset_top = 20.0
-offset_right = 706.0
-offset_bottom = 56.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 22
-current_tab = 0
-tab_alignment = 1
-clip_tabs = false
-tab_count = 8
-tab_0/title = "Default"
-tab_1/title = "Desert"
-tab_2/title = "Industrial"
-tab_3/title = "Jungle"
-tab_4/title = "Underwater"
-tab_5/title = "Space"
-tab_6/title = "Classic"
-tab_7/title = "Custom"
+offset_top = 352.0
+offset_right = 68.0
+offset_bottom = 400.0
+pivot_offset = Vector2(24, 24)
 
-[node name="NavagationButtons" type="Control" parent="BlockPicker"]
-visible = false
-layout_mode = 1
-anchor_left = 0.577
-anchor_top = 0.131
-anchor_right = 0.577
-anchor_bottom = 0.131
-offset_left = -57.672
-offset_top = -0.0240097
-offset_right = 280.328
-offset_bottom = 47.976
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockOptions"]
+self_modulate = Color(1, 0.5411765, 0.12941177, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+expand_mode = 1
 
-[node name="LeftButton" type="Button" parent="BlockPicker/NavagationButtons"]
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockOptions"]
 layout_mode = 1
 anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.76
+offset_top = 0.76
+offset_right = 44.76
+offset_bottom = 44.76
+
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockOptions"]
+self_modulate = Color(1, 0.5411765, 0.12941177, 1)
+layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 focus_mode = 1
-disabled = true
-text = "<"
+texture_normal = ExtResource("6_sxige")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="PageButton1" type="Button" parent="BlockPicker/NavagationButtons"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 58.0
-offset_top = 5.0
-offset_right = 106.0
-offset_bottom = 43.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 22
-disabled = true
-text = "1"
+[node name="BlockOptionsPopup" type="Popup" parent="BlockMenu/BlockOptions"]
+transparent_bg = true
+oversampling_override = 1.0
 
-[node name="PageButton2" type="Button" parent="BlockPicker/NavagationButtons"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 116.0
-offset_top = 5.0
-offset_right = 164.0
-offset_bottom = 43.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 22
-disabled = true
-text = "2"
-
-[node name="PageButton3" type="Button" parent="BlockPicker/NavagationButtons"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 174.0
-offset_top = 5.0
-offset_right = 222.0
-offset_bottom = 43.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 22
-disabled = true
-text = "3"
-
-[node name="PageButton4" type="Button" parent="BlockPicker/NavagationButtons"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 232.0
-offset_top = 5.0
-offset_right = 280.0
-offset_bottom = 43.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 22
-disabled = true
-text = ". . ."
-
-[node name="RightButton" type="Button" parent="BlockPicker/NavagationButtons"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 290.0
-offset_right = 338.0
-offset_bottom = 48.0
-focus_mode = 1
-disabled = true
-text = ">"
-
-[node name="GoToPagePopup" type="PopupPanel" parent="BlockPicker/NavagationButtons"]
-size = Vector2i(353, 133)
-min_size = Vector2i(353, 133)
-
-[node name="GoToPage" parent="BlockPicker/NavagationButtons/GoToPagePopup" instance=ExtResource("6_u7n6r")]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 349.0
-offset_bottom = 129.0
-
-[node name="Navigation" parent="BlockPicker" instance=ExtResource("7_20g40")]
-offset_left = 707.0
-offset_top = 71.0
-offset_right = 707.0
-offset_bottom = 71.0
-
-[node name="LightColorRect" type="ColorRect" parent="BlockPicker"]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 124.0
-offset_right = 708.0
-offset_bottom = 202.0
-color = Color(0, 0, 0, 0.247059)
-
-[node name="DarkColorRect" type="ColorRect" parent="BlockPicker"]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 129.0
-offset_right = 703.0
-offset_bottom = 197.0
-color = Color(0, 0, 0, 0.247059)
-
-[node name="BlockContainer" type="Control" parent="BlockPicker"]
-layout_mode = 1
+[node name="PopupHolder" type="Control" parent="BlockMenu/BlockOptions/BlockOptionsPopup"]
+layout_mode = 3
 anchors_preset = 0
-offset_left = 33.0
-offset_top = 139.0
-offset_right = 693.0
-offset_bottom = 187.0
-
-[node name="NoBlocksText" type="RichTextLabel" parent="BlockPicker"]
-layout_mode = 0
-offset_left = 263.0
-offset_top = 138.0
-offset_right = 463.0
-offset_bottom = 188.0
-pivot_offset = Vector2(100, 25)
-text = "No blocks... :("
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="LayerPanel" parent="." instance=ExtResource("8_xpnty")]
 position = Vector2(10, 754)

@@ -2,6 +2,7 @@ extends Node2D
 
 signal level_event
 
+@onready var caret = $Caret
 var active: bool = false
 var current_textbox: TextEdit
 var layers: Layers
@@ -18,7 +19,10 @@ func activate():
 func _process(_delta):
 	if active:
 		visible = true
+		caret.visible = false
 		var touching_gui: bool = get_parent().touching_gui
+		if touching_gui:
+			caret.visible = true
 	else:
 		visible = false
 
@@ -28,7 +32,8 @@ func init(_layers: Layers) -> void:
 	
 
 func on_mouse_down():
-	if active:
+	var not_yet: bool = false
+	if active and not_yet:
 		var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
 		var textboxes: Node2D = layer.get_node("Texts")
 		var camera: Camera2D = get_viewport().get_camera_2d()

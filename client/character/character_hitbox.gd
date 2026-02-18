@@ -27,7 +27,7 @@ func run(character: Character) -> void:
 		go_high()
 	
 	# disable collision if we're stuck in a wall
-	if character.is_in_solid():
+	if character.tile_interaction.is_in_solid(character):
 		disabled = true
 	elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
 		disabled = true

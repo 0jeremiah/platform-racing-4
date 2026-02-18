@@ -3,6 +3,7 @@ class_name EditorMenu
 
 signal control_event
 signal level_event
+signal cursor_is_enabled
 
 @onready var level_options_menu = $LevelOptionsMenu
 var layers: Node2D
@@ -13,6 +14,7 @@ func _ready():
 	get_viewport().size_changed.connect(_on_size_changed)
 	level_options_menu.control_event.connect(_on_control_event)
 	level_options_menu.level_event.connect(_on_level_event)
+	level_options_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
 	_on_size_changed()
 
 
@@ -46,3 +48,7 @@ func _on_control_event(event: Dictionary) -> void:
 func _on_level_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_level_event ", event)
 	level_event.emit(event)
+
+
+func _on_cursor_is_enabled(new_bool: bool) -> void:
+	emit_signal("cursor_is_enabled", new_bool)

@@ -16,15 +16,24 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 
 	print("LevelDecoder::decode: ", properties)
 	# Emit background change event
-	emit_signal("level_event", {
+	emit_signal("control_event", {
 		"type": EditorEvents.SET_BACKGROUND,
 		"bg": properties.get("background", ""),
 		"fade_color": properties.get("fadeColor", "FFFFFF")
 	})
 	# Emit music change event
-	emit_signal("level_event", {
-		"type": EditorEvents.SET_SONG_ID,
-		"song_id": properties.get("music", "")
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_MUSIC,
+		"music": properties.get("music", "random")
+	})
+	# Emit music change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_ITEMS,
+		"items": properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+	})
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_TIME,
+		"items": properties.get("time", 120)
 	})
 	#Jukebox.play(properties.get("music", ""))
 	
@@ -107,6 +116,8 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 		
 			if encoded_art_layer.get("lines"):
 				decode_lines(encoded_art_layer.name, encoded_art_layer.lines)
+			if encoded_art_layer.get("stamps"):
+				decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
 			if encoded_art_layer.get("texts"):
 				decode_texts(encoded_art_layer.name, encoded_art_layer.texts, isEditing)
 		
@@ -118,6 +129,9 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 			if tile_id == 0:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
+			var tile_options:Array = []
+			if chunk.has("options") and chunk.options[i] != null:
+				tile_options = chunk.options[i]
 			
 			# Emit set tile event
 			emit_signal("level_event", {
@@ -125,6 +139,7 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
 				"block_id": tile_id,
+				"block_options": tile_options
 			})
 
 
@@ -140,53 +155,78 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 		if typeof(object.color) == TYPE_STRING:
 			line_color = object.color
 		else:
-			line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html()
+			line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html(true)
 
+		# add material if it exists
+		var line_material = CanvasItemMaterial.new()
+		if object.has("material"):
+			line_material = object.material
+		else:
+			line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+		
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LINE,
 			"layer_name": layer_name,
 			"position": {"x": object.x, "y": object.y},
 			"points": points_array,
 			"color": line_color,
-			"thickness": object.thickness
+			"thickness": object.thickness,
+			"material": line_material
 		})
 
 
-func decode_texts(layer_name: String, textboxobjects: Array, isEditing: bool) -> void:
-	for textboxobject in textboxobjects:
+func decode_stamps(layer_name: String, objects: Array) -> void:
+	for object in objects:
+			
+		var stamp_id = "cactus"
+		if object.has("id"):
+			stamp_id = object.id
+		
+		emit_signal("level_event", {
+			"type": EditorEvents.ADD_STAMP,
+			"layer_name": layer_name,
+			"id": stamp_id,
+			"position": {"x": object.x, "y": object.y},
+			"size": {"x": object.size_x, "y": object.size_y},
+			"rotation": object.rotation,
+		})
+
+
+func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
+	for object in objects:
 		
 		#Failsafes for old text.
 		
 		# usertextbox renamed to text (or textbox)
-		if textboxobject.has("usertext"): 
-			textboxobject.get_or_add("text")
-			textboxobject.text = textboxobject.usertext
-			textboxobject.erase("usertext")
+		if object.has("usertext"): 
+			object.get_or_add("text")
+			object.text = object.usertext
+			object.erase("usertext")
 		
-		if "font" not in textboxobject.keys():
-			textboxobject.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+		if "font" not in object.keys():
+			object.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 		
-		if textboxobject.has("text_width") or textboxobject.has("text_height"):
-			textboxobject.erase("text_width")
-			textboxobject.get_or_add("width")
-			textboxobject.erase("text_height")
-			textboxobject.get_or_add("height")
-			textboxobject.width = 1
-			textboxobject.height = 1
+		if object.has("text_width") or object.has("text_height"):
+			object.erase("text_width")
+			object.get_or_add("width")
+			object.erase("text_height")
+			object.get_or_add("height")
+			object.width = 1
+			object.height = 1
 		
-		if "text_rotation" not in textboxobject.keys():
-			textboxobject.text_rotation = 0
+		if "text_rotation" not in object.keys():
+			object.text_rotation = 0
 		
 		# Emit add usertext event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_TEXT,
 			"layer_name": layer_name,
-			"position": {"x": textboxobject.x, "y": textboxobject.y},
-			"text": textboxobject.text,
-			"font": textboxobject.font,
-			"font_size": textboxobject.font_size,
-			"width": textboxobject.width,
-			"height": textboxobject.height,
-			"text_rotation": textboxobject.text_rotation,
+			"position": {"x": object.x, "y": object.y},
+			"text": object.text,
+			"font": object.font,
+			"font_size": object.font_size,
+			"width": object.width,
+			"height": object.height,
+			"text_rotation": object.text_rotation,
 			"dont_grab_focus": true
 		})

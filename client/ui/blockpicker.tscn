@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs4ybsv1i40pe"]
+
+[ext_resource type="Script" uid="uid://cpodw3q8ckyqa" path="res://ui/blockpicker.gd" id="1_88ku6"]
+[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="3_hm74r"]
+
+[node name="BlockPicker" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 726.0
+offset_bottom = 222.0
+script = ExtResource("1_88ku6")
+
+[node name="BlockPickerPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 726.0
+offset_bottom = 222.0
+
+[node name="TabBar" type="TabBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 706.0
+offset_bottom = 56.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+current_tab = 0
+tab_alignment = 1
+clip_tabs = false
+tab_count = 8
+tab_0/title = "Default"
+tab_1/title = "Desert"
+tab_2/title = "Industrial"
+tab_3/title = "Jungle"
+tab_4/title = "Underwater"
+tab_5/title = "Space"
+tab_6/title = "Classic"
+tab_7/title = "Custom"
+
+[node name="Navigation" parent="." instance=ExtResource("3_hm74r")]
+layout_mode = 0
+offset_left = 707.0
+offset_top = 71.0
+offset_right = 707.0
+offset_bottom = 71.0
+
+[node name="LightColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 124.0
+offset_right = 708.0
+offset_bottom = 202.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="DarkColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 129.0
+offset_right = 703.0
+offset_bottom = 197.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="BlockContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 33.0
+offset_top = 139.0
+offset_right = 693.0
+offset_bottom = 187.0
+
+[node name="NoBlocksText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 263.0
+offset_top = 138.0
+offset_right = 463.0
+offset_bottom = 188.0
+pivot_offset = Vector2(100, 25)
+text = "No blocks... :("
+horizontal_alignment = 1
+vertical_alignment = 1

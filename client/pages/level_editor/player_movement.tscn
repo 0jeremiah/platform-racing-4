@@ -1,0 +1,415 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ldlhjjewyht"]
+
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_8jp2x"]
+
+[sub_resource type="GDScript" id="GDScript_0a240"]
+script/source = "extends Control
+
+@onready var player_speed_box = $SpeedSetting/SpeedEdit
+@onready var player_jump_vel_box = $JumpVelMultiplierSetting/JumpVelMultiplierEdit
+@onready var player_swim_up_box = $SwimUpVelSetting/SwimUpVelEdit
+@onready var player_traction_box = $TractionSetting/TractionEdit
+@onready var player_friction_box = $FrictionSetting/FrictionEdit
+@onready var player_swimming_friction_box = $SwimmingFrictionSetting/SwimmingFrictionEdit
+@onready var player_jump_vel_multiplier_box = $JumpVelMultiplierSetting/JumpVelMultiplierEdit
+@onready var player_coyote_jump_time_box = $CoyoteJumpTimeSetting/CoyoteJumpTimeEdit
+@onready var player_wallslide_friction_box = $WallslideFrictionSetting/WallslideFrictionEdit
+@onready var player_walljump_h_force_box = $WalljumpHForceSetting/WalljumpHForceEdit
+@onready var player_walljump_v_force_box = $WalljumpVForceSetting/WalljumpVForceEdit
+@onready var player_walljump_friction_decay_box = $WalljumpFricDecaySetting/WalljumpFricDecayEdit
+@onready var player_frozen_duration_box = $FrozenDurationSetting/FrozenDurationEdit
+
+var player_speed: float = GameConfig.get_value(\"player_movement\", \"player_speed\")
+var player_jump_velocity: float = GameConfig.get_value(\"player_movement\", \"player_jump_velocity\")
+var player_swim_up_velocity_multiplier: float = GameConfig.get_value(\"player_movement\", \"player_swim_up_velocity_multiplier\")
+var player_traction: float = GameConfig.get_value(\"player_movement\", \"player_traction\")
+var player_friction: float = GameConfig.get_value(\"player_movement\", \"player_friction\")
+var player_swimming_friction: float = GameConfig.get_value(\"player_movement\", \"swimming_friction\")
+var player_jump_velocity_multiplier: float = GameConfig.get_value(\"player_movement\", \"player_speed\")
+var player_coyote_jump_time: float = GameConfig.get_value(\"player_movement\", \"jump_velocity_multiplie\")
+var player_wall_slide_friction: float = GameConfig.get_value(\"player_movement\", \"player_wall_slide_friction\")
+var player_wall_jump_horizontal_force: float = GameConfig.get_value(\"player_movement\", \"player_wall_jump_horizontal_force\")
+var player_wall_jump_vertical_force: float = GameConfig.get_value(\"player_movement\", \"player_wall_jump_vertical_force\")
+var player_wall_slide_friction_decay_time: float = GameConfig.get_value(\"player_movement\", \"player_wall_slide_friction_decay_time\")
+var player_frozen_duration: float = GameConfig.get_value(\"player_movement\", \"player_frozen_duration\")
+
+
+func _ready() -> void:
+	player_speed_box.return_string.connect(_set_player_speed.bind())
+
+
+func _set_player_speed(new_player_speed: String):
+	player_speed = float(new_player_speed)
+
+
+func _set_player_jump_velocity(new_player_jump_velocity: String):
+	player_jump_velocity = float(new_player_jump_velocity)
+
+
+func _set_player_swim_up_velocity_multiplier(new_player_swim_up_velocity_multiplier: String):
+	player_swim_up_velocity_multiplier = float(new_player_swim_up_velocity_multiplier)
+
+
+func _set_player_traction(new_player_traction: String):
+	player_traction = float(new_player_traction)
+
+
+func _set_player_friction(new_player_friction: String):
+	player_friction = float(new_player_friction)
+
+
+func _set_player_swimming_friction(new_player_swimming_friction: String):
+	player_swimming_friction = float(new_player_swimming_friction)
+
+
+func _set_player_jump_velocity_multiplier(new_player_jump_velocity_multiplier: String):
+	player_jump_velocity_multiplier = float(new_player_jump_velocity_multiplier)
+
+
+func _set_player_coyote_jump_time(new_player_coyote_jump_time: String):
+	player_coyote_jump_time = float(new_player_coyote_jump_time)
+
+
+func _set_player_wall_slide_friction(new_player_wall_slide_friction: String):
+	player_wall_slide_friction = float(new_player_wall_slide_friction)
+
+
+func _set_player_wall_jump_horizontal_force(new_player_wall_jump_horizontal_force: String):
+	player_wall_jump_horizontal_force = float(new_player_wall_jump_horizontal_force)
+
+
+func _set_player_wall_jump_vertical_force(new_player_wall_jump_vertical_force: String):
+	player_wall_jump_vertical_force = float(new_player_wall_jump_vertical_force)
+
+
+func _set_player_wall_slide_friction_decay_time(new_player_wall_slide_friction_decay_time: String):
+	player_wall_slide_friction_decay_time = float(new_player_wall_slide_friction_decay_time)
+
+
+func _set_player_frozen_duration(new_player_frozen_duration: String):
+	player_frozen_duration = float(new_player_frozen_duration)
+"
+
+[node name="PlayerMovement" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 805.0
+offset_bottom = 190.0
+script = SubResource("GDScript_0a240")
+
+[node name="SpeedSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 145.0
+offset_bottom = 30.0
+
+[node name="SpeedLabel" type="RichTextLabel" parent="SpeedSetting"]
+layout_mode = 0
+offset_right = 70.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Speed:"
+vertical_alignment = 1
+
+[node name="SpeedEdit" type="LineEdit" parent="SpeedSetting"]
+layout_mode = 0
+offset_left = 70.0
+offset_right = 145.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="JumpVelSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 40.0
+offset_right = 185.0
+offset_bottom = 70.0
+
+[node name="JumpVelLabel" type="RichTextLabel" parent="JumpVelSetting"]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Jump Vel.:"
+vertical_alignment = 1
+
+[node name="JumpVelEdit" type="LineEdit" parent="JumpVelSetting"]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 185.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="SwimUpVelSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 80.0
+offset_right = 205.0
+offset_bottom = 110.0
+
+[node name="SwimUpVelLabel" type="RichTextLabel" parent="SwimUpVelSetting"]
+layout_mode = 0
+offset_right = 130.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Swim Up Vel.:"
+vertical_alignment = 1
+
+[node name="SwimUpVelEdit" type="LineEdit" parent="SwimUpVelSetting"]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 205.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="TractionSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 165.0
+offset_bottom = 150.0
+
+[node name="TractionLabel" type="RichTextLabel" parent="TractionSetting"]
+layout_mode = 0
+offset_right = 90.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Traction:"
+vertical_alignment = 1
+
+[node name="TractionEdit" type="LineEdit" parent="TractionSetting"]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 165.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="FrictionSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 160.0
+offset_right = 155.0
+offset_bottom = 190.0
+
+[node name="FrictionLabel" type="RichTextLabel" parent="FrictionSetting"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Friction:"
+vertical_alignment = 1
+
+[node name="FrictionEdit" type="LineEdit" parent="FrictionSetting"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 155.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="SwimmingFrictionSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 225.0
+offset_right = 480.0
+offset_bottom = 30.0
+
+[node name="SwimmingFrictionLabel" type="RichTextLabel" parent="SwimmingFrictionSetting"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Swimming Friction:"
+vertical_alignment = 1
+
+[node name="SwimmingFrictionEdit" type="LineEdit" parent="SwimmingFrictionSetting"]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 255.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="JumpVelMultiplierSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 225.0
+offset_top = 40.0
+offset_right = 500.0
+offset_bottom = 70.0
+
+[node name="JumpVelMultiplierLabel" type="RichTextLabel" parent="JumpVelMultiplierSetting"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Jump Vel. Multiplier:"
+vertical_alignment = 1
+
+[node name="JumpVelMultiplierEdit" type="LineEdit" parent="JumpVelMultiplierSetting"]
+layout_mode = 0
+offset_left = 200.0
+offset_right = 275.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="CoyoteJumpTimeSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 225.0
+offset_top = 80.0
+offset_right = 490.0
+offset_bottom = 110.0
+
+[node name="CoyoteJumpTimeLabel" type="RichTextLabel" parent="CoyoteJumpTimeSetting"]
+layout_mode = 0
+offset_right = 190.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Coyote Jump Time:"
+vertical_alignment = 1
+
+[node name="CoyoteJumpTimeEdit" type="LineEdit" parent="CoyoteJumpTimeSetting"]
+layout_mode = 0
+offset_left = 190.0
+offset_right = 265.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="WallslideFrictionSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 225.0
+offset_top = 120.0
+offset_right = 480.0
+offset_bottom = 150.0
+
+[node name="WallslideFrictionLabel" type="RichTextLabel" parent="WallslideFrictionSetting"]
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Wallslide Friction:"
+vertical_alignment = 1
+
+[node name="WallslideFrictionEdit" type="LineEdit" parent="WallslideFrictionSetting"]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 245.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="WalljumpHForceSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 225.0
+offset_top = 160.0
+offset_right = 490.0
+offset_bottom = 190.0
+
+[node name="WalljumpHForceLabel" type="RichTextLabel" parent="WalljumpHForceSetting"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Walljump H. Force:"
+vertical_alignment = 1
+
+[node name="WalljumpHForceEdit" type="LineEdit" parent="WalljumpHForceSetting"]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 255.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="WalljumpVForceSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 520.0
+offset_right = 775.0
+offset_bottom = 30.0
+
+[node name="WalljumpVForceLabel" type="RichTextLabel" parent="WalljumpVForceSetting"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Walljump V. Force:"
+vertical_alignment = 1
+
+[node name="WalljumpVForceEdit" type="LineEdit" parent="WalljumpVForceSetting"]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 255.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="WalljumpFricDecaySetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 520.0
+offset_top = 40.0
+offset_right = 805.0
+offset_bottom = 70.0
+
+[node name="WalljumpFricDecayLabel" type="RichTextLabel" parent="WalljumpFricDecaySetting"]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Walljump Fric. Decay:"
+vertical_alignment = 1
+
+[node name="WalljumpFricDecayEdit" type="LineEdit" parent="WalljumpFricDecaySetting"]
+layout_mode = 0
+offset_left = 210.0
+offset_right = 285.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")
+
+[node name="FrozenDurationSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 520.0
+offset_top = 80.0
+offset_right = 755.0
+offset_bottom = 110.0
+
+[node name="FrozenDurationLabel" type="RichTextLabel" parent="FrozenDurationSetting"]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Frozen Duration:"
+vertical_alignment = 1
+
+[node name="FrozenDurationEdit" type="LineEdit" parent="FrozenDurationSetting"]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 235.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "0.0"
+max_length = 10
+script = ExtResource("2_8jp2x")

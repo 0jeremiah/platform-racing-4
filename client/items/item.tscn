@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cf5qile02la1e" path="res://items/teleport_item.tscn" id="15_wvoki"]
 
 [node name="Item" type="Node2D"]
+z_as_relative = false
 script = ExtResource("1_ei6uv")
 
 [node name="AngelWingsItem" parent="." instance=ExtResource("2_bm25b")]

@@ -48,13 +48,13 @@ func _ready():
 
 func _on_size_pressed(size: int):
 	emit_signal("control_event", {
-		"type": EditorEvents.SET_BRUSH_SIZE,
+		"type": EditorEvents.SELECT_DRAW_SIZE,
 		"size": size
 	})
 
 
 func _on_color_changed(color: Color):
 	emit_signal("control_event", {
-		"type": EditorEvents.SET_BRUSH_COLOR,
+		"type": EditorEvents.SELECT_DRAW_COLOR,
 		"color": color.to_html(true) # Include alpha in hex format (e.g. FFFFFFFF)
 	})

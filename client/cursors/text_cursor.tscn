@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=3 uid="uid://jjmfqdooq1yd"]
+
+[ext_resource type="Script" uid="uid://bn641krywy7nw" path="res://cursors/text_cursor.gd" id="1_06iy1"]
+
+[node name="TextCursor" type="Node2D"]
+script = ExtResource("1_06iy1")
+
+[node name="Caret" type="Node2D" parent="."]
+
+[node name="WhiteCaret" type="Node2D" parent="Caret"]
+position = Vector2(1, 1)
+
+[node name="WhiteCaretPart1" type="ColorRect" parent="Caret/WhiteCaret"]
+offset_left = -8.0
+offset_top = -20.0
+offset_right = -1.0
+offset_bottom = -18.0
+mouse_filter = 2
+
+[node name="WhiteCaretPart2" type="ColorRect" parent="Caret/WhiteCaret"]
+offset_left = 1.0
+offset_top = -20.0
+offset_right = 8.0
+offset_bottom = -18.0
+mouse_filter = 2
+
+[node name="WhiteCaretPart3" type="ColorRect" parent="Caret/WhiteCaret"]
+offset_left = -1.0
+offset_top = -18.0
+offset_right = 1.0
+offset_bottom = 18.0
+mouse_filter = 2
+
+[node name="WhiteCaretPart4" type="ColorRect" parent="Caret/WhiteCaret"]
+offset_left = -8.0
+offset_top = 18.0
+offset_right = -1.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="WhiteCaretPart5" type="ColorRect" parent="Caret/WhiteCaret"]
+offset_left = 1.0
+offset_top = 18.0
+offset_right = 8.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="BlackCaret" type="Node2D" parent="Caret"]
+position = Vector2(-1, -1)
+
+[node name="BlackCaretPart1" type="ColorRect" parent="Caret/BlackCaret"]
+offset_left = -8.0
+offset_top = -20.0
+offset_right = -1.0
+offset_bottom = -18.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BlackCaretPart2" type="ColorRect" parent="Caret/BlackCaret"]
+offset_left = 1.0
+offset_top = -20.0
+offset_right = 8.0
+offset_bottom = -18.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BlackCaretPart3" type="ColorRect" parent="Caret/BlackCaret"]
+offset_left = -1.0
+offset_top = -18.0
+offset_right = 1.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BlackCaretPart4" type="ColorRect" parent="Caret/BlackCaret"]
+offset_left = -8.0
+offset_top = 18.0
+offset_right = -1.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BlackCaretPart5" type="ColorRect" parent="Caret/BlackCaret"]
+offset_left = 1.0
+offset_top = 18.0
+offset_right = 8.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

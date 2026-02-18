@@ -1,78 +1,57 @@
-[gd_scene load_steps=12 format=3 uid="uid://lue0fopbycbd"]
+[gd_scene load_steps=7 format=3 uid="uid://lue0fopbycbd"]
 
-[ext_resource type="Script" uid="uid://b2wps3sqmg8l1" path="res://character/character_hitbox.gd" id="1_bq4nn"]
+[ext_resource type="Script" uid="uid://b7hu7hqwdfy3c" path="res://character/new_character_hitbox.gd" id="1_bq4nn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ohgwb"]
-size = Vector2(32, 1)
+size = Vector2(48, 190)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmxg"]
 size = Vector2(64, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ibj5s"]
-size = Vector2(32, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_euwns"]
-size = Vector2(2, 2)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0eroj"]
-size = Vector2(32, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4le2l"]
 size = Vector2(64, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwp2r"]
-size = Vector2(32, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euwns"]
+size = Vector2(2, 96)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq4nn"]
-size = Vector2(48, 180)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dbltg"]
-size = Vector2(2, 88)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_amjrr"]
-size = Vector2(64, 180)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0eroj"]
+size = Vector2(64, 94)
 
 [node name="CharacterHitbox" type="Node2D"]
 position = Vector2(0, -90)
 script = ExtResource("1_bq4nn")
 
-[node name="Hitbox1" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(-16, -89.5)
+[node name="HitboxesContainer" type="Node2D" parent="."]
+
+[node name="Area1" type="Area2D" parent="HitboxesContainer"]
+position = Vector2(0, -5)
+
+[node name="Hitbox1" type="CollisionShape2D" parent="HitboxesContainer/Area1"]
 shape = SubResource("RectangleShape2D_ohgwb")
+disabled = true
 
-[node name="Hitbox2" type="CollisionShape2D" parent="."]
-position = Vector2(0, -89.5)
+[node name="Area2" type="Area2D" parent="HitboxesContainer"]
+position = Vector2(0, -99.5)
+
+[node name="Hitbox2" type="CollisionShape2D" parent="HitboxesContainer/Area2"]
 shape = SubResource("RectangleShape2D_4fmxg")
+disabled = true
 
-[node name="Hitbox3" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(16, -89.5)
+[node name="Area3" type="Area2D" parent="HitboxesContainer"]
+position = Vector2(0, 89.5)
+
+[node name="Hitbox3" type="CollisionShape2D" parent="HitboxesContainer/Area3"]
 shape = SubResource("RectangleShape2D_ibj5s")
 
-[node name="Hitbox4" type="CollisionShape2D" parent="."]
+[node name="Area4" type="Area2D" parent="HitboxesContainer"]
+position = Vector2(0, -52)
+
+[node name="Hitbox4" type="CollisionShape2D" parent="HitboxesContainer/Area4"]
 shape = SubResource("RectangleShape2D_euwns")
+disabled = true
 
-[node name="Hitbox5" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(-16, 89.5)
+[node name="Area5" type="Area2D" parent="HitboxesContainer"]
+position = Vector2(0, 43)
+
+[node name="Hitbox5" type="CollisionShape2D" parent="HitboxesContainer/Area5"]
 shape = SubResource("RectangleShape2D_0eroj")
-
-[node name="Hitbox6" type="CollisionShape2D" parent="."]
-position = Vector2(0, 89.5)
-shape = SubResource("RectangleShape2D_4le2l")
-
-[node name="Hitbox7" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(16, 89.5)
-shape = SubResource("RectangleShape2D_uwp2r")
-
-[node name="Hitbox8" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_bq4nn")
-
-[node name="Hitbox9" type="CollisionShape2D" parent="."]
-position = Vector2(0, 45)
-shape = SubResource("RectangleShape2D_dbltg")
-
-[node name="Hitbox10" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_amjrr")

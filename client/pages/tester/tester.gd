@@ -2,11 +2,14 @@ extends Node2D
 
 @onready var back = $UI/Container/Back
 @onready var minimap: Minimap = $UI/Container/Minimap
+@onready var game_timer: GameTimer = $UI/Container/GameTimer
+@onready var stats_display: StatsDisplay = $UI/Container/StatsDisplay
 @onready var stats_panel = $UI/Container/StatsPanel
+@onready var debug_display = $UI/Container/DebugDisplay
 @onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
 @onready var level_manager: LevelManager = $LevelManager
 
-var show_debug_info: bool = false
+var show_debug_info: bool = true
 var current_player_layer: String = ""
 var used_rects: Dictionary = {}
 
@@ -25,7 +28,7 @@ func init(data: Dictionary):
 	var bg: Node2D = get_node("BG")
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
-	penciler.init(level_manager.layers, bg, editor_events, null)
+	penciler.init(level_manager.layers, editor_events, null)
 	editor_events.connect_to([level_manager.level_decoder])
 	
 	var level
@@ -39,26 +42,31 @@ func init(data: Dictionary):
 	level_manager.decode_level(level, false)
 	level_manager.activate_node()
 	
+	bg.set_bg(level.properties.get("background", "field"), level.properties.get("fadeColor", "FFFFFF"))
+	
 	print(level.properties.get("music", ""))
 	Jukebox.play_song(level.properties.get("music", ""))
 	
+	var player_manager: PlayerManager = get_node("PlayerManager")
 	var start_option = Start.get_next_start_option(level_manager.layers)
 	if start_option:
-		var player_manager: PlayerManager = get_node("PlayerManager")
 		var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
 		current_player_layer = start_option.layer_name
 	
 	minimap.init(self)
+	game_timer.init(self)
+	stats_display.init(self)
+	debug_display.init(player_manager.get_character())
+	game_timer.set_timer(level.properties.get("time", 120))
+	game_timer.start_timer()
 	level_manager.calc_used_rect()
 	update_stats_timer.connect("timeout", update_stats)
 	update_stats_timer.start()
 	
 	if show_debug_info:
-		#debug_text_node.visible = true
-		pass
+		debug_display.activate()
 	else:
-		#debug_text_node.visible = false
-		pass
+		debug_display.deactivate()
 
 func update_stats():
 	var player_manager: PlayerManager = get_node("PlayerManager")

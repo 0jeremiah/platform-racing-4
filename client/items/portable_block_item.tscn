@@ -11,5 +11,5 @@ self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
 scale = Vector2(2.222, 2.222)
 texture = ExtResource("1_mf4e7")
 
-[node name="PortableBlock" type="Sprite2D" parent="."]
+[node name="PortableBlockIcon" type="Sprite2D" parent="."]
 texture = ExtResource("1_mf4e7")

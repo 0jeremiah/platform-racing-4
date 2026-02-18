@@ -57,7 +57,7 @@ func charge_lightbreak(player: Node2D, tile_map_layer: Node2D, coords: Vector2i)
 		if player.control_vector.length() != 0:
 			start_lightbreak(player, coords)
 		else:
-			player.end_lightbreak()
+			player.lightbreak.end_lightbreak()
 			player.lightbreak.src_tile = coords
 
 

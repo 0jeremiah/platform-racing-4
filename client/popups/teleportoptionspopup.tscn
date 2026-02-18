@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://crinvb4y1x00r"]
+
+[ext_resource type="Script" uid="uid://c8h45qcaj2b6f" path="res://popups/teleportoptionspopup.gd" id="1_3o356"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="1_cobxo"]
+[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="2_3o356"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj6w8"]
+atlas = ExtResource("1_cobxo")
+region = Rect2(384, 384, 128, 128)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6twa"]
+atlas = ExtResource("1_cobxo")
+region = Rect2(256, 384, 128, 128)
+filter_clip = true
+
+[node name="TeleportOptionsPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 250.0
+script = ExtResource("1_3o356")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 250.0
+
+[node name="BlockLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 15.0
+offset_right = 275.0
+offset_bottom = 50.0
+text = "-- Teleport Block --"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 50.0
+offset_right = 275.0
+offset_bottom = 145.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Choose this teleport block's color. Teleport blocks with the same color will link with each other."
+horizontal_alignment = 1
+
+[node name="TeleportBlock" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 84.0
+offset_top = 155.0
+offset_right = 212.0
+offset_bottom = 283.0
+scale = Vector2(0.5, 0.5)
+
+[node name="TeleportColor" type="TextureRect" parent="TeleportBlock"]
+self_modulate = Color(1, 0.49803922, 0.3137255, 1)
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("AtlasTexture_oj6w8")
+expand_mode = 1
+
+[node name="TeleportBase" type="TextureRect" parent="TeleportBlock"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("AtlasTexture_n6twa")
+expand_mode = 1
+
+[node name="ColorButton" parent="." instance=ExtResource("2_3o356")]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 163.0
+offset_right = 216.0
+offset_bottom = 211.0

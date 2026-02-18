@@ -64,10 +64,9 @@ func _ready():
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
 	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
-	LevelEditor.editor_cursors.init($LevelManager.layers)
+	LevelEditor.editor_cursors.init(level_manager.layers)
 	
 	var penciler: Node2D = get_node("Penciler")
-	var bg: Node2D = get_node("BG")
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	var cursor: Cursor = get_node("UI/Cursor")
 	var editor_menu = get_node("UI/EditorMenu")
@@ -76,19 +75,33 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
-	penciler.init(level_manager.layers, bg, editor_events, layer_panel)
+	penciler.init(level_manager.layers, editor_events, layer_panel)
 	
+	var level
 	if LevelEditor.current_level:
+		level = LevelEditor.current_level
 		level_manager.decode_level(LevelEditor.current_level, true)
 	else:
 		var saved_level = FileManager.load_from_file()
 		if saved_level:
+			level = saved_level
 			level_manager.decode_level(saved_level, true)
 		else:
+			level = default_level
 			level_manager.decode_level(default_level, true)
+	
+	if level.properties.has("background"):
+		var bg_id = level.properties.get("background")
+		var fade_color = "FFFFFF"
+		if level.properties.has("fadeColor"):
+			fade_color = level.properties.get("fadeColor")
+		bg.set_bg(bg_id, fade_color)
+	else:
+		bg.set_bg("field", "FFFFFF")
 	
 	cursor.init(editor_menu, level_manager.layers)
 	editor_menu.init(level_manager.layers, editor_events)
+	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
 	
 	# layer_panel_node.init(level_manager.layers)
 	
@@ -101,6 +114,11 @@ func _ready():
 
 
 func _on_back_pressed():
+	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
+	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
+	level_manager.music = general_settings.get("music", "random")
+	level_manager.items = item_settings
+	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	await Main.set_scene(Main.TITLE)
@@ -121,6 +139,11 @@ func _on_load_pressed():
 
 
 func _on_save_pressed():
+	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
+	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
+	level_manager.music = general_settings.get("music", "random")
+	level_manager.items = item_settings
+	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	explore_panel.close()
 	load_panel.close()
@@ -129,6 +152,11 @@ func _on_save_pressed():
 
 
 func _on_test_pressed():
+	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
+	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
+	level_manager.music = general_settings.get("music", "random")
+	level_manager.items = item_settings
+	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
@@ -208,14 +236,18 @@ func _on_control_event(event: Dictionary) -> void:
 			editor_camera.change_camera_zoom(zoom_value)
 	elif event.get("type") == "toggle_game_config":
 		game_config_panel.toggle()
-
-
-func _on_level_event(event: Dictionary) -> void:
-	if event.get("type") == "set_background":
+	elif event.get("type") == "set_background":
 		var bg_id = event.get("bg")
 		var fade_color = event.get("fade_color")
 		if bg_id:
 			bg.set_bg(bg_id, fade_color)
+	elif event.get("type") == "set_music":
+		level_manager.music = event.music
+	elif event.get("type") == "set_items":
+		level_manager.items = event.items
+	elif event.get("type") == "set_time":
+		level_manager.time = event.time
+	
 
 
 func _on_connect_editor() -> void:
@@ -242,3 +274,10 @@ func _on_disconnect_editor() -> void:
 	if LevelEditor.editor_cursors:
 		LevelEditor.editor_cursors.add_new_cursor(Session.get_username())
 	game_client.toggle_editor_buttons(game_client.is_live_editing)
+
+
+func _on_cursor_is_enabled(new_bool: bool) -> void:
+	if new_bool:
+		cursor.activate()
+	else:
+		cursor.deactivate()

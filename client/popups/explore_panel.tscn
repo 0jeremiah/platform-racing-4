@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_fn7jh"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_tl0fr"]
-[ext_resource type="FontFile" uid="uid://cj6s65k6vg5xn" path="res://fonts/Quicksand/static/Quicksand-Medium.ttf" id="3_42skv"]
+[ext_resource type="FontFile" uid="uid://5n57twk8mubd" path="res://fonts/Quicksand/static/Quicksand-Medium.ttf" id="3_42skv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88cch"]
 texture = ExtResource("1_fn7jh")

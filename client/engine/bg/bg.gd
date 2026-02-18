@@ -14,7 +14,3 @@ func set_bg(p_id: String, p_fade_color: Color) -> void:
 	var backgrounds = Backgrounds.new()
 	backgrounds.get_bg(sprite, id, fade_color)
 	fit_screen.trigger()
-
-
-func set_song_id(new_song_id: String) -> void:
-	song_id = new_song_id

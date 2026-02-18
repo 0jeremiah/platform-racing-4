@@ -2,6 +2,7 @@ extends Control
 
 signal control_event
 signal level_event
+signal cursor_is_enabled
 
 @onready var selection_glow = $SelectionGlow
 @onready var button_list = $Buttons
@@ -15,6 +16,7 @@ signal level_event
 @onready var submenus = $Submenus
 @onready var block_submenu = $Submenus/BlockSubmenu
 @onready var art_submenu = $Submenus/ArtSubmenu
+@onready var level_settings_submenu = $Submenus/LevelSettingsSubmenu
 var current_submenu: Control
 var layers: Node2D
 var editor_events: EditorEvents
@@ -136,8 +138,13 @@ func set_submenu():
 		current_submenu.deactivate()
 	if selected_button == block_menu_button:
 		current_submenu = block_submenu
+		emit_signal("cursor_is_enabled", true)
 	elif selected_button == art_menu_button:
 		current_submenu = art_submenu
+		emit_signal("cursor_is_enabled", true)
+	elif selected_button == level_settings_button:
+		current_submenu = level_settings_submenu
+		emit_signal("cursor_is_enabled", false)
 	current_submenu.activate()
 
 

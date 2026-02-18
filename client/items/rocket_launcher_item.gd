@@ -12,8 +12,8 @@ func _ready():
 	animation_timer.one_shot = true
 
 
-func _init_item() -> void:
-	uses = GameConfig.get_value("uses_rocket_launcher")
+func _init_item(_character: Character) -> void:
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_rocket_launcher")
 
 
 func _play_idle_animation():
@@ -21,33 +21,32 @@ func _play_idle_animation():
 
 
 # rocket collision not yet finished.
-func activate_item():
-	if !using:
-		using = true
+func activate_item(_character: Character):
+	if !_character.item_manager.using:
+		_character.item_manager.using = true
 		animations.stop()
 		animations.play("launch")
 		animation_timer.start(animations.get_current_animation_length())
-		reload_timer.start(1)
-		launch()
-		if character.movement.facing > 0:
-			character.velocity.x += 2500
+		_character.item_manager.reload_timer = 1
+		launch(_character)
+		if _character.movement.facing > 0:
+			_character.velocity.x -= 2500
 		else:
-			character.velocity.x -= 2500
-		get_parent().uses -= 1
+			_character.velocity.x += 2500
+		_character.item_manager.uses -= 1
 
 
-func launch():
+func launch(_character: Character):
 	var rocket = projectile.instantiate()
 	rocket.dir = 0
 	rocket.spawnpos = global_position
 	rocket.spawnrot = 0
-	rocket.scale.x = character.movement.facing
-	if !spawn:
-		var layer = Game.get_target_block_layer_node()
-		spawn = layer.get_node("Projectiles")
+	rocket.scale.x = _character.movement.facing
+	var layer = Game.get_target_block_layer_node()
+	var spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(rocket)
 
 
-func _remove_item():
+func _remove_item(_character: Character):
 	animation_timer.stop()
 	_play_idle_animation()

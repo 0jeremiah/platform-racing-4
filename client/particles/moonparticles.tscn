@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt0vpaaaq723n"]
+
+[ext_resource type="Texture2D" uid="uid://bs0lhbp2sf24" path="res://character/star_08.png" id="1_w5foq"]
+[ext_resource type="Material" uid="uid://dvu48544p7n16" path="res://particles/moonparticles.tres" id="2_ad0da"]
+
+[node name="Moonparticles" type="GPUParticles2D"]
+emitting = false
+amount = 30
+texture = ExtResource("1_w5foq")
+lifetime = 0.5
+fixed_fps = 60
+process_material = ExtResource("2_ad0da")

@@ -15,10 +15,6 @@ func _ready():
 	Jukebox.play_sound("mineappear")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
-	pass
-	
 func _place_block():
 	tile_map_layer.set_cell(coords, 0, atlas_coords)
 	queue_free()

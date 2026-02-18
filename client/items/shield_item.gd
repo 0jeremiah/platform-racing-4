@@ -2,37 +2,38 @@ extends Item
 class_name ShieldItem
 
 @onready var shield_sprite = $Shield
-var shield_timer = Timer.new()
+var shield_timer: float = 0.0
+var _delta: float = 0.0
 
 
-func _ready() -> void:
-	shield_timer.connect("timeout", _shield_timeout)
-	shield_timer.process_callback = 0
-	shield_timer.one_shot = true
-
-
-func _init_item() -> void:
-	uses = GameConfig.get_value("uses_shield")
+func _init_item(_character: Character) -> void:
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_shield")
 	shield_sprite.visible = false
 
+
+func _process(delta: float) -> void:
+	_delta = delta
+
 	
-func activate_item():
-	if character and !using:
-		using = true
+func activate_item(_character: Character):
+	if !_character.item_manager.using:
+		shield_timer = GameConfig.get_value("items-effects", "shield_duration")
+		_character.movement.shielded = true
 		shield_sprite.visible = true
-		character.shielded = true
-		shield_timer.start(GameConfig.get_value("shield_duration"))
+		_character.item_manager.using = true
 		Jukebox.play_sound("shield1")
 
 
-func _shield_timeout():
-	shield_sprite.visible = false
-	if character:
-		character.shielded = false
-	uses -= 1
+func process_item(_character: Character):
+	if _character.item_manager.using:
+		if shield_timer > 0:
+			shield_timer -= _delta
+		else:
+			shield_sprite.visible = false
+			_character.movement.shielded = false
+			_character.item_manager.uses -= 1
 
 
-func _remove_item():
+func _remove_item(_character: Character):
 	shield_sprite.visible = false
-	if character:
-		character.shielded = false
+	_character.movement.shielded = false

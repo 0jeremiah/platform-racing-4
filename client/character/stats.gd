@@ -56,6 +56,13 @@ func inc_all(num: int) -> void:
 	skill += num
 	enforce_limits()
 
+func dec_all(num: int) -> void:
+	jump -= num
+	speed -= num
+	accel -= num
+	skill -= num
+	enforce_limits()
+
 func set_stats(newspeed: int, newaccel: int, newjump: int, newskill: int) -> void:
 	speed = newspeed
 	accel = newaccel

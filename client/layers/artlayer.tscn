@@ -6,8 +6,8 @@
 follow_viewport_enabled = true
 script = ExtResource("1_ichmj")
 
-[node name="Stamps" type="Node2D" parent="."]
-
 [node name="Lines" type="Node2D" parent="."]
+
+[node name="Stamps" type="Node2D" parent="."]
 
 [node name="Texts" type="Node2D" parent="."]

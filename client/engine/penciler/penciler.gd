@@ -4,13 +4,11 @@ const CLEANUP_INTERVAL = 60  # 600 seconds (1 minutes)
 var last_cleanup_time = 0
 var tile_update_timestamps = {}
 var layers: Layers
-var bg: Node2D
 var layer_panel: Node2D
 
-func init(p_layers: Layers, p_bg, event_source, p_layer_panel: Node2D) -> void:
+func init(p_layers: Layers, event_source, p_layer_panel: Node2D) -> void:
 	layer_panel = p_layer_panel
 	layers = p_layers
-	bg = p_bg
 	event_source.connect("level_event", _on_level_event)
 
 
@@ -32,19 +30,26 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_TILE:
 		var coords = Vector2i(event.coords.x, event.coords.y)
 		var coords_key = str(coords.x) + "_" + str(coords.y)
+		var block_options: Array = []
+		
+		if event.has("block_options"):
+			if event.block_options is Array:
+				block_options = event.block_options
+			elif event.block_options is TileOptions:
+				block_options = event.block_options.data
 		
 		if event.has("timestamp"):
 			var new_timestamp = event.timestamp
 			
 			if not tile_update_timestamps.has(coords_key) or tile_update_timestamps[coords_key] < new_timestamp:
-				_set_tile(event, coords, coords_key, new_timestamp)
+				_set_tile(event, coords, coords_key, block_options, new_timestamp)
 		else:
-			_set_tile(event, coords, coords_key)
+			_set_tile(event, coords, coords_key, block_options)
 
 	if event.type == EditorEvents.ADD_LINE:
 		var layer = layers.art_layers.get_node(event.layer_name)
 		if layer.visible:
-			var lines: Node2D = layers.art_layers.get_node(event.layer_name + "/Lines")
+			var lines: Node2D = layers.art_layers.get_node(event.layer_name).lines
 			var line = Line2D.new()
 			lines.add_child(line)
 			line.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -68,7 +73,7 @@ func _on_level_event(event: Dictionary) -> void:
 			#
 			line.points = converted_points
 		
-			# Set line color and width if provided in the event
+			# Set line color, width, and material if provided in the event
 			if event.has("color"):
 				if event.color is Color:
 					line.default_color = event.color
@@ -78,6 +83,11 @@ func _on_level_event(event: Dictionary) -> void:
 				line.width = event.width
 			if event.has("thickness"):
 				line.width = event.thickness
+			if event.has("material"):
+				line.material = event.material
+			else:
+				line.material = CanvasItemMaterial.new()
+				line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
 	if event.type == EditorEvents.ADD_LAYER:
 		var layer := layers.add_layer(event.name)
@@ -97,6 +107,14 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
+	
+	if event.type == EditorEvents.ADD_STAMP:
+		var layer := layers.art_layers.get_node(event.layer_name)
+		var stamps := layer.get_node("Stamps")
+		var stamp_scene: PackedScene = preload("res://engine/stamp/stamp.tscn")
+		var stamp = stamp_scene.instantiate()
+		stamps.add_child(stamp)
+		stamp.set_stamp(event.id, Vector2(event.position.x, event.position.y), Vector2(event.size.x, event.size.y), event.rotation)
 	
 	if event.type == EditorEvents.RENAME_LAYER:
 		var layer := layers.get_node(event.layer_name)
@@ -173,9 +191,9 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ROTATION:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		layer.get_node("Stamps").rotation_degrees = event.rotation
-		layer.get_node("Lines").rotation_degrees = event.rotation
-		layer.get_node("Texts").rotation_degrees = event.rotation
+		layer.stamps.rotation_degrees = event.rotation
+		layer.lines.rotation_degrees = event.rotation
+		layer.texts.rotation_degrees = event.rotation
 	
 	if event.type == EditorEvents.SET_LAYER_ALPHA:
 		var layer = layers.get_node(event.layer_name)
@@ -185,23 +203,18 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = layers.art_layers.get_node(event.layer_name)
 		layer.alpha = event.alpha
 
-	if event.type == EditorEvents.SET_BACKGROUND:
-		if bg:
-			if event.fade_color is Color:
-				bg.set_bg(event.bg, event.fade_color)
-			else:
-				bg.set_bg(event.bg, Color(event.fade_color))
-	
-	if event.type == EditorEvents.SET_SONG_ID:
-		if bg:
-			bg.set_song_id(event.song_id)
 
-
-func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
+func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:
 	var layer = layers.block_layers.get_node(event.layer_name)
 	if layer.visible:
 		var tile_map_layer: TileMapLayer = layers.block_layers.get_node(event.layer_name + "/TileMapLayer")
 		tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
+		var tile_data = tile_map_layer.get_cell_tile_data(coords)
+		if tile_data:
+			if tile_options != null:
+				tile_data.set_custom_data("tile_options", tile_options)
+			else:
+				tile_data.set_custom_data("tile_options", [])
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

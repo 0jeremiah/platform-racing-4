@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://coenrjwlg2bck"]
+
+[ext_resource type="Script" uid="uid://um6dkj4awx7w" path="res://ui/stamppicker.gd" id="1_hi5ag"]
+[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="2_mur5c"]
+
+[node name="StampPicker" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_hi5ag")
+
+[node name="StampPickerPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 380.0
+offset_bottom = 225.0
+
+[node name="TabBar" type="TabBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 182.0
+offset_bottom = 56.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+current_tab = 0
+tab_alignment = 1
+clip_tabs = false
+tab_count = 2
+tab_0/title = "Classic"
+tab_1/title = "Custom"
+
+[node name="Navigation" parent="." instance=ExtResource("2_mur5c")]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 71.0
+offset_right = 360.0
+offset_bottom = 71.0
+
+[node name="LightColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 124.0
+offset_right = 365.0
+offset_bottom = 202.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="DarkColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 129.0
+offset_right = 360.0
+offset_bottom = 197.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="StampButtonContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 30.0
+offset_top = 139.0
+offset_right = 350.0
+offset_bottom = 187.0
+
+[node name="NoStampsText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 138.0
+offset_right = 274.0
+offset_bottom = 188.0
+pivot_offset = Vector2(100, 25)
+text = "No stamps... :("
+horizontal_alignment = 1
+vertical_alignment = 1

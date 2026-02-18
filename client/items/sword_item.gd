@@ -12,8 +12,8 @@ func _ready():
 	animation_timer.one_shot = true
 
 
-func _init_item():
-	uses = GameConfig.get_value("uses_sword")
+func _init_item(_character: Character):
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_sword")
 
 
 func _play_idle_animation():
@@ -21,30 +21,32 @@ func _play_idle_animation():
 
 
 # no hitboxes/collison for sword slash yet.
-func activate_item():
-	if character and !using:
-		using = true
+func activate_item(_character: Character):
+	if !_character.item_manager.using:
+		_character.item_manager.using = true
 		animations.stop()
 		animations.play("swing")
 		animation_timer.start(animations.get_current_animation_length())
-		reload_timer.start(0.5)
-		slash()
-		if character.display.scale.x < 0:
-			character.velocity.x -= 1000
+		_character.item_manager.reload_timer = 0.5
+		slash(_character)
+		if _character.display.scale.x < 0:
+			_character.velocity.x -= 1000
 		else:
-			character.velocity.x += 1000
-		uses -= 1
+			_character.velocity.x += 1000
+		_character.item_manager.uses -= 1
 
 
-func slash():
+func slash(_character: Character):
+	var layer = Game.get_target_block_layer_node()
+	var spawn = layer.get_node("Projectiles")
 	var slash = swordslash.instantiate()
 	slash.dir = 0
-	slash.spawnpos = global_position
+	slash.spawnpos = _character.item_manager.global_position
 	slash.spawnrot = 0
-	slash.scale.x = character.movement.facing
+	slash.scale.x = _character.movement.facing
 	spawn.add_child.call_deferred(slash)
 
 
-func _remove_item():
+func _remove_item(_character: Character):
 	animation_timer.stop()
 	_play_idle_animation()

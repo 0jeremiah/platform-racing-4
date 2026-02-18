@@ -5,22 +5,20 @@ class_name PortableMineItem
 func _ready():
 	PortableBlock = load("res://item_effects/portable_mine.tscn")
 	tile_id = 45
+	icon = $PortableMineItem
 
 
-func _init_item():
-	uses = GameConfig.get_value("uses_portable_mine")
+func _init_item(_character: Character):
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_portable_mine")
 
 
-func _process(delta: float) -> void:
-	if character:
-		set_block_position()
+func process_item(_character: Character) -> void:
+	set_block_position(_character)
+	set_visuals(_character)
 
 
-func activate_item():
-	if character and !using and can_place:
-		using = true
-		use_block()
-		uses -= 1
-
-func _remove_item():
-	pass
+func activate_item(_character: Character):
+	if !_character.item_manager.using and can_place:
+		_character.item_manager.using = true
+		use_block(_character)
+		_character.item_manager.uses -= 1

@@ -14,7 +14,7 @@ func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
 	velx = scale.x
-	life = GameConfig.get_value("rocket_lifetime")
+	life = GameConfig.get_value("items-effects", "rocket_lifetime")
 	Jukebox.play_sound("misslelauncher")
 
 

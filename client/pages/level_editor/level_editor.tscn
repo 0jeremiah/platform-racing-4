@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/level_editor/load_panel/load_panel.tscn" id="14_vayf1"]
 [ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/level_editor/explore_panel/explore_panel.tscn" id="15_foj5b"]
 [ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/level_editor/now_editing_panel/now_editing_panel.tscn" id="16_n6ic7"]
-[ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://popups/join_edit_panel.tscn" id="17_mixqj"]
+[ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://pages/level_editor/join_edit_panel/join_edit_panel.tscn" id="17_mixqj"]
 [ext_resource type="PackedScene" uid="uid://b5m28uva2sq6k" path="res://pages/level_editor/quit_edit_panel/quit_edit_panel.tscn" id="18_x1s68"]
 [ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/level_editor/save_panel/save_panel.tscn" id="19_uv73h"]
 [ext_resource type="PackedScene" uid="uid://btvkl4bty00x8" path="res://pages/level_editor/host_success_panel/host_edit_panel.tscn" id="20_hb728"]

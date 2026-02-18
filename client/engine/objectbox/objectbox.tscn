@@ -1,0 +1,383 @@
+[gd_scene load_steps=16 format=3 uid="uid://cquvlgbewa40m"]
+
+[ext_resource type="Texture2D" uid="uid://bt4xcg0kmdd1r" path="res://engine/objectbox/small_delete_button.png" id="1_14r6m"]
+[ext_resource type="Script" uid="uid://dffvlg4vvbhgr" path="res://engine/objectbox/objectbox.gd" id="1_ky0a1"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_e8620"]
+[ext_resource type="Texture2D" uid="uid://c3xvktwdjry2w" path="res://engine/objectbox/small_resize_button.png" id="4_2axcb"]
+[ext_resource type="Texture2D" uid="uid://mx6dvtb67kqi" path="res://engine/objectbox/large_delete_button.png" id="4_e8620"]
+[ext_resource type="Texture2D" uid="uid://1pmqkx84jd55" path="res://engine/objectbox/large_resize_button.png" id="6_pcg64"]
+[ext_resource type="Texture2D" uid="uid://b1ryd54ab8qmd" path="res://engine/objectbox/small_settings_button.png" id="6_r88si"]
+[ext_resource type="Texture2D" uid="uid://d2clfmbe7yfnk" path="res://engine/objectbox/small_font_button.png" id="8_c1p6x"]
+[ext_resource type="Texture2D" uid="uid://cuc3nqt34javl" path="res://engine/objectbox/large_settings_button.png" id="8_dhujf"]
+[ext_resource type="Texture2D" uid="uid://fxc2orikw50t" path="res://engine/objectbox/large_font_button.png" id="10_2axcb"]
+[ext_resource type="Texture2D" uid="uid://gypmasb3i3ei" path="res://engine/objectbox/small_edit_button.png" id="10_wtxo7"]
+[ext_resource type="Texture2D" uid="uid://ugw275wytvao" path="res://engine/objectbox/colorpicker_button_icon.png" id="12_h5ulp"]
+[ext_resource type="Texture2D" uid="uid://c5bach6l1jw3s" path="res://engine/objectbox/large_edit_button.png" id="12_ujxgq"]
+[ext_resource type="Texture2D" uid="uid://cy2sptwee0e74" path="res://engine/objectbox/colorpicker_button_colorin.png" id="13_x8h73"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcg64"]
+atlas = ExtResource("2_e8620")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[node name="Objectbox" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 114.0
+offset_bottom = 114.0
+script = ExtResource("1_ky0a1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(31, 32)
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_pcg64")
+
+[node name="LabelText" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+text = "test"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="EditTextColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+
+[node name="EditTextRect" type="ReferenceRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+border_color = Color(0, 0, 0, 1)
+editor_only = false
+
+[node name="EditText" type="TextEdit" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "test"
+scroll_fit_content_height = true
+scroll_fit_content_width = true
+
+[node name="SelectRect" type="ReferenceRect" parent="."]
+z_as_relative = false
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+border_color = Color(1, 1, 1, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="MoveTextButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_as_relative = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 50.0
+focus_mode = 1
+flat = true
+
+[node name="Buttons" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="DeleteButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = -12.0
+offset_top = 52.0
+offset_right = 12.0
+offset_bottom = 76.0
+pivot_offset = Vector2(12, 12)
+
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/DeleteButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/DeleteButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+pivot_offset = Vector2(12, 12)
+
+[node name="SmallTexture" type="TextureRect" parent="Buttons/DeleteButton"]
+self_modulate = Color(1, 0.29411766, 0, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("1_14r6m")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LargeTexture" type="TextureRect" parent="Buttons/DeleteButton"]
+visible = false
+self_modulate = Color(1, 0.29411766, 0, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("4_e8620")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="Buttons/DeleteButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Remove this object from existence."
+focus_mode = 1
+flat = true
+
+[node name="ResizeButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 52.0
+offset_top = 52.0
+offset_right = 76.0
+offset_bottom = 76.0
+pivot_offset = Vector2(12, 12)
+
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/ResizeButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/ResizeButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+pivot_offset = Vector2(12, 12)
+
+[node name="SmallTexture" type="TextureRect" parent="Buttons/ResizeButton"]
+self_modulate = Color(0.12156863, 0.8117647, 0.12156863, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("4_2axcb")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LargeTexture" type="TextureRect" parent="Buttons/ResizeButton"]
+visible = false
+self_modulate = Color(0.12156863, 0.8117647, 0.12156863, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("6_pcg64")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="Buttons/ResizeButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Resize the object to your desired size."
+focus_mode = 1
+flat = true
+
+[node name="OptionsButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 52.0
+offset_right = 44.0
+offset_bottom = 76.0
+pivot_offset = Vector2(12, 12)
+
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/OptionsButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/OptionsButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+pivot_offset = Vector2(12, 12)
+
+[node name="SmallTexture" type="TextureRect" parent="Buttons/OptionsButton"]
+self_modulate = Color(1, 0.5411765, 0.12941177, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("6_r88si")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LargeTexture" type="TextureRect" parent="Buttons/OptionsButton"]
+visible = false
+self_modulate = Color(1, 0.5411765, 0.12941177, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("8_dhujf")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="Buttons/OptionsButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Tweak some variables here."
+focus_mode = 1
+flat = true
+
+[node name="FontButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = -12.0
+offset_right = 44.0
+offset_bottom = 12.0
+pivot_offset = Vector2(12, 12)
+
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/FontButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/FontButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+pivot_offset = Vector2(12, 12)
+
+[node name="SmallTexture" type="TextureRect" parent="Buttons/FontButton"]
+self_modulate = Color(0, 0.7921569, 0.87058824, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("8_c1p6x")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LargeTexture" type="TextureRect" parent="Buttons/FontButton"]
+visible = false
+self_modulate = Color(0, 0.7921569, 0.87058824, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("10_2axcb")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="Buttons/FontButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Change this text's font."
+focus_mode = 1
+flat = true
+
+[node name="FontDropdownButton" type="OptionButton" parent="Buttons/FontButton/Button"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+flat = true
+
+[node name="EditButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+pivot_offset = Vector2(12, 12)
+
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/EditButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+color = Color(0.49747366, 0.49747366, 0.49747366, 1)
+
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/EditButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+pivot_offset = Vector2(12, 12)
+
+[node name="SmallTexture" type="TextureRect" parent="Buttons/EditButton"]
+self_modulate = Color(0.48235294, 0.19215687, 0.9764706, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("10_wtxo7")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="LargeTexture" type="TextureRect" parent="Buttons/EditButton"]
+visible = false
+self_modulate = Color(0.48235294, 0.19215687, 0.9764706, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+texture = ExtResource("12_ujxgq")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="Buttons/EditButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Write proses, poems, and other things here."
+focus_mode = 1
+flat = true
+
+[node name="ColorButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 52.0
+offset_top = -12.0
+offset_right = 76.0
+offset_bottom = 12.0
+pivot_offset = Vector2(12, 12)
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/ColorButton"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+tooltip_text = "Change the text's color."
+focus_mode = 1
+texture_normal = ExtResource("12_h5ulp")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/ColorButton/TextureButton"]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+pivot_offset = Vector2(12, 12)
+texture = ExtResource("13_x8h73")
+expand_mode = 1
+stretch_mode = 3

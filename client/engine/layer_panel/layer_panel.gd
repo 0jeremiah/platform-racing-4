@@ -80,7 +80,7 @@ func update_pickers() -> void:
 		if layer is BlockLayer:
 			rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
 		if layer is ArtLayer:
-			rotation_picker.set_value(round(layer.get_node("Lines").rotation_degrees))
+			rotation_picker.set_value(round(layer.art_rotation))
 
 func clear() -> void:
 	for child in row_holder.get_children():

@@ -46,7 +46,7 @@ func _ready():
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
 	editor_events.connect_to([level_manager.level_decoder])
-	penciler.init(level_manager.layers, $BG, editor_events, null)
+	penciler.init(level_manager.layers, editor_events, null)
 	
 	if !Game.pr2_level_id or Game.pr2_level_id == '0':
 		_activate_game()
@@ -75,14 +75,16 @@ func _ready():
 
 func _activate_game() -> void:
 	var player_manager: PlayerManager = get_node("PlayerManager")
+	var bg: Node2D = get_node("BG")
 	
+	bg.set_bg(level_manager.properties.get("background", "field"), level_manager.properties.get("fadeColor", "FFFFFF"))
 	level_manager.activate_node()
 	var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
 	
 	minimap.init(self)
 	game_timer.init(self)
 	stats_display.init(self)
-	game_timer.set_timer(9999)
+	game_timer.set_timer(level_manager.properties.get("time", 120))
 	game_timer.start_timer()
 	level_manager.calc_used_rect()
 

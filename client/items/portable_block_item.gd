@@ -2,6 +2,7 @@ extends Item
 class_name PortableBlockItem
 
 @onready var VisualAid = $VisualAid
+var icon: Sprite2D
 var tile_id = 0
 var tile_map_layer: TileMapLayer
 var spawn_position: Vector2
@@ -15,71 +16,83 @@ var PortableBlock := load("res://item_effects/portable_block.tscn")
 
 func _ready():
 	tile_id = 44
+	icon = $PortableBlockIcon
 
 
-func _init_item():
-	uses = GameConfig.get_value("uses_portable_block")
+func _init_item(_character: Character):
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_portable_block")
 
 
-func _process(delta: float) -> void:
-	if character:
-		set_block_position()
+func process_item(_character: Character) -> void:
+	set_block_position(_character)
+	set_visuals(_character)
 
 
-func set_block_position():
+func set_block_position(_character: Character):
 	can_place = false
 	var layer = Game.get_target_block_layer_node()
 	tile_map_layer = layer.tile_map_layer
 	spawn_position = to_local(Vector2(0, 0))
-	tile_map_layer_position = tile_map_layer.to_local(character.global_position)
+	tile_map_layer_position = tile_map_layer.to_local(_character.global_position)
 	coords = Vector2i(tile_map_layer_position.floor()) / Settings.tile_size
-	if character.movement.facing > 0 and floor(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+	if _character.movement.facing > 0 and floor(_character.global_position.x / Settings.tile_size.x) != round(_character.global_position.x / Settings.tile_size.x):
 		coords.x = coords.x + 1
-	elif character.movement.facing < 0 and ceil(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+	elif _character.movement.facing < 0 and ceil(_character.global_position.x / Settings.tile_size.x) != round(_character.global_position.x / Settings.tile_size.x):
 		coords.x = coords.x - 1
-	if round((character.global_position.y + (Settings.tile_size.y / 2)) / Settings.tile_size.y) != round(character.global_position.y / Settings.tile_size.y):
+	if round((_character.global_position.y + (Settings.tile_size.y / 2)) / Settings.tile_size.y) != round(_character.global_position.y / Settings.tile_size.y):
 		coords.y = coords.y - 1
 	atlas_coords = CoordinateUtils.to_atlas_coords(tile_id)
 	below_zero = Vector2(1, 1)
-	if character.global_position.x < 0:
+	if _character.global_position.x < 0:
 		below_zero.x = -1
-	if character.global_position.y < 0:
+	if _character.global_position.y < 0:
 		below_zero.y = -1
 	var tile_data = tile_map_layer.get_cell_source_id(coords)
 	if tile_data == -1:
 		can_place = true
-	if !using:
+
+
+func set_visuals(_character: Character):
+	if !_character.item_manager.using:
+		_character.item_manager.position = Vector2(_character.item_holder_display.position.x * _character.movement.facing, _character.item_holder_display.position.y)
+		_character.item_manager.rotation = _character.item_holder_display.rotation * _character.movement.facing
+		_character.item_manager.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
+		_character.item_manager.modulate = _character.display.modulate
+		_character.item_manager.z_index = _character.item_holder_display.z_index
 		VisualAid.global_position = Vector2i((coords.x * Settings.tile_size.x) + ((Settings.tile_size.x / 2) * below_zero.x), (coords.y * Settings.tile_size.y) + ((Settings.tile_size.y / 2) * below_zero.y))
 		VisualAid.global_rotation = 0
-		VisualAid.scale.x = 1
-		VisualAid.scale.y = 1
+		VisualAid.scale.x = 2.222
+		VisualAid.scale.y = 2.222
 		if can_place:
 			VisualAid.self_modulate = Color(0.625, 1, 0.625, 0.5)
 		else:
 			VisualAid.self_modulate = Color(1, 0.625, 0.625, 0.5)
+		icon.position = Vector2(0, 0)
+		icon.rotation = _character.item_holder_display.rotation
+		icon.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
+		icon.modulate = _character.display.modulate
+		icon.z_index = _character.item_holder_display.z_index
 
 
-func activate_item():
-	if character and !using and can_place:
-		using = true
-		use_block()
-		uses -= 1
+func activate_item(_character: Character):
+	if !_character.item_manager.using and can_place:
+		_character.item_manager.using = true
+		use_block(_character)
+		_character.item_manager.uses -= 1
 
 
-func use_block():
-	set_block_position()
+func use_block(_character: Character):
+	set_block_position(_character)
 	var block = PortableBlock.instantiate()
 	block.global_position = Vector2i((coords.x * Settings.tile_size.x) + ((Settings.tile_size.x / 2) * below_zero.x), (coords.y * Settings.tile_size.y) + ((Settings.tile_size.y / 2) * below_zero.y))
 	block.tile_map_layer = tile_map_layer
 	below_zero = Vector2(0, 0)
-	if character.global_position.x < 0:
+	if _character.global_position.x < 0:
 		below_zero.x = -1
-	if character.global_position.y < 0:
+	if _character.global_position.y < 0:
 		below_zero.y = -1
 	block.coords = Vector2i(coords.x + below_zero.x, coords.y + below_zero.y)
 	block.atlas_coords = atlas_coords
+	var layer = Game.get_target_block_layer_node()
+	var spawn = layer.get_node("Effects")
 	spawn.add_child.call_deferred(block)
-
-
-func _remove_item():
-	pass

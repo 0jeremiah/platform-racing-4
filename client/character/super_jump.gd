@@ -15,11 +15,11 @@ func run(character: Character, delta: float) -> void:
 	
 	# not charging
 	if !Input.is_action_pressed("down"):
-		if !character.movement.is_crouching and charge_timer >= GameConfig.get_value("super_jump_min_charge_threshold"): 
-			character.velocity += Vector2(0, GameConfig.get_value("super_jump_velocity")).rotated(character.rotation) * (
-					(charge_timer - GameConfig.get_value("super_jump_min_charge_threshold")) / 
-					(GameConfig.get_value("super_jump_charge_time") - GameConfig.get_value("super_jump_min_charge_threshold")))
-		if charge_timer >= GameConfig.get_value("super_jump_min_charge_threshold"):
+		if !character.movement.is_crouching and charge_timer >= GameConfig.get_value("super_jump", "super_jump_min_charge_threshold"): 
+			character.velocity += Vector2(0, GameConfig.get_value("super_jump", "super_jump_velocity")).rotated(character.rotation) * (
+					(charge_timer - GameConfig.get_value("super_jump", "super_jump_min_charge_threshold")) / 
+					(GameConfig.get_value("super_jump", "super_jump_charge_time") - GameConfig.get_value("super_jump", "super_jump_min_charge_threshold")))
+		if charge_timer >= GameConfig.get_value("super_jump", "super_jump_min_charge_threshold"):
 			Jukebox.play_sound("superjump") # linear_to_db(sjanim_timer)
 		charge_timer = 0
 		sjanim_timer = 0
@@ -28,9 +28,9 @@ func run(character: Character, delta: float) -> void:
 	# charging
 	if !character.movement.is_crouching:
 		charge_timer += delta
-		charge_timer = min(charge_timer, GameConfig.get_value("super_jump_charge_time"))
-		if charge_timer >= GameConfig.get_value("super_jump_min_charge_threshold"):
-			sjanim_timer += delta / GameConfig.get_value("super_jump_charge_time")
+		charge_timer = min(charge_timer, GameConfig.get_value("super_jump", "super_jump_charge_time"))
+		if charge_timer >= GameConfig.get_value("super_jump", "super_jump_min_charge_threshold"):
+			sjanim_timer += delta / GameConfig.get_value("super_jump", "super_jump_charge_time")
 			sjanim_timer = min(sjanim_timer, 1)
 
 
@@ -43,8 +43,8 @@ func is_charging() -> bool:
 
 
 func is_locking() -> bool:
-	return charge_timer > GameConfig.get_value("super_jump_min_charge_threshold")
+	return charge_timer > GameConfig.get_value("super_jump", "super_jump_min_charge_threshold")
 
 
 func is_fully_charged() -> bool:
-	return charge_timer == GameConfig.get_value("super_jump_charge_time")
+	return charge_timer == GameConfig.get_value("super_jump", "super_jump_charge_time")

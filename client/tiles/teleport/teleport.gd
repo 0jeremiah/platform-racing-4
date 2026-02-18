@@ -3,29 +3,23 @@ class_name Teleport
 
 var positions = []
 var recent_teleports = []
-var color = "E22B2E"
-var type = "default"
+var color = Color("FF7F50")
 var teleport_atlas_coords = Vector2i(2, 33)
 var throttle_ms = 1000
+# red = E92C2D # blue = 2CA7E7 # yellow = FFD812
 
-
-func init():
+func init(new_color: Color = Color("FF7F50")):
 	matter_type = Tile.ACTIVE
 	any_side.push_back(teleport)
 	is_safe = false
+	options.option = TeleportOptions.new()
+	options.option.set_color(new_color)
+	set_color()
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
-	var coord_list = tile_map_layer.get_used_cells_by_id(0, teleport_atlas_coords)
-	for coords in coord_list:
-		var position = {
-			"layer_name": str(tile_map_layer.get_parent().name),
-			"coords": coords,
-			"color": color,
-			"type": type,
-			"tile_map_layer": tile_map_layer
-		}
-		positions.push_back(position)
+func set_color():
+	if !options.data.is_empty():
+		color = options.data[0]
 
 
 func clear():
@@ -43,7 +37,7 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 		"layer_name": layer_name,
 		"coords": coords,
 		"color": color,
-		"type": type
+		"teleport_atlas_coords": teleport_atlas_coords
 	}
 	var next_position = get_next_position(source_position)
 	var block_layers = tile_map_layer.get_parent().get_parent()
@@ -55,7 +49,7 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 	player.get_parent().remove_child(player)
 	layer.get_node("Players").add_child(player)
 	player.position = next_block_position + dist
-	player.set_depth(layer.depth)
+	player.tile_interaction.set_depth(player, layer.depth)
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	
 	Game.game.set_current_player_layer(next_position.layer_name)
@@ -91,7 +85,7 @@ func get_next_position(source_position: Dictionary) -> Dictionary:
 	var i = 0
 	while i < len(positions):
 		var position = positions[i]
-		if source_position.color == position.color && source_position.type == position.type && source_position.coords == position.coords && source_position.layer_name == position.layer_name:
+		if source_position.color == position.color && source_position.teleport_atlas_coordse == position.teleport_atlas_coords && source_position.coords == position.coords && source_position.layer_name == position.layer_name:
 			break
 		i += 1
 	
@@ -101,7 +95,7 @@ func get_next_position(source_position: Dictionary) -> Dictionary:
 	while j < len(positions) + 1:
 		k = (i + j) % len(positions)
 		var position = positions[k]
-		if source_position.color == position.color && source_position.type == position.type:
+		if source_position.color == position.color && source_position.teleport_atlas_coords == position.teleport_atlas_coords:
 			break
 		j += 1
 	

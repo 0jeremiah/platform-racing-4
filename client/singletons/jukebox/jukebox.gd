@@ -270,6 +270,13 @@ func _sound_url_to_file(url: String) -> String:
 	return "user://sounds/" + parts[-1]
 
 
+func get_music_list() -> Dictionary:
+	if load_from_url:
+		return music_list
+	else:
+		return local_music_list
+
+
 func _process(delta):
 	# process music
 	if music_volume_db != music_target_db:

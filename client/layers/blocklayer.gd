@@ -24,6 +24,9 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	var tile_set = TileSet.new()
 	tile_set.tile_size = Settings.tile_size
 	tile_set.add_source(source)
+	tile_set.add_custom_data_layer(0)
+	tile_set.set_custom_data_layer_name(0, "tile_options")
+	tile_set.set_custom_data_layer_type(0, TYPE_ARRAY)
 	
 	if enable_collision:
 		tile_set.add_physics_layer()

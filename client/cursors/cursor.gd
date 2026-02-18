@@ -3,6 +3,7 @@ class_name Cursor
 
 signal level_event
 
+var active = false
 var touching_gui = false
 var using_gui = false
 var mouse_down = false
@@ -13,7 +14,7 @@ var menu: EditorMenu
 @onready var control = $Control
 @onready var block_cursor = $BlockCursor
 @onready var draw_cursor = $DrawCursor
-@onready var erase_cursor = $EraseCursor
+@onready var stamp_cursor = $StampCursor
 @onready var text_cursor = $TextCursor
 @onready var cursor_icon = $CursorIcon
 @onready var cursor_colorin = $CursorIcon/CursorColorIn
@@ -26,6 +27,20 @@ func _ready():
 	cursor_outline.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
 	cursor_icon.visible = false
 
+
+func deactivate():
+	if current_cursor:
+		current_cursor.deactivate()
+	active = false
+
+
+func activate():
+	if current_cursor:
+		current_cursor.activate()
+	active = true
+	global_position = get_global_mouse_position()
+
+
 func _exit_tree() -> void:
 	#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	pass
@@ -37,7 +52,7 @@ func init(_menu, layers) -> void:
 	
 	block_cursor.init(menu, layers)
 	draw_cursor.init(menu, layers)
-	erase_cursor.init(layers)
+	stamp_cursor.init(menu, layers)
 	text_cursor.init(layers)
 	
 	menu.control_event.connect(_on_control_event)
@@ -64,52 +79,73 @@ func _on_mouse_exited():
 
 
 func _physics_process(_delta):
-	global_position = get_global_mouse_position()
-	if current_cursor != null and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !using_gui: # Left click
-		if !mouse_down:
-			current_cursor.on_mouse_down()
-			mouse_down = true
-		current_cursor.on_drag()
+	if active:
+		visible = true
+		global_position = get_global_mouse_position()
+		if current_cursor != null and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !using_gui: # Left click
+			if !mouse_down:
+				current_cursor.on_mouse_down()
+				mouse_down = true
+			current_cursor.on_drag()
+		else:
+			if mouse_down:
+				current_cursor.on_mouse_up()
+				mouse_down = false
+			using_gui = true
 	else:
-		if mouse_down:
-			current_cursor.on_mouse_up()
-			mouse_down = false
-		using_gui = true
+		visible = false
 
 
 # block_id = event.block_id
 
 func _on_control_event(event: Dictionary) -> void:
-	if event.type == EditorEvents.SELECT_BLOCK:
-		if current_cursor:
-			current_cursor.deactivate()
-		current_cursor = block_cursor
-		current_cursor.activate()
-	elif event.type == EditorEvents.SELECT_TOOL:
-		$Control.mouse_filter = 0
-		if current_cursor:
-			current_cursor.deactivate()
-		if event.tool == "blocks":
+	if active:
+		if event.type == EditorEvents.SELECT_BLOCK:
+			if current_cursor:
+				current_cursor.deactivate()
 			current_cursor = block_cursor
-		elif event.tool == "draw" or event.tool == "erase":
-			current_cursor = draw_cursor
-		elif event.tool == "stamp":
-			current_cursor = erase_cursor
-		elif event.tool == "text":
-			current_cursor = text_cursor
-			$Control.mouse_filter = 1
-		current_cursor.activate()
-	elif event.type == EditorEvents.SET_BRUSH_SIZE:
-		if current_cursor == draw_cursor:
-			draw_cursor.set_brush_size(event.size)
-	elif event.type == EditorEvents.SET_BRUSH_COLOR:
-		if current_cursor == draw_cursor:
-			# Convert hex string to Color object
-			draw_cursor.set_brush_color(event.color)
-	elif event.type == EditorEvents.SET_BRUSH_ALPHA:
-		if current_cursor == draw_cursor:
-			# Convert hex string to Color object
-			draw_cursor.set_brush_alpha(event.alpha)
+			current_cursor.activate()
+		elif event.type == EditorEvents.SELECT_TOOL:
+			$Control.mouse_filter = 0
+			if current_cursor:
+				current_cursor.deactivate()
+			if event.tool == "blocks":
+				current_cursor = block_cursor
+			elif event.tool == "draw" or event.tool == "erase":
+				current_cursor = draw_cursor
+			elif event.tool == "stamp":
+				current_cursor = stamp_cursor
+			elif event.tool == "text":
+				current_cursor = text_cursor
+				$Control.mouse_filter = 1
+			current_cursor.activate()
+		elif event.type == EditorEvents.SELECT_DRAW_SIZE:
+			if current_cursor == draw_cursor:
+				draw_cursor.set_draw_size(event.size)
+		elif event.type == EditorEvents.SELECT_DRAW_COLOR:
+			if current_cursor == draw_cursor:
+				# Convert hex string to Color object
+				draw_cursor.set_draw_color(event.color)
+		elif event.type == EditorEvents.SELECT_DRAW_ALPHA:
+			if current_cursor == draw_cursor:
+				# Convert hex string to Color object
+				draw_cursor.set_draw_alpha(event.alpha)
+		elif event.type == EditorEvents.SELECT_ERASE_SIZE:
+			if current_cursor == draw_cursor:
+				draw_cursor.set_erase_size(event.size)
+		elif event.type == EditorEvents.SELECT_ERASE_ALPHA:
+			if current_cursor == draw_cursor:
+				# Convert hex string to Color object
+				draw_cursor.set_erase_alpha(event.alpha)
+		elif event.type == EditorEvents.SELECT_STAMP:
+			if current_cursor == stamp_cursor:
+				stamp_cursor.set_stamp_id(event.stamp)
+		elif event.type == EditorEvents.SELECT_STAMP_SIZE:
+			if current_cursor == stamp_cursor:
+				stamp_cursor.set_stamp_size(event.size)
+		elif event.type == EditorEvents.SELECT_STAMP_ROTATION:
+			if current_cursor == stamp_cursor:
+				stamp_cursor.set_stamp_rotation(event.rotation)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

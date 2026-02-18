@@ -2,7 +2,6 @@ extends CustomStats
 class_name UnderwaterCustomStats
 
 
-func init():
-	matter_type = Tile.ACTIVE
-	bump.push_back(set_stats)
-	is_safe = true
+func init(new_custom_stats: Array = [50, 50, 50, 50]):
+	custom_stats_atlas_coords = Vector2i(1, 28)
+	super()

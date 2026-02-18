@@ -48,7 +48,7 @@ func _ready():
 	if await TestRunner.run_tests(self):
 		return
 
-	
+	ParticleManager.init_particles()
 	await set_scene(TITLE)
 
 

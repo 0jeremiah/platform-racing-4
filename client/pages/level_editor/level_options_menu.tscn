@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4svh7sae6f0l"]
+[gd_scene load_steps=16 format=3 uid="uid://c4svh7sae6f0l"]
 
 [ext_resource type="Script" uid="uid://wsk7s4o36abg" path="res://pages/level_editor/level_options_menu.gd" id="1_n2mkv"]
 [ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://mega_menu/icons/blocks.png" id="1_n683b"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/level_editor/art_submenu.tscn" id="3_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="3_reton"]
 [ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
+[ext_resource type="PackedScene" uid="uid://uba1cak73d35" path="res://pages/level_editor/level_settings_submenu.tscn" id="4_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="5_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://di2od85jc5nwr" path="res://mega_menu/icons/test.png" id="6_gk4yk"]
 
@@ -44,21 +45,30 @@ layout_mode = 3
 anchors_preset = 0
 offset_left = 1482.0
 offset_right = 1910.0
-offset_bottom = 94.0
+offset_bottom = 98.0
 script = ExtResource("1_n2mkv")
 
 [node name="Submenus" type="Node2D" parent="."]
 position = Vector2(-1482, 0)
 
 [node name="BlockSubmenu" parent="Submenus" instance=ExtResource("2_k63ob")]
+visible = false
 anchors_preset = -1
 anchor_left = -37.05
 anchor_right = -37.05
 
 [node name="ArtSubmenu" parent="Submenus" instance=ExtResource("3_nlf1n")]
+visible = false
 anchors_preset = -1
 anchor_left = -37.05
 anchor_right = -37.05
+
+[node name="LevelSettingsSubmenu" parent="Submenus" instance=ExtResource("4_nlf1n")]
+visible = false
+offset_left = 535.0
+offset_top = 315.0
+offset_right = 1385.0
+offset_bottom = 765.0
 
 [node name="SlightlyLessTallPanel" type="Panel" parent="."]
 layout_mode = 0
@@ -72,9 +82,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
 [node name="TallPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 428.0
-offset_top = 84.0
+offset_top = 87.99999
 offset_right = 554.0
-offset_bottom = 178.0
+offset_bottom = 185.99998
 rotation = 3.14159
 theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
 
@@ -98,6 +108,7 @@ offset_bottom = 76.0
 anchors_preset = 0
 offset_right = 48.0
 offset_bottom = 48.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/BlockMenuButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
@@ -129,6 +140,7 @@ anchors_preset = 0
 offset_left = 58.0
 offset_right = 106.0
 offset_bottom = 48.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
@@ -160,6 +172,7 @@ anchors_preset = 0
 offset_left = 116.0
 offset_right = 164.0
 offset_bottom = 48.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/LevelSettingsButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
@@ -191,6 +204,7 @@ anchors_preset = 0
 offset_left = 174.0
 offset_right = 222.0
 offset_bottom = 48.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/CollabButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
@@ -222,6 +236,7 @@ anchors_preset = 0
 offset_left = 232.0
 offset_right = 280.0
 offset_bottom = 48.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
@@ -259,6 +274,7 @@ anchors_preset = 0
 offset_left = 321.0
 offset_right = 385.0
 offset_bottom = 64.0
+pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="Buttons/TestLevelButton"]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)

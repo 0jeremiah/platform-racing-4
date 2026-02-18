@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://db753dcpsi48c"]
+
+[ext_resource type="Script" uid="uid://cwgfd7pbwxyg7" path="res://cursors/stamp_cursor.gd" id="1_oyt8g"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="2_e2set"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oyt8g"]
+size = Vector2(1, 1)
+
+[node name="StampCursor" type="Node2D"]
+script = ExtResource("1_oyt8g")
+
+[node name="StampIcon" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.49803922)
+texture = ExtResource("2_e2set")
+
+[node name="CursorArea" type="Area2D" parent="."]
+
+[node name="CursorHitbox" type="CollisionShape2D" parent="CursorArea"]
+shape = SubResource("RectangleShape2D_oyt8g")

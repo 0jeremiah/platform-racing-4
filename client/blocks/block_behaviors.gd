@@ -77,7 +77,11 @@ func explode(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
 
 	# Shatter the tile
+<<<<<<< Updated upstream
 	TileEffects.shatter(tile_map_layer, coords)
+=======
+	TileEffects.shatter(tile_map_layer, coords, 10)
+>>>>>>> Stashed changes
 
 	# Push the body away
 	var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
@@ -129,4 +133,7 @@ func _is_moving_towards(body_pos: Vector2, body_velocity: Vector2, block_pos: Ve
 	var direction_to_block := block_pos - body_pos
 	var dot_product := body_velocity.dot(direction_to_block)
 	return dot_product > 0
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes

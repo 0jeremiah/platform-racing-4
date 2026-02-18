@@ -73,3 +73,40 @@ func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_url: bo
 	else:
 		sprite.texture = pr2_field; sprite.set_region_enabled(false)
 		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+func get_bg_texture_rect_no_dots(sprite: TextureRect, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
+	var background_id = p_id
+	# loads backgrounds from the website api if load_from_url is true.
+	# disabled as we want the backgrounds to be in game for level editor.
+	if load_from_url:
+		var url = "https://files.platformracing.com/backgrounds/%s.jpg" % background_id
+		sprite.texture = await CachingLoader.load_texture(url)
+		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	elif background_id in bg_list or background_id in bg_failsafe_list:
+		match background_id:
+			# sets backgrounds accordingly
+			# the ids without the "pr2_" prefixes are failsafes for old levels.
+			"blank": sprite.texture = square
+			"field", "pr2_field", "pr3_field": sprite.texture = pr2_field; sprite.set_region_enabled(false)
+			"generic", "pr2_generic": sprite.texture = pr2_generic; sprite.set_region_enabled(false)
+			"lake", "pr2_lake": sprite.texture = pr2_lake; sprite.set_region_enabled(false)
+			"desert", "pr2_desert": sprite.texture = pr2_desert; sprite.set_region_enabled(true); sprite.set_region_rect(Rect2(3.0, 0.0, 550.0, 400.0))
+			"dots", "pr2_dots": sprite.texture = pr2_dots_background; sprite.set_region_enabled(false)
+			"space", "pr2_space": sprite.texture = pr2_space; sprite.set_region_enabled(true); sprite.set_region_rect(Rect2(22.0, 0.0, 550.0, 400.0))
+			"skyscraper", "pr2_skyscraper": sprite.texture = pr2_skyscraper; sprite.set_region_enabled(true); sprite.set_region_rect(Rect2(48.0, 0.0, 550.0, 400.0))
+			"pr3_desert": sprite.texture = pr3_desert; sprite.set_region_enabled(false)
+			"pr3_industrial": sprite.texture = pr3_industrial; sprite.set_region_enabled(false)
+			"pr3_jungle": sprite.texture = pr3_jungle; sprite.set_region_enabled(false)
+			"pr3_space": sprite.texture = pr3_space; sprite.set_region_enabled(false)
+			"pr3_underwater": sprite.texture = pr3_underwater; sprite.set_region_enabled(false)
+			"pr3_volcano": sprite.texture = pr3_volcano; sprite.set_region_enabled(false)
+			"pr3_thanksgiving": sprite.texture = pr3_thanksgiving; sprite.set_region_enabled(false)
+			"pr3_main": sprite.texture = pr3_main; sprite.set_region_enabled(false)
+			"pr3_christmas": sprite.texture = pr3_christmas; sprite.set_region_enabled(false)
+		if background_id == "blank":
+			sprite.modulate = fade_color
+		else:
+			sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	else:
+		sprite.texture = pr2_field; sprite.set_region_enabled(false)
+		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)

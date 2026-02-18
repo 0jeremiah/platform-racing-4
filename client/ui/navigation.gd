@@ -3,7 +3,6 @@ extends Control
 signal set_page
 
 @onready var holder = $Holder
-@onready var button_solely_for_focus_button = $Holder/ButtonSolelyForFocus
 @onready var left_button = $Holder/LeftButton
 @onready var numbered_pages_button = $Holder/NumberedPagesButtons
 @onready var go_to_page_popup = $Holder/GoToPagePopup
@@ -17,10 +16,12 @@ var allow_go_to_page: bool = true
 var align: String = "left"
 var padding: int = 10
 
+
 func _ready():
 	left_button.pressed.connect(_set_page.bind(true, -1))
 	go_to_page.connect("set_navagation_page", _on_set_page)
 	right_button.pressed.connect(_set_page.bind(true, 1))
+
 
 func init(page: int, pages: int, buttons: int, allow: bool):
 	cursor_page = page
@@ -32,8 +33,10 @@ func init(page: int, pages: int, buttons: int, allow: bool):
 	right_button.visible = true
 	update_display()
 
+
 func set_align(new_align: String):
 	align = new_align
+
 
 func update_display():
 	for old_button in numbered_pages_button.get_children():
@@ -81,11 +84,8 @@ func update_display():
 		numbered_pages_button.add_child(newbutton)
 		if !newbutton.disabled and newbutton.text == str(cursor_page):
 			newbutton.self_modulate = Color(1, 1, 0.5, 1)
-			newbutton.grab_focus()
 		else:
 			newbutton.self_modulate = Color(1, 1, 1, 1)
-	if increment <= 1:
-		button_solely_for_focus_button.grab_focus() # this is so block_submenu doesnt close itself
 	if (numbered_pages_button.size.x - (padding * 2)) > 0:
 		numbered_pages_button.size.x -= padding * 2
 		right_button.position.x = numbered_pages_button.position.x + numbered_pages_button.size.x + padding
@@ -97,6 +97,8 @@ func update_display():
 		holder.position.x = -holder.size.x
 	else:
 		holder.position.x = 0
+
+
 func _set_page(incordec: bool, new_cursor_page: int):
 	if incordec:
 		cursor_page += new_cursor_page
@@ -105,25 +107,12 @@ func _set_page(incordec: bool, new_cursor_page: int):
 	emit_signal("set_page", cursor_page)
 	update_display()
 
+
 func _show_popup(spawn_x: int, spawn_y: int):
 	go_to_page_popup.popup(Rect2i(holder.global_position.x + spawn_x, holder.global_position.y + spawn_y, 380, 64))
 	go_to_page.init(total_pages, cursor_page)
 
+
 func _on_set_page(new_page_number: int):
 	_set_page(false, clamp(new_page_number, 1, total_pages))
 	go_to_page_popup.visible = false
-
-func check_focus() -> bool:
-	var has_focus: bool = false
-	if button_solely_for_focus_button.has_focus():
-		has_focus = true
-	if left_button.has_focus():
-		has_focus = true
-	for child in numbered_pages_button.get_children():
-		if child.has_focus():
-			has_focus = true
-	if go_to_page_popup.has_focus() or go_to_page.has_focus():
-		has_focus = true
-	if right_button.has_focus():
-		has_focus = true
-	return has_focus

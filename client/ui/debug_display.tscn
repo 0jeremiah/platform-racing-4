@@ -1,13 +1,49 @@
-[gd_scene format=3 uid="uid://c2bs3b11phh58"]
+[gd_scene load_steps=2 format=3 uid="uid://c2bs3b11phh58"]
+
+[ext_resource type="Script" uid="uid://chg8ra8vb6o5n" path="res://ui/debug_display.gd" id="1_akrb1"]
 
 [node name="DebugDisplay" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_akrb1")
 
 [node name="DebugTextContainer" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="DebugTextContainer"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1921.0
+offset_bottom = 559.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/normal_font_size = 18
+text = "x: 0
+y: 0
+vel_x: 0
+vel_y: 0
+prev_vel_x: 0
+prev_vel_y: 0
+last_vel_x: 0
+last_vel_y: 0
+size_x: 0
+size_y: 0
+last_bumped_block: {}
+speed: 0
+accel: 0
+jump: 0
+skill: 0
+character_hitbox_mode: \"\"
+gravity: 0
+super_jump_state: \"\"
+frozen: false
+shielded: false
+finished: false
+hurt: false
+current_anim: \"\"
+touched_blocks: {}"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="DebugTextContainer"]
 layout_mode = 0

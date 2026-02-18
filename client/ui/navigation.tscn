@@ -31,22 +31,23 @@ text = "<"
 
 [node name="NumberedPagesButtons" type="Control" parent="Holder"]
 visible = false
-layout_mode = 3
 anchors_preset = 0
 offset_left = 49.0
 offset_right = 49.0
 offset_bottom = 38.0
 
-[node name="GoToPagePopup" type="PopupPanel" parent="Holder"]
+[node name="GoToPagePopup" type="Popup" parent="Holder"]
 auto_translate_mode = 1
+oversampling_override = 1.0
 size = Vector2i(353, 133)
 min_size = Vector2i(353, 133)
 
 [node name="GoToPage" parent="Holder/GoToPagePopup" instance=ExtResource("2_50os1")]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 349.0
-offset_bottom = 129.0
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 353.0
+offset_bottom = 133.0
 
 [node name="RightButton" type="Button" parent="Holder"]
 visible = false

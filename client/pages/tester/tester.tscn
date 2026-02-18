@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://btetwq0fyumv"]
+[gd_scene load_steps=13 format=3 uid="uid://btetwq0fyumv"]
 
 [ext_resource type="Script" uid="uid://cwwwmewm0phss" path="res://pages/tester/tester.gd" id="1_uug6k"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="2_o2o8t"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/game/stats_panel/stats_panel.tscn" id="7_74ued"]
 [ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
 [ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_ju48d"]
+[ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_8qmsf"]
+[ext_resource type="PackedScene" uid="uid://bfq7acty6r4e5" path="res://ui/stats_display.tscn" id="10_7uc45"]
+[ext_resource type="PackedScene" uid="uid://c2bs3b11phh58" path="res://ui/debug_display.tscn" id="10_gtifp"]
 
 [node name="Tester" type="Node2D"]
 script = ExtResource("1_uug6k")
@@ -53,9 +56,22 @@ grow_vertical = 0
 [node name="Minimap" parent="UI/Container" instance=ExtResource("7_ju48d")]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 124.0
-offset_right = -124.0
-offset_bottom = -884.0
+offset_top = 930.0
+offset_bottom = 0.0
+
+[node name="GameTimer" parent="UI/Container" instance=ExtResource("9_8qmsf")]
+layout_mode = 0
+offset_left = 1640.0
+offset_top = 11.0
+offset_right = 1908.0
+offset_bottom = 91.0
+
+[node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_7uc45")]
+layout_mode = 0
+offset_left = 1640.0
+offset_top = 101.0
+offset_right = 1908.0
+offset_bottom = 151.0
 
 [node name="StatsPanel" parent="UI/Container" instance=ExtResource("7_74ued")]
 layout_mode = 1
@@ -64,6 +80,9 @@ anchor_bottom = 1.0
 offset_top = 0.119934
 offset_right = 0.400009
 offset_bottom = 0.0
+
+[node name="DebugDisplay" parent="UI/Container" instance=ExtResource("10_gtifp")]
+layout_mode = 0
 
 [node name="UpdateStatsPanelTimer" type="Timer" parent="UI/Container"]
 process_callback = 0

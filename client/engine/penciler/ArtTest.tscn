@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://id0mse18nrh"]
+
+[ext_resource type="Script" uid="uid://b6yxklqhhbdq8" path="res://engine/penciler/rastertest.gd" id="1_1ilse"]
+[ext_resource type="Script" uid="uid://cl0s3e33yfc2k" path="res://engine/penciler/drawer.gd" id="2_ljmwf"]
+
+[node name="ArtTest" type="Node2D"]
+script = ExtResource("1_1ilse")
+
+[node name="ArtContainer" type="SubViewportContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ArtViewport" type="SubViewport" parent="ArtContainer"]
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(1920, 1080)
+
+[node name="Lines" type="Node2D" parent="ArtContainer/ArtViewport"]
+
+[node name="Drawer" type="Node2D" parent="."]
+script = ExtResource("2_ljmwf")

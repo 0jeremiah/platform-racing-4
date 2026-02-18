@@ -6,14 +6,13 @@ var tiles: Tiles = Tiles.new()
 @onready var level_decoder: Node2D = $LevelDecoder
 @onready var layers: Layers = $Layers
 @onready var penciler: Node2D = $Penciler
-@onready var bg: Node2D = $BG
 @onready var camera_2d: Camera2D = $Camera2D
 
 
 func _ready() -> void:
 	http_request.request_completed.connect(self._http_request_completed)
 	http_request.request(ApiManager.get_base_url() + "/pr2/level/" + pr2_level_id)
-	penciler.init(layers, bg, level_decoder)
+	penciler.init(layers, level_decoder)
 	tiles.init_defaults()
 	layers.init(tiles)
 

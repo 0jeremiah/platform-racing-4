@@ -12,6 +12,13 @@ var art_rotation = 0
 var alpha = 100
 
 
+#func _process(delta):
+	#var camera: Camera2D = get_viewport().get_camera_2d()
+	#if camera:
+		#parent.position = camera.get_screen_center_position()
+		#parent.scale = Vector2.ONE / camera.zoom
+
+
 func init(tiles: Tiles) -> void:
 	set_z_axis(z_axis)
 	set_depth(depth)

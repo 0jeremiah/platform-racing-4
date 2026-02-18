@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=18 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" uid="uid://bymgxy1psd45h" path="res://character/character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="2_kipoy"]
@@ -11,6 +11,7 @@
 [ext_resource type="Material" uid="uid://dvu48544p7n16" path="res://particles/moonparticles.tres" id="7_hq3og"]
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
+[ext_resource type="Material" uid="uid://bayx7s447di7u" path="res://particles/invincibilityparticles.tres" id="10_hq3og"]
 [ext_resource type="Material" uid="uid://dmw0qfgvliixh" path="res://particles/speedparticles.tres" id="10_orckd"]
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
 [ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]
@@ -30,7 +31,6 @@ ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
 
 [node name="Light" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(0, -66)
 enabled = false
 energy = 0.5
@@ -38,7 +38,7 @@ shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("2_kipoy")
 
-[node name="SunParticles" type="GPUParticles2D" parent="."]
+[node name="oldSunParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, -106)
 emitting = false
 amount = 30
@@ -47,7 +47,7 @@ lifetime = 0.5
 fixed_fps = 60
 process_material = ExtResource("5_hd715")
 
-[node name="MoonParticles" type="GPUParticles2D" parent="."]
+[node name="oldMoonParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, -106)
 emitting = false
 amount = 30
@@ -56,9 +56,7 @@ lifetime = 0.5
 fixed_fps = 60
 process_material = ExtResource("7_hq3og")
 
-[node name="Display" parent="." instance=ExtResource("9_ydu4f")]
-
-[node name="SpeedParticles" type="GPUParticles2D" parent="."]
+[node name="oldSpeedParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, -106)
 emitting = false
 amount = 15
@@ -66,6 +64,15 @@ texture = ExtResource("6_2qvqd")
 lifetime = 0.57
 fixed_fps = 60
 process_material = ExtResource("10_orckd")
+
+[node name="oldInvincibilityParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -106)
+emitting = false
+process_material = ExtResource("10_hq3og")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="Display" parent="." instance=ExtResource("9_ydu4f")]
 
 [node name="LowArea" type="Area2D" parent="."]
 position = Vector2(0, -32)

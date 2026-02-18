@@ -10,9 +10,6 @@ offset_right = 268.0
 offset_bottom = 80.0
 script = ExtResource("1_icbrh")
 
-[node name="PhysicsTimer" type="Timer" parent="."]
-process_callback = 0
-
 [node name="FrameTimer" type="Timer" parent="."]
 
 [node name="Panel" type="Panel" parent="."]

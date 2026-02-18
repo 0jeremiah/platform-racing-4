@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnlmftnm1mnis"]
+
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="1_f072b"]
+[ext_resource type="Script" uid="uid://cl5nf3d0s1k1i" path="res://engine/stamp/stamp.gd" id="1_n2idg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xthg"]
+size = Vector2(126, 152)
+
+[node name="Stamp" type="Node2D"]
+script = ExtResource("1_n2idg")
+
+[node name="StampTexture" type="Sprite2D" parent="."]
+texture = ExtResource("1_f072b")
+
+[node name="StampArea" type="Area2D" parent="."]
+monitoring = false
+
+[node name="StampHitbox" type="CollisionShape2D" parent="StampArea"]
+shape = SubResource("RectangleShape2D_0xthg")

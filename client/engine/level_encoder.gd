@@ -3,7 +3,7 @@ class_name LevelEncoder
 
 var chunk_size = Vector2i(10, 10)
 
-func encode(layers: Node2D, bg: Node2D) -> Dictionary:
+func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictionary:
 	var level = {
 		"title": LevelEditor.current_level_name,
 		"description": LevelEditor.current_level_description,
@@ -12,8 +12,9 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 		"properties": {
 			"background": bg.id,
 			"fadeColor": bg.fade_color,
-			"music": bg.song_id,
-			"items": [],
+			"music": level_manager.music,
+			"items": level_manager.items,
+			"time": level_manager.time,
 			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}
@@ -30,10 +31,12 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 		if group_layer is Layer or group_layer is ArtLayer:
 			var tile_layer = {
 				"name": group_layer.name,
-				"lines": encode_lines(group_layer.get_node("Lines")),
-				"text": encode_texts(group_layer.get_node("Texts")),
-				"rotation": group_layer.get_node("Lines").rotation_degrees,
-				"depth": group_layer.depth
+				"lines": encode_lines(group_layer.lines),
+				"stamps": encode_stamps(group_layer.stamps),
+				"texts": encode_texts(group_layer.texts),
+				"rotation": group_layer.art_rotation,
+				"depth": group_layer.depth,
+				"alpha": group_layer.alpha
 			}
 			level.art_layers.push_back(tile_layer)
 	return level
@@ -46,6 +49,10 @@ func encode_chunks(tile_map_layer: TileMapLayer) -> Array:
 	for coords in used_coords:
 		var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 		var block_id = CoordinateUtils.to_block_id(atlas_coords)
+		var block_options = null
+		var tile_data = tile_map_layer.get_cell_tile_data(coords)
+		if tile_data and tile_data.has_custom_data("tile_options"):
+			block_options = tile_data.get_custom_data("tile_options")
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
 		var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
@@ -56,18 +63,23 @@ func encode_chunks(tile_map_layer: TileMapLayer) -> Array:
 			chunk = existing_chunk
 		else:
 			var data = []
+			var options = []
 			data.resize(chunk_size.x * chunk_size.y)
 			data.fill(0)
+			options.resize(chunk_size.x * chunk_size.y)
+			options.fill([])
 			chunk = {
 				"x": chunk_coords.x * chunk_size.x,
 				"y": chunk_coords.y * chunk_size.y,
 				"width": chunk_size.x,
 				"height": chunk_size.y,
-				"data": data
+				"data": data,
+				"options": options
 			}
 			chunks.push_back(chunk)
 			chunk_map[chunk_name] = chunk
 		chunk.data[chunk_data_index] = block_id
+		chunk.options[chunk_data_index] = block_options
 	return chunks
 
 
@@ -83,10 +95,26 @@ func encode_lines(node: Node2D) -> Array:
 			"y": line.position.y,
 			"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
 			"color": line.default_color,
-			"thickness": line.width
+			"thickness": line.width,
+			"material": line.material
 		}
 		lines.push_back(lineData)
 	return lines
+
+
+func encode_stamps(node: Node2D) -> Array:
+	var stamps = []
+	for stamp: Node2D in node.get_children():
+		var stampData = {
+			"id": stamp.id,
+			"x": stamp.position.x,
+			"y": stamp.position.y,
+			"size_x": stamp.stamp_texture.scale.x,
+			"size_y": stamp.stamp_texture.scale.y,
+			"rotation": stamp.stamp_texture.rotation_degrees
+		}
+		stamps.push_back(stampData)
+	return stamps
 
 
 func encode_texts(node: Node2D) -> Array:

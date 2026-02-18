@@ -86,8 +86,8 @@ func update_boxes() -> void:
 			alpha_container.visible = true
 			z_axis_box.text = "1"
 			depth_box.text = str(layer.depth)
-			rotation_box.text = str(round(layer.get_node("Lines").rotation_degrees))
-			alpha_box.text = str(layer.get_node("Lines").modulate)
+			rotation_box.text = str(round(layer.art_rotation))
+			alpha_box.text = str(layer.alpha)
 
 func clear() -> void:
 	for child in row_holder.get_children():

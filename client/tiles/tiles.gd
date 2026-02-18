@@ -69,8 +69,8 @@ func init_defaults() -> void:
 	map['41'] = ClassicMega.new()
 	map['42'] = ClassicMini.new()
 	map['43'] = ClassicSticky.new()
-	map['44'] = ClassicCrumble.new()
-	map['45'] = ClassicMine.new()
+	map['45'] = ClassicCrumble.new()
+	map['46'] = ClassicMine.new()
 	
 	map['101'] = Tile.new()
 	map['102'] = Tile.new()
@@ -114,8 +114,8 @@ func init_defaults() -> void:
 	map['141'] = DesertMega.new()
 	map['142'] = DesertMini.new()
 	map['143'] = DesertSticky.new()
-	map['144'] = DesertCrumble.new()
-	map['145'] = DesertMine.new()
+	map['145'] = DesertCrumble.new()
+	map['146'] = DesertMine.new()
 	
 	map['201'] = Tile.new()
 	map['202'] = Tile.new()
@@ -159,8 +159,8 @@ func init_defaults() -> void:
 	map['241'] = IndustrialMega.new()
 	map['242'] = IndustrialMini.new()
 	map['243'] = IndustrialSticky.new()
-	map['244'] = IndustrialCrumble.new()
-	map['245'] = IndustrialMine.new()
+	map['245'] = IndustrialCrumble.new()
+	map['246'] = IndustrialMine.new()
 	
 	map['301'] = Tile.new()
 	map['302'] = Tile.new()
@@ -204,8 +204,8 @@ func init_defaults() -> void:
 	map['341'] = JungleMega.new()
 	map['342'] = JungleMini.new()
 	map['343'] = JungleSticky.new()
-	map['344'] = JungleCrumble.new()
-	map['345'] = JungleMine.new()
+	map['345'] = JungleCrumble.new()
+	map['346'] = JungleMine.new()
 	
 	map['401'] = Tile.new()
 	map['402'] = Tile.new()
@@ -249,8 +249,8 @@ func init_defaults() -> void:
 	map['441'] = SpaceMega.new()
 	map['442'] = SpaceMini.new()
 	map['443'] = SpaceSticky.new()
-	map['444'] = SpaceCrumble.new()
-	map['445'] = SpaceMine.new()
+	map['445'] = SpaceCrumble.new()
+	map['446'] = SpaceMine.new()
 	
 	map['501'] = Tile.new()
 	map['502'] = Tile.new()
@@ -294,8 +294,8 @@ func init_defaults() -> void:
 	map['541'] = UnderwaterMega.new()
 	map['542'] = UnderwaterMini.new()
 	map['543'] = UnderwaterSticky.new()
-	map['544'] = UnderwaterCrumble.new()
-	map['545'] = UnderwaterMine.new()
+	map['545'] = UnderwaterCrumble.new()
+	map['546'] = UnderwaterMine.new()
 	
 	map['601'] = Tile.new()
 	map['602'] = Tile.new()
@@ -339,16 +339,62 @@ func init_defaults() -> void:
 	map['641'] = Mega.new()
 	map['642'] = Mini.new()
 	map['643'] = Sticky.new()
-	map['644'] = Crumble.new()
-	map['645'] = Mine.new()
+	map['645'] = Crumble.new()
+	map['646'] = Mine.new()
 	
-	# init
-	#for style_counter in len(styles):
-	#	for tile_id in block_map:
-	#		map[str((int(tile_id) + (seperator * int(style_counter))))] = block_map[str(int(tile_id))]
-	
+	# init blocks
 	for tile_id in map:
 		map[tile_id].init()
+	
+func get_descriptions() -> Dictionary:
+	var desc = {}
+	desc['1'] = "Bland, but at least it gets the job done."
+	desc['2'] = "Bland, but at least it comes with peanuts."
+	desc['3'] = "Bland, but at least it's hardy."
+	desc['4'] = "Bland, but at least it looks\nlike a waffle."
+	desc['5'] = "Poorly mortared blocks that\nwill break if it is bumped from\nbelow."
+	desc['6'] = "Lessens your jump if you hop\noff it, and pushes you down if\nyou ride on its sides or bottom."
+	desc['7'] = "Use this block to jump higher,\nor ride it on its sides or\nbottom."
+	desc['8'] = "Run left really fast! (or right\nreally slowly.) It's kind of\nlike a conveyer belt, except cooler."
+	desc['9'] = "Run right really fast! (or left\nreally slowly.) It's kind of\nlike a conveyer belt, except cooler."
+	desc['10'] = "Explodes rather painfully if\nsomething or someone touches it."
+	desc['11'] = "One item per customer."
+	desc['12'] = "Marks a poNumber where players\nmay start the race."
+	desc['13'] = "It's like a trampoline that\ndoesn't obey the laws of physics."
+	desc['14'] = "Multiple personality disorder\nin block form."
+	desc['15'] = "Stuns any players that dare\ntouch this block."
+	desc['16'] = "Sliperyyyyiiiee. Lowers one's\nacceleration."
+	desc['17'] = "Bumping this block marks the\nend of the race."
+	desc['18'] = "A block that shatters if it is\nhit too many times."
+	desc['19'] = "Touch it, and poof! It's gone.\nNo worries, though. It'll come\nback."
+	desc['20'] = "Where is it going? The world\nmay never know... (PCs are much\nmore faster than in 2007, but it's still a\n good idea to use this block sparingly.)"
+	desc['21'] = "Swim!"
+	desc['22'] = "The wheels on the bus go round\nand round, round and round,\nround and round..."
+	desc['23'] = "The world is still spinning,\nbut in the opposite direction!"
+	desc['24'] = "You can push this block around.\nBully."
+	desc['25'] = "Protects racers from high falls,\nrestricted areas, or other\nkinds of danger by teleporting them to\ntheir last safe location."
+	desc['26'] = "Grab as many items as you like!\nThis item block will never run\nout. Items for all!"
+	desc['27'] = "It's so happy! This block will\nshare its happiness with you by\nboosting your stats if bumped."
+	desc['28'] = "It's so sad. This block will\nshare its sadness with you by\ndecreasing your stats if bumped."
+	desc['29'] = "Gives you +1 HP in\ndeathmatches, and makes you temporarily\ninvincible!"
+	desc['30'] = "Need some more time? Then bump\nthis block to get an extra 30\nseconds in levels."
+	desc['31'] = "This mischevious creature\nattacks anyone that gets in its way."
+	desc['32'] = "Sets the player's stats to\nwhatever you choose. Default settings\nis 50/50/50/50."
+	desc['33'] = "Teleports a player to another\nteleport of the same color if it\nexists."
+	desc['34'] = "This is reserved for the\ncolor-inof the Teleport Block, which \ncan't be selected in the BlockPicker.\nYou shouldn't be seeing this!"
+	desc['35'] = "New-age industrial machine that\ncan rotate any blocks connected to\nthe bottom of it."
+	desc['36'] = "Just walk into this block, and\nany gear in the level will move\nautomatically! Wow!"
+	desc['37'] = "A lightbreaker that can destroy\none block or more, depending on\n how many times you run into it."
+	desc['38'] = "A lightbreaker that lets you\nphase into a wall, and ends when\nyou come out of said wall."
+	desc['39'] = "A lightbreaker that grants you\nthe power to fly like, well, a\nfirefly. At least until you bump into\nsomething"
+	desc['40'] = "Peekaboo! This block hides in\nplain sight, appears when it is\ntouched, and disappears the moment you\nstop touching it."
+	desc['41'] = "Bumping this block turns you\ninto a towering giant! (or turns\nyou back to normal if you were already\nsmall.)"
+	desc['42'] = "Bumping this block turns you\ninto a size of a mouse! (or turns\nyou back to normal if you were already\nbig.)"
+	desc['43'] = "This block is covered in an\nunknown, slime-like substance that\nwill slow you down. Ew... At least you\ncan walljump off it."
+	desc['44'] = "This morally questionable block\nshoots anything that enters its\nfield of vision."
+	desc['46'] = "This is reserved for the\nPortable Block, which can't be\nselected in the BlockPicker. You shouldn't be\nseeing this!"
+	desc['47'] = "This is reserved for the\nPortable Mine, which can't be selected\nin the BlockPicker. You shouldn't be\nseeing this!"
+	return desc
 
 
 func on(event: String, tile_type: int, player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:

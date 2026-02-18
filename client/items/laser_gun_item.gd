@@ -1,4 +1,4 @@
-extends Item
+extends Node2D
 class_name LaserGunItem
 
 @onready var projectile = load("res://item_effects/laser_bullet.tscn")
@@ -12,46 +12,43 @@ func _ready():
 	animation_timer.one_shot = true
 
 
-func _init_item():
-	uses = GameConfig.get_value("uses_laser_gun")
+func _init_item(_character: Character):
+	_character.item_manager.uses = GameConfig.get_value("items-uses", "uses_laser_gun")
 
 
 func _play_idle_animation():
 	animations.play("idle")
 
 
-func activate_item():
-	if !using:
-		using = true
+func activate_item(_character: Character):
+	if !_character.item_manager.using:
+		_character.item_manager.using = true
 		animations.stop()
 		animations.play("shoot")
 		animation_timer.start(animations.get_current_animation_length())
-		reload_timer.start(0.8)
-		shoot()
-		if character.display.scale.x < 0:
-			character.velocity.x += 750
+		_character.item_manager.reload_timer = 0.8
+		shoot(_character)
+		if _character.display.scale.x < 0:
+			_character.velocity.x += 750
 		else:
-			character.velocity.x -= 750
-		uses -= 1
+			_character.velocity.x -= 750
+		_character.item_manager.uses -= 1
 
 
-func use(delta: float):
-	if character and !using:
-		activate_item()
-
-
-func shoot():
+func shoot(_character: Character):
+	var layer = Game.get_target_block_layer_node()
+	var spawn = layer.get_node("Projectiles")
 	var bullet = projectile.instantiate()
 	bullet.dir = 0
 	bullet.spawnpos = global_position
 	bullet.spawnrot = 0
-	bullet.scale.x = character.display.scale.x
-	bullet.speed = GameConfig.get_value("laser_bullet_speed") * character.movement.facing
-	bullet.fromplayer = character
+	bullet.scale.x = _character.display.scale.x
+	bullet.speed = GameConfig.get_value("items-effects", "laser_bullet_speed") * _character.movement.facing
+	bullet.fromplayer = _character
 	spawn.add_child.call_deferred(bullet)
 	Jukebox.play_sound("laser")
 
 
-func _remove_item():
+func _remove_item(_character: Character):
 	animation_timer.stop()
 	_play_idle_animation()

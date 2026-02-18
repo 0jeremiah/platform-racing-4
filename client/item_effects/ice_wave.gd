@@ -12,12 +12,12 @@ var life: float = 0.0
 func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
-	life = GameConfig.get_value("ice_wave_lifetime")
+	life = GameConfig.get_value("items-effects", "ice_wave_lifetime")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var speed = GameConfig.get_value("ice_wave_speed")
+	var speed = GameConfig.get_value("items-effects", "ice_wave_speed")
 	if scale.x < 0:
 		speed *= -1
 	velocity = Vector2(speed, 0).rotated(dir)

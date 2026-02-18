@@ -3,9 +3,9 @@ extends Control
 signal control_event
 signal level_event
 
-@onready var color_box = preload("res://ui/colorbutton.tscn")
 @onready var art_menu = $ArtMenu
 @onready var selection_glow = $ArtMenu/SelectionGlow
+@onready var background_texture = $ArtMenu/BackgroundBox/BackgroundTexture
 @onready var background_button = $ArtMenu/BackgroundBox/Button
 @onready var brush_button = $ArtMenu/BrushBox/TextureButton
 @onready var eraser_button = $ArtMenu/EraserBox/TextureButton
@@ -18,6 +18,7 @@ signal level_event
 @onready var color_picker_colorin = $ArtSettings/ColorBox/TextureButton/ColorPickerColorin
 @onready var stamp_texture = $ArtSettings/SelectedStampBox/StampTexture
 @onready var selected_stamp_box = $ArtSettings/SelectedStampBox
+@onready var selected_stamp_texture = $ArtSettings/SelectedStampBox/StampTexture
 @onready var selected_stamp_button = $ArtSettings/SelectedStampBox/Button
 @onready var size_box = $ArtSettings/SizeBox
 @onready var size_text = $ArtSettings/SizeBox/SizeText
@@ -28,9 +29,13 @@ signal level_event
 @onready var rotation_box = $ArtSettings/RotationBox
 @onready var rotation_label = $ArtSettings/RotationBox/RotationLabel
 @onready var rotation_text = $ArtSettings/RotationBox/RotationText
-@onready var art_popup = $ArtPopup
-@onready var art_popup_panel = $ArtPopup/ArtPopupPanel
+@onready var bg_picker_popup = $BGPickerPopup
+@onready var bg_picker = $BGPickerPopup/BGPicker
+@onready var stamp_picker_popup = $StampPickerPopup
+@onready var stamp_picker = $StampPickerPopup/StampPicker
 @onready var layer_panel = $LayerPanel
+
+
 var active: bool = false
 var layers: Node2D
 var editor_events: EditorEvents
@@ -42,29 +47,37 @@ var selected_button: TextureButton
 var dont_change_color_list: Array = ["ColorBox", "SelectedStampBox", "SizeBox", "AlphaBox", "RotationBox", "BackgroundBox", "BGButtonContainer"]
 var bg_id: String
 var bg_color: Color = Color("BBBBDDFF")
-var brush_color: Color = Color("000000FF")
-var brush_alpha: float = 100
+var draw_color: Color = Color("000000FF")
+var draw_size: float = 5
+var draw_alpha: float = 100
+var erase_size: float = 5
+var erase_alpha: float = 100
+var stamp_id: String = "cactus"
+var stamp_size: float = 100
+var stamp_rotation: float = 0
+var text_size: float = 14
+var text_rotation: float = 0
 var text_color: Color = Color("071E6BFF")
+var color_box = preload("res://ui/colorbutton.tscn")
+
 
 func _ready() -> void:
-	var bg_container: Backgrounds = Backgrounds.new()
-	background_graphics = bg_container.bg_graphic_list
-	background_array = bg_container.bg_list
-	var stamp_container: Stamps = Stamps.new()
-	stamp_graphics = stamp_container.stamp_graphic_list
-	stamp_array = stamp_container.stamp_list
-	background_button.pressed.connect(_show_art_popup.bind(background_button))
+	background_button.pressed.connect(_show_bg_picker_popup)
 	brush_button.pressed.connect(_click_art_menu.bind(brush_button))
 	eraser_button.pressed.connect(_click_art_menu.bind(eraser_button))
 	stamp_button.pressed.connect(_click_art_menu.bind(stamp_button))
 	text_button.pressed.connect(_click_art_menu.bind(text_button))
-	selected_stamp_button.pressed.connect(_show_art_popup.bind(selected_stamp_button))
+	selected_stamp_button.pressed.connect(_show_stamp_picker_popup)
+	bg_picker.connect("change_selected_background", _set_bg.bind())
+	stamp_picker.connect("change_selected_stamp", _select_stamp.bind())
+	
 	_click_art_menu(brush_button)
 
 
 func init() -> void:
 	layer_panel.init(layers, "art")
 	editor_events.connect_to([layer_panel])
+	editor_events.level_event.connect(_on_control_event)
 
 
 func deactivate():
@@ -72,10 +85,26 @@ func deactivate():
 
 
 func activate():
-	emit_signal("control_event", {
-		"type": EditorEvents.SELECT_TOOL,
-		"tool": "draw"
-	})
+	if selected_button == brush_button:
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "draw"
+		})
+	elif selected_button == eraser_button:
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "erase"
+		})
+	elif selected_button == stamp_button:
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "stamp"
+		})
+	elif selected_button == text_button:
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "text"
+		})
 	active = true
 
 
@@ -88,14 +117,25 @@ func _physics_process(delta: float) -> void:
 		for child in art_settings.get_children():
 			for node in child.get_children():
 				_check_clicked_button(node)
-		for child in art_popup.get_children():
-			for node in child.get_children():
-				_check_clicked_button(node)
-	
+		bg_picker_popup.size = bg_picker.size
+		stamp_picker_popup.size = stamp_picker.size
 		if selected_button:
 			set_selection_glow()
 	else:
 		visible = false
+
+
+func _on_control_event(event: Dictionary) -> void:
+	if event.type == EditorEvents.SET_BACKGROUND:
+		var sprite2d = Sprite2D.new()
+		var bgs = Backgrounds.new()
+		bgs.get_bg(sprite2d, bg_id, bg_color)
+		background_texture.texture = sprite2d.texture
+	if event.type == EditorEvents.SELECT_STAMP:
+		var sprite2d = Sprite2D.new()
+		var stamps = Stamps.new()
+		stamps.get_stamp(sprite2d, stamp_id)
+		selected_stamp_texture.texture = sprite2d.texture
 
 
 func _check_clicked_button(node: Node):
@@ -137,114 +177,27 @@ func _check_clicked_button(node: Node):
 				node.self_modulate = color2
 
 
-func _show_art_popup(button: Button):
-	if art_popup.get_child_count() > 1:
-		for child in art_popup.get_children():
-			if child is not Panel:
-				child.free()
-	if !art_popup.visible:
-		art_popup.visible = true
-	if button == background_button or button == selected_stamp_button:
-		var graphicbuttoncontainer = Control.new()
-		graphicbuttoncontainer.name = "BGButtonContainer"
-		art_popup.add_child(graphicbuttoncontainer)
-		var graphic_array: Array
-		var total_size: int
-		var xoffset: float
-		var yoffset: float
-		if button == background_button:
-			art_popup.position = Vector2((art_menu.size.x + art_menu.global_position.x) + 10, art_menu.global_position.y)
-			graphic_array = background_graphics
-			total_size = graphic_array.size() + 1
-			xoffset = art_menu.global_position.x + background_button.global_position.x
-			yoffset = art_menu.global_position.y + background_button.global_position.y
-		else:
-			art_popup.position = Vector2((art_settings.size.x + art_settings.global_position.x) + 10, art_settings.global_position.y)
-			graphic_array = stamp_array
-			total_size = graphic_array.size()
-			xoffset = art_settings.global_position.x + selected_stamp_button.global_position.x
-			yoffset = art_settings.global_position.y + selected_stamp_button.global_position.y
-		for graphic in total_size:
-			if graphic >= graphic_array.size():
-				var bg_color_button = color_box.instantiate()
-				bg_color_button.size = Vector2(48, 48)
-				bg_color_button.position = Vector2(20 + (68 * snapped((graphic % 5), 1)), 20 + (68 * snapped((graphic / 5), 1)))
-				bg_color_button.name = "ColorBox"
-				bg_color_button.spawn_x = art_popup.position.x + bg_color_button.size.x
-				art_popup.add_child(bg_color_button)
-				bg_color_button.set_color(bg_color)
-				bg_color_button.colorbutton_color_changed.connect(_set_bg.bind())
-			else:
-				var graphicbutton = TextureButton.new()
-				graphicbutton.texture_normal = graphic_array[graphic]
-				graphicbutton.ignore_texture_size = true
-				if button == selected_stamp_button:
-					graphicbutton.stretch_mode = 5
-				else:
-					graphicbutton.stretch_mode = 0
-				graphicbutton.size = Vector2(48, 48)
-				graphicbutton.position = Vector2(20 + (68 * snapped((graphic % 5), 1)), 20 + (68 * snapped((graphic / 5), 1)))
-				graphicbutton.name = "BGButton" + str(graphic)
-				graphicbuttoncontainer.add_child(graphicbutton)
-				if button == background_button:
-					graphicbutton.pressed.connect(_set_bg.bind(Color("FFFFFF"), background_array[graphic]))
-			if graphic < 5:
-				art_popup.size = Vector2(20 + (68 * (snapped((graphic % 5), 1) + 1)), 20 + (68 * (snapped((graphic / 5), 1) + 1)))
-			else:
-				art_popup.size = Vector2(360, 20 + (68 * (snapped((graphic / 5), 1) + 1)))
-			art_popup_panel.size = art_popup.size
-			graphicbuttoncontainer.size = art_popup.size
+func _show_bg_picker_popup():
+	bg_picker_popup.position = Vector2(art_menu.global_position.x + art_menu.size.x + 10, background_button.global_position.y)
+	bg_picker_popup.show()
 
 
-func _set_bg(new_color: Color = "FFFFFF", id: String = "blank"):
-	bg_color = new_color
-	bg_id = id
-	emit_signal("level_event", {
-		"type": EditorEvents.SET_BACKGROUND,
-		"bg": bg_id,
-		"fade_color": bg_color.to_html(false)
-	})
-	art_popup.hide()
-
-
-func _set_brush_color(new_color: Color):
-	brush_color = new_color
-	emit_signal("control_event", {
-		"type": EditorEvents.SET_BRUSH_COLOR,
-		"color": brush_color.to_html(true) # Include alpha in hex format (e.g. FFFFFFFF)
-	})
-
-
-func _set_brush_alpha(new_alpha: int):
-	brush_alpha = new_alpha
-	emit_signal("control_event", {
-		"type": EditorEvents.SET_BRUSH_ALPHA,
-		"alpha": float(brush_alpha) / 100
-	})
-
-
-func _set_brush_size(new_size: int):
-	emit_signal("control_event", {
-		"type": EditorEvents.SET_BRUSH_SIZE,
-		"size": new_size
-	})
-
-
-func _set_text_color(new_color: Color):
-	text_color = new_color
+func _show_stamp_picker_popup():
+	stamp_picker_popup.position = Vector2(art_menu.global_position.x + art_menu.size.x + 10, selected_stamp_button.global_position.y)
+	stamp_picker_popup.show()
 
 
 func disconnect_button(button):
 	for child in button.get_children():
 		if child is Button:
-			if child.is_connected("colorbutton_color_changed", _set_brush_color.bind()):
-				child.disconnect("colorbutton_color_changed", _set_brush_color.bind())
-			if child.is_connected("colorbutton_color_changed", _set_text_color.bind()):
-				child.disconnect("colorbutton_color_changed", _set_text_color.bind())
-			if child.is_connected("slider_value_changed", _set_brush_size.bind()):
-				child.disconnect("slider_value_changed", _set_brush_size.bind())
-			if child.is_connected("slider_value_changed", _set_brush_alpha.bind()):
-				child.disconnect("slider_value_changed", _set_brush_alpha.bind())
+			if child.is_connected("colorbutton_color_changed", _select_draw_color.bind()):
+				child.disconnect("colorbutton_color_changed", _select_draw_color.bind())
+			if child.is_connected("colorbutton_color_changed", _select_text_color.bind()):
+				child.disconnect("colorbutton_color_changed", _select_text_color.bind())
+			if child.is_connected("slider_value_changed", _select_draw_size.bind()):
+				child.disconnect("slider_value_changed", _select_draw_size.bind())
+			if child.is_connected("slider_value_changed", _select_draw_alpha.bind()):
+				child.disconnect("slider_value_changed", _select_draw_alpha.bind())
 
 
 func _click_art_menu(button: TextureButton):
@@ -253,73 +206,193 @@ func _click_art_menu(button: TextureButton):
 	color_box_button.visible = false
 	disconnect_button(color_box_button)
 	disconnect_button(size_box)
+	disconnect_button(alpha_box)
 	selected_stamp_box.visible = false
 	size_box.visible = false
 	alpha_box.visible = false
 	rotation_box.visible = false
 	if selected_button == brush_button:
 		emit_signal("control_event", {
-			"type": EditorEvents.SELECT_ART_MODE,
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "draw"
+		})
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_BRUSH_MODE,
 			"mode": "draw"
 		})
 		color_box_button.visible = true
 		color_box_button.position = Vector2(20, 20)
 		color_box_button.spawn_x = color_box_button.size.x
-		color_box_button.set_color(brush_color)
-		color_box_button.connect("colorbutton_color_changed", _set_brush_color.bind())
+		color_box_button.set_color(draw_color)
+		color_box_button.connect("colorbutton_color_changed", _select_draw_color.bind())
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
 		size_box.spawn_x = size_box.size.x + 10
-		size_box.set_button("Size", 5, 1, 200)
-		size_box.connect("slider_value_changed", _set_brush_size.bind())
+		size_box.set_button("Size", draw_size, 1, 200)
+		size_box.connect("slider_value_changed", _select_draw_size.bind())
 		alpha_box.visible = true
 		alpha_box.position = Vector2(20, 156)
 		alpha_box.spawn_x = alpha_box.size.x + 10
-		alpha_box.set_button("Alpha", 100, 0, 100)
-		alpha_box.connect("slider_value_changed", _set_brush_alpha.bind())
+		alpha_box.set_button("Alpha", draw_alpha, 1, 100)
+		alpha_box.connect("slider_value_changed", _select_draw_alpha.bind())
 		art_settings_panel.size = Vector2(88, 224)
 		art_settings.size = Vector2(98, 234)
 	elif selected_button == eraser_button:
 		emit_signal("control_event", {
-			"type": EditorEvents.SELECT_ART_MODE,
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "erase"
+		})
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_BRUSH_MODE,
 			"mode": "erase"
 		})
 		size_box.visible = true
 		size_box.position = Vector2(20, 20)
+		size_box.spawn_x = size_box.size.x + 10
+		size_box.set_button("Size", erase_size, 1, 200)
+		size_box.connect("slider_value_changed", _select_erase_size.bind())
 		alpha_box.visible = true
 		alpha_box.position = Vector2(20, 88)
+		alpha_box.spawn_x = alpha_box.size.x + 10
+		alpha_box.set_button("Alpha", erase_alpha, 1, 100)
+		alpha_box.connect("slider_value_changed", _select_erase_alpha.bind())
 		art_settings_panel.size = Vector2(88, 156)
 		art_settings.size = Vector2(98, 166)
 	elif selected_button == stamp_button:
 		emit_signal("control_event", {
-			"type": EditorEvents.SELECT_ART_MODE,
-			"mode": "stamp"
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "stamp"
 		})
 		selected_stamp_box.visible = true
 		selected_stamp_box.position = Vector2(20, 20)
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
+		size_box.set_button("Size", stamp_size, 1, 500)
+		size_box.connect("slider_value_changed", _select_stamp_size.bind())
 		rotation_box.visible = true
 		rotation_box.position = Vector2(20, 156)
+		rotation_box.set_button("Rot", stamp_rotation, 0, 359)
+		rotation_box.connect("slider_value_changed", _select_stamp_rotation.bind())
 		art_settings_panel.size = Vector2(88, 224)
 		art_settings.size = Vector2(98, 234)
 	elif selected_button == text_button:
 		emit_signal("control_event", {
-			"type": EditorEvents.SELECT_ART_MODE,
-			"mode": "text"
+			"type": EditorEvents.SELECT_TOOL,
+			"tool": "text"
 		})
 		color_box_button.visible = true
 		color_box_button.position = Vector2(20, 20)
 		color_box_button.spawn_x = color_box_button.size.x
 		color_box_button.set_color(text_color)
-		color_box_button.connect("colorbutton_color_changed", _set_text_color.bind())
+		color_box_button.connect("colorbutton_color_changed", _select_text_color.bind())
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
+		size_box.set_button("Size", text_size, 1, 200)
+		size_box.connect("slider_value_changed", _select_text_size.bind())
 		rotation_box.visible = true
 		rotation_box.position = Vector2(20, 156)
+		rotation_box.set_button("Rot", text_rotation, 0, 359)
+		rotation_box.connect("slider_value_changed", _select_text_rotation.bind())
 		art_settings_panel.size = Vector2(88, 224)
 		art_settings.size = Vector2(98, 234)
+
 
 func set_selection_glow():
 	selection_glow.size = (selected_button.get_parent().size * selected_button.get_parent().scale) + Vector2(10, 10)
 	selection_glow.global_position = selected_button.get_parent().global_position - Vector2(5, 5)
+
+
+func _set_bg(bg_data: Array):
+	bg_color = bg_data[0]
+	bg_id = bg_data[1]
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_BACKGROUND,
+		"bg": bg_id,
+		"fade_color": bg_color.to_html(false)
+	})
+	bg_picker_popup.hide()
+
+
+func _select_draw_color(new_color: Color):
+	draw_color = new_color
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_DRAW_COLOR,
+		"color": draw_color.to_html(true) # Include alpha in hex format (e.g. FFFFFFFF)
+	})
+
+
+func _select_draw_size(new_size: int):
+	draw_size = new_size
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_DRAW_SIZE,
+		"size": draw_size
+	})
+
+
+func _select_draw_alpha(new_alpha: int):
+	draw_alpha = new_alpha
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_DRAW_ALPHA,
+		"alpha": float(draw_alpha) / 100
+	})
+
+
+func _select_erase_size(new_size: int):
+	erase_size = new_size
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_ERASE_SIZE,
+		"size": erase_size
+	})
+
+
+func _select_erase_alpha(new_alpha: int):
+	erase_alpha = new_alpha
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_ERASE_ALPHA,
+		"alpha": float(erase_alpha) / 100
+	})
+
+
+func _select_stamp(new_id: String):
+	stamp_id = new_id
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_STAMP,
+		"stamp": stamp_id,
+	})
+	stamp_picker_popup.hide()
+
+
+func _select_stamp_size(new_size: int):
+	stamp_size = new_size
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_STAMP_SIZE,
+		"size": stamp_size
+	})
+
+
+func _select_stamp_rotation(new_rotation: int):
+	stamp_rotation = new_rotation
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_STAMP_ROTATION,
+		"rotation": stamp_rotation
+	})
+
+
+func _select_text_color(new_color: Color):
+	text_color = new_color
+
+
+func _select_text_size(new_size: int):
+	text_size = new_size
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_TEXT_SIZE,
+		"size": text_size
+	})
+
+
+func _select_text_rotation(new_rotation: int):
+	text_rotation = new_rotation
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_TEXT_ROTATION,
+		"rotation": text_rotation
+	})

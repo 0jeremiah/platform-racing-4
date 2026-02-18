@@ -2,7 +2,6 @@ extends Sad
 class_name JungleSad
 
 
-func init():
-	matter_type = Tile.ACTIVE
-	bump.push_back(sad)
-	is_safe = true
+func init(new_amount: int = 5):
+	sad_atlas_coords = Vector2i(7, 17)
+	super()
