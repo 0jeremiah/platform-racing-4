@@ -236,8 +236,4 @@ func _init():
 		opts.print_help()
 		print("You didn't specify any options or too many or not the right size or something invalid.  I don't know what you want to do.")
 
-<<<<<<< Updated upstream
 	quit()
-=======
-	quit()
->>>>>>> Stashed changes

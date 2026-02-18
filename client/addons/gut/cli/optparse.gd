@@ -675,8 +675,4 @@ func get_missing_required_options() -> Array:
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-<<<<<<< Updated upstream
 # ##############################################################################
-=======
-# ##############################################################################
->>>>>>> Stashed changes

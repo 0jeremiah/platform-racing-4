@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=5 format=3 uid="uid://test_ball_scene"]
-
-[ext_resource type="Script" path="res://blocks/tests/test_ball.gd" id="1_ball"]
-[ext_resource type="Script" path="res://blocks/tile_collision_detector.gd" id="2_detector"]
-=======
 [gd_scene load_steps=5 format=3 uid="uid://dx0rkxfnt7mlj"]
 
 [ext_resource type="Script" uid="uid://ohvd4shd0nxu" path="res://blocks/tests/test_ball.gd" id="1_ball"]
 [ext_resource type="Script" uid="uid://dgxkdk2hqflc5" path="res://blocks/tile_collision_detector.gd" id="2_detector"]
->>>>>>> Stashed changes
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ball"]
 friction = 0.5
@@ -18,13 +11,8 @@ bounce = 0.3
 radius = 32.0
 
 [node name="TestBall" type="RigidBody2D"]
-<<<<<<< Updated upstream
-script = ExtResource("1_ball")
-physics_material_override = SubResource("PhysicsMaterial_ball")
-=======
 physics_material_override = SubResource("PhysicsMaterial_ball")
 script = ExtResource("1_ball")
->>>>>>> Stashed changes
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ball")
