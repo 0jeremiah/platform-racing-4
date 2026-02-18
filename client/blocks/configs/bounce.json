@@ -1,0 +1,21 @@
+{
+	"id": "bounce",
+	"display_name": "Bounce",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 2, "y": 1}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "bounce",
+				"params": {
+					"bounciness": 0.1,
+					"speed_limit": 12500
+				}
+			}
+		]
+	}
+}

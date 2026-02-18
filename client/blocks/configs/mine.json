@@ -1,0 +1,21 @@
+{
+	"id": "mine",
+	"display_name": "Mine",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 9, "y": 0}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "explode",
+				"params": {
+					"push_strength": 5000,
+					"hitstun_duration": 2.5
+				}
+			}
+		]
+	}
+}
