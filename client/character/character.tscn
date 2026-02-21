@@ -11,7 +11,7 @@
 [ext_resource type="Material" uid="uid://dvu48544p7n16" path="res://particles/moonparticles.tres" id="7_hq3og"]
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
-[ext_resource type="Material" uid="uid://bayx7s447di7u" path="res://particles/invincibilityparticles.tres" id="10_hq3og"]
+[ext_resource type="Material" uid="uid://daldlvmdt48du" path="res://particles/invincibilityparticles.tres" id="10_hq3og"]
 [ext_resource type="Material" uid="uid://dmw0qfgvliixh" path="res://particles/speedparticles.tres" id="10_orckd"]
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
 [ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]

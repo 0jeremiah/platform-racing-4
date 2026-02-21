@@ -56,6 +56,7 @@ func init(new_type: String, current_value: String = "", new_min: float = -999999
 		old_string = text
 		caret_column = cursor_position
 
+
 func _maybe_enforce_limits(new_string: String) -> void:
 	if type == "int":
 		maybe_change_int(new_string)
@@ -99,4 +100,16 @@ func maybe_change_float(current_number: String):
 		caret_column = cursor_position
 	else:
 		text = old_string
+		caret_column = cursor_position
+
+
+func _update_text(new_string: String) -> void:
+	if type == "int":
+		maybe_change_int(new_string)
+	elif type == "float":
+		maybe_change_float(new_string)
+	else:
+		var cursor_position = get_caret_column()
+		text = new_string
+		old_string = text
 		caret_column = cursor_position

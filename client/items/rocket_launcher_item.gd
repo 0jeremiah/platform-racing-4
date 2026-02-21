@@ -27,7 +27,7 @@ func activate_item(_character: Character):
 		animations.stop()
 		animations.play("launch")
 		animation_timer.start(animations.get_current_animation_length())
-		_character.item_manager.reload_timer = 1
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_rocket_launcher")
 		launch(_character)
 		if _character.movement.facing > 0:
 			_character.velocity.x -= 2500

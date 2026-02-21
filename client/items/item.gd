@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 	if item and uses <= 0:
 		remove_item()
 	if character:
-		if item != portableblock and item != portablemine:
+		if item != portableblock and item != portablemine and item != teleport:
 			position = Vector2(character.item_holder_display.position.x * character.movement.facing, character.item_holder_display.position.y)
 			rotation = character.item_holder_display.rotation * character.movement.facing
 			scale = (character.item_holder_display.scale / character.movement.size) * character.display.scale

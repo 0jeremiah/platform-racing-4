@@ -11,9 +11,6 @@ const ART_LAYER = preload("res://layers/artlayer.tscn")
 func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	GameConfig.clear_overrides()
 	var properties = level.get("properties", {})
-	if properties.has("game_config_overrides"):
-		GameConfig.import_overrides(properties.game_config_overrides)
-
 	print("LevelDecoder::decode: ", properties)
 	# Emit background change event
 	emit_signal("control_event", {
@@ -26,16 +23,50 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 		"type": EditorEvents.SET_MUSIC,
 		"music": properties.get("music", "random")
 	})
-	# Emit music change event
+	# Emit time change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_TIME,
+		"time": properties.get("time", 120)
+	})
+	# Emit gravity change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_GRAVITY,
+		"gravity": properties.get("gravity", 1.0)
+	})
+	# Emit password change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_PASSWORD,
+		"password": properties.get("password", "")
+	})
+	# Emit sfchm change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_SFCHM_CHANCE,
+		"sfchm": properties.get("sfchm", 0)
+	})
+	# Emit wind change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_WIND_CHANCE,
+		"wind": properties.get("wind", 0)
+	})
+	# Emit snow change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_SNOW_CHANCE,
+		"snow": properties.get("snow", 0)
+	})
+	# Emit alien change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_ALIEN_CHANCE,
+		"alien": properties.get("alien", 0)
+	})
+	# Emit items change event
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_ITEMS,
 		"items": properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
 	})
-	emit_signal("control_event", {
-		"type": EditorEvents.SET_TIME,
-		"items": properties.get("time", 120)
-	})
-	#Jukebox.play(properties.get("music", ""))
+	
+	# checks for any game config overrides and imports them if they exist
+	if properties.has("game_config_overrides"):
+		GameConfig.import_overrides(properties.game_config_overrides)
 	
 	# Failsafe for levels that don't have block_layers or art_layers.
 	if level.has("layers"):

@@ -99,6 +99,23 @@ func _ready():
 	else:
 		bg.set_bg("field", "FFFFFF")
 	
+	var level_settings: Dictionary = {
+		"music": level.properties.get("music", "random"),
+		"level_type": level.properties.get("level_type", "race"),
+		"time": level.properties.get("time", 120),
+		"gravity": level.properties.get("gravity", 1.0),
+		"password": level.properties.get("password", ""),
+		"sfchm_chance": level.properties.get("sfchm_chance", 0),
+		"wind_chance": level.properties.get("wind_chance", 0),
+		"snow_chance": level.properties.get("snow_chance", 0),
+		"alien_chance": level.properties.get("alien_chance", 0)
+	}
+	
+	var level_settings_submenu = editor_menu.level_options_menu.level_settings_submenu
+	level_settings_submenu.set_general_settings(level_settings)
+	level_settings_submenu.set_item_settings(level.properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))
+	level_manager.set_settings(level_settings)
+	
 	cursor.init(editor_menu, level_manager.layers)
 	editor_menu.init(level_manager.layers, editor_events)
 	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
@@ -109,16 +126,11 @@ func _ready():
 	editor_camera.change_camera_zoom(0.5)
 	
 	# Connect control events for camera zoom changes
-	# $UI/EditorMenu.control_event.connect(_on_control_event)
+	editor_menu.control_event.connect(_on_control_event)
 	# now_editing_panel.init($UI/EditorMenu, self)
 
 
 func _on_back_pressed():
-	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
-	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
-	level_manager.music = general_settings.get("music", "random")
-	level_manager.items = item_settings
-	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	await Main.set_scene(Main.TITLE)
@@ -139,11 +151,6 @@ func _on_load_pressed():
 
 
 func _on_save_pressed():
-	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
-	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
-	level_manager.music = general_settings.get("music", "random")
-	level_manager.items = item_settings
-	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	explore_panel.close()
 	load_panel.close()
@@ -152,11 +159,6 @@ func _on_save_pressed():
 
 
 func _on_test_pressed():
-	var general_settings = editor_menu.level_options_menu.level_settings_submenu.get_general_settings()
-	var item_settings = editor_menu.level_options_menu.level_settings_submenu.get_item_settings()
-	level_manager.music = general_settings.get("music", "random")
-	level_manager.items = item_settings
-	level_manager.time = general_settings.get("time", 120)
 	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
@@ -243,10 +245,24 @@ func _on_control_event(event: Dictionary) -> void:
 			bg.set_bg(bg_id, fade_color)
 	elif event.get("type") == "set_music":
 		level_manager.music = event.music
-	elif event.get("type") == "set_items":
-		level_manager.items = event.items
+	elif event.get("type") == "set_level_type":
+		level_manager.level_type = event.level_type
 	elif event.get("type") == "set_time":
 		level_manager.time = event.time
+	elif event.get("type") == "set_gravity":
+		level_manager.gravity = event.gravity
+	elif event.get("type") == "set_password":
+		level_manager.password = event.password
+	elif event.get("type") == "set_sfchm_chance":
+		level_manager.sfchm_chance = event.sfchm_chance
+	elif event.get("type") == "set_wind_chance":
+		level_manager.wind_chance = event.wind_chance
+	elif event.get("type") == "set_snow_chance":
+		level_manager.snow_chance = event.snow_chance
+	elif event.get("type") == "set_alien_chance":
+		level_manager.alien_chance = event.alien_chance
+	elif event.get("type") == "set_items":
+		level_manager.items = event.items
 	
 
 

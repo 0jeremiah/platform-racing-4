@@ -11,6 +11,7 @@ func _init_item(_character: Character):
 func activate_item(_character: Character):
 	if _character and !_character.item_manager.using:
 		_character.item_manager.using = true
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_black_hole")
 		spawn_hole(_character)
 		_character.item_manager.uses -= 1
 

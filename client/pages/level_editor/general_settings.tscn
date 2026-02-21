@@ -84,7 +84,7 @@ layout_mode = 0
 offset_left = 60.0
 offset_right = 135.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "120"
 script = ExtResource("2_fhlts")
@@ -109,19 +109,19 @@ layout_mode = 0
 offset_left = 80.0
 offset_right = 155.0
 offset_bottom = 30.0
-focus_mode = 0
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "1.0"
 script = ExtResource("2_fhlts")
 
-[node name="PassSetting" type="Control" parent="."]
+[node name="PasswordSetting" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 0
 offset_top = 180.0
 offset_right = 155.0
 offset_bottom = 210.0
 
-[node name="PassLabel" type="RichTextLabel" parent="PassSetting"]
+[node name="PasswordLabel" type="RichTextLabel" parent="PasswordSetting"]
 layout_mode = 0
 offset_right = 60.0
 offset_bottom = 30.0
@@ -129,12 +129,12 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Pass:"
 vertical_alignment = 1
 
-[node name="PassEdit" type="LineEdit" parent="PassSetting"]
+[node name="PasswordEdit" type="LineEdit" parent="PasswordSetting"]
 layout_mode = 0
 offset_left = 60.0
 offset_right = 135.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 max_length = 32
 script = ExtResource("2_fhlts")
@@ -166,7 +166,7 @@ layout_mode = 0
 offset_left = 190.0
 offset_right = 265.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("2_fhlts")
@@ -200,7 +200,7 @@ layout_mode = 0
 offset_left = 171.0
 offset_right = 246.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("2_fhlts")
@@ -234,7 +234,7 @@ layout_mode = 0
 offset_left = 170.0
 offset_right = 245.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("2_fhlts")
@@ -268,7 +268,7 @@ layout_mode = 0
 offset_left = 210.0
 offset_right = 285.0
 offset_bottom = 30.0
-focus_mode = 3
+focus_mode = 1
 theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("2_fhlts")

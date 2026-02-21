@@ -27,6 +27,7 @@ var music_list = {}
 var sound_list = {}
 var local_music_list = {}
 var local_sound_list = {}
+var race_song_groups = ["pr1", "pr2", "pr3", "pr4", "2024"]
 var music_audio: AudioStreamPlayer
 var sound_audio: AudioStreamPlayer
 var sound_playback: AudioStreamPlaybackPolyphonic
@@ -82,65 +83,70 @@ func parse_list(list_location: String) -> Dictionary:
 
 
 func play_song(slug: String, interrupt_current_song: bool = false):
-	# keep track of the current song
-	song_id = slug
-	
-	# pick a random slug if input slug is empty or set to random
-	if slug == "" or slug == "random":
-		var keys
-		if load_from_url:
-			keys = music_list.keys()
-		else:
-			keys = local_music_list.keys()
-		slug = keys[randi() % keys.size()]
-	
-	# load_from_url is off because it won't work with current music list
-	# until server's music list is updated.
-	
-	# map slug to a url if told to load from url
-	# otherwise load from the game files.
-	if load_from_url:
-		var song_info = music_list.get(slug)
-		if song_info:
-			var next_url: String = base_url + "/" + song_info.file
-	
-			# exit early if asked to play the same song
-			if song_url == next_url:
-				return
-	
-			# otherwise get ready for a new song
-			song_url = next_url
-			var filepath = _song_url_to_file(next_url)
-	
-			# ensure a "songs" directory exists
-			if (!DirAccess.dir_exists_absolute("user://songs")):
-				DirAccess.make_dir_absolute("user://songs")
-	
-			# load file from disk if present
-			if (FileAccess.file_exists(filepath)):
-				play_song_file(filepath)
-				end_music = true
-	
-			# otherwise load from url
+	if slug != "none":
+		# keep track of the current song
+		song_id = slug
+
+		# pick a random slug if input slug is empty or set to random
+		if slug == "" or slug == "random":
+			var full_music_list
+			if load_from_url:
+				full_music_list = music_list
 			else:
-				song_request.cancel_request()
-				song_request.download_file = filepath
-				song_request.request(next_url)
-	else:
-		var song_info = local_music_list.get(slug)
-		if song_info:
-			var song_location: String
-		
-			# get a file directly from the "songs" folder in the game (not %appdata%)
-			if (DirAccess.dir_exists_absolute("res://songs")):
-				song_location = "res://songs/" + song_info.file
-	
-			# try to load file from disk
-			if song_info and song_location and (FileAccess.file_exists(song_location)):
-				play_song_file(song_location)
-				end_music = true
-				if interrupt_current_song:
-					stop_music = true
+				full_music_list = local_music_list
+			var randomized_music_list = []
+			for random_song in full_music_list.keys():
+				if full_music_list.get(random_song).group in race_song_groups:
+					randomized_music_list.push_back(random_song)
+			slug = randomized_music_list[randi() % randomized_music_list.size()]
+
+		# load_from_url is off because it won't work with current music list
+		# until server's music list is updated.
+
+		# map slug to a url if told to load from url
+		# otherwise load from the game files.
+		if load_from_url:
+			var song_info = music_list.get(slug)
+			if song_info:
+				var next_url: String = base_url + "/" + song_info.file
+
+				# exit early if asked to play the same song
+				if song_url == next_url:
+					return
+
+				# otherwise get ready for a new song
+				song_url = next_url
+				var filepath = _song_url_to_file(next_url)
+
+				# ensure a "songs" directory exists
+				if (!DirAccess.dir_exists_absolute("user://songs")):
+					DirAccess.make_dir_absolute("user://songs")
+
+				# load file from disk if present
+				if (FileAccess.file_exists(filepath)):
+					play_song_file(filepath)
+					end_music = true
+
+				# otherwise load from url
+				else:
+					song_request.cancel_request()
+					song_request.download_file = filepath
+					song_request.request(next_url)
+		else:
+			var song_info = local_music_list.get(slug)
+			if song_info:
+				var song_location: String
+
+				# get a file directly from the "songs" folder in the game (not %appdata%)
+				if (DirAccess.dir_exists_absolute("res://songs")):
+					song_location = "res://songs/" + song_info.file
+
+				# try to load file from disk
+				if song_info and song_location and (FileAccess.file_exists(song_location)):
+					play_song_file(song_location)
+					end_music = true
+					if interrupt_current_song:
+						stop_music = true
 
 
 func play_song_file(filepath: String):

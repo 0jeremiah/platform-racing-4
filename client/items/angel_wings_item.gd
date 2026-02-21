@@ -49,7 +49,7 @@ func activate_item(_character: Character):
 		animations.stop()
 		animations.play("flap")
 		animation_timer = animations.get_current_animation_length()
-		decrease_uses_timer = 1.0
+		decrease_uses_timer = GameConfig.get_value("items-uses", "reload_angel_wings")
 		Jukebox.play_sound("wingflap")
 
 

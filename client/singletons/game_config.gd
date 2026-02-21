@@ -18,20 +18,20 @@ var default_values: Dictionary = {
 		"player_wall_jump_horizontal_force": 400.0,
 		"player_wall_jump_vertical_force": -250.0,
 		"player_wall_slide_friction_decay_time": 0.25,
-		"player_frozen_duration": 3.0,
+		"player_frozen_duration": 3.0
 	},
 
 	# Super Jump
 	"super_jump": {
 		"super_jump_velocity": -3500.0,
 		"super_jump_charge_time": 1.5,
-		"super_jump_min_charge_threshold": 0.5,
+		"super_jump_min_charge_threshold": 0.5
 	},
 
 	# Other Player Stats
 	"other_player_stats": {
 		"invincibility_duration": 5.0,
-		"lightbreak_speed": 200000.0,
+		"lightbreak_speed": 200000.0
 	},
 
 	# Camera
@@ -40,25 +40,36 @@ var default_values: Dictionary = {
 		"camera_max_zoom": 0.5,
 		"camera_min_zoom": 0.4,
 		"camera_zoom_smoothing": 0.1,
-		"camera_position_smoothing": 0.333,
+		"camera_position_smoothing": 0.333
 	},
 
 	# Items - Uses
 	"items-uses": {
 		"uses_angel_wings": 3,
+		"reload_angel_wings": 1.0,
 		"uses_black_hole": 1,
+		"reload_black_hole": 3.0,
 		"uses_ice_wave": 3,
+		"reload_ice_wave": 1.777,
 		"uses_jetpack": 1,
 		"uses_laser_gun": 3,
+		"reload_laser_gun": 0.8,
 		"uses_lightning": 1,
+		"reload_lightning": 1.0,
 		"uses_portable_block": 1,
+		"reload_portable_block": 1.5,
 		"uses_portable_mine": 1,
+		"reload_portable_mine": 1.5,
 		"uses_rocket_launcher": 1,
+		"reload_rocket_launcher": 1.5,
 		"uses_shield": 1,
 		"uses_speed_burst": 1,
 		"uses_super_jump": 1,
+		"reload_super_jump": 1.0,
 		"uses_sword": 3,
+		"reload_sword": 0.5,
 		"uses_teleport": 1,
+		"reload_teleport": 1.0
 	},
 
 	# Items - Effects
@@ -74,6 +85,8 @@ var default_values: Dictionary = {
 		"speed_burst_duration": 6.0,
 		"speed_burst_multiplier": 2.0,
 		"sword_slash_lifetime": 0.2,
+		"teleport_horizontal_distance": 3.0,
+		"teleport_vertical_distance": 0.0
 	}
 }
 

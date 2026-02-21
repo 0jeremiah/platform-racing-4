@@ -1,7 +1,6 @@
 extends Control
 
 signal control_event
-signal level_event
 
 @onready var art_menu = $ArtMenu
 @onready var selection_glow = $ArtMenu/SelectionGlow
@@ -77,7 +76,7 @@ func _ready() -> void:
 func init() -> void:
 	layer_panel.init(layers, "art")
 	editor_events.connect_to([layer_panel])
-	editor_events.level_event.connect(_on_control_event)
+	editor_events.level_event.connect(_on_level_event)
 
 
 func deactivate():
@@ -125,7 +124,7 @@ func _physics_process(delta: float) -> void:
 		visible = false
 
 
-func _on_control_event(event: Dictionary) -> void:
+func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_BACKGROUND:
 		var sprite2d = Sprite2D.new()
 		var bgs = Backgrounds.new()

@@ -13,8 +13,15 @@ func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictiona
 			"background": bg.id,
 			"fadeColor": bg.fade_color,
 			"music": level_manager.music,
-			"items": level_manager.items,
+			"level_type": level_manager.level_type,
 			"time": level_manager.time,
+			"gravity": level_manager.gravity,
+			"password": level_manager.password,
+			"sfchm_chance": level_manager.sfchm_chance,
+			"wind_chance": level_manager.wind_chance,
+			"snow_chance": level_manager.snow_chance,
+			"alien_chance": level_manager.alien_chance,
+			"items": level_manager.items,
 			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}

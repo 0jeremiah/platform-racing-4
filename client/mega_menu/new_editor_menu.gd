@@ -38,12 +38,6 @@ func _on_control_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_control_event ", event)
 	control_event.emit(event)
 	
-	# Handle tool selection visibility
-	#if event.get("type") == EditorEvents.SELECT_TOOL:
-		#var tool_id = event.get("tool")
-		#background_row.visible = tool_id == "bg"
-		#draw_row.visible = tool_id == "draw"
-
 
 func _on_level_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_level_event ", event)

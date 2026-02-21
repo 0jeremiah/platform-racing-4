@@ -27,7 +27,7 @@ func activate_item(_character: Character):
 		animations.stop()
 		animations.play("swing")
 		animation_timer.start(animations.get_current_animation_length())
-		_character.item_manager.reload_timer = 0.5
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_sword")
 		slash(_character)
 		if _character.display.scale.x < 0:
 			_character.velocity.x -= 1000

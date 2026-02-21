@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b47rv6533uhoi"]
 
 [ext_resource type="Texture2D" uid="uid://bi8oq3hpy1y68" path="res://item_effects/speed_particle.png" id="1_6hou1"]
-[ext_resource type="Material" uid="uid://bayx7s447di7u" path="res://particles/invincibilityparticles.tres" id="2_63ygb"]
+[ext_resource type="Material" uid="uid://daldlvmdt48du" path="res://particles/invincibilityparticles.tres" id="2_63ygb"]
 
 [node name="Invincibilityparticles" type="GPUParticles2D"]
 emitting = false

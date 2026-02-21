@@ -4,7 +4,7 @@ class_name PortableMineItem
 
 func _ready():
 	PortableBlock = load("res://item_effects/portable_mine.tscn")
-	tile_id = 45
+	tile_id = 46
 	icon = $PortableMineItem
 
 
@@ -20,5 +20,6 @@ func process_item(_character: Character) -> void:
 func activate_item(_character: Character):
 	if !_character.item_manager.using and can_place:
 		_character.item_manager.using = true
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_portable_mine")
 		use_block(_character)
 		_character.item_manager.uses -= 1

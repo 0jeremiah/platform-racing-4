@@ -15,7 +15,7 @@ var PortableBlock := load("res://item_effects/portable_block.tscn")
 
 
 func _ready():
-	tile_id = 44
+	tile_id = 45
 	icon = $PortableBlockIcon
 
 
@@ -53,30 +53,30 @@ func set_block_position(_character: Character):
 
 
 func set_visuals(_character: Character):
-	if !_character.item_manager.using:
-		_character.item_manager.position = Vector2(_character.item_holder_display.position.x * _character.movement.facing, _character.item_holder_display.position.y)
-		_character.item_manager.rotation = _character.item_holder_display.rotation * _character.movement.facing
-		_character.item_manager.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
-		_character.item_manager.modulate = _character.display.modulate
-		_character.item_manager.z_index = _character.item_holder_display.z_index
-		VisualAid.global_position = Vector2i((coords.x * Settings.tile_size.x) + ((Settings.tile_size.x / 2) * below_zero.x), (coords.y * Settings.tile_size.y) + ((Settings.tile_size.y / 2) * below_zero.y))
-		VisualAid.global_rotation = 0
-		VisualAid.scale.x = 2.222
-		VisualAid.scale.y = 2.222
-		if can_place:
-			VisualAid.self_modulate = Color(0.625, 1, 0.625, 0.5)
-		else:
-			VisualAid.self_modulate = Color(1, 0.625, 0.625, 0.5)
-		icon.position = Vector2(0, 0)
-		icon.rotation = _character.item_holder_display.rotation
-		icon.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
-		icon.modulate = _character.display.modulate
-		icon.z_index = _character.item_holder_display.z_index
+	_character.item_manager.position = Vector2(_character.item_holder_display.position.x * _character.movement.facing, _character.item_holder_display.position.y)
+	_character.item_manager.rotation = _character.item_holder_display.rotation * _character.movement.facing
+	_character.item_manager.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
+	_character.item_manager.modulate = _character.display.modulate
+	_character.item_manager.z_index = _character.item_holder_display.z_index
+	VisualAid.global_position = Vector2i((coords.x * Settings.tile_size.x) + ((Settings.tile_size.x / 2) * below_zero.x), (coords.y * Settings.tile_size.y) + ((Settings.tile_size.y / 2) * below_zero.y))
+	VisualAid.global_rotation = 0
+	VisualAid.scale.x = 2.222
+	VisualAid.scale.y = 2.222
+	if can_place:
+		VisualAid.self_modulate = Color(0.625, 1, 0.625, 0.5)
+	else:
+		VisualAid.self_modulate = Color(1, 0.625, 0.625, 0.5)
+	icon.position = Vector2(0, 0)
+	icon.rotation = _character.item_holder_display.rotation
+	icon.scale = (_character.item_holder_display.scale / _character.movement.size) * _character.display.scale
+	icon.modulate = _character.display.modulate
+	icon.z_index = _character.item_holder_display.z_index
 
 
 func activate_item(_character: Character):
 	if !_character.item_manager.using and can_place:
 		_character.item_manager.using = true
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_portable_block")
 		use_block(_character)
 		_character.item_manager.uses -= 1
 

@@ -1,5 +1,7 @@
 extends Control
 
+signal control_event
+
 @onready var settings_tab_bar = $SettingsTabBar
 @onready var general_settings = $GeneralSettings
 @onready var item_settings = $ItemSettings
@@ -11,7 +13,13 @@ var active: bool = false
 func _ready() -> void:
 	settings_tab_bar.tab_changed.connect(_set_settings_tab.bind())
 	general_settings.music_changed.connect(_play_music)
+	general_settings.control_event.connect(_on_control_event)
+	item_settings.control_event.connect(_on_control_event)
 	_set_settings_tab(0)
+
+
+func _on_control_event(event: Dictionary) -> void:
+	control_event.emit(event)
 
 
 func deactivate():
@@ -64,13 +72,21 @@ func get_general_settings() -> Dictionary:
 		"time": general_settings.time,
 		"gravity": general_settings.gravity,
 		"password": general_settings.password,
-		"sfchm": general_settings.sfchm_chance,
-		"wind": general_settings.wind_chance,
-		"snow": general_settings.snow_chance,
-		"alien": general_settings.alien_chance
+		"sfchm_chance": general_settings.sfchm_chance,
+		"wind_chance": general_settings.wind_chance,
+		"snow_chance": general_settings.snow_chance,
+		"alien_chance": general_settings.alien_chance
 		}
 	return general_settings_info
 
 
 func get_item_settings() -> Array:
 	return item_settings.item_list
+
+
+func set_general_settings(new_general_settings: Dictionary):
+	general_settings.set_settings(new_general_settings)
+
+
+func set_item_settings(new_item_settings: Array):
+	item_settings.set_item_list(new_item_settings)

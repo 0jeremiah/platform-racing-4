@@ -26,7 +26,7 @@ func activate_item(_character: Character):
 		animations.stop()
 		animations.play("shoot")
 		animation_timer.start(animations.get_current_animation_length())
-		_character.item_manager.reload_timer = 1.777
+		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_ice_wave")
 		shoot(_character)
 		_character.item_manager.uses -= 1
 
