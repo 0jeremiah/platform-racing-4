@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://1g1idnbl0dcp" path="res://engine/layer_panel/pencil.png" id="3_y7vci"]
 [ext_resource type="Texture2D" uid="uid://b3n0l72ku1hs2" path="res://engine/layer_panel/gear.png" id="4_26qbc"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
-bg_color = Color(0.239886, 0.46276, 1, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
 bg_color = Color(0.498039, 0.498039, 0.498039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
+bg_color = Color(0.239886, 0.46276, 1, 1)
 
 [node name="LayerRow" type="Control"]
 custom_minimum_size = Vector2(292, 40)
@@ -31,8 +31,8 @@ offset_left = -0.012001
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 toggle_mode = true
 button_group = ExtResource("2_o0rem")
 
@@ -45,8 +45,8 @@ anchor_bottom = 1.0
 offset_left = -0.00800323
 offset_right = -0.012001
 focus_mode = 0
-theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 toggle_mode = true
 button_group = ExtResource("2_o0rem")
 icon = ExtResource("3_y7vci")
@@ -62,8 +62,8 @@ anchor_bottom = 1.0
 offset_left = -0.00400162
 offset_right = -0.00800323
 focus_mode = 0
-theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 toggle_mode = true
 button_group = ExtResource("2_o0rem")
 icon = ExtResource("2_o3boq")
@@ -77,8 +77,8 @@ anchor_right = 0.137
 anchor_bottom = 1.0
 offset_right = -0.00400162
 focus_mode = 0
-theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 toggle_mode = true
 button_group = ExtResource("2_o0rem")
 icon = ExtResource("4_26qbc")
@@ -86,7 +86,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 2
+layout_mode = 0
 anchor_left = 0.411
 anchor_right = 1.0
 anchor_bottom = 1.0

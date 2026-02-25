@@ -48,46 +48,45 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ADD_LINE:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		if layer.visible:
-			var lines: Node2D = layers.art_layers.get_node(event.layer_name).lines
-			var line = Line2D.new()
-			lines.add_child(line)
-			line.end_cap_mode = Line2D.LINE_CAP_ROUND
-			line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-			line.position = Vector2(event.position.x, event.position.y)
+		var lines: Node2D = layers.art_layers.get_node(event.layer_name).lines
+		var line = Line2D.new()
+		lines.add_child(line)
+		line.end_cap_mode = Line2D.LINE_CAP_ROUND
+		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		line.position = Vector2(event.position.x, event.position.y)
 		
-			var converted_points = []
+		var converted_points = []
 		
-			# if the first point is not 0,0, add 0,0 as the first point
-			if len(event.points) == 0 || event.points[0].x != 0 || event.points[0].y != 0:
-				converted_points.append(Vector2.ZERO)
+		# if the first point is not 0,0, add 0,0 as the first point
+		if len(event.points) == 0 || event.points[0].x != 0 || event.points[0].y != 0:
+			converted_points.append(Vector2.ZERO)
 		
-			# convert point objects into Vector2
-			for point_dict in event.points:
-				converted_points.append(Vector2(point_dict.x, point_dict.y))
+		# convert point objects into Vector2
+		for point_dict in event.points:
+			converted_points.append(Vector2(point_dict.x, point_dict.y))
 		
-			# if there is only one point, add another one. Need at least two points to draw a line
-			if len(converted_points) == 1:
-				converted_points.append(converted_points[0] + Vector2(0.1, 0.1))
+		# if there is only one point, add another one. Need at least two points to draw a line
+		if len(converted_points) == 1:
+			converted_points.append(converted_points[0] + Vector2(0.1, 0.1))
 		
-			#
-			line.points = converted_points
+		#
+		line.points = converted_points
 		
-			# Set line color, width, and material if provided in the event
-			if event.has("color"):
-				if event.color is Color:
-					line.default_color = event.color
-				else:
-					line.default_color = Color(event.color)
-			if event.has("width"):
-				line.width = event.width
-			if event.has("thickness"):
-				line.width = event.thickness
-			if event.has("material"):
-				line.material = event.material
+		# Set line color, width, and material if provided in the event
+		if event.has("color"):
+			if event.color is Color:
+				line.default_color = event.color
 			else:
-				line.material = CanvasItemMaterial.new()
-				line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+				line.default_color = Color(event.color)
+		if event.has("width"):
+			line.width = event.width
+		if event.has("thickness"):
+			line.width = event.thickness
+		if event.has("material"):
+			line.material = event.material
+		else:
+			line.material = CanvasItemMaterial.new()
+			line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
 	if event.type == EditorEvents.ADD_LAYER:
 		var layer := layers.add_layer(event.name)
@@ -99,6 +98,7 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer := layers.add_block_layer(event.name)
 		layer.set_block_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
+		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:
 		var layer := layers.add_art_layer(event.name)
@@ -107,6 +107,7 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
+		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_STAMP:
 		var layer := layers.art_layers.get_node(event.layer_name)
@@ -123,10 +124,12 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.RENAME_BLOCK_LAYER:
 		var layer := layers.block_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
+		layer.layer_name = event.new_layer_name
 	
 	if event.type == EditorEvents.RENAME_ART_LAYER:
 		var layer := layers.art_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
+		layer.layer_name = event.new_layer_name
 
 	if event.type == EditorEvents.DELETE_LAYER:
 		layers.remove_layer(event.name)
@@ -139,27 +142,58 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ADD_TEXT:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		if layer.visible:
-			var textboxes: Node2D = layers.art_layers.get_node(event.layer_name + "/Texts")
-			var textbox_scene: PackedScene = preload("res://engine/textbox/textbox.tscn")
-			var textbox = textbox_scene.instantiate()
-			var grab_focus: bool
-			if event.has("dont_grab_focus") and event.dont_grab_focus:
-				grab_focus = false
-			else:
-				grab_focus = true
-			textboxes.add_child(textbox)
-			textbox.set_text_properties(event.text, event.font, event.font_size, Vector2(event.width, event.height), grab_focus)
-			textbox.position = Vector2(event.position.x, event.position.y)
-			textbox.rotation = event.text_rotation
+		var texts: Node2D = layer.texts
+		var text_scene: PackedScene = preload("res://engine/textbox/textbox.tscn")
+		var text = text_scene.instantiate()
+		var font: String = event.font
 		
-			# Configure mouse interaction based on editing mode
-			if event.has("is_editing"):
-				if event.is_editing:
-					textbox.mouse_filter = 0 # Editable on click (click stops at text)
-				else:
-					textbox.mouse_filter = 2 # Not Editable on click (click passes through)
-				textbox.disable_text_edits()
+		# failsafe for old textboxes where "font" refers to the font path instead of font id
+		if font.begins_with("res://"):
+			font = "poetsenone"
+		
+		var text_size: Vector2 = Vector2(0, 0)
+		if event.has("width"):
+			text_size.x = event.width
+		if event.has("height"):
+			text_size.y = event.height
+		
+		var text_position: Vector2 = Vector2(0, 0)
+		if event.has("position") and event.position.has("x"):
+			text_position.x = event.position.x
+		if event.has("position") and event.position.has("y"):
+			text_position.y = event.position.y
+		
+		# failsafe for text_rotation, as it was renamed to rotation
+		var text_rotation = 0
+		if event.has("text_rotation"):
+			text_rotation = event.text_rotation
+		else:
+			text_rotation = event.rotation
+		
+		var grab_focus: bool
+		if event.has("dont_grab_focus") and event.dont_grab_focus:
+			grab_focus = false
+		else:
+			grab_focus = true
+		var text_info: Dictionary = {
+			"text": event.text,
+			"font": event.font,
+			"font_size": event.font_size,
+			"size": event.size,
+			"position": event.position,
+			"rotation": event.rotation,
+			"color": event.color
+		}
+		texts.add_child(text)
+		text.set_text_properties(text_info)
+		
+		# Configure mouse interaction based on editing mode
+		#if event.has("is_editing"):
+			#if event.is_editing:
+				#text.mouse_filter = 0 # Editable on click (click stops at text)
+			#else:
+				#text.mouse_filter = 2 # Not Editable on click (click passes through)
+			#text.disable_text_edits()
 
 	if event.type == EditorEvents.SET_LAYER_Z_AXIS:
 		var layer = layers.get_node(event.layer_name)
@@ -171,7 +205,7 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.SET_ART_LAYER_Z_AXIS:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		layer.z_axis = event.z_axis
+		layer.set_z_axis(event.z_axis)
 	
 	if event.type == EditorEvents.SET_LAYER_DEPTH:
 		var layer = layers.get_node(event.layer_name)
@@ -187,13 +221,11 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.SET_BLOCK_LAYER_ROTATION:
 		var layer = layers.block_layers.get_node(event.layer_name)
-		layer.set_block_layer_rotation(event.tile_map_rotation)
+		layer.set_block_layer_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ROTATION:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		layer.stamps.rotation_degrees = event.rotation
-		layer.lines.rotation_degrees = event.rotation
-		layer.texts.rotation_degrees = event.rotation
+		layer.set_block_layer_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_LAYER_ALPHA:
 		var layer = layers.get_node(event.layer_name)
@@ -201,20 +233,19 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ALPHA:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		layer.alpha = event.alpha
+		layer.set_art_alpha(event.alpha)
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:
 	var layer = layers.block_layers.get_node(event.layer_name)
-	if layer.visible:
-		var tile_map_layer: TileMapLayer = layers.block_layers.get_node(event.layer_name + "/TileMapLayer")
-		tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
-		var tile_data = tile_map_layer.get_cell_tile_data(coords)
-		if tile_data:
-			if tile_options != null:
-				tile_data.set_custom_data("tile_options", tile_options)
-			else:
-				tile_data.set_custom_data("tile_options", [])
+	var tile_map_layer: TileMapLayer = layers.block_layers.get_node(event.layer_name + "/TileMapLayer")
+	tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
+	var tile_data = tile_map_layer.get_cell_tile_data(coords)
+	if tile_data:
+		if tile_options != null:
+			tile_data.set_custom_data("tile_options", tile_options)
+		else:
+			tile_data.set_custom_data("tile_options", [])
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

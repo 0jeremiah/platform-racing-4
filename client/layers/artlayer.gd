@@ -5,11 +5,12 @@ class_name ArtLayer
 @onready var lines = $Lines
 @onready var texts = $Texts
 
-var z_axis = 10
-var depth = 10
-var art_scale = 1.0
-var art_rotation = 0
-var alpha = 100
+var z_axis: int = 10
+var depth: int = 10
+var art_scale: float = 1.0
+var art_rotation: int = 0
+var alpha: int = 100
+var layer_name: String = ""
 
 
 #func _process(delta):
@@ -49,6 +50,7 @@ func set_art_rotation(new_rotation: float) -> void:
 	stamps.rotation_degrees = art_rotation
 	lines.rotation_degrees = art_rotation
 	texts.rotation_degrees = art_rotation
+
 
 func set_art_alpha(new_alpha: float) -> void:
 	alpha = new_alpha

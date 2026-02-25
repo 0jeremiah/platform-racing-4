@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://haxvxa6ljfv2"]
+[gd_scene load_steps=10 format=3 uid="uid://haxvxa6ljfv2"]
 
 [ext_resource type="Script" uid="uid://dh44s6ecidjkp" path="res://engine/layer_panel/new_layer_panel.gd" id="1_o2ff3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_qtvt1"]
 [ext_resource type="PackedScene" uid="uid://ddorp4msr7dho" path="res://engine/layer_panel/new_layer_row.tscn" id="3_o2ff3"]
 [ext_resource type="PackedScene" uid="uid://c6hg56c7sf73m" path="res://engine/layer_panel/number_picker.tscn" id="4_2n5yc"]
 [ext_resource type="PackedScene" uid="uid://bj5dlw7bcynua" path="res://engine/layer_panel/rename_layer_panel.tscn" id="5_hbcon"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="6_qtvt1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtvt1"]
 bg_color = Color(0.2484, 0.2484, 0.2484, 1)
@@ -172,6 +173,7 @@ scale = Vector2(0.75, 0.75)
 focus_mode = 1
 text = "1"
 max_length = 2
+script = ExtResource("6_qtvt1")
 
 [node name="DepthContainer" type="Control" parent="."]
 layout_mode = 3
@@ -200,6 +202,7 @@ scale = Vector2(0.75, 0.75)
 focus_mode = 1
 text = "1"
 max_length = 2
+script = ExtResource("6_qtvt1")
 
 [node name="RotationContainer" type="Control" parent="."]
 layout_mode = 3
@@ -228,6 +231,7 @@ scale = Vector2(0.75, 0.75)
 focus_mode = 1
 text = "0"
 max_length = 3
+script = ExtResource("6_qtvt1")
 
 [node name="AlphaContainer" type="Control" parent="."]
 layout_mode = 3
@@ -256,3 +260,4 @@ scale = Vector2(0.75, 0.75)
 focus_mode = 1
 text = "100"
 max_length = 3
+script = ExtResource("6_qtvt1")

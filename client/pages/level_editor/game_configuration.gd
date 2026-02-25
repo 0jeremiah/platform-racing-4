@@ -43,7 +43,6 @@ func _populate_options(key_number: int):
 			example_edit.init("int", str(edit_value))
 		else:
 			example_edit.init("string", str(edit_value))
-		# for some reason this doesn't emit the _on_text_changed signal???
 		example_edit.return_data.connect(_on_text_changed)
 		example_edit.max_length = 10
 		example_edit.size = Vector2(150, 40)

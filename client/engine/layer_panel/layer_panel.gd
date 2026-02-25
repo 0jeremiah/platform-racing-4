@@ -178,7 +178,7 @@ func _rotation_change(rotation):
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_BLOCK_LAYER_ROTATION,
 			"layer_name": layers.get_target_block_layer(),
-			"tile_map_rotation": rotation
+			"rotation": rotation
 		})
 	if show_layer_type == "art":
 		emit_signal("level_event", {

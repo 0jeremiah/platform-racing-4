@@ -230,34 +230,71 @@ func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
 		
 		# usertextbox renamed to text (or textbox)
 		if object.has("usertext"): 
-			object.get_or_add("text")
+			object.get_or_add("text", "Text!")
 			object.text = object.usertext
 			object.erase("usertext")
 		
-		if "font" not in object.keys():
-			object.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+		# adds font if it doesn't exist
+		# font is now just the id of the font rather than the path of the font
+		if object.has("font") and object.font.begins_with("res://"):
+			object.font = "poetsenone"
+		elif !object.has("font"):
+			object.get_or_add("font")
+			object.font = "poetsenone"
 		
-		if object.has("text_width") or object.has("text_height"):
+		# adds font_size if it doesn't exist
+		# font is now just the id of the font rather than the path of the font
+		if object.has("font_size"):
+			object.get_or_add("font_size", 14)
+		
+		# deletes text_width/text_height and width/height and replaces them with size
+		if object.has("text_width"):
 			object.erase("text_width")
-			object.get_or_add("width")
+			object.get_or_add("size", {"x": 1})
+		elif object.has("width"):
+			object.get_or_add("size", {"x": 1})
+			object.size.x = object.width
+			object.erase("width")
+
+		if object.has("text_height"):
 			object.erase("text_height")
-			object.get_or_add("height")
-			object.width = 1
-			object.height = 1
+			object.get_or_add("size", {"y": 1})
+		elif object.has("height"):
+			object.get_or_add("size", {"y": 1})
+			object.size.y = object.height
+			object.erase("height")
+
+		# deletes x/y and replaces them with position
+		if object.has("x"):
+			object.get_or_add("position", {"x": 0, "y": 0})
+			object.position.x = object.x
+			object.erase("x")
+		if object.has("y"):
+			object.get_or_add("position", {"x": 0, "y": 0})
+			object.position.y = object.y
+			object.erase("y")
+
+		# text_rotation renamed to rotation
+		if object.has("text_rotation"):
+			object.get_or_add("rotation", 0)
+			object.rotation = int(object.text_rotation)
+			object.erase("text_rotation")
+		elif !object.has("rotation"):
+			object.get_or_add("rotation", 0)
 		
-		if "text_rotation" not in object.keys():
-			object.text_rotation = 0
+		# adds color if it doesn't exist
+		if !object.has("color"):
+			object.get_or_add("color", "000000")
 		
 		# Emit add usertext event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_TEXT,
 			"layer_name": layer_name,
-			"position": {"x": object.x, "y": object.y},
 			"text": object.text,
 			"font": object.font,
 			"font_size": object.font_size,
-			"width": object.width,
-			"height": object.height,
-			"text_rotation": object.text_rotation,
-			"dont_grab_focus": true
+			"size": object.size,
+			"position": object.position,
+			"rotation": object.rotation,
+			"color": object.color
 		})

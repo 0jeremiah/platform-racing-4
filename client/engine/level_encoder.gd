@@ -128,14 +128,13 @@ func encode_texts(node: Node2D) -> Array:
 	var textboxobjects = []
 	for textbox: Control in node.get_children():
 		var textboxobject = {
-			"x": textbox.position.x,
-			"y": textbox.position.y,
-			"text": textbox.get_node("EditText").text,
+			"text": textbox.text_string,
 			"font": textbox.text_font,
-			"font_size": textbox.get_node("EditText").get("theme_override_font_sizes/font_size"),
-			"width": textbox.get_node("EditText").scale.x,
-			"height": textbox.get_node("EditText").scale.y,
-			"text_rotation": textbox.rotation
+			"font_size": textbox.text_font_size,
+			"size": {"x": textbox.text_size.x, "y": textbox.text_size.y},
+			"position": {"x": textbox.text_position.x, "y": textbox.text_position.y},
+			"rotation": textbox.text_rotation,
+			"color": textbox.color.html()
 		}
 		textboxobjects.push_back(textboxobject)
 	return textboxobjects

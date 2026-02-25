@@ -26,10 +26,6 @@ func _ready():
 	new_button.pressed.connect(_new_pressed)
 	delete_button.pressed.connect(_delete_pressed)
 	
-	# depth_box.connect("text_changed", _depth_change.bind(depth_box.text))
-	z_axis_box.connect("text_changed", _z_axis_change.bind())
-	rotation_box.connect("text_changed", _rotation_change.bind())
-	# alpha_box.connect("text_changed", _alpha_change.bind(alpha_box.text))
 	new_layer_name_popup.connect("popup_hide", rename_layer._set_new_name)
 	rename_layer.connect("name_change", _set_layer_name)
 
@@ -37,6 +33,18 @@ func _ready():
 func init(new_layers: Node2D, new_show_layer_type: String) -> void:
 	layers = new_layers
 	show_layer_type = new_show_layer_type
+	depth_box.init("int", "120", 0, 50)
+	depth_box.return_string.connect(_depth_change)
+	if show_layer_type == "art":
+		z_axis_box.init("int", "10", 0, 50)
+		z_axis_box.return_string.connect(_z_axis_change)
+	else:
+		z_axis_box.init("int", "10", 0, 16)
+		z_axis_box.return_string.connect(_z_axis_change)
+	rotation_box.init("int", "0", 0, 359)
+	rotation_box.return_string.connect(_rotation_change)
+	alpha_box.init("int", "0", 0, 100)
+	alpha_box.return_string.connect(_alpha_change)
 	render()
 
 
@@ -58,11 +66,11 @@ func render() -> void:
 		var row = LAYER_ROW.instantiate()
 		row.name = "LayerRow" + str(i)
 		row.position.y = (row_holder.get_child_count() * 30)
-		row.get_node("LayerNameButton").text = layer.name
+		row.get_node("LayerNameButton").text = layer.layer_name
 		row_holder.add_child(row)
 		
 		var layer_button = row.get_node("LayerNameButton")
-		layer_button.pressed.connect(_row_pressed.bind(layer.name, layer_button.global_position.x, layer_button.global_position.y))
+		layer_button.pressed.connect(_row_pressed.bind(layer.layer_name, layer_button.global_position.x, layer_button.global_position.y))
 		if target_layer == layer.name:
 			layer_button.button_pressed = true
 		
@@ -88,6 +96,7 @@ func update_boxes() -> void:
 			depth_box.text = str(layer.depth)
 			rotation_box.text = str(round(layer.art_rotation))
 			alpha_box.text = str(layer.alpha)
+
 
 func clear() -> void:
 	for child in row_holder.get_children():
@@ -137,9 +146,9 @@ func _delete_pressed():
 
 func _row_pressed(layer_name: String, x: float, y: float):
 	if show_layer_type == "blocks":
-		print(layers.get_target_block_layer())
 		if layers.get_target_block_layer() == layer_name:
-			rename_layer.new_layer_name.text = layer_name
+			var layer = layers.block_layers.get_node(layers.get_target_block_layer())
+			rename_layer.new_layer_name.text = layer.layer_name
 			new_layer_name_popup.popup(Rect2i(x, y, 276, 38))
 		else:
 			layers.set_target_block_layer(layer_name)
@@ -150,7 +159,8 @@ func _row_pressed(layer_name: String, x: float, y: float):
 			call_deferred("render")
 	if show_layer_type == "art":
 		if layers.get_target_art_layer() == layer_name:
-			rename_layer.new_layer_name.text = layer_name
+			var layer = layers.art_layers.get_node(layers.get_target_art_layer())
+			rename_layer.new_layer_name.text = layer.layer_name
 			new_layer_name_popup.popup(Rect2i(x, y, 276, 38))
 		else:
 			layers.set_target_art_layer(layer_name)
@@ -222,73 +232,53 @@ func _depth_change(depth):
 			depth_box.text = str(layer.depth)
 
 
-func _rotation_change(rotation):
-	if rotation.is_valid_float():
-		var new_rotation: float
-		if float(rotation) >= -360 and float(rotation) <= 360:
-			new_rotation = rotation.to_float()
-		else:
-			if float(rotation) < -360:
-				new_rotation = -360
-			else:
-				new_rotation = 360
-		if show_layer_type == "blocks":
+func _rotation_change(new_rotation: String):
+	if show_layer_type == "blocks":
+		var layer = layers.block_layers.get_node(layers.get_target_block_layer())
+		if layer.tile_map_rotation != int(new_rotation):
 			emit_signal("level_event", {
 			"type": EditorEvents.SET_BLOCK_LAYER_ROTATION,
 			"layer_name": layers.get_target_block_layer(),
-			"tile_map_rotation": new_rotation
+			"rotation": int(new_rotation)
 			})
-		if show_layer_type == "art":
+	elif show_layer_type == "art":
+		var layer = layers.art_layers.get_node(layers.get_target_art_layer())
+		if layer.art_rotation != int(new_rotation):
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_ART_LAYER_DEPTH,
 				"layer_name": layers.get_target_art_layer(),
 				"rotation": new_rotation
 			})
-	else:
-		if show_layer_type == "blocks":
-			var layer = layers.block_layers.get_node(layers.get_target_block_layer())
-			rotation_box.text = str(layer.tile_map_rotation)
-		if show_layer_type == "art":
-			var layer = layers.art_layers.get_node(layers.get_target_art_layer())
-			rotation_box.text = str(layer.rotation)
 
 
-func _alpha_change(alpha):
-	if alpha.is_valid_float():
-		var new_alpha: float
-		if alpha >= 0 and alpha <= 100:
-			new_alpha = alpha.to_float()
-		else:
-			if new_alpha < 0:
-				new_alpha = 0
-			else:
-				new_alpha = 100
-		if show_layer_type == "art":
-			emit_signal("level_event", {
-				"type": EditorEvents.SET_ART_LAYER_ALPHA,
-				"layer_name": layers.get_target_art_layer(),
-				"rotation": new_alpha
-			})
-	else:
-		if show_layer_type == "art":
-			var layer = layers.art_layers.get_node(layers.get_target_art_layer())
-			alpha_box.text = str(layer.alpha)
-
-
-func _set_layer_name(new_layer_name):
-	if show_layer_type == "blocks":
+func _alpha_change(new_alpha: String):
+	var layer = layers.art_layers.get_node(layers.get_target_art_layer())
+	if show_layer_type == "art" and layer.alpha != int(new_alpha):
 		emit_signal("level_event", {
-			"type": EditorEvents.RENAME_BLOCK_LAYER,
-			"layer_name": layers.get_target_block_layer(),
-			"new_layer_name": new_layer_name
+			"type": EditorEvents.SET_ART_LAYER_ALPHA,
+			"layer_name": layers.get_target_art_layer(),
+			"rotation": int(new_alpha)
 		})
+
+
+func _set_layer_name(new_layer_name: String):
+	if show_layer_type == "blocks":
+		var layer = layers.block_layers.get_node(layers.get_target_block_layer())
+		if layer.layer_name != new_layer_name:
+			emit_signal("level_event", {
+				"type": EditorEvents.RENAME_BLOCK_LAYER,
+				"layer_name": layers.get_target_block_layer(),
+				"new_layer_name": new_layer_name
+			})
 		new_layer_name_popup.visible = false
 		render()
-	if show_layer_type == "art":
-		emit_signal("level_event", {
-			"type": EditorEvents.RENAME_ART_LAYER,
-			"layer_name": layers.get_target_art_layer(),
-			"new_layer_name": new_layer_name
-		})
+	elif show_layer_type == "art":
+		var layer = layers.art_layers.get_node(layers.get_target_art_layer())
+		if layer.layer_name != new_layer_name:
+			emit_signal("level_event", {
+				"type": EditorEvents.RENAME_ART_LAYER,
+				"layer_name": layers.get_target_art_layer(),
+				"new_layer_name": new_layer_name
+			})
 		new_layer_name_popup.visible = false
 		render()

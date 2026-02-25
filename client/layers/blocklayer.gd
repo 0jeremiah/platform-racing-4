@@ -5,9 +5,10 @@ class_name BlockLayer
 
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 
-var z_axis = 10
-var depth = z_axis # cannot be set by layer panel, mostly here for compatibility with existing code
-var tile_map_rotation = 0
+var z_axis: int = 10
+var depth: int = z_axis # cannot be set by layer panel, mostly here for compatibility with existing code
+var tile_map_rotation: int = 0
+var layer_name: String = ""
 
 
 func init(tiles: Tiles) -> void:
@@ -15,6 +16,7 @@ func init(tiles: Tiles) -> void:
 	tile_map_layer.tile_set.uv_clipping = true
 	set_z_axis(z_axis)
 	set_block_layer_rotation(tile_map_rotation)
+
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
