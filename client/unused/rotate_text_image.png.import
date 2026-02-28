@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://thuvioj0d2cd"
-path="res://.godot/imported/resize_text_image.png-4d46bd012ac38721bec83583a569748a.ctex"
+uid="uid://cocmyk71nt10q"
+path="res://.godot/imported/rotate_text_image.png-4e709e97fa18bef48b9aff04be9eeb94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/textbox/resize_text_image.png"
-dest_files=["res://.godot/imported/resize_text_image.png-4d46bd012ac38721bec83583a569748a.ctex"]
+source_file="res://unused/rotate_text_image.png"
+dest_files=["res://.godot/imported/rotate_text_image.png-4e709e97fa18bef48b9aff04be9eeb94.ctex"]
 
 [params]
 

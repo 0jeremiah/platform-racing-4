@@ -10,8 +10,6 @@ offset_right = 268.0
 offset_bottom = 80.0
 script = ExtResource("1_icbrh")
 
-[node name="FrameTimer" type="Timer" parent="."]
-
 [node name="Panel" type="Panel" parent="."]
 modulate = Color(1, 1, 1, 0.196078)
 layout_mode = 1

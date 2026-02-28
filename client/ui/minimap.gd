@@ -1,41 +1,40 @@
 extends Control
 class_name Minimap
 
-var game
-var layers
-var player
+var game = null
+var block_layers = null
+var player = null
 var dot_size = Vector2(10, 10)
+@onready var display_layers = $DisplayLayers
 
 
 func init(game_scene):
 	game = game_scene
-	layers = game_scene.level_manager.layers
+	block_layers = game_scene.level_manager.layers.block_layers
 	player = game_scene.get_node("PlayerManager").get_character()
 	
-	for layer in self.layers.get_children():
-		if layer is Layer:
-			var minimap_layer = _create_minimap_layer(layer)
-			add_child(minimap_layer)
+	for block_layer in block_layers.get_children():
+		var minimap_layer = _create_minimap_layer(block_layer)
+		display_layers.add_child(minimap_layer)
 	
 	connect("resized", Callable(self, "_on_resized"))
 
 
 func _on_resized():
-	for child in get_children():
-		if child is TileMapLayer:
-			_update_minimap_layer_scale(child)
+	for child in display_layers.get_children():
+		_update_minimap_layer_scale(child)
 
 
-func _create_minimap_layer(layer):
+func _create_minimap_layer(block_layer):
 	var tile_map_layer_mini = TileMapLayer.new()
-	tile_map_layer_mini.name = layer.name
+	tile_map_layer_mini.name = block_layer.name
 	
-	tile_map_layer_mini.tile_set = layer.tile_map_layer.tile_set
+	tile_map_layer_mini.tile_set = block_layer.tile_map_layer.tile_set
 	
-	var used_cells = layer.tile_map_layer.get_used_cells()
+	var used_cells = block_layer.tile_map_layer.get_used_cells()
 	for cell in used_cells:
-		var source_id = layer.tile_map_layer.get_cell_source_id(cell)
-		var atlas_coords = layer.tile_map_layer.get_cell_atlas_coords(cell)
+		var source_id = block_layer.tile_map_layer.get_cell_source_id(cell)
+		var atlas_coords = block_layer.tile_map_layer.get_cell_atlas_coords(cell)
 		tile_map_layer_mini.set_cell(cell, source_id, atlas_coords)
 
 	_update_minimap_layer_scale(tile_map_layer_mini)
@@ -72,8 +71,9 @@ func _process(_delta):
 	if not is_instance_valid(player):
 		return
 	
-	for child in get_children():
-		if child is TileMapLayer and child.name == game.get_current_player_layer():
+	for child in display_layers.get_children():
+		if child.name == game.get_current_player_layer():
+			child.visible = true
 			var player_marker = child.get_node_or_null("PlayerMarker")
 			if not player_marker:
 				player_marker = ColorRect.new()
@@ -83,3 +83,8 @@ func _process(_delta):
 				child.add_child(player_marker)
 			
 			player_marker.position = player.position - (player_marker.size / 2)
+		else:
+			child.visible = false
+			var player_marker = child.get_node_or_null("PlayerMarker")
+			if player_marker:
+				child.free()

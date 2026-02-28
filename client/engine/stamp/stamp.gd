@@ -1,19 +1,38 @@
-extends Node2D
+extends Sprite2D
 
-@onready var stamp_texture = $StampTexture
-@onready var stamp_area = $StampArea
-@onready var stamp_hitbox = $StampArea/StampHitbox
-var id = ""
+var stamp_id = ""
+var stamp_position: Vector2 = Vector2(0, 0)
+var stamp_scale: Vector2 = Vector2(0, 0)
+var stamp_rotation: int = 0
 
 
-func set_stamp(new_id: String, new_position: Vector2, new_size: Vector2, new_rotation: int):
-	id = new_id
+func set_stamp_properties(stamp_dictionary: Dictionary):
+	if stamp_dictionary.has("id"):
+		set_stamp_id(stamp_dictionary.id)
+	if stamp_dictionary.has("position"):
+		set_stamp_position(Vector2(stamp_dictionary.position.x, stamp_dictionary.position.y))
+	if stamp_dictionary.has("scale"):
+		set_stamp_scale(Vector2(stamp_dictionary.scale.x, stamp_dictionary.scale.y))
+	if stamp_dictionary.has("rotation"):
+		set_stamp_rotation(stamp_dictionary.rotation)
+
+
+func set_stamp_id(new_stamp_id: String):
+	stamp_id = new_stamp_id
 	var stamps = Stamps.new()
-	stamps.get_stamp(stamp_texture, id)
-	stamp_hitbox.shape.size = stamp_texture.texture.get_size()
-	position = new_position
-	stamp_texture.scale = new_size
-	stamp_area.scale = new_size
-	stamp_texture.rotation_degrees = new_rotation
-	stamp_area.rotation_degrees = new_rotation
-	
+	stamps.get_stamp(self, stamp_id)
+
+
+func set_stamp_position(new_stamp_position: Vector2):
+	stamp_position = new_stamp_position
+	position = stamp_position
+
+
+func set_stamp_scale(new_stamp_scale: Vector2):
+	stamp_scale = new_stamp_scale
+	scale = stamp_scale
+
+
+func set_stamp_rotation(new_stamp_rotation: int):
+	stamp_rotation = new_stamp_rotation
+	rotation_degrees = stamp_rotation

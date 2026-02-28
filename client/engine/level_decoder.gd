@@ -3,7 +3,6 @@ class_name LevelDecoder
 
 signal level_event
 
-const LAYER = preload("res://layers/layer.tscn")
 const BLOCK_LAYER = preload("res://layers/blocklayer.tscn")
 const ART_LAYER = preload("res://layers/artlayer.tscn")
 
@@ -209,16 +208,12 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 func decode_stamps(layer_name: String, objects: Array) -> void:
 	for object in objects:
 			
-		var stamp_id = "cactus"
-		if object.has("id"):
-			stamp_id = object.id
-		
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_STAMP,
 			"layer_name": layer_name,
-			"id": stamp_id,
-			"position": {"x": object.x, "y": object.y},
-			"size": {"x": object.size_x, "y": object.size_y},
+			"id": object.id,
+			"position": object.position,
+			"scale": object.scale,
 			"rotation": object.rotation,
 		})
 
@@ -247,21 +242,21 @@ func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
 		if object.has("font_size"):
 			object.get_or_add("font_size", 14)
 		
-		# deletes text_width/text_height and width/height and replaces them with size
+		# deletes text_width/text_height and width/height and replaces them with scale
 		if object.has("text_width"):
 			object.erase("text_width")
-			object.get_or_add("size", {"x": 1})
+			object.get_or_add("scale", {"x": 1})
 		elif object.has("width"):
-			object.get_or_add("size", {"x": 1})
-			object.size.x = object.width
+			object.get_or_add("scale", {"x": 1})
+			object.scale.x = object.width
 			object.erase("width")
 
 		if object.has("text_height"):
 			object.erase("text_height")
-			object.get_or_add("size", {"y": 1})
+			object.get_or_add("scale", {"y": 1})
 		elif object.has("height"):
-			object.get_or_add("size", {"y": 1})
-			object.size.y = object.height
+			object.get_or_add("scale", {"y": 1})
+			object.scale.y = object.height
 			object.erase("height")
 
 		# deletes x/y and replaces them with position
@@ -293,7 +288,7 @@ func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
 			"text": object.text,
 			"font": object.font,
 			"font_size": object.font_size,
-			"size": object.size,
+			"scale": object.scale,
 			"position": object.position,
 			"rotation": object.rotation,
 			"color": object.color

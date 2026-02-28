@@ -4,49 +4,58 @@ class_name GameTimer
 signal increase_time(new_timer: float)
 
 @onready var timer_text = $TimeText
-@onready var timer = $FrameTimer
 
-var physics_timer: float = 0
-var game
-var player
+var time: float = 120.0
+var timer: float = 120.0
+var stopwatch: float = 0.0
+var pause: bool = true
+var game = null
+var player: Character = null
 
-
-func _ready() -> void:
-	timer.process_callback = 1
-	timer.one_shot = true
-	timer.wait_time = 120
 
 func init(game_scene):
 	game = game_scene
 	player = game_scene.get_node("PlayerManager").get_character()
 	player.connect("increase_time", _inc_timer)
-	timer.connect("timeout", _finish_player)
+
 
 func _physics_process(delta: float) -> void:
-	if !timer.is_stopped():
-		physics_timer += delta
-		update_display()
+	if !pause:
+		if time > 0:
+			if timer - delta > 0:
+				timer -= delta
+			elif !player.movement.finished:
+				player.movement.finished = true
+		else:
+			stopwatch += delta
+	update_display()
+
 
 func update_display():
+	var current_timer: float = 0.0
+	if time > 0:
+		current_timer = timer
+	else:
+		current_timer = stopwatch
 	var counter = 0
 	var hours = 0
 	var minutes = 0
 	var seconds = 0
 	var milliseconds = 0
 	var time_string = ""
-	while 3600 * (counter + 1) < timer.time_left:
+	while 3600 * (counter + 1) < current_timer:
 		counter += 1
 		hours += 1
 	counter = 0
-	while 60 * (counter + 1) < (timer.time_left - (3600 * hours)):
+	while 60 * (counter + 1) < (current_timer - (3600 * hours)):
 		counter += 1
 		minutes += 1
 	counter = 0
-	while 1 * (counter + 1) < (timer.time_left - ((3600 * hours) + (60 * minutes))):
+	while 1 * (counter + 1) < (current_timer - ((3600 * hours) + (60 * minutes))):
 		counter += 1
 		seconds += 1
 	counter = 0
-	while 0.001 * (counter + 1) < (timer.time_left - ((3600 * hours) + (60 * minutes) + (1 * seconds))):
+	while 0.001 * (counter + 1) < (current_timer - ((3600 * hours) + (60 * minutes) + (1 * seconds))):
 		counter += 1
 		milliseconds += 1
 	var minutestext = ""
@@ -72,22 +81,23 @@ func update_display():
 		time_string = minutestext + ":" + secondstext + "." + millisecondstext
 	timer_text.text = time_string
 
-func set_timer(new_timer: float):
-	timer.wait_time = new_timer
+
+func set_timer(new_time: float):
+	time = new_time
+
 
 func _inc_timer(increment: float):
-	timer.start(timer.time_left + increment)
+	if time > 0:
+		timer += increment
+	else:
+		stopwatch += increment
+
 
 func start_timer():
-	timer.start()
+	timer = time
+	stopwatch = 0.0
+	pause = false
+
 
 func pause_timer(switch: bool):
-	timer.set_paused(switch)
-
-func stop_timer():
-	timer.stop()
-
-func _finish_player():
-	if !player.movement.finished:
-		player.movement.finished = true
-	update_display()
+	pause = switch

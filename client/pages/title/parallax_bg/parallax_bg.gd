@@ -1,7 +1,7 @@
 extends Node2D
 
 var loop_width = 4096
-var size = Vector2(2048, 1024)
+var size = Vector2(2048, 1080)
 
 
 func _ready():
@@ -33,5 +33,5 @@ func _on_size_changed():
 	else:
 		ratio.x = ratio.y
 	scale = ratio
-	position = window_size / 2
+	position = Vector2(0, 0)
 	$Hay5.position.x = (-position.x / 2) * (1/scale.x) - 2600

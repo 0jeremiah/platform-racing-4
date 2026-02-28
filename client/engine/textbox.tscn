@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cocjq14xagypf"]
+
+[ext_resource type="Script" uid="uid://cq01bicietkrm" path="res://engine/textbox.gd" id="1_vb1cq"]
+
+[node name="Textbox" type="RichTextLabel"]
+focus_mode = 1
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+script = ExtResource("1_vb1cq")

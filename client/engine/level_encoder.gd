@@ -26,7 +26,7 @@ func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictiona
 		}
 	}
 	for group_layer in layers.block_layers.get_children():
-		if group_layer is Layer or group_layer is BlockLayer:
+		if group_layer is BlockLayer:
 			var tile_layer = {
 				"name": group_layer.name,
 				"chunks": encode_chunks(group_layer.get_node("TileMapLayer")),
@@ -35,7 +35,7 @@ func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictiona
 			}
 			level.block_layers.push_back(tile_layer)
 	for group_layer in layers.art_layers.get_children():
-		if group_layer is Layer or group_layer is ArtLayer:
+		if group_layer is ArtLayer:
 			var tile_layer = {
 				"name": group_layer.name,
 				"lines": encode_lines(group_layer.lines),
@@ -113,12 +113,10 @@ func encode_stamps(node: Node2D) -> Array:
 	var stamps = []
 	for stamp: Node2D in node.get_children():
 		var stampData = {
-			"id": stamp.id,
-			"x": stamp.position.x,
-			"y": stamp.position.y,
-			"size_x": stamp.stamp_texture.scale.x,
-			"size_y": stamp.stamp_texture.scale.y,
-			"rotation": stamp.stamp_texture.rotation_degrees
+			"id": stamp.stamp_id,
+			"position": {"x": stamp.stamp_position.x, "y": stamp.stamp_position.y},
+			"scale": {"x": stamp.stamp_scale.x, "y": stamp.stamp_scale.y},
+			"rotation": stamp.stamp_rotation
 		}
 		stamps.push_back(stampData)
 	return stamps
@@ -131,10 +129,10 @@ func encode_texts(node: Node2D) -> Array:
 			"text": textbox.text_string,
 			"font": textbox.text_font,
 			"font_size": textbox.text_font_size,
-			"size": {"x": textbox.text_size.x, "y": textbox.text_size.y},
+			"scale": {"x": textbox.text_scale.x, "y": textbox.text_scale.y},
 			"position": {"x": textbox.text_position.x, "y": textbox.text_position.y},
 			"rotation": textbox.text_rotation,
-			"color": textbox.color.html()
+			"color": textbox.text_color
 		}
 		textboxobjects.push_back(textboxobject)
 	return textboxobjects

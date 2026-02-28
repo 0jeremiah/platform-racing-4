@@ -1,7 +1,6 @@
 extends Node2D
 class_name Layers
 
-const LAYER = preload("res://layers/layer.tscn")
 const BLOCK_LAYER = preload("res://layers/blocklayer.tscn")
 const ART_LAYER = preload("res://layers/artlayer.tscn")
 @onready var block_layers = $BlockLayers
@@ -15,10 +14,10 @@ var tile_config: Tiles
 func init(p_tile_config: Tiles) -> void:
 	tile_config = p_tile_config
 	for layer in block_layers.get_children():
-		if layer is Layer or layer is BlockLayer:
+		if layer is BlockLayer:
 			layer.init(tile_config)
 	for layer in art_layers.get_children():
-		if layer is Layer or layer is BlockLayer:
+		if layer is BlockLayer:
 			layer.init(tile_config)
 
 
@@ -64,16 +63,6 @@ func get_target_art_layer() -> String:
 	if art_target_layer == "" || !art_layers.get_node(art_target_layer):
 		art_target_layer = art_layers.get_child(0).name
 	return art_target_layer
-
-
-func add_layer(name: String) -> Layer:
-	var layer = LAYER.instantiate()
-	layer.name = name
-	layer.layer = 10
-	add_child(layer)
-	if tile_config:
-		layer.init(tile_config)
-	return layer
 
 
 func add_block_layer(name: String) -> BlockLayer:

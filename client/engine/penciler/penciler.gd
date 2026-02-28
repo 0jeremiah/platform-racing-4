@@ -88,12 +88,6 @@ func _on_level_event(event: Dictionary) -> void:
 			line.material = CanvasItemMaterial.new()
 			line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
-	if event.type == EditorEvents.ADD_LAYER:
-		var layer := layers.add_layer(event.name)
-		layer.art_scale = event.get("art_scale", 1.0)
-		layer.get_node("TileMapLayer").rotation_degrees = event.get("rotation", 0)
-		layer.set_depth(event.get("depth", 10))
-	
 	if event.type == EditorEvents.ADD_BLOCK_LAYER:
 		var layer := layers.add_block_layer(event.name)
 		layer.set_block_layer_rotation(event.get("tile_map_rotation", 0))
@@ -103,7 +97,7 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_ART_LAYER:
 		var layer := layers.add_art_layer(event.name)
 		layer.art_scale = event.get("art_scale", 1.0)
-		layer.set_art_rotation(event.get("art_rotation", 10))
+		layer.set_art_rotation(event.get("art_rotation", 0))
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
@@ -114,12 +108,14 @@ func _on_level_event(event: Dictionary) -> void:
 		var stamps := layer.get_node("Stamps")
 		var stamp_scene: PackedScene = preload("res://engine/stamp/stamp.tscn")
 		var stamp = stamp_scene.instantiate()
+		var stamp_dictionary: Dictionary = {
+			"id": event.id,
+			"position": event.position,
+			"scale": event.scale,
+			"rotation": event.rotation
+		}
 		stamps.add_child(stamp)
-		stamp.set_stamp(event.id, Vector2(event.position.x, event.position.y), Vector2(event.size.x, event.size.y), event.rotation)
-	
-	if event.type == EditorEvents.RENAME_LAYER:
-		var layer := layers.get_node(event.layer_name)
-		layer.name = event.new_layer_name
+		stamp.set_stamp_properties(stamp_dictionary)
 	
 	if event.type == EditorEvents.RENAME_BLOCK_LAYER:
 		var layer := layers.block_layers.get_node(event.layer_name)
@@ -131,9 +127,6 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.name = event.new_layer_name
 		layer.layer_name = event.new_layer_name
 
-	if event.type == EditorEvents.DELETE_LAYER:
-		layers.remove_layer(event.name)
-	
 	if event.type == EditorEvents.DELETE_BLOCK_LAYER:
 		layers.remove_block_layer(event.name)
 	
@@ -143,43 +136,13 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_TEXT:
 		var layer = layers.art_layers.get_node(event.layer_name)
 		var texts: Node2D = layer.texts
-		var text_scene: PackedScene = preload("res://engine/textbox/textbox.tscn")
+		var text_scene: PackedScene = preload("res://engine/textbox.tscn")
 		var text = text_scene.instantiate()
-		var font: String = event.font
-		
-		# failsafe for old textboxes where "font" refers to the font path instead of font id
-		if font.begins_with("res://"):
-			font = "poetsenone"
-		
-		var text_size: Vector2 = Vector2(0, 0)
-		if event.has("width"):
-			text_size.x = event.width
-		if event.has("height"):
-			text_size.y = event.height
-		
-		var text_position: Vector2 = Vector2(0, 0)
-		if event.has("position") and event.position.has("x"):
-			text_position.x = event.position.x
-		if event.has("position") and event.position.has("y"):
-			text_position.y = event.position.y
-		
-		# failsafe for text_rotation, as it was renamed to rotation
-		var text_rotation = 0
-		if event.has("text_rotation"):
-			text_rotation = event.text_rotation
-		else:
-			text_rotation = event.rotation
-		
-		var grab_focus: bool
-		if event.has("dont_grab_focus") and event.dont_grab_focus:
-			grab_focus = false
-		else:
-			grab_focus = true
 		var text_info: Dictionary = {
 			"text": event.text,
 			"font": event.font,
 			"font_size": event.font_size,
-			"size": event.size,
+			"scale": event.scale,
 			"position": event.position,
 			"rotation": event.rotation,
 			"color": event.color
@@ -195,10 +158,6 @@ func _on_level_event(event: Dictionary) -> void:
 				#text.mouse_filter = 2 # Not Editable on click (click passes through)
 			#text.disable_text_edits()
 
-	if event.type == EditorEvents.SET_LAYER_Z_AXIS:
-		var layer = layers.get_node(event.layer_name)
-		layer.z_axis = event.z_axis
-	
 	if event.type == EditorEvents.SET_BLOCK_LAYER_Z_AXIS:
 		var layer = layers.block_layers.get_node(event.layer_name)
 		layer.set_z_axis(event.z_axis)
@@ -207,29 +166,17 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = layers.art_layers.get_node(event.layer_name)
 		layer.set_z_axis(event.z_axis)
 	
-	if event.type == EditorEvents.SET_LAYER_DEPTH:
-		var layer = layers.get_node(event.layer_name)
-		layer.set_depth(event.depth)
-	
 	if event.type == EditorEvents.SET_ART_LAYER_DEPTH:
 		var layer = layers.art_layers.get_node(event.layer_name)
 		layer.set_depth(event.depth)
 
-	if event.type == EditorEvents.SET_LAYER_ROTATION:
-		var layer = layers.get_node(event.layer_name)
-		layer.get_node("TileMapLayer").rotation_degrees = event.rotation
-	
 	if event.type == EditorEvents.SET_BLOCK_LAYER_ROTATION:
 		var layer = layers.block_layers.get_node(event.layer_name)
 		layer.set_block_layer_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ROTATION:
 		var layer = layers.art_layers.get_node(event.layer_name)
-		layer.set_block_layer_rotation(event.rotation)
-	
-	if event.type == EditorEvents.SET_LAYER_ALPHA:
-		var layer = layers.get_node(event.layer_name)
-		layer.alpha = event.alpha
+		layer.set_art_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ALPHA:
 		var layer = layers.art_layers.get_node(event.layer_name)

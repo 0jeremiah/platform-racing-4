@@ -11,7 +11,7 @@
 script = ExtResource("1_8alvo")
 
 [node name="Hay5" type="Node2D" parent="."]
-position = Vector2(-125, -20)
+position = Vector2(2048, 512)
 
 [node name="Hay-5-1" type="Sprite2D" parent="Hay5"]
 texture = ExtResource("1_b6g57")
@@ -21,41 +21,41 @@ position = Vector2(4096, 0)
 texture = ExtResource("1_b6g57")
 
 [node name="Hay4" type="Node2D" parent="."]
+position = Vector2(2048, 805)
 
 [node name="Hay-4" type="Sprite2D" parent="Hay4"]
-position = Vector2(0, 237)
 texture = ExtResource("2_87dh1")
 
 [node name="Hay-4-2" type="Sprite2D" parent="Hay4"]
-position = Vector2(4096, 237)
+position = Vector2(4096, 0)
 texture = ExtResource("2_87dh1")
 
 [node name="Hay3" type="Node2D" parent="."]
+position = Vector2(2048, 847)
 
 [node name="Hay-3" type="Sprite2D" parent="Hay3"]
-position = Vector2(0, 279)
 texture = ExtResource("3_0cm3d")
 
 [node name="Hay-3-2" type="Sprite2D" parent="Hay3"]
-position = Vector2(4096, 279)
+position = Vector2(4096, 0)
 texture = ExtResource("3_0cm3d")
 
 [node name="Hay2" type="Node2D" parent="."]
+position = Vector2(2048, 938)
 
 [node name="Hay-2" type="Sprite2D" parent="Hay2"]
-position = Vector2(0, 371)
 texture = ExtResource("4_ctsxs")
 
 [node name="Hay-2-2" type="Sprite2D" parent="Hay2"]
-position = Vector2(4096, 371)
+position = Vector2(4096, 0)
 texture = ExtResource("4_ctsxs")
 
 [node name="Hay1" type="Node2D" parent="."]
+position = Vector2(2048, 996)
 
 [node name="Hay-1" type="Sprite2D" parent="Hay1"]
-position = Vector2(0, 428)
 texture = ExtResource("5_7bs72")
 
 [node name="Hay-1-2" type="Sprite2D" parent="Hay1"]
-position = Vector2(4096, 428)
+position = Vector2(4096, 0)
 texture = ExtResource("5_7bs72")

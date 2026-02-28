@@ -3,7 +3,6 @@ extends Node2D
 signal level_event
 signal control_event
 
-const LAYER = preload("res://layers/layer.tscn")
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
 var layers: Node2D
@@ -50,7 +49,7 @@ func render() -> void:
 	if show_layer_type == "art":
 		layer_array = layers.art_layers.get_children()
 	for layer in layer_array:
-		if not (layer is Layer or layer is BlockLayer or layer is ArtLayer):
+		if not (layer is BlockLayer or layer is ArtLayer):
 			continue
 		var row = LAYER_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50

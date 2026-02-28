@@ -57,20 +57,23 @@ func on_mouse_down():
 			var stamps: Node2D = layer.get_node("Stamps")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
-			emit_signal("level_event", {
-				"type": EditorEvents.ADD_STAMP,
-				"layer_name": layers.get_target_art_layer(),
-				"id": stamp_id,
-				"position": {
-					"x": mouse_position.round().x,
-					"y": mouse_position.round().y
-				},
-				"size": {
-					"x": (0.01 * stamp_size) * size_multiplier,
-					"y": (0.01 * stamp_size) * size_multiplier
-				},
-				"rotation": stamp_rotation
-			})
+			if layer.get_stamp_at_position(mouse_position) != null:
+				pass
+			else:
+				emit_signal("level_event", {
+					"type": EditorEvents.ADD_STAMP,
+					"layer_name": layers.get_target_art_layer(),
+					"id": stamp_id,
+					"position": {
+						"x": mouse_position.round().x,
+						"y": mouse_position.round().y
+					},
+					"scale": {
+						"x": (0.01 * stamp_size) * size_multiplier,
+						"y": (0.01 * stamp_size) * size_multiplier
+					},
+					"rotation": stamp_rotation
+				})
 
 
 func on_drag():

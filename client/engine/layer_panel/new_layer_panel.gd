@@ -3,7 +3,6 @@ extends Node2D
 signal level_event
 signal control_event
 
-const LAYER = preload("res://layers/layer.tscn")
 const LAYER_ROW = preload("res://engine/layer_panel/new_layer_row.tscn")
 
 var layers: Node2D
@@ -60,7 +59,7 @@ func render() -> void:
 		target_layer = layers.get_target_art_layer()
 	var i: int = 0
 	for layer in layer_array:
-		if not (layer is Layer or layer is BlockLayer or layer is ArtLayer):
+		if not (layer is BlockLayer or layer is ArtLayer):
 			continue
 		i += 1
 		var row = LAYER_ROW.instantiate()
@@ -73,7 +72,6 @@ func render() -> void:
 		layer_button.pressed.connect(_row_pressed.bind(layer.layer_name, layer_button.global_position.x, layer_button.global_position.y))
 		if target_layer == layer.name:
 			layer_button.button_pressed = true
-		
 	update_boxes()
 
 
@@ -85,14 +83,14 @@ func update_boxes() -> void:
 		layer = layers.block_layers.get_node(layers.get_target_block_layer())
 	if show_layer_type == "art":
 		layer = layers.art_layers.get_node(layers.get_target_art_layer())
-	if layer and (layer is Layer or layer is BlockLayer or layer is ArtLayer):
+	if layer:
 		if layer is BlockLayer:
 			z_axis_box.text = str(layer.z_axis)
 			rotation_box.text = str(layer.tile_map_rotation)
 		if layer is ArtLayer:
 			depth_container.visible = true
 			alpha_container.visible = true
-			z_axis_box.text = "1"
+			z_axis_box.text = str(layer.z_axis)
 			depth_box.text = str(layer.depth)
 			rotation_box.text = str(round(layer.art_rotation))
 			alpha_box.text = str(layer.alpha)
@@ -177,11 +175,10 @@ func _z_axis_change(z_axis):
 			var new_z_axis: float
 			if int(z_axis) >= 1 and int(z_axis) <= 16:
 				new_z_axis = str(z_axis).to_float()
+			elif int(z_axis) < 1:
+				new_z_axis = 1
 			else:
-				if int(z_axis) < 1:
-					new_z_axis = 1
-				else:
-					new_z_axis = 16
+				new_z_axis = 16
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_BLOCK_LAYER_Z_AXIS,
 				"layer_name": layers.get_target_block_layer(),
@@ -214,13 +211,12 @@ func _depth_change(depth):
 	if depth.is_valid_float():
 		if show_layer_type == "art":
 			var new_depth: float
-			if depth >= 0 and depth <= 50:
+			if float(depth) >= 0 and float(depth) <= 50:
 				new_depth = str(depth).to_float()
+			elif float(depth) < 0:
+				new_depth = 0
 			else:
-				if new_depth < 0:
-					new_depth = 0
-				else:
-					new_depth = 50
+				new_depth = 50
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_ART_LAYER_DEPTH,
 				"layer_name": layers.get_target_art_layer(),
@@ -245,9 +241,9 @@ func _rotation_change(new_rotation: String):
 		var layer = layers.art_layers.get_node(layers.get_target_art_layer())
 		if layer.art_rotation != int(new_rotation):
 			emit_signal("level_event", {
-				"type": EditorEvents.SET_ART_LAYER_DEPTH,
+				"type": EditorEvents.SET_ART_LAYER_ROTATION,
 				"layer_name": layers.get_target_art_layer(),
-				"rotation": new_rotation
+				"rotation": int(new_rotation)
 			})
 
 
@@ -257,7 +253,7 @@ func _alpha_change(new_alpha: String):
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_ART_LAYER_ALPHA,
 			"layer_name": layers.get_target_art_layer(),
-			"rotation": int(new_alpha)
+			"alpha": int(new_alpha)
 		})
 
 

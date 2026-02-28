@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u0slmobjg24g"
-path="res://.godot/imported/color_base_image.png-585833c7dbf49c8e3d6bc83399219632.ctex"
+uid="uid://c5qvre5ew5du2"
+path="res://.godot/imported/delete_text_image.png-0409d2b4e7251f623435a8a58c0e9c38.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/textbox/color_base_image.png"
-dest_files=["res://.godot/imported/color_base_image.png-585833c7dbf49c8e3d6bc83399219632.ctex"]
+source_file="res://unused/delete_text_image.png"
+dest_files=["res://.godot/imported/delete_text_image.png-0409d2b4e7251f623435a8a58c0e9c38.ctex"]
 
 [params]
 

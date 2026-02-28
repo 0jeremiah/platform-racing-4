@@ -89,7 +89,12 @@ func _set_level_type(new_index: int):
 
 
 func _set_time(new_time: String):
-	time = int(new_time)
+	if int(time) != 0 and int(time) >= 3:
+		time = int(new_time)
+	elif int(time) == 0:
+		time = 0
+	else:
+		time = 3
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_TIME,
 		"time": time

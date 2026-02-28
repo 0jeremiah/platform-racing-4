@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsqgdwle7h1rl"
-path="res://.godot/imported/move_text_image.png-cf61a69c18eae7dabe3e5d1f42f31e39.ctex"
+uid="uid://bg8aven5qc4cw"
+path="res://.godot/imported/text_font_image.png-6757594ccc788291b929a0a1d21de8c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/textbox/move_text_image.png"
-dest_files=["res://.godot/imported/move_text_image.png-cf61a69c18eae7dabe3e5d1f42f31e39.ctex"]
+source_file="res://unused/text_font_image.png"
+dest_files=["res://.godot/imported/text_font_image.png-6757594ccc788291b929a0a1d21de8c0.ctex"]
 
 [params]
 
