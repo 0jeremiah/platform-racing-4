@@ -13,16 +13,11 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bw2f"]
 bg_color = Color(1, 1, 1, 0)
 
-[node name="Objectbox" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 64.0
-offset_bottom = 64.0
+[node name="Objectbox" type="Node2D"]
 script = ExtResource("1_ky0a1")
 
 [node name="SelectRect" type="ReferenceRect" parent="."]
 z_as_relative = false
-layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
@@ -33,7 +28,6 @@ editor_only = false
 [node name="MoveButton" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
 z_as_relative = false
-layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 focus_mode = 1
@@ -41,13 +35,11 @@ flat = true
 
 [node name="EditTextColorRect" type="ColorRect" parent="."]
 visible = false
-layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 
 [node name="EditTextRect" type="ReferenceRect" parent="."]
 visible = false
-layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 border_color = Color(0, 0, 0, 1)
@@ -55,7 +47,6 @@ editor_only = false
 
 [node name="EditText" type="TextEdit" parent="."]
 visible = false
-layout_mode = 0
 offset_right = 76.0
 offset_bottom = 64.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_5bw2f")
@@ -64,6 +55,7 @@ scroll_fit_content_height = true
 scroll_fit_content_width = true
 
 [node name="Buttons" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 0
 
 [node name="DeleteButton" type="Control" parent="Buttons"]

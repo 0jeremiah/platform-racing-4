@@ -11,7 +11,9 @@ script = ExtResource("1_oyt8g")
 
 [node name="StampIcon" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(-64, -76)
 texture = ExtResource("2_e2set")
+centered = false
 
 [node name="CursorArea" type="Area2D" parent="."]
 

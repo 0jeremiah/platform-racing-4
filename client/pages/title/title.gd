@@ -20,7 +20,7 @@ func _ready():
 	logged_in_panel.hide()
 	not_logged_in_panel.hide()
 	awaiting_login_panel.show()
-	Jukebox.play_song("above-mountains-pr3-menu-cut")
+	Jukebox.play_song("noodletown-4-remake")
 	
 	nlip_login_button.pressed.connect(_on_login_pressed)
 	nlip_guest_play_button.pressed.connect(_goto_lobby)

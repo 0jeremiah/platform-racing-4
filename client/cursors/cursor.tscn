@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://joknjf6qnfx5"]
+[gd_scene load_steps=9 format=3 uid="uid://joknjf6qnfx5"]
 
 [ext_resource type="Script" uid="uid://x88pj3yeqmpe" path="res://cursors/cursor.gd" id="1_bnky5"]
 [ext_resource type="PackedScene" uid="uid://capwvms00utqf" path="res://cursors/block_cursor.tscn" id="2_7h2ej"]
+[ext_resource type="PackedScene" uid="uid://cquvlgbewa40m" path="res://engine/objectbox/objectbox.tscn" id="2_lj3du"]
 [ext_resource type="Texture2D" uid="uid://cv5lyjhvmf76h" path="res://cursors/colorin.png" id="2_tar8l"]
 [ext_resource type="PackedScene" uid="uid://cauj7mmhr7tdc" path="res://cursors/draw_cursor.tscn" id="3_egyd5"]
 [ext_resource type="Texture2D" uid="uid://djhsmwlv5e757" path="res://cursors/outline.png" id="3_lj3du"]
@@ -10,6 +11,8 @@
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_bnky5")
+
+[node name="Objectbox" parent="." instance=ExtResource("2_lj3du")]
 
 [node name="CursorIcon" type="Node2D" parent="."]
 z_index = 4096

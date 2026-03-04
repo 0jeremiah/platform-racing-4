@@ -26,52 +26,43 @@ var old_selected_button: TextureButton
 var settings_list: Dictionary = {
 	"undo": {
 		"setting_name": "Undo (CTRL + Z)",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 	"redo": {
 		"setting_name": "Redo (CTRL + Y)",
-		"setting_func": "",
 		"use_seperator": true,
 		},
 	"new": {
 		"setting_name": "New",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 	"load": {
 		"setting_name": "Load",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 	"save": {
 		"setting_name": "Save",
-		"setting_func": "",
 		"use_seperator": true,
 		},
 	"import": {
 		"setting_name": "Import",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 	"export": {
 		"setting_name": "Export",
-		"setting_func": "",
 		"use_seperator": true,
 		},
 	"gotoothereditor": {
 		"setting_name": "Not implemented",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 	"gotootherpage": {
 		"setting_name": "Lobby/MainMenu",
-		"setting_func": "",
+		"setting_func": Callable(self, "_goto_other_page"),
 		"use_seperator": true,
 		},
 	"nevermind": {
 		"setting_name": "Never Mind",
-		"setting_func": "",
 		"use_seperator": false,
 		},
 }
@@ -82,12 +73,19 @@ func _ready() -> void:
 	art_menu_button.pressed.connect(_click_block_menu.bind(art_menu_button))
 	level_settings_button.pressed.connect(_click_block_menu.bind(level_settings_button))
 	collab_button.pressed.connect(_click_block_menu.bind(collab_button))
-	for option in settings_list:
-		var label = settings_list[option].setting_name
-		var has_seperator = settings_list[option].use_seperator
-		level_settings_dropdown_button.get_popup().add_item(label)
-		if has_seperator:
+	var options_keys = settings_list.keys()
+	var logged_in = Session.is_logged_in()
+	for option in settings_list.size():
+		var label = settings_list[options_keys[option]].setting_name
+		if settings_list[options_keys[option]].setting_name == "Lobby/MainMenu":
+			if logged_in:
+				label = "Goto Lobby"
+			else:
+				label = "Goto Main Menu"
+		level_settings_dropdown_button.get_popup().add_item(label, option)
+		if settings_list[options_keys[option]].has("use_seperator") and settings_list[options_keys[option]].use_seperator:
 			level_settings_dropdown_button.get_popup().add_separator()
+	level_settings_dropdown_button.get_popup().id_pressed.connect(_call_editor_function)
 	test_level_button.pressed.connect(_on_test_pressed)
 	selected_button = block_menu_button
 	set_submenu()
@@ -169,3 +167,13 @@ func _on_test_pressed():
 func set_selection_glow():
 	selection_glow.size = (selected_button.get_parent().size * selected_button.get_parent().scale) + Vector2(10, 10)
 	selection_glow.global_position = selected_button.get_parent().global_position - Vector2(5, 5)
+
+
+func _call_editor_function(id: int):
+	var options_keys = settings_list.keys()
+	if settings_list[options_keys[id]].has("setting_func"):
+		settings_list[options_keys[id]].setting_func.call()
+
+
+func _goto_other_page():
+	editor._on_back_pressed()

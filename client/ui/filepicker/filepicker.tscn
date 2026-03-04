@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://3gcok706f02h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugdvx"]
+bg_color = Color(0.3553136, 0.35531354, 0.35531357, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8hfrt"]
+
+[node name="Filepicker" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 820.0
+offset_bottom = 353.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 140.0
+offset_bottom = 50.0
+theme_override_font_sizes/normal_font_size = 18
+text = "File Location:"
+vertical_alignment = 1
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 15.0
+offset_right = 800.0
+offset_bottom = 55.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugdvx")
+
+[node name="Panel3" type="Panel" parent="Panel2"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 495.0
+offset_bottom = 35.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_8hfrt")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Panel2"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 5.0
+offset_right = 491.0
+offset_bottom = 35.0
+theme_override_font_sizes/normal_font_size = 18
+text = "C:/Windows/Users/PR4"
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 15.0
+offset_right = 190.0
+offset_bottom = 55.0
+text = "<"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 15.0
+offset_right = 240.0
+offset_bottom = 55.0
+text = ">"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 15.0
+offset_right = 290.0
+offset_bottom = 55.0
+text = "^"
