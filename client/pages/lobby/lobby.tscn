@@ -1,3 +1,14 @@
-[gd_scene format=3 uid="uid://ccvmav25mbhxt"]
+[gd_scene load_steps=3 format=3 uid="uid://ccvmav25mbhxt"]
+
+[ext_resource type="PackedScene" uid="uid://5j8rklfmops0" path="res://pages/title/parallax_bg/parallax_bg.tscn" id="1_b71wv"]
+[ext_resource type="PackedScene" uid="uid://cn5o7nvja6kgl" path="res://pages/lobby/compactlobbymenu.tscn" id="2_vp8s3"]
 
 [node name="Lobby" type="Node2D"]
+
+[node name="ParallaxBg" parent="." instance=ExtResource("1_b71wv")]
+
+[node name="Compactmenu" parent="." instance=ExtResource("2_vp8s3")]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 1890.0
+offset_bottom = 1050.0

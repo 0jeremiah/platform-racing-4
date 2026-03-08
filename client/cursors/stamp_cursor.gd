@@ -77,8 +77,8 @@ func on_mouse_down():
 					"layer_name": layers.get_target_art_layer(),
 					"id": stamp_id,
 					"position": {
-						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x),
-						"y": mouse_position.round().y - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y)
+						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
+						"y": mouse_position.round().y - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
 					},
 					"scale": {
 						"x": (0.01 * stamp_size),
@@ -115,6 +115,6 @@ func set_stamp_rotation(new_rotation: float) -> void:
 
 
 func update_display():
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2)))
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size)))
 	stamp_icon.rotation_degrees = stamp_rotation
 	stamp_icon.scale = Vector2(0.01 * stamp_size, 0.01 * stamp_size)

@@ -8,12 +8,14 @@
 script = ExtResource("1_tl1gd")
 
 [node name="BigPanel" type="Panel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.321569)
 offset_right = 1920.0
 offset_bottom = 1080.0
 theme = ExtResource("2_fpmt7")
 
 [node name="MediumPanel" type="Panel" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
 offset_left = 129.0
 offset_top = 255.0
@@ -22,6 +24,7 @@ offset_bottom = 992.0
 theme = ExtResource("2_fpmt7")
 
 [node name="Top Panel" type="Panel" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
 offset_left = 132.0
 offset_top = 174.0

@@ -52,19 +52,19 @@ func _ready() -> void:
 	level_type = level_type_ids[0]
 	level_type_button.text = level_type_names[0]
 	time_box.init("int", "120", 0, 9999)
-	time_box.return_string.connect(_set_time.bind())
+	time_box.return_line.connect(_set_time.bind())
 	gravity_box.init("float", "1.0", -99.0, 99.0)
-	gravity_box.return_string.connect(_set_gravity.bind())
+	gravity_box.return_line.connect(_set_gravity.bind())
 	password_box.init("string")
-	password_box.return_string.connect(_set_password.bind())
+	password_box.return_line.connect(_set_password.bind())
 	sfchm_box.init("int", "0", 0, 100)
-	sfchm_box.return_string.connect(_set_sfchm_chance.bind())
+	sfchm_box.return_line.connect(_set_sfchm_chance.bind())
 	wind_box.init("int", "0", 0, 100)
-	wind_box.return_string.connect(_set_wind_chance.bind())
+	wind_box.return_line.connect(_set_wind_chance.bind())
 	snow_box.init("int", "0", 0, 100)
-	snow_box.return_string.connect(_set_snow_chance.bind())
+	snow_box.return_line.connect(_set_snow_chance.bind())
 	alien_box.init("int", "0", 0, 100)
-	alien_box.return_string.connect(_set_alien_chance.bind())
+	alien_box.return_line.connect(_set_alien_chance.bind())
 
 
 func _set_music(new_index: int):
@@ -88,10 +88,10 @@ func _set_level_type(new_index: int):
 	})
 
 
-func _set_time(new_time: String):
-	if int(time) != 0 and int(time) >= 3:
-		time = int(new_time)
-	elif int(time) == 0:
+func _set_time(new_time: int):
+	if time != 0 and time >= 3:
+		time = new_time
+	elif time == 0:
 		time = 0
 	else:
 		time = 3
@@ -101,8 +101,8 @@ func _set_time(new_time: String):
 	})
 
 
-func _set_gravity(new_gravity: String):
-	gravity = float(new_gravity)
+func _set_gravity(new_gravity: float):
+	gravity = new_gravity
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_GRAVITY,
 		"gravity": gravity
@@ -117,32 +117,32 @@ func _set_password(new_password: String):
 	})
 
 
-func _set_sfchm_chance(new_sfchm_chance: String):
-	sfchm_chance = int(new_sfchm_chance)
+func _set_sfchm_chance(new_sfchm_chance: int):
+	sfchm_chance = new_sfchm_chance
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_SFCHM_CHANCE,
 		"sfchm_chance": sfchm_chance
 	})
 
 
-func _set_wind_chance(new_wind_chance: String):
-	wind_chance = int(new_wind_chance)
+func _set_wind_chance(new_wind_chance: int):
+	wind_chance = new_wind_chance
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_WIND_CHANCE,
 		"wind_chance": wind_chance
 	})
 
 
-func _set_snow_chance(new_snow_chance: String):
-	snow_chance = int(new_snow_chance)
+func _set_snow_chance(new_snow_chance: int):
+	snow_chance = new_snow_chance
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_SNOW_CHANCE,
 		"snow_chance": snow_chance
 	})
 
 
-func _set_alien_chance(new_alien_chance: String):
-	alien_chance = int(new_alien_chance)
+func _set_alien_chance(new_alien_chance: int):
+	alien_chance = new_alien_chance
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_ALIEN_CHANCE,
 		"alien_chance": alien_chance

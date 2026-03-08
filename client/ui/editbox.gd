@@ -1,6 +1,6 @@
 extends LineEdit
 
-signal return_string
+signal return_line
 
 var type = "string"
 var old_string: String = ""
@@ -60,9 +60,12 @@ func init(new_type: String, current_value: String = "", new_min: float = -999999
 func _maybe_enforce_limits(new_string: String) -> void:
 	if type == "int":
 		maybe_change_int(new_string)
+		emit_signal("return_line", int(text))
 	elif type == "float":
 		maybe_change_float(new_string)
-	emit_signal("return_string", text)
+		emit_signal("return_line", float(text))
+	else:
+		emit_signal("return_line", text)
 
 
 func maybe_change_int(current_number: String):

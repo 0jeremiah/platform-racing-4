@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://kocy8vpalssj"]
+[gd_scene load_steps=6 format=3 uid="uid://kocy8vpalssj"]
+
+[ext_resource type="Script" uid="uid://dm05i643isjp6" path="res://ui/filepicker/filerow.gd" id="1_nc27u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftiy4"]
 bg_color = Color(0.8745098, 0.8745098, 0.49803922, 1)
@@ -20,65 +22,70 @@ corner_radius_bottom_left = 3
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0swy"]
 bg_color = Color(0.7490196, 1, 1, 1)
 
-[node name="Filebutton" type="Control"]
+[node name="Filerow" type="Control"]
+custom_minimum_size = Vector2(500, 30)
 layout_mode = 3
 anchors_preset = 0
-
-[node name="FileButton" type="Button" parent="."]
-layout_mode = 0
 offset_right = 500.0
-offset_bottom = 40.0
-flat = true
+offset_bottom = 30.0
+script = ExtResource("1_nc27u")
 
 [node name="FolderIcon" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
-offset_top = 5.0
-offset_right = 40.0
-offset_bottom = 35.0
+offset_top = 4.0
+offset_right = 32.0
+offset_bottom = 26.0
 
 [node name="Panel2" type="Panel" parent="FolderIcon"]
 layout_mode = 0
-offset_right = 20.0
-offset_bottom = 30.0
+offset_right = 16.0
+offset_bottom = 22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ftiy4")
 
 [node name="Panel3" type="Panel" parent="FolderIcon"]
 layout_mode = 0
 offset_top = 4.0
-offset_right = 30.0
-offset_bottom = 30.0
+offset_right = 22.0
+offset_bottom = 22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_k6m17")
 
 [node name="ProgramIcon" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
-offset_top = 5.0
-offset_right = 40.0
-offset_bottom = 35.0
+offset_top = 4.0
+offset_right = 32.0
+offset_bottom = 26.0
 
 [node name="Panel" type="Panel" parent="ProgramIcon"]
 layout_mode = 0
-offset_right = 30.0
-offset_bottom = 30.0
+offset_right = 22.0
+offset_bottom = 22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_q33fp")
 
 [node name="Panel2" type="Panel" parent="ProgramIcon"]
 layout_mode = 0
-offset_left = 3.0
+offset_left = 2.0
 offset_top = 6.0
-offset_right = 27.0
-offset_bottom = 27.0
+offset_right = 20.0
+offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_b0swy")
 
-[node name="Label" type="Label" parent="."]
+[node name="FileName" type="Label" parent="."]
 layout_mode = 0
-offset_left = 50.0
-offset_top = 5.0
-offset_right = 490.0
-offset_bottom = 35.0
+offset_left = 42.0
+offset_right = 482.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 20
 text = "Filename"
 vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 3
+
+[node name="FileButton" type="Button" parent="."]
+show_behind_parent = true
+custom_minimum_size = Vector2(780, 30)
+layout_mode = 0
+offset_right = 780.0
+offset_bottom = 30.0

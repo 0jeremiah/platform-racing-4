@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://haxvxa6ljfv2"]
+[gd_scene load_steps=9 format=3 uid="uid://haxvxa6ljfv2"]
 
 [ext_resource type="Script" uid="uid://dh44s6ecidjkp" path="res://engine/layer_panel/new_layer_panel.gd" id="1_o2ff3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_qtvt1"]
-[ext_resource type="PackedScene" uid="uid://ddorp4msr7dho" path="res://engine/layer_panel/new_layer_row.tscn" id="3_o2ff3"]
 [ext_resource type="PackedScene" uid="uid://c6hg56c7sf73m" path="res://engine/layer_panel/number_picker.tscn" id="4_2n5yc"]
 [ext_resource type="PackedScene" uid="uid://bj5dlw7bcynua" path="res://engine/layer_panel/rename_layer_panel.tscn" id="5_hbcon"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="6_qtvt1"]
@@ -71,21 +70,6 @@ horizontal_scroll_mode = 0
 
 [node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
 custom_minimum_size = Vector2(260, 166)
-layout_mode = 2
-
-[node name="LayerRow" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
-layout_mode = 2
-
-[node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
-layout_mode = 2
-
-[node name="LayerRow3" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
-layout_mode = 2
-
-[node name="LayerRow4" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
-layout_mode = 2
-
-[node name="LayerRow5" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
 layout_mode = 2
 
 [node name="NewButton" type="Button" parent="."]
