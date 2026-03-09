@@ -1,0 +1,252 @@
+[gd_scene load_steps=7 format=3 uid="uid://m2q6dhmbi40a"]
+
+[ext_resource type="Texture2D" uid="uid://d1ubbduuykbes" path="res://ui/match_box.png" id="1_f573i"]
+[ext_resource type="FontFile" uid="uid://dgaakc1isb0n2" path="res://fonts/quicksand/static/quicksand-bold.ttf" id="2_f573i"]
+[ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="3_l3yn2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y2i18"]
+texture = ExtResource("1_f573i")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owe5s"]
+bg_color = Color(1, 1, 1, 0.12156863)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.7490196)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f573i"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="MatchButton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1000.0
+offset_bottom = 150.0
+
+[node name="MatchPanel" type="Panel" parent="."]
+self_modulate = Color(0.5137255, 0.7137255, 0.95686275, 1)
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 150.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_y2i18")
+
+[node name="MatchOutline" type="ReferenceRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 998.0
+offset_bottom = 148.0
+border_color = Color(0, 0, 0, 0.49803922)
+border_width = 4.0
+editor_only = false
+
+[node name="MatchTextRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 996.0
+offset_bottom = 26.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="LevelTypeLabel" type="RichTextLabel" parent="."]
+self_modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 996.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("2_f573i")
+theme_override_font_sizes/normal_font_size = 17
+text = "Race"
+fit_content = true
+vertical_alignment = 2
+
+[node name="RoomCountLabel" type="RichTextLabel" parent="."]
+self_modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 996.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("2_f573i")
+theme_override_font_sizes/normal_font_size = 17
+text = "1 / 24 players"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="LevelNameLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 996.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("2_f573i")
+theme_override_font_sizes/normal_font_size = 17
+text = "awesome level by awesome level maker"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="SmallerPlayerBubble" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 26.0
+offset_right = 128.0
+offset_bottom = 66.0
+
+[node name="BubblePanel" type="Panel" parent="SmallerPlayerBubble"]
+clip_children = 2
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_owe5s")
+
+[node name="BubbleMask" type="Panel" parent="SmallerPlayerBubble"]
+clip_children = 1
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_f573i")
+
+[node name="CharacterDisplay" parent="SmallerPlayerBubble/BubbleMask" instance=ExtResource("3_l3yn2")]
+position = Vector2(25.000013, 116.00002)
+scale = Vector2(0.45, 0.45)
+
+[node name="PlayerNickname" type="Label" parent="SmallerPlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 2.0
+offset_right = 122.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 13
+text = "LoremIpsum"
+vertical_alignment = 1
+clip_text = true
+
+[node name="PlayerRank" type="Label" parent="SmallerPlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 20.0
+offset_right = 122.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 13
+text = "Rank: 1"
+vertical_alignment = 1
+clip_text = true
+
+[node name="SmallPlayerBubble" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 26.0
+offset_right = 128.0
+offset_bottom = 86.0
+
+[node name="BubblePanel" type="Panel" parent="SmallPlayerBubble"]
+clip_children = 2
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 60.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_owe5s")
+
+[node name="BubbleMask" type="Panel" parent="SmallPlayerBubble"]
+clip_children = 1
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 60.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_f573i")
+
+[node name="CharacterDisplay" parent="SmallPlayerBubble/BubbleMask" instance=ExtResource("3_l3yn2")]
+position = Vector2(25.000013, 116.00002)
+scale = Vector2(0.45, 0.45)
+
+[node name="PlayerNickname" type="Label" parent="SmallPlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 20.0
+offset_right = 122.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 13
+text = "LoremIpsum"
+vertical_alignment = 1
+clip_text = true
+
+[node name="PlayerRank" type="Label" parent="SmallPlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 40.0
+offset_right = 122.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 13
+text = "Rank: 1"
+vertical_alignment = 1
+clip_text = true
+
+[node name="PlayerBubble" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 26.0
+offset_right = 128.0
+offset_bottom = 146.0
+
+[node name="BubblePanel" type="Panel" parent="PlayerBubble"]
+clip_children = 2
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_owe5s")
+
+[node name="BubbleMask" type="Panel" parent="PlayerBubble"]
+clip_children = 1
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_f573i")
+
+[node name="CharacterDisplay" parent="PlayerBubble/BubbleMask" instance=ExtResource("3_l3yn2")]
+position = Vector2(25.000013, 116.00002)
+scale = Vector2(0.45, 0.45)
+
+[node name="PlayerNickname" type="Label" parent="PlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 80.0
+offset_right = 122.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 13
+text = "LoremIpsum"
+vertical_alignment = 1
+clip_text = true
+
+[node name="PlayerRank" type="Label" parent="PlayerBubble/BubbleMask"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 100.0
+offset_right = 122.0
+offset_bottom = 118.0
+theme_override_font_sizes/font_size = 13
+text = "Rank: 1"
+vertical_alignment = 1
+clip_text = true
+
+[node name="MatchButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 150.0
+flat = true

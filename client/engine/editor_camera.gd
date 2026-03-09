@@ -7,6 +7,12 @@ var is_zooming : bool = false
 var camera_speed_multiplier = 1.0
 var camera_rotation: float = 0.0
 
+# Zoom settings
+var zoom_increment: int = 3
+var min_zoom_increment: int = 0
+var max_zoom_increment: int = 6
+var zoom_amounts: Array = [25, 50, 75, 100, 150, 250, 500] # Zoom amounts listed in percentage.
+
 
 func _ready():
 	set_position_smoothing_enabled(true)
@@ -19,7 +25,17 @@ func _process(delta):
 		return
 		
 	set_zoom(Vector2(camera_zoom, camera_zoom))
-	var control_vector = Input.get_vector("left", "right", "up", "down")
+	var control_vector = Vector2(0, 0)
+	
+	if Input.is_action_pressed("right"):
+		control_vector.x = 1
+	if Input.is_action_pressed("left"):
+		control_vector.x = -1
+	if Input.is_action_pressed("down"):
+		control_vector.y = 1
+	if Input.is_action_pressed("up"):
+		control_vector.y = -1
+		
 	if Input.is_key_pressed(KEY_CTRL):
 		camera_speed_multiplier = 2.5
 	else:
@@ -36,4 +52,4 @@ func _process(delta):
 
 func change_camera_zoom(new_zoom_value):
 	is_zooming = true
-	target_zoom = new_zoom_value
+	target_zoom = clamp(new_zoom_value, 0, zoom_amounts.size() - 1)

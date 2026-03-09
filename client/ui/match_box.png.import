@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chtb6uaw70hao"
-path="res://.godot/imported/pr4_character_racer.png-e2441ba6244c55328a596100e2fba97c.ctex"
+uid="uid://d1ubbduuykbes"
+path="res://.godot/imported/match_box.png-37bbacb44c993d64b6907f5b8435826e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character_display/styles/pr4_character_racer.png"
-dest_files=["res://.godot/imported/pr4_character_racer.png-e2441ba6244c55328a596100e2fba97c.ctex"]
+source_file="res://ui/match_box.png"
+dest_files=["res://.godot/imported/match_box.png-37bbacb44c993d64b6907f5b8435826e.ctex"]
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

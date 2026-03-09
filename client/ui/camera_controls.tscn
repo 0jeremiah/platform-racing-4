@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://odgk3txmr7dl"]
+
+[ext_resource type="Script" uid="uid://cc87x0ei1fr8c" path="res://ui/camera_controls.gd" id="1_ktgk5"]
+
+[node name="CameraControls" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 120.0
+script = ExtResource("1_ktgk5")
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 130.0
+offset_bottom = 120.0
+
+[node name="ZoomInButton" type="Button" parent="."]
+layout_mode = 0
+offset_top = 10.0
+offset_right = 40.0
+offset_bottom = 50.0
+text = "+"
+
+[node name="ZoomOutButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 50.0
+text = "-"
+
+[node name="ZoomDropdownButton" type="MenuButton" parent="."]
+layout_mode = 0
+offset_top = 70.0
+offset_right = 100.0
+offset_bottom = 110.0
+text = "1000%"
+flat = false
+
+[node name="CameraUpButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 210.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 22
+text = "▲"
+
+[node name="CameraLeftButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 40.0
+offset_right = 170.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 22
+text = "◀"
+
+[node name="CameraRightButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 22
+text = "▶"
+
+[node name="CameraDownButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 80.0
+offset_right = 210.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 22
+text = "▼"
