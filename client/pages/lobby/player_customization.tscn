@@ -8,38 +8,52 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 360.0
-offset_bottom = 270.0
+offset_bottom = 360.0
 script = ExtResource("1_7wslk")
 
 [node name="CharacterDisplay" parent="." instance=ExtResource("1_ui03a")]
-position = Vector2(239, 268)
+position = Vector2(239, 292)
 
 [node name="HatSelector" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 360.0
-offset_bottom = 48.0
+offset_bottom = 73.0
+
+[node name="HatLabel" type="RichTextLabel" parent="HatSelector"]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 25.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Baseball Cap"
+vertical_alignment = 1
 
 [node name="ColorButton" parent="HatSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
+offset_top = 25.0
+offset_bottom = 73.0
 
 [node name="EpicColorButton" parent="HatSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
 offset_left = 58.0
+offset_top = 25.0
 offset_right = 106.0
+offset_bottom = 73.0
 
 [node name="PrevHatButton" type="Button" parent="HatSelector"]
 layout_mode = 0
 offset_left = 116.0
+offset_top = 25.0
 offset_right = 164.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 disabled = true
 text = "◀"
 
 [node name="NextHatButton" type="Button" parent="HatSelector"]
 layout_mode = 0
 offset_left = 312.0
+offset_top = 25.0
 offset_right = 360.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 disabled = true
 text = "▶"
 
@@ -47,82 +61,133 @@ text = "▶"
 anchors_preset = 0
 offset_top = 73.0
 offset_right = 360.0
-offset_bottom = 121.0
+offset_bottom = 146.0
+
+[node name="HeadLabel" type="RichTextLabel" parent="HeadSelector"]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 25.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Classic"
+vertical_alignment = 1
 
 [node name="ColorButton" parent="HeadSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
+offset_top = 25.0
+offset_bottom = 73.0
 
 [node name="EpicColorButton" parent="HeadSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
 offset_left = 58.0
+offset_top = 25.0
 offset_right = 106.0
+offset_bottom = 73.0
 
 [node name="PrevHeadButton" type="Button" parent="HeadSelector"]
 layout_mode = 0
 offset_left = 116.0
+offset_top = 25.0
 offset_right = 164.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "◀"
 
 [node name="NextHeadButton" type="Button" parent="HeadSelector"]
 layout_mode = 0
 offset_left = 312.0
+offset_top = 25.0
 offset_right = 360.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "▶"
 
 [node name="BodySelector" type="Control" parent="."]
 anchors_preset = 0
 offset_top = 146.0
 offset_right = 360.0
-offset_bottom = 194.0
+offset_bottom = 219.0
+
+[node name="BodyLabel" type="RichTextLabel" parent="BodySelector"]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 25.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Classic"
+vertical_alignment = 1
 
 [node name="ColorButton" parent="BodySelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
+offset_top = 25.0
+offset_bottom = 73.0
 
 [node name="EpicColorButton" parent="BodySelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
 offset_left = 58.0
+offset_top = 25.0
 offset_right = 106.0
+offset_bottom = 73.0
 
 [node name="PrevBodyButton" type="Button" parent="BodySelector"]
 layout_mode = 0
 offset_left = 116.0
+offset_top = 25.0
 offset_right = 164.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "◀"
 
 [node name="NextBodyButton" type="Button" parent="BodySelector"]
 layout_mode = 0
 offset_left = 312.0
+offset_top = 25.0
 offset_right = 360.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "▶"
 
 [node name="FeetSelector" type="Control" parent="."]
 anchors_preset = 0
-offset_top = 222.0
+offset_top = 219.0
 offset_right = 360.0
-offset_bottom = 270.0
+offset_bottom = 292.0
+
+[node name="FeetLabel" type="RichTextLabel" parent="FeetSelector"]
+layout_mode = 0
+offset_right = 164.0
+offset_bottom = 25.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Classic"
+vertical_alignment = 1
 
 [node name="ColorButton" parent="FeetSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
+offset_top = 25.0
+offset_bottom = 73.0
 
 [node name="EpicColorButton" parent="FeetSelector" instance=ExtResource("2_7wslk")]
 layout_mode = 0
 offset_left = 58.0
+offset_top = 25.0
 offset_right = 106.0
+offset_bottom = 73.0
 
 [node name="PrevFeetButton" type="Button" parent="FeetSelector"]
 layout_mode = 0
 offset_left = 116.0
+offset_top = 25.0
 offset_right = 164.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "◀"
 
 [node name="NextFeetButton" type="Button" parent="FeetSelector"]
 layout_mode = 0
 offset_left = 312.0
+offset_top = 25.0
 offset_right = 360.0
-offset_bottom = 48.0
+offset_bottom = 73.0
 text = "▶"
+
+[node name="HatDescriptionLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 300.0
+offset_right = 360.0
+offset_bottom = 360.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Hat description goes here."
+vertical_alignment = 2

@@ -20,6 +20,7 @@ layout_mode = 0
 offset_top = 10.0
 offset_right = 40.0
 offset_bottom = 50.0
+focus_mode = 0
 text = "+"
 
 [node name="ZoomOutButton" type="Button" parent="."]
@@ -28,6 +29,7 @@ offset_left = 60.0
 offset_top = 10.0
 offset_right = 100.0
 offset_bottom = 50.0
+focus_mode = 0
 text = "-"
 
 [node name="ZoomDropdownButton" type="MenuButton" parent="."]
@@ -35,7 +37,8 @@ layout_mode = 0
 offset_top = 70.0
 offset_right = 100.0
 offset_bottom = 110.0
-text = "1000%"
+focus_mode = 0
+text = "---%"
 flat = false
 
 [node name="CameraUpButton" type="Button" parent="."]
@@ -43,6 +46,7 @@ layout_mode = 0
 offset_left = 170.0
 offset_right = 210.0
 offset_bottom = 40.0
+focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▲"
 
@@ -52,6 +56,7 @@ offset_left = 130.0
 offset_top = 40.0
 offset_right = 170.0
 offset_bottom = 80.0
+focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "◀"
 
@@ -61,6 +66,7 @@ offset_left = 210.0
 offset_top = 40.0
 offset_right = 250.0
 offset_bottom = 80.0
+focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▶"
 
@@ -70,5 +76,6 @@ offset_left = 170.0
 offset_top = 80.0
 offset_right = 210.0
 offset_bottom = 120.0
+focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▼"

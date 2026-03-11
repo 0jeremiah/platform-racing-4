@@ -4,7 +4,7 @@ class_name CameraController
 
 
 var camera: Camera2D
-var target_zoom: float = 0.1
+var target_zoom: float = 0.5
 var pos: Vector2 = Vector2(0, 0)
 var camera_rotation: float = 0.0
 

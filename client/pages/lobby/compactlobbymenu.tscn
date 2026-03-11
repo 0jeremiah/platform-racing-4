@@ -48,21 +48,21 @@ anchors_preset = 0
 offset_left = 30.0
 offset_top = 60.0
 offset_right = 390.0
-offset_bottom = 932.0
+offset_bottom = 940.0
 
 [node name="ColorRect" type="ColorRect" parent="OnlineMenu/Chat"]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
 offset_right = 354.0
-offset_bottom = 808.0
+offset_bottom = 824.0
 
 [node name="ReferenceRect" type="ReferenceRect" parent="OnlineMenu/Chat"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 358.0
-offset_bottom = 812.0
+offset_bottom = 828.0
 border_color = Color(0.49747366, 0.49747366, 0.49747366, 1)
 border_width = 4.0
 editor_only = false
@@ -72,7 +72,7 @@ layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 355.0
-offset_bottom = 809.0
+offset_bottom = 825.0
 border_color = Color(0.24840015, 0.24840018, 0.24840015, 1)
 border_width = 2.0
 editor_only = false
@@ -82,7 +82,7 @@ layout_mode = 0
 offset_left = 7.0
 offset_top = 7.0
 offset_right = 353.0
-offset_bottom = 807.0
+offset_bottom = 823.0
 theme_override_font_sizes/normal_font_size = 20
 text = "(W.I.P; not finished at all.)
 
@@ -92,16 +92,16 @@ Alphabetz: Hello world!"
 
 [node name="LineEdit" type="LineEdit" parent="OnlineMenu/Chat"]
 layout_mode = 0
-offset_top = 832.0
+offset_top = 840.0
 offset_right = 252.0
-offset_bottom = 872.0
+offset_bottom = 880.0
 
 [node name="Button" type="Button" parent="OnlineMenu/Chat"]
 layout_mode = 0
 offset_left = 262.0
-offset_top = 832.0
+offset_top = 840.0
 offset_right = 362.0
-offset_bottom = 872.0
+offset_bottom = 880.0
 text = "Send"
 
 [node name="PMs" type="Control" parent="OnlineMenu"]
@@ -133,9 +133,9 @@ offset_bottom = 950.0
 [node name="UserInfo" type="Control" parent="PlayerMenu"]
 anchors_preset = 0
 offset_left = 10.0
-offset_top = 20.0
+offset_top = 10.0
 offset_right = 380.0
-offset_bottom = 130.0
+offset_bottom = 120.0
 
 [node name="NicknameLabel" type="RichTextLabel" parent="PlayerMenu/UserInfo"]
 layout_mode = 0
@@ -170,42 +170,63 @@ offset_bottom = 110.0
 text = "Awesome guild name :)"
 vertical_alignment = 1
 
+[node name="HSeparator" type="HSeparator" parent="PlayerMenu"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 120.0
+offset_right = 380.0
+offset_bottom = 125.0
+
 [node name="PlayerCustomization" parent="PlayerMenu" instance=ExtResource("1_ww72m")]
 layout_mode = 0
 offset_left = 15.0
-offset_top = 158.0
+offset_top = 125.0
 offset_right = 375.0
-offset_bottom = 428.0
+offset_bottom = 485.0
+
+[node name="HSeparator2" type="HSeparator" parent="PlayerMenu"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 485.0
+offset_right = 380.0
+offset_bottom = 495.0
 
 [node name="StatSliders" parent="PlayerMenu" instance=ExtResource("3_5baqj")]
 layout_mode = 0
 offset_left = 15.0
-offset_top = 456.0
+offset_top = 495.0
 offset_right = 375.0
-offset_bottom = 816.0
+offset_bottom = 855.0
+
+[node name="HSeparator3" type="HSeparator" parent="PlayerMenu"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 855.0
+offset_right = 380.0
+offset_bottom = 860.0
 
 [node name="RankProgress" type="Control" parent="PlayerMenu"]
 anchors_preset = 0
 offset_left = 15.0
-offset_top = 840.0
+offset_top = 860.0
 offset_right = 375.0
-offset_bottom = 922.0
+offset_bottom = 940.0
 
 [node name="ColorRect" type="ColorRect" parent="PlayerMenu/RankProgress"]
 visible = false
 layout_mode = 0
 offset_left = 2.0
-offset_top = 42.0
+offset_top = 40.0
 offset_right = 3.0
-offset_bottom = 80.0
+offset_bottom = 78.0
 color = Color(0.9607843, 0.7921569, 0.40392157, 1)
 
 [node name="ReferenceRect" type="ReferenceRect" parent="PlayerMenu/RankProgress"]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 41.0
+offset_top = 39.0
 offset_right = 359.0
-offset_bottom = 81.0
+offset_bottom = 79.0
 border_color = Color(0, 0, 0, 1)
 border_width = 2.0
 editor_only = false
@@ -213,7 +234,7 @@ editor_only = false
 [node name="RichTextLabel" type="RichTextLabel" parent="PlayerMenu/RankProgress"]
 layout_mode = 0
 offset_right = 360.0
-offset_bottom = 42.0
+offset_bottom = 40.0
 theme_override_font_sizes/normal_font_size = 16
 text = "Rank Progress: 0 / 38 (0%)"
 
@@ -264,7 +285,7 @@ offset_right = 1050.0
 offset_bottom = 930.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ww72m")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="LobbyMenu"]
+[node name="MatchesContainer" type="ScrollContainer" parent="LobbyMenu"]
 visible = false
 layout_mode = 0
 offset_left = 29.0
@@ -272,31 +293,31 @@ offset_top = 89.0
 offset_right = 1041.0
 offset_bottom = 921.0
 
-[node name="MatchListing" type="VBoxContainer" parent="LobbyMenu/ScrollContainer"]
+[node name="MatchListing" type="VBoxContainer" parent="LobbyMenu/MatchesContainer"]
 custom_minimum_size = Vector2(1000, 810)
 layout_mode = 2
 
-[node name="MatchButton" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 
-[node name="MatchButton2" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton2" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 
-[node name="MatchButton3" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton3" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 
-[node name="MatchButton4" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton4" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 
-[node name="MatchButton5" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton5" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 
-[node name="MatchButton6" parent="LobbyMenu/ScrollContainer/MatchListing" instance=ExtResource("3_d0wcu")]
+[node name="MatchButton6" parent="LobbyMenu/MatchesContainer/MatchListing" instance=ExtResource("3_d0wcu")]
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 

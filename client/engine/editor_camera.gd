@@ -1,17 +1,17 @@
 extends Camera2D
 
 var velocity = 2000
-var camera_zoom = 1.0
-var target_zoom = 1.0
+var camera_zoom = 0.5
+var target_zoom = 0.5
 var is_zooming : bool = false
 var camera_speed_multiplier = 1.0
 var camera_rotation: float = 0.0
+var control_vector = Vector2(0, 0)
+var manual_control_vector = Vector2(0, 0)
 
 # Zoom settings
-var zoom_increment: int = 3
-var min_zoom_increment: int = 0
-var max_zoom_increment: int = 6
-var zoom_amounts: Array = [25, 50, 75, 100, 150, 250, 500] # Zoom amounts listed in percentage.
+var zoom_array: Array = [0.125, 0.25, 0.375, 0.5, 0.75, 1.25, 2.5]
+var zoom_index: int = 3
 
 
 func _ready():
@@ -25,15 +25,15 @@ func _process(delta):
 		return
 		
 	set_zoom(Vector2(camera_zoom, camera_zoom))
-	var control_vector = Vector2(0, 0)
+	control_vector = Vector2(0, 0)
 	
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") or manual_control_vector.x == 1:
 		control_vector.x = 1
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") or manual_control_vector.x == -1:
 		control_vector.x = -1
-	if Input.is_action_pressed("down"):
+	if Input.is_action_pressed("down") or manual_control_vector.y == 1:
 		control_vector.y = 1
-	if Input.is_action_pressed("up"):
+	if Input.is_action_pressed("up") or manual_control_vector.y == -1:
 		control_vector.y = -1
 		
 	if Input.is_key_pressed(KEY_CTRL):
@@ -44,12 +44,13 @@ func _process(delta):
 	
 	if is_zooming:
 		var factor_to_zoom = target_zoom / camera_zoom
-		camera_zoom = lerp(camera_zoom, target_zoom, max(factor_to_zoom, 1/factor_to_zoom)*delta*5)
+		camera_zoom = lerp(camera_zoom, target_zoom, max(abs(factor_to_zoom), 1/abs(factor_to_zoom))*delta*5)
 		if abs(factor_to_zoom - 1) < 0.001:
 			camera_zoom = target_zoom
 			is_zooming = false
 
 
-func change_camera_zoom(new_zoom_value):
+func change_camera_zoom(new_index: int):
+	zoom_index = clamp(new_index, 0, zoom_array.size() - 1)
 	is_zooming = true
-	target_zoom = clamp(new_zoom_value, 0, zoom_amounts.size() - 1)
+	target_zoom = zoom_array[zoom_index]

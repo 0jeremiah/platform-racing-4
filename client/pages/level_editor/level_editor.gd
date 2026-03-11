@@ -34,6 +34,7 @@ var default_level: Dictionary = {
 @onready var game_config_panel = $UI/GameConfigPanel
 
 @onready var cursor = $UI/Cursor
+@onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
 @onready var bg: Node2D = $BG
 @onready var editor_events: EditorEvents = $EditorEvents
@@ -46,6 +47,8 @@ var default_level: Dictionary = {
 
 func init(data: Dictionary = {}):
 	_on_connect_editor()
+	if data.has("saved_camera_position"):
+		editor_camera.position = data.saved_camera_position
 
 
 func _ready():
@@ -122,10 +125,8 @@ func _ready():
 	
 	# layer_panel_node.init(level_manager.layers)
 	
-	editor_camera.target_zoom = 0.5
-	editor_camera.change_camera_zoom(0.5)
+	camera_controls.init(editor_camera)
 	
-	# Connect control events for camera zoom changes
 	editor_menu.control_event.connect(_on_control_event)
 	# now_editing_panel.init($UI/EditorMenu, self)
 

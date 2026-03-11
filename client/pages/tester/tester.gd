@@ -20,7 +20,12 @@ func _ready():
 
 
 func _on_back_pressed():
-	Main.set_scene(Main.LEVEL_EDITOR)
+	var saved_camera_position = Vector2(0, 0)
+	var player_manager: PlayerManager = get_node("PlayerManager")
+	var character = player_manager.get_character()
+	if character:
+		saved_camera_position = character.position
+	Main.set_scene(Main.LEVEL_EDITOR, {"saved_camera_position": saved_camera_position})
 
 
 func init(data: Dictionary):

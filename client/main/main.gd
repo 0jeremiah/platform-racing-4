@@ -9,28 +9,34 @@ static var instance: Main
 # page names
 const TITLE = "TITLE"
 const CREDITS = "CREDITS"
-const LEVEL_EDITOR = "LEVEL_EDITOR"
-const GAME = "GAME"
-const LOBBY = "LOBBY"
 const SOLO = "SOLO"
+const LOBBY = "LOBBY"
+const GAME = "GAME"
 const TESTER = "TESTER"
-const CHARACTER_EDITOR = "CHARACTER_EDITOR"
 const LOGIN = "LOGIN"
 const REGISTER = "REGISTER"
 const USER_SETTINGS = "USER_SETTINGS"
+const LEVEL_EDITOR = "LEVEL_EDITOR"
+const BLOCK_EDITOR = "BLOCK_EDITOR"
+const CHARACTER_EDITOR = "CHARACTER_EDITOR"
 
 var scenes = {
-	USER_SETTINGS: preload("res://pages/user_settings/user_settings.tscn"),
 	TITLE: preload("res://pages/title/title.tscn"),
 	CREDITS: preload("res://pages/credits/credits.tscn"),
-	LEVEL_EDITOR: preload("res://pages/level_editor/level_editor.tscn"),
-	GAME: preload("res://pages/game/game.tscn"),
-	LOBBY: preload("res://pages/level_lists/lobby.tscn"),
+	
 	SOLO: preload("res://pages/solo/solo.tscn"),
+	LOBBY: preload("res://pages/level_lists/lobby.tscn"),
+	
+	GAME: preload("res://pages/game/game.tscn"),
 	TESTER: preload("res://pages/tester/tester.tscn"),
-	CHARACTER_EDITOR: preload("res://pages/character_editor/character_editor.tscn"),
+	
 	LOGIN: preload("res://pages/login/login.tscn"),
-	REGISTER: preload("res://pages/register/register.tscn")
+	REGISTER: preload("res://pages/register/register.tscn"),
+	USER_SETTINGS: preload("res://pages/user_settings/user_settings.tscn"),
+	
+	LEVEL_EDITOR: preload("res://pages/level_editor/level_editor.tscn"),
+	BLOCK_EDITOR: preload("res://pages/block_editor/block_editor.tscn"),
+	CHARACTER_EDITOR: preload("res://pages/character_editor/character_editor.tscn")
 }
 
 @onready var game_client: Node2D = $GameClient

@@ -1,0 +1,67 @@
+{
+    "hats": {
+        "no_hat": {
+            "hat_name": "None",
+            "hat_default_color": "ffffff",
+            "hat_epic_upgrade": false,
+            "hat_description": "Your head is naked. Collect hats to unlock awesome bonuses and abilities!"
+        },
+        "exp": {
+            "hat_name": "Baseball Cap",
+            "hat_default_color": "af831d",
+            "hat_epic_upgrade": true,
+            "hat_default_epic_color": "ffffff",
+            "hat_description": "Keep the sun out of your eyes! Increases exp gain by 100%."
+        }
+    },
+    "heads": {
+        "classic": {
+            "head_name": "Classic",
+            "head_default_color": "6479ce",
+            "head_epic_upgrade": true,
+            "head_default_epic_color": "000000",
+            "head_description": "Rock it old-school."
+        },
+        "tired": {
+            "head_name": "Tired",
+            "head_default_color": "63a665",
+            "head_epic_upgrade": true,
+            "head_default_epic_color": "FFFFFF",
+            "head_description": "Did you stay up late playing PR4?"
+        }
+    },
+    "bodies": {
+        "classic": {
+            "body_name": "Classic",
+            "body_default_color": "6479ce",
+            "body_epic_upgrade": true,
+            "body_default_epic_color": "000000",
+            "body_description": "Rock it old-school."
+        },
+        "strap": {
+            "body_name": "Strap",
+            "body_default_color": "6479ce",
+            "body_epic_upgrade": true,
+            "body_default_epic_color": "000000",
+            "body_description": "Strapping!"
+        }
+    },
+    "feet": {
+        "classic": {
+            "feet_name": "Classic",
+            "feet_default_color": "6479ce",
+            "feet_epic_upgrade": true,
+            "feet_default_epic_color": "000000",
+            "feet_description": "Rock it old-school.",
+            "feet_is_symmetrical": true
+        },
+        "heel": {
+            "feet_name": "Heel",
+            "feet_default_color": "6479ce",
+            "feet_epic_upgrade": true,
+            "feet_default_epic_color": "6479ce",
+            "feet_description": "Very dressy.",
+            "feet_is_symmetrical": true
+        }
+    }
+}
