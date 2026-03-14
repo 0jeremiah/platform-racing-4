@@ -60,27 +60,19 @@ func set_art_alpha(new_alpha: int) -> void:
 func get_stamp_at_position(mouse_position: Vector2) -> Sprite2D:
 	var stamps_array = stamps.get_children()
 	stamps_array.reverse()
-	var selected_stamp = null
 	for child in stamps_array:
-		if mouse_entered_click_area(child.to_local(mouse_position).rotated(deg_to_rad(child.stamp_rotation)), Rect2(0, 0, child.texture.get_size().x * child.stamp_scale.x, child.texture.get_size().y * child.stamp_scale.y)):
-			selected_stamp = child
-			break
-	return selected_stamp
+		if Rect2(Vector2.ZERO, child.texture.get_size()).has_point(child.to_local(mouse_position)):
+			return child
+	return null
 
 
 func get_text_at_position(mouse_position: Vector2) -> RichTextLabel:
 	var texts_array = texts.get_children()
 	texts_array.reverse()
-	var selected_text = null
 	for child in texts_array:
-		if mouse_entered_click_area(child.to_local(mouse_position).rotated(deg_to_rad(child.text_rotation)), Rect2(0, 0, child.size.x * child.text_scale.x, child.size.y * child.text_scale.y)):
-			selected_text = child
-			break
-	return selected_text
-
-
-func mouse_entered_click_area(local_mouse_position: Vector2, click_rect: Rect2) -> bool:
-	return local_mouse_position.x >= click_rect.position.x and local_mouse_position.y >= click_rect.position.y and local_mouse_position.x <= click_rect.size.x and local_mouse_position.y <= click_rect.size.y
+		if Rect2(Vector2.ZERO, child.size * child.text_scale).has_point(child.to_local(mouse_position)):
+			return child
+	return null
 
 
 func get_stamp_draw_packed_vector2_array_for_debug(stamp: Sprite2D) -> PackedVector2Array:

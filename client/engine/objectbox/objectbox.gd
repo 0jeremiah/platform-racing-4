@@ -22,8 +22,8 @@ var button_list: Array = [delete_enabled, resize_enabled, options_enabled, edit_
 var enabled_list: Array = [true, true, true, true]
 var button_colors: Array = [Color("ff4b00"), Color("1fcf1f"), Color("ff8a21"), Color("7b31f9")]
 var position_list: Array = [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
-var object_info: Dictionary = {"type": "", "node": null, "position": null, "size": null,
-"scale": null, "text": null, "info": null}
+var object_info: Dictionary = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0,
+"offset": Vector2(0, 0), "size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 var mode : String = "idle"
 var old_position : Vector2
 var old_scale : Vector2
@@ -31,8 +31,8 @@ var old_mouse_position : Vector2
 
 
 #set_object_info({"delete": true, "resize": false, "options": true, "edit": false}, {"type": "block",
-	#"node": example_node, "position": example_node.position, "size": example_node.texture.region.size,
-	#"scale": example_node.scale})
+	#"node": example_node, "position": example_node.position, "rotation": example_node.rotation_degrees,
+	#"offset": example_node.offset, "size": example_node.texture.region.size, "scale": example_node.scale})
 
 
 func _ready() -> void:
@@ -70,9 +70,10 @@ func _process(_delta: float) -> void:
 			object_info.scale = new_scale
 			object_info.node.self_modulate.a = 0.75
 		elif mode == "move" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			var position_x: float = get_global_mouse_position().x - old_mouse_position.x
-			var position_y: float = get_global_mouse_position().y - old_mouse_position.y
-			position = Vector2(old_position.x + position_x, old_position.y + position_y)
+			var position_x: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).x - old_mouse_position.x
+			var position_y: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).y - old_mouse_position.y
+			object_info.position = Vector2(old_position.x + position_x, old_position.y + position_y)
+			object_info.node.position = object_info.position
 			object_info.node.self_modulate.a = 0.75
 		elif mode == "edit" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
@@ -92,10 +93,15 @@ func _process(_delta: float) -> void:
 			edit_text_rect.visible = false
 			select_rect.visible = true
 			buttons.visible = true
+			position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
+			rotation_degrees = object_info.rotation
 			if object_info.node:
 				object_info.node.visible = true
 				object_info.node.self_modulate.a = 1
-			move_button.visible = true
+			if object_info.type == "stamp" or object_info.type == "text":
+				move_button.visible = true
+			else:
+				move_button.visible = false
 		update_display()
 		process_buttons()
 	else:
@@ -123,14 +129,18 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary):
 	if enabled_buttons.has("edit") and enabled_buttons.edit == true:
 		new_edit_enabled = true
 	enabled_list = [new_delete_enabled, new_resize_enabled, new_options_enabled, new_edit_enabled]
-	object_info = {"type": "", "node": null, "position": null, "size": null, "scale": null, "text": null,
-	"info": null}
+	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
+	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 	if new_object_info.has("type"):
 		object_info.type = new_object_info.type
 	if new_object_info.has("node"):
 		object_info.node = new_object_info.node
 	if new_object_info.has("position"):
 		object_info.position = new_object_info.position
+	if new_object_info.has("rotation"):
+		object_info.rotation = new_object_info.rotation
+	if new_object_info.has("offset"):
+		object_info.offset = new_object_info.offset
 	if new_object_info.has("size"):
 		object_info.size = new_object_info.size
 	if new_object_info.has("scale"):
@@ -217,8 +227,9 @@ func process_buttons() -> void:
 
 
 func move_object() -> void:
-	if object_info.type != "block" and mode != "move" and object_info.node:
-		old_mouse_position = get_local_mouse_position()
+	if (object_info.type == "stamp" or object_info.type == "text") and mode != "move" and object_info.node:
+		old_position = object_info.position
+		old_mouse_position = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation))
 		select_rect.visible = false
 		buttons.visible = false
 		mode = "move"
@@ -226,15 +237,15 @@ func move_object() -> void:
 
 func delete_object():
 	emit_signal("object_deleted")
-	object_info = {"type": "", "node": null, "position": null, "size": null, "scale": null, "text": null,
-	"info": null}
+	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
+	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 	mode = "idle"
 
 
 func resize_object() -> void:
-	if object_info.type != "block" and mode != "resize" and object_info.node:
+	if (object_info.type == "stamp" or object_info.type == "text") and mode != "resize" and object_info.node:
 		old_scale = object_info.scale
-		old_mouse_position = $Buttons/ResizeButton.position + ($Buttons/ResizeButton.size / 2)
+		old_mouse_position = Vector2($Buttons/ResizeButton.position.x + ($Buttons/ResizeButton.size.x / 2), $Buttons/ResizeButton.position.y + ($Buttons/ResizeButton.size.y / 2))
 		select_rect.visible = false
 		buttons.visible = false
 		move_button.visible = false
@@ -265,6 +276,6 @@ func _change_object_text(new_text: String):
 
 
 func close():
-	object_info = {"type": "", "node": null, "position": null, "size": null, "scale": null, "text": null,
-	"info": null}
+	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
+	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 	mode = "idle"

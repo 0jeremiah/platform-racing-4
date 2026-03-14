@@ -51,7 +51,7 @@ follow_viewport_enabled = true
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 120
 
-[node name="Objectbox" parent="UI" instance=ExtResource("8_2t0x6")]
+[node name="ObjectBox" parent="UI" instance=ExtResource("8_2t0x6")]
 visible = false
 
 [node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]

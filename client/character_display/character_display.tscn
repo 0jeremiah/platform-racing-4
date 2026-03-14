@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://g5buv3euupwb" path="res://character_display/parts/exp/exp_hat_color.png" id="18_stwk4"]
 [ext_resource type="Texture2D" uid="uid://bbgjieqa6of7d" path="res://character_display/parts/exp/exp_hat_lines.png" id="19_ttr1n"]
 [ext_resource type="Texture2D" uid="uid://b2v3c0rwpj3a" path="res://character_display/parts/exp/exp_hat_epic_color.png" id="20_fctkm"]
-[ext_resource type="Texture2D" uid="uid://b6wittahetm6l" path="res://character_display/parts/exp/exp_hat_misc.png" id="21_fohab"]
+[ext_resource type="Texture2D" uid="uid://b6wittahetm6l" path="res://character_display/parts/exp/exp_hat_misc1.png" id="21_fohab"]
 
 [sub_resource type="Animation" id="Animation_5crqw"]
 length = 0.001
@@ -2853,13 +2853,13 @@ position = Vector2(10, -75)
 scale = Vector2(0.65, 0.65)
 
 [node name="Color" type="Sprite2D" parent="FootBack"]
-self_modulate = Color(0.39215687, 0.4745098, 0.80784315, 1)
 texture = ExtResource("2_or3ot")
 
 [node name="Lines" type="Sprite2D" parent="FootBack"]
 texture = ExtResource("3_f5014")
 
 [node name="Color2" type="Sprite2D" parent="FootBack"]
+self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3y508")
 
 [node name="Misc1" type="Sprite2D" parent="FootBack"]
@@ -2872,13 +2872,13 @@ position = Vector2(-6, -98)
 scale = Vector2(0.65, 0.65)
 
 [node name="Color" type="Sprite2D" parent="Body"]
-self_modulate = Color(0.39215687, 0.4745098, 0.80784315, 1)
 texture = ExtResource("6_jmb14")
 
 [node name="Lines" type="Sprite2D" parent="Body"]
 texture = ExtResource("7_kqs4i")
 
 [node name="Color2" type="Sprite2D" parent="Body"]
+self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("8_6cta1")
 
 [node name="Misc1" type="Sprite2D" parent="Body"]
@@ -2891,13 +2891,13 @@ position = Vector2(-5, -74)
 scale = Vector2(0.65, 0.65)
 
 [node name="Color" type="Sprite2D" parent="FootFront"]
-self_modulate = Color(0.39215687, 0.4745098, 0.80784315, 1)
 texture = ExtResource("10_dbu7o")
 
 [node name="Lines" type="Sprite2D" parent="FootFront"]
 texture = ExtResource("11_m0jbk")
 
 [node name="Color2" type="Sprite2D" parent="FootFront"]
+self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("12_f0ydy")
 
 [node name="Misc1" type="Sprite2D" parent="FootFront"]
@@ -2910,13 +2910,13 @@ position = Vector2(-4, -184)
 scale = Vector2(0.65, 0.65)
 
 [node name="Color" type="Sprite2D" parent="Head"]
-self_modulate = Color(0.39215687, 0.4745098, 0.80784315, 1)
 texture = ExtResource("14_nl2mn")
 
 [node name="Lines" type="Sprite2D" parent="Head"]
 texture = ExtResource("15_pyffb")
 
 [node name="Color2" type="Sprite2D" parent="Head"]
+self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("16_t41j5")
 
 [node name="Misc1" type="Sprite2D" parent="Head"]
@@ -2931,7 +2931,6 @@ scale = Vector2(0.65, 0.65)
 [node name="Hat1" type="Node2D" parent="HatHolder"]
 
 [node name="Color" type="Sprite2D" parent="HatHolder/Hat1"]
-self_modulate = Color(0.6862745, 0.5137255, 0.11372549, 1)
 texture = ExtResource("18_stwk4")
 
 [node name="Lines" type="Sprite2D" parent="HatHolder/Hat1"]

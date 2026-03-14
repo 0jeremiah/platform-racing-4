@@ -45,7 +45,6 @@ offset_left = 116.0
 offset_top = 25.0
 offset_right = 164.0
 offset_bottom = 73.0
-disabled = true
 text = "◀"
 
 [node name="NextHatButton" type="Button" parent="HatSelector"]
@@ -54,7 +53,6 @@ offset_left = 312.0
 offset_top = 25.0
 offset_right = 360.0
 offset_bottom = 73.0
-disabled = true
 text = "▶"
 
 [node name="HeadSelector" type="Control" parent="."]

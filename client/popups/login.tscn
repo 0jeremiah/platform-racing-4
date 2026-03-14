@@ -4,10 +4,8 @@
 
 [node name="LoginScreen" type="Control"]
 layout_mode = 3
-anchor_right = 0.208
-anchor_bottom = 0.417
-offset_right = 0.639984
-offset_bottom = -0.360016
+offset_right = 400.0
+offset_bottom = 449.99997
 theme = ExtResource("1_67xn6")
 
 [node name="Panel" type="Panel" parent="."]
@@ -63,10 +61,10 @@ layout_mode = 2
 [node name="ForgotUsernameButton" type="Button" parent="Panel/VBoxContainer/UsernameContainer"]
 custom_minimum_size = Vector2(275, 40)
 layout_mode = 2
-theme_override_colors/font_hover_color = Color(0, 0.74902, 1, 1)
 theme_override_colors/font_color = Color(0, 0.498039, 1, 1)
 theme_override_colors/font_focus_color = Color(0.498039, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0.498039, 1)
+theme_override_colors/font_hover_color = Color(0, 0.74902, 1, 1)
 text = "Forgot your username?"
 flat = true
 
@@ -94,10 +92,10 @@ layout_mode = 2
 [node name="ForgotPasswordButton" type="Button" parent="Panel/VBoxContainer/PasswordContainer"]
 custom_minimum_size = Vector2(275, 40)
 layout_mode = 2
-theme_override_colors/font_hover_color = Color(0, 0.74902, 1, 1)
 theme_override_colors/font_color = Color(0, 0.498039, 1, 1)
 theme_override_colors/font_focus_color = Color(0.498039, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0.498039, 1)
+theme_override_colors/font_hover_color = Color(0, 0.74902, 1, 1)
 text = "Forgot your password?"
 flat = true
 

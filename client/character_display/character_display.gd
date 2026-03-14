@@ -106,6 +106,9 @@ func set_style(character_config: Dictionary) -> void:
 
 func set_style_from_path(character_config: Dictionary) -> void:
 	# colors
+	my_hat.get_node("Color").self_modulate = Color(character_config["hat"]["color"])
+	my_hat.get_node("Color2").self_modulate = Color(character_config["hat"]["epic_color"])
+	
 	head_color.self_modulate = Color(character_config["head"]["color"])
 	head_epic_color.self_modulate = Color(character_config["head"]["epic_color"])
 	
@@ -119,6 +122,22 @@ func set_style_from_path(character_config: Dictionary) -> void:
 	foot_back_epic_color.self_modulate = Color(character_config["foot_back"]["epic_color"])
 	
 	# parts
+	var hat_color_texture = null
+	var hat_lines_texture = null
+	var hat_epic_color_texture = null
+	var hat_misc1_texture = null
+	var hat_misc2_texture = null
+	if character_config.has("hat") and character_config.hat.has("hat_color"):
+		hat_color_texture = load(character_config["hat"]["hat_color"])
+	if character_config.has("hat") and character_config.hat.has("hat_lines"):
+		hat_lines_texture = load(character_config["hat"]["hat_lines"])
+	if character_config.has("hat") and character_config.hat.has("hat_epic_color"):
+		hat_epic_color_texture = load(character_config["hat"]["hat_epic_color"])
+	if character_config.has("hat") and character_config.hat.has("hat_misc1"):
+		hat_misc1_texture = load(character_config["hat"]["hat_misc1"])
+	if character_config.has("hat") and character_config.hat.has("hat_misc2"):
+		hat_misc2_texture = load(character_config["hat"]["hat_misc2"])
+	
 	var head_color_texture = null
 	var head_lines_texture = null
 	var head_epic_color_texture = null
@@ -181,7 +200,13 @@ func set_style_from_path(character_config: Dictionary) -> void:
 	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_misc1"):
 		foot_back_misc1_texture = load(character_config["foot_back"]["foot_back_misc1"])
 	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_misc2"):
-		foot_back_misc1_texture = load(character_config["foot_back"]["foot_back_misc2"])
+		foot_back_misc2_texture = load(character_config["foot_back"]["foot_back_misc2"])
+	
+	my_hat.get_node("Color").texture = hat_color_texture
+	my_hat.get_node("Lines").texture = hat_lines_texture
+	my_hat.get_node("Color2").texture = hat_epic_color_texture
+	my_hat.get_node("Misc1").texture = hat_misc1_texture
+	my_hat.get_node("Misc2").texture = hat_misc2_texture
 	
 	head_color.texture = head_color_texture
 	head_lines.texture = head_lines_texture

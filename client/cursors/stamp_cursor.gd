@@ -70,7 +70,11 @@ func on_mouse_down():
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 			if layer.get_stamp_at_position(mouse_position) != null:
-				pass
+				var selected_stamp = layer.get_stamp_at_position(mouse_position)
+				#get_parent().object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
+				#{"type": "stamp", "node": selected_stamp, "position": selected_stamp.position,
+				#"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
+				#"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale})
 			else:
 				emit_signal("level_event", {
 					"type": EditorEvents.ADD_STAMP,

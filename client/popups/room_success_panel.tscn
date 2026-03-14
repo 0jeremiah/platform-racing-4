@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_sq58g"]
 [ext_resource type="Script" uid="uid://dq05so4e2fnxm" path="res://pages/level_editor/host_edit_panel/host_success_panel.gd" id="1_x1rj1"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="2_sq58g"]
-[ext_resource type="FontFile" uid="uid://5n57twk8mubd" path="res://fonts/Quicksand/static/Quicksand-Medium.ttf" id="4_5704s"]
+[ext_resource type="FontFile" uid="uid://5n57twk8mubd" path="res://fonts/quicksand/quicksand-variablefont_wght.ttf" id="4_5704s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88cch"]
 texture = ExtResource("2_sq58g")
@@ -187,12 +187,12 @@ focus_mode = 2
 theme = SubResource("Theme_y6wvi")
 text = "[Code goes here]"
 selection_enabled = true
+drag_and_drop_selection_enabled = false
 
 [node name="RoomDescription1Label2" type="Label" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
-text = "Share this code with your guild, people
-you trust, or complete strangers, to start editing your level in real-time!"
+text = "Share this code with your guild, people you trust, or complete strangers, to start editing your level in real-time!"
 autowrap_mode = 2
 
 [node name="CloseButton" type="Button" parent="Panel/VBoxContainer"]

@@ -1,35 +1,48 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxiwhl2uem7uk"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_w1038"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x7dxx"]
-bg_color = Color(1, 1, 1, 0.498039)
+[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://popups/popup_base.gd" id="2_nni3h"]
 
 [node name="PopupBase" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_w1038")
+script = ExtResource("2_nni3h")
 
-[node name="IntrusivePanel" type="Panel" parent="."]
+[node name="IntrusiveBG" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_x7dxx")
+color = Color(1, 1, 1, 0.49803922)
 
-[node name="BasePanel" type="Panel" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 910.0
+offset_top = 490.0
+offset_right = 1210.0
+offset_bottom = 790.0
+alignment = 1
+
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 910.0
 offset_top = 490.0
 offset_right = 1210.0
 offset_bottom = 790.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BasePanel"]
-layout_mode = 0
-offset_right = 300.0
-offset_bottom = 300.0
-alignment = 1
+[node name="Holder" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 930.0
+offset_top = 510.0
+offset_right = 1190.0
+offset_bottom = 713.0
 
-[node name="Button" type="Button" parent="BasePanel/VBoxContainer"]
-custom_minimum_size = Vector2(150, 50)
-layout_mode = 2
-text = "OK"
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1146.0
+offset_top = 733.0
+offset_right = 1196.0
+offset_bottom = 773.0
+theme_override_font_sizes/font_size = 18
+text = "Text"

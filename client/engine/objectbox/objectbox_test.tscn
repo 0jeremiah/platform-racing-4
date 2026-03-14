@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfqbv62s2xrdh"]
+
+[ext_resource type="Script" uid="uid://cen57pmebmsrb" path="res://engine/objectbox/objectbox_test.gd" id="1_jtpy3"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_q2m2o"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="3_kgqo4"]
+[ext_resource type="PackedScene" uid="uid://cquvlgbewa40m" path="res://engine/objectbox/objectbox.tscn" id="4_f4qm3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5iav"]
+atlas = ExtResource("2_q2m2o")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[node name="ObjectBoxTest" type="Node2D"]
+script = ExtResource("1_jtpy3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_c5iav")
+centered = false
+offset = Vector2(-64, -64)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(557, 125.99999)
+rotation = 1.1257373
+texture = ExtResource("3_kgqo4")
+centered = false
+
+[node name="ObjectBox" parent="." instance=ExtResource("4_f4qm3")]
