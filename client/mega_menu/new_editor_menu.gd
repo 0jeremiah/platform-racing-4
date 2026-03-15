@@ -6,7 +6,8 @@ signal level_event
 signal cursor_is_enabled
 
 @onready var level_options_menu = $LevelOptionsMenu
-var layers: Node2D
+@onready var block_options_menu = $BlockOptionsMenu
+var current_layers: Node2D
 var editor_events: EditorEvents
 
 
@@ -15,17 +16,26 @@ func _ready():
 	level_options_menu.control_event.connect(_on_control_event)
 	level_options_menu.level_event.connect(_on_level_event)
 	level_options_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
+	block_options_menu.control_event.connect(_on_control_event)
+	block_options_menu.level_event.connect(_on_level_event)
+	block_options_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
 	_on_size_changed()
 
 
-func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
-	layers = new_layers
+func init(new_current_layers: Node2D, new_editor_events: EditorEvents) -> void:
+	current_layers = new_current_layers
 	editor_events = new_editor_events
-	level_options_menu.init(layers, editor_events)
+	if new_current_layers is LevelLayers:
+		level_options_menu.init(current_layers, editor_events)
+	if new_current_layers is BlockLayers:
+		block_options_menu.init(current_layers, editor_events)
 
 
-func set_editor_mode(current_editor):
-	level_options_menu.editor = current_editor
+func set_editor_mode(new_current_editor):
+	if new_current_editor is LevelEditor:
+		level_options_menu.editor = new_current_editor
+	if new_current_editor is BlockEditor:
+		block_options_menu.editor = new_current_editor
 
 
 func _on_size_changed():

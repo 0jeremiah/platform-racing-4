@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://t31di5itcpjo"]
+[gd_scene load_steps=9 format=3 uid="uid://t31di5itcpjo"]
 
 [ext_resource type="Script" uid="uid://dfhyjaha6ynmx" path="res://pages/block_editor/block_options_menu.gd" id="1_gcm1c"]
+[ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/level_editor/art_submenu.tscn" id="2_chyix"]
 [ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://mega_menu/icons/art.png" id="6_vf6a5"]
 [ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="7_peu1t"]
 [ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="9_qggkb"]
@@ -37,6 +38,8 @@ script = ExtResource("1_gcm1c")
 
 [node name="Submenus" type="Node2D" parent="."]
 position = Vector2(-1724, 0)
+
+[node name="ArtSubmenu" parent="Submenus" instance=ExtResource("2_chyix")]
 
 [node name="SlightlyLessTallPanel" type="Panel" parent="."]
 layout_mode = 0

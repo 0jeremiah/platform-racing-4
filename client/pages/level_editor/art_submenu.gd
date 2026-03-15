@@ -3,12 +3,18 @@ extends Control
 signal control_event
 
 @onready var art_menu = $ArtMenu
+@onready var art_menu_panel = $ArtMenu/ArtMenuPanel
 @onready var selection_glow = $ArtMenu/SelectionGlow
+@onready var background_box = $ArtMenu/BackgroundBox
 @onready var background_texture = $ArtMenu/BackgroundBox/BackgroundTexture
 @onready var background_button = $ArtMenu/BackgroundBox/Button
+@onready var brush_box = $ArtMenu/BrushBox
 @onready var brush_button = $ArtMenu/BrushBox/TextureButton
+@onready var eraser_box = $ArtMenu/EraserBox
 @onready var eraser_button = $ArtMenu/EraserBox/TextureButton
+@onready var stamp_box = $ArtMenu/StampBox
 @onready var stamp_button = $ArtMenu/StampBox/TextureButton
+@onready var text_box = $ArtMenu/TextBox
 @onready var text_button = $ArtMenu/TextBox/TextureButton
 @onready var art_settings = $ArtSettings
 @onready var art_settings_panel = $ArtSettings/ArtSettingsPanel
@@ -36,7 +42,7 @@ signal control_event
 
 
 var active: bool = false
-var level_layers: Node2D
+var current_layers: Node2D
 var editor_events: EditorEvents
 var background_graphics: Array = []
 var background_array: Array = []
@@ -74,7 +80,11 @@ func _ready() -> void:
 
 
 func init() -> void:
-	layer_panel.init(level_layers, "art")
+	var visible_boxes_list: Array = [brush_box, eraser_box, stamp_box, text_box]
+	if current_layers is LevelLayers:
+		visible_boxes_list.push_front(background_box)
+	show_boxes(visible_boxes_list)
+	layer_panel.init(current_layers, "art")
 	editor_events.connect_to([layer_panel])
 	editor_events.level_event.connect(_on_level_event)
 
@@ -135,6 +145,25 @@ func _on_level_event(event: Dictionary) -> void:
 		var stamps = Stamps.new()
 		stamps.get_stamp(sprite2d, stamp_id)
 		selected_stamp_texture.texture = sprite2d.texture
+
+
+func show_boxes(boxes_list: Array):
+	art_menu.visible = false
+	background_box.visible = false
+	brush_box.visible = false
+	eraser_box.visible = false
+	stamp_box.visible = false
+	text_box.visible = false
+	art_menu_panel.size = Vector2(88, 88)
+	var y_offset: float = 0.0
+	if !boxes_list.is_empty():
+		for box in boxes_list.size():
+			art_menu_panel.size.y = 88 + (68 * box)
+			boxes_list[box].position.y = 20 + (68 * box)
+			boxes_list[box].visible = true
+		art_menu.visible = true
+		y_offset = art_menu_panel.size.y + 20
+	art_settings.position.y = y_offset
 
 
 func _check_clicked_button(node: Node):

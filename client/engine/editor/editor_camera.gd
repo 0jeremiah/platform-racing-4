@@ -40,7 +40,7 @@ func _process(delta):
 		camera_speed_multiplier = 2.5
 	else:
 		camera_speed_multiplier = 1.0
-	position += control_vector * (velocity * camera_speed_multiplier) * delta
+	position += control_vector * ((velocity * (0.5 / zoom_array[zoom_index])) * camera_speed_multiplier) * delta
 	
 	if is_zooming:
 		var factor_to_zoom = target_zoom / camera_zoom

@@ -57,18 +57,19 @@ offset_bottom = 380.0
 layout_mode = 1
 anchors_preset = -1
 offset_right = 88.0
-offset_bottom = 360.0
+offset_bottom = 292.0
 
 [node name="SelectionGlow" type="ColorRect" parent="ArtMenu"]
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 15.0
-offset_top = 83.0
+offset_top = 15.0
 offset_right = 73.0
-offset_bottom = 141.0
+offset_bottom = 73.0
 color = Color(1, 1, 0, 1)
 
 [node name="BackgroundBox" type="Control" parent="ArtMenu"]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -120,9 +121,9 @@ flat = true
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 88.0
+offset_top = 20.0
 offset_right = 68.0
-offset_bottom = 136.0
+offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="ArtMenu/BrushBox"]
@@ -160,9 +161,9 @@ stretch_mode = 0
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 156.0
+offset_top = 88.0
 offset_right = 68.0
-offset_bottom = 204.0
+offset_bottom = 136.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="ArtMenu/EraserBox"]
@@ -200,9 +201,9 @@ stretch_mode = 0
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 224.0
+offset_top = 156.0
 offset_right = 68.0
-offset_bottom = 272.0
+offset_bottom = 204.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="ArtMenu/StampBox"]
@@ -240,9 +241,9 @@ stretch_mode = 0
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 292.0
+offset_top = 224.0
 offset_right = 68.0
-offset_bottom = 340.0
+offset_bottom = 272.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="ArtMenu/TextBox"]
@@ -299,9 +300,9 @@ transparent = true
 [node name="ArtSettings" type="Control" parent="."]
 anchors_preset = 0
 offset_left = 10.0
-offset_top = 380.0
+offset_top = 312.0
 offset_right = 98.0
-offset_bottom = 468.0
+offset_bottom = 400.0
 
 [node name="ArtSettingsPanel" type="Panel" parent="ArtSettings"]
 layout_mode = 1

@@ -57,8 +57,9 @@ func _process(_delta):
 
 func init(_menu, _level_layers) -> void:
 	print("BlockCursor::init")
-	level_layers = _level_layers
-	_menu.connect("control_event", _on_control_event)
+	if _level_layers is LevelLayers:
+		level_layers = _level_layers
+		_menu.connect("control_event", _on_control_event)
 	
 
 func _on_control_event(event: Dictionary) -> void:
@@ -81,38 +82,40 @@ func _on_control_event(event: Dictionary) -> void:
 
 
 func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
-	var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-	var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
-	var camera: Camera2D = get_viewport().get_camera_2d()
-	var rotated_pos: Vector2
+	if level_layers:
+		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
+		var camera: Camera2D = get_viewport().get_camera_2d()
+		var rotated_pos: Vector2
 
-	if pos != Vector2(-1, -1):
-		rotated_pos = pos
-	else:
-		# Get screen position of mouse
-		var viewport_mouse_pos = get_viewport().get_mouse_position()
+		if pos != Vector2(-1, -1):
+			rotated_pos = pos
+		else:
+			# Get screen position of mouse
+			var viewport_mouse_pos = get_viewport().get_mouse_position()
 		
-		# Convert to world position taking into account camera position, zoom, and layer scale
-		var world_pos = (viewport_mouse_pos - get_viewport_rect().size / 2) / camera.zoom.x
-		world_pos += camera.position
+			# Convert to world position taking into account camera position, zoom, and layer scale
+			var world_pos = (viewport_mouse_pos - get_viewport_rect().size / 2) / camera.zoom.x
+			world_pos += camera.position
 		
-		# Adjust for layer depth scaling
-		world_pos *= layer.follow_viewport_scale
+			# Adjust for layer depth scaling
+			world_pos *= layer.follow_viewport_scale
 		
-		# Account for tilemap rotation
-		rotated_pos = world_pos
-		if tile_map_layer.rotation != 0:
-			# Inverse rotate the point to get the correct position in rotated space
-			var rotation_radians = -tile_map_layer.rotation
-			rotated_pos = Vector2(
-				world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
-				world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
-			)
-	return rotated_pos
+			# Account for tilemap rotation
+			rotated_pos = world_pos
+			if tile_map_layer.rotation != 0:
+				# Inverse rotate the point to get the correct position in rotated space
+				var rotation_radians = -tile_map_layer.rotation
+				rotated_pos = Vector2(
+					world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
+					world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
+				)
+		return rotated_pos
+	return Vector2(-1, -1)
 
 
 func on_mouse_down():
-	if active and mode == "move":
+	if active and level_layers and mode == "move":
 		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
@@ -138,7 +141,7 @@ func on_mouse_down():
 			})
 
 func on_drag():
-	if active and (mode == "draw" or mode == "erase"):
+	if active and level_layers and (mode == "draw" or mode == "erase"):
 		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
@@ -167,7 +170,7 @@ func on_drag():
 
 
 func on_mouse_up():
-	if active and mode == "move":
+	if active and level_layers and mode == "move":
 		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())

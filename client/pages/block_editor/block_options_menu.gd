@@ -11,6 +11,7 @@ signal cursor_is_enabled
 @onready var extra_options_dropdown_button = $Buttons/ExtraOptionsButton/BlockSettingsDropdownButton
 @onready var extra_options_button = $Buttons/ExtraOptionsButton/TextureButton
 @onready var submenus = $Submenus
+@onready var art_submenu = $Submenus/ArtSubmenu
 var current_submenu: Control
 var layers: Node2D
 var editor_events: EditorEvents
@@ -90,9 +91,9 @@ func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
 			child.control_event.connect(_on_control_event)
 		if "level_event" in child:
 			child.level_event.connect(_on_level_event)
-		if "layers" in child or "editor_events" in child:
-			if "layers" in child:
-				child.layers = layers
+		if "current_layers" in child or "editor_events" in child:
+			if "current_layers" in child:
+				child.current_layers = layers
 			if "editor_events" in child:
 				child.editor_events = editor_events
 			child.init()
@@ -123,16 +124,16 @@ func _physics_process(delta: float) -> void:
 
 
 func set_submenu():
-	#if current_submenu:
-		#current_submenu.deactivate()
-	#if selected_button == art_menu_button:
-		#current_submenu = art_submenu
-		#emit_signal("cursor_is_enabled", true)
-	#elif selected_button == block_settings_button:
+	if current_submenu:
+		current_submenu.deactivate()
+	current_submenu = art_submenu
+	if selected_button == art_menu_button:
+		current_submenu = art_submenu
+		emit_signal("cursor_is_enabled", true)
+	elif selected_button == block_settings_button:
 		#current_submenu = block_settings_button
-		#emit_signal("cursor_is_enabled", false)
-	#current_submenu.activate()
-	pass
+		emit_signal("cursor_is_enabled", false)
+	current_submenu.activate()
 
 
 func _on_control_event(event: Dictionary) -> void:
