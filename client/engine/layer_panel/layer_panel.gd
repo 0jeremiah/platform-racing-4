@@ -45,11 +45,11 @@ func render() -> void:
 	clear()
 	var layer_array
 	if show_layer_type == "blocks":
-		layer_array = layers.block_layers.get_children()
+		layer_array = layers.map_layers.get_children()
 	if show_layer_type == "art":
 		layer_array = layers.art_layers.get_children()
 	for layer in layer_array:
-		if not (layer is BlockLayer or layer is ArtLayer):
+		if not (layer is MapLayer or layer is ArtLayer):
 			continue
 		var row = LAYER_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
@@ -71,12 +71,12 @@ func render() -> void:
 func update_pickers() -> void:
 	var layer
 	if show_layer_type == "blocks":
-		layer = layers.block_layers.get_node(layers.get_target_block_layer())
+		layer = layers.map_layers.get_node(layers.get_target_map_layer())
 	if show_layer_type == "art":
 		layer = layers.art_layers.get_node(layers.get_target_art_layer())
-	if layer and (layer is Layer or layer is BlockLayer or layer is ArtLayer):
+	if layer and (layer is Layer or layer is MapLayer or layer is ArtLayer):
 		depth_picker.set_value(layer.depth)
-		if layer is BlockLayer:
+		if layer is MapLayer:
 			rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
 		if layer is ArtLayer:
 			rotation_picker.set_value(round(layer.art_rotation))
@@ -89,13 +89,13 @@ func clear() -> void:
 func _new_pressed():
 	print("LayerPanel::add layer")
 	if show_layer_type == "blocks":
-		var i = layers.block_layers.get_child_count() + 1
+		var i = layers.map_layers.get_child_count() + 1
 		var new_name = "Layer " + str(i)
-		while(layers.block_layers.get_node(new_name)):
+		while(layers.map_layers.get_node(new_name)):
 			i += 1
 			new_name = "Layer " + str(i)
 		emit_signal("level_event", {
-			"type": EditorEvents.ADD_BLOCK_LAYER,
+			"type": EditorEvents.ADD_MAP_LAYER,
 			"name": new_name
 		})
 		call_deferred("render")
@@ -115,8 +115,8 @@ func _new_pressed():
 func _delete_pressed():
 	if show_layer_type == "blocks":
 		emit_signal("level_event", {
-			"type": EditorEvents.DELETE_BLOCK_LAYER,
-			"name": layers.get_target_block_layer()
+			"type": EditorEvents.DELETE_MAP_LAYER,
+			"name": layers.get_target_map_layer()
 		})
 		call_deferred("render")
 	if show_layer_type == "art":
@@ -175,8 +175,8 @@ func _row_config_pressed(layer_name: String):
 func _rotation_change(rotation):
 	if show_layer_type == "blocks":
 		emit_signal("level_event", {
-			"type": EditorEvents.SET_BLOCK_LAYER_ROTATION,
-			"layer_name": layers.get_target_block_layer(),
+			"type": EditorEvents.SET_MAP_LAYER_ROTATION,
+			"layer_name": layers.get_target_map_layer(),
 			"rotation": rotation
 		})
 	if show_layer_type == "art":
@@ -198,8 +198,8 @@ func _depth_change(depth):
 func _set_layer_name(new_layer_name):
 	if show_layer_type == "blocks":
 		emit_signal("level_event", {
-			"type": EditorEvents.RENAME_BLOCK_LAYER,
-			"layer_name": layers.get_target_block_layer(),
+			"type": EditorEvents.RENAME_MAP_LAYER,
+			"layer_name": layers.get_target_map_layer(),
 			"new_layer_name": new_layer_name
 		})
 		new_layer_name_popup.visible = false

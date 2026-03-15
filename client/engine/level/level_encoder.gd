@@ -3,11 +3,11 @@ class_name LevelEncoder
 
 var chunk_size = Vector2i(10, 10)
 
-func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictionary:
+func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictionary:
 	var level = {
 		"title": LevelEditor.current_level_name,
 		"description": LevelEditor.current_level_description,
-		"block_layers": [],
+		"map_layers": [],
 		"art_layers": [],
 		"properties": {
 			"background": bg.id,
@@ -25,16 +25,16 @@ func encode(layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictiona
 			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}
-	for group_layer in layers.block_layers.get_children():
-		if group_layer is BlockLayer:
+	for group_layer in level_layers.map_layers.get_children():
+		if group_layer is MapLayer:
 			var tile_layer = {
 				"name": group_layer.name,
 				"chunks": encode_chunks(group_layer.get_node("TileMapLayer")),
 				"tile_map_rotation": group_layer.tile_map_rotation,
 				"z_axis": group_layer.z_axis
 			}
-			level.block_layers.push_back(tile_layer)
-	for group_layer in layers.art_layers.get_children():
+			level.map_layers.push_back(tile_layer)
+	for group_layer in level_layers.art_layers.get_children():
 		if group_layer is ArtLayer:
 			var tile_layer = {
 				"name": group_layer.name,
@@ -123,16 +123,16 @@ func encode_stamps(node: Node2D) -> Array:
 
 
 func encode_texts(node: Node2D) -> Array:
-	var textboxobjects = []
-	for textbox: Control in node.get_children():
-		var textboxobject = {
-			"text": textbox.text_string,
-			"font": textbox.text_font,
-			"font_size": textbox.text_font_size,
-			"scale": {"x": textbox.text_scale.x, "y": textbox.text_scale.y},
-			"position": {"x": textbox.text_position.x, "y": textbox.text_position.y},
-			"rotation": textbox.text_rotation,
-			"color": textbox.text_color
+	var texts = []
+	for text: Control in node.get_children():
+		var textData = {
+			"text": text.text_string,
+			"font": text.text_font,
+			"font_size": text.text_font_size,
+			"scale": {"x": text.text_scale.x, "y": text.text_scale.y},
+			"position": {"x": text.text_position.x, "y": text.text_position.y},
+			"rotation": text.text_rotation,
+			"color": text.text_color
 		}
-		textboxobjects.push_back(textboxobject)
-	return textboxobjects
+		texts.push_back(textData)
+	return texts

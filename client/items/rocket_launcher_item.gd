@@ -42,7 +42,7 @@ func launch(_character: Character):
 	rocket.spawnpos = global_position
 	rocket.spawnrot = 0
 	rocket.scale.x = _character.movement.facing
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(rocket)
 

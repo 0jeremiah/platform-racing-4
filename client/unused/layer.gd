@@ -4,15 +4,7 @@ class_name Layer
 @onready var lines: Node2D = $Lines
 @onready var tile_map_layer = $TileMapLayer
 
-const PR2_TILEATLAS = preload("res://tiles/tileatlaspr2.png")
-const PR3DESERT_TILEATLAS = preload("res://tiles/tileatlasdesert.png")
-const PR3INDUSTRIAL_TILEATLAS = preload("res://tiles/tileatlasindustrial.png")
-const PR3JUNGLE_TILEATLAS = preload("res://tiles/tileatlasjungle.png")
-const PR3SPACE_TILEATLAS = preload("res://tiles/tileatlasspace.png")
-const PR3UNDERWATER_TILEATLAS = preload("res://tiles/tileatlasunderwater.png")
-const PR4_TILEATLAS = preload("res://tiles/tileatlaspr4.png")
 const TILEATLAS = preload("res://tiles/tileatlas.png")
-const TILEATLAS_LIST: Array = [PR2_TILEATLAS, PR3DESERT_TILEATLAS, PR3INDUSTRIAL_TILEATLAS, PR3JUNGLE_TILEATLAS, PR3SPACE_TILEATLAS, PR3UNDERWATER_TILEATLAS, PR4_TILEATLAS]
 var z_axis = 10.0
 var depth = 10
 var alpha = 10
@@ -25,11 +17,6 @@ func init(tiles: Tiles) -> void:
 
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
-	var base_source: CompressedTexture2D
-	base_source = PR4_TILEATLAS
-	
-	var block_gap = (base_source.get_width() / Settings.tile_size.x) * (base_source.get_height() / Settings.tile_size.y)
-	
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
 	source.texture = TILEATLAS
 	source.texture_region_size = Settings.tile_size

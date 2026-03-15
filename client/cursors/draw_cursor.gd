@@ -8,7 +8,7 @@ var active: bool = false
 var current_line: Line2D
 var current_point: Vector2i
 var optimization_epsilon: float = 1.0 # bigger = more line optimization
-var layers: Layers
+var level_layers: LevelLayers
 var mode: String = "draw"
 var draw_size: float = 5.0
 var erase_size: float = 5.0
@@ -47,8 +47,8 @@ func _process(_delta):
 		visible = false
 
 
-func init(_menu, _layers) -> void:
-	layers = _layers
+func init(_menu, _level_layers) -> void:
+	level_layers = _level_layers
 	_menu.connect("control_event", _on_control_event)
 
 
@@ -62,7 +62,7 @@ func on_mouse_down():
 	if active:
 		if !current_line:
 			print("DrawCursor::on_mouse_down")
-			var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
+			var layer: ParallaxBackground = level_layers.art_layers.get_node(level_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -87,7 +87,7 @@ func on_mouse_down():
 func on_drag():
 	if active:
 		if current_line:
-			var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
+			var layer: ParallaxBackground = level_layers.art_layers.get_node(level_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -110,7 +110,7 @@ func on_mouse_up():
 				point_dicts.append({"x": point.x, "y": point.y})
 			emit_signal("level_event", {
 				"type": EditorEvents.ADD_LINE,
-				"layer_name": layers.get_target_art_layer(),
+				"layer_name": level_layers.get_target_art_layer(),
 				"position": {
 					"x": current_line.position.x,
 					"y": current_line.position.y

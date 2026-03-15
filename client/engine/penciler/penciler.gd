@@ -3,12 +3,13 @@ extends Node2D
 const CLEANUP_INTERVAL = 60  # 600 seconds (1 minutes)
 var last_cleanup_time = 0
 var tile_update_timestamps = {}
-var layers: Layers
+var level_layers: LevelLayers
 var layer_panel: Node2D
 
-func init(p_layers: Layers, event_source, p_layer_panel: Node2D) -> void:
+
+func init(p_level_layers: LevelLayers, event_source, p_layer_panel: Node2D) -> void:
 	layer_panel = p_layer_panel
-	layers = p_layers
+	level_layers = p_level_layers
 	event_source.connect("level_event", _on_level_event)
 
 
@@ -47,8 +48,8 @@ func _on_level_event(event: Dictionary) -> void:
 			_set_tile(event, coords, coords_key, block_options)
 
 	if event.type == EditorEvents.ADD_LINE:
-		var layer = layers.art_layers.get_node(event.layer_name)
-		var lines: Node2D = layers.art_layers.get_node(event.layer_name).lines
+		var layer = level_layers.art_layers.get_node(event.layer_name)
+		var lines: Node2D = level_layers.art_layers.get_node(event.layer_name).lines
 		var line = Line2D.new()
 		lines.add_child(line)
 		line.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -88,14 +89,14 @@ func _on_level_event(event: Dictionary) -> void:
 			line.material = CanvasItemMaterial.new()
 			line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
-	if event.type == EditorEvents.ADD_BLOCK_LAYER:
-		var layer := layers.add_block_layer(event.name)
-		layer.set_block_layer_rotation(event.get("tile_map_rotation", 0))
+	if event.type == EditorEvents.ADD_MAP_LAYER:
+		var layer := level_layers.add_map_layer(event.name)
+		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:
-		var layer := layers.add_art_layer(event.name)
+		var layer := level_layers.add_art_layer(event.name)
 		layer.art_scale = event.get("art_scale", 1.0)
 		layer.set_art_rotation(event.get("art_rotation", 0))
 		layer.set_depth(event.get("depth", 10))
@@ -104,7 +105,7 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_STAMP:
-		var layer := layers.art_layers.get_node(event.layer_name)
+		var layer := level_layers.art_layers.get_node(event.layer_name)
 		var stamps := layer.get_node("Stamps")
 		var stamp_scene: PackedScene = preload("res://engine/stamp/stamp.tscn")
 		var stamp = stamp_scene.instantiate()
@@ -117,24 +118,24 @@ func _on_level_event(event: Dictionary) -> void:
 		stamps.add_child(stamp)
 		stamp.set_stamp_properties(stamp_dictionary)
 	
-	if event.type == EditorEvents.RENAME_BLOCK_LAYER:
-		var layer := layers.block_layers.get_node(event.layer_name)
+	if event.type == EditorEvents.RENAME_MAP_LAYER:
+		var layer := level_layers.map_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
 		layer.layer_name = event.new_layer_name
 	
 	if event.type == EditorEvents.RENAME_ART_LAYER:
-		var layer := layers.art_layers.get_node(event.layer_name)
+		var layer := level_layers.art_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
 		layer.layer_name = event.new_layer_name
 
-	if event.type == EditorEvents.DELETE_BLOCK_LAYER:
-		layers.remove_block_layer(event.name)
+	if event.type == EditorEvents.DELETE_MAP_LAYER:
+		level_layers.remove_map_layer(event.name)
 	
 	if event.type == EditorEvents.DELETE_ART_LAYER:
-		layers.remove_art_layer(event.name)
+		level_layers.remove_art_layer(event.name)
 
 	if event.type == EditorEvents.ADD_TEXT:
-		var layer = layers.art_layers.get_node(event.layer_name)
+		var layer = level_layers.art_layers.get_node(event.layer_name)
 		var texts: Node2D = layer.texts
 		var text_scene: PackedScene = preload("res://engine/textbox.tscn")
 		var text = text_scene.instantiate()
@@ -158,34 +159,34 @@ func _on_level_event(event: Dictionary) -> void:
 				#text.mouse_filter = 2 # Not Editable on click (click passes through)
 			#text.disable_text_edits()
 
-	if event.type == EditorEvents.SET_BLOCK_LAYER_Z_AXIS:
-		var layer = layers.block_layers.get_node(event.layer_name)
+	if event.type == EditorEvents.SET_MAP_LAYER_Z_AXIS:
+		var layer = level_layers.map_layers.get_node(event.layer_name)
 		layer.set_z_axis(event.z_axis)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_Z_AXIS:
-		var layer = layers.art_layers.get_node(event.layer_name)
+		var layer = level_layers.art_layers.get_node(event.layer_name)
 		layer.set_z_axis(event.z_axis)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_DEPTH:
-		var layer = layers.art_layers.get_node(event.layer_name)
+		var layer = level_layers.art_layers.get_node(event.layer_name)
 		layer.set_depth(event.depth)
 
-	if event.type == EditorEvents.SET_BLOCK_LAYER_ROTATION:
-		var layer = layers.block_layers.get_node(event.layer_name)
-		layer.set_block_layer_rotation(event.rotation)
+	if event.type == EditorEvents.SET_MAP_LAYER_ROTATION:
+		var layer = level_layers.map_layers.get_node(event.layer_name)
+		layer.set_map_layer_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ROTATION:
-		var layer = layers.art_layers.get_node(event.layer_name)
+		var layer = level_layers.art_layers.get_node(event.layer_name)
 		layer.set_art_rotation(event.rotation)
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ALPHA:
-		var layer = layers.art_layers.get_node(event.layer_name)
+		var layer = level_layers.art_layers.get_node(event.layer_name)
 		layer.set_art_alpha(event.alpha)
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:
-	var layer = layers.block_layers.get_node(event.layer_name)
-	var tile_map_layer: TileMapLayer = layers.block_layers.get_node(event.layer_name + "/TileMapLayer")
+	var layer = level_layers.map_layers.get_node(event.layer_name)
+	var tile_map_layer: TileMapLayer = level_layers.map_layers.get_node(event.layer_name + "/TileMapLayer")
 	tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
 	var tile_data = tile_map_layer.get_cell_tile_data(coords)
 	if tile_data:

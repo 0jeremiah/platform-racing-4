@@ -30,7 +30,7 @@ func process_item(_character: Character) -> void:
 
 func set_block_position(_character: Character):
 	can_place = false
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	tile_map_layer = layer.tile_map_layer
 	spawn_position = to_local(Vector2(0, 0))
 	tile_map_layer_position = tile_map_layer.to_local(_character.global_position)
@@ -93,6 +93,6 @@ func use_block(_character: Character):
 		below_zero.y = -1
 	block.coords = Vector2i(coords.x + below_zero.x, coords.y + below_zero.y)
 	block.atlas_coords = atlas_coords
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.get_node("Effects")
 	spawn.add_child.call_deferred(block)

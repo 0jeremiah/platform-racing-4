@@ -18,7 +18,7 @@ signal cursor_is_enabled
 @onready var art_submenu = $Submenus/ArtSubmenu
 @onready var level_settings_submenu = $Submenus/LevelSettingsSubmenu
 var current_submenu: Control
-var layers: Node2D
+var level_layers: Node2D
 var editor_events: EditorEvents
 var editor: Node2D
 var selected_button: TextureButton
@@ -91,17 +91,17 @@ func _ready() -> void:
 	set_submenu()
 
 
-func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
-	layers = new_layers
+func init(new_level_layers: Node2D, new_editor_events: EditorEvents) -> void:
+	level_layers = new_level_layers
 	editor_events = new_editor_events
 	for child in submenus.get_children():
 		if "control_event" in child:
 			child.control_event.connect(_on_control_event)
 		if "level_event" in child:
 			child.level_event.connect(_on_level_event)
-		if "layers" in child or "editor_events" in child:
-			if "layers" in child:
-				child.layers = layers
+		if "level_layers" in child or "editor_events" in child:
+			if "level_layers" in child:
+				child.level_layers = level_layers
 			if "editor_events" in child:
 				child.editor_events = editor_events
 			child.init()

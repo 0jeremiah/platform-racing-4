@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5u73jf8v3lqd"]
+
+[ext_resource type="Script" uid="uid://1bl6hiqukm10" path="res://engine/block/block_manager.gd" id="1_fh053"]
+[ext_resource type="PackedScene" uid="uid://d4ghr4q21r3mr" path="res://layers/blocklayers.tscn" id="2_fh053"]
+[ext_resource type="PackedScene" uid="uid://cu0lto61jsqfj" path="res://engine/block/block_decoder.tscn" id="3_8gwlc"]
+[ext_resource type="PackedScene" uid="uid://dvawr5puwrf0" path="res://engine/block/block_encoder.tscn" id="4_blo0g"]
+
+[node name="BlockManager" type="Node"]
+script = ExtResource("1_fh053")
+
+[node name="BlockLayers" parent="." instance=ExtResource("2_fh053")]
+
+[node name="BlockDecoder" parent="." instance=ExtResource("3_8gwlc")]
+
+[node name="BlockEncoder" parent="." instance=ExtResource("4_blo0g")]

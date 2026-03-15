@@ -22,11 +22,11 @@ func _ready() -> void:
 	var editor_menu = get_node("UI/EditorMenu")
 	var layer_panel = get_node("UI/LayerPanel")
 	
-	cursor.init(editor_menu, level_manager.layers)
+	cursor.init(editor_menu, level_manager.level_layers)
 	editor_events.connect_to([cursor, editor_menu, layer_panel, level_manager.level_decoder])
-	penciler.init(level_manager.layers, editor_events)
+	penciler.init(level_manager.level_layers, editor_events)
 	level_manager.decode_level(default_layers, true)
-	layer_panel.init(level_manager.layers)
+	layer_panel.init(level_manager.level_layers)
 	character_display_timer.timeout.connect(_update_character_display)
 
 

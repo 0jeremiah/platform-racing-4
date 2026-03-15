@@ -1,0 +1,90 @@
+extends Node2D
+class_name LevelLayers
+
+const MAP_LAYER = preload("res://layers/maplayer.tscn")
+const ART_LAYER = preload("res://layers/artlayer.tscn")
+@onready var map_layers = $MapLayers
+@onready var art_layers = $ArtLayers
+var map_target_layer: String = ""
+var art_target_layer: String = ""
+var tile_config: Tiles
+
+
+func init(p_tile_config: Tiles) -> void:
+	tile_config = p_tile_config
+	for layer in map_layers.get_children():
+		if layer is MapLayer:
+			layer.init(tile_config)
+
+
+func clear() -> void:
+	for layer in map_layers.get_children():
+		layer.queue_free()
+	for layer in art_layers.get_children():
+		layer.queue_free()
+
+
+func set_target_map_layer(layer_name: String) -> void:
+	map_target_layer = layer_name
+
+
+func set_target_art_layer(layer_name: String) -> void:
+	art_target_layer = layer_name
+
+
+func get_target_map_layer() -> String:
+	if map_layers.get_child_count() == 0:
+		map_target_layer = ""
+		return map_target_layer
+	if map_target_layer == "" || !map_layers.get_node(map_target_layer):
+		map_target_layer = map_layers.get_child(0).name
+	return map_target_layer
+
+func get_target_art_layer() -> String:
+	if art_layers.get_child_count() == 0:
+		art_target_layer = ""
+		return art_target_layer
+	if art_target_layer == "" || !art_layers.get_node(art_target_layer):
+		art_target_layer = art_layers.get_child(0).name
+	return art_target_layer
+
+
+func add_map_layer(name: String) -> MapLayer:
+	var layer = MAP_LAYER.instantiate()
+	layer.name = name
+	layer.layer = 10
+	map_layers.add_child(layer)
+	if tile_config:
+		layer.init(tile_config)
+	return layer
+
+func add_art_layer(name: String) -> ArtLayer:
+	var layer = ART_LAYER.instantiate()
+	layer.name = name
+	layer.layer = 10
+	art_layers.add_child(layer)
+	if tile_config:
+		layer.init(tile_config)
+	return layer
+
+
+func remove_map_layer(name: String) -> void:
+	var layer = map_layers.get_node(name)
+	if layer:
+		map_layers.remove_child(layer)
+		layer.queue_free()
+
+
+func remove_art_layer(name: String) -> void:
+	var layer = art_layers.get_node(name)
+	if layer:
+		art_layers.remove_child(layer)
+		layer.queue_free()
+
+
+func calc_used_rect() -> void:
+	for layer in map_layers.get_children():
+		var tile_map_layer = layer.get_node("TileMapLayer")
+		var map_used_rect = tile_map_layer.get_used_rect()
+		if Game.game:
+			Game.game.set_used_rect(layer.name, map_used_rect)

@@ -34,9 +34,9 @@ func get_current_player_layer() -> String:
 	return current_player_layer
 
 
-static func get_target_block_layer_node() -> Node:
-	var target_layer_name: String = game.level_manager.layers.get_target_block_layer()
-	return game.level_manager.layers.block_layers.get_node(target_layer_name)
+static func get_target_map_layer_node() -> Node:
+	var target_layer_name: String = game.level_manager.level_layers.get_target_map_layer()
+	return game.level_manager.level_layers.map_layers.get_node(target_layer_name)
 	
 
 func _ready():
@@ -46,7 +46,7 @@ func _ready():
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
 	editor_events.connect_to([level_manager.level_decoder])
-	penciler.init(level_manager.layers, editor_events, null)
+	penciler.init(level_manager.level_layers, editor_events, null)
 	
 	if !Game.pr2_level_id or Game.pr2_level_id == '0':
 		_activate_game()
@@ -79,7 +79,7 @@ func _activate_game() -> void:
 	
 	bg.set_bg(level_manager.properties.get("background", "field"), level_manager.properties.get("fadeColor", "FFFFFF"))
 	level_manager.activate_node()
-	var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
+	var character = player_manager.spawn_player(level_manager.level_layers, level_manager.tiles)
 	
 	minimap.init(self)
 	game_timer.init(self)

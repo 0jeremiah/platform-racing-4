@@ -1,10 +1,10 @@
 [gd_scene load_steps=26 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" uid="uid://dcgenyyaoaf2q" path="res://pages/level_editor/level_editor.gd" id="1_8rp7f"]
-[ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor_camera.tscn" id="2_bfjim"]
-[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="3_snr4q"]
+[ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor/editor_camera.tscn" id="2_bfjim"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor/editor_events.tscn" id="3_snr4q"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="4_fynqk"]
-[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="5_it2eq"]
+[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level/level_manager.tscn" id="5_it2eq"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="8_1a1os"]
 [ext_resource type="PackedScene" uid="uid://cquvlgbewa40m" path="res://engine/objectbox/objectbox.tscn" id="8_2t0x6"]
 [ext_resource type="PackedScene" uid="uid://bksfgjusb2ghj" path="res://mega_menu/new_editor_menu.tscn" id="9_65ff4"]

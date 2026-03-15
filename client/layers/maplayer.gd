@@ -1,5 +1,5 @@
 extends ParallaxBackground
-class_name BlockLayer
+class_name MapLayer
 
 @onready var tile_map_layer = $TileMapLayer
 
@@ -15,7 +15,7 @@ func init(tiles: Tiles) -> void:
 	tile_map_layer.tile_set = create_tile_set(tiles, true)
 	tile_map_layer.tile_set.uv_clipping = true
 	set_z_axis(z_axis)
-	set_block_layer_rotation(tile_map_rotation)
+	set_map_layer_rotation(tile_map_rotation)
 
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
@@ -90,6 +90,6 @@ func set_z_axis(p_z_axis: int) -> void:
 	follow_viewport_scale = base_scale
 
 
-func set_block_layer_rotation(p_rotation: float) -> void:
+func set_map_layer_rotation(p_rotation: float) -> void:
 	tile_map_rotation = p_rotation
 	tile_map_layer.rotation_degrees = tile_map_rotation

@@ -4,7 +4,7 @@ signal level_event
 
 @onready var stamp_icon = $StampIcon
 var active: bool = false
-var layers: Layers
+var level_layers: LevelLayers
 var mode: String = "vector"
 var stamp_graphics: Array = []
 var stamp_array: Array = []
@@ -42,7 +42,7 @@ func _process(_delta):
 func _draw() -> void:
 	var touching_gui: bool = get_parent().touching_gui
 	if touching_gui:
-		var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
+		var layer: ParallaxBackground = level_layers.art_layers.get_node(level_layers.get_target_art_layer())
 		var packed_vector2_array = layer.get_stamp_draw_packed_vector2_array_for_debug(stamp_icon)
 		for lines in packed_vector2_array.size():
 			if lines + 1 < packed_vector2_array.size():
@@ -51,8 +51,8 @@ func _draw() -> void:
 				draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 1.0, false)
 
 
-func init(_menu, _layers) -> void:
-	layers = _layers
+func init(_menu, _level_layers) -> void:
+	level_layers = _level_layers
 	_menu.connect("control_event", _on_control_event)
 
 
@@ -65,7 +65,7 @@ func _on_control_event(event: Dictionary) -> void:
 func on_mouse_down():
 	if active:
 		if stamp_id:
-			var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
+			var layer: ParallaxBackground = level_layers.art_layers.get_node(level_layers.get_target_art_layer())
 			var stamps: Node2D = layer.get_node("Stamps")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -78,7 +78,7 @@ func on_mouse_down():
 			else:
 				emit_signal("level_event", {
 					"type": EditorEvents.ADD_STAMP,
-					"layer_name": layers.get_target_art_layer(),
+					"layer_name": level_layers.get_target_art_layer(),
 					"id": stamp_id,
 					"position": {
 						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),

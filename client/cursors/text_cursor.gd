@@ -5,7 +5,7 @@ signal level_event
 @onready var caret = $Caret
 var active: bool = false
 var current_textbox: TextEdit
-var layers: Layers
+var level_layers: LevelLayers
 
 
 func deactivate():
@@ -27,14 +27,14 @@ func _process(_delta):
 		visible = false
 
 
-func init(_layers: Layers) -> void:
-	layers = _layers
+func init(_level_layers: LevelLayers) -> void:
+	level_layers = _level_layers
 	
 
 func on_mouse_down():
 	var not_yet: bool = false
 	if active and not_yet:
-		var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
+		var layer: ParallaxBackground = level_layers.art_layers.get_node(level_layers.get_target_art_layer())
 		var textboxes: Node2D = layer.get_node("Texts")
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var mouse_position = textboxes.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -45,7 +45,7 @@ func on_mouse_down():
 	
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_TEXT,
-			"layer_name": layers.art_layers.get_target_art_layer(),
+			"layer_name": level_layers.art_layers.get_target_art_layer(),
 			"position": {
 				"x": mouse_position.round().x,
 				"y": mouse_position.round().y

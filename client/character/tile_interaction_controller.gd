@@ -100,7 +100,7 @@ func interact_with_solid_tiles(character: Character, lighting: LightbreakControl
 				if Game.game:
 					var level_manager = Game.game.get_node("LevelManager")
 					if level_manager:
-						last_safe_layer = level_manager.layers.block_layers.get_node(str(str(tile_map_layer.get_parent().name)))
+						last_safe_layer = level_manager.level_layers.map_layers.get_node(str(str(tile_map_layer.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
 	if lighting.direction.length() > 0 and lighting.fire_power > 0:

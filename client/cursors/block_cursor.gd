@@ -14,7 +14,7 @@ var teleport_colorin_coords: Vector2 = Vector2(-1, -1)
 var teleport_color: String = "FFFFFF"
 var grabbed_block: int = 0
 var grabbed_block_options: Array = []
-var layers: Layers
+var level_layers: LevelLayers
 
 
 func _ready():
@@ -55,9 +55,9 @@ func _process(_delta):
 		visible = false
 
 
-func init(_menu, _layers) -> void:
+func init(_menu, _level_layers) -> void:
 	print("BlockCursor::init")
-	layers = _layers
+	level_layers = _level_layers
 	_menu.connect("control_event", _on_control_event)
 	
 
@@ -81,7 +81,7 @@ func _on_control_event(event: Dictionary) -> void:
 
 
 func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
-	var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
+	var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 	var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var rotated_pos: Vector2
@@ -113,7 +113,7 @@ func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
 
 func on_mouse_down():
 	if active and mode == "move":
-		var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
+		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_coords = tile_map_layer.get_cell_atlas_coords(coords)
@@ -127,7 +127,7 @@ func on_mouse_down():
 			grabbed_block_options = tile_options
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
-				"layer_name": layers.get_target_block_layer(),
+				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {
 					"x": coords.x,
 					"y": coords.y
@@ -139,7 +139,7 @@ func on_mouse_down():
 
 func on_drag():
 	if active and (mode == "draw" or mode == "erase"):
-		var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
+		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: int
@@ -155,7 +155,7 @@ func on_drag():
 		if atlas_coords != existing_atlas_coords:
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
-				"layer_name": layers.get_target_block_layer(),
+				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {
 					"x": coords.x,
 					"y": coords.y
@@ -168,14 +168,14 @@ func on_drag():
 
 func on_mouse_up():
 	if active and mode == "move":
-		var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
+		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var atlas_coords = CoordinateUtils.to_atlas_coords(grabbed_block)
 		if grabbed_block > 0:
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
-				"layer_name": layers.get_target_block_layer(),
+				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {
 					"x": coords.x,
 					"y": coords.y

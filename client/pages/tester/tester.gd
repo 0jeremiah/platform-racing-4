@@ -33,7 +33,7 @@ func init(data: Dictionary):
 	var bg: Node2D = get_node("BG")
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
-	penciler.init(level_manager.layers, editor_events, null)
+	penciler.init(level_manager.level_layers, editor_events, null)
 	editor_events.connect_to([level_manager.level_decoder])
 	
 	var level
@@ -53,9 +53,9 @@ func init(data: Dictionary):
 	Jukebox.play_song(level.properties.get("music", ""))
 	
 	var player_manager: PlayerManager = get_node("PlayerManager")
-	var start_option = Start.get_next_start_option(level_manager.layers)
+	var start_option = Start.get_next_start_option(level_manager.level_layers)
 	if start_option:
-		var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
+		var character = player_manager.spawn_player(level_manager.level_layers, level_manager.tiles)
 		current_player_layer = start_option.layer_name
 	
 	minimap.init(self)

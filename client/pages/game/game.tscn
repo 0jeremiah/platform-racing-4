@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
-[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="3_yuilv"]
-[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
+[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level/level_manager.tscn" id="3_yuilv"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor/editor_events.tscn" id="5_mko5n"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="7_3ylxm"]
 [ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
@@ -56,12 +56,14 @@ offset_top = 930.0
 offset_bottom = 0.0
 
 [node name="GameTimer" parent="UI/Container" instance=ExtResource("9_lhgqe")]
+layout_mode = 0
 offset_left = 1640.0
 offset_top = 11.0
 offset_right = 1908.0
 offset_bottom = 91.0
 
 [node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_nlto3")]
+layout_mode = 0
 offset_left = 1640.0
 offset_top = 101.0
 offset_right = 1908.0

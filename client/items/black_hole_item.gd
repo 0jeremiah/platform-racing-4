@@ -18,7 +18,7 @@ func activate_item(_character: Character):
 
 func spawn_hole(_character: Character):
 	var blackhole = hole.instantiate()
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(blackhole)
 	blackhole.dir = 0

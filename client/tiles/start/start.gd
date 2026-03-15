@@ -26,7 +26,7 @@ func clear():
 	start_options = []
 
 
-static func get_next_start_option(layers: Node2D) -> Dictionary:
+static func get_next_start_option(level_layers: Node2D) -> Dictionary:
 	if len(start_options) > 0:
 		var start_option = start_options[i]
 		i += 1
@@ -35,7 +35,7 @@ static func get_next_start_option(layers: Node2D) -> Dictionary:
 		return start_option
 	else:
 		return {
-			"layer_name": layers.get_target_block_layer(),
+			"layer_name": level_layers.get_target_map_layer(),
 			"coords": Vector2i(0, 0),
 			"tile_map_layer": null,
 		}

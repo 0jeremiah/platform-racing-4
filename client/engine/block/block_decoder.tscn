@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu0lto61jsqfj"]
+
+[ext_resource type="Script" uid="uid://0ggcde6s1l1h" path="res://engine/block/block_decoder.gd" id="1_ijaq8"]
+
+[node name="BlockDecoder" type="Node2D"]
+script = ExtResource("1_ijaq8")

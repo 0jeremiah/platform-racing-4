@@ -3,11 +3,8 @@ class_name LevelDecoder
 
 signal level_event
 
-const BLOCK_LAYER = preload("res://layers/blocklayer.tscn")
-const ART_LAYER = preload("res://layers/artlayer.tscn")
 
-
-func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
+func decode(level: Dictionary, isEditing: bool, level_layers: LevelLayers) -> void:
 	GameConfig.clear_overrides()
 	var properties = level.get("properties", {})
 	print("LevelDecoder::decode: ", properties)
@@ -67,23 +64,23 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	if properties.has("game_config_overrides"):
 		GameConfig.import_overrides(properties.game_config_overrides)
 	
-	# Failsafe for levels that don't have block_layers or art_layers.
+	# Failsafe for levels that don't have map_layers or art_layers.
 	if level.has("layers"):
-		var level_layers = level.get("layers", [])
-		if !level_layers.is_empty():
-			for encoded_layer in level_layers:
+		var layers = level.get("layers", [])
+		if !layers.is_empty():
+			for encoded_layer in layers:
 				var chunks = encoded_layer.get("chunks", [])
 				if !chunks.is_empty():
 					# Emit add block layer event
 					emit_signal("level_event", {
-						"type": EditorEvents.ADD_BLOCK_LAYER,
+						"type": EditorEvents.ADD_MAP_LAYER,
 						"name": encoded_layer.name,
 						"tile_map_rotation": encoded_layer.get("rotation", 0),
 						"z_axis": encoded_layer.get("depth", 10)
 					})
 					if encoded_layer.get("chunks"):
 						decode_chunks(encoded_layer.name, encoded_layer.chunks)
-			for encoded_layer in level_layers:
+			for encoded_layer in layers:
 				var lines = encoded_layer.get("lines", [])
 				var texts = encoded_layer.get("texts", [])
 				if !lines.is_empty() or !texts.is_empty():
@@ -101,31 +98,31 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 						decode_lines(encoded_layer.name, encoded_layer.lines)
 					if encoded_layer.get("usertextboxobjects"):
 						decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects, isEditing)
-		level.get_or_add("block_layers", [])
+		level.get_or_add("map_layers", [])
 		level.get_or_add("art_layers", [])
-		var level_block_layers = level.get("block_layers", [])
-		if level_block_layers.is_empty():
-			level_block_layers.append({"name": "Layer 1"})
+		var level_map_layers = level.get("map_layers", [])
+		if level_map_layers.is_empty():
+			level_map_layers.append({"name": "Layer 1"})
 		var level_art_layers = level.get("art_layers", [])
 		if level_art_layers.is_empty():
 			level_art_layers.append({"name": "Layer 1"})
 		level.erase("layers")
 	else:
-		var level_block_layers = level.get("block_layers", [])
-		if level_block_layers.is_empty():
-			level_block_layers.append({"name": "Layer 1"})
+		var level_map_layers = level.get("map_layers", [])
+		if level_map_layers.is_empty():
+			level_map_layers.append({"name": "Layer 1"})
 		
-		for encoded_block_layer in level_block_layers:
+		for encoded_map_layer in level_map_layers:
 			# Emit add layer event
 			emit_signal("level_event", {
-				"type": EditorEvents.ADD_BLOCK_LAYER,
-				"name": encoded_block_layer.name,
-				"tile_map_rotation": encoded_block_layer.get("tile_map_rotation", 0),
-				"z_axis": encoded_block_layer.get("z_axis", 10)
+				"type": EditorEvents.ADD_MAP_LAYER,
+				"name": encoded_map_layer.name,
+				"tile_map_rotation": encoded_map_layer.get("tile_map_rotation", 0),
+				"z_axis": encoded_map_layer.get("z_axis", 10)
 			})
 		
-			if encoded_block_layer.get("chunks"):
-				decode_chunks(encoded_block_layer.name, encoded_block_layer.chunks)
+			if encoded_map_layer.get("chunks"):
+				decode_chunks(encoded_map_layer.name, encoded_map_layer.chunks)
 		
 		
 		var level_art_layers = level.get("art_layers", [])

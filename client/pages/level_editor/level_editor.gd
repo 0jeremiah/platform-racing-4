@@ -68,7 +68,7 @@ func _ready():
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
 	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
-	LevelEditor.editor_cursors.init(level_manager.layers)
+	LevelEditor.editor_cursors.init(level_manager.level_layers)
 	
 	var penciler: Node2D = get_node("Penciler")
 	var editor_events: EditorEvents = get_node("EditorEvents")
@@ -79,7 +79,7 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
-	penciler.init(level_manager.layers, editor_events, layer_panel)
+	penciler.init(level_manager.level_layers, editor_events, layer_panel)
 	
 	var level
 	if LevelEditor.current_level:
@@ -120,11 +120,11 @@ func _ready():
 	level_settings_submenu.set_item_settings(level.properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))
 	level_manager.set_settings(level_settings)
 	
-	cursor.init(editor_menu, level_manager.layers)
-	editor_menu.init(level_manager.layers, editor_events)
+	cursor.init(editor_menu, level_manager.level_layers)
+	editor_menu.init(level_manager.level_layers, editor_events)
 	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
 	
-	# layer_panel_node.init(level_manager.layers)
+	# layer_panel_node.init(level_manager.level_layers)
 	
 	camera_controls.init(editor_camera)
 	
@@ -185,7 +185,7 @@ func _on_level_load(level_name = "", level_description = ""):
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(selected_level, true)
-	level_manager.layers.init(level_manager.tiles)
+	level_manager.level_layers.init(level_manager.tiles)
 
 
 func _on_request_editor_load():
@@ -194,7 +194,7 @@ func _on_request_editor_load():
 	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(LevelEditor.current_level, true)
-	level_manager.layers.init(level_manager.tiles)
+	level_manager.level_layers.init(level_manager.tiles)
 
 
 func _on_explore_load(level_id):
@@ -230,7 +230,7 @@ func _on_explore_load_completed(result, response_code, _headers, body):
 	LevelEditor.current_level = level_data
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(LevelEditor.current_level, true)
-	level_manager.layers.init(level_manager.tiles)
+	level_manager.level_layers.init(level_manager.tiles)
 
 
 func _on_control_event(event: Dictionary) -> void:

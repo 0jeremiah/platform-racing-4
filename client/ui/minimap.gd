@@ -2,7 +2,7 @@ extends Control
 class_name Minimap
 
 var game = null
-var block_layers = null
+var map_layers = null
 var player = null
 var dot_size = Vector2(10, 10)
 @onready var display_layers = $DisplayLayers
@@ -10,11 +10,11 @@ var dot_size = Vector2(10, 10)
 
 func init(game_scene):
 	game = game_scene
-	block_layers = game_scene.level_manager.layers.block_layers
+	map_layers = game_scene.level_manager.level_layers.map_layers
 	player = game_scene.get_node("PlayerManager").get_character()
 	
-	for block_layer in block_layers.get_children():
-		var minimap_layer = _create_minimap_layer(block_layer)
+	for map_layer in map_layers.get_children():
+		var minimap_layer = _create_minimap_layer(map_layer)
 		display_layers.add_child(minimap_layer)
 	
 	connect("resized", Callable(self, "_on_resized"))

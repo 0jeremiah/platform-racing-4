@@ -36,7 +36,7 @@ signal control_event
 
 
 var active: bool = false
-var layers: Node2D
+var level_layers: Node2D
 var editor_events: EditorEvents
 var background_graphics: Array = []
 var background_array: Array = []
@@ -74,7 +74,7 @@ func _ready() -> void:
 
 
 func init() -> void:
-	layer_panel.init(layers, "art")
+	layer_panel.init(level_layers, "art")
 	editor_events.connect_to([layer_panel])
 	editor_events.level_event.connect(_on_level_event)
 

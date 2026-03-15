@@ -29,7 +29,7 @@ func process_item(_character: Character) -> void:
 
 func maybe_teleport(_character: Character):
 	can_teleport = false
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	teleport_target_area = Vector2(_character.global_position.x + (Settings.tile_size.x * (teleport_horizontal_distance + 1)) * _character.movement.facing, _character.global_position.y + ((Settings.tile_size.y * teleport_vertical_distance) - (Settings.tile_size.y / 2)))
 	tile_map_layer = layer.tile_map_layer
 	tile_map_layer_position = tile_map_layer.local_to_map(teleport_target_area)
@@ -80,7 +80,7 @@ func activate_item(_character: Character):
 
 
 func _teleport(_character):
-	var layer = Game.get_target_block_layer_node()
+	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.get_node("Projectiles")
 	var poof1 = poof_effect.instantiate()
 	poof1.spawnpos = _character.item_manager.global_position
