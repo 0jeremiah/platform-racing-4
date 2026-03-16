@@ -36,19 +36,20 @@ func _process(_delta):
 			stamp_icon.visible = true
 	else:
 		visible = false
-	queue_redraw()
+	update_display()
+	#queue_redraw()
 
 
 func _draw() -> void:
 	var touching_gui: bool = get_parent().touching_gui
 	if touching_gui and current_layers:
 		var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-		var packed_vector2_array = layer.get_stamp_draw_packed_vector2_array_for_debug(stamp_icon)
-		for lines in packed_vector2_array.size():
-			if lines + 1 < packed_vector2_array.size():
-				draw_line(packed_vector2_array[lines], packed_vector2_array[lines + 1], Color.WHITE, 1.0, false)
-			else:
-				draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 1.0, false)
+		#var packed_vector2_array = layer.get_stamp_draw_packed_vector2_array_for_debug(stamp_icon)
+		#for lines in packed_vector2_array.size():
+			#if lines + 1 < packed_vector2_array.size():
+				#draw_line(packed_vector2_array[lines], packed_vector2_array[lines + 1], Color.WHITE, 1.0, false)
+			#else:
+				#draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 1.0, false)
 
 
 func init(_menu, _current_layers) -> void:
@@ -120,6 +121,7 @@ func set_stamp_rotation(new_rotation: float) -> void:
 
 
 func update_display():
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size)))
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2)))
 	stamp_icon.rotation_degrees = stamp_rotation
-	stamp_icon.scale = Vector2(0.01 * stamp_size, 0.01 * stamp_size)
+	stamp_icon.scale = Vector2((0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2), (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2))

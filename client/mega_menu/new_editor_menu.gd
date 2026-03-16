@@ -32,10 +32,14 @@ func init(new_current_layers: Node2D, new_editor_events: EditorEvents) -> void:
 
 
 func set_editor_mode(new_current_editor):
+	level_options_menu.visible = false
+	block_options_menu.visible = false
 	if new_current_editor is LevelEditor:
 		level_options_menu.editor = new_current_editor
+		level_options_menu.visible = true
 	if new_current_editor is BlockEditor:
 		block_options_menu.editor = new_current_editor
+		block_options_menu.visible = true
 
 
 func _on_size_changed():

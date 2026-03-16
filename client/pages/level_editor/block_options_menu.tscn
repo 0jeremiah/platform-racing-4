@@ -41,7 +41,7 @@ position = Vector2(-1724, 0)
 
 [node name="ArtSubmenu" parent="Submenus" instance=ExtResource("2_chyix")]
 
-[node name="SlightlyLessTallPanel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 185.0
 offset_top = 68.0

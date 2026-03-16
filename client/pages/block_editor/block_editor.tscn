@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://hxj7vo2lfisv"]
+[gd_scene load_steps=14 format=3 uid="uid://hxj7vo2lfisv"]
 
 [ext_resource type="Texture2D" uid="uid://bkg1x1wdrj45c" path="res://pages/block_editor/128x128CheckeredBackground.png" id="1_134e5"]
 [ext_resource type="Script" uid="uid://6uupinh4gbsj" path="res://pages/block_editor/block_editor.gd" id="1_fchs8"]
@@ -8,11 +8,18 @@
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="3_nlrjn"]
 [ext_resource type="PackedScene" uid="uid://facica06ifm6" path="res://addons/fit_screen.tscn" id="3_o0ocb"]
 [ext_resource type="PackedScene" uid="uid://bb2q3wohjm3yk" path="res://addons/follow_camera.tscn" id="4_5cfgx"]
-[ext_resource type="PackedScene" uid="uid://t31di5itcpjo" path="res://pages/level_editor/block_options_menu.tscn" id="5_6vbd6"]
 [ext_resource type="PackedScene" uid="uid://odgk3txmr7dl" path="res://ui/camera_controls.tscn" id="6_gj4gs"]
+[ext_resource type="PackedScene" uid="uid://b5u73jf8v3lqd" path="res://engine/block/block_manager.tscn" id="7_o0ocb"]
+[ext_resource type="PackedScene" uid="uid://cquvlgbewa40m" path="res://engine/objectbox/objectbox.tscn" id="10_ofrwg"]
+[ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="11_t3joe"]
+[ext_resource type="PackedScene" uid="uid://bksfgjusb2ghj" path="res://mega_menu/new_editor_menu.tscn" id="13_qip0t"]
 
 [node name="BlockEditor" type="Node2D"]
 script = ExtResource("1_fchs8")
+
+[node name="EditorCamera" parent="." instance=ExtResource("1_y4rav")]
+
+[node name="EditorEvents" parent="." instance=ExtResource("2_65o7d")]
 
 [node name="BG" type="Node2D" parent="."]
 
@@ -23,10 +30,6 @@ texture = ExtResource("2_5wjmi")
 [node name="FitScreen" parent="BG/Sprite" instance=ExtResource("3_o0ocb")]
 
 [node name="FollowCamera" parent="BG" instance=ExtResource("4_5cfgx")]
-
-[node name="EditorCamera" parent="." instance=ExtResource("1_y4rav")]
-
-[node name="EditorEvents" parent="." instance=ExtResource("2_65o7d")]
 
 [node name="Penciler" parent="." instance=ExtResource("3_nlrjn")]
 
@@ -42,11 +45,21 @@ size = Vector2i(128, 128)
 render_target_update_mode = 4
 
 [node name="CheckerBGGraphic" type="Sprite2D" parent="SubViewportContainer/SubViewport"]
+scale = Vector2(2, 2)
 texture = ExtResource("1_134e5")
 centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="BlockManager" parent="SubViewportContainer/SubViewport" instance=ExtResource("7_o0ocb")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 120
+
+[node name="ObjectBox" parent="UI" instance=ExtResource("10_ofrwg")]
+visible = false
+
+[node name="Cursor" parent="UI" instance=ExtResource("11_t3joe")]
 
 [node name="CameraControls" parent="UI" instance=ExtResource("6_gj4gs")]
 offset_left = 1500.0
@@ -54,4 +67,4 @@ offset_top = 950.0
 offset_right = 1750.0
 offset_bottom = 1070.0
 
-[node name="BlockOptionsMenu" parent="UI" instance=ExtResource("5_6vbd6")]
+[node name="EditorMenu" parent="UI" instance=ExtResource("13_qip0t")]

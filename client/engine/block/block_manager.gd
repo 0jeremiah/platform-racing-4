@@ -11,13 +11,11 @@ func _ready() -> void:
 
 
 func encode_block() -> Dictionary:
-	#return block_encoder.encode(layers, self)
-	return {}
+	return block_encoder.encode(block_layers, self)
 
 
-func decode_block(level_data: Dictionary, is_editor: bool) -> void:
-	#block_decoder.decode(block_data, layers)
-	pass
+func decode_block(block_data: Dictionary, is_editor: bool) -> void:
+	block_decoder.decode(block_data, false, block_layers)
 
 
 func clear() -> void:

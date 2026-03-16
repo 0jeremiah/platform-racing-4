@@ -37,12 +37,13 @@ func _process(_delta):
 		brush_circle.visible = false
 		var touching_gui: bool = get_parent().touching_gui
 		if touching_gui:
+			var camera: Camera2D = get_viewport().get_camera_2d()
 			haircross.visible = true
 			brush_circle.visible = true
 			if mode == "erase":
-				brush_circle.set_brush_circle(erase_size, size_multiplier)
+				brush_circle.set_brush_circle(erase_size * (camera.zoom_array[camera.zoom_index] * 2), size_multiplier)
 			else:
-				brush_circle.set_brush_circle(draw_size, size_multiplier)
+				brush_circle.set_brush_circle(draw_size * (camera.zoom_array[camera.zoom_index] * 2), size_multiplier)
 	else:
 		visible = false
 

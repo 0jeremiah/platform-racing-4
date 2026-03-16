@@ -27,16 +27,16 @@ func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Di
 	}
 	for group_layer in level_layers.map_layers.get_children():
 		if group_layer is MapLayer:
-			var tile_layer = {
+			var map_layer = {
 				"name": group_layer.name,
 				"chunks": encode_chunks(group_layer.get_node("TileMapLayer")),
 				"tile_map_rotation": group_layer.tile_map_rotation,
 				"z_axis": group_layer.z_axis
 			}
-			level.map_layers.push_back(tile_layer)
+			level.map_layers.push_back(map_layer)
 	for group_layer in level_layers.art_layers.get_children():
 		if group_layer is ArtLayer:
-			var tile_layer = {
+			var art_layer = {
 				"name": group_layer.name,
 				"lines": encode_lines(group_layer.lines),
 				"stamps": encode_stamps(group_layer.stamps),
@@ -45,7 +45,7 @@ func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Di
 				"depth": group_layer.depth,
 				"alpha": group_layer.alpha
 			}
-			level.art_layers.push_back(tile_layer)
+			level.art_layers.push_back(art_layer)
 	return level
 
 

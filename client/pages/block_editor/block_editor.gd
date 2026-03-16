@@ -19,14 +19,14 @@ var default_block: Dictionary = {
 	}]
 }
 
-@onready var block_manager: LevelManager = $BlockManager
+@onready var block_manager: BlockManager = $SubViewportContainer/SubViewport/BlockManager
 #@onready var game_client = get_node("/root/Main/GameClient")
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var editor_events: EditorEvents = $EditorEvents
-#@onready var cursor = $UI/Cursor
+@onready var cursor = $UI/Cursor
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
-#@onready var editor_menu: Node2D = $UI/EditorMenu
+@onready var editor_menu: Node2D = $UI/EditorMenu
 
 
 func init(data: Dictionary = {}):
@@ -36,7 +36,7 @@ func init(data: Dictionary = {}):
 
 func _ready():
 	BlockEditor.block_editor = self
-	#editor_menu.set_editor_mode(self)
+	editor_menu.set_editor_mode(self)
 	#tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.stop_song(false)
 	#game_client.connect("request_editor_load", _on_request_editor_load)
@@ -44,43 +44,43 @@ func _ready():
 	#BlockEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
 	#BlockEditor.editor_cursors.init(block_manager.block_layers)
 	
-	#var penciler: Node2D = get_node("Penciler")
-	#var editor_events: EditorEvents = get_node("EditorEvents")
-	#var cursor: Cursor = get_node("UI/Cursor")
-	#var editor_menu = get_node("UI/EditorMenu")
+	var penciler: Node2D = get_node("Penciler")
+	var editor_events: EditorEvents = get_node("EditorEvents")
+	var cursor: Cursor = get_node("UI/Cursor")
+	var editor_menu = get_node("UI/EditorMenu")
 	#var layer_panel_node = get_node("UI/LayerPanel")
 	#var game_client_node = get_node("/root/Main/GameClient")
 	
-	#editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
+	editor_events.connect_to([cursor, editor_menu, block_manager.block_decoder])
 	#editor_events.set_game_client(game_client)
-	#penciler.init(level_manager.level_layers, editor_events, layer_panel)
+	penciler.init(block_manager.block_layers, editor_events, null)
 	
-	#var block
-	#if BlockEditor.current_block:
-		#block = BlockEditor.current_block
-		#block_manager.decode_block(LevelEditor.current_block, true)
-	#else:
-		#var saved_block = FileManager.load_from_file()
-		#if saved_block:
-			#block = saved_block
-			#block_manager.decode_block(saved_block, true)
-		#else:
-			#block = default_block
-			#block_manager.decode_block(default_block, true)
+	var block
+	if BlockEditor.current_block:
+		block = BlockEditor.current_block
+		block_manager.decode_block(BlockEditor.current_block, true)
+	else:
+		var saved_block = FileManager.load_from_file()
+		if saved_block:
+			block = saved_block
+			block_manager.decode_block(saved_block, true)
+		else:
+			block = default_block
+			block_manager.decode_block(default_block, true)
 	
 	#var block_settings: Dictionary = {}
 	
 	#block_manager.set_settings(block_settings)
 	
-	#cursor.init(editor_menu, block_manager.block_layers)
-	#editor_menu.init(block_manager.block_layers, editor_events)
-	#editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
+	cursor.init(editor_menu, block_manager.block_layers)
+	editor_menu.init(block_manager.block_layers, editor_events)
+	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
 	
 	# layer_panel_node.init(level_manager.level_layers)
 	
 	camera_controls.init(editor_camera)
 	
-	#editor_menu.control_event.connect(_on_control_event)
+	editor_menu.control_event.connect(_on_control_event)
 	# now_editing_panel.init($UI/EditorMenu, self)
 
 
@@ -117,8 +117,8 @@ func _on_control_event(event: Dictionary) -> void:
 
 
 func _on_cursor_is_enabled(new_bool: bool) -> void:
-	#if new_bool:
-		#cursor.activate()
-	#else:
-		#cursor.deactivate()
+	if new_bool:
+		cursor.activate()
+	else:
+		cursor.deactivate()
 	pass
