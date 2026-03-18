@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6hg56c7sf73m"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_rlgcu"]
-[ext_resource type="Script" uid="uid://bppqj402keb0e" path="res://engine/layer_panel/number_picker.gd" id="1_shofn"]
+[ext_resource type="Script" uid="uid://bppqj402keb0e" path="res://unused/number_picker.gd" id="1_shofn"]
 
 [node name="NumberPicker" type="Control"]
 custom_minimum_size = Vector2(300, 50)

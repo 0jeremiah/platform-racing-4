@@ -23,7 +23,6 @@ var default_level: Dictionary = {
 @onready var load = $UI/Load
 @onready var save = $UI/Save
 @onready var clear = $UI/Clear
-@onready var layer_panel = $UI/LayerPanel
 @onready var save_panel = $UI/SavePanel
 @onready var load_panel = $UI/LoadPanel
 @onready var explore_panel = $UI/ExplorePanel
@@ -40,7 +39,6 @@ var default_level: Dictionary = {
 @onready var bg: Node2D = $BG
 @onready var editor_events: EditorEvents = $EditorEvents
 @onready var editor_menu: Node2D = $UI/EditorMenu
-@onready var layer_panel_node = $UI/LayerPanel
 @onready var users_host_edit_panel: Control = $UI/HostEditPanel
 @onready var users_join_edit_panel: Control = $UI/JoinEditPanel
 @onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
@@ -79,7 +77,7 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
-	penciler.init(level_manager.level_layers, editor_events, layer_panel)
+	penciler.init(level_manager.level_layers, editor_events, null)
 	
 	var level
 	if LevelEditor.current_level:

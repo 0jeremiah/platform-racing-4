@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b36h3oox5qxi3" path="res://pages/editor/character_editor/pr4_character_template.png" id="4_ngwbt"]
 [ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level/level_manager.tscn" id="5_5aycx"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="5_qytr1"]
-[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://engine/layer_panel/layer_panel.tscn" id="6_mhoaf"]
+[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://unused/old_layer_panel.tscn" id="6_mhoaf"]
 
 [node name="CharacterEditor" type="Node2D"]
 script = ExtResource("1_rv2ev")

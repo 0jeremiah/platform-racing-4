@@ -1,28 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj5dlw7bcynua"]
+[gd_scene load_steps=6 format=3 uid="uid://doc0mtssd4xfp"]
 
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_fcy8e"]
-[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="1_q0sa4"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_1wisd"]
+[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="2_vfkgv"]
 
-[node name="RenameLayerPanel" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 268.0
-offset_bottom = 30.0
-theme = ExtResource("1_fcy8e")
-script = ExtResource("1_q0sa4")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wisd"]
+bg_color = Color(0.7137255, 0.90588236, 0.92156863, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5137255, 0.7137255, 0.95686275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vfkgv"]
+bg_color = Color(0.22352941, 0.7019608, 0.7921569, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5137255, 0.7137255, 0.95686275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6agt"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5137255, 0.7137255, 0.95686275, 1)
+
+[node name="RenameLayerPanel" type="Popup"]
+transparent_bg = true
+oversampling_override = 1.0
+size = Vector2i(288, 40)
+theme = ExtResource("1_1wisd")
+script = ExtResource("2_vfkgv")
 
 [node name="NewLayerName" type="LineEdit" parent="."]
-layout_mode = 0
-offset_right = 240.0
+offset_right = 228.0
 offset_bottom = 40.0
-scale = Vector2(0.75, 0.75)
+theme_override_styles/normal = SubResource("StyleBoxFlat_1wisd")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_vfkgv")
+theme_override_styles/focus = SubResource("StyleBoxFlat_i6agt")
 text = "Layer Name"
 
 [node name="OKButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 218.0
-offset_right = 268.0
-offset_bottom = 30.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 16
+offset_left = 238.0
+offset_right = 288.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
 text = "OK"

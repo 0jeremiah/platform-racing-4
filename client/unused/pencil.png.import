@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3n0l72ku1hs2"
-path="res://.godot/imported/gear.png-6a718e134a07d54e18fd8729474fa18b.ctex"
+uid="uid://1g1idnbl0dcp"
+path="res://.godot/imported/pencil.png-8dc78a4e761e48f3d28bb20d13d64591.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/layer_panel/gear.png"
-dest_files=["res://.godot/imported/gear.png-6a718e134a07d54e18fd8729474fa18b.ctex"]
+source_file="res://unused/pencil.png"
+dest_files=["res://.godot/imported/pencil.png-8dc78a4e761e48f3d28bb20d13d64591.ctex"]
 
 [params]
 

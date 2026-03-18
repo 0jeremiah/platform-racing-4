@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=24 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" uid="uid://dcgenyyaoaf2q" path="res://pages/editor/level_editor/level_editor.gd" id="1_8rp7f"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor/editor_camera.tscn" id="2_bfjim"]
@@ -11,8 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://cxcg4h4nj2njc" path="res://cursors/editor_cursors.tscn" id="9_fdh4p"]
 [ext_resource type="PackedScene" uid="uid://odgk3txmr7dl" path="res://ui/camera_controls.tscn" id="10_65ff4"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="10_l66nm"]
-[ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/new_layer_panel.tscn" id="11_l8lb0"]
-[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://engine/layer_panel/layer_panel.tscn" id="12_2r3w1"]
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/level_editor/load_panel/load_panel.tscn" id="14_vayf1"]
 [ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/editor/level_editor/explore_panel/explore_panel.tscn" id="15_foj5b"]
 [ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/editor/level_editor/now_editing_panel/now_editing_panel.tscn" id="16_n6ic7"]
@@ -63,14 +61,6 @@ offset_right = 1750.0
 offset_bottom = 1070.0
 
 [node name="EditorMenu" parent="UI" instance=ExtResource("9_65ff4")]
-
-[node name="LayerPanel2" parent="UI" instance=ExtResource("12_2r3w1")]
-visible = false
-position = Vector2(10, 750)
-
-[node name="LayerPanel" parent="UI" instance=ExtResource("11_l8lb0")]
-visible = false
-position = Vector2(10, 714)
 
 [node name="LoadPanel" parent="UI" instance=ExtResource("14_vayf1")]
 visible = false

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bv7hg0hol6uny" path="res://ui/bgpicker.tscn" id="7_feflp"]
 [ext_resource type="PackedScene" uid="uid://coenrjwlg2bck" path="res://ui/stamppicker.tscn" id="8_bvixj"]
 [ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="8_le1wt"]
-[ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/new_layer_panel.tscn" id="8_vii2p"]
+[ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_vii2p"]
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
 [ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://mega_menu/icons/text.png" id="9_mh3pe"]
 [ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/sliderbutton.tscn" id="11_feflp"]
@@ -388,4 +388,8 @@ offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
 [node name="LayerPanel" parent="." instance=ExtResource("8_vii2p")]
-position = Vector2(10, 754)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 740.0
+offset_right = 340.0
+offset_bottom = 1070.0
