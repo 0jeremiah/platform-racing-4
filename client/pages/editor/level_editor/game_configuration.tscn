@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://kulqo5bwtwrs"]
+
+[ext_resource type="Script" uid="uid://dyct4owc457up" path="res://pages/editor/level_editor/game_configuration.gd" id="1_clbni"]
+
+[node name="GameConfiguration" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 810.0
+offset_bottom = 325.0
+script = ExtResource("1_clbni")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 810.0
+offset_bottom = 325.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 55.0
+offset_right = 795.0
+offset_bottom = 310.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="ConfigTabBar" type="TabBar" parent="."]
+layout_mode = 0
+offset_right = 810.0
+offset_bottom = 33.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+current_tab = 0
+tab_alignment = 1
+tab_count = 6
+tab_0/title = "Player Movement"
+tab_1/title = "Super Jump"
+tab_2/title = "Other Player Stats"
+tab_3/title = "Camera"
+tab_4/title = "Items - Uses"
+tab_5/title = "Items - Effects"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(1040, 340)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 55.0
+offset_right = 1055.0
+offset_bottom = 395.0
+scale = Vector2(0.75, 0.75)
+
+[node name="SettingsContainer" type="GridContainer" parent="ScrollContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(1040, 340)
+layout_mode = 2

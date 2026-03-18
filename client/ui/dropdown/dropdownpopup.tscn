@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://4lfh3fs0b4ub"]
+
+[ext_resource type="Script" uid="uid://cfq2li8nxqygs" path="res://ui/dropdown/dropdownpopup.gd" id="1_b3ujb"]
+[ext_resource type="PackedScene" uid="uid://chdyvwgvcuxgq" path="res://ui/dropdown/dropdownpicker.tscn" id="2_rqvyx"]
+
+[node name="DropdownPopup" type="Popup"]
+transparent_bg = true
+oversampling_override = 1.0
+size = Vector2i(240, 240)
+visible = true
+script = ExtResource("1_b3ujb")
+
+[node name="DropdownPicker" parent="." instance=ExtResource("2_rqvyx")]

@@ -1,0 +1,285 @@
+[gd_scene load_steps=4 format=3 uid="uid://dw56v2hpdj1ea"]
+
+[ext_resource type="Script" uid="uid://6ruw34fofmyh" path="res://pages/editor/level_editor/general_settings.gd" id="1_yuqao"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_fhlts"]
+[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="3_rd0ie"]
+
+[node name="GeneralSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 486.0
+offset_bottom = 250.0
+script = ExtResource("1_yuqao")
+
+[node name="MusicSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 310.0
+offset_bottom = 30.0
+
+[node name="MusicLabel" type="RichTextLabel" parent="MusicSetting"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Music:"
+vertical_alignment = 1
+
+[node name="MusicButton" type="Button" parent="MusicSetting"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 486.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Entering The Underworld"
+clip_text = true
+
+[node name="LevelTypeSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 88.0
+offset_top = 40.0
+offset_right = 398.0
+offset_bottom = 70.0
+
+[node name="LevelTypeLabel" type="RichTextLabel" parent="LevelTypeSetting"]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Level Type:"
+vertical_alignment = 1
+
+[node name="LevelTypeButton" type="Button" parent="LevelTypeSetting"]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 310.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Capture the Overseer"
+clip_text = true
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 466.0
+offset_bottom = 84.0
+
+[node name="TimeSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 100.0
+offset_right = 135.0
+offset_bottom = 130.0
+
+[node name="TimeLabel" type="RichTextLabel" parent="TimeSetting"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Time:"
+vertical_alignment = 1
+
+[node name="TimeEdit" type="LineEdit" parent="TimeSetting"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 135.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "120"
+script = ExtResource("2_fhlts")
+
+[node name="GravitySetting" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_top = 140.0
+offset_right = 155.0
+offset_bottom = 170.0
+
+[node name="GravityLabel" type="RichTextLabel" parent="GravitySetting"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Gravity:"
+vertical_alignment = 1
+
+[node name="GravityEdit" type="LineEdit" parent="GravitySetting"]
+layout_mode = 0
+offset_left = 80.0
+offset_right = 155.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "1.0"
+script = ExtResource("2_fhlts")
+
+[node name="PasswordSetting" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_top = 180.0
+offset_right = 155.0
+offset_bottom = 210.0
+
+[node name="PasswordLabel" type="RichTextLabel" parent="PasswordSetting"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Pass:"
+vertical_alignment = 1
+
+[node name="PasswordEdit" type="LineEdit" parent="PasswordSetting"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 135.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+max_length = 32
+script = ExtResource("2_fhlts")
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 100.0
+offset_right = 167.0
+offset_bottom = 250.0
+
+[node name="SFCHMSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 196.0
+offset_top = 100.0
+offset_right = 486.0
+offset_bottom = 130.0
+
+[node name="SFCHMLabel" type="RichTextLabel" parent="SFCHMSetting"]
+layout_mode = 0
+offset_right = 190.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Chances of SFCHM:"
+vertical_alignment = 1
+
+[node name="SFCHMEdit" type="LineEdit" parent="SFCHMSetting"]
+layout_mode = 0
+offset_left = 190.0
+offset_right = 265.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "0"
+script = ExtResource("2_fhlts")
+
+[node name="PercentLabel" type="RichTextLabel" parent="SFCHMSetting"]
+layout_mode = 0
+offset_left = 274.0
+offset_right = 290.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "%"
+vertical_alignment = 1
+
+[node name="WindSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 215.0
+offset_top = 140.0
+offset_right = 486.0
+offset_bottom = 170.0
+
+[node name="WindLabel" type="RichTextLabel" parent="WindSetting"]
+layout_mode = 0
+offset_right = 171.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Chances of Wind:"
+vertical_alignment = 1
+
+[node name="WindEdit" type="LineEdit" parent="WindSetting"]
+layout_mode = 0
+offset_left = 171.0
+offset_right = 246.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "0"
+script = ExtResource("2_fhlts")
+
+[node name="PercentLabel" type="RichTextLabel" parent="WindSetting"]
+layout_mode = 0
+offset_left = 255.0
+offset_right = 271.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "%"
+vertical_alignment = 1
+
+[node name="SnowSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 216.0
+offset_top = 180.0
+offset_right = 486.0
+offset_bottom = 210.0
+
+[node name="SnowLabel" type="RichTextLabel" parent="SnowSetting"]
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Chances of Snow:"
+vertical_alignment = 1
+
+[node name="SnowEdit" type="LineEdit" parent="SnowSetting"]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 245.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "0"
+script = ExtResource("2_fhlts")
+
+[node name="PercentLabel" type="RichTextLabel" parent="SnowSetting"]
+layout_mode = 0
+offset_left = 254.0
+offset_right = 270.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "%"
+vertical_alignment = 1
+
+[node name="EvilAliensSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 176.0
+offset_top = 220.0
+offset_right = 486.0
+offset_bottom = 250.0
+
+[node name="EvilAliensLabel" type="RichTextLabel" parent="EvilAliensSetting"]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Chances of Evil Aliens:"
+vertical_alignment = 1
+
+[node name="EvilAliensEdit" type="LineEdit" parent="EvilAliensSetting"]
+layout_mode = 0
+offset_left = 210.0
+offset_right = 285.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 17
+text = "0"
+script = ExtResource("2_fhlts")
+
+[node name="PercentLabel" type="RichTextLabel" parent="EvilAliensSetting"]
+layout_mode = 0
+offset_left = 294.0
+offset_right = 310.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "%"
+vertical_alignment = 1
+
+[node name="DropdownPopup" parent="." instance=ExtResource("3_rd0ie")]
+visible = false

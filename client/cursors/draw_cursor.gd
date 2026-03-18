@@ -79,7 +79,7 @@ func on_mouse_down():
 				current_line.default_color = Color(1.0, 1.0, 1.0, erase_alpha)
 				current_line.width = erase_size * size_multiplier
 			else:
-				current_line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+				current_line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
 				current_line.default_color = Color(draw_color.r, draw_color.g, draw_color.b, draw_alpha)
 				current_line.width = draw_size * size_multiplier
 			current_line.add_point(Vector2i(0, 0))

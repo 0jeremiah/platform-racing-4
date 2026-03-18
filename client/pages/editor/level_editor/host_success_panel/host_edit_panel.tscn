@@ -1,12 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://cebdsi1ak0pps"]
+[gd_scene load_steps=15 format=3 uid="uid://btvkl4bty00x8"]
 
-[ext_resource type="Script" path="res://pages/editor/level_editor/host_success_panel/host_edit_panel.gd" id="1_65x0q"]
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_nqf5g"]
-[ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="2_nqf5g"]
-[ext_resource type="FontFile" uid="uid://5n57twk8mubd" path="res://fonts/quicksand/quicksand-variablefont_wght.ttf" id="4_d1dcf"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_gqgkk"]
+[ext_resource type="Script" path="res://pages/editor/level_editor/host_success_panel/host_edit_panel.gd" id="1_qo2d2"]
+[ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="2_gqgkk"]
+[ext_resource type="FontFile" uid="uid://5n57twk8mubd" path="res://fonts/quicksand/quicksand-variablefont_wght.ttf" id="4_lok3n"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88cch"]
-texture = ExtResource("2_nqf5g")
+texture = ExtResource("2_gqgkk")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
@@ -31,7 +31,7 @@ expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8x7s"]
-texture = ExtResource("2_nqf5g")
+texture = ExtResource("2_gqgkk")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
@@ -39,14 +39,14 @@ texture_margin_bottom = 4.0
 modulate_color = Color(0.725214, 0.837202, 1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_35taw"]
-texture = ExtResource("2_nqf5g")
+texture = ExtResource("2_gqgkk")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_adoyr"]
-texture = ExtResource("2_nqf5g")
+texture = ExtResource("2_gqgkk")
 texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
@@ -95,7 +95,7 @@ shadow_offset = Vector2(1, 1)
 
 [sub_resource type="Theme" id="Theme_y6wvi"]
 default_base_scale = 1.0
-default_font = ExtResource("4_d1dcf")
+default_font = ExtResource("4_lok3n")
 default_font_size = 24
 Button/colors/font_color = Color(0.00392157, 0.00392157, 0.00392157, 1)
 Button/colors/font_disabled_color = Color(0.5, 0.5, 0.5, 1)
@@ -137,30 +137,40 @@ TextEdit/styles/normal = SubResource("StyleBoxFlat_mihib")
 
 [node name="HostEditPanel" type="Control"]
 layout_mode = 3
-anchor_right = 0.312
-anchor_bottom = 0.278
-offset_right = 0.959961
-offset_bottom = -0.240021
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_nqf5g")
-script = ExtResource("1_65x0q")
-
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 21.0
+offset_right = 46.0
+offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_gqgkk")
+script = ExtResource("1_qo2d2")
+
+[node name="BigPanel" type="Panel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
+offset_left = -125.0
+offset_top = -115.0
+offset_right = 2068.0
+offset_bottom = 1194.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1284.0
+offset_bottom = 561.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1284.0
+offset_bottom = 561.0
 alignment = 1
 
 [node name="HostEditLabel" type="Label" parent="VBoxContainer"]

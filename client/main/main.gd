@@ -34,9 +34,9 @@ var scenes = {
 	REGISTER: preload("res://pages/register/register.tscn"),
 	USER_SETTINGS: preload("res://pages/user_settings/user_settings.tscn"),
 	
-	LEVEL_EDITOR: preload("res://pages/level_editor/level_editor.tscn"),
-	BLOCK_EDITOR: preload("res://pages/block_editor/block_editor.tscn"),
-	CHARACTER_EDITOR: preload("res://pages/character_editor/character_editor.tscn")
+	LEVEL_EDITOR: preload("res://pages/editor/level_editor/level_editor.tscn"),
+	BLOCK_EDITOR: preload("res://pages/editor/block_editor/block_editor.tscn"),
+	CHARACTER_EDITOR: preload("res://pages/editor/character_editor/character_editor.tscn")
 }
 
 @onready var game_client: Node2D = $GameClient

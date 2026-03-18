@@ -11,7 +11,7 @@ const COLLAB_BUTTON: PackedScene = preload("res://mega_menu/collab_button/collab
 const BG_BUTTON: PackedScene = preload("res://mega_menu/bg_button/bg_button.tscn")
 const ZOOM_IN_BUTTON: PackedScene = preload("res://mega_menu/zoom_in/zoom_in_button.tscn")
 const ZOOM_OUT_BUTTON: PackedScene = preload("res://mega_menu/zoom_out/zoom_out_button.tscn")
-const GAME_CONFIG_BUTTON: PackedScene = preload("res://pages/level_editor/game_config_button.tscn")
+const GAME_CONFIG_BUTTON: PackedScene = preload("res://pages/editor/level_editor/game_config_button.tscn")
 const BLOCK_LIST: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43]
 
 var music_selector
