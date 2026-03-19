@@ -4,7 +4,7 @@ class_name LevelDecoder
 signal level_event
 
 
-func decode(level: Dictionary, isEditing: bool, level_layers: LevelLayers) -> void:
+func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 	GameConfig.clear_overrides()
 	var properties = level.get("properties", {})
 	print("LevelDecoder::decode: ", properties)
@@ -97,7 +97,7 @@ func decode(level: Dictionary, isEditing: bool, level_layers: LevelLayers) -> vo
 					if encoded_layer.get("lines"):
 						decode_lines(encoded_layer.name, encoded_layer.lines)
 					if encoded_layer.get("usertextboxobjects"):
-						decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects, isEditing)
+						decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects)
 		level.get_or_add("map_layers", [])
 		level.get_or_add("art_layers", [])
 		var level_map_layers = level.get("map_layers", [])
@@ -146,7 +146,7 @@ func decode(level: Dictionary, isEditing: bool, level_layers: LevelLayers) -> vo
 			if encoded_art_layer.get("stamps"):
 				decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
 			if encoded_art_layer.get("texts"):
-				decode_texts(encoded_art_layer.name, encoded_art_layer.texts, isEditing)
+				decode_texts(encoded_art_layer.name, encoded_art_layer.texts)
 		
 
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
@@ -215,7 +215,7 @@ func decode_stamps(layer_name: String, objects: Array) -> void:
 		})
 
 
-func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
+func decode_texts(layer_name: String, objects: Array) -> void:
 	for object in objects:
 		
 		#Failsafes for old text.

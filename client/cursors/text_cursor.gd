@@ -35,10 +35,10 @@ func init(_current_layers) -> void:
 func on_mouse_down():
 	var not_yet: bool = false
 	if active and not_yet:
-		var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		var textboxes: Node2D = layer.get_node("Texts")
 		var camera: Camera2D = get_viewport().get_camera_2d()
-		var mouse_position = textboxes.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+		var mouse_position = textboxes.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
 
 		var textbox_background_color = Color(1.0, 0.0, 0.0, 0.0)
 		var textbox_font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"

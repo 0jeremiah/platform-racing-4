@@ -55,11 +55,11 @@ func _process(_delta):
 		visible = false
 
 
-func init(_menu, _level_layers) -> void:
+func init(_editor_menu, _level_layers) -> void:
 	print("BlockCursor::init")
 	if _level_layers is LevelLayers:
 		level_layers = _level_layers
-		_menu.connect("control_event", _on_control_event)
+		_editor_menu.connect("control_event", _on_control_event)
 	
 
 func _on_control_event(event: Dictionary) -> void:
@@ -83,7 +83,7 @@ func _on_control_event(event: Dictionary) -> void:
 
 func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
 	if level_layers:
-		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var rotated_pos: Vector2
@@ -95,11 +95,11 @@ func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
 			var viewport_mouse_pos = get_viewport().get_mouse_position()
 		
 			# Convert to world position taking into account camera position, zoom, and layer scale
-			var world_pos = (viewport_mouse_pos - get_viewport_rect().size / 2) / camera.zoom.x
+			var world_pos = (viewport_mouse_pos - get_viewport_rect().size / 2) / camera.camera_zoom
 			world_pos += camera.position
 		
 			# Adjust for layer depth scaling
-			world_pos *= layer.follow_viewport_scale
+			world_pos *= layer.get_layer_scale()
 		
 			# Account for tilemap rotation
 			rotated_pos = world_pos
@@ -116,7 +116,7 @@ func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
 
 func on_mouse_down():
 	if active and level_layers and mode == "move":
-		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_coords = tile_map_layer.get_cell_atlas_coords(coords)
@@ -142,7 +142,7 @@ func on_mouse_down():
 
 func on_drag():
 	if active and level_layers and (mode == "draw" or mode == "erase"):
-		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: int
@@ -171,7 +171,7 @@ func on_drag():
 
 func on_mouse_up():
 	if active and level_layers and mode == "move":
-		var layer: ParallaxBackground = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var atlas_coords = CoordinateUtils.to_atlas_coords(grabbed_block)

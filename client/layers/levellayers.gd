@@ -52,7 +52,7 @@ func get_target_art_layer() -> String:
 func add_map_layer(name: String) -> MapLayer:
 	var layer = MAP_LAYER.instantiate()
 	layer.name = name
-	layer.layer = 10
+	#layer.layer = 10
 	map_layers.add_child(layer)
 	if tile_config:
 		layer.init(tile_config)
@@ -61,7 +61,7 @@ func add_map_layer(name: String) -> MapLayer:
 func add_art_layer(name: String) -> ArtLayer:
 	var layer = ART_LAYER.instantiate()
 	layer.name = name
-	layer.layer = 10
+	#layer.layer = 10
 	art_layers.add_child(layer)
 	if tile_config:
 		layer.init(tile_config)

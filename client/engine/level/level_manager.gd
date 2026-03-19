@@ -29,7 +29,7 @@ func encode_level() -> Dictionary:
 
 
 func decode_level(level_data: Dictionary, is_editor: bool) -> void:
-	level_decoder.decode(level_data, is_editor, level_layers)
+	level_decoder.decode(level_data, level_layers)
 
 
 func clear() -> void:

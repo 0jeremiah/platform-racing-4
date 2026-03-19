@@ -7,6 +7,7 @@ signal cursor_is_enabled
 
 @onready var level_options_menu = $LevelOptionsMenu
 @onready var block_options_menu = $BlockOptionsMenu
+var current_editor = null
 var current_layers: Node2D
 var editor_events: EditorEvents
 
@@ -34,12 +35,14 @@ func init(new_current_layers: Node2D, new_editor_events: EditorEvents) -> void:
 func set_editor_mode(new_current_editor):
 	level_options_menu.visible = false
 	block_options_menu.visible = false
-	if new_current_editor is LevelEditor:
-		level_options_menu.editor = new_current_editor
-		level_options_menu.visible = true
-	if new_current_editor is BlockEditor:
-		block_options_menu.editor = new_current_editor
-		block_options_menu.visible = true
+	if new_current_editor is LevelEditor or new_current_editor is BlockEditor:
+		current_editor = new_current_editor
+		if current_editor is LevelEditor:
+			level_options_menu.current_editor = current_editor
+			level_options_menu.visible = true
+		if current_editor is BlockEditor:
+			block_options_menu.current_editor = current_editor
+			block_options_menu.visible = true
 
 
 func _on_size_changed():

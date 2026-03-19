@@ -27,7 +27,7 @@ func get_target_art_layer() -> String:
 func add_art_layer(name: String) -> ArtLayer:
 	var layer = ART_LAYER.instantiate()
 	layer.name = name
-	layer.layer = 10
+	#layer.layer = 10
 	art_layers.add_child(layer)
 	return layer
 

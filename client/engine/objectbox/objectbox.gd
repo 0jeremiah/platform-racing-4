@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 signal object_moved
 signal object_deleted
@@ -73,7 +73,7 @@ func _process(_delta: float) -> void:
 			var position_x: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).x - old_mouse_position.x
 			var position_y: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).y - old_mouse_position.y
 			object_info.position = Vector2(old_position.x + position_x, old_position.y + position_y)
-			object_info.node.position = object_info.position
+			object_info.node.global_position = object_info.position
 			object_info.node.self_modulate.a = 0.75
 		elif mode == "edit" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
@@ -104,7 +104,9 @@ func _process(_delta: float) -> void:
 				move_button.visible = false
 		update_display()
 		process_buttons()
+		visible = true
 	else:
+		visible = false
 		select_rect.visible = false
 		buttons.visible = false
 		if object_info.node:

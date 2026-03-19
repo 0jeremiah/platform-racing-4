@@ -38,6 +38,14 @@ func _process(_delta: float) -> void:
 			camera.manual_control_vector.y = -1
 
 
+func _input(event: InputEvent):
+	if event is InputEventMouseButton and event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			_inc_or_dec_camera_zoom(1)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			_inc_or_dec_camera_zoom(-1)
+
+
 func _inc_or_dec_camera_zoom(by: int):
 	if camera:
 		camera.change_camera_zoom(camera.zoom_index + by)

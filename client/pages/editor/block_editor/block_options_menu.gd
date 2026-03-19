@@ -16,7 +16,7 @@ signal cursor_is_enabled
 var current_submenu: Control
 var layers: Node2D
 var editor_events: EditorEvents
-var editor: Node2D
+var current_editor = null
 var selected_button: TextureButton
 var old_selected_button: TextureButton
 var settings_list: Dictionary = {
@@ -163,4 +163,4 @@ func _call_editor_function(id: int):
 
 
 func _goto_other_page():
-	editor._on_back_pressed()
+	current_editor._on_back_pressed()

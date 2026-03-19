@@ -15,7 +15,7 @@ func encode_block() -> Dictionary:
 
 
 func decode_block(block_data: Dictionary, is_editor: bool) -> void:
-	block_decoder.decode(block_data, false, block_layers)
+	block_decoder.decode(block_data, block_layers)
 
 
 func clear() -> void:

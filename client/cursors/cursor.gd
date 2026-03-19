@@ -9,7 +9,7 @@ var using_gui = false
 var mouse_down = false
 var old_cursor: String
 var current_cursor: Node2D
-var menu: EditorMenu
+var editor_menu: EditorMenu
 
 @onready var control = $Control
 @onready var block_cursor = $BlockCursor
@@ -46,16 +46,16 @@ func _exit_tree() -> void:
 	pass
 
 
-func init(_menu, layers) -> void:
+func init(_editor_menu, layers) -> void:
 	print("Cursor::init")
-	menu = _menu
+	editor_menu = _editor_menu
 	
-	block_cursor.init(menu, layers)
-	draw_cursor.init(menu, layers)
-	stamp_cursor.init(menu, layers)
+	block_cursor.init(editor_menu, layers)
+	draw_cursor.init(editor_menu, layers)
+	stamp_cursor.init(editor_menu, layers)
 	text_cursor.init(layers)
 	
-	menu.control_event.connect(_on_control_event)
+	editor_menu.control_event.connect(_on_control_event)
 	control.gui_input.connect(_on_gui_input)
 	control.mouse_entered.connect(_on_mouse_entered)
 	control.mouse_exited.connect(_on_mouse_exited)

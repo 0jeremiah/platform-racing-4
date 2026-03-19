@@ -1,4 +1,4 @@
-extends ParallaxBackground
+extends Parallax2D
 class_name ArtLayer
 
 @onready var stamps = $Stamps
@@ -32,15 +32,23 @@ func set_z_axis(p_z_axis: int) -> void:
 	set_viewport_scale()
 
 
+func get_layer_scale() -> float:
+	return float(z_axis) / 10
+
+
 func set_depth(p_depth: int) -> void:
 	depth = p_depth
-	layer = depth
 	set_viewport_scale()
 
 
+func get_layer_depth() -> float:
+	return float(depth) / 10
+
+
 func set_viewport_scale():
-	scroll_base_scale = Vector2(float(depth) / 10, float(depth) / 10)
-	follow_viewport_scale = z_axis / 10
+	scroll_scale = Vector2(float(depth) / 10, float(depth) / 10)
+	scale = Vector2(float(z_axis) / 10, float(z_axis) / 10)
+	z_index = depth - 10
 
 
 func set_art_rotation(new_rotation: int) -> void:

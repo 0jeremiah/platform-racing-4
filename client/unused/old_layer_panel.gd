@@ -131,7 +131,7 @@
 	#if show_layer_type == "blocks":
 		#layers.set_target_block_layer(layer_name)
 		#emit_signal("control_event", {
-			#"type": EditorEvents.SELECT_BLOCK_LAYER,
+			#"type": EditorEvents.SELECT_MAP_LAYER,
 			#"layer_name": layer_name
 		#})
 	#if show_layer_type == "art":

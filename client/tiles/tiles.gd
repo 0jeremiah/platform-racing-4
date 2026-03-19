@@ -434,7 +434,7 @@ func activate_node(node: Node):
 	for child in node.get_children():
 		if child is TileMapLayer:
 			activate_tile_map_layer(child)
-		elif child is Node2D || child is ParallaxBackground:
+		elif child is Node2D || child is Parallax2D:
 			activate_node(child)
 
 

@@ -1,4 +1,4 @@
-extends ParallaxBackground
+extends Parallax2D
 class_name MapLayer
 
 @onready var tile_map_layer = $TileMapLayer
@@ -6,7 +6,6 @@ class_name MapLayer
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 
 var z_axis: int = 10
-var depth: int = z_axis # cannot be set by layer panel, mostly here for compatibility with existing code
 var tile_map_rotation: int = 0
 var layer_name: String = ""
 
@@ -72,8 +71,6 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 
 func set_z_axis(p_z_axis: int) -> void:
 	z_axis = p_z_axis
-	depth = z_axis
-	layer = z_axis
 	
 	var tile_set = tile_map_layer.tile_set
 	if tile_set:
@@ -83,11 +80,13 @@ func set_z_axis(p_z_axis: int) -> void:
 		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(z_axis * 2))
 	
 	var z_axis_compat = float(z_axis)
-	# scale blocks up/down to match scale
-	# currently this scales lines and art as well, which actually we don't want
-	# todo: possibly only put tile_map_layer and players in the viewport
 	var base_scale = z_axis_compat / 10.0
-	follow_viewport_scale = base_scale
+	scroll_scale = Vector2(base_scale, base_scale)
+	scale = Vector2(base_scale, base_scale)
+
+
+func get_layer_scale() -> float:
+	return float(z_axis) / 10
 
 
 func set_map_layer_rotation(p_rotation: float) -> void:

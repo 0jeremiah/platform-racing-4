@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/maplayer.gd" id="1_o0aad"]
 
-[node name="MapLayer" type="ParallaxBackground"]
-follow_viewport_enabled = true
+[node name="MapLayer" type="Parallax2D"]
 script = ExtResource("1_o0aad")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

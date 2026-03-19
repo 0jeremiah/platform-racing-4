@@ -48,10 +48,10 @@ func _process(_delta):
 		visible = false
 
 
-func init(_menu, _current_layers) -> void:
+func init(_editor_menu, _current_layers) -> void:
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
-		_menu.connect("control_event", _on_control_event)
+		_editor_menu.connect("control_event", _on_control_event)
 
 
 func _on_control_event(event: Dictionary) -> void:
@@ -64,10 +64,10 @@ func on_mouse_down():
 	if active:
 		if !current_line:
 			print("DrawCursor::on_mouse_down")
-			var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
 			current_line = Line2D.new()
 			lines.add_child(current_line)
 			current_line.material = CanvasItemMaterial.new()
@@ -89,10 +89,10 @@ func on_mouse_down():
 func on_drag():
 	if active:
 		if current_line:
-			var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+			var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
 			var point = Vector2i((mouse_position - current_line.position).round())
 			if point != current_point:
 				current_line.add_point(point)

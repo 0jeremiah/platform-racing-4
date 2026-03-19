@@ -49,10 +49,10 @@ follow_viewport_enabled = true
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 120
 
+[node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]
+
 [node name="ObjectBox" parent="UI" instance=ExtResource("8_2t0x6")]
 visible = false
-
-[node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]
 
 [node name="CameraControls" parent="UI" instance=ExtResource("10_65ff4")]
 offset_left = 1500.0

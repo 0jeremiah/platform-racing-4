@@ -4,9 +4,8 @@ class_name BlockDecoder
 signal level_event
 
 
-func decode(block: Dictionary, isEditing: bool, block_layers: BlockLayers) -> void:
-	#var properties = level.get("properties", {})
-	#print("BlockDecoder::decode: ", properties)
+func decode(block: Dictionary, block_layers: BlockLayers) -> void:
+	var properties = block.get("properties", {})
 	var block_art_layers = block.get("art_layers", [])
 	if block_art_layers.is_empty():
 		block_art_layers.append({"name": "Layer 1"})
@@ -28,7 +27,7 @@ func decode(block: Dictionary, isEditing: bool, block_layers: BlockLayers) -> vo
 		if encoded_art_layer.get("stamps"):
 			decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
 		if encoded_art_layer.get("texts"):
-			decode_texts(encoded_art_layer.name, encoded_art_layer.texts, isEditing)
+			decode_texts(encoded_art_layer.name, encoded_art_layer.texts)
 		
 
 func decode_lines(layer_name: String, objects: Array) -> void:
@@ -76,7 +75,7 @@ func decode_stamps(layer_name: String, objects: Array) -> void:
 		})
 
 
-func decode_texts(layer_name: String, objects: Array, isEditing: bool) -> void:
+func decode_texts(layer_name: String, objects: Array) -> void:
 	for object in objects:
 		# Emit add usertext event
 		emit_signal("level_event", {

@@ -13,14 +13,17 @@ filter_clip = true
 [node name="ObjectBoxTest" type="Node2D"]
 script = ExtResource("1_jtpy3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(262, 303)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
 position = Vector2(32, 32)
 scale = Vector2(0.5, 0.5)
 texture = SubResource("AtlasTexture_c5iav")
 centered = false
 offset = Vector2(-64, -64)
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D"]
 position = Vector2(557, 125.99999)
 rotation = 1.1257373
 texture = ExtResource("3_kgqo4")

@@ -21,7 +21,7 @@ func _http_request_completed(_result, _response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var level_data = json.get_data()
-	level_decoder.decode(level_data, false, level_layers)
+	level_decoder.decode(level_data, level_layers)
 	
 	tiles.activate_node(level_layers)
 	var start_option = Start.get_next_start_option(level_layers)

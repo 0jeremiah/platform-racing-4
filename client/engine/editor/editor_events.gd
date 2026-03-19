@@ -7,7 +7,7 @@ signal send_level_event
 # control events, switching tools, swtiching selected block, etc
 const SELECT_TOOL = 'select_tool'
 const SELECT_LAYER = 'select_layer'
-const SELECT_BLOCK_LAYER = 'select_block_layer'
+const SELECT_MAP_LAYER = 'select_map_layer'
 const SELECT_ART_LAYER = 'select_art_layer'
 const ENABLE_COLLAB = 'enable_collab'
 const DISABLE_COLLAB = 'disable_collab'

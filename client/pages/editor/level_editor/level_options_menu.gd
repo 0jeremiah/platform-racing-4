@@ -20,7 +20,7 @@ signal cursor_is_enabled
 var current_submenu: Control
 var level_layers: Node2D
 var editor_events: EditorEvents
-var editor: Node2D
+var current_editor = null
 var selected_button: TextureButton
 var old_selected_button: TextureButton
 var settings_list: Dictionary = {
@@ -161,7 +161,7 @@ func _click_block_menu(button: TextureButton):
 
 
 func _on_test_pressed():
-	editor._on_test_pressed()
+	current_editor._on_test_pressed()
 
 
 func set_selection_glow():
@@ -176,4 +176,4 @@ func _call_editor_function(id: int):
 
 
 func _goto_other_page():
-	editor._on_back_pressed()
+	current_editor._on_back_pressed()

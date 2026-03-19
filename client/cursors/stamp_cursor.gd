@@ -43,7 +43,7 @@ func _process(_delta):
 func _draw() -> void:
 	var touching_gui: bool = get_parent().touching_gui
 	if touching_gui and current_layers:
-		var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		#var packed_vector2_array = layer.get_stamp_draw_packed_vector2_array_for_debug(stamp_icon)
 		#for lines in packed_vector2_array.size():
 			#if lines + 1 < packed_vector2_array.size():
@@ -52,10 +52,10 @@ func _draw() -> void:
 				#draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 1.0, false)
 
 
-func init(_menu, _current_layers) -> void:
+func init(_editor_menu, _current_layers) -> void:
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
-		_menu.connect("control_event", _on_control_event)
+		_editor_menu.connect("control_event", _on_control_event)
 
 
 func _on_control_event(event: Dictionary) -> void:
@@ -67,14 +67,16 @@ func _on_control_event(event: Dictionary) -> void:
 func on_mouse_down():
 	if active:
 		if stamp_id:
-			var layer: ParallaxBackground = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var stamps: Node2D = layer.get_node("Stamps")
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
 			if layer.get_stamp_at_position(mouse_position) != null:
 				var selected_stamp = layer.get_stamp_at_position(mouse_position)
-				#get_parent().object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
-				#{"type": "stamp", "node": selected_stamp, "position": selected_stamp.position,
+				var object_box = get_parent().editor_menu.current_editor.object_box
+				var spawn_position = camera.to_local(selected_stamp.position)
+				#object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
+				#{"type": "stamp", "node": selected_stamp, "position": spawn_position,
 				#"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
 				#"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale})
 			else:
