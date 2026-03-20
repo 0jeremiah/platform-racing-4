@@ -82,12 +82,12 @@ func render() -> void:
 		i += 1
 		var row = LAYER_ROW.instantiate()
 		row.name = "LayerRow" + str(i)
-		row.position.y = (row_holder.get_child_count() * 40)
+		row.position.y = (row_holder.get_child_count() * 44)
 		row.get_node("LayerNameButton").text = layer.layer_name
 		row_holder.add_child(row)
 		
 		var layer_button = row.get_node("LayerNameButton")
-		layer_button.pressed.connect(_row_pressed.bind(layer.layer_name, layer_button.global_position.x, layer_button.global_position.y))
+		layer_button.pressed.connect(_row_pressed.bind(layer.name, layer_button))
 		if target_layer == layer.name:
 			layer_button.button_pressed = true
 	update_boxes()
@@ -186,12 +186,12 @@ func _move_down_layer():
 			render()
 
 
-func _row_pressed(layer_name: String, x: float, y: float):
+func _row_pressed(layer_name: String, layer_button: Button):
 	if show_layer_type == "blocks":
 		if current_layers.get_target_map_layer() == layer_name:
 			var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2i(x, y, 276, 38))
+			rename_layer_popup.popup(Rect2i(layer_button.global_position.x, layer_button.global_position.y, 288, 40))
 		else:
 			current_layers.set_target_map_layer(layer_name)
 			emit_signal("control_event", {
@@ -203,7 +203,7 @@ func _row_pressed(layer_name: String, x: float, y: float):
 		if current_layers.get_target_art_layer() == layer_name:
 			var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2i(x, y, 276, 38))
+			rename_layer_popup.popup(Rect2i(layer_button.global_position.x, layer_button.global_position.y, 288, 40))
 		else:
 			current_layers.set_target_art_layer(layer_name)
 			emit_signal("control_event", {

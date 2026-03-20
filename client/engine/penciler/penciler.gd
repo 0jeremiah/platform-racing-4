@@ -122,11 +122,13 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.RENAME_MAP_LAYER:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
+		current_layers.set_target_map_layer(layer.name)
 		layer.layer_name = event.new_layer_name
 	
 	if event.type == EditorEvents.RENAME_ART_LAYER:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
+		current_layers.set_target_art_layer(layer.name)
 		layer.layer_name = event.new_layer_name
 
 	if event.type == EditorEvents.DELETE_MAP_LAYER:
@@ -151,14 +153,6 @@ func _on_level_event(event: Dictionary) -> void:
 		}
 		texts.add_child(text)
 		text.set_text_properties(text_info)
-		
-		# Configure mouse interaction based on editing mode
-		#if event.has("is_editing"):
-			#if event.is_editing:
-				#text.mouse_filter = 0 # Editable on click (click stops at text)
-			#else:
-				#text.mouse_filter = 2 # Not Editable on click (click passes through)
-			#text.disable_text_edits()
 
 	if event.type == EditorEvents.SET_MAP_LAYER_Z_AXIS:
 		var layer = current_layers.map_layers.get_node(event.layer_name)

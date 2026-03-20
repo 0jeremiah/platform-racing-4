@@ -114,6 +114,7 @@ layout_mode = 2
 
 [node name="RenameLayerPopup" parent="." instance=ExtResource("3_j2640")]
 position = Vector2i(15, 65)
+visible = false
 
 [node name="ZAxisContainer" type="Control" parent="."]
 anchors_preset = 0

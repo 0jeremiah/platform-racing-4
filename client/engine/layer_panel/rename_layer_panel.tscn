@@ -31,8 +31,15 @@ border_color = Color(0.5137255, 0.7137255, 0.95686275, 1)
 transparent_bg = true
 oversampling_override = 1.0
 size = Vector2i(288, 40)
+visible = true
+min_size = Vector2i(288, 40)
 theme = ExtResource("1_1wisd")
 script = ExtResource("2_vfkgv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 288.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0.24705882)
 
 [node name="NewLayerName" type="LineEdit" parent="."]
 offset_right = 228.0

@@ -27,6 +27,6 @@ func spawn_player(level_layers: LevelLayers, tiles: Tiles) -> CharacterBody2D:
 	character.active = true
 	player_holder.add_child(character)
 	character.init(tiles)
-	character.tile_interaction.set_depth(character, layer.depth)
+	character.tile_interaction.set_depth(character, layer.z_axis)
 	
 	return character

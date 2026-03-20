@@ -94,18 +94,19 @@ func encode_lines(node: Node2D) -> Array:
 	var lines = []
 	
 	for line: Line2D in node.get_children():
-		var pointObjects = []
-		for point in line.points:
-			pointObjects.push_back({"x": point.x, "y": point.y})
-		var lineData = {
-			"x": line.position.x,
-			"y": line.position.y,
-			"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
-			"color": line.default_color,
-			"thickness": line.width,
-			"material": line.material
-		}
-		lines.push_back(lineData)
+		if line is Line2D:
+			var pointObjects = []
+			for point in line.points:
+				pointObjects.push_back({"x": point.x, "y": point.y})
+			var lineData = {
+				"x": line.position.x,
+				"y": line.position.y,
+				"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
+				"color": line.default_color,
+				"thickness": line.width,
+				"material": line.material
+			}
+			lines.push_back(lineData)
 	return lines
 
 

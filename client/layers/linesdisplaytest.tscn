@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://cojx0rgkm2ia1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7bt1r"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_js8wo"]
+blend_mode = 2
+
+[node name="Linesdisplaytest" type="Node2D"]
+
+[node name="LinesContainer" type="SubViewportContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="LinesViewport" type="SubViewport" parent="LinesContainer"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1920, 1080)
+
+[node name="LinesCamera" type="Camera2D" parent="LinesContainer/LinesViewport"]
+position = Vector2(1920, 1080)
+
+[node name="Line2D" type="Line2D" parent="LinesContainer/LinesViewport"]
+material = SubResource("CanvasItemMaterial_7bt1r")
+points = PackedVector2Array(-200, 1236, 2110, 909, -473, 680, 2113, 542, -592, 404, 2013, 99, -498, -67)
+
+[node name="Line2D2" type="Line2D" parent="LinesContainer/LinesViewport"]
+material = SubResource("CanvasItemMaterial_js8wo")
+points = PackedVector2Array(2119, 985, -470, 1041, 2091, 699, -470, 457, 2192, 250, -442, 106, 180, -218, 189, 1286, 384, -274, 597, 1317, 710, -299, 1027, 1264, 1034, -230, 1479, 1254, 1624, -208, 1900, 1298, 2110, -177)

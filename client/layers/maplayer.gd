@@ -83,6 +83,7 @@ func set_z_axis(p_z_axis: int) -> void:
 	var base_scale = z_axis_compat / 10.0
 	scroll_scale = Vector2(base_scale, base_scale)
 	scale = Vector2(base_scale, base_scale)
+	z_index = z_axis
 
 
 func get_layer_scale() -> float:

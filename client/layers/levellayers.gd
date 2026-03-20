@@ -63,8 +63,6 @@ func add_art_layer(name: String) -> ArtLayer:
 	layer.name = name
 	#layer.layer = 10
 	art_layers.add_child(layer)
-	if tile_config:
-		layer.init(tile_config)
 	return layer
 
 

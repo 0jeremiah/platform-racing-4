@@ -1,9 +1,10 @@
 extends Parallax2D
 class_name ArtLayer
 
+@onready var lines = $LinesContainer/LinesViewport/LinesHolder
 @onready var stamps = $Stamps
-@onready var lines = $Lines
 @onready var texts = $Texts
+@onready var lines_camera = $LinesContainer/LinesViewport/LinesCamera
 
 var z_axis: int = 10
 var depth: int = 10
@@ -11,20 +12,17 @@ var art_scale: float = 1.0
 var art_rotation: int = 0
 var alpha: float = 100
 var layer_name: String = ""
+var main_camera = null
 
 
-#func _process(delta):
-	#var camera: Camera2D = get_viewport().get_camera_2d()
-	#if camera:
-		#parent.position = camera.get_screen_center_position()
-		#parent.scale = Vector2.ONE / camera.zoom
+func _ready():
+	main_camera = get_viewport().get_camera_2d()
 
 
-func init(tiles: Tiles) -> void:
-	set_z_axis(z_axis)
-	set_depth(depth)
-	set_art_rotation(art_rotation)
-	set_art_alpha(alpha)
+func _process(_delta):
+	if main_camera:
+		lines_camera.global_position = main_camera.get_screen_center_position() * main_camera.zoom
+		lines_camera.zoom = main_camera.zoom * 2
 
 
 func set_z_axis(p_z_axis: int) -> void:
