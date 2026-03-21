@@ -1,4 +1,6 @@
 extends Node
+## Manages loading particles at the start so we don't lag getting particles.
+## Also contains particles to grab, maybe custom particles too i dont know.
 
 var sun_particle = preload("res://particles/sunparticles.tscn")
 var sun_process_material = preload("res://particles/sunparticles.tres")

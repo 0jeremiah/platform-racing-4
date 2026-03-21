@@ -28,6 +28,7 @@ Jukebox="*res://singletons/jukebox/jukebox.tscn"
 CachingLoader="*res://singletons/caching_loader.gd"
 BlockBehaviors="*res://blocks/block_behaviors.gd"
 ParticleManager="*res://singletons/particle_manager.gd"
+FontManager="*res://singletons/font_manager.gd"
 
 [display]
 

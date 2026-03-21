@@ -94,6 +94,7 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = current_layers.add_map_layer(event.name)
 		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
+		current_layers.set_target_map_layer(event.name)
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:
@@ -103,6 +104,7 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
+		current_layers.set_target_art_layer(event.name)
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_STAMP:

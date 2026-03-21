@@ -1,11 +1,6 @@
-extends RichTextLabel
+extends Node2D
 
-var action_man_font = preload("res://fonts/actionman/action-man.ttf")
-var arial_font = preload("res://fonts/arial/arial.ttf")
-var gwibble_font = preload("res://fonts/gwibble/gwibble.ttf")
-var poetsenone_font = preload("res://fonts/poetsenone/poetsenone-regular.ttf")
-var quicksand_font = preload("res://fonts/quicksand/quicksand-variablefont_wght.ttf")
-var verdana_font = preload("res://fonts/verdana/verdana.ttf")
+@onready var text_box = $Text
 var old_position : Vector2
 var old_scale : Vector2
 var old_mouse_position : Vector2
@@ -18,32 +13,7 @@ var text_position: Vector2 = Vector2(0, 0)
 var text_rotation: int = 0
 var text_color: String = "071E6BFF"
 var edit_text_bg = StyleBoxFlat.new()
-var font_list = {
-	"poetsenone": {
-		"title": "Poetsen One",
-		"font": poetsenone_font
-	},
-	"arial": {
-		"title": "Arial",
-		"font": arial_font
-	},
-	"verdana": {
-		"title": "Verdana",
-		"font": verdana_font
-	},
-	"actionman": {
-		"title": "Action Man",
-		"font": action_man_font
-	},
-	"gwibble": {
-		"title": "Gwibble",
-		"font": gwibble_font
-	},
-	"quicksand": {
-		"title": "Quicksand",
-		"font": quicksand_font
-	}
-}
+
 
 # Called when the node enters the scene tree for the first time.
 func set_text_properties(text_properties: Dictionary):
@@ -65,20 +35,17 @@ func set_text_properties(text_properties: Dictionary):
 
 func set_text_string(new_text_string: String):
 	text_string = new_text_string
-	text = text_string
+	text_box.text = text_string
 
 
 func set_text_font(new_text_font: String) -> void:
-	if font_list.has(new_text_font):
-		text_font = new_text_font
-	else:
-		text_font = "poetsenone"
-	set("theme_override_fonts/normal_font", font_list[text_font].font)
+	var new_font = FontManager.get_font(new_text_font)
+	text_box.set("theme_override_fonts/normal_font", new_font)
 
 
 func set_text_font_size(new_text_font_size: int):
 	text_font_size = new_text_font_size
-	set("theme_override_font_sizes/normal_font_size", text_font_size)
+	text_box.set("theme_override_font_sizes/normal_font_size", text_font_size)
 
 
 func set_text_scale(new_text_scale: Vector2):
@@ -98,4 +65,4 @@ func set_text_rotation(new_text_rotation: int):
 
 func set_text_color(new_text_color: Color):
 	text_color = new_text_color.to_html(false)
-	set("theme_override_colors/default_color", text_color)
+	text_box.set("theme_override_colors/default_color", text_color)

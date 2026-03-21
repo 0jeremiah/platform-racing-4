@@ -1,10 +1,11 @@
 extends Parallax2D
 class_name ArtLayer
 
+@onready var lines_container = $LinesContainer
+@onready var lines_viewport = $LinesContainer/LinesViewport
 @onready var lines = $LinesContainer/LinesViewport/LinesHolder
 @onready var stamps = $Stamps
 @onready var texts = $Texts
-@onready var lines_camera = $LinesContainer/LinesViewport/LinesCamera
 
 var z_axis: int = 10
 var depth: int = 10
@@ -15,14 +16,16 @@ var layer_name: String = ""
 var main_camera = null
 
 
-func _ready():
-	main_camera = get_viewport().get_camera_2d()
-
-
 func _process(_delta):
+	main_camera = get_viewport().get_camera_2d()
 	if main_camera:
-		lines_camera.global_position = main_camera.get_screen_center_position() * main_camera.zoom
-		lines_camera.zoom = main_camera.zoom * 2
+		var window_size = get_viewport().get_visible_rect().size
+		lines_container.size = window_size
+		lines_viewport.size = window_size
+		lines_container.scale = Vector2(1, 1) / main_camera.zoom
+		lines_container.global_position = (main_camera.global_position - ((window_size / main_camera.zoom) / 2))
+		lines.global_position = -lines_container.global_position * main_camera.zoom
+		lines.scale = Vector2(1, 1) * main_camera.zoom
 
 
 func set_z_axis(p_z_axis: int) -> void:
@@ -72,11 +75,11 @@ func get_stamp_at_position(mouse_position: Vector2) -> Sprite2D:
 	return null
 
 
-func get_text_at_position(mouse_position: Vector2) -> RichTextLabel:
+func get_text_at_position(mouse_position: Vector2) -> Node2D:
 	var texts_array = texts.get_children()
 	texts_array.reverse()
 	for child in texts_array:
-		if Rect2(Vector2.ZERO, child.size * child.text_scale).has_point(child.to_local(mouse_position)):
+		if Rect2(Vector2.ZERO, child.text_box.size * child.text_scale).has_point(child.to_local(mouse_position)):
 			return child
 	return null
 

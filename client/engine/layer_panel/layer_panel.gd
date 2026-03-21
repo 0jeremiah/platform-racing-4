@@ -55,26 +55,28 @@ func render() -> void:
 	var target_layer = ""
 	if show_layer_type == "blocks":
 		layer_array = current_layers.map_layers.get_children()
+		layer_array.reverse()
 		target_layer = current_layers.get_target_map_layer()
 		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() > 0:
-			move_up_button.disabled = false
-		else:
-			move_up_button.disabled = true
-		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() < current_layers.map_layers.get_child_count() - 1:
 			move_down_button.disabled = false
 		else:
 			move_down_button.disabled = true
-	if show_layer_type == "art":
+		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() < current_layers.map_layers.get_child_count() - 1:
+			move_up_button.disabled = false
+		else:
+			move_up_button.disabled = true
+	elif show_layer_type == "art":
 		layer_array = current_layers.art_layers.get_children()
+		layer_array.reverse()
 		target_layer = current_layers.get_target_art_layer()
 		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() > 0:
-			move_up_button.disabled = false
-		else:
-			move_up_button.disabled = true
-		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() < current_layers.art_layers.get_child_count() - 1:
 			move_down_button.disabled = false
 		else:
 			move_down_button.disabled = true
+		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() < current_layers.art_layers.get_child_count() - 1:
+			move_up_button.disabled = false
+		else:
+			move_up_button.disabled = true
 	var i: int = 0
 	for layer in layer_array:
 		if not (layer is MapLayer or layer is ArtLayer):
@@ -99,7 +101,7 @@ func update_boxes() -> void:
 	alpha_container.visible = false
 	if show_layer_type == "blocks":
 		layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
-	if show_layer_type == "art":
+	elif show_layer_type == "art":
 		layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		if layer is MapLayer:
@@ -131,8 +133,8 @@ func _new_pressed():
 			"type": EditorEvents.ADD_MAP_LAYER,
 			"name": new_name
 		})
-		call_deferred("render")
-	if show_layer_type == "art":
+		render()
+	elif show_layer_type == "art":
 		var i = current_layers.art_layers.get_child_count() + 1
 		var new_name = "Layer " + str(i)
 		while(current_layers.art_layers.get_node(new_name)):
@@ -142,7 +144,7 @@ func _new_pressed():
 			"type": EditorEvents.ADD_ART_LAYER,
 			"name": new_name
 		})
-		call_deferred("render")
+		render()
 
 
 func _delete_pressed():
@@ -152,7 +154,7 @@ func _delete_pressed():
 			"name": current_layers.get_target_map_layer()
 		})
 		call_deferred("render")
-	if show_layer_type == "art":
+	elif show_layer_type == "art":
 		emit_signal("level_event", {
 			"type": EditorEvents.DELETE_ART_LAYER,
 			"name": current_layers.get_target_art_layer()
@@ -163,26 +165,26 @@ func _delete_pressed():
 func _move_up_layer():
 	if show_layer_type == "blocks":
 		var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
-		if layer.get_index() > 0:
-			current_layers.map_layers.move_child(layer, layer.get_index() - 1)
+		if layer.get_index() < current_layers.map_layers.get_child_count() - 1:
+			current_layers.map_layers.move_child(layer, layer.get_index() + 1)
 			render()
-	if show_layer_type == "art":
+	elif show_layer_type == "art":
 		var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-		if layer.get_index() > 0:
-			current_layers.art_layers.move_child(layer, layer.get_index() - 1)
+		if layer.get_index() < current_layers.art_layers.get_child_count() - 1:
+			current_layers.art_layers.move_child(layer, layer.get_index() + 1)
 			render()
 
 
 func _move_down_layer():
 	if show_layer_type == "blocks":
 		var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
-		if layer.get_index() < current_layers.map_layers.get_child_count() - 1:
-			current_layers.map_layers.move_child(layer, layer.get_index() + 1)
+		if layer.get_index() > 0:
+			current_layers.map_layers.move_child(layer, layer.get_index() - 1)
 			render()
-	if show_layer_type == "art":
+	elif show_layer_type == "art":
 		var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-		if layer.get_index() < current_layers.art_layers.get_child_count() - 1:
-			current_layers.art_layers.move_child(layer, layer.get_index() + 1)
+		if layer.get_index() > 0:
+			current_layers.art_layers.move_child(layer, layer.get_index() - 1)
 			render()
 
 
@@ -199,7 +201,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 				"layer_name": layer_name
 			})
 			call_deferred("render")
-	if show_layer_type == "art":
+	elif show_layer_type == "art":
 		if current_layers.get_target_art_layer() == layer_name:
 			var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			rename_layer_popup.new_layer_name.text = layer.layer_name
