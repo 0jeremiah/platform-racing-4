@@ -52,8 +52,9 @@ var settings_list: Dictionary = {
 		"setting_name": "Export",
 		"use_seperator": true,
 		},
-	"gotoothereditor": {
-		"setting_name": "Not implemented",
+	"gotoblockeditor": {
+		"setting_name": "Goto Block Editor",
+		"setting_func": Callable(self, "_goto_block_editor_page"),
 		"use_seperator": false,
 		},
 	"gotootherpage": {
@@ -173,6 +174,10 @@ func _call_editor_function(id: int):
 	var options_keys = settings_list.keys()
 	if settings_list[options_keys[id]].has("setting_func"):
 		settings_list[options_keys[id]].setting_func.call()
+
+
+func _goto_block_editor_page():
+	current_editor._on_block_editor_pressed()
 
 
 func _goto_other_page():

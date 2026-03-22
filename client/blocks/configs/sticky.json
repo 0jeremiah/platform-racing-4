@@ -1,19 +1,18 @@
 {
-	"id": "arrow_down",
-	"display_name": "Arrow Down",
+	"id": "sticky",
+	"display_name": "Sticky",
 	"matter_type": "solid",
 	"is_safe": true,
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 5, "y": 0}
+		"atlas_coords": {"x": 2, "y": 4}
 	},
 	"behaviors": {
 		"any_side": [
 			{
-				"name": "push",
+				"name": "stick",
 				"params": {
-					"force": 110,
-					"direction": {"x": 0, "y": 1}
+					"stick_ratio": "0.5"
 				}
 			}
 		]

@@ -1,0 +1,12 @@
+{
+	"id": "basic_2",
+	"display_name": "Basic 2",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 1, "y": 0}
+	},
+	"behaviors": {
+	}
+}

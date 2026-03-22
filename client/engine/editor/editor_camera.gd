@@ -10,7 +10,7 @@ var control_vector = Vector2(0, 0)
 var manual_control_vector = Vector2(0, 0)
 
 # Zoom settings
-var zoom_array: Array = [0.125, 0.25, 0.375, 0.5, 0.75, 1.25, 2.5]
+var zoom_array: Array = [0.125, 0.25, 0.375, 0.5, 0.75, 1.25, 2.5, 5.0]
 var zoom_index: int = 3
 
 

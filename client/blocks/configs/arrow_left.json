@@ -1,19 +1,19 @@
 {
-	"id": "arrow_down",
-	"display_name": "Arrow Down",
+	"id": "arrow_left",
+	"display_name": "Arrow Left",
 	"matter_type": "solid",
 	"is_safe": true,
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 5, "y": 0}
+		"atlas_coords": {"x": 7, "y": 0}
 	},
 	"behaviors": {
 		"any_side": [
 			{
 				"name": "push",
 				"params": {
-					"force": 110,
-					"direction": {"x": 0, "y": 1}
+					"force": 125,
+					"direction": {"x": -1, "y": 0}
 				}
 			}
 		]

@@ -1,0 +1,20 @@
+{
+	"id": "heart",
+	"display_name": "Heart",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 8, "y": 2}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "heart",
+				"params": {
+					"heal": 1
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"id": "enlarge",
+	"display_name": "Enlarge",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 0, "y": 4}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "change_size",
+				"params": {
+					"exact": true,
+					"amount": 2.0
+				}
+			}
+		]
+	}
+}

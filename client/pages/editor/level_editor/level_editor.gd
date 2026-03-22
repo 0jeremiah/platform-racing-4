@@ -136,6 +136,12 @@ func _on_back_pressed():
 	await Main.set_scene(Main.TITLE)
 
 
+func _on_block_editor_pressed():
+	LevelEditor.current_level = level_manager.encode_level()
+	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
+	await Main.set_scene(Main.BLOCK_EDITOR)
+
+
 func _on_explore_pressed():
 	save_panel.close()
 	load_panel.close()

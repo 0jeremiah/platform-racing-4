@@ -1,0 +1,22 @@
+{
+	"id": "teleport",
+	"display_name": "Teleport",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 2, "y": 3}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "teleport",
+				"params": {
+					"color": "FF7F50",
+					"throttle_ms": 1000,
+					"colorin_coords": {"x": 3, "y": 3}
+				}
+			}
+		]
+	}
+}

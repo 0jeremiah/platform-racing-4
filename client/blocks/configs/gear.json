@@ -1,0 +1,21 @@
+{
+	"id": "gear",
+	"display_name": "Gear",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 4, "y": 3}
+	},
+	"behaviors": {
+		"bottom": [
+			{
+				"name": "gear",
+				"params": {
+					"tick_ms": 4000,
+					"tock_ms": 500
+				}
+			}
+		]
+	}
+}

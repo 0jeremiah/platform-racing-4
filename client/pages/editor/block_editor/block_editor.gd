@@ -90,6 +90,12 @@ func _on_back_pressed():
 	await Main.set_scene(Main.TITLE)
 
 
+func _on_level_editor_pressed():
+	#BlockEditor.current_block = block_manager.encode_block()
+	#FileManager.save_to_file(BlockEditor.current_block, current_block_name)
+	await Main.set_scene(Main.LEVEL_EDITOR)
+
+
 func _on_save_pressed():
 	#BlockEditor.current_block = block_manager.encode_block()
 	#save_panel.initialize(LevelEditor.current_block)

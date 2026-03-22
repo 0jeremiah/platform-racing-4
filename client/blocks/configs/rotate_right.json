@@ -1,0 +1,18 @@
+{
+	"id": "rotate_right",
+	"display_name": "Rotate Right",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 1, "y": 2}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "rotate_right",
+				"params": {}
+			}
+		]
+	}
+}

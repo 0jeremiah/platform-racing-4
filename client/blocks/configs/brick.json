@@ -1,0 +1,18 @@
+{
+	"id": "brick",
+	"display_name": "Brick",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 4, "y": 0}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "shatter",
+				"params": {}
+			}
+		]
+	}
+}

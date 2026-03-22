@@ -281,6 +281,11 @@ layout_mode = 2
 theme = ExtResource("3_k3j40")
 text = "Goto Level Editor"
 
+[node name="BlockEditorButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Goto Block Editor"
+
 [node name="CreditsButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_k3j40")
@@ -292,7 +297,7 @@ layout_mode = 0
 offset_left = 797.0
 offset_top = 518.0
 offset_right = 1147.0
-offset_bottom = 818.0
+offset_bottom = 858.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoggedInPanel"]
 layout_mode = 0
@@ -317,6 +322,11 @@ text = "Go To Lobby"
 layout_mode = 2
 theme = ExtResource("3_k3j40")
 text = "Goto Level Editor"
+
+[node name="BlockEditorButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Goto Block Editor"
 
 [node name="CreditsButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
 layout_mode = 2

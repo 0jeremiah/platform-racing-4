@@ -1,0 +1,24 @@
+{
+	"id": "custom_stats",
+	"display_name": "Custom Stats",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 1, "y": 3}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "custom_stats",
+				"params": {
+					"reset": false,
+					"speed": 50,
+					"accel": 50,
+					"jump": 50,
+					"skill": 50
+				}
+			}
+		]
+	}
+}

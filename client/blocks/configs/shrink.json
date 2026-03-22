@@ -1,0 +1,21 @@
+{
+	"id": "shrink",
+	"display_name": "Shrink",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 1, "y": 4}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "change_size",
+				"params": {
+					"exact": true,
+					"amount": 0.5
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"id": "portable_block",
+	"display_name": "Portable_Block",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 4, "y": 4}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "crumble",
+				"params": {
+					"health": 100,
+					"armor": 10,
+					"damage_ration": 0.03
+				}
+			}
+		]
+	}
+}

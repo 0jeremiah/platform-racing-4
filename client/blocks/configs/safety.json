@@ -1,0 +1,18 @@
+{
+	"id": "safety",
+	"display_name": "Safety",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 4, "y": 2}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "safety",
+				"params": {}
+			}
+		]
+	}
+}

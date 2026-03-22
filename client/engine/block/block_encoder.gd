@@ -59,7 +59,7 @@ func encode_stamps(node: Node2D) -> Array:
 
 func encode_texts(node: Node2D) -> Array:
 	var texts = []
-	for text: Control in node.get_children():
+	for text: Node2D in node.get_children():
 		var textData = {
 			"text": text.text_string,
 			"font": text.text_font,

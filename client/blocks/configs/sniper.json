@@ -1,0 +1,12 @@
+{
+	"id": "sniper",
+	"display_name": "Sniper (Not yet implemented)",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 3, "y": 4}
+	},
+	"behaviors": {
+	}
+}

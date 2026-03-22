@@ -1,0 +1,21 @@
+{
+	"id": "appear",
+	"display_name": "Appear",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 9, "y": 3}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "appear",
+				"params": {
+					"appear_timer": 0.3,
+					"cooldown_timer": 2.0
+				}
+			}
+		]
+	}
+}

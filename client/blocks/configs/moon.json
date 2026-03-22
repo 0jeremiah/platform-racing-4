@@ -1,0 +1,20 @@
+{
+	"id": "moon",
+	"display_name": "Moon",
+	"matter_type": "gas",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 7, "y": 3}
+	},
+	"behaviors": {
+		"area": [
+			{
+				"name": "charge_lightbreak",
+				"params": {
+					"lightbreak_type": "moon"
+				}
+			}
+		]
+	}
+}

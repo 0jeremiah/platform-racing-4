@@ -1,0 +1,22 @@
+{
+	"id": "crumble",
+	"display_name": "Crumble",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 7, "y": 1}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "crumble",
+				"params": {
+					"health": 100,
+					"armor": 10,
+					"damage_ration": 0.03
+				}
+			}
+		]
+	}
+}

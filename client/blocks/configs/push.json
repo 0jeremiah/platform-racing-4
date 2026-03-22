@@ -1,0 +1,18 @@
+{
+	"id": "push",
+	"display_name": "Push",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 3, "y": 2}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "push",
+				"params": {}
+			}
+		]
+	}
+}

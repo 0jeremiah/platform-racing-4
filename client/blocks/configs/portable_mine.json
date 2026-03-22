@@ -1,0 +1,21 @@
+{
+	"id": "portable_mine",
+	"display_name": "Portable Mine",
+	"matter_type": "solid",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 5, "y": 4}
+	},
+	"behaviors": {
+		"any_side": [
+			{
+				"name": "explode",
+				"params": {
+					"push_strength": 5000,
+					"hitstun_duration": 2.5
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"id": "finish",
+	"display_name": "Finish",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 6, "y": 1}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "finish",
+				"params": {}
+			}
+		]
+	}
+}

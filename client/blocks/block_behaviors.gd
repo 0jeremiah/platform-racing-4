@@ -1,6 +1,7 @@
 extends Node
 ## Movement-related tile behaviors (push, freeze, etc.)
 
+
 ## Push the node in a specified direction
 func push_direction(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary) -> void:
 	if "velocity" not in node:

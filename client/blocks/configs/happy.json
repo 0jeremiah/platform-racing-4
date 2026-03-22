@@ -1,0 +1,20 @@
+{
+	"id": "happy",
+	"display_name": "Happy",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 6, "y": 2}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "happy",
+				"params": {
+					"amount": 5
+				}
+			}
+		]
+	}
+}

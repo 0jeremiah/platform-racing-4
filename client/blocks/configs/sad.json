@@ -1,0 +1,20 @@
+{
+	"id": "sad",
+	"display_name": "Sad",
+	"matter_type": "solid",
+	"is_safe": true,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 7, "y": 2}
+	},
+	"behaviors": {
+		"bump": [
+			{
+				"name": "sad",
+				"params": {
+					"amount": 5
+				}
+			}
+		]
+	}
+}

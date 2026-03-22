@@ -1,0 +1,20 @@
+{
+	"id": "sun",
+	"display_name": "Sun",
+	"matter_type": "gas",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 6, "y": 3}
+	},
+	"behaviors": {
+		"area": [
+			{
+				"name": "charge_lightbreak",
+				"params": {
+					"lightbreak_type": "sun"
+				}
+			}
+		]
+	}
+}

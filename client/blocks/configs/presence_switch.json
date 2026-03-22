@@ -1,0 +1,20 @@
+{
+	"id": "presence",
+	"display_name": "Presence Switch",
+	"matter_type": "gas",
+	"is_safe": false,
+	"image": {
+		"src": "res://tiles/tileatlas.png",
+		"atlas_coords": {"x": 5, "y": 3}
+	},
+	"behaviors": {
+		"area": [
+			{
+				"name": "switch",
+				"params": {
+					"dummyvariable": 1
+				}
+			}
+		]
+	}
+}
