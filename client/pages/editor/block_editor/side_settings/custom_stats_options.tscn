@@ -1,0 +1,248 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn3la7dl3kaqu"]
+
+[ext_resource type="PackedScene" uid="uid://c2u2omjpw5701" path="res://ui/editbox.tscn" id="1_rxxsb"]
+
+[node name="CustomStatsOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 270.0
+
+[node name="SpeedSlider" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 55.0
+
+[node name="ColorRect" type="ColorRect" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 315.0
+offset_bottom = 55.0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="SpeedLabel" type="RichTextLabel" parent="SpeedSlider"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Speed:"
+vertical_alignment = 1
+
+[node name="SpeedDecButton" type="Button" parent="SpeedSlider"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "◀"
+
+[node name="SpeedIncButton" type="Button" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 30.0
+offset_right = 360.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "▶"
+
+[node name="SpeedSlider" type="HSlider" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 310.0
+offset_bottom = 55.0
+value = 50.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="SpeedBox" parent="SpeedSlider" instance=ExtResource("1_rxxsb")]
+layout_mode = 0
+offset_left = 260.0
+offset_right = 360.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "50"
+alignment = 2
+
+[node name="AccelSlider" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 60.0
+offset_right = 360.0
+offset_bottom = 115.0
+
+[node name="ColorRect" type="ColorRect" parent="AccelSlider"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 315.0
+offset_bottom = 55.0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="AccelLabel" type="RichTextLabel" parent="AccelSlider"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Acceleration:"
+vertical_alignment = 1
+
+[node name="AccelDecButton" type="Button" parent="AccelSlider"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "◀"
+
+[node name="AccelIncButton" type="Button" parent="AccelSlider"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 30.0
+offset_right = 360.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "▶"
+
+[node name="AccelSlider" type="HSlider" parent="AccelSlider"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 310.0
+offset_bottom = 55.0
+value = 50.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="AccelBox" parent="AccelSlider" instance=ExtResource("1_rxxsb")]
+layout_mode = 0
+offset_left = 260.0
+offset_right = 360.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "50"
+alignment = 2
+
+[node name="JumpSlider" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 360.0
+offset_bottom = 175.0
+
+[node name="ColorRect" type="ColorRect" parent="JumpSlider"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 315.0
+offset_bottom = 55.0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="JumpLabel" type="RichTextLabel" parent="JumpSlider"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Jump:"
+vertical_alignment = 1
+
+[node name="JumpDecButton" type="Button" parent="JumpSlider"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "◀"
+
+[node name="JumpIncButton" type="Button" parent="JumpSlider"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 30.0
+offset_right = 360.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "▶"
+
+[node name="JumpSlider" type="HSlider" parent="JumpSlider"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 310.0
+offset_bottom = 55.0
+value = 50.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="JumpBox" parent="JumpSlider" instance=ExtResource("1_rxxsb")]
+layout_mode = 0
+offset_left = 260.0
+offset_right = 360.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "50"
+alignment = 2
+
+[node name="SkillSlider" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 180.0
+offset_right = 360.0
+offset_bottom = 235.0
+
+[node name="ColorRect" type="ColorRect" parent="SkillSlider"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 315.0
+offset_bottom = 55.0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="JumpLabel" type="RichTextLabel" parent="SkillSlider"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Skill:"
+vertical_alignment = 1
+
+[node name="SkillDecButton" type="Button" parent="SkillSlider"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "◀"
+
+[node name="SkillIncButton" type="Button" parent="SkillSlider"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 30.0
+offset_right = 360.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 12
+text = "▶"
+
+[node name="SkillSlider" type="HSlider" parent="SkillSlider"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 310.0
+offset_bottom = 55.0
+value = 50.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="SkillBox" parent="SkillSlider" instance=ExtResource("1_rxxsb")]
+layout_mode = 0
+offset_left = 260.0
+offset_right = 360.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "50"
+alignment = 2
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 100.0
+offset_bottom = 270.0
+theme_override_font_sizes/font_size = 17
+text = "Reset to Starting Stats"

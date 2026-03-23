@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpikgl2pwlyam"]
+
+[ext_resource type="PackedScene" uid="uid://c2u2omjpw5701" path="res://ui/editbox.tscn" id="1_hlhy2"]
+
+[node name="CustomStatsOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 70.0
+
+[node name="SpeedSlider" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 55.0
+
+[node name="ColorRect" type="ColorRect" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 315.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="SpeedLabel" type="RichTextLabel" parent="SpeedSlider"]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Amount:"
+vertical_alignment = 1
+
+[node name="SpeedDecButton" type="Button" parent="SpeedSlider"]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 20
+text = "◀"
+
+[node name="SpeedIncButton" type="Button" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 30.0
+offset_right = 360.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 20
+text = "▶"
+
+[node name="SpeedSlider" type="HSlider" parent="SpeedSlider"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 310.0
+offset_bottom = 70.0
+value = 50.0
+tick_count = 20
+ticks_on_borders = true
+
+[node name="SpeedBox" parent="SpeedSlider" instance=ExtResource("1_hlhy2")]
+layout_mode = 0
+offset_left = 260.0
+offset_right = 360.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "5"
+alignment = 2

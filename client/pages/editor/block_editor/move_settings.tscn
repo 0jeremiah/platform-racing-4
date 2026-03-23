@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://caedfguoqnyjb"]
+
+[ext_resource type="Script" uid="uid://bdyjhfpphrg1w" path="res://pages/editor/block_editor/move_settings.gd" id="1_1d4om"]
+
+[node name="MoveSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 400.0
+script = ExtResource("1_1d4om")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Move Tick:"
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "2.5"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 210.0
+offset_right = 340.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "per sec."
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 140.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Move Pattern:"
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 40.0
+offset_right = 500.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 16
+text = "up, right, down, left"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 500.0
+offset_bottom = 400.0
+theme_override_font_sizes/normal_font_size = 16
+text = "The syntax for move blocks are either:
+\"command, command\", or \"command 5, command 2\".
+
+The available commands are:
+\"up\"/ \"u\" / \"^\" = Move up.
+\"down\"/ \"d\" / \"v\" = Move down.
+\"left\"/ \"l\" / \"<\" = Move left.
+\"right\"/ \"r\" / \">\" = Move left.
+\"random\" = Choose a random direction.
+\"return\" = Return to spawn location."

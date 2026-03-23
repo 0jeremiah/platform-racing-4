@@ -1,19 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://de82uiivhctdk"]
+[gd_scene load_steps=5 format=3 uid="uid://de82uiivhctdk"]
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
+[ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/move_settings.tscn" id="3_oeqcc"]
+[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/sideoptions.tscn" id="4_ybjga"]
 
 [node name="BlockSettingsSubmenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 280.0
-offset_bottom = 320.0
+offset_right = 290.0
+offset_bottom = 360.0
 script = ExtResource("1_ga453")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 280.0
-offset_bottom = 320.0
+offset_right = 290.0
+offset_bottom = 360.0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 140.0
+offset_right = 270.0
+offset_bottom = 144.0
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 350.0
+offset_right = 270.0
+offset_bottom = 354.0
+
+[node name="VSeparator" type="VSeparator" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 280.0
+offset_top = 20.0
+offset_right = 284.0
+offset_bottom = 340.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -25,16 +50,42 @@ text = "-- Block Settings --"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlockTypeSetting" type="Control" parent="."]
+[node name="MatterTypeSetting" type="Control" parent="."]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 60.0
-offset_right = 260.0
+offset_right = 270.0
 offset_bottom = 90.0
+
+[node name="MatterTypeSettingLabel" type="RichTextLabel" parent="MatterTypeSetting"]
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Matter Type:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MatterTypeSettingButton" type="Button" parent="MatterTypeSetting"]
+layout_mode = 0
+offset_left = 130.0
+offset_right = 250.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Active"
+alignment = 0
+clip_text = true
+
+[node name="BlockTypeSetting" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 270.0
+offset_bottom = 130.0
 
 [node name="BlockTypeSettingLabel" type="RichTextLabel" parent="BlockTypeSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Block Type:"
@@ -43,145 +94,139 @@ vertical_alignment = 1
 
 [node name="BlockTypeSettingButton" type="Button" parent="BlockTypeSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="HSeparator" type="HSeparator" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 100.0
-offset_right = 260.0
-offset_bottom = 104.0
-
-[node name="TopSetting" type="Control" parent="."]
+[node name="SidesSettings" type="Control" parent="."]
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 110.0
-offset_right = 260.0
-offset_bottom = 140.0
+offset_top = 150.0
+offset_right = 270.0
+offset_bottom = 340.0
 
-[node name="TopSettingLabel" type="RichTextLabel" parent="TopSetting"]
+[node name="TopSetting" type="Control" parent="SidesSettings"]
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 30.0
+
+[node name="TopSettingLabel" type="RichTextLabel" parent="SidesSettings/TopSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Top:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TopSettingButton" type="Button" parent="TopSetting"]
+[node name="TopSettingButton" type="Button" parent="SidesSettings/TopSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="BottomSetting" type="Control" parent="."]
+[node name="BottomSetting" type="Control" parent="SidesSettings"]
 anchors_preset = 0
-offset_left = 20.0
-offset_top = 150.0
-offset_right = 260.0
-offset_bottom = 180.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 70.0
 
-[node name="TopSettingLabel" type="RichTextLabel" parent="BottomSetting"]
+[node name="TopSettingLabel" type="RichTextLabel" parent="SidesSettings/BottomSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Bottom:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="BottomSettingButton" type="Button" parent="BottomSetting"]
+[node name="BottomSettingButton" type="Button" parent="SidesSettings/BottomSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="LeftSetting" type="Control" parent="."]
+[node name="LeftSetting" type="Control" parent="SidesSettings"]
 anchors_preset = 0
-offset_left = 20.0
-offset_top = 190.0
-offset_right = 260.0
-offset_bottom = 220.0
+offset_top = 80.0
+offset_right = 250.0
+offset_bottom = 110.0
 
-[node name="LeftSettingLabel" type="RichTextLabel" parent="LeftSetting"]
+[node name="LeftSettingLabel" type="RichTextLabel" parent="SidesSettings/LeftSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Left:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="LeftSettingButton" type="Button" parent="LeftSetting"]
+[node name="LeftSettingButton" type="Button" parent="SidesSettings/LeftSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="RightSetting" type="Control" parent="."]
+[node name="RightSetting" type="Control" parent="SidesSettings"]
 anchors_preset = 0
-offset_left = 20.0
-offset_top = 230.0
-offset_right = 260.0
-offset_bottom = 260.0
+offset_top = 120.0
+offset_right = 250.0
+offset_bottom = 150.0
 
-[node name="RightSettingLabel" type="RichTextLabel" parent="RightSetting"]
+[node name="RightSettingLabel" type="RichTextLabel" parent="SidesSettings/RightSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Right:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="RightSettingButton" type="Button" parent="RightSetting"]
+[node name="RightSettingButton" type="Button" parent="SidesSettings/RightSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="BumpSetting" type="Control" parent="."]
+[node name="BumpSetting" type="Control" parent="SidesSettings"]
 anchors_preset = 0
-offset_left = 20.0
-offset_top = 270.0
-offset_right = 260.0
-offset_bottom = 300.0
+offset_top = 160.0
+offset_right = 250.0
+offset_bottom = 190.0
 
-[node name="BumpSettingLabel" type="RichTextLabel" parent="BumpSetting"]
+[node name="BumpSettingLabel" type="RichTextLabel" parent="SidesSettings/BumpSetting"]
 layout_mode = 0
-offset_right = 110.0
+offset_right = 120.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Bump:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="BumpSettingButton" type="Button" parent="BumpSetting"]
+[node name="BumpSettingButton" type="Button" parent="SidesSettings/BumpSetting"]
 layout_mode = 0
-offset_left = 120.0
-offset_right = 240.0
+offset_left = 130.0
+offset_right = 250.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "Active"
@@ -190,3 +235,19 @@ clip_text = true
 
 [node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]
 visible = false
+
+[node name="MoveSettings" parent="." instance=ExtResource("3_oeqcc")]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 360.0
+offset_right = 510.0
+offset_bottom = 760.0
+
+[node name="Sideoptions" parent="." instance=ExtResource("4_ybjga")]
+visible = false
+layout_mode = 0
+offset_left = 290.0
+offset_top = 20.0
+offset_right = 290.0
+offset_bottom = 20.0
