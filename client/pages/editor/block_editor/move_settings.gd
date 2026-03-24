@@ -21,10 +21,12 @@ func _parse_pattern():
 	if !pattern_string.is_empty():
 		var pattern_array = pattern_string.split(",", false, 0)
 		for pattern in pattern_array:
-			if pattern.dedent().rstrip("0123456789 ").to_lower() in allowed_commands:
-				if pattern.contains("0123456789"):
-					if pattern.dedent().rstrip("up^downvleft<righ>am ").is_valid_int():
-						var number = pattern.dedent().rstrip("up^downvleft<righ>am ")
+			var converted_command = pattern.dedent().remove_chars("0123456789 ").to_lower()
+			if converted_command in allowed_commands:
+				if pattern.remove_chars("0123456789") != pattern:
+					var converted_numeration = pattern.dedent().remove_chars("up^downvleft<righ>am ")
+					if converted_numeration.is_valid_int():
+						var number = pattern.dedent().remove_chars("up^downvleft<righ>am ")
 					else:
 						success = false
 						parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
