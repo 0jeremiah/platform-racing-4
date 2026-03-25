@@ -1,18 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqfs7as8jr3yl"]
+[gd_scene load_steps=6 format=3 uid="uid://cqfs7as8jr3yl"]
 
 [ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="1_6t2cv"]
+[ext_resource type="Script" uid="uid://cprpa8py4lujd" path="res://pages/editor/block_editor/change_settings.gd" id="1_vcmgd"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_7fopi"]
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_vcmgd"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7fopi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
 atlas = ExtResource("2_vcmgd")
 region = Rect2(0, 0, 128, 128)
-filter_clip = true
 
 [node name="ChangeSettings" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 724.0
-offset_bottom = 170.0
+offset_right = 682.0
+offset_bottom = 258.0
+script = ExtResource("1_vcmgd")
+
+[node name="LightColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 40.0
+offset_right = 682.0
+offset_bottom = 258.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="DarkColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 45.0
+offset_right = 677.0
+offset_bottom = 253.0
+color = Color(0, 0, 0, 0.247059)
 
 [node name="TickLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -29,6 +47,7 @@ offset_right = 140.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "2.5"
+script = ExtResource("2_7fopi")
 
 [node name="PerSecLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -48,94 +67,39 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Pattern:"
 vertical_alignment = 1
 
-[node name="LightColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 40.0
-offset_right = 718.0
-offset_bottom = 170.0
-color = Color(0, 0, 0, 0.247059)
-
-[node name="DarkColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 85.0
-offset_top = 45.0
-offset_right = 713.0
-offset_bottom = 165.0
-color = Color(0, 0, 0, 0.247059)
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_left = 85.0
 offset_top = 45.0
-offset_right = 713.0
-offset_bottom = 165.0
+offset_right = 677.0
+offset_bottom = 248.0
 
 [node name="BlocksContainer" type="GridContainer" parent="ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 10
-
-[node name="BlockContainer" type="Control" parent="ScrollContainer/BlocksContainer"]
-custom_minimum_size = Vector2(58, 58)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/BlocksContainer/BlockContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 53.0
-offset_bottom = 53.0
-texture_normal = SubResource("AtlasTexture_7fopi")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="BlockContainer2" type="Control" parent="ScrollContainer/BlocksContainer"]
-custom_minimum_size = Vector2(58, 58)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/BlocksContainer/BlockContainer2"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 53.0
-offset_bottom = 53.0
-texture_normal = SubResource("AtlasTexture_7fopi")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="BlockContainer3" type="Control" parent="ScrollContainer/BlocksContainer"]
-custom_minimum_size = Vector2(58, 58)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/BlocksContainer/BlockContainer3"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 53.0
-offset_bottom = 53.0
-texture_normal = SubResource("AtlasTexture_7fopi")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="BlockContainer4" type="Control" parent="ScrollContainer/BlocksContainer"]
-custom_minimum_size = Vector2(58, 58)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/BlocksContainer/BlockContainer4"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 53.0
-offset_bottom = 53.0
-texture_normal = SubResource("AtlasTexture_7fopi")
-ignore_texture_size = true
-stretch_mode = 0
 
 [node name="BlockPicker" parent="." instance=ExtResource("1_6t2cv")]
 layout_mode = 0
-offset_top = 200.0
-offset_bottom = 422.0
+offset_top = 298.0
+offset_bottom = 520.0
+
+[node name="SelectedBlockTexture" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.7490196)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = SubResource("AtlasTexture_xmsay")
+expand_mode = 1
+
+[node name="TeleportColorinTexture" type="TextureRect" parent="SelectedBlockTexture"]
+self_modulate = Color(1, 1, 1, 0.7490196)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = SubResource("AtlasTexture_xmsay")
+expand_mode = 1

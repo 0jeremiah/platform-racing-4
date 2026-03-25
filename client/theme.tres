@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=28 format=3 uid="uid://cf25w553mynfo"]
+[gd_resource type="Theme" load_steps=29 format=3 uid="uid://cf25w553mynfo"]
 
 [ext_resource type="FontFile" uid="uid://ra1shgkuj8lq" path="res://fonts/quicksand/static/quicksand-medium.ttf" id="1_66i5j"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_ck3ir"]
@@ -12,22 +12,13 @@ texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 modulate_color = Color(0.817521, 0.817521, 0.817521, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05tig"]
-bg_color = Color(1, 1, 1, 0.75)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vj6dk"]
+texture = ExtResource("1_ck3ir")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(0.7294118, 1, 0.8235294, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8x7s"]
 texture = ExtResource("1_ck3ir")
@@ -36,6 +27,14 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 modulate_color = Color(0.725214, 0.837202, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wdt2l"]
+texture = ExtResource("1_ck3ir")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(0.53962386, 0.72338, 0.99999946, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_35taw"]
 texture = ExtResource("1_ck3ir")
@@ -262,8 +261,9 @@ Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/styles/disabled = SubResource("StyleBoxTexture_88cch")
-Button/styles/focus = SubResource("StyleBoxFlat_05tig")
+Button/styles/focus = SubResource("StyleBoxTexture_vj6dk")
 Button/styles/hover = SubResource("StyleBoxTexture_j8x7s")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_wdt2l")
 Button/styles/normal = SubResource("StyleBoxTexture_35taw")
 Button/styles/pressed = SubResource("StyleBoxTexture_adoyr")
 FlatButton/colors/font_color = Color(0.831373, 0.788235, 0.627451, 1)

@@ -1,5 +1,6 @@
 extends Control
 
+signal block_clicked
 signal change_selected_block
 
 @onready var block_picker_panel = $BlockPickerPanel
@@ -84,6 +85,7 @@ func _update_block_list_display():
 			new_block_button.focus_mode = 1
 			new_block_button.name = "BlockButton" + str(block)
 			new_block_button.tooltip_text = CoordinateUtils.get_description(CoordinateUtils.to_true_block_id(true_tile_id))
+			new_block_button.button_down.connect(_click_block.bind(tile_id + (100 * STYLE_LIST[tab_bar.current_tab]), atlas_coords))
 			new_block_button.pressed.connect(_set_current_block.bind(tile_id + (100 * STYLE_LIST[tab_bar.current_tab]), atlas_coords))
 			block_container.add_child(new_block_button)
 			if current_block_list[block] == 33:
@@ -112,6 +114,34 @@ func _update_block_list_display():
 	no_blocks_text.position.x = light_color_rect.position.x + ((light_color_rect.size.x - no_blocks_text.size.x) / 2)
 	no_blocks_text.position.y = light_color_rect.position.y + ((light_color_rect.size.y - no_blocks_text.size.y) / 2)
 	size = block_picker_panel.size
+
+
+func _click_block(block_id: int, block_atlas_coords: Vector2) -> void:
+	var block_data: Dictionary = {
+		"block_id": block_id,
+		"block_atlas_coords": block_atlas_coords
+	}
+	var block_options = null
+	if CoordinateUtils.to_true_block_id(block_data.block_id) == 27 or CoordinateUtils.to_true_block_id(block_data.block_id) == 28:
+		block_options = TileOptions.new()
+		block_options.option = StatsOptions.new()
+		block_options.set_popup(stats_popup)
+		block_data.get_or_add("block_options", block_options)
+	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 32:
+		block_options = TileOptions.new()
+		block_options.option = CustomStatsOptions.new()
+		block_options.set_popup(custom_stats_popup)
+		block_data.get_or_add("block_options", block_options)
+	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 33:
+		block_options = TileOptions.new()
+		block_options.option = TeleportOptions.new()
+		block_options.set_popup(teleport_popup)
+		block_data.get_or_add("block_options", block_options)
+		var teleport_colorin_coords = CoordinateUtils.to_atlas_coords(block_data.block_id + 1)
+		block_data.get_or_add("teleport_colorin_coords", teleport_colorin_coords)
+		var teleport_color = "E22B2E"
+		block_data.get_or_add("teleport_color", teleport_color)
+	emit_signal("block_clicked", block_data)
 
 
 func _set_current_block(block_id: int, block_atlas_coords: Vector2) -> void:

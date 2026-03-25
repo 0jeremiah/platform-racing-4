@@ -2,14 +2,21 @@ extends Control
 
 signal control_event
 
+@onready var block_settings_panel = $BlockSettingsPanel
+@onready var sides_settings_seperator = $SidesSettingsSeperator
+@onready var block_options_seperator = $BlockOptionsSeperator
+@onready var sides_options_seperator = $SidesOptionsSeperator
 @onready var matter_type_setting_button = $MatterTypeSetting/MatterTypeSettingButton
 @onready var block_type_setting_button = $BlockTypeSetting/BlockTypeSettingButton
+@onready var sides_settings = $SidesSettings
 @onready var top_setting_button = $SidesSettings/TopSetting/TopSettingButton
 @onready var bottom_setting_button = $SidesSettings/BottomSetting/BottomSettingButton
 @onready var left_setting_button = $SidesSettings/LeftSetting/LeftSettingButton
 @onready var right_setting_button = $SidesSettings/RightSetting/RightSettingButton
 @onready var bump_setting_button = $SidesSettings/BumpSetting/BumpSettingButton
 @onready var dropdown_popup = $DropdownPopup
+@onready var move_settings = $MoveSettings
+@onready var change_settings = $ChangeSettings
 
 var active: bool = false
 var matter_type_dictionary: Dictionary = {
@@ -67,7 +74,7 @@ var sides_type_dictionary: Dictionary = {
 	"teleport": {"label": "Teleport", "setting": "teleport"},
 	"vanish": {"label": "Vanish", "setting": "vanish"}
 }
-var sides_settings: Array = []
+var sides_settings_array: Array = []
 var matter_type_setting: String = "solid"
 var block_type_setting: String = "active"
 var top_setting: String = "active"
@@ -78,15 +85,15 @@ var bump_setting: String = "active"
 
 
 func _ready() -> void:
-	sides_settings = [top_setting_button, bottom_setting_button, left_setting_button, right_setting_button,
+	sides_settings_array = [top_setting_button, bottom_setting_button, left_setting_button, right_setting_button,
 	bump_setting_button]
 	#var block_type_array_keys = block_type_array.keys()
 	#for type_options in block_type_array.size():
 		#block_type_setting_button.get_popup().add_item(block_type_array[block_type_array_keys[type_options]].label, type_options)
 	#var sides_type_dictionary_keys = sides_type_dictionary.keys()
-	#for side_setting in sides_settings.size():
+	#for side_setting in sides_settings_array.size():
 		#for side_options in sides_type_dictionary.size():
-			#sides_settings[side_setting].get_popup().add_item(sides_type_dictionary[sides_type_dictionary_keys[side_options]].label, side_options)
+			#sides_settings_array[side_setting].get_popup().add_item(sides_type_dictionary[sides_type_dictionary_keys[side_options]].label, side_options)
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
 	top_setting_button.pressed.connect(_show_sides_types.bind(top_setting_button))
@@ -95,7 +102,7 @@ func _ready() -> void:
 	right_setting_button.pressed.connect(_show_sides_types.bind(right_setting_button))
 	bump_setting_button.pressed.connect(_show_sides_types.bind(bump_setting_button))
 	dropdown_popup.return_dropdown_data.connect(_set_button.bind())
-	update_button_text()
+	update_display()
 	
 
 
@@ -170,7 +177,7 @@ func _set_button(new_index: int):
 		left_setting_button: left_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
 		right_setting_button: right_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
 		bump_setting_button: bump_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
-	update_button_text()
+	update_display()
 
 
 func change_matter_type(new_index: int):
@@ -199,16 +206,41 @@ func change_block_type(new_index: int):
 		block_type_setting = gas_type_dictionary_keys[new_index]
 
 
-func update_button_text():
+func update_display():
+	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
+	sides_settings_seperator.visible = false
+	sides_settings.visible = false
+	move_settings.visible = false
+	change_settings.visible = false
 	matter_type_setting_button.text = matter_type_dictionary[matter_type_setting].label
 	if matter_type_setting == "solid":
 		block_type_setting_button.text = solid_type_dictionary[block_type_setting].label
-	if matter_type_setting == "liquid":
+	elif matter_type_setting == "liquid":
 		block_type_setting_button.text = liquid_type_dictionary[block_type_setting].label
-	if matter_type_setting == "gas":
+	elif matter_type_setting == "gas":
 		block_type_setting_button.text = gas_type_dictionary[block_type_setting].label
+	if matter_type_setting == "solid" and block_type_setting != "change" and block_type_setting != "egg":
+		sides_settings_seperator.position.y = panel_size.y - 10
+		sides_settings_seperator.visible = true
+		sides_settings.visible = true
+		panel_size.y += (sides_settings.position.y + sides_settings.size.y + 20) - panel_size.y
 	top_setting_button.text = sides_type_dictionary[top_setting].label
 	bottom_setting_button.text = sides_type_dictionary[bottom_setting].label
 	left_setting_button.text = sides_type_dictionary[left_setting].label
 	right_setting_button.text = sides_type_dictionary[right_setting].label
 	bump_setting_button.text = sides_type_dictionary[bump_setting].label
+	if block_type_setting == "move":
+		block_options_seperator.position.y = panel_size.y - 10
+		block_options_seperator.visible = true
+		move_settings.position.y = panel_size.y
+		move_settings.visible = true
+		panel_size.x += (move_settings.position.x + move_settings.size.x + 20) - panel_size.x
+		panel_size.y += (move_settings.position.y + move_settings.size.y + 20) - panel_size.y
+	elif block_type_setting == "change":
+		block_options_seperator.position.y = panel_size.y - 10
+		block_options_seperator.visible = true
+		change_settings.position.y = panel_size.y
+		change_settings.visible = true
+		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
+		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
+	block_settings_panel.size = panel_size
