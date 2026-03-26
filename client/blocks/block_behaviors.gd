@@ -7,7 +7,7 @@ func push_direction(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i
 	if "velocity" not in node:
 		return
 
-	var direction := Vector2(params.get("direction_x", 0), params.get("direction_y", 0))
+	var direction := Vector2(params.get("direction_x", 0.0), params.get("direction_y", 0.0))
 	var horizontal_force: float = params.get("horizontal_force", 125.0)
 	var vertical_force: float = params.get("vertical_force", 110.0)
 	var push_force_stand_pressed: float = params.get("push_force_stand_pressed", 3200.0)

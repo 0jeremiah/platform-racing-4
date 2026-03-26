@@ -13,7 +13,7 @@ script = ExtResource("1_1d4om")
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 0
 offset_top = 190.0
-offset_right = 480.0
+offset_right = 500.0
 offset_bottom = 194.0
 
 [node name="TickLabel" type="RichTextLabel" parent="."]

@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bujitk64bixt6"]
+
+[ext_resource type="Script" uid="uid://cl65iii4vl4k0" path="res://pages/editor/block_editor/side_settings/bounce_options.gd" id="1_5y5yj"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_xiunb"]
+
+[node name="BounceOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5y5yj")
+
+[node name="BouncinessLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Bounciness:"
+vertical_alignment = 1
+
+[node name="SpeedLimitLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 120.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Speed Limit:"
+vertical_alignment = 1
+
+[node name="BouncinessBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_right = 220.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "0.1"
+script = ExtResource("2_xiunb")
+
+[node name="SpeedLimitBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 40.0
+offset_right = 220.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "12500.0"
+script = ExtResource("2_xiunb")

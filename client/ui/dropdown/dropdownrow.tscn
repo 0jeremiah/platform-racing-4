@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://v0j1gj7xshbi"]
+[gd_scene load_steps=7 format=3 uid="uid://v0j1gj7xshbi"]
 
 [ext_resource type="Script" uid="uid://c1y2oiw3kwh6t" path="res://ui/dropdown/dropdownrow.gd" id="1_uq0nr"]
 
@@ -11,6 +11,12 @@ bg_color = Color(0.17254902, 0.5568628, 0.69803923, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nx8o"]
 bg_color = Color(0.6117647, 0.8509804, 0.8980392, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rt4o"]
+bg_color = Color(0.6117647, 0.8509804, 0.8980392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kj4a"]
+bg_color = Color(0.6117647, 0.8509804, 0.8980392, 1)
+
 [node name="DropdownRow" type="Button"]
 custom_minimum_size = Vector2(24, 30)
 offset_right = 194.0
@@ -20,6 +26,8 @@ theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxFlat_wa0hh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_uq0nr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6nx8o")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_6rt4o")
+theme_override_styles/focus = SubResource("StyleBoxFlat_6kj4a")
 text = "Text"
 alignment = 0
 clip_text = true

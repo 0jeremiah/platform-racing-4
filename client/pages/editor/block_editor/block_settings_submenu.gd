@@ -209,6 +209,7 @@ func change_block_type(new_index: int):
 func update_display():
 	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
 	sides_settings_seperator.visible = false
+	block_options_seperator.visible = false
 	sides_settings.visible = false
 	move_settings.visible = false
 	change_settings.visible = false
@@ -244,3 +245,5 @@ func update_display():
 		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
 		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
 	block_settings_panel.size = panel_size
+	sides_settings_seperator.size.x = panel_size.x - 40
+	block_options_seperator.size.x = panel_size.x - 40

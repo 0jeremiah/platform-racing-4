@@ -1,6 +1,6 @@
 extends Control
 
-signal control_event
+signal item_list_updated
 
 var item_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
@@ -26,10 +26,7 @@ func maybe_add_item(child_id: int):
 		while item_list.has(item_id):
 			item_list.erase(item_id)
 	item_list.sort()
-	#emit_signal("control_event", {
-		#"type": EditorEvents.SET_ITEMS,
-		#"items": item_list
-	#})
+	emit_signal("item_list_updated", item_list)
 
 
 func update_item_list() -> void:
