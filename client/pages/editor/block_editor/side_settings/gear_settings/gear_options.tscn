@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi363t32k35m4"]
+
+[ext_resource type="Script" uid="uid://c7hkbycmroy58" path="res://pages/editor/block_editor/side_settings/gear_settings/gear_options.gd" id="1_7gubw"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_6bemq"]
+
+[node name="GearOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 190.0
+offset_bottom = 110.0
+script = ExtResource("1_7gubw")
+
+[node name="GearRotationLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 90.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Rotation:"
+vertical_alignment = 1
+
+[node name="TickLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 80.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Tick ms:"
+vertical_alignment = 1
+
+[node name="TockLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 90.0
+offset_bottom = 110.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Tock ms:"
+vertical_alignment = 1
+
+[node name="GearRotationBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 190.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "90.0"
+script = ExtResource("2_6bemq")
+
+[node name="TickBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 40.0
+offset_right = 180.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "4000.0"
+script = ExtResource("2_6bemq")
+
+[node name="TockBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 80.0
+offset_right = 190.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 16
+text = "500.0"
+script = ExtResource("2_6bemq")

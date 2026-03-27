@@ -6,12 +6,12 @@ signal arrow_options_changed
 @onready var direction_x_box = $DirectionXBox
 @onready var direction_y_box = $DirectionYBox
 
-var force: float = 111.0
+var force: float = 110.0
 var direction: Vector2 = Vector2(0.0, -1.0)
 
 
 func _ready() -> void:
-	force_box.init("float", "111.0", -9999999.9, 99999999.9)
+	force_box.init("float", "110.0", -9999999.9, 99999999.9)
 	force_box.return_line.connect(_change_force)
 	direction_x_box.init("float", "0.0", -9999999.9, 99999999.9)
 	direction_x_box.return_line.connect(_change_direction_x)
@@ -26,7 +26,7 @@ func _change_force(new_force: float):
 
 func set_force(new_force: float):
 	force_box._update_text(str(new_force))
-	force = new_force
+	force = clamp(new_force, -9999999.9, 99999999.9)
 
 
 func _change_direction_x(new_direction_x: float):
@@ -36,7 +36,7 @@ func _change_direction_x(new_direction_x: float):
 
 func set_direction_x(new_direction_x: float):
 	direction_x_box._update_text(str(new_direction_x))
-	direction = Vector2(new_direction_x, direction.y)
+	direction = Vector2(clamp(new_direction_x, -9999999.9, 99999999.9), clamp(direction.y, -9999999.9, 99999999.9))
 
 
 func _change_direction_y(new_direction_y: float):
@@ -46,4 +46,4 @@ func _change_direction_y(new_direction_y: float):
 
 func set_direction_y(new_direction_y: float):
 	direction_y_box._update_text(str(new_direction_y))
-	direction = Vector2(direction.x, new_direction_y)
+	direction = Vector2(clamp(direction.x, -9999999.9, 99999999.9), clamp(new_direction_y, -9999999.9, 99999999.9))

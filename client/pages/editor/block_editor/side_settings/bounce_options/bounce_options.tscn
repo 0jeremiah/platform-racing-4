@@ -1,11 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://bujitk64bixt6"]
 
-[ext_resource type="Script" uid="uid://cl65iii4vl4k0" path="res://pages/editor/block_editor/side_settings/bounce_options.gd" id="1_5y5yj"]
+[ext_resource type="Script" uid="uid://cl65iii4vl4k0" path="res://pages/editor/block_editor/side_settings/bounce_options/bounce_options.gd" id="1_5y5yj"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_xiunb"]
 
 [node name="BounceOptions" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 220.0
+offset_bottom = 70.0
 script = ExtResource("1_5y5yj")
 
 [node name="BouncinessLabel" type="RichTextLabel" parent="."]

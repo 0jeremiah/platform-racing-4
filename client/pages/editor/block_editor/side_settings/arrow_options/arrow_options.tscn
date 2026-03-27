@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://1e8nna0xfuha"]
 
-[ext_resource type="Script" uid="uid://g247hrulbcts" path="res://pages/editor/block_editor/side_settings/arrow_options.gd" id="1_lmu64"]
+[ext_resource type="Script" uid="uid://g247hrulbcts" path="res://pages/editor/block_editor/side_settings/arrow_options/arrow_options.gd" id="1_lmu64"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_xucjm"]
 
 [node name="ArrowOptions" type="Control"]

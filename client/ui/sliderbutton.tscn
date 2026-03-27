@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://lxvwkg0y2jia"]
+[gd_scene load_steps=6 format=3 uid="uid://lxvwkg0y2jia"]
 
 [ext_resource type="Script" uid="uid://bmiwdsd07sgu6" path="res://ui/sliderbutton.gd" id="1_yudoa"]
 [ext_resource type="PackedScene" uid="uid://bkn6pehivmaka" path="res://ui/slider.tscn" id="2_68j5k"]
@@ -11,6 +11,9 @@ gradient = SubResource("Gradient_nu4fj")
 width = 48
 height = 48
 fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_68j5k"]
+bg_color = Color(0.7294118, 1, 0.8235294, 0.49803922)
 
 [node name="Sliderbutton" type="Control"]
 layout_mode = 3
@@ -64,6 +67,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 focus_mode = 1
+theme_override_styles/focus = SubResource("StyleBoxFlat_68j5k")
 flat = true
 
 [node name="SliderPopup" type="Popup" parent="."]

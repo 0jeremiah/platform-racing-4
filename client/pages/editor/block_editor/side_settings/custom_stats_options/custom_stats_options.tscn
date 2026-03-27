@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bn3la7dl3kaqu"]
+[gd_scene load_steps=3 format=3 uid="uid://bn3la7dl3kaqu"]
 
+[ext_resource type="Script" uid="uid://dxb6sunsxbti5" path="res://pages/editor/block_editor/side_settings/custom_stats_options/custom_stats_options.gd" id="1_ne3wx"]
 [ext_resource type="PackedScene" uid="uid://c2u2omjpw5701" path="res://ui/editbox.tscn" id="1_rxxsb"]
 
 [node name="CustomStatsOptions" type="Control"]
@@ -7,6 +8,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 360.0
 offset_bottom = 270.0
+script = ExtResource("1_ne3wx")
 
 [node name="SpeedSlider" type="Control" parent="."]
 anchors_preset = 0
@@ -239,7 +241,7 @@ theme_override_font_sizes/font_size = 17
 text = "50"
 alignment = 2
 
-[node name="CheckBox" type="CheckBox" parent="."]
+[node name="ResetCheckBox" type="CheckBox" parent="."]
 layout_mode = 0
 offset_top = 240.0
 offset_right = 100.0

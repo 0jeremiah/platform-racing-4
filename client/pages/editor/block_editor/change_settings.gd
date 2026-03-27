@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 			quick_click_timer -= delta
 		if !Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			if quick_click:
-				if from_block_picker or blocks_container.get_local_mouse_position() != old_mouse_position:
+				if (from_block_picker and Rect2(Vector2.ZERO, block_picker.size).has_point(block_picker.get_local_mouse_position())) or (blocks_container.get_local_mouse_position() != old_mouse_position and Rect2(Vector2.ZERO, scroll_container.size).has_point(scroll_container.get_local_mouse_position())):
 					_maybe_add_block(selected_block_id)
 			elif Rect2(Vector2.ZERO, scroll_container.size).has_point(scroll_container.get_local_mouse_position()):
 				var block_index = int(block_dropoff_position.x + (blocks_container.columns * block_dropoff_position.y))
@@ -79,7 +79,7 @@ func _update_block_list():
 			"block_index": block
 			}
 		if CoordinateUtils.to_true_block_id(change_block_list[block]) == 33:
-			_block_data.get_or_add("teleport_colorin_coords", change_block_list[block] + 1)
+			_block_data.get_or_add("teleport_colorin_coords", CoordinateUtils.to_atlas_coords(change_block_list[block] + 1))
 			_block_data.get_or_add("teleport_color", "E22B2E")
 		block_container.add_child(block_button)
 		blocks_container.add_child(block_container)

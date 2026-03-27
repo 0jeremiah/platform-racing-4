@@ -27,7 +27,7 @@ func _change_health(new_health: float):
 
 func set_health(new_health: float):
 	health_box._update_text(str(new_health))
-	health = new_health
+	health = clamp(new_health, 0.00000001, 99999999.9)
 
 
 func _change_armor(new_armor: float):
@@ -37,7 +37,7 @@ func _change_armor(new_armor: float):
 
 func set_armor(new_armor: float):
 	armor_box._update_text(str(new_armor))
-	armor = new_armor
+	armor = clamp(new_armor, 0.0, 99999999.9)
 
 
 func _change_damage_ratio(new_damage_ratio: float):
@@ -47,4 +47,4 @@ func _change_damage_ratio(new_damage_ratio: float):
 
 func set_damage_ratio(new_damage_ratio: float):
 	damage_ratio_box._update_text(str(new_damage_ratio))
-	damage_ratio = new_damage_ratio
+	damage_ratio = clamp(new_damage_ratio, 0.0, 99999999.9)

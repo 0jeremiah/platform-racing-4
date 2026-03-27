@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqfs7as8jr3yl"]
+[gd_scene load_steps=7 format=3 uid="uid://cqfs7as8jr3yl"]
 
 [ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="1_6t2cv"]
 [ext_resource type="Script" uid="uid://cprpa8py4lujd" path="res://pages/editor/block_editor/change_settings.gd" id="1_vcmgd"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_vcmgd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
+atlas = ExtResource("2_vcmgd")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fopi"]
 atlas = ExtResource("2_vcmgd")
 region = Rect2(0, 0, 128, 128)
 
@@ -98,8 +102,9 @@ expand_mode = 1
 
 [node name="TeleportColorinTexture" type="TextureRect" parent="SelectedBlockTexture"]
 self_modulate = Color(1, 1, 1, 0.7490196)
+show_behind_parent = true
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-texture = SubResource("AtlasTexture_xmsay")
+texture = SubResource("AtlasTexture_7fopi")
 expand_mode = 1

@@ -1,11 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://qmyqrjqjb3au"]
 
-[ext_resource type="Script" uid="uid://cnp0qtd4cfkj2" path="res://pages/editor/block_editor/side_settings/crumble_options.gd" id="1_b1otq"]
+[ext_resource type="Script" uid="uid://cnp0qtd4cfkj2" path="res://pages/editor/block_editor/side_settings/crumble_options/crumble_options.gd" id="1_b1otq"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_tg6b2"]
 
 [node name="CrumbleOptions" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 110.0
 script = ExtResource("1_b1otq")
 
 [node name="HealthLabel" type="RichTextLabel" parent="."]

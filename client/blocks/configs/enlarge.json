@@ -13,7 +13,7 @@
 				"name": "change_size",
 				"params": {
 					"exact": true,
-					"amount": 2.0
+					"multiplier": 2.0
 				}
 			}
 		]

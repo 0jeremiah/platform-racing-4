@@ -250,13 +250,16 @@ offset_top = 360.0
 offset_right = 692.0
 offset_bottom = 618.0
 
-[node name="Sideoptions" parent="." instance=ExtResource("4_ybjga")]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 290.0
 offset_top = 20.0
-offset_right = 290.0
-offset_bottom = 20.0
+offset_right = 700.0
+offset_bottom = 340.0
+
+[node name="Sideoptions" parent="ScrollContainer" instance=ExtResource("4_ybjga")]
+layout_mode = 2
 
 [node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]
 visible = false

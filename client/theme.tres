@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=29 format=3 uid="uid://cf25w553mynfo"]
+[gd_resource type="Theme" load_steps=28 format=3 uid="uid://cf25w553mynfo"]
 
 [ext_resource type="FontFile" uid="uid://ra1shgkuj8lq" path="res://fonts/quicksand/static/quicksand-medium.ttf" id="1_66i5j"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_ck3ir"]
@@ -11,14 +11,6 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 modulate_color = Color(0.817521, 0.817521, 0.817521, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vj6dk"]
-texture = ExtResource("1_ck3ir")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-modulate_color = Color(0.7294118, 1, 0.8235294, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8x7s"]
 texture = ExtResource("1_ck3ir")
@@ -261,7 +253,6 @@ Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/styles/disabled = SubResource("StyleBoxTexture_88cch")
-Button/styles/focus = SubResource("StyleBoxTexture_vj6dk")
 Button/styles/hover = SubResource("StyleBoxTexture_j8x7s")
 Button/styles/hover_pressed = SubResource("StyleBoxTexture_wdt2l")
 Button/styles/normal = SubResource("StyleBoxTexture_35taw")

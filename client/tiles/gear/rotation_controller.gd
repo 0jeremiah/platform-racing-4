@@ -2,8 +2,8 @@ extends Node2D
 class_name RotationController
 
 var rotation_velocity: float = 0
-var tick_ms = 4000 # rotate 90 degrees every 4.5 seconds
-var tock_ms = 500
+var tick_ms: float = 4000 # rotate 90 degrees every 4.5 seconds
+var tock_ms: float = 500
 var elapsed_ms = 0
 var target_rotation = 0
 var tick = 'tock'

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bnxcbqjex4vje"]
 
-[ext_resource type="Script" uid="uid://chitr3vp2b38u" path="res://pages/editor/block_editor/side_settings/vanish_options.gd" id="1_8ty1a"]
+[ext_resource type="Script" uid="uid://chitr3vp2b38u" path="res://pages/editor/block_editor/side_settings/vanish_options/vanish_options.gd" id="1_8ty1a"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_8rmp8"]
 
 [node name="VanishOptions" type="Control"]

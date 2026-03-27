@@ -23,7 +23,7 @@ func _change_animation_duration(new_animation_duration: float):
 
 func set_animation_duration(new_animation_duration: float):
 	duration_box._update_text(str(new_animation_duration))
-	animation_duration = new_animation_duration
+	animation_duration = clamp(new_animation_duration, 0.0, 99999999.9)
 
 
 func _change_cooldown(new_cooldown: float):
@@ -33,4 +33,4 @@ func _change_cooldown(new_cooldown: float):
 
 func set_cooldown(new_cooldown: float):
 	cooldown_box._update_text(str(new_cooldown))
-	cooldown = new_cooldown
+	cooldown = clamp(new_cooldown, 0.0, 99999999.9)
