@@ -13,7 +13,7 @@
 				"name": "teleport",
 				"params": {
 					"color": "FF7F50",
-					"throttle_ms": 1000,
+					"throttle_ms": 1000.0,
 					"colorin_coords": {"x": 3, "y": 3}
 				}
 			}

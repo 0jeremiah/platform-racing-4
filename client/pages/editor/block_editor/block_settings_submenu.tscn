@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
 [ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/move_settings.tscn" id="3_oeqcc"]
-[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/sideoptions.tscn" id="4_ybjga"]
+[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings.tscn" id="4_ybjga"]
 [ext_resource type="PackedScene" uid="uid://cqfs7as8jr3yl" path="res://pages/editor/block_editor/change_settings.tscn" id="5_cx6ho"]
 
 [node name="BlockSettingsSubmenu" type="Control"]
@@ -26,14 +26,6 @@ offset_top = 140.0
 offset_right = 270.0
 offset_bottom = 144.0
 
-[node name="BlockOptionsSeperator" type="HSeparator" parent="."]
-visible = false
-layout_mode = 0
-offset_left = 20.0
-offset_top = 350.0
-offset_right = 270.0
-offset_bottom = 354.0
-
 [node name="SidesOptionsSeperator" type="VSeparator" parent="."]
 visible = false
 layout_mode = 0
@@ -41,6 +33,14 @@ offset_left = 280.0
 offset_top = 20.0
 offset_right = 284.0
 offset_bottom = 340.0
+
+[node name="BlockOptionsSeperator" type="HSeparator" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 350.0
+offset_right = 270.0
+offset_bottom = 354.0
 
 [node name="BlockSettingsLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -109,7 +109,7 @@ anchors_preset = 0
 offset_left = 20.0
 offset_top = 150.0
 offset_right = 270.0
-offset_bottom = 340.0
+offset_bottom = 150.0
 
 [node name="oldSidesSettings" type="Control" parent="."]
 visible = false
@@ -259,7 +259,7 @@ offset_top = 360.0
 offset_right = 702.0
 offset_bottom = 618.0
 
-[node name="SideOptionsContainer" type="ScrollContainer" parent="."]
+[node name="SideSettingsContainer" type="ScrollContainer" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 290.0
@@ -267,7 +267,7 @@ offset_top = 20.0
 offset_right = 740.0
 offset_bottom = 380.0
 
-[node name="SideOptions" parent="SideOptionsContainer" instance=ExtResource("4_ybjga")]
+[node name="SideSettings" parent="SideSettingsContainer" instance=ExtResource("4_ybjga")]
 layout_mode = 2
 
 [node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]

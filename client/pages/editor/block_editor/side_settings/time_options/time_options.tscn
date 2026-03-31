@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://tpiqbb0lnjp5"]
+
+[ext_resource type="Script" uid="uid://qq80qkbfs11g" path="res://pages/editor/block_editor/side_settings/time_options/time_options.gd" id="1_esd3h"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_n634v"]
+
+[node name="TimeOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_esd3h")
+
+[node name="SecondsLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 90.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Seconds:"
+vertical_alignment = 1
+
+[node name="SecondsBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 190.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "10.0"
+script = ExtResource("2_n634v")

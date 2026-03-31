@@ -1,0 +1,122 @@
+[gd_scene load_steps=18 format=3 uid="uid://b753ngytaop2c"]
+
+[ext_resource type="Script" uid="uid://xwobmi1l5ekr" path="res://pages/editor/block_editor/side_settings/side_properties.gd" id="1_cjeuq"]
+[ext_resource type="PackedScene" uid="uid://bnxcbqjex4vje" path="res://pages/editor/block_editor/side_settings/vanish_options/vanish_options.tscn" id="2_cs68q"]
+[ext_resource type="PackedScene" uid="uid://1e8nna0xfuha" path="res://pages/editor/block_editor/side_settings/arrow_options/arrow_options.tscn" id="3_0f7o0"]
+[ext_resource type="PackedScene" uid="uid://bujitk64bixt6" path="res://pages/editor/block_editor/side_settings/bounce_options/bounce_options.tscn" id="4_b6m4j"]
+[ext_resource type="PackedScene" uid="uid://qmyqrjqjb3au" path="res://pages/editor/block_editor/side_settings/crumble_options/crumble_options.tscn" id="5_s0tts"]
+[ext_resource type="PackedScene" uid="uid://bn3la7dl3kaqu" path="res://pages/editor/block_editor/side_settings/custom_stats_options/custom_stats_options.tscn" id="6_162er"]
+[ext_resource type="PackedScene" uid="uid://dgvmjjc72treu" path="res://pages/editor/block_editor/side_settings/size_options/size_options.tscn" id="7_k3dbk"]
+[ext_resource type="PackedScene" uid="uid://cf1ess5ufj6m0" path="res://pages/editor/block_editor/side_settings/hurt_options/hurt_options.tscn" id="8_3bjxk"]
+[ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/side_settings/gear_options/gear_options.tscn" id="9_meu1u"]
+[ext_resource type="PackedScene" uid="uid://cpikgl2pwlyam" path="res://pages/editor/block_editor/side_settings/stat_options/stat_options.tscn" id="10_p5l5i"]
+[ext_resource type="PackedScene" uid="uid://blt75002qubqu" path="res://pages/editor/block_editor/side_settings/heart_options/heart_options.tscn" id="11_go8rp"]
+[ext_resource type="PackedScene" uid="uid://cgypo2pe13qk7" path="res://pages/editor/block_editor/side_settings/ice_options/ice_options.tscn" id="12_oedxn"]
+[ext_resource type="PackedScene" uid="uid://chw1pdiv6n0xj" path="res://pages/editor/block_editor/side_settings/item_options/item_options.tscn" id="13_c65ty"]
+[ext_resource type="PackedScene" uid="uid://b8dq4mhyuvhuk" path="res://pages/editor/block_editor/side_settings/rotate_options/rotate_options.tscn" id="14_pw4gb"]
+[ext_resource type="PackedScene" uid="uid://b47d7ej33ul63" path="res://pages/editor/block_editor/side_settings/sticky_options/sticky_options.tscn" id="15_u7kgq"]
+[ext_resource type="PackedScene" uid="uid://cmlxrvie5uemp" path="res://pages/editor/block_editor/side_settings/teleport_options/teleport_options.tscn" id="16_xafxn"]
+[ext_resource type="PackedScene" uid="uid://tpiqbb0lnjp5" path="res://pages/editor/block_editor/side_settings/time_options/time_options.tscn" id="17_0880y"]
+
+[node name="SideOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 320.0
+script = ExtResource("1_cjeuq")
+
+[node name="AppearOptions" parent="." instance=ExtResource("2_cs68q")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowDownOptions" parent="." instance=ExtResource("3_0f7o0")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowLeftOptions" parent="." instance=ExtResource("3_0f7o0")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowRightOptions" parent="." instance=ExtResource("3_0f7o0")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowUpOptions" parent="." instance=ExtResource("3_0f7o0")]
+visible = false
+layout_mode = 0
+
+[node name="BounceOptions" parent="." instance=ExtResource("4_b6m4j")]
+visible = false
+layout_mode = 0
+
+[node name="CrumbleOptions" parent="." instance=ExtResource("5_s0tts")]
+visible = false
+layout_mode = 0
+
+[node name="CustomStatsOptions" parent="." instance=ExtResource("6_162er")]
+visible = false
+layout_mode = 0
+
+[node name="EnlargeOptions" parent="." instance=ExtResource("7_k3dbk")]
+visible = false
+layout_mode = 0
+
+[node name="MineOptions" parent="." instance=ExtResource("8_3bjxk")]
+visible = false
+layout_mode = 0
+
+[node name="GearOptions" parent="." instance=ExtResource("9_meu1u")]
+visible = false
+layout_mode = 0
+
+[node name="HappyOptions" parent="." instance=ExtResource("10_p5l5i")]
+visible = false
+layout_mode = 0
+
+[node name="HeartOptions" parent="." instance=ExtResource("11_go8rp")]
+visible = false
+layout_mode = 0
+
+[node name="HurtOptions" parent="." instance=ExtResource("8_3bjxk")]
+visible = false
+layout_mode = 0
+
+[node name="IceOptions" parent="." instance=ExtResource("12_oedxn")]
+visible = false
+layout_mode = 0
+
+[node name="ItemOptions" parent="." instance=ExtResource("13_c65ty")]
+visible = false
+layout_mode = 0
+
+[node name="RotateLeftOptions" parent="." instance=ExtResource("14_pw4gb")]
+visible = false
+layout_mode = 0
+
+[node name="RotateRightOptions" parent="." instance=ExtResource("14_pw4gb")]
+visible = false
+layout_mode = 0
+
+[node name="SadOptions" parent="." instance=ExtResource("10_p5l5i")]
+visible = false
+layout_mode = 0
+
+[node name="ShrinkOptions" parent="." instance=ExtResource("7_k3dbk")]
+visible = false
+layout_mode = 0
+
+[node name="StickyOptions" parent="." instance=ExtResource("15_u7kgq")]
+visible = false
+layout_mode = 0
+
+[node name="TeleportOptions" parent="." instance=ExtResource("16_xafxn")]
+visible = false
+layout_mode = 0
+
+[node name="TimeOptions" parent="." instance=ExtResource("17_0880y")]
+visible = false
+layout_mode = 0
+
+[node name="VanishOptions" parent="." instance=ExtResource("2_cs68q")]
+visible = false
+layout_mode = 0
