@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal stat_options_changed
 
@@ -16,6 +16,7 @@ func _ready() -> void:
 	amount_slider.value_changed.connect(_change_amount)
 	amount_box.init("int", "5", 0, 100)
 	amount_box.return_line.connect(_change_amount)
+	connect_node(self, "stat_options_changed")
 
 
 func _change_amount(new_amount: int, inc_or_dec: bool = false):
@@ -35,7 +36,9 @@ func _change_amount(new_amount: int, inc_or_dec: bool = false):
 		emit_signal("stat_options_changed", {"amount": amount})
 
 
-func set_amount(new_amount: int):
-	amount_slider.set_value_no_signal(new_amount)
-	amount_box._update_text(str(new_amount))
-	amount = clamp(new_amount, 0, 100)
+func set_options(new_options: Dictionary):
+	if new_options.has("amount"):
+		amount = clamp(new_options.amount, 0, 100)
+		amount_slider.set_value_no_signal(amount)
+		amount_box._update_text(str(amount))
+	options = {"amount": amount}

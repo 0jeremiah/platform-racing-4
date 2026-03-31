@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://emdtyv7dn5i7"]
+[gd_scene load_steps=17 format=3 uid="uid://emdtyv7dn5i7"]
 
 [ext_resource type="PackedScene" uid="uid://chw1pdiv6n0xj" path="res://pages/editor/block_editor/side_settings/item_options/item_options.tscn" id="1_7b3mn"]
 [ext_resource type="Script" uid="uid://by0wc2klo47u2" path="res://pages/editor/block_editor/sideoptions.gd" id="1_s30em"]
@@ -10,20 +10,24 @@
 [ext_resource type="PackedScene" uid="uid://qmyqrjqjb3au" path="res://pages/editor/block_editor/side_settings/crumble_options/crumble_options.tscn" id="5_sfe5d"]
 [ext_resource type="PackedScene" uid="uid://dgvmjjc72treu" path="res://pages/editor/block_editor/side_settings/size_options/size_options.tscn" id="8_bqr3y"]
 [ext_resource type="PackedScene" uid="uid://cf1ess5ufj6m0" path="res://pages/editor/block_editor/side_settings/hurt_options/hurt_options.tscn" id="8_gjayf"]
-[ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/side_settings/gear_settings/gear_options.tscn" id="9_6isei"]
+[ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/side_settings/gear_options/gear_options.tscn" id="9_6isei"]
 [ext_resource type="PackedScene" uid="uid://blt75002qubqu" path="res://pages/editor/block_editor/side_settings/heart_options/heart_options.tscn" id="11_6fxgl"]
+[ext_resource type="PackedScene" uid="uid://cgypo2pe13qk7" path="res://pages/editor/block_editor/side_settings/ice_options/ice_options.tscn" id="12_hxpeu"]
+[ext_resource type="PackedScene" uid="uid://b8dq4mhyuvhuk" path="res://pages/editor/block_editor/side_settings/rotate_options/rotate_options.tscn" id="14_b1d4t"]
+[ext_resource type="PackedScene" uid="uid://b47d7ej33ul63" path="res://pages/editor/block_editor/side_settings/sticky_options/sticky_options.tscn" id="15_0va0a"]
+[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="16_b1d4t"]
 
 [node name="Sideoptions" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 410.0
+offset_right = 450.0
 offset_bottom = 360.0
 script = ExtResource("1_s30em")
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 0
 offset_top = 40.0
-offset_right = 350.0
+offset_right = 450.0
 offset_bottom = 44.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -34,100 +38,107 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Current setting:"
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="OptionsDropdownButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 150.0
-offset_right = 350.0
+offset_right = 450.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
-text = "Item Settings"
+text = "None"
 
-[node name="AppearOptions" parent="." instance=ExtResource("2_vq28u")]
-visible = false
-layout_mode = 0
+[node name="Options" type="Control" parent="."]
+anchors_preset = 0
 offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="ArrowOptions" parent="." instance=ExtResource("3_sfe5d")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="BounceOptions" parent="." instance=ExtResource("3_ol35y")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="CrumbleOptions" parent="." instance=ExtResource("5_sfe5d")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 160.0
-
-[node name="CustomStatsOptions" parent="." instance=ExtResource("2_fxjw4")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 320.0
-
-[node name="EnlargeOptions" parent="." instance=ExtResource("8_bqr3y")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="MineOptions" parent="." instance=ExtResource("8_gjayf")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="GearOptions" parent="." instance=ExtResource("9_6isei")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 160.0
-
-[node name="HappyOptions" parent="." instance=ExtResource("3_4he2x")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="HeartOptions" parent="." instance=ExtResource("11_6fxgl")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 160.0
-
-[node name="HurtOptions" parent="." instance=ExtResource("8_gjayf")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
-
-[node name="ItemOptions" parent="." instance=ExtResource("1_7b3mn")]
-visible = false
-layout_mode = 0
-offset_top = 50.0
+offset_right = 370.0
 offset_bottom = 360.0
 
-[node name="SadOptions" parent="." instance=ExtResource("3_4he2x")]
+[node name="AppearOptions" parent="Options" instance=ExtResource("2_vq28u")]
 visible = false
 layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
 
-[node name="ShrinkOptions" parent="." instance=ExtResource("8_bqr3y")]
+[node name="ArrowDownOptions" parent="Options" instance=ExtResource("3_sfe5d")]
 visible = false
 layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
 
-[node name="VanishOptions" parent="." instance=ExtResource("2_vq28u")]
+[node name="ArrowLeftOptions" parent="Options" instance=ExtResource("3_sfe5d")]
 visible = false
 layout_mode = 0
-offset_top = 50.0
-offset_bottom = 120.0
+
+[node name="ArrowRightOptions" parent="Options" instance=ExtResource("3_sfe5d")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowUpOptions" parent="Options" instance=ExtResource("3_sfe5d")]
+visible = false
+layout_mode = 0
+
+[node name="BounceOptions" parent="Options" instance=ExtResource("3_ol35y")]
+visible = false
+layout_mode = 0
+
+[node name="CrumbleOptions" parent="Options" instance=ExtResource("5_sfe5d")]
+visible = false
+layout_mode = 0
+
+[node name="CustomStatsOptions" parent="Options" instance=ExtResource("2_fxjw4")]
+visible = false
+layout_mode = 0
+
+[node name="EnlargeOptions" parent="Options" instance=ExtResource("8_bqr3y")]
+visible = false
+layout_mode = 0
+
+[node name="MineOptions" parent="Options" instance=ExtResource("8_gjayf")]
+visible = false
+layout_mode = 0
+
+[node name="GearOptions" parent="Options" instance=ExtResource("9_6isei")]
+visible = false
+layout_mode = 0
+
+[node name="HappyOptions" parent="Options" instance=ExtResource("3_4he2x")]
+visible = false
+layout_mode = 0
+
+[node name="HeartOptions" parent="Options" instance=ExtResource("11_6fxgl")]
+visible = false
+layout_mode = 0
+
+[node name="HurtOptions" parent="Options" instance=ExtResource("8_gjayf")]
+visible = false
+layout_mode = 0
+
+[node name="IceOptions" parent="Options" instance=ExtResource("12_hxpeu")]
+visible = false
+layout_mode = 0
+
+[node name="ItemOptions" parent="Options" instance=ExtResource("1_7b3mn")]
+visible = false
+layout_mode = 0
+
+[node name="RotateLeftOptions" parent="Options" instance=ExtResource("14_b1d4t")]
+visible = false
+layout_mode = 0
+
+[node name="RotateRightOptions" parent="Options" instance=ExtResource("14_b1d4t")]
+visible = false
+layout_mode = 0
+
+[node name="SadOptions" parent="Options" instance=ExtResource("3_4he2x")]
+visible = false
+layout_mode = 0
+
+[node name="ShrinkOptions" parent="Options" instance=ExtResource("8_bqr3y")]
+visible = false
+layout_mode = 0
+
+[node name="StickyOptions" parent="Options" instance=ExtResource("15_0va0a")]
+visible = false
+layout_mode = 0
+
+[node name="VanishOptions" parent="Options" instance=ExtResource("2_vq28u")]
+visible = false
+layout_mode = 0
+
+[node name="DropdownPopup" parent="." instance=ExtResource("16_b1d4t")]
+visible = false

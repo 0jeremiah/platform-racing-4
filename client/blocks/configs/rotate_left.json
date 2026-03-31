@@ -11,7 +11,10 @@
 		"bump": [
 			{
 				"name": "rotate_left",
-				"params": {}
+				"params": {
+					"rotations": -1,
+					"rotation_speed": 0.025
+				}
 			}
 		]
 	}

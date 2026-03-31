@@ -10,7 +10,7 @@ offset_right = 410.0
 offset_bottom = 70.0
 script = ExtResource("1_8ty1a")
 
-[node name="DurationLabel" type="RichTextLabel" parent="."]
+[node name="AnimationDurationLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 30.0
@@ -46,7 +46,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "second(s)"
 vertical_alignment = 1
 
-[node name="DurationBox" type="LineEdit" parent="."]
+[node name="AnimationDurationBox" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 200.0
 offset_right = 300.0

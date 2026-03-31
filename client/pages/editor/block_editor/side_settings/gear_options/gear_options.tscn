@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi363t32k35m4"]
 
-[ext_resource type="Script" uid="uid://c7hkbycmroy58" path="res://pages/editor/block_editor/side_settings/gear_settings/gear_options.gd" id="1_7gubw"]
+[ext_resource type="Script" uid="uid://c7hkbycmroy58" path="res://pages/editor/block_editor/side_settings/gear_options/gear_options.gd" id="1_7gubw"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_6bemq"]
 
 [node name="GearOptions" type="Control"]

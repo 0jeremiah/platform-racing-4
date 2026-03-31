@@ -10,8 +10,10 @@
 	"behaviors": {
 		"any_side": [
 			{
-				"name": "freeze",
-				"params": {}
+				"name": "ice",
+				"params": {
+					"ice_friction": 0.2
+				}
 			}
 		]
 	}

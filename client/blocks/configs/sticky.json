@@ -10,9 +10,9 @@
 	"behaviors": {
 		"any_side": [
 			{
-				"name": "stick",
+				"name": "sticky",
 				"params": {
-					"stick_ratio": "0.5"
+					"stickiness": "2.5"
 				}
 			}
 		]

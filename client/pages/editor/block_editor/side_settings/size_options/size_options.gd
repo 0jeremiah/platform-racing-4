@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal size_options_changed
 
@@ -13,6 +13,7 @@ func _ready() -> void:
 	multiplier_box.init("float", "2.0", 0.1, 10.0)
 	multiplier_box.return_line.connect(_change_multiplier)
 	exact_check_box.pressed.connect(_toggle_exact)
+	connect_node(self, "size_options_changed")
 
 
 func _toggle_exact():
@@ -20,15 +21,15 @@ func _toggle_exact():
 	emit_signal("size_options_changed", {"exact": exact, "multiplier": multiplier})
 
 
-func set_exact(new_exact: bool):
-	exact = new_exact
-
-
 func _change_multiplier(new_multiplier: float):
 	multiplier = new_multiplier
 	emit_signal("size_options_changed", {"exact": exact, "multiplier": multiplier})
 
 
-func set_multiplier(new_multiplier: float):
-	multiplier_box._update_text(str(new_multiplier))
-	multiplier = clamp(new_multiplier, 0.00000001, 99999999.9)
+func set_options(new_options: Dictionary):
+	if new_options.has("exact"):
+		exact = new_options.exact
+	if new_options.has("multiplier"):
+		multiplier = clamp(new_options.multiplier, 0.00000001, 99999999.9)
+		multiplier_box._update_text(str(multiplier))
+	options = {"exact": exact, "multiplier": multiplier}

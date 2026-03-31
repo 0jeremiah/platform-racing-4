@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal heart_options_changed
 
@@ -16,6 +16,7 @@ func _ready() -> void:
 	heart_box.return_line.connect(_change_hp)
 	exact_check_box.pressed.connect(_toggle_exact)
 	invincibility_check_box.pressed.connect(_toggle_invincibility)
+	connect_node(self, "heart_options_changed")
 
 
 func _toggle_exact():
@@ -23,17 +24,9 @@ func _toggle_exact():
 	emit_signal("heart_options_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
 
 
-func set_exact(new_exact: bool):
-	exact = new_exact
-
-
 func _toggle_invincibility():
 	invincibility = invincibility_check_box.button_pressed
 	emit_signal("heart_options_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
-
-
-func set_invincibility(new_invincibility: bool):
-	invincibility = new_invincibility
 
 
 func _change_hp(new_hp: float):
@@ -41,6 +34,12 @@ func _change_hp(new_hp: float):
 	emit_signal("heart_options_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
 
 
-func set_hp(new_hp: float):
-	heart_box._update_text(str(new_hp))
-	hp = clamp(new_hp, -9999999.9, 99999999.9)
+func set_options(new_options: Dictionary):
+	if new_options.has("hp"):
+		hp = clamp(new_options.hp, -9999999.9, 99999999.9)
+		heart_box._update_text(str(hp))
+	if new_options.has("exact"):
+		exact = new_options.exact
+	if new_options.has("invincibility"):
+		invincibility = new_options.invincibility
+	options = {"hp": hp, "exact": exact, "invincibility": invincibility}

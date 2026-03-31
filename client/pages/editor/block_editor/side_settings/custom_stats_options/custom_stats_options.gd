@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal custom_stats_options_changed
 
@@ -49,15 +49,12 @@ func _ready() -> void:
 	skill_box.init("int", "50", 0, 100)
 	skill_box.return_line.connect(_change_skill)
 	reset_check_box.pressed.connect(_toggle_reset)
+	connect_node(self, "custom_stats_options_changed")
 
 
 func _toggle_reset():
 	reset = reset_check_box.button_pressed
 	emit_signal("custom_stats_options_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
-
-
-func set_reset(new_reset: bool):
-	reset = new_reset
 
 
 func _change_speed(new_speed: int, inc_or_dec: bool = false):
@@ -77,12 +74,6 @@ func _change_speed(new_speed: int, inc_or_dec: bool = false):
 		emit_signal("custom_stats_options_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
 
 
-func set_speed(new_speed: int):
-	speed_slider.set_value_no_signal(new_speed)
-	speed_box._update_text(str(new_speed))
-	speed = clamp(new_speed, 0, 100)
-
-
 func _change_accel(new_accel: int, inc_or_dec: bool = false):
 	if inc_or_dec and accel + new_accel > 0 and accel + new_accel < 100:
 		accel += new_accel
@@ -98,12 +89,6 @@ func _change_accel(new_accel: int, inc_or_dec: bool = false):
 		if int(accel_box.text) != accel:
 			accel_box._update_text(str(accel))
 		emit_signal("custom_stats_options_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
-
-
-func set_accel(new_accel: int):
-	accel_slider.set_value_no_signal(new_accel)
-	accel_box._update_text(str(new_accel))
-	accel = clamp(new_accel, 0, 100)
 
 
 func _change_jump(new_jump: int, inc_or_dec: bool = false):
@@ -123,12 +108,6 @@ func _change_jump(new_jump: int, inc_or_dec: bool = false):
 		emit_signal("custom_stats_options_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
 
 
-func set_jump(new_jump: int):
-	jump_slider.set_value_no_signal(new_jump)
-	jump_box._update_text(str(new_jump))
-	jump = clamp(new_jump, 0, 100)
-
-
 func _change_skill(new_skill: int, inc_or_dec: bool = false):
 	if inc_or_dec and skill + new_skill > 0 and skill + new_skill < 100:
 		skill += new_skill
@@ -146,7 +125,23 @@ func _change_skill(new_skill: int, inc_or_dec: bool = false):
 		emit_signal("custom_stats_options_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
 
 
-func set_skill(new_skill: int):
-	skill_slider.set_value_no_signal(new_skill)
-	skill_box._update_text(str(new_skill))
-	skill = clamp(new_skill, 0, 100)
+func set_options(new_options: Dictionary):
+	if new_options.has("reset"):
+		reset = new_options.reset
+	if new_options.has("speed"):
+		speed = clamp(new_options.speed, 0, 100)
+		speed_slider.set_value_no_signal(speed)
+		speed_box._update_text(str(speed))
+	if new_options.has("accel"):
+		accel = clamp(new_options.accel, 0, 100)
+		accel_slider.set_value_no_signal(accel)
+		accel_box._update_text(str(accel))
+	if new_options.has("jump"):
+		jump = clamp(new_options.jump, 0, 100)
+		jump_slider.set_value_no_signal(jump)
+		jump_box._update_text(str(jump))
+	if new_options.has("skill"):
+		skill = clamp(new_options.skill, 0, 100)
+		skill_slider.set_value_no_signal(skill)
+		skill_box._update_text(str(skill))
+	options = {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill}

@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal item_options_changed
 
@@ -18,6 +18,7 @@ func _ready() -> void:
 		if get_child(child) is CheckBox:
 			get_child(child).pressed.connect(maybe_add_item.bind(child))
 	update_item_list()
+	connect_node(self, "item_options_changed")
 
 
 func _toggle_infinite():
@@ -25,23 +26,9 @@ func _toggle_infinite():
 	emit_signal("item_options_changed", {"item_supply": item_supply, "infinite": infinite, "item_list": item_list})
 
 
-func set_infinite(new_infinite: bool):
-	infinite = new_infinite
-
-
 func _change_item_supply(new_item_supply: int):
 	item_supply = new_item_supply
 	emit_signal("item_options_changed", {"item_supply": item_supply, "infinite": infinite, "item_list": item_list})
-
-
-func set_item_supply(new_item_supply: float):
-	item_supply_box._update_text(str(new_item_supply))
-	item_supply = clamp(new_item_supply, 0, 9999999)
-
-
-func set_item_list(new_item_list: Array = []):
-	item_list = new_item_list
-	update_item_list()
 
 
 func maybe_add_item(child_id: int):
@@ -63,3 +50,14 @@ func update_item_list() -> void:
 				get_child(child).set_pressed_no_signal(true)
 			else:
 				get_child(child).set_pressed_no_signal(false)
+
+
+func set_options(new_options: Dictionary):
+	if new_options.has("item_supply"):
+		item_supply = clamp(new_options.item_supply, 0, 9999999)
+		item_supply_box._update_text(str(item_supply))
+	if new_options.has("infinite"):
+		infinite = new_options.infinite
+	if new_options.has("item_list"):
+		item_list = new_options.item_list
+	options = {"item_supply": item_supply, "infinite": infinite, "item_list": item_list}

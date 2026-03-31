@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://chdyvwgvcuxgq"]
+[gd_scene load_steps=2 format=3 uid="uid://chdyvwgvcuxgq"]
 
 [ext_resource type="Script" uid="uid://dntc0wc00hxm0" path="res://ui/dropdown/dropdownpicker.gd" id="1_davmf"]
-[ext_resource type="PackedScene" uid="uid://v0j1gj7xshbi" path="res://ui/dropdown/dropdownrow.tscn" id="2_06wbu"]
 
 [node name="DropdownPicker" type="Control"]
 layout_mode = 3
@@ -23,32 +22,4 @@ offset_right = 220.0
 offset_bottom = 220.0
 
 [node name="DropdownContainer" type="VBoxContainer" parent="ScrollContainer"]
-layout_mode = 2
-
-[node name="DropdownRow" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow2" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow3" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow4" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow5" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow6" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
-layout_mode = 2
-
-[node name="DropdownRow7" parent="ScrollContainer/DropdownContainer" instance=ExtResource("2_06wbu")]
-custom_minimum_size = Vector2(188, 30)
 layout_mode = 2

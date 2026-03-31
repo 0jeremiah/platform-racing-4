@@ -1,4 +1,4 @@
-extends Control
+extends SideOption
 
 signal hurt_options_changed
 
@@ -14,6 +14,7 @@ func _ready() -> void:
 	push_strength_box.return_line.connect(_change_push_strength)
 	hitstun_duration_box.init("float", "2.5", 0.0, 99999999.9)
 	hitstun_duration_box.return_line.connect(_change_hitstun_duration)
+	connect_node(self, "hurt_options_changed")
 
 
 func _change_push_strength(new_push_strength: float):
@@ -21,16 +22,16 @@ func _change_push_strength(new_push_strength: float):
 	emit_signal("hurt_options_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration})
 
 
-func set_push_strength(new_push_strength: float):
-	push_strength_box._update_text(str(new_push_strength))
-	push_strength = clamp(new_push_strength, -9999999.9, 99999999.9)
-
-
 func _change_hitstun_duration(new_hitstun_duration: float):
 	hitstun_duration = new_hitstun_duration
 	emit_signal("hurt_options_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration})
 
 
-func set_hitstun_duration(new_hitstun_duration: float):
-	hitstun_duration_box._update_text(str(new_hitstun_duration))
-	hitstun_duration = clamp(new_hitstun_duration, 0.0, 99999999.9)
+func set_options(new_options: Dictionary):
+	if new_options.has("push_strength"):
+		push_strength = clamp(new_options.push_strength, -9999999.9, 99999999.9)
+		push_strength_box._update_text(str(push_strength))
+	if new_options.has("hitstun_duration"):
+		hitstun_duration = clamp(new_options.hitstun_duration, 0.0, 99999999.9)
+		hitstun_duration_box._update_text(str(hitstun_duration))
+	options = {"push_strength": push_strength, "hitstun_duration": hitstun_duration}

@@ -17,6 +17,8 @@ signal control_event
 @onready var dropdown_popup = $DropdownPopup
 @onready var move_settings = $MoveSettings
 @onready var change_settings = $ChangeSettings
+@onready var side_options_container = $SideOptionsContainer
+@onready var side_options = $SideOptionsContainer/SideOptions
 
 var active: bool = false
 var matter_type_dictionary: Dictionary = {
@@ -45,36 +47,35 @@ var sides_type_dictionary: Dictionary = {
 	"active": {"label": "Active", "setting": "active"},
 	"inactive": {"label": "Inactive", "setting": "inactive"},
 	"appear": {"label": "Appear", "setting": "appear"},
-	"be_pushed": {"label": "Be Pushed", "setting": "bepushed"},
+	"be_pushed": {"label": "Be Pushed", "setting": "push"},
 	"bounce": {"label": "Bounce", "setting": "bounce"},
 	"crumble": {"label": "Crumble", "setting": "crumble"},
-	"dec_stats": {"label": "Dec Stats", "setting": "decstats"},
+	"sad": {"label": "Dec Stats", "setting": "sad"},
 	"enlarge": {"label": "Enlarge", "setting": "enlarge"},
-	"explode": {"label": "Explode", "setting": "explode"},
+	"explode": {"label": "Explode", "setting": "mine"},
 	"finish": {"label": "Finish", "setting": "finish"},
 	"gear": {"label": "Gear", "setting": "gear"},
-	"give_hp": {"label": "Give HP", "setting": "givehp"},
-	"give_item": {"label": "Give Item", "setting": "giveitem"},
-	"give_stats": {"label": "Give Stats", "setting": "givestats"},
-	"give_time": {"label": "Give Time", "setting": "givetime"},
+	"heart": {"label": "Give HP", "setting": "heart"},
+	"item": {"label": "Give Item", "setting": "item"},
+	"give_stats": {"label": "Give Stats", "setting": "custom_stats"},
+	"give_time": {"label": "Give Time", "setting": "time"},
 	"hurt": {"label": "Hurt", "setting": "hurt"},
 	"ice": {"label": "Ice", "setting": "ice"},
-	"inc_stats": {"label": "Inc Stats", "setting": "incstats"},
-	"push_down": {"label": "Push Down", "setting": "pushdown"},
-	"push_left": {"label": "Push Left", "setting": "pushleft"},
-	"push_right": {"label": "Push Right", "setting": "pushright"},
-	"push_up": {"label": "Push Up", "setting": "pushup"},
-	"rotate_left": {"label": "Rotate Left", "setting": "rotateleft"},
-	"rotate_right": {"label": "Rotate Right", "setting": "rotateleft"},
+	"happy": {"label": "Inc Stats", "setting": "happy"},
+	"arrow_down": {"label": "Push Down", "setting": "arrow_down"},
+	"arrow_left": {"label": "Push Left", "setting": "arrow_left"},
+	"arrow_right": {"label": "Push Right", "setting": "arrow_right"},
+	"arrow_up": {"label": "Push Up", "setting": "arrow_up"},
+	"rotate_left": {"label": "Rotate Left", "setting": "rotate_left"},
+	"rotate_right": {"label": "Rotate Right", "setting": "rotate_right"},
 	"safety": {"label": "Safety", "setting": "safety"},
 	"shatter": {"label": "Shatter", "setting": "shatter"},
 	"shrink": {"label": "Shrink", "setting": "shrink"},
 	"sniper": {"label": "Sniper", "setting": "sniper"},
-	"stick": {"label": "Stick", "setting": "stick"},
+	"sticky": {"label": "Sticky", "setting": "sticky"},
 	"teleport": {"label": "Teleport", "setting": "teleport"},
 	"vanish": {"label": "Vanish", "setting": "vanish"}
 }
-var sides_settings_array: Array = []
 var matter_type_setting: String = "solid"
 var block_type_setting: String = "active"
 var top_setting: String = "active"
@@ -82,26 +83,45 @@ var bottom_setting: String = "active"
 var left_setting: String = "active"
 var right_setting: String = "active"
 var bump_setting: String = "active"
+#var sides_dictionary: Dictionary = {
+	#"top": {"label": "Top", "setting": "active", "options": null},
+	#"bottom": {"label": "Bottom", "setting": "active", "options": null},
+	#"left": {"label": "Left", "setting": "active", "options": null},
+	#"right": {"label": "Right", "setting": "active", "options": null},
+	#"bump": {"label": "Bump", "setting": "active", "options": null},
+	#"any_side": {"label": "Any Side", "setting": "active", "options": null},
+	#"stand": {"label": "Stand", "setting": "active", "options": null}#,
+	#"area": {"label": "Area", "setting": "active"}
+#}
 
 
 func _ready() -> void:
-	sides_settings_array = [top_setting_button, bottom_setting_button, left_setting_button, right_setting_button,
-	bump_setting_button]
-	#var block_type_array_keys = block_type_array.keys()
-	#for type_options in block_type_array.size():
-		#block_type_setting_button.get_popup().add_item(block_type_array[block_type_array_keys[type_options]].label, type_options)
-	#var sides_type_dictionary_keys = sides_type_dictionary.keys()
-	#for side_setting in sides_settings_array.size():
-		#for side_options in sides_type_dictionary.size():
-			#sides_settings_array[side_setting].get_popup().add_item(sides_type_dictionary[sides_type_dictionary_keys[side_options]].label, side_options)
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
-	top_setting_button.pressed.connect(_show_sides_types.bind(top_setting_button))
-	bottom_setting_button.pressed.connect(_show_sides_types.bind(bottom_setting_button))
-	left_setting_button.pressed.connect(_show_sides_types.bind(left_setting_button))
-	right_setting_button.pressed.connect(_show_sides_types.bind(right_setting_button))
-	bump_setting_button.pressed.connect(_show_sides_types.bind(bump_setting_button))
-	dropdown_popup.return_dropdown_data.connect(_set_button.bind())
+	for side in side_options.sides_dictionary.size():
+		var sides_dictionary_keys = side_options.sides_dictionary.keys()
+		var side_control = Control.new()
+		side_control.size = Vector2(250.0, 30.0)
+		side_control.position = Vector2(0, 40 * side)
+		var side_label = RichTextLabel.new()
+		side_label.size = Vector2(120.0, 30.0)
+		side_label.set("theme_override_font_sizes/normal_font_size", 20)
+		side_label.text = side_options.sides_dictionary[sides_dictionary_keys[side]].label + ":"
+		side_label.horizontal_alignment = 2
+		side_label.vertical_alignment = 1
+		var side_button = Button.new()
+		side_button.size = Vector2(120.0, 30.0)
+		side_button.set("theme_override_font_sizes/font_size", 17)
+		side_button.text = sides_type_dictionary[side_options.sides_dictionary[sides_dictionary_keys[side]].setting].label
+		side_button.alignment = 0
+		side_button.clip_text = true
+		side_button.position = Vector2(130.0, 0.0)
+		side_control.add_child(side_label)
+		side_control.add_child(side_button)
+		sides_settings.add_child(side_control)
+		side_button.pressed.connect(_show_sides_types.bind(sides_dictionary_keys[side], side_button))
+		sides_settings.size = Vector2(250, side_control.position.y + side_control.size.y)
+	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
 	update_display()
 	
 
@@ -131,7 +151,7 @@ func _show_matter_types(button: Button):
 	dropdown_popup.holder = button
 	var matter_type_dictionary_keys = matter_type_dictionary.keys()
 	for matter_type in matter_type_dictionary.size():
-		dropdown_popup.add_option(matter_type_dictionary[matter_type_dictionary_keys[matter_type]].label, matter_type)
+		dropdown_popup.add_option(matter_type_dictionary[matter_type_dictionary_keys[matter_type]].label, {"key": matter_type_dictionary_keys[matter_type], "button": button})
 	dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
 
 
@@ -143,93 +163,77 @@ func _show_block_types(button: Button):
 		if matter_type_setting == "solid":
 			var solid_type_dictionary_keys = solid_type_dictionary.keys()
 			for solid_type in solid_type_dictionary.size():
-				dropdown_popup.add_option(solid_type_dictionary[solid_type_dictionary_keys[solid_type]].label, solid_type)
+				dropdown_popup.add_option(solid_type_dictionary[solid_type_dictionary_keys[solid_type]].label, {"key": solid_type_dictionary_keys[solid_type], "button": button})
 			dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
 		if matter_type_setting == "liquid":
 			var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
 			for liquid_type in liquid_type_dictionary.size():
-				dropdown_popup.add_option(liquid_type_dictionary[liquid_type_dictionary_keys[liquid_type]].label, liquid_type)
+				dropdown_popup.add_option(liquid_type_dictionary[liquid_type_dictionary_keys[liquid_type]].label, {"key": liquid_type_dictionary_keys[liquid_type], "button": button})
 			dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
 		if matter_type_setting == "gas":
 			var gas_type_dictionary_keys = gas_type_dictionary.keys()
 			for gas_type in gas_type_dictionary.size():
-				dropdown_popup.add_option(gas_type_dictionary[gas_type_dictionary_keys[gas_type]].label, gas_type)
+				dropdown_popup.add_option(gas_type_dictionary[gas_type_dictionary_keys[gas_type]].label, {"key": gas_type_dictionary_keys[gas_type], "button": button})
 			dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
 
 
-func _show_sides_types(button: Button):
+func _show_sides_types(side: String, button: Button):
 	dropdown_popup.clear()
 	dropdown_popup.set_dropdown_size(Vector2(button.size.x, 200))
 	dropdown_popup.holder = button
 	var sides_type_dictionary_keys = sides_type_dictionary.keys()
 	for side_type in sides_type_dictionary.size():
-		dropdown_popup.add_option(sides_type_dictionary[sides_type_dictionary_keys[side_type]].label, side_type)
+		dropdown_popup.add_option(sides_type_dictionary[sides_type_dictionary_keys[side_type]].label, {"side": side, "key": sides_type_dictionary_keys[side_type], "setting": sides_type_dictionary[sides_type_dictionary_keys[side_type]].setting, "button": button})
 	dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
 
 
-func _set_button(new_index: int):
-	var sides_type_dictionary_keys = sides_type_dictionary.keys()
-	match dropdown_popup.holder:
-		matter_type_setting_button: change_matter_type(new_index)
-		block_type_setting_button: change_block_type(new_index)
-		top_setting_button: top_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
-		bottom_setting_button: bottom_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
-		left_setting_button: left_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
-		right_setting_button: right_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
-		bump_setting_button: bump_setting = sides_type_dictionary_keys[new_index]; dropdown_popup.holder.text = sides_type_dictionary[sides_type_dictionary_keys[new_index]].label
+func _change_setting(selected_dictionary: Dictionary):
+	if selected_dictionary.button == matter_type_setting_button:
+		if selected_dictionary.key == "solid" and matter_type_setting != "solid":
+			var solid_type_dictionary_keys = solid_type_dictionary.keys()
+			block_type_setting = solid_type_dictionary[solid_type_dictionary_keys[0]].setting
+			block_type_setting_button.text = solid_type_dictionary[solid_type_dictionary_keys[0]].label
+		elif selected_dictionary.key == "liquid" and matter_type_setting != "liquid":
+			var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
+			block_type_setting = liquid_type_dictionary[liquid_type_dictionary_keys[0]].setting
+			block_type_setting_button.text = liquid_type_dictionary[liquid_type_dictionary_keys[0]].label
+		elif selected_dictionary.key == "gas" and matter_type_setting != "gas":
+			var gas_type_dictionary_keys = gas_type_dictionary.keys()
+			block_type_setting = gas_type_dictionary[gas_type_dictionary_keys[0]].setting
+			block_type_setting_button.text = gas_type_dictionary[gas_type_dictionary_keys[0]].label
+		matter_type_setting = matter_type_dictionary[selected_dictionary.key].setting
+		matter_type_setting_button.text = matter_type_dictionary[selected_dictionary.key].label
+	elif selected_dictionary.button == block_type_setting_button:
+		if matter_type_setting == "solid":
+			block_type_setting = solid_type_dictionary[selected_dictionary.key].setting
+			block_type_setting_button.text = solid_type_dictionary[selected_dictionary.key].label
+		elif matter_type_setting == "liquid":
+			block_type_setting = liquid_type_dictionary[selected_dictionary.key].setting
+			block_type_setting_button.text = liquid_type_dictionary[selected_dictionary.key].label
+		elif matter_type_setting == "gas":
+			block_type_setting = gas_type_dictionary[selected_dictionary.key].setting
+			block_type_setting_button.text = gas_type_dictionary[selected_dictionary.key].label
+	else:
+		selected_dictionary.button.text = sides_type_dictionary[selected_dictionary.key].label
+		side_options._update_sides(selected_dictionary)
 	update_display()
-
-
-func change_matter_type(new_index: int):
-	var matter_type_dictionary_keys = matter_type_dictionary.keys()
-	if matter_type_dictionary_keys[new_index] == "solid" and matter_type_setting != "solid":
-		var solid_type_dictionary_keys = solid_type_dictionary.keys()
-		block_type_setting = solid_type_dictionary_keys[0]
-	elif matter_type_dictionary_keys[new_index] == "liquid" and matter_type_setting != "liquid":
-		var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
-		block_type_setting = liquid_type_dictionary_keys[0]
-	elif matter_type_dictionary_keys[new_index] == "gas" and matter_type_setting != "gas":
-		var gas_type_dictionary_keys = gas_type_dictionary.keys()
-		block_type_setting = gas_type_dictionary_keys[0]
-	matter_type_setting = matter_type_dictionary_keys[new_index]
-
-
-func change_block_type(new_index: int):
-	if matter_type_setting == "solid":
-		var solid_type_dictionary_keys = solid_type_dictionary.keys()
-		block_type_setting = solid_type_dictionary_keys[new_index]
-	elif matter_type_setting == "liquid":
-		var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
-		block_type_setting = liquid_type_dictionary_keys[new_index]
-	elif matter_type_setting == "gas":
-		var gas_type_dictionary_keys = gas_type_dictionary.keys()
-		block_type_setting = gas_type_dictionary_keys[new_index]
 
 
 func update_display():
 	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
 	sides_settings_seperator.visible = false
 	block_options_seperator.visible = false
+	sides_options_seperator.visible = false
 	sides_settings.visible = false
 	move_settings.visible = false
 	change_settings.visible = false
-	matter_type_setting_button.text = matter_type_dictionary[matter_type_setting].label
-	if matter_type_setting == "solid":
-		block_type_setting_button.text = solid_type_dictionary[block_type_setting].label
-	elif matter_type_setting == "liquid":
-		block_type_setting_button.text = liquid_type_dictionary[block_type_setting].label
-	elif matter_type_setting == "gas":
-		block_type_setting_button.text = gas_type_dictionary[block_type_setting].label
+	side_options_container.visible = false
+	sides_settings_seperator.size.x = panel_size.x - 40
 	if matter_type_setting == "solid" and block_type_setting != "change" and block_type_setting != "egg":
 		sides_settings_seperator.position.y = panel_size.y - 10
 		sides_settings_seperator.visible = true
 		sides_settings.visible = true
 		panel_size.y += (sides_settings.position.y + sides_settings.size.y + 20) - panel_size.y
-	top_setting_button.text = sides_type_dictionary[top_setting].label
-	bottom_setting_button.text = sides_type_dictionary[bottom_setting].label
-	left_setting_button.text = sides_type_dictionary[left_setting].label
-	right_setting_button.text = sides_type_dictionary[right_setting].label
-	bump_setting_button.text = sides_type_dictionary[bump_setting].label
 	if block_type_setting == "move":
 		block_options_seperator.position.y = panel_size.y - 10
 		block_options_seperator.visible = true
@@ -244,6 +248,11 @@ func update_display():
 		change_settings.visible = true
 		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
 		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
+	if matter_type_setting == "solid" and block_type_setting != "change" and side_options.has_options:
+		sides_options_seperator.visible = true
+		side_options_container.visible = true
+		panel_size.x += (side_options_container.position.x + side_options_container.size.x + 20) - panel_size.x
+	if block_type_setting != "move" and !side_options_container.visible:
+		sides_settings_seperator.size.x = panel_size.x - 40
 	block_settings_panel.size = panel_size
-	sides_settings_seperator.size.x = panel_size.x - 40
 	block_options_seperator.size.x = panel_size.x - 40
