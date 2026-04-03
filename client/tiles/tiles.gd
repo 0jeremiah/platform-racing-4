@@ -430,6 +430,9 @@ func activate_node(node: Node):
 	if node is TileMapLayer:
 		activate_tile_map_layer(node)
 		return
+	elif "tile_map_layer" in node:
+		activate_tile_map_layer(node.tile_map_layer)
+		return
 		
 	for child in node.get_children():
 		if child is TileMapLayer:

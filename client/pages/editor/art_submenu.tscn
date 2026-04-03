@@ -390,6 +390,6 @@ pivot_offset = Vector2(24, 24)
 [node name="LayerPanel" parent="." instance=ExtResource("8_vii2p")]
 layout_mode = 0
 offset_left = 10.0
-offset_top = 740.0
+offset_top = 700.0
 offset_right = 340.0
 offset_bottom = 1070.0

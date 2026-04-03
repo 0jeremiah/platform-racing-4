@@ -81,7 +81,7 @@ func activate_item(_character: Character):
 
 func _teleport(_character):
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.get_node("Projectiles")
+	var spawn = layer.projectiles
 	var poof1 = poof_effect.instantiate()
 	poof1.spawnpos = _character.item_manager.global_position
 	poof1.spawnrot = _character.global_rotation

@@ -58,7 +58,7 @@ func do_plan():
 				dir.y = -1
 			move_direction_list.append(dir)
 			var effect_name = str(coords.x) + "-" + str(coords.y) + "-move-arrow"
-			var effect_node = tile_map_layer.get_parent().get_node("Effects")
+			var effect_node = tile_map_layer.get_parent().get_parent().effects
 			if effect_node.has_node(effect_name):
 				return
 			var effect = MoveArrowEffect.instantiate()

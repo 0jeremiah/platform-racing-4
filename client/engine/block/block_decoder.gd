@@ -19,7 +19,8 @@ func decode(block: Dictionary, block_layers: BlockLayers) -> void:
 			"art_rotation": encoded_art_layer.get("art_rotation", 0),
 			"depth": encoded_art_layer.get("depth", 10),
 			"z_axis": encoded_art_layer.get("z_axis", 10),
-			"alpha": encoded_art_layer.get("alpha", 100)
+			"alpha": encoded_art_layer.get("alpha", 100),
+			"anchor": encoded_art_layer.get("anchor", {"x": 0, "y": 0})
 		})
 		
 		if encoded_art_layer.get("lines"):

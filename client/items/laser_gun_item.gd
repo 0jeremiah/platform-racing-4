@@ -37,7 +37,7 @@ func activate_item(_character: Character):
 
 func shoot(_character: Character):
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.get_node("Projectiles")
+	var spawn = layer.projectiles
 	var bullet = projectile.instantiate()
 	bullet.dir = 0
 	bullet.spawnpos = global_position

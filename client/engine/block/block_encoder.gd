@@ -18,7 +18,8 @@ func encode(block_layers: Node2D, block_manager: BlockManager) -> Dictionary:
 				"texts": encode_texts(group_layer.texts),
 				"rotation": group_layer.art_rotation,
 				"depth": group_layer.depth,
-				"alpha": group_layer.alpha
+				"alpha": group_layer.alpha,
+				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y}
 			}
 			block.art_layers.push_back(art_layer)
 	return block

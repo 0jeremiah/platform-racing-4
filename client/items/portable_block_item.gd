@@ -94,5 +94,5 @@ func use_block(_character: Character):
 	block.coords = Vector2i(coords.x + below_zero.x, coords.y + below_zero.y)
 	block.atlas_coords = atlas_coords
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.get_node("Effects")
+	var spawn = layer.effects
 	spawn.add_child.call_deferred(block)

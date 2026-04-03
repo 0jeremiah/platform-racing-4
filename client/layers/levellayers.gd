@@ -82,7 +82,7 @@ func remove_art_layer(name: String) -> void:
 
 func calc_used_rect() -> void:
 	for layer in map_layers.get_children():
-		var tile_map_layer = layer.get_node("TileMapLayer")
+		var tile_map_layer = layer.tile_map_layer
 		var map_used_rect = tile_map_layer.get_used_rect()
 		if Game.game:
 			Game.game.set_used_rect(layer.name, map_used_rect)

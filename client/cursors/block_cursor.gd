@@ -29,6 +29,23 @@ func activate():
 	active = true
 
 
+#func _draw():
+	#var camera: Camera2D = get_viewport().get_camera_2d()
+	#var screen_rect = get_viewport().get_visible_rect()
+	#if camera:
+		#var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		#var packed_vector2_array = PackedVector2Array(
+		#[Vector2((-get_parent().position.x + screen_rect.position.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y) * layer.get_layer_scale()),
+		#Vector2((-get_parent().position.x + screen_rect.position.x + screen_rect.size.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y) * layer.get_layer_scale()),
+		#Vector2((-get_parent().position.x + screen_rect.position.x + screen_rect.size.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y + screen_rect.size.y) * layer.get_layer_scale()),
+		#Vector2((-get_parent().position.x + screen_rect.position.x) * layer.get_layer_scale(), (screen_rect.position.y + -get_parent().position.y + screen_rect.size.y) * layer.get_layer_scale())])
+		#for lines in packed_vector2_array.size():
+			#if lines + 1 < packed_vector2_array.size():
+				#draw_line(packed_vector2_array[lines], packed_vector2_array[lines + 1], Color.WHITE, 5.0, false)
+			#else:
+				#draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 5.0, false)
+
+
 func _process(_delta):
 	if active:
 		visible = true
@@ -51,6 +68,7 @@ func _process(_delta):
 					teleport_colorin.visible = true
 					teleport_colorin.texture.region = Rect2((128 * teleport_colorin_coords.x), (128 * teleport_colorin_coords.y), 128, 128)
 					teleport_colorin.self_modulate = Color(teleport_color + "7F")
+			#queue_redraw()
 	else:
 		visible = false
 
@@ -81,35 +99,32 @@ func _on_control_event(event: Dictionary) -> void:
 			
 
 
-func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
+func get_mouse_to_tilemap_coords() -> Vector2:
 	if level_layers:
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
+		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var rotated_pos: Vector2
 
-		if pos != Vector2(-1, -1):
-			rotated_pos = pos
-		else:
-			# Get screen position of mouse
-			var viewport_mouse_pos = get_viewport().get_mouse_position()
+		# Get screen position of mouse
+		var viewport_mouse_pos = get_viewport().get_mouse_position()
 		
-			# Convert to world position taking into account camera position, zoom, and layer scale
-			var world_pos = (viewport_mouse_pos - get_viewport_rect().size / 2) / camera.camera_zoom
-			world_pos += camera.position
+		# Convert to world position taking into account camera position, zoom, and layer scale
+		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - get_viewport_rect().size / 2) / camera.zoom
+		world_pos += camera.position
 		
-			# Adjust for layer depth scaling
-			world_pos *= layer.get_layer_scale()
+		# Adjust for layer depth scaling
+		#world_pos *= layer.get_layer_scale()
 		
-			# Account for tilemap rotation
-			rotated_pos = world_pos
-			if tile_map_layer.rotation != 0:
-				# Inverse rotate the point to get the correct position in rotated space
-				var rotation_radians = -tile_map_layer.rotation
-				rotated_pos = Vector2(
-					world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
-					world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
-				)
+		# Account for tilemap rotation
+		rotated_pos = world_pos
+		if layer.tile_map_rotation != 0:
+			# Inverse rotate the point to get the correct position in rotated space
+			var rotation_radians = -deg_to_rad(layer.tile_map_rotation)
+			rotated_pos = Vector2(
+				world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
+				world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
+			)
 		return rotated_pos
 	return Vector2(-1, -1)
 
@@ -117,7 +132,7 @@ func get_mouse_to_tilemap_coords(pos: Vector2 = Vector2(-1, -1)) -> Vector2:
 func on_mouse_down():
 	if active and level_layers and mode == "move":
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
+		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_coords = tile_map_layer.get_cell_atlas_coords(coords)
 		var tile_id = CoordinateUtils.to_block_id(tile_coords)
@@ -143,7 +158,7 @@ func on_mouse_down():
 func on_drag():
 	if active and level_layers and (mode == "draw" or mode == "erase"):
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
+		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: int
 		var tile_options: TileOptions
@@ -172,7 +187,7 @@ func on_drag():
 func on_mouse_up():
 	if active and level_layers and mode == "move":
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
+		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var atlas_coords = CoordinateUtils.to_atlas_coords(grabbed_block)
 		if grabbed_block > 0:

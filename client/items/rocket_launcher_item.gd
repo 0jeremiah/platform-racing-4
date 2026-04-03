@@ -43,7 +43,7 @@ func launch(_character: Character):
 	rocket.spawnrot = 0
 	rocket.scale.x = _character.movement.facing
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.get_node("Projectiles")
+	var spawn = layer.projectiles
 	spawn.add_child.call_deferred(rocket)
 
 

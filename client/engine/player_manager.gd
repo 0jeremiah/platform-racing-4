@@ -11,7 +11,7 @@ func get_character() -> CharacterBody2D:
 
 
 func spawn_player(level_layers: LevelLayers, tiles: Tiles) -> CharacterBody2D:
-	var start_option = Start.get_next_start_option(level_layers.map_layers)
+	var start_option = Start.get_next_start_option(level_layers)
 	if !start_option:
 		return null
 	character = CHARACTER.instantiate()
@@ -22,7 +22,7 @@ func spawn_player(level_layers: LevelLayers, tiles: Tiles) -> CharacterBody2D:
 	var layer = level_layers.map_layers.get_node(start_option.layer_name)
 	if !layer:
 		return null
-	var player_holder = layer.get_node("Players")
+	var player_holder = layer.players
 	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tile_map_layer.global_rotation if start_option.tile_map_layer else 0)
 	character.active = true
 	player_holder.add_child(character)

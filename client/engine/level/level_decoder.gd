@@ -76,7 +76,8 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 						"type": EditorEvents.ADD_MAP_LAYER,
 						"name": encoded_layer.name,
 						"tile_map_rotation": encoded_layer.get("rotation", 0),
-						"z_axis": encoded_layer.get("depth", 10)
+						"z_axis": encoded_layer.get("depth", 10),
+						"anchor": {"x": 0, "y": 0}
 					})
 					if encoded_layer.get("chunks"):
 						decode_chunks(encoded_layer.name, encoded_layer.chunks)
@@ -92,7 +93,8 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 						"art_rotation": encoded_layer.get("rotation", 0),
 						"depth": encoded_layer.get("depth", 10),
 						"z_axis": encoded_layer.get("depth", 10),
-						"alpha": 100
+						"alpha": 100,
+						"anchor": {"x": 0, "y": 0}
 					})
 					if encoded_layer.get("lines"):
 						decode_lines(encoded_layer.name, encoded_layer.lines)
@@ -118,7 +120,8 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				"type": EditorEvents.ADD_MAP_LAYER,
 				"name": encoded_map_layer.name,
 				"tile_map_rotation": encoded_map_layer.get("tile_map_rotation", 0),
-				"z_axis": encoded_map_layer.get("z_axis", 10)
+				"z_axis": encoded_map_layer.get("z_axis", 10),
+				"anchor": encoded_map_layer.get("anchor", {"x": 0, "y": 0})
 			})
 		
 			if encoded_map_layer.get("chunks"):
@@ -138,7 +141,8 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				"art_rotation": encoded_art_layer.get("art_rotation", 0),
 				"depth": encoded_art_layer.get("depth", 10),
 				"z_axis": encoded_art_layer.get("z_axis", 10),
-				"alpha": encoded_art_layer.get("alpha", 100)
+				"alpha": encoded_art_layer.get("alpha", 100),
+				"anchor": encoded_art_layer.get("anchor", {"x": 0, "y": 0})
 			})
 		
 			if encoded_art_layer.get("lines"):

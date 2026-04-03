@@ -77,7 +77,7 @@
 	#if layer and (layer is Layer or layer is MapLayer or layer is ArtLayer):
 		#depth_picker.set_value(layer.depth)
 		#if layer is MapLayer:
-			#rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
+			#rotation_picker.set_value(round(layer.tile_map_layer.rotation_degrees))
 		#if layer is ArtLayer:
 			#rotation_picker.set_value(round(layer.art_rotation))
 #

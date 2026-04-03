@@ -1,12 +1,19 @@
 extends Parallax2D
 class_name MapLayer
 
-@onready var tile_map_layer = $TileMapLayer
+@onready var tile_map_layer_container = $TileMapLayerContainer
+@onready var tile_map_layer = $TileMapLayerContainer/TileMapLayer
+@onready var non_static_tile_map_layers = $TileMapLayerContainer/NonStaticTileMapLayers
+@onready var players = $Players
+@onready var enemies = $Enemies
+@onready var projectiles = $Projectiles
+@onready var effects = $Effects
 
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 
 var z_axis: int = 10
 var tile_map_rotation: int = 0
+var anchor: Vector2 = Vector2(0, 0)
 var layer_name: String = ""
 
 
@@ -90,6 +97,11 @@ func get_layer_scale() -> float:
 	return float(z_axis) / 10
 
 
-func set_map_layer_rotation(p_rotation: float) -> void:
+func set_anchor(p_anchor: Vector2) -> void:
+	anchor = p_anchor
+	tile_map_layer_container.pivot_offset = anchor
+
+
+func set_map_layer_rotation(p_rotation: int) -> void:
 	tile_map_rotation = p_rotation
-	tile_map_layer.rotation_degrees = tile_map_rotation
+	tile_map_layer_container.rotation_degrees = tile_map_rotation

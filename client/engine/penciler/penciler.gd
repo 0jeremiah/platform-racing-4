@@ -94,6 +94,7 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = current_layers.add_map_layer(event.name)
 		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
+		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		current_layers.set_target_map_layer(event.name)
 		layer.layer_name = event.name
 	
@@ -104,6 +105,7 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
+		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		current_layers.set_target_art_layer(event.name)
 		layer.layer_name = event.name
 	
@@ -167,7 +169,7 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_ART_LAYER_DEPTH:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.set_depth(event.depth)
-
+	
 	if event.type == EditorEvents.SET_MAP_LAYER_ROTATION:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
 		layer.set_map_layer_rotation(event.rotation)
@@ -179,11 +181,19 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_ART_LAYER_ALPHA:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.set_art_alpha(event.alpha)
+	
+	if event.type == EditorEvents.SET_MAP_LAYER_ANCHOR:
+		var layer = current_layers.map_layers.get_node(event.layer_name)
+		layer.set_anchor(Vector2(event.anchor.x, event.anchor.y))
+	
+	if event.type == EditorEvents.SET_ART_LAYER_ANCHOR:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		layer.set_anchor(Vector2(event.anchor.x, event.anchor.y))
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:
 	var layer = current_layers.map_layers.get_node(event.layer_name)
-	var tile_map_layer: TileMapLayer = current_layers.map_layers.get_node(event.layer_name + "/TileMapLayer")
+	var tile_map_layer: TileMapLayer = current_layers.map_layers.get_node(event.layer_name).tile_map_layer
 	tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
 	var tile_data = tile_map_layer.get_cell_tile_data(coords)
 	if tile_data:

@@ -23,6 +23,7 @@ static var selected_block_options: TileOptions
 var active: bool = false
 var current_layers: Node2D
 var editor_events: EditorEvents
+var current_editor = null
 var texture: Texture2D = preload("res://tiles/tileatlas.png")
 var selected_button: TextureButton
 var custom_stats_popup = preload("res://popups/customstatsoptionspopup.tscn")
@@ -43,7 +44,7 @@ func _ready() -> void:
 
 
 func init() -> void:
-	layer_panel.init(current_layers, "blocks")
+	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
 	_set_current_block({"block_id": selected_block_id, "block_atlas_coords": CoordinateUtils.to_atlas_coords(selected_block_id)})
 

@@ -5,8 +5,6 @@ signal control_event
 
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
-var current_layers: Node2D
-var show_layer_type: String = "blocks"
 @onready var row_holder = $ScrollContainer/RowHolder
 @onready var new_button = $NewButton
 @onready var move_up_button = $MoveUpButton
@@ -16,11 +14,19 @@ var show_layer_type: String = "blocks"
 @onready var depth_container = $DepthContainer
 @onready var rotation_container = $RotationContainer
 @onready var alpha_container = $AlphaContainer
+@onready var anchor_container = $AnchorContainer
 @onready var z_axis_box = $ZAxisContainer/ZAxisBox
 @onready var depth_box = $DepthContainer/DepthBox
 @onready var rotation_box = $RotationContainer/RotationBox
 @onready var alpha_box = $AlphaContainer/AlphaBox
+@onready var anchor_x_box = $AnchorContainer/AnchorXBox
+@onready var anchor_y_box = $AnchorContainer/AnchorYBox
 @onready var rename_layer_popup = $RenameLayerPopup
+
+var current_layers: Node2D
+var current_editor = null
+var show_layer_type: String = "blocks"
+
 
 func _ready():
 	new_button.pressed.connect(_new_pressed)
@@ -31,21 +37,28 @@ func _ready():
 	rename_layer_popup.name_change.connect(_set_layer_name)
 
 
-func init(new_layers: Node2D, new_show_layer_type: String) -> void:
+func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -> void:
+	current_editor = new_current_editor
 	current_layers = new_layers
 	show_layer_type = new_show_layer_type
-	depth_box.init("int", "120", 0, 50)
-	depth_box.return_line.connect(_depth_change)
-	if show_layer_type == "art":
-		z_axis_box.init("int", "10", 0, 50)
-		z_axis_box.return_line.connect(_z_axis_change)
-	else:
-		z_axis_box.init("int", "10", 0, 16)
-		z_axis_box.return_line.connect(_z_axis_change)
+	if current_editor is LevelEditor:
+		depth_box.init("int", "120", 0, 50)
+		depth_box.return_line.connect(_depth_change)
+	if current_editor is LevelEditor:
+		if show_layer_type == "art":
+			z_axis_box.init("int", "10", 0, 50)
+			z_axis_box.return_line.connect(_z_axis_change)
+		else:
+			z_axis_box.init("int", "10", 0, 16)
+			z_axis_box.return_line.connect(_z_axis_change)
 	rotation_box.init("int", "0", 0, 359)
 	rotation_box.return_line.connect(_rotation_change)
 	alpha_box.init("int", "0", 0, 100)
 	alpha_box.return_line.connect(_alpha_change)
+	anchor_x_box.init("float", "0.0", -9999999.9, 99999999.9)
+	anchor_x_box.return_line.connect(_anchor_x_change)
+	anchor_y_box.init("float", "0.0", -9999999.9, 99999999.9)
+	anchor_y_box.return_line.connect(_anchor_y_change)
 	render()
 
 
@@ -97,23 +110,35 @@ func render() -> void:
 
 func update_boxes() -> void:
 	var layer
+	z_axis_container.visible = false
 	depth_container.visible = false
+	rotation_container.visible = false
 	alpha_container.visible = false
 	if show_layer_type == "blocks":
 		layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 	elif show_layer_type == "art":
 		layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-	if layer:
-		if layer is MapLayer:
-			z_axis_box.text = str(layer.z_axis)
-			rotation_box.text = str(layer.tile_map_rotation)
-		if layer is ArtLayer:
+	if layer is MapLayer:
+		z_axis_container.visible = true
+		z_axis_box._update_text(str(layer.z_axis))
+		rotation_container.visible = true
+		rotation_box._update_text(str(layer.tile_map_rotation))
+		anchor_container.visible = true
+		anchor_x_box._update_text(str(layer.anchor.x))
+		anchor_y_box._update_text(str(layer.anchor.y))
+	if layer is ArtLayer:
+		if current_editor is LevelEditor:
+			z_axis_container.visible = true
+			z_axis_box._update_text(str(layer.z_axis))
 			depth_container.visible = true
-			alpha_container.visible = true
-			z_axis_box.text = str(layer.z_axis)
-			depth_box.text = str(layer.depth)
-			rotation_box.text = str(round(layer.art_rotation))
-			alpha_box.text = str(layer.alpha)
+			depth_box._update_text(str(layer.depth))
+		rotation_container.visible = true
+		rotation_box._update_text(str(round(layer.art_rotation)))
+		alpha_container.visible = true
+		alpha_box._update_text(str(layer.alpha))
+		anchor_container.visible = true
+		anchor_x_box._update_text(str(layer.anchor.x))
+		anchor_y_box._update_text(str(layer.anchor.y))
 
 
 func clear() -> void:
@@ -260,6 +285,29 @@ func _alpha_change(new_alpha: int):
 			"type": EditorEvents.SET_ART_LAYER_ALPHA,
 			"layer_name": current_layers.get_target_art_layer(),
 			"alpha": new_alpha
+		})
+
+
+func _anchor_x_change(new_anchor_x: float):
+	_anchor_change(Vector2(new_anchor_x, float(anchor_y_box.text)))
+
+
+func _anchor_y_change(new_anchor_y: float):
+	_anchor_change(Vector2(float(anchor_x_box.text), new_anchor_y))
+
+
+func _anchor_change(new_anchor: Vector2):
+	if show_layer_type == "blocks" and new_anchor != current_layers.map_layers.get_node(current_layers.get_target_map_layer()).anchor:
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_MAP_LAYER_ANCHOR,
+			"layer_name": current_layers.get_target_map_layer(),
+			"anchor": {"x": new_anchor.x, "y": new_anchor.y}
+		})
+	elif show_layer_type == "art" and new_anchor != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).anchor:
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_ART_LAYER_ANCHOR,
+			"layer_name": current_layers.get_target_art_layer(),
+			"anchor": {"x": new_anchor.x, "y": new_anchor.y}
 		})
 
 

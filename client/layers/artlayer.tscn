@@ -5,18 +5,30 @@
 [node name="ArtLayer" type="Parallax2D"]
 script = ExtResource("1_ichmj")
 
-[node name="LinesContainer" type="SubViewportContainer" parent="."]
+[node name="LinesViewpointContainer" type="SubViewportContainer" parent="."]
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="LinesViewport" type="SubViewport" parent="LinesContainer"]
+[node name="LinesViewport" type="SubViewport" parent="LinesViewpointContainer"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="LinesHolder" type="Node2D" parent="LinesContainer/LinesViewport"]
+[node name="LinesContainer" type="Control" parent="LinesViewpointContainer/LinesViewport"]
+layout_mode = 3
+anchors_preset = 0
 
-[node name="Stamps" type="Node2D" parent="."]
+[node name="LinesHolder" type="Node2D" parent="LinesViewpointContainer/LinesViewport/LinesContainer"]
 
-[node name="Texts" type="Node2D" parent="."]
+[node name="StampsContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Stamps" type="Node2D" parent="StampsContainer"]
+
+[node name="TextsContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Texts" type="Node2D" parent="TextsContainer"]

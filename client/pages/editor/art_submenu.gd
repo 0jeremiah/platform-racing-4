@@ -43,6 +43,7 @@ signal control_event
 var active: bool = false
 var current_layers: Node2D
 var editor_events: EditorEvents
+var current_editor = null
 var background_graphics: Array = []
 var background_array: Array = []
 var stamp_graphics: Array = []
@@ -83,7 +84,7 @@ func init() -> void:
 	if current_layers is LevelLayers:
 		visible_boxes_list.push_front(background_box)
 	show_boxes(visible_boxes_list)
-	layer_panel.init(current_layers, "art")
+	layer_panel.init(current_editor, current_layers, "art")
 	editor_events.connect_to([layer_panel])
 	editor_events.level_event.connect(_on_level_event)
 

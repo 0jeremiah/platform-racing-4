@@ -60,7 +60,7 @@ func push(node: Node2D, tile_map_layer: Node2D, coords: Vector2i, push_dir: Vect
 		holder = tile_map_layer.get_parent().original_tile_map_layer
 	else:
 		holder = tile_map_layer
-	var effect_node = holder.get_parent().get_node("Effects")
+	var effect_node = holder.get_parent().get_parent().effects
 	if effect_node.has_node(effect_name):
 		var existing_effect = effect_node.get_node(effect_name)
 		var animationplayer = existing_effect.get_node("AnimationPlayer")

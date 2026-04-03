@@ -38,7 +38,7 @@ func activate_item(_character: Character):
 
 func slash(_character: Character):
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.get_node("Projectiles")
+	var spawn = layer.projectiles
 	var slash = swordslash.instantiate()
 	slash.dir = 0
 	slash.spawnpos = _character.item_manager.global_position
