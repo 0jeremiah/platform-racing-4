@@ -41,9 +41,9 @@ func _process(_delta):
 			haircross.visible = true
 			brush_circle.visible = true
 			if mode == "erase":
-				brush_circle.set_brush_circle(erase_size * (camera.zoom_array[camera.zoom_index] * 2), size_multiplier)
+				brush_circle.set_brush_circle(erase_size * (camera.camera_zoom * 2), size_multiplier)
 			else:
-				brush_circle.set_brush_circle(draw_size * (camera.zoom_array[camera.zoom_index] * 2), size_multiplier)
+				brush_circle.set_brush_circle(draw_size * (camera.camera_zoom * 2), size_multiplier)
 	else:
 		visible = false
 
@@ -113,6 +113,7 @@ func on_mouse_up():
 			emit_signal("level_event", {
 				"type": EditorEvents.ADD_LINE,
 				"layer_name": current_layers.get_target_art_layer(),
+				"line_type": "line",
 				"position": {
 					"x": current_line.position.x,
 					"y": current_line.position.y

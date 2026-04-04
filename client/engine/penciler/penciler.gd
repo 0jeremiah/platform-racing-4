@@ -7,6 +7,11 @@ var current_layers = null
 var layer_panel: Node2D
 
 
+func _ready() -> void:
+	GeneralDecoder.connect("level_event", _on_level_event)
+	GeneralEncoder.connect("level_event", _on_level_event)
+
+
 func init(p_current_layers, event_source, p_layer_panel: Node2D) -> void:
 	if p_current_layers is LevelLayers or p_current_layers is BlockLayers:
 		current_layers = p_current_layers
@@ -51,44 +56,56 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_LINE:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		var lines: Node2D = current_layers.art_layers.get_node(event.layer_name).lines
-		var line = Line2D.new()
-		lines.add_child(line)
-		line.end_cap_mode = Line2D.LINE_CAP_ROUND
-		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		line.position = Vector2(event.position.x, event.position.y)
-		
-		var converted_points = []
-		
-		# if the first point is not 0,0, add 0,0 as the first point
-		if len(event.points) == 0 || event.points[0].x != 0 || event.points[0].y != 0:
-			converted_points.append(Vector2.ZERO)
-		
-		# convert point objects into Vector2
-		for point_dict in event.points:
-			converted_points.append(Vector2(point_dict.x, point_dict.y))
-		
-		# if there is only one point, add another one. Need at least two points to draw a line
-		if len(converted_points) == 1:
-			converted_points.append(converted_points[0] + Vector2(0.1, 0.1))
-		
-		#
-		line.points = converted_points
-		
-		# Set line color, width, and material if provided in the event
-		if event.has("color"):
-			if event.color is Color:
-				line.default_color = event.color
-			else:
-				line.default_color = Color(event.color)
-		if event.has("width"):
-			line.width = event.width
-		if event.has("thickness"):
-			line.width = event.thickness
-		if event.has("material"):
-			line.material = event.material
+		if event.has("line_type") and event.line_type == "stamp":
+			var stamp_scene: PackedScene = preload("res://engine/stamp/stamp.tscn")
+			var stamp = stamp_scene.instantiate()
+			var stamp_dictionary: Dictionary = {
+				"id": event.id,
+				"position": event.position,
+				"scale": event.scale,
+				"rotation": event.rotation
+			}
+			lines.add_child(stamp)
+			stamp.set_stamp_properties(stamp_dictionary)
 		else:
-			line.material = CanvasItemMaterial.new()
-			line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+			var line = Line2D.new()
+			lines.add_child(line)
+			line.end_cap_mode = Line2D.LINE_CAP_ROUND
+			line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+			line.position = Vector2(event.position.x, event.position.y)
+
+			var converted_points = []
+
+			# if the first point is not 0,0, add 0,0 as the first point
+			if len(event.points) == 0 || event.points[0].x != 0 || event.points[0].y != 0:
+				converted_points.append(Vector2.ZERO)
+
+			# convert point objects into Vector2
+			for point_dict in event.points:
+				converted_points.append(Vector2(point_dict.x, point_dict.y))
+
+			# if there is only one point, add another one. Need at least two points to draw a line
+			if len(converted_points) == 1:
+				converted_points.append(converted_points[0] + Vector2(0.1, 0.1))
+
+			#
+			line.points = converted_points
+
+			# Set line color, width, and material if provided in the event
+			if event.has("color"):
+				if event.color is Color:
+					line.default_color = event.color
+				else:
+					line.default_color = Color(event.color)
+			if event.has("width"):
+				line.width = event.width
+			if event.has("thickness"):
+				line.width = event.thickness
+			if event.has("material"):
+				line.material = event.material
+			else:
+				line.material = CanvasItemMaterial.new()
+				line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
 	if event.type == EditorEvents.ADD_MAP_LAYER:
 		var layer = current_layers.add_map_layer(event.name)
@@ -102,8 +119,10 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = current_layers.add_art_layer(event.name)
 		layer.art_scale = event.get("art_scale", 1.0)
 		layer.set_art_rotation(event.get("art_rotation", 0))
-		layer.set_depth(event.get("depth", 10))
-		layer.set_z_axis(event.get("z_axis", 10))
+		if event.has("depth"):
+			layer.set_depth(event.get("depth", 10))
+		if event.has("z_axis"):
+			layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		current_layers.set_target_art_layer(event.name)
@@ -111,7 +130,7 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.ADD_STAMP:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
-		var stamps = layer.get_node("Stamps")
+		var stamps = layer.stamps
 		var stamp_scene: PackedScene = preload("res://engine/stamp/stamp.tscn")
 		var stamp = stamp_scene.instantiate()
 		var stamp_dictionary: Dictionary = {

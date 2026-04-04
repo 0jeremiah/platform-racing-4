@@ -5,7 +5,7 @@ signal level_event
 @onready var stamp_icon = $StampIcon
 var active: bool = false
 var current_layers = null
-var mode: String = "vector"
+var mode: String = "sticker"
 var stamp_graphics: Array = []
 var stamp_array: Array = []
 var stamp_id: String = "cactus"
@@ -55,23 +55,36 @@ func _draw() -> void:
 func init(_editor_menu, _current_layers) -> void:
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
-		_editor_menu.connect("control_event", _on_control_event)
-
-
-func _on_control_event(event: Dictionary) -> void:
-	print("BlockCursor::_on_control_event", event)
-	if event.type == EditorEvents.SELECT_STAMP_MODE:
-		mode = event.mode
 
 
 func on_mouse_down():
 	if active:
 		if stamp_id:
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-			var stamps: Node2D = layer.get_node("Stamps")
+			var location: Node2D = null
+			if mode == "stamp":
+				location = layer.lines
+			else:
+				location = layer.stamps
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = stamps.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
-			if layer.get_stamp_at_position(mouse_position) != null:
+			var mouse_position = location.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
+			if mode == "stamp":
+				emit_signal("level_event", {
+					"type": EditorEvents.ADD_LINE,
+					"layer_name": current_layers.get_target_art_layer(),
+					"line_type": "stamp",
+					"id": stamp_id,
+					"position": {
+						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
+						"y": mouse_position.round().y - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
+					},
+					"scale": {
+						"x": (0.01 * stamp_size),
+						"y": (0.01 * stamp_size)
+					},
+					"rotation": stamp_rotation
+				})
+			elif mode == "sticker" and layer.get_stamp_at_position(mouse_position) != null:
 				var selected_stamp = layer.get_stamp_at_position(mouse_position)
 				var object_box = get_parent().editor_menu.current_editor.object_box
 				var spawn_position = camera.to_local(selected_stamp.position)
@@ -122,8 +135,12 @@ func set_stamp_rotation(new_rotation: float) -> void:
 	update_display()
 
 
+func set_stamp_mode(new_mode: String) -> void:
+	mode = new_mode
+
+
 func update_display():
 	var camera: Camera2D = get_viewport().get_camera_2d()
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2)))
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size) * (camera.camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size) * (camera.camera_zoom * 2)))
 	stamp_icon.rotation_degrees = stamp_rotation
-	stamp_icon.scale = Vector2((0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2), (0.01 * stamp_size) * (camera.zoom_array[camera.zoom_index] * 2))
+	stamp_icon.scale = Vector2((0.01 * stamp_size) * (camera.camera_zoom * 2), (0.01 * stamp_size) * (camera.camera_zoom * 2))

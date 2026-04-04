@@ -34,6 +34,7 @@ signal control_event
 @onready var rotation_box = $ArtSettings/RotationBox
 @onready var rotation_label = $ArtSettings/RotationBox/RotationLabel
 @onready var rotation_text = $ArtSettings/RotationBox/RotationText
+@onready var stamp_mode_box = $ArtSettings/StampModeBox
 @onready var bg_picker_popup = $BGPickerPopup
 @onready var bg_picker = $BGPickerPopup/BGPicker
 @onready var stamp_picker_popup = $StampPickerPopup
@@ -49,7 +50,7 @@ var background_array: Array = []
 var stamp_graphics: Array = []
 var stamp_array: Array = []
 var selected_button: TextureButton
-var dont_change_color_list: Array = ["ColorBox", "SelectedStampBox", "SizeBox", "AlphaBox", "RotationBox", "BackgroundBox", "BGButtonContainer"]
+var change_color_list: Array = ["BrushBox", "EraserBox", "StampBox", "TextBox"]
 var bg_id: String
 var bg_color: Color = Color("BBBBDDFF")
 var draw_color: Color = Color("000000FF")
@@ -73,6 +74,7 @@ func _ready() -> void:
 	stamp_button.pressed.connect(_click_art_menu.bind(stamp_button))
 	text_button.pressed.connect(_click_art_menu.bind(text_button))
 	selected_stamp_button.pressed.connect(_show_stamp_picker_popup)
+	stamp_mode_box.connect("stamp_mode_changed", _select_stamp_mode.bind())
 	bg_picker.connect("change_selected_background", _set_bg.bind())
 	stamp_picker.connect("change_selected_stamp", _select_stamp.bind())
 	
@@ -192,13 +194,13 @@ func _check_clicked_button(node: Node):
 				node.get_parent().scale = Vector2(1, 1)
 			else:
 				node.scale = Vector2(1, 1)
-		if node.get_parent().name not in dont_change_color_list:
+		if node.get_parent().name in change_color_list:
 			if selected_button.get_parent() == node.get_parent():
 				node.self_modulate = color2
 			else:
 				node.self_modulate = color1
 	elif node is ColorRect:
-		if node.get_parent().name not in dont_change_color_list:
+		if node.get_parent().name in change_color_list:
 			if selected_button.get_parent() == node.get_parent():
 				node.self_modulate = color1
 			else:
@@ -239,6 +241,7 @@ func _click_art_menu(button: TextureButton):
 	size_box.visible = false
 	alpha_box.visible = false
 	rotation_box.visible = false
+	stamp_mode_box.visible = false
 	if selected_button == brush_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
@@ -255,12 +258,12 @@ func _click_art_menu(button: TextureButton):
 		color_box_button.connect("colorbutton_color_changed", _select_draw_color.bind())
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
-		size_box.spawn_x = size_box.size.x + 10
+		size_box.spawn_x = size_box.size.x + 20
 		size_box.set_button("Size", draw_size, 1, 200)
 		size_box.connect("slider_value_changed", _select_draw_size.bind())
 		alpha_box.visible = true
 		alpha_box.position = Vector2(20, 156)
-		alpha_box.spawn_x = alpha_box.size.x + 10
+		alpha_box.spawn_x = alpha_box.size.x + 20
 		alpha_box.set_button("Alpha", draw_alpha, 1, 100)
 		alpha_box.connect("slider_value_changed", _select_draw_alpha.bind())
 		art_settings_panel.size = Vector2(88, 224)
@@ -276,12 +279,12 @@ func _click_art_menu(button: TextureButton):
 		})
 		size_box.visible = true
 		size_box.position = Vector2(20, 20)
-		size_box.spawn_x = size_box.size.x + 10
+		size_box.spawn_x = size_box.size.x + 20
 		size_box.set_button("Size", erase_size, 1, 200)
 		size_box.connect("slider_value_changed", _select_erase_size.bind())
 		alpha_box.visible = true
 		alpha_box.position = Vector2(20, 88)
-		alpha_box.spawn_x = alpha_box.size.x + 10
+		alpha_box.spawn_x = alpha_box.size.x + 20
 		alpha_box.set_button("Alpha", erase_alpha, 1, 100)
 		alpha_box.connect("slider_value_changed", _select_erase_alpha.bind())
 		art_settings_panel.size = Vector2(88, 156)
@@ -295,14 +298,20 @@ func _click_art_menu(button: TextureButton):
 		selected_stamp_box.position = Vector2(20, 20)
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
+		size_box.spawn_x = alpha_box.size.x + 20
 		size_box.set_button("Size", stamp_size, 1, 500)
 		size_box.connect("slider_value_changed", _select_stamp_size.bind())
 		rotation_box.visible = true
 		rotation_box.position = Vector2(20, 156)
+		rotation_box.spawn_x = rotation_box.size.x + 20
 		rotation_box.set_button("Rot", stamp_rotation, 0, 359)
 		rotation_box.connect("slider_value_changed", _select_stamp_rotation.bind())
-		art_settings_panel.size = Vector2(88, 224)
-		art_settings.size = Vector2(98, 234)
+		stamp_mode_box.visible = true
+		stamp_mode_box.position = Vector2(20, 224)
+		stamp_mode_box.spawn_x = stamp_mode_box.size.x + 20
+		stamp_mode_box.connect("stamp_box_changed", _select_stamp_mode.bind())
+		art_settings_panel.size = Vector2(88, 292)
+		art_settings.size = Vector2(98, 302)
 	elif selected_button == text_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
@@ -310,15 +319,17 @@ func _click_art_menu(button: TextureButton):
 		})
 		color_box_button.visible = true
 		color_box_button.position = Vector2(20, 20)
-		color_box_button.spawn_x = color_box_button.size.x
+		color_box_button.spawn_x = color_box_button.size.x + 20
 		color_box_button.set_color(text_color)
 		color_box_button.connect("colorbutton_color_changed", _select_text_color.bind())
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
+		size_box.spawn_x = size_box.size.x + 20
 		size_box.set_button("Size", text_size, 1, 200)
 		size_box.connect("slider_value_changed", _select_text_size.bind())
 		rotation_box.visible = true
 		rotation_box.position = Vector2(20, 156)
+		rotation_box.spawn_x = rotation_box.size.x + 10
 		rotation_box.set_button("Rot", text_rotation, 0, 359)
 		rotation_box.connect("slider_value_changed", _select_text_rotation.bind())
 		art_settings_panel.size = Vector2(88, 224)
@@ -403,6 +414,13 @@ func _select_stamp_rotation(new_rotation: int):
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_STAMP_ROTATION,
 		"rotation": stamp_rotation
+	})
+
+
+func _select_stamp_mode(new_mode: String):
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_STAMP_MODE,
+		"mode": new_mode
 	})
 
 

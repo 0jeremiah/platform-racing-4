@@ -1,19 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://lxvwkg0y2jia"]
+[gd_scene load_steps=5 format=3 uid="uid://lxvwkg0y2jia"]
 
 [ext_resource type="Script" uid="uid://bmiwdsd07sgu6" path="res://ui/sliderbutton.gd" id="1_yudoa"]
 [ext_resource type="PackedScene" uid="uid://bkn6pehivmaka" path="res://ui/slider.tscn" id="2_68j5k"]
 
-[sub_resource type="Gradient" id="Gradient_nu4fj"]
+[sub_resource type="Gradient" id="Gradient_68j5k"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_68j5k"]
-gradient = SubResource("Gradient_nu4fj")
+gradient = SubResource("Gradient_68j5k")
 width = 48
 height = 48
 fill_to = Vector2(0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_68j5k"]
-bg_color = Color(0.7294118, 1, 0.8235294, 0.49803922)
 
 [node name="Sliderbutton" type="Control"]
 layout_mode = 3
@@ -67,11 +64,11 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 focus_mode = 1
-theme_override_styles/focus = SubResource("StyleBoxFlat_68j5k")
 flat = true
 
 [node name="SliderPopup" type="Popup" parent="."]
 transparent_bg = true
+oversampling_override = 1.0
 size = Vector2i(250, 114)
 transparent = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://kso4los7xx3d"]
+[gd_scene load_steps=22 format=3 uid="uid://kso4los7xx3d"]
 
 [ext_resource type="Script" uid="uid://clutforpytf1e" path="res://pages/editor/art_submenu.gd" id="1_6w04l"]
 [ext_resource type="Texture2D" uid="uid://bfvtpgfgtq4o0" path="res://engine/bg/pr2bg1-field.svg" id="2_776et"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
 [ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://mega_menu/icons/text.png" id="9_mh3pe"]
 [ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/sliderbutton.tscn" id="11_feflp"]
+[ext_resource type="Script" uid="uid://cpc4xr1mf14tr" path="res://pages/editor/stamp_mode_box.gd" id="12_kfnuy"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
@@ -36,6 +37,15 @@ colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.8
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_xvrhh"]
 gradient = SubResource("Gradient_776et")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_nu4fj"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cw66s"]
+gradient = SubResource("Gradient_nu4fj")
 width = 48
 height = 48
 fill_to = Vector2(0, 1)
@@ -386,6 +396,117 @@ offset_top = 20.0
 offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
+
+[node name="StampModeBox" type="Control" parent="ArtSettings"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+pivot_offset = Vector2(24, 24)
+script = ExtResource("12_kfnuy")
+
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/StampModeBox"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_cw66s")
+
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/StampModeBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="LabelText" type="RichTextLabel" parent="ArtSettings/StampModeBox"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModeText" type="RichTextLabel" parent="ArtSettings/StampModeBox"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Stckr."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StampModeButton" type="Button" parent="ArtSettings/StampModeBox"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="StampModePopup" type="Popup" parent="ArtSettings/StampModeBox"]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(108, 478)
+size = Vector2i(500, 312)
+transparent = true
+
+[node name="StampMode" type="Control" parent="ArtSettings/StampModeBox/StampModePopup"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 300.0
+
+[node name="Panel" type="Panel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 300.0
+
+[node name="StampModeLabel" type="RichTextLabel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 10.0
+offset_right = 350.0
+offset_bottom = 50.0
+text = "-- Stamp Mode --"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StampDescLabel" type="RichTextLabel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = 490.0
+offset_bottom = 240.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Select how stamps should be placed.
+
+Stamps in PR2 act as stickers, where you can click on stamps to do certain things like drag, resize, or delete them.
+
+Stamps in PR3 act like, well, stamps. They cannot be moved and can only be drawn over or erased by the Brush/Erase tool."
+horizontal_alignment = 1
+
+[node name="StampModeTab" type="TabBar" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 250.0
+offset_right = 375.0
+offset_bottom = 283.0
+theme_override_font_sizes/font_size = 20
+current_tab = 0
+tab_alignment = 1
+tab_count = 2
+tab_0/title = "     Sticker     "
+tab_1/title = "     Stamp     "
 
 [node name="LayerPanel" parent="." instance=ExtResource("8_vii2p")]
 layout_mode = 0

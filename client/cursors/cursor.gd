@@ -119,33 +119,27 @@ func _on_control_event(event: Dictionary) -> void:
 				current_cursor = text_cursor
 				$Control.mouse_filter = 1
 			current_cursor.activate()
-		elif event.type == EditorEvents.SELECT_DRAW_SIZE:
-			if current_cursor == draw_cursor:
-				draw_cursor.set_draw_size(event.size)
-		elif event.type == EditorEvents.SELECT_DRAW_COLOR:
-			if current_cursor == draw_cursor:
+		elif event.type == EditorEvents.SELECT_DRAW_SIZE and current_cursor == draw_cursor:
+			draw_cursor.set_draw_size(event.size)
+		elif event.type == EditorEvents.SELECT_DRAW_COLOR and current_cursor == draw_cursor:
 				# Convert hex string to Color object
 				draw_cursor.set_draw_color(event.color)
-		elif event.type == EditorEvents.SELECT_DRAW_ALPHA:
-			if current_cursor == draw_cursor:
+		elif event.type == EditorEvents.SELECT_DRAW_ALPHA and current_cursor == draw_cursor:
 				# Convert hex string to Color object
 				draw_cursor.set_draw_alpha(event.alpha)
-		elif event.type == EditorEvents.SELECT_ERASE_SIZE:
-			if current_cursor == draw_cursor:
+		elif event.type == EditorEvents.SELECT_ERASE_SIZE and current_cursor == draw_cursor:
 				draw_cursor.set_erase_size(event.size)
-		elif event.type == EditorEvents.SELECT_ERASE_ALPHA:
-			if current_cursor == draw_cursor:
+		elif event.type == EditorEvents.SELECT_ERASE_ALPHA and current_cursor == draw_cursor:
 				# Convert hex string to Color object
 				draw_cursor.set_erase_alpha(event.alpha)
-		elif event.type == EditorEvents.SELECT_STAMP:
-			if current_cursor == stamp_cursor:
+		elif event.type == EditorEvents.SELECT_STAMP and current_cursor == stamp_cursor:
 				stamp_cursor.set_stamp_id(event.stamp)
-		elif event.type == EditorEvents.SELECT_STAMP_SIZE:
-			if current_cursor == stamp_cursor:
+		elif event.type == EditorEvents.SELECT_STAMP_SIZE and current_cursor == stamp_cursor:
 				stamp_cursor.set_stamp_size(event.size)
-		elif event.type == EditorEvents.SELECT_STAMP_ROTATION:
-			if current_cursor == stamp_cursor:
+		elif event.type == EditorEvents.SELECT_STAMP_ROTATION and current_cursor == stamp_cursor:
 				stamp_cursor.set_stamp_rotation(event.rotation)
+		elif event.type == EditorEvents.SELECT_STAMP_MODE and current_cursor == stamp_cursor:
+				stamp_cursor.set_stamp_mode(event.mode)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

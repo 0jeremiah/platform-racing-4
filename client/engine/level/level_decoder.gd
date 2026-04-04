@@ -97,9 +97,9 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 						"anchor": {"x": 0, "y": 0}
 					})
 					if encoded_layer.get("lines"):
-						decode_lines(encoded_layer.name, encoded_layer.lines)
+						GeneralDecoder.decode_lines(encoded_layer.name, encoded_layer.lines)
 					if encoded_layer.get("usertextboxobjects"):
-						decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects)
+						GeneralDecoder.decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects)
 		level.get_or_add("map_layers", [])
 		level.get_or_add("art_layers", [])
 		var level_map_layers = level.get("map_layers", [])
@@ -146,11 +146,11 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 			})
 		
 			if encoded_art_layer.get("lines"):
-				decode_lines(encoded_art_layer.name, encoded_art_layer.lines)
+				GeneralDecoder.decode_lines(encoded_art_layer.name, encoded_art_layer.lines)
 			if encoded_art_layer.get("stamps"):
-				decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
+				GeneralDecoder.decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
 			if encoded_art_layer.get("texts"):
-				decode_texts(encoded_art_layer.name, encoded_art_layer.texts)
+				GeneralDecoder.decode_texts(encoded_art_layer.name, encoded_art_layer.texts)
 		
 
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
@@ -172,125 +172,3 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"block_id": tile_id,
 				"block_options": tile_options
 			})
-
-
-func decode_lines(layer_name: String, objects: Array) -> void:
-	for object in objects:
-			
-		var points_array = []
-		for point in object.points:
-			points_array.append({"x": point.x, "y": point.y})
-			
-		# Emit add line event
-		var line_color
-		if typeof(object.color) == TYPE_STRING:
-			line_color = object.color
-		else:
-			line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html(true)
-
-		# add material if it exists
-		var line_material = CanvasItemMaterial.new()
-		if object.has("material"):
-			line_material = object.material
-		else:
-			line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
-		
-		emit_signal("level_event", {
-			"type": EditorEvents.ADD_LINE,
-			"layer_name": layer_name,
-			"position": {"x": object.x, "y": object.y},
-			"points": points_array,
-			"color": line_color,
-			"thickness": object.thickness,
-			"material": line_material
-		})
-
-
-func decode_stamps(layer_name: String, objects: Array) -> void:
-	for object in objects:
-			
-		emit_signal("level_event", {
-			"type": EditorEvents.ADD_STAMP,
-			"layer_name": layer_name,
-			"id": object.id,
-			"position": object.position,
-			"scale": object.scale,
-			"rotation": object.rotation,
-		})
-
-
-func decode_texts(layer_name: String, objects: Array) -> void:
-	for object in objects:
-		
-		#Failsafes for old text.
-		
-		# usertextbox renamed to text (or textbox)
-		if object.has("usertext"): 
-			object.get_or_add("text", "Text!")
-			object.text = object.usertext
-			object.erase("usertext")
-		
-		# adds font if it doesn't exist
-		# font is now just the id of the font rather than the path of the font
-		if object.has("font") and object.font.begins_with("res://"):
-			object.font = "poetsenone"
-		elif !object.has("font"):
-			object.get_or_add("font")
-			object.font = "poetsenone"
-		
-		# adds font_size if it doesn't exist
-		# font is now just the id of the font rather than the path of the font
-		if object.has("font_size"):
-			object.get_or_add("font_size", 14)
-		
-		# deletes text_width/text_height and width/height and replaces them with scale
-		if object.has("text_width"):
-			object.erase("text_width")
-			object.get_or_add("scale", {"x": 1})
-		elif object.has("width"):
-			object.get_or_add("scale", {"x": 1})
-			object.scale.x = object.width
-			object.erase("width")
-
-		if object.has("text_height"):
-			object.erase("text_height")
-			object.get_or_add("scale", {"y": 1})
-		elif object.has("height"):
-			object.get_or_add("scale", {"y": 1})
-			object.scale.y = object.height
-			object.erase("height")
-
-		# deletes x/y and replaces them with position
-		if object.has("x"):
-			object.get_or_add("position", {"x": 0, "y": 0})
-			object.position.x = object.x
-			object.erase("x")
-		if object.has("y"):
-			object.get_or_add("position", {"x": 0, "y": 0})
-			object.position.y = object.y
-			object.erase("y")
-
-		# text_rotation renamed to rotation
-		if object.has("text_rotation"):
-			object.get_or_add("rotation", 0)
-			object.rotation = int(object.text_rotation)
-			object.erase("text_rotation")
-		elif !object.has("rotation"):
-			object.get_or_add("rotation", 0)
-		
-		# adds color if it doesn't exist
-		if !object.has("color"):
-			object.get_or_add("color", "000000")
-		
-		# Emit add usertext event
-		emit_signal("level_event", {
-			"type": EditorEvents.ADD_TEXT,
-			"layer_name": layer_name,
-			"text": object.text,
-			"font": object.font,
-			"font_size": object.font_size,
-			"scale": object.scale,
-			"position": object.position,
-			"rotation": object.rotation,
-			"color": object.color
-		})
