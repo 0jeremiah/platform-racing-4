@@ -5,10 +5,14 @@ signal control_event
 @onready var block_settings_panel = $BlockSettingsPanel
 @onready var sides_settings_seperator = $SidesSettingsSeperator
 @onready var sides_options_seperator = $SidesOptionsSeperator
+@onready var general_settings_seperator = $GeneralSettingsSeperator
 @onready var block_options_seperator = $BlockOptionsSeperator
 @onready var matter_type_setting_button = $MatterTypeSetting/MatterTypeSettingButton
 @onready var block_type_setting_button = $BlockTypeSetting/BlockTypeSettingButton
 @onready var sides_settings = $SidesSettings
+@onready var general_settings = $GeneralSettings
+@onready var health_box = $GeneralSettings/HealthBox
+@onready var coin_value_box = $GeneralSettings/CoinValueBox
 @onready var top_setting_button = $SidesSettings/TopSetting/TopSettingButton
 @onready var bottom_setting_button = $SidesSettings/BottomSetting/BottomSettingButton
 @onready var left_setting_button = $SidesSettings/LeftSetting/LeftSettingButton
@@ -22,7 +26,7 @@ signal control_event
 
 var active: bool = false
 var matter_type_dictionary: Dictionary = {
-	"solid": {"label": "Solid", "setting": "solid" },
+	"solid": {"label": "Solid", "setting": "solid"},
 	"liquid": {"label": "Liquid", "setting": "liquid"},
 	"gas": {"label": "Gas", "setting": "gas"}
 }
@@ -76,24 +80,14 @@ var sides_type_dictionary: Dictionary = {
 	"teleport": {"label": "Teleport", "setting": "teleport"},
 	"vanish": {"label": "Vanish", "setting": "vanish"}
 }
-var matter_type_setting: String = "solid"
-var block_type_setting: String = "active"
-var top_setting: String = "active"
-var bottom_setting: String = "active"
-var left_setting: String = "active"
-var right_setting: String = "active"
-var bump_setting: String = "active"
-#var sides_dictionary: Dictionary = {
-	#"top": {"label": "Top", "setting": "active", "options": null},
-	#"bottom": {"label": "Bottom", "setting": "active", "options": null},
-	#"left": {"label": "Left", "setting": "active", "options": null},
-	#"right": {"label": "Right", "setting": "active", "options": null},
-	#"bump": {"label": "Bump", "setting": "active", "options": null},
-	#"any_side": {"label": "Any Side", "setting": "active", "options": null},
-	#"stand": {"label": "Stand", "setting": "active", "options": null}#,
-	#"area": {"label": "Area", "setting": "active"}
-#}
-
+var block_types: Dictionary = {
+	"matter_type": "solid",
+	"block_type": "active"
+}
+var block_properties: Dictionary = {
+	"health": 100.0,
+	"coin_value": 3
+}
 
 func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
@@ -159,19 +153,19 @@ func _show_matter_types(button: Button):
 func _show_block_types(button: Button):
 	dropdown_popup.clear()
 	dropdown_popup.set_dropdown_size(Vector2(button.size.x, 200))
-	if matter_type_setting in matter_type_dictionary:
+	if block_types.matter_type in matter_type_dictionary:
 		dropdown_popup.holder = button
-		if matter_type_setting == "solid":
+		if block_types.matter_type == "solid":
 			var solid_type_dictionary_keys = solid_type_dictionary.keys()
 			for solid_type in solid_type_dictionary.size():
 				dropdown_popup.add_option(solid_type_dictionary[solid_type_dictionary_keys[solid_type]].label, {"key": solid_type_dictionary_keys[solid_type], "button": button})
 			dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
-		if matter_type_setting == "liquid":
+		if block_types.matter_type == "liquid":
 			var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
 			for liquid_type in liquid_type_dictionary.size():
 				dropdown_popup.add_option(liquid_type_dictionary[liquid_type_dictionary_keys[liquid_type]].label, {"key": liquid_type_dictionary_keys[liquid_type], "button": button})
 			dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
-		if matter_type_setting == "gas":
+		if block_types.matter_type == "gas":
 			var gas_type_dictionary_keys = gas_type_dictionary.keys()
 			for gas_type in gas_type_dictionary.size():
 				dropdown_popup.add_option(gas_type_dictionary[gas_type_dictionary_keys[gas_type]].label, {"key": gas_type_dictionary_keys[gas_type], "button": button})
@@ -190,29 +184,29 @@ func _show_sides_types(side: String, button: Button):
 
 func _change_setting(selected_dictionary: Dictionary):
 	if selected_dictionary.button == matter_type_setting_button:
-		if selected_dictionary.key == "solid" and matter_type_setting != "solid":
+		if selected_dictionary.key == "solid" and block_types.matter_type != "solid":
 			var solid_type_dictionary_keys = solid_type_dictionary.keys()
-			block_type_setting = solid_type_dictionary[solid_type_dictionary_keys[0]].setting
+			block_types.block_type = solid_type_dictionary[solid_type_dictionary_keys[0]].setting
 			block_type_setting_button.text = solid_type_dictionary[solid_type_dictionary_keys[0]].label
-		elif selected_dictionary.key == "liquid" and matter_type_setting != "liquid":
+		elif selected_dictionary.key == "liquid" and block_types.matter_type != "liquid":
 			var liquid_type_dictionary_keys = liquid_type_dictionary.keys()
-			block_type_setting = liquid_type_dictionary[liquid_type_dictionary_keys[0]].setting
+			block_types.block_type = liquid_type_dictionary[liquid_type_dictionary_keys[0]].setting
 			block_type_setting_button.text = liquid_type_dictionary[liquid_type_dictionary_keys[0]].label
-		elif selected_dictionary.key == "gas" and matter_type_setting != "gas":
+		elif selected_dictionary.key == "gas" and block_types.matter_type != "gas":
 			var gas_type_dictionary_keys = gas_type_dictionary.keys()
-			block_type_setting = gas_type_dictionary[gas_type_dictionary_keys[0]].setting
+			block_types.block_type = gas_type_dictionary[gas_type_dictionary_keys[0]].setting
 			block_type_setting_button.text = gas_type_dictionary[gas_type_dictionary_keys[0]].label
-		matter_type_setting = matter_type_dictionary[selected_dictionary.key].setting
+		block_types.matter_type = matter_type_dictionary[selected_dictionary.key].setting
 		matter_type_setting_button.text = matter_type_dictionary[selected_dictionary.key].label
 	elif selected_dictionary.button == block_type_setting_button:
-		if matter_type_setting == "solid":
-			block_type_setting = solid_type_dictionary[selected_dictionary.key].setting
+		if block_types.matter_type == "solid":
+			block_types.block_type = solid_type_dictionary[selected_dictionary.key].setting
 			block_type_setting_button.text = solid_type_dictionary[selected_dictionary.key].label
-		elif matter_type_setting == "liquid":
-			block_type_setting = liquid_type_dictionary[selected_dictionary.key].setting
+		elif block_types.matter_type == "liquid":
+			block_types.block_type = liquid_type_dictionary[selected_dictionary.key].setting
 			block_type_setting_button.text = liquid_type_dictionary[selected_dictionary.key].label
-		elif matter_type_setting == "gas":
-			block_type_setting = gas_type_dictionary[selected_dictionary.key].setting
+		elif block_types.matter_type == "gas":
+			block_types.block_type = gas_type_dictionary[selected_dictionary.key].setting
 			block_type_setting_button.text = gas_type_dictionary[selected_dictionary.key].label
 	else:
 		selected_dictionary.button.text = sides_type_dictionary[selected_dictionary.key].label
@@ -223,37 +217,46 @@ func _change_setting(selected_dictionary: Dictionary):
 func update_display():
 	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
 	sides_settings_seperator.visible = false
-	block_options_seperator.visible = false
 	sides_options_seperator.visible = false
+	general_settings_seperator.visible = false
+	block_options_seperator.visible = false
 	sides_settings.visible = false
+	general_settings.visible = false
 	move_settings.visible = false
 	change_settings.visible = false
 	side_settings_container.visible = false
 	sides_settings_seperator.size.x = panel_size.x - 40
-	if matter_type_setting == "solid" and block_type_setting != "change" and block_type_setting != "egg":
+	if block_types.matter_type == "solid" and block_types.block_type != "change" and block_types.block_type != "egg":
 		sides_settings_seperator.position.y = panel_size.y - 10
 		sides_settings_seperator.visible = true
 		sides_settings.visible = true
 		panel_size.y += (sides_settings.position.y + sides_settings.size.y + 20) - panel_size.y
-	if block_type_setting == "move":
+	if block_types.matter_type == "solid" and block_types.block_type != "change":
+		general_settings_seperator.position.y = panel_size.y - 10
+		general_settings_seperator.visible = true
+		general_settings.position.y = panel_size.y
+		general_settings.visible = true
+		panel_size.y += (general_settings.position.y + general_settings.size.y + 20) - panel_size.y
+	if block_types.block_type == "move":
 		block_options_seperator.position.y = panel_size.y - 10
 		block_options_seperator.visible = true
 		move_settings.position.y = panel_size.y
 		move_settings.visible = true
 		panel_size.x += (move_settings.position.x + move_settings.size.x + 20) - panel_size.x
 		panel_size.y += (move_settings.position.y + move_settings.size.y + 20) - panel_size.y
-	elif block_type_setting == "change":
+	elif block_types.block_type == "change":
 		block_options_seperator.position.y = panel_size.y - 10
 		block_options_seperator.visible = true
 		change_settings.position.y = panel_size.y
 		change_settings.visible = true
 		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
 		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
-	if matter_type_setting == "solid" and block_type_setting != "change" and side_settings.has_options:
+	if block_types.matter_type == "solid" and block_types.block_type != "change" and side_settings.has_options:
 		sides_options_seperator.visible = true
 		side_settings_container.visible = true
 		panel_size.x += (side_settings_container.position.x + side_settings_container.size.x + 20) - panel_size.x
-	if block_type_setting != "move" and !side_settings_container.visible:
+	if block_types.block_type != "move" and !side_settings_container.visible:
 		sides_settings_seperator.size.x = panel_size.x - 40
 	block_settings_panel.size = panel_size
+	general_settings_seperator.size.x = panel_size.x - 40
 	block_options_seperator.size.x = panel_size.x - 40

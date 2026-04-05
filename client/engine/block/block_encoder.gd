@@ -7,7 +7,14 @@ func encode(block_layers: Node2D, block_manager: BlockManager) -> Dictionary:
 		"title": BlockEditor.current_block_name,
 		"description": BlockEditor.current_block_description,
 		"art_layers": [],
-		"properties": {}
+		"properties": {
+			"health": 100.0,
+			"coins": 3,
+			"can_move": false,
+			"move_pattern": "udlr",
+			"can_change": false,
+			"change_pattern": [101, 121, 124, 113]
+		}
 	}
 	for group_layer in block_layers.art_layers.get_children():
 		if group_layer is ArtLayer:

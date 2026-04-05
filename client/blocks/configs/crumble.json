@@ -12,7 +12,6 @@
 			{
 				"name": "crumble",
 				"params": {
-					"health": 100.0,
 					"armor": 10.0,
 					"damage_ratio": 0.03
 				}

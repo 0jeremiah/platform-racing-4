@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://de82uiivhctdk"]
+[gd_scene load_steps=7 format=3 uid="uid://de82uiivhctdk"]
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_stool"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
 [ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/move_settings.tscn" id="3_oeqcc"]
 [ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings.tscn" id="4_ybjga"]
@@ -16,7 +17,7 @@ script = ExtResource("1_ga453")
 [node name="BlockSettingsPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_right = 290.0
-offset_bottom = 150.0
+offset_bottom = 260.0
 
 [node name="SidesSettingsSeperator" type="HSeparator" parent="."]
 visible = false
@@ -34,13 +35,19 @@ offset_top = 20.0
 offset_right = 284.0
 offset_bottom = 340.0
 
-[node name="BlockOptionsSeperator" type="HSeparator" parent="."]
-visible = false
+[node name="GeneralSettingsSeperator" type="HSeparator" parent="."]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 350.0
+offset_top = 160.0
 offset_right = 270.0
-offset_bottom = 354.0
+offset_bottom = 164.0
+
+[node name="BlockOptionsSeperator" type="HSeparator" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 250.0
+offset_right = 270.0
+offset_bottom = 254.0
 
 [node name="BlockSettingsLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -110,6 +117,49 @@ offset_left = 20.0
 offset_top = 150.0
 offset_right = 270.0
 offset_bottom = 150.0
+
+[node name="GeneralSettings" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 170.0
+offset_right = 230.0
+offset_bottom = 240.0
+
+[node name="HealthLabel" type="RichTextLabel" parent="GeneralSettings"]
+layout_mode = 0
+offset_right = 70.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Health:"
+vertical_alignment = 1
+
+[node name="CoinValueLimitLabel" type="RichTextLabel" parent="GeneralSettings"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 110.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Coin Value:"
+vertical_alignment = 1
+
+[node name="HealthBox" type="LineEdit" parent="GeneralSettings"]
+layout_mode = 0
+offset_left = 70.0
+offset_right = 170.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "100.0"
+script = ExtResource("2_stool")
+
+[node name="CoinValueBox" type="LineEdit" parent="GeneralSettings"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 40.0
+offset_right = 210.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "3"
+script = ExtResource("2_stool")
 
 [node name="oldSidesSettings" type="Control" parent="."]
 visible = false
@@ -247,17 +297,17 @@ clip_text = true
 visible = false
 layout_mode = 0
 offset_left = 20.0
-offset_top = 360.0
+offset_top = 260.0
 offset_right = 520.0
-offset_bottom = 780.0
+offset_bottom = 680.0
 
 [node name="ChangeSettings" parent="." instance=ExtResource("5_cx6ho")]
 visible = false
 layout_mode = 0
 offset_left = 20.0
-offset_top = 360.0
+offset_top = 260.0
 offset_right = 702.0
-offset_bottom = 618.0
+offset_bottom = 518.0
 
 [node name="SideSettingsContainer" type="ScrollContainer" parent="."]
 visible = false

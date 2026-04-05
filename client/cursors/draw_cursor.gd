@@ -76,7 +76,7 @@ func on_mouse_down():
 			current_line.position = mouse_position.round()
 			if mode == "erase":
 				current_line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
-				current_line.default_color = Color(1.0, 1.0, 1.0, erase_alpha)
+				current_line.default_color = Color(0.0, 0.0, 0.0, erase_alpha)
 				current_line.width = erase_size * size_multiplier
 			else:
 				current_line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
