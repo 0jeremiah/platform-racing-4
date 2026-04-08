@@ -51,6 +51,7 @@ const SET_ART_LAYER_ALPHA = 'set_art_layer_alpha'
 const SET_ART_LAYER_DEPTH = 'set_art_layer_depth'
 const SET_MAP_LAYER_ANCHOR = 'set_map_layer_anchor'
 const SET_ART_LAYER_ANCHOR = 'set_art_layer_anchor'
+const SET_ART_LAYER_BLOCK_EFFECTS = "set_art_layer_block_effects"
 const DELETE_MAP_LAYER = 'delete_map_layer'
 const DELETE_ART_LAYER = 'delete_art_layer'
 const SET_TILE = 'set_tile'

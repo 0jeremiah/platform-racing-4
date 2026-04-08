@@ -94,7 +94,7 @@ func set_z_axis(p_z_axis: int) -> void:
 
 
 func get_layer_scale() -> float:
-	return float(z_axis) / 10
+	return float(z_axis) / 10.0
 
 
 func set_anchor(p_anchor: Vector2) -> void:

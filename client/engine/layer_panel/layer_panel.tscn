@@ -9,14 +9,14 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 330.0
-offset_bottom = 370.0
+offset_bottom = 380.0
 script = ExtResource("1_vw7vn")
 
 [node name="BigPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 330.0
-offset_bottom = 370.0
+offset_bottom = 380.0
 theme = ExtResource("2_gyawm")
 
 [node name="NewButton" type="Button" parent="."]
@@ -112,7 +112,7 @@ offset_bottom = 235.0
 theme = ExtResource("2_gyawm")
 color = Color(0.62352943, 0.62352943, 0.62352943, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="RowContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 15.0
@@ -121,85 +121,121 @@ offset_right = 303.0
 offset_bottom = 235.0
 horizontal_scroll_mode = 0
 
-[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+[node name="RowHolder" type="VBoxContainer" parent="RowContainer"]
 custom_minimum_size = Vector2(288, 170)
 layout_mode = 2
 
-[node name="RenameLayerPopup" parent="." instance=ExtResource("3_j2640")]
-position = Vector2i(15, 65)
-visible = false
-
-[node name="ZAxisContainer" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 10.0
-offset_top = 250.0
-offset_right = 160.0
-offset_bottom = 280.0
-
-[node name="ZAxisText" type="RichTextLabel" parent="ZAxisContainer"]
+[node name="LightSettingsColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 75.0
+offset_left = 10.0
+offset_top = 280.0
+offset_right = 320.0
+offset_bottom = 370.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="DarkSettingsColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 285.0
+offset_right = 315.0
+offset_bottom = 365.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="SettingsTab" type="TabBar" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 245.0
+offset_right = 320.0
+offset_bottom = 275.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 17
+current_tab = 0
+tab_alignment = 1
+tab_count = 2
+tab_0/title = "Layer Settings"
+tab_1/title = "Block Effect Settings"
+
+[node name="LayerSettingsContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 285.0
+offset_right = 315.0
+offset_bottom = 365.0
+
+[node name="LayerSettings" type="Control" parent="LayerSettingsContainer"]
+custom_minimum_size = Vector2(300, 110)
+layout_mode = 2
+
+[node name="ZAxisContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+custom_minimum_size = Vector2(138, 30)
+anchors_preset = 0
+offset_right = 138.0
+offset_bottom = 30.0
+
+[node name="ZAxisText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/ZAxisContainer"]
+layout_mode = 0
+offset_right = 63.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 16
 text = "Z Axis:"
 vertical_alignment = 1
 
-[node name="ZAxisBox" type="LineEdit" parent="ZAxisContainer"]
+[node name="ZAxisBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/ZAxisContainer"]
 layout_mode = 0
-offset_left = 75.000015
-offset_right = 150.0
+offset_left = 63.0
+offset_right = 137.99998
 offset_bottom = 30.0
 focus_mode = 1
 mouse_force_pass_scroll_events = false
 theme_override_font_sizes/font_size = 17
-text = "1"
+text = "10"
 script = ExtResource("4_gyawm")
 
-[node name="DepthContainer" type="Control" parent="."]
+[node name="DepthContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
-offset_left = 170.0
-offset_top = 250.0
-offset_right = 320.0
-offset_bottom = 280.0
+offset_left = 148.0
+offset_right = 286.0
+offset_bottom = 30.0
 
-[node name="DepthText" type="RichTextLabel" parent="DepthContainer"]
+[node name="DepthText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/DepthContainer"]
 layout_mode = 0
-offset_right = 75.0
+offset_right = 63.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 16
 text = "Depth:"
 vertical_alignment = 1
 
-[node name="DepthBox" type="LineEdit" parent="DepthContainer"]
+[node name="DepthBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/DepthContainer"]
 layout_mode = 0
-offset_left = 75.0
-offset_right = 150.0
+offset_left = 63.0
+offset_right = 138.0
 offset_bottom = 30.0
 focus_mode = 1
 mouse_force_pass_scroll_events = false
 theme_override_font_sizes/font_size = 17
-text = "1"
+text = "10"
 script = ExtResource("4_gyawm")
 
-[node name="RotationContainer" type="Control" parent="."]
+[node name="RotationContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
-offset_left = 10.0
-offset_top = 290.0
-offset_right = 160.0
-offset_bottom = 320.0
+offset_top = 40.0
+offset_right = 138.0
+offset_bottom = 70.0
 
-[node name="RotationText" type="RichTextLabel" parent="RotationContainer"]
+[node name="RotationText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/RotationContainer"]
 layout_mode = 0
-offset_right = 75.0
+offset_right = 63.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 16
-text = "Rotation:"
+text = "RotDeg:"
 vertical_alignment = 1
 
-[node name="RotationBox" type="LineEdit" parent="RotationContainer"]
+[node name="RotationBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/RotationContainer"]
 layout_mode = 0
-offset_left = 75.0
-offset_right = 150.0
+offset_left = 63.0
+offset_right = 138.0
 offset_bottom = 30.0
 focus_mode = 1
 mouse_force_pass_scroll_events = false
@@ -207,25 +243,26 @@ theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("4_gyawm")
 
-[node name="AlphaContainer" type="Control" parent="."]
+[node name="AlphaContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
-offset_left = 170.0
-offset_top = 290.0
-offset_right = 320.0
-offset_bottom = 320.0
+offset_left = 148.0
+offset_top = 40.0
+offset_right = 286.0
+offset_bottom = 70.0
 
-[node name="AlphaText" type="RichTextLabel" parent="AlphaContainer"]
+[node name="AlphaText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AlphaContainer"]
 layout_mode = 0
-offset_right = 75.0
+offset_right = 63.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 16
 text = "Alpha:"
 vertical_alignment = 1
 
-[node name="AlphaBox" type="LineEdit" parent="AlphaContainer"]
+[node name="AlphaBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AlphaContainer"]
 layout_mode = 0
-offset_left = 75.0
-offset_right = 150.0
+offset_left = 63.0
+offset_right = 138.0
 offset_bottom = 30.0
 focus_mode = 1
 mouse_force_pass_scroll_events = false
@@ -233,14 +270,14 @@ theme_override_font_sizes/font_size = 17
 text = "100"
 script = ExtResource("4_gyawm")
 
-[node name="AnchorContainer" type="Control" parent="."]
+[node name="AnchorContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+custom_minimum_size = Vector2(270, 30)
 anchors_preset = 0
-offset_left = 10.0
-offset_top = 330.0
-offset_right = 160.0
-offset_bottom = 360.0
+offset_top = 80.0
+offset_right = 270.0
+offset_bottom = 110.0
 
-[node name="AnchorText1" type="RichTextLabel" parent="AnchorContainer"]
+[node name="AnchorText1" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 30.0
@@ -248,7 +285,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "Anchor: {x:"
 vertical_alignment = 1
 
-[node name="AnchorText2" type="RichTextLabel" parent="AnchorContainer"]
+[node name="AnchorText2" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 155.0
 offset_right = 185.0
@@ -257,7 +294,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = ", y:"
 vertical_alignment = 1
 
-[node name="AnchorText3" type="RichTextLabel" parent="AnchorContainer"]
+[node name="AnchorText3" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 260.0
 offset_right = 270.0
@@ -266,7 +303,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "}"
 vertical_alignment = 1
 
-[node name="AnchorXBox" type="LineEdit" parent="AnchorContainer"]
+[node name="AnchorXBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 80.0
 offset_right = 155.0
@@ -277,7 +314,7 @@ theme_override_font_sizes/font_size = 17
 text = "0.0"
 script = ExtResource("4_gyawm")
 
-[node name="AnchorYBox" type="LineEdit" parent="AnchorContainer"]
+[node name="AnchorYBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 185.00009
 offset_right = 260.0
@@ -288,12 +325,71 @@ theme_override_font_sizes/font_size = 17
 text = "0.0"
 script = ExtResource("4_gyawm")
 
-[node name="TeleportColorinCheckbox" type="CheckBox" parent="."]
+[node name="BlockEffectSettingsContainer" type="ScrollContainer" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 10.0
-offset_top = 250.0
-offset_right = 160.0
-offset_bottom = 280.0
-theme_override_font_sizes/font_size = 16
-text = "Teleport Colorin"
+offset_left = 15.0
+offset_top = 285.0
+offset_right = 315.0
+offset_bottom = 365.0
+
+[node name="BlockEffectSettings" type="VBoxContainer" parent="BlockEffectSettingsContainer"]
+layout_mode = 2
+
+[node name="TeleportColorCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Teleport Color Graphic"
+
+[node name="UpArrowCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Up Arrow Graphic"
+
+[node name="LeftArrowCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Left Arrow Graphic"
+
+[node name="RightArrowCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Right Arrow Graphic"
+
+[node name="DownArrowCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Down Arrow Graphic"
+
+[node name="MoveUpCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Move Up Graphic"
+
+[node name="MoveLeftCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Move Left Graphic"
+
+[node name="MoveRightCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Move Right Graphic"
+
+[node name="MoveDownCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings"]
+custom_minimum_size = Vector2(278, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Move Down Graphic"
+
+[node name="RenameLayerPopup" parent="." instance=ExtResource("3_j2640")]
+position = Vector2i(15, 65)
+visible = false

@@ -1,7 +1,5 @@
 extends Control
 
-signal side_changed
-
 @onready var options_dropdown_button = $OptionsDropdownButton
 @onready var side_options = $SideOptions
 @onready var dropdown_popup = $DropdownPopup
@@ -13,8 +11,7 @@ var sides_dictionary: Dictionary = {
 	"right": {"label": "Right", "setting": "active", "options": null},
 	"bump": {"label": "Bump", "setting": "active", "options": null},
 	"any_side": {"label": "Any Side", "setting": "active", "options": null},
-	"stand": {"label": "Stand", "setting": "active", "options": null}#,
-	#"area": {"label": "Area", "setting": "active", "options": null}
+	"stand": {"label": "Stand", "setting": "active", "options": null}
 }
 var current_side: String = "top"
 var has_options: bool = false
@@ -48,7 +45,6 @@ func populate_options():
 	var sides_dictionary_keys = sides_dictionary.keys()
 	has_options = false
 	for side in sides_dictionary_keys:
-		print(sides_dictionary[side].setting)
 		if sides_dictionary[side].setting in side_options.sides_properties:
 			has_options = true
 			dropdown_popup.add_option(sides_dictionary[side].label + " - " + side_options.sides_properties[sides_dictionary[side].setting].label, {"side": side, "setting": sides_dictionary[side].setting, "options": sides_dictionary[side].options})
@@ -62,14 +58,8 @@ func _update_sides(side_info: Dictionary):
 		elif side_info.setting not in side_options.sides_properties:
 			sides_dictionary[side_info.side].setting = side_info.setting
 			sides_dictionary[side_info.side].options = null
-	if current_side == side_info.side:
+	if current_side == side_info.side or !has_options:
 		change_side(side_info)
-	else:
-		var sides_dictionary_keys = sides_dictionary.keys()
-		for side in sides_dictionary_keys:
-			if sides_dictionary[side].setting in side_options.sides_properties:
-				change_side({"side": side, "setting": sides_dictionary[side].setting, "options": sides_dictionary[side].options})
-				break
 	populate_options()
 	
 

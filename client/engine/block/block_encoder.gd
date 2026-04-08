@@ -25,7 +25,8 @@ func encode(block_layers: Node2D, block_manager: BlockManager) -> Dictionary:
 				"texts": GeneralEncoder.encode_texts(group_layer.texts),
 				"rotation": group_layer.art_rotation,
 				"alpha": group_layer.alpha,
-				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y}
+				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y},
+				"block_effect_settings": group_layer.block_effect_settings
 			}
 			block.art_layers.push_back(art_layer)
 	return block

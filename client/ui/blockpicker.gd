@@ -50,7 +50,6 @@ func _physics_process(delta: float) -> void:
 	
 func _update_block_list_display():
 	current_block_list = []
-	# print(tab_bar.current_tab)
 	for child in block_container.get_children():
 		child.free()
 	block_picker_pages = 1

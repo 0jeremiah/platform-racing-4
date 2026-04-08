@@ -110,7 +110,8 @@ func get_mouse_to_tilemap_coords() -> Vector2:
 		var viewport_mouse_pos = get_viewport().get_mouse_position()
 		
 		# Convert to world position taking into account camera position, zoom, and layer scale
-		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - get_viewport_rect().size / 2) / camera.zoom
+		#print(layer.get_layer_scale())
+		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - (get_viewport_rect().size / 2)) / camera.zoom
 		world_pos += camera.position
 		
 		# Adjust for layer depth scaling

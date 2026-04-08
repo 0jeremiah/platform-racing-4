@@ -94,11 +94,13 @@ func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
 			child.control_event.connect(_on_control_event)
 		if "level_event" in child:
 			child.level_event.connect(_on_level_event)
-		if "current_layers" in child or "editor_events" in child:
+		if "current_layers" in child or "editor_events" in child or "current_editor" in child:
 			if "current_layers" in child:
 				child.current_layers = layers
 			if "editor_events" in child:
 				child.editor_events = editor_events
+			if "current_editor" in child:
+				child.current_editor = current_editor
 			child.init()
 
 

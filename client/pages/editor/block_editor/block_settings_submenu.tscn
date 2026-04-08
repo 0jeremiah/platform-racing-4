@@ -309,15 +309,14 @@ offset_top = 260.0
 offset_right = 702.0
 offset_bottom = 518.0
 
-[node name="SideSettingsContainer" type="ScrollContainer" parent="."]
-visible = false
+[node name="SideOptionsContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_left = 290.0
 offset_top = 20.0
 offset_right = 740.0
 offset_bottom = 380.0
 
-[node name="SideSettings" parent="SideSettingsContainer" instance=ExtResource("4_ybjga")]
+[node name="SideOptions" parent="SideOptionsContainer" instance=ExtResource("4_ybjga")]
 layout_mode = 2
 
 [node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]

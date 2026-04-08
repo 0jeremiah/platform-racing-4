@@ -5,27 +5,31 @@ signal control_event
 
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
-@onready var row_holder = $ScrollContainer/RowHolder
 @onready var new_button = $NewButton
 @onready var move_up_button = $MoveUpButton
 @onready var move_down_button = $MoveDownButton
+@onready var set_anchor_button = $SetAnchorButton
 @onready var delete_button = $DeleteButton
-@onready var z_axis_container = $ZAxisContainer
-@onready var depth_container = $DepthContainer
-@onready var rotation_container = $RotationContainer
-@onready var alpha_container = $AlphaContainer
-@onready var anchor_container = $AnchorContainer
-@onready var z_axis_box = $ZAxisContainer/ZAxisBox
-@onready var depth_box = $DepthContainer/DepthBox
-@onready var rotation_box = $RotationContainer/RotationBox
-@onready var alpha_box = $AlphaContainer/AlphaBox
-@onready var anchor_x_box = $AnchorContainer/AnchorXBox
-@onready var anchor_y_box = $AnchorContainer/AnchorYBox
+@onready var row_holder = $RowContainer/RowHolder
+@onready var light_settings_color_rect = $LightSettingsColorRect
+@onready var dark_settings_color_rect = $DarkSettingsColorRect
+@onready var settings_tab = $SettingsTab
+@onready var layer_settings_container = $LayerSettingsContainer
+@onready var z_axis_box = $LayerSettingsContainer/LayerSettings/ZAxisContainer/ZAxisBox
+@onready var depth_box = $LayerSettingsContainer/LayerSettings/DepthContainer/DepthBox
+@onready var rotation_box = $LayerSettingsContainer/LayerSettings/RotationContainer/RotationBox
+@onready var alpha_box = $LayerSettingsContainer/LayerSettings/AlphaContainer/AlphaBox
+@onready var anchor_x_box = $LayerSettingsContainer/LayerSettings/AnchorContainer/AnchorXBox
+@onready var anchor_y_box = $LayerSettingsContainer/LayerSettings/AnchorContainer/AnchorYBox
+@onready var block_effect_settings_container = $BlockEffectSettingsContainer
+@onready var block_effect_settings = $BlockEffectSettingsContainer/BlockEffectSettings
 @onready var rename_layer_popup = $RenameLayerPopup
 
 var current_layers: Node2D
 var current_editor = null
 var show_layer_type: String = "blocks"
+var block_effects = {"teleport_color": false, "up_arrow": false, "left_arrow": false, "down_arrow": false,
+"right_arrow": false, "move_up": false, "move_left": false, "move_right": false, "move_down": false}
 
 
 func _ready():
@@ -33,7 +37,11 @@ func _ready():
 	move_up_button.pressed.connect(_move_up_layer)
 	move_down_button.pressed.connect(_move_down_layer)
 	delete_button.pressed.connect(_delete_pressed)
-	
+	settings_tab.tab_changed.connect(_change_tab)
+	var block_effects_keys = block_effects.keys()
+	for child in block_effect_settings.get_child_count():
+		if block_effect_settings.get_child(child) is CheckBox:
+			block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
 	rename_layer_popup.name_change.connect(_set_layer_name)
 
 
@@ -44,13 +52,17 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 	if current_editor is LevelEditor:
 		depth_box.init("int", "120", 0, 50)
 		depth_box.return_line.connect(_depth_change)
-	if current_editor is LevelEditor:
 		if show_layer_type == "art":
 			z_axis_box.init("int", "10", 0, 50)
 			z_axis_box.return_line.connect(_z_axis_change)
 		else:
 			z_axis_box.init("int", "10", 0, 16)
 			z_axis_box.return_line.connect(_z_axis_change)
+	elif current_editor is BlockEditor:
+		var block_effects_keys = block_effects.keys()
+		for child in block_effect_settings.get_child_count():
+			if block_effect_settings.get_child(child) is CheckBox:
+				block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
 	rotation_box.init("int", "0", 0, 359)
 	rotation_box.return_line.connect(_rotation_change)
 	alpha_box.init("int", "0", 0, 100)
@@ -108,37 +120,84 @@ func render() -> void:
 	update_boxes()
 
 
+func disable_box(box: LineEdit):
+	box.editable = false
+	box.selecting_enabled = false
+	box.focus_mode = Control.FOCUS_NONE
+
+
+func enable_box(box: LineEdit):
+	box.editable = true
+	box.selecting_enabled = true
+	box.focus_mode = Control.FOCUS_CLICK
+
+
 func update_boxes() -> void:
-	var layer
-	z_axis_container.visible = false
-	depth_container.visible = false
-	rotation_container.visible = false
-	alpha_container.visible = false
+	var layer = null
+	disable_box(z_axis_box)
+	disable_box(depth_box)
+	disable_box(rotation_box)
+	disable_box(alpha_box)
+	disable_box(anchor_x_box)
+	disable_box(anchor_y_box)
+	settings_tab.visible = false
+	light_settings_color_rect.size.y = 125.0
+	light_settings_color_rect.position.y = settings_tab.position.y
 	if show_layer_type == "blocks":
 		layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 	elif show_layer_type == "art":
 		layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer is MapLayer:
-		z_axis_container.visible = true
+		enable_box(z_axis_box)
 		z_axis_box._update_text(str(layer.z_axis))
-		rotation_container.visible = true
+		depth_box._update_text(str(layer.z_axis))
+		enable_box(rotation_box)
 		rotation_box._update_text(str(layer.tile_map_rotation))
-		anchor_container.visible = true
+		alpha_box._update_text(str(100))
+		enable_box(anchor_x_box)
 		anchor_x_box._update_text(str(layer.anchor.x))
+		enable_box(anchor_y_box)
 		anchor_y_box._update_text(str(layer.anchor.y))
 	if layer is ArtLayer:
 		if current_editor is LevelEditor:
-			z_axis_container.visible = true
+			enable_box(z_axis_box)
 			z_axis_box._update_text(str(layer.z_axis))
-			depth_container.visible = true
+			enable_box(depth_box)
 			depth_box._update_text(str(layer.depth))
-		rotation_container.visible = true
+		elif current_editor is BlockEditor:
+			settings_tab.visible = true
+			light_settings_color_rect.size.y -= settings_tab.size.y + 5
+			light_settings_color_rect.position.y += settings_tab.size.y + 5
+			for child in block_effect_settings.get_child_count():
+				if block_effect_settings.get_child(child) is CheckBox:
+					block_effect_settings.get_child(child).set_pressed_no_signal(false)
+			var block_effects_keys = block_effects.keys()
+			for child in block_effect_settings.get_child_count():
+				if block_effects_keys[child] in layer.block_effect_settings and layer.block_effect_settings[block_effects_keys[child]] == true:
+					block_effect_settings.get_child(child).set_pressed_no_signal(true)
+		enable_box(rotation_box)
 		rotation_box._update_text(str(round(layer.art_rotation)))
-		alpha_container.visible = true
+		enable_box(alpha_box)
 		alpha_box._update_text(str(layer.alpha))
-		anchor_container.visible = true
+		enable_box(anchor_x_box)
 		anchor_x_box._update_text(str(layer.anchor.x))
+		enable_box(anchor_y_box)
 		anchor_y_box._update_text(str(layer.anchor.y))
+	dark_settings_color_rect.size.y = light_settings_color_rect.size.y - 10
+	dark_settings_color_rect.position.y = light_settings_color_rect.position.y + 5
+	layer_settings_container.size.y = dark_settings_color_rect.size.y
+	layer_settings_container.position.y = dark_settings_color_rect.position.y
+	block_effect_settings_container.size.y = dark_settings_color_rect.size.y
+	block_effect_settings_container.position.y = dark_settings_color_rect.position.y
+
+
+func _change_tab(new_index: int):
+	layer_settings_container.visible = false
+	block_effect_settings_container.visible = false
+	if new_index == 1:
+		block_effect_settings_container.visible = true
+	else:
+		layer_settings_container.visible = true
 
 
 func clear() -> void:
@@ -218,7 +277,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 		if current_layers.get_target_map_layer() == layer_name:
 			var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2i(layer_button.global_position.x, layer_button.global_position.y, 288, 40))
+			rename_layer_popup.popup(Rect2(layer_button.global_position.x, layer_button.global_position.y, 288.0, 40.0))
 		else:
 			current_layers.set_target_map_layer(layer_name)
 			emit_signal("control_event", {
@@ -230,7 +289,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 		if current_layers.get_target_art_layer() == layer_name:
 			var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2i(layer_button.global_position.x, layer_button.global_position.y, 288, 40))
+			rename_layer_popup.popup(Rect2(layer_button.global_position.x, layer_button.global_position.y, 288.0, 40.0))
 		else:
 			current_layers.set_target_art_layer(layer_name)
 			emit_signal("control_event", {
@@ -328,3 +387,20 @@ func _set_layer_name(new_layer_name: String):
 		})
 		rename_layer_popup.hide()
 		render()
+
+
+func _maybe_enable_block_effect(button_index: int, block_effect_key: String):
+	if block_effect_settings.get_child(button_index).button_pressed:
+		block_effects[block_effect_key] = true
+	else:
+		block_effects[block_effect_key] = false
+	var block_effects_keys = block_effects.keys()
+	var enabled_block_effects = {}
+	for key in block_effects_keys:
+		if block_effects[key] == true:
+			enabled_block_effects.get_or_add(key, block_effects[key])
+	emit_signal("level_event", {
+		"type": EditorEvents.SET_ART_LAYER_BLOCK_EFFECTS,
+		"layer_name": current_layers.get_target_art_layer(),
+		"block_effect_settings": enabled_block_effects
+	})

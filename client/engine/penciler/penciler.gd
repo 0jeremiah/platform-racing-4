@@ -208,6 +208,10 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_ART_LAYER_ANCHOR:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.set_anchor(Vector2(event.anchor.x, event.anchor.y))
+	
+	if event.type == EditorEvents.SET_ART_LAYER_BLOCK_EFFECTS:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		layer.set_block_effect_settings(event.block_effect_settings)
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:

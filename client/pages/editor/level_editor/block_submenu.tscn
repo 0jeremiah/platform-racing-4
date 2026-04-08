@@ -294,6 +294,6 @@ offset_bottom = 40.0
 [node name="LayerPanel" parent="." instance=ExtResource("8_xpnty")]
 layout_mode = 0
 offset_left = 10.0
-offset_top = 700.0
+offset_top = 682.0
 offset_right = 340.0
 offset_bottom = 1070.0

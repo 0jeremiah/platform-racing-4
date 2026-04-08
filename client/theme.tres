@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=28 format=3 uid="uid://cf25w553mynfo"]
+[gd_resource type="Theme" load_steps=30 format=3 uid="uid://cf25w553mynfo"]
 
 [ext_resource type="FontFile" uid="uid://ra1shgkuj8lq" path="res://fonts/quicksand/static/quicksand-medium.ttf" id="1_66i5j"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_ck3ir"]
@@ -94,6 +94,17 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05tig"]
+bg_color = Color(0.8745098, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.7490196, 1, 1)
+border_blend = true
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyug2"]
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 2
@@ -101,6 +112,17 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.498039, 0.498039, 0.498039, 1)
+border_blend = true
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3ikw"]
+bg_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 border_blend = true
 shadow_size = 2
 shadow_offset = Vector2(1, 1)
@@ -267,7 +289,9 @@ HScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_6cw85")
 Label/colors/font_color = Color(0, 0, 0, 1)
 LineEdit/colors/font_color = Color(0, 0, 0, 1)
 LineEdit/colors/selection_color = Color(0, 0, 0, 1)
+LineEdit/styles/focus = SubResource("StyleBoxFlat_05tig")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_hyug2")
+LineEdit/styles/read_only = SubResource("StyleBoxFlat_n3ikw")
 OptionButton/styles/normal = null
 Panel/styles/panel = SubResource("StyleBoxFlat_vj6dk")
 PopupMenu/styles/panel = null

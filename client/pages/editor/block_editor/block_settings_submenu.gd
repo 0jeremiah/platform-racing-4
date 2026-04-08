@@ -21,8 +21,8 @@ signal control_event
 @onready var dropdown_popup = $DropdownPopup
 @onready var move_settings = $MoveSettings
 @onready var change_settings = $ChangeSettings
-@onready var side_settings_container = $SideSettingsContainer
-@onready var side_settings = $SideSettingsContainer/SideSettings
+@onready var side_options_container = $SideOptionsContainer
+@onready var side_options = $SideOptionsContainer/SideOptions
 
 var active: bool = false
 var matter_type_dictionary: Dictionary = {
@@ -92,21 +92,21 @@ var block_properties: Dictionary = {
 func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
-	for side in side_settings.sides_dictionary.size():
-		var sides_dictionary_keys = side_settings.sides_dictionary.keys()
+	for side in side_options.sides_dictionary.size():
+		var sides_dictionary_keys = side_options.sides_dictionary.keys()
 		var side_control = Control.new()
 		side_control.size = Vector2(250.0, 30.0)
 		side_control.position = Vector2(0, 40 * side)
 		var side_label = RichTextLabel.new()
 		side_label.size = Vector2(120.0, 30.0)
 		side_label.set("theme_override_font_sizes/normal_font_size", 20)
-		side_label.text = side_settings.sides_dictionary[sides_dictionary_keys[side]].label + ":"
+		side_label.text = side_options.sides_dictionary[sides_dictionary_keys[side]].label + ":"
 		side_label.horizontal_alignment = 2
 		side_label.vertical_alignment = 1
 		var side_button = Button.new()
 		side_button.size = Vector2(120.0, 30.0)
 		side_button.set("theme_override_font_sizes/font_size", 17)
-		side_button.text = sides_type_dictionary[side_settings.sides_dictionary[sides_dictionary_keys[side]].setting].label
+		side_button.text = sides_type_dictionary[side_options.sides_dictionary[sides_dictionary_keys[side]].setting].label
 		side_button.alignment = 0
 		side_button.clip_text = true
 		side_button.position = Vector2(130.0, 0.0)
@@ -117,6 +117,8 @@ func _ready() -> void:
 		sides_settings.size = Vector2(250, side_control.position.y + side_control.size.y)
 		sides_options_seperator.size.y = 130.0 + (side_control.position.y + side_control.size.y)
 	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
+	health_box.init("float", "100.0", 0.00000001, 99999999.9)
+	health_box.return_line.connect(_change_health.bind())
 	update_display()
 	
 
@@ -210,8 +212,12 @@ func _change_setting(selected_dictionary: Dictionary):
 			block_type_setting_button.text = gas_type_dictionary[selected_dictionary.key].label
 	else:
 		selected_dictionary.button.text = sides_type_dictionary[selected_dictionary.key].label
-		side_settings._update_sides(selected_dictionary)
+		side_options._update_sides(selected_dictionary)
 	update_display()
+
+
+func _change_health(new_health: float):
+	block_properties.health = new_health
 
 
 func update_display():
@@ -224,11 +230,12 @@ func update_display():
 	general_settings.visible = false
 	move_settings.visible = false
 	change_settings.visible = false
-	side_settings_container.visible = false
+	side_options_container.visible = false
 	sides_settings_seperator.size.x = panel_size.x - 40
 	if block_types.matter_type == "solid" and block_types.block_type != "change" and block_types.block_type != "egg":
 		sides_settings_seperator.position.y = panel_size.y - 10
 		sides_settings_seperator.visible = true
+		side_options_container.size.y = sides_settings.size.y + (sides_settings.position.y - side_options_container.position.y)
 		sides_settings.visible = true
 		panel_size.y += (sides_settings.position.y + sides_settings.size.y + 20) - panel_size.y
 	if block_types.matter_type == "solid" and block_types.block_type != "change":
@@ -251,11 +258,11 @@ func update_display():
 		change_settings.visible = true
 		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
 		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
-	if block_types.matter_type == "solid" and block_types.block_type != "change" and side_settings.has_options:
+	if block_types.matter_type == "solid" and block_types.block_type != "change" and side_options.has_options:
 		sides_options_seperator.visible = true
-		side_settings_container.visible = true
-		panel_size.x += (side_settings_container.position.x + side_settings_container.size.x + 20) - panel_size.x
-	if block_types.block_type != "move" and !side_settings_container.visible:
+		side_options_container.visible = true
+		panel_size.x += (side_options_container.position.x + side_options_container.size.x + 20) - panel_size.x
+	if block_types.block_type != "move" and !side_options_container.visible:
 		sides_settings_seperator.size.x = panel_size.x - 40
 	block_settings_panel.size = panel_size
 	general_settings_seperator.size.x = panel_size.x - 40
