@@ -56,6 +56,9 @@ func _ready():
 
 	ParticleManager.init_particles()
 	await set_scene(TITLE)
+	var root_node = get_node("/root")
+	root_node.move_child(root_node.get_node("PopupManager"), root_node.get_child_count())
+	PopupManager.add_message_popup("Welcome to Platform Racing 4! This game is currently in alpha status, and it's being worked on by Jiggmin and a few other contributors. If you would like to help, please go to our github!\n\nhttps://github.com/jacob-grahn/platform-racing-4")
 
 
 static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:

@@ -31,6 +31,7 @@ ParticleManager="*res://singletons/particle_manager.gd"
 FontManager="*res://singletons/font_manager.gd"
 GeneralDecoder="*res://singletons/general_decoder.gd"
 GeneralEncoder="*res://singletons/general_encoder.gd"
+PopupManager="*res://singletons/popup_manager/popup_manager.tscn"
 
 [display]
 

@@ -28,7 +28,7 @@ func _process(_delta):
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
 		lines_viewpoint_container.scale = Vector2(1, 1) / main_camera.zoom
-		lines_viewpoint_container.global_position = (main_camera.global_position - ((window_size / main_camera.zoom) / 2))
+		lines_viewpoint_container.global_position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
 		lines_container.global_position = -lines_viewpoint_container.global_position * main_camera.zoom
 		lines_container.scale = Vector2(1, 1) * main_camera.zoom
 

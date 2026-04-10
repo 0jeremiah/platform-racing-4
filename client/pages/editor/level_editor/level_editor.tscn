@@ -41,13 +41,11 @@ zoom = Vector2(0.5, 0.5)
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="EditorCursorLayer" type="CanvasLayer" parent="."]
-layer = 100
 follow_viewport_enabled = true
 
 [node name="EditorCursors" parent="EditorCursorLayer" instance=ExtResource("9_fdh4p")]
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 120
 
 [node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://doa3poitlnl3j"]
 
 [ext_resource type="Script" uid="uid://b1mbnx74gehy1" path="res://ui/colorbutton.gd" id="1_fxmhq"]
-[ext_resource type="Texture2D" uid="uid://7eu75o4bb8an" path="res://mega_menu/icons/colorpicker.png" id="1_o7ufp"]
-[ext_resource type="Texture2D" uid="uid://cetk16320d7uy" path="res://mega_menu/icons/colorpickercolorin.png" id="2_3lv41"]
+[ext_resource type="Texture2D" uid="uid://7eu75o4bb8an" path="res://unused/mega_menu/icons/colorpicker.png" id="1_o7ufp"]
+[ext_resource type="Texture2D" uid="uid://cetk16320d7uy" path="res://unused/mega_menu/icons/colorpickercolorin.png" id="2_3lv41"]
 [ext_resource type="PackedScene" uid="uid://cunqbock6101b" path="res://ui/colorpicker.tscn" id="4_7bqrn"]
 
 [node name="ColorButton" type="Control"]

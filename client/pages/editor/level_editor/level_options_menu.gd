@@ -34,6 +34,7 @@ var settings_list: Dictionary = {
 		},
 	"new": {
 		"setting_name": "New",
+		"setting_func": Callable(self, "_maybe_clear_level"),
 		"use_seperator": false,
 		},
 	"load": {
@@ -184,3 +185,7 @@ func _goto_block_editor_page():
 
 func _goto_other_page():
 	current_editor._on_back_pressed()
+
+
+func _maybe_clear_level():
+	current_editor._on_clear_pressed()

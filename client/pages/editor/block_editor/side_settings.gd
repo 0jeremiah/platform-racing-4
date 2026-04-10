@@ -61,7 +61,6 @@ func _update_sides(side_info: Dictionary):
 	if current_side == side_info.side or !has_options:
 		change_side(side_info)
 	populate_options()
-	
 
 
 func change_side(side_info: Dictionary):

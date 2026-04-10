@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=30 format=3 uid="uid://cf25w553mynfo"]
+[gd_resource type="Theme" load_steps=32 format=3 uid="uid://cf25w553mynfo"]
 
 [ext_resource type="FontFile" uid="uid://ra1shgkuj8lq" path="res://fonts/quicksand/static/quicksand-medium.ttf" id="1_66i5j"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_ck3ir"]
@@ -102,8 +102,6 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0.7490196, 1, 1)
 border_blend = true
-shadow_size = 2
-shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyug2"]
 bg_color = Color(1, 1, 1, 1)
@@ -113,8 +111,6 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.498039, 0.498039, 0.498039, 1)
 border_blend = true
-shadow_size = 2
-shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3ikw"]
 bg_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
@@ -124,8 +120,6 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 border_blend = true
-shadow_size = 2
-shadow_offset = Vector2(1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vj6dk"]
 bg_color = Color(1, 1, 1, 0.87451)
@@ -179,6 +173,17 @@ corner_radius_top_right = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1rmny"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mworl"]
+bg_color = Color(0.8745098, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.7490196, 1, 1)
+border_blend = true
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mihib"]
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 2
@@ -186,6 +191,17 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.498039, 0.498039, 0.498039, 1)
+border_blend = true
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndmpe"]
+bg_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24705882, 0.24705882, 0.24705882, 1)
 border_blend = true
 shadow_size = 2
 shadow_offset = Vector2(1, 1)
@@ -307,7 +323,9 @@ TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_yin2u")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_1rmny")
 TextEdit/colors/font_color = Color(0, 0, 0, 1)
 TextEdit/colors/font_placeholder_color = Color(0.875, 0.875, 0.875, 0.6)
+TextEdit/styles/focus = SubResource("StyleBoxFlat_mworl")
 TextEdit/styles/normal = SubResource("StyleBoxFlat_mihib")
+TextEdit/styles/read_only = SubResource("StyleBoxFlat_ndmpe")
 TooltipLabel/styles/normal = SubResource("StyleBoxFlat_110ce")
 VScrollBar/styles/grabber = SubResource("StyleBoxTexture_mihib")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxTexture_yin2u")

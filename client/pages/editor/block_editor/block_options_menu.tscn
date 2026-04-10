@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dfhyjaha6ynmx" path="res://pages/editor/block_editor/block_options_menu.gd" id="1_lx5s2"]
 [ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/editor/art_submenu.tscn" id="2_2f24w"]
-[ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://mega_menu/icons/art.png" id="3_pss0k"]
+[ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://unused/mega_menu/icons/art.png" id="3_pss0k"]
 [ext_resource type="PackedScene" uid="uid://de82uiivhctdk" path="res://pages/editor/block_editor/block_settings_submenu.tscn" id="3_ujr18"]
-[ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="4_xlcod"]
-[ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="5_8nuq4"]
+[ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://unused/mega_menu/icons/settings.png" id="4_xlcod"]
+[ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://unused/mega_menu/icons/extraoptions.png" id="5_8nuq4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj84r"]
 bg_color = Color(1, 1, 1, 0.87451)
@@ -46,7 +46,6 @@ position = Vector2(-1724, 0)
 visible = false
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 290.0
 offset_bottom = 330.0
 
 [node name="Panel" type="Panel" parent="."]

@@ -86,8 +86,8 @@ func on_mouse_down():
 				})
 			elif mode == "sticker" and layer.get_stamp_at_position(mouse_position) != null:
 				var selected_stamp = layer.get_stamp_at_position(mouse_position)
-				var object_box = get_parent().editor_menu.current_editor.object_box
-				var spawn_position = camera.to_local(selected_stamp.position)
+				#var object_box = get_parent().editor_menu.current_editor.object_box
+				#var spawn_position = camera.to_local(selected_stamp.position)
 				#object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
 				#{"type": "stamp", "node": selected_stamp, "position": spawn_position,
 				#"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,

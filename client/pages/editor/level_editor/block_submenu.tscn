@@ -1,9 +1,9 @@
 [gd_scene load_steps=17 format=3 uid="uid://2fx8rnu1jlwj"]
 
 [ext_resource type="Script" uid="uid://b1ptlej0ruuk5" path="res://pages/editor/level_editor/block_submenu.gd" id="1_17vj3"]
-[ext_resource type="Texture2D" uid="uid://cgrx5oouw1dry" path="res://mega_menu/icons/dragblock.png" id="1_dm6xf"]
-[ext_resource type="Texture2D" uid="uid://byg06nx8shih2" path="res://mega_menu/icons/eraseblock.png" id="2_17vj3"]
-[ext_resource type="Texture2D" uid="uid://b3laclpa364j2" path="res://mega_menu/icons/drawblock.png" id="3_u7n6r"]
+[ext_resource type="Texture2D" uid="uid://cgrx5oouw1dry" path="res://unused/mega_menu/icons/dragblock.png" id="1_dm6xf"]
+[ext_resource type="Texture2D" uid="uid://byg06nx8shih2" path="res://unused/mega_menu/icons/eraseblock.png" id="2_17vj3"]
+[ext_resource type="Texture2D" uid="uid://b3laclpa364j2" path="res://unused/mega_menu/icons/drawblock.png" id="3_u7n6r"]
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="5_17vj3"]
 [ext_resource type="Texture2D" uid="uid://cuc3nqt34javl" path="res://engine/objectbox/large_settings_button.png" id="6_sxige"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_xpnty"]

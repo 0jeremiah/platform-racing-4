@@ -171,10 +171,15 @@ func _on_test_pressed():
 
 
 func _on_clear_pressed():
-	save_panel.close()
-	load_panel.close()
-	explore_panel.close()
-	confirm_delete_panel.initialize(self, "clear")
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING! Deleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\nAre you sure you want to do this?")
+	#save_panel.close()
+	#load_panel.close()
+	#explore_panel.close()
+	#confirm_delete_panel.initialize(self, "clear")
+
+
+func _on_confirm_clear():
+	_on_level_load("", "")
 
 
 func _on_level_load(level_name = "", level_description = ""):

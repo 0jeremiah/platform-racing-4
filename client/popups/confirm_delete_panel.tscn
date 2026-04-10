@@ -34,47 +34,37 @@ text = "- WARNING! -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ConfirmLabel" type="Label" parent="."]
+[node name="ConfirmLabel" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.087
-anchor_top = 0.269
-anchor_right = 0.913
-anchor_bottom = 0.731
-offset_left = 0.149998
-offset_top = -0.150009
-offset_right = -0.150085
-offset_bottom = 0.149994
-text = "Deleting levels/blocks/stamps is like
-burning paper; once the paper has
-been burnt, the paper is gone FOREVER.
+offset_left = 47.999996
+offset_top = 93.99999
+offset_right = 645.0
+offset_bottom = 244.0
+theme_override_font_sizes/normal_font_size = 17
+text = "Deleting levels/blocks/stamps is like burning paper; once the paper has been burnt, the paper is gone FOREVER.
 
 Are you sure you want to do this?"
+fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="YesButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.091
-anchor_top = 0.771
-anchor_right = 0.364
-anchor_bottom = 0.914
-offset_left = -0.0500031
-offset_top = 0.149994
-offset_right = -0.200012
-offset_bottom = 0.0999756
+offset_left = 131.0
+offset_top = 270.0
+offset_right = 231.0
+offset_bottom = 310.0
 text = "Yes"
 
 [node name="NoButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.636
-anchor_top = 0.771
-anchor_right = 0.909
-anchor_bottom = 0.914
-offset_left = 0.199982
-offset_top = 0.149994
-offset_right = 0.0499878
-offset_bottom = 0.0999756
+offset_left = 349.99997
+offset_top = 270.0
+offset_right = 450.0
+offset_bottom = 310.0
 text = "No"
+
+[node name="Node" type="Node" parent="."]

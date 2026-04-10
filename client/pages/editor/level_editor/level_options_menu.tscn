@@ -1,15 +1,15 @@
 [gd_scene load_steps=16 format=3 uid="uid://c4svh7sae6f0l"]
 
 [ext_resource type="Script" uid="uid://wsk7s4o36abg" path="res://pages/editor/level_editor/level_options_menu.gd" id="1_n2mkv"]
-[ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://mega_menu/icons/blocks.png" id="1_n683b"]
+[ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://unused/mega_menu/icons/blocks.png" id="1_n683b"]
 [ext_resource type="PackedScene" uid="uid://2fx8rnu1jlwj" path="res://pages/editor/level_editor/block_submenu.tscn" id="2_k63ob"]
-[ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://mega_menu/icons/art.png" id="2_n2mkv"]
+[ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://unused/mega_menu/icons/art.png" id="2_n2mkv"]
 [ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/editor/art_submenu.tscn" id="3_nlf1n"]
-[ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="3_reton"]
-[ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
+[ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://unused/mega_menu/icons/settings.png" id="3_reton"]
+[ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://unused/mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
 [ext_resource type="PackedScene" uid="uid://uba1cak73d35" path="res://pages/editor/level_editor/level_settings_submenu.tscn" id="4_nlf1n"]
-[ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="5_nlf1n"]
-[ext_resource type="Texture2D" uid="uid://di2od85jc5nwr" path="res://mega_menu/icons/test.png" id="6_gk4yk"]
+[ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://unused/mega_menu/icons/extraoptions.png" id="5_nlf1n"]
+[ext_resource type="Texture2D" uid="uid://di2od85jc5nwr" path="res://unused/mega_menu/icons/test.png" id="6_gk4yk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj84r"]
 bg_color = Color(1, 1, 1, 0.87451)

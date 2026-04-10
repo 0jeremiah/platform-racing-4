@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxiwhl2uem7uk"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_wb83y"]
+[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://ui/popup/button_popup.gd" id="2_ehiiy"]
+
+[node name="ButtonPopup" type="Control"]
+z_index = 4096
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_wb83y")
+script = ExtResource("2_ehiiy")
+
+[node name="IntrusiveBG" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(1, 1, 1, 0.49803922)
+
+[node name="Popup" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 60.0
+
+[node name="DefaultPanel" type="Panel" parent="Popup"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 60.0
+
+[node name="Holder" type="Control" parent="Popup"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 20.0
+
+[node name="ButtonsHolder" type="Control" parent="Popup"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 20.0
+offset_bottom = 40.0

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://mfi01k67b63k"]
+
+[ext_resource type="Script" uid="uid://b5ubl7lq7g0p1" path="res://singletons/popup_manager/popup_manager.gd" id="1_nm0vk"]
+
+[node name="PopupManager" type="Node2D"]
+script = ExtResource("1_nm0vk")
