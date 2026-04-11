@@ -28,10 +28,10 @@ func _process(_delta: float) -> void:
 	size = screen_size
 	global_position = Vector2(0.0, 0.0)
 	available_size = Vector2(screen_size.x / 1.2, screen_size.y / 1.2)
-	var main_camera = get_viewport().get_camera_2d()
-	if main_camera:
-		scale = Vector2(1, 1) / main_camera.zoom
-		global_position = (main_camera.get_screen_center_position() - ((screen_size / main_camera.zoom) / 2))
+	#var main_camera = get_viewport().get_camera_2d()
+	#if main_camera:
+		#scale = Vector2(1, 1) / main_camera.zoom
+		#global_position = (main_camera.get_screen_center_position() - ((screen_size / main_camera.zoom) / 2))
 	if modulate.a < target_alpha:
 		if modulate.a + fade_in_speed > target_alpha:
 			modulate.a = target_alpha
@@ -42,7 +42,6 @@ func _process(_delta: float) -> void:
 		intrusive_bg.visible = true
 	else:
 		intrusive_bg.visible = false
-	holder.size = Vector2.ZERO
 	if holder.get_child_count() > 0 and "size" in holder.get_child(0):
 		holder.size = holder.get_child(0).size
 	else:
@@ -93,4 +92,3 @@ func create_button(button_string: String, button_func = null):
 func _maybe_do_button_func(button_func = null):
 	if button_func is Callable:
 		button_func.call()
-	queue_free()

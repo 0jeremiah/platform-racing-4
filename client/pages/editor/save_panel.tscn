@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjlp6cp6j6dmi"]
+
+[ext_resource type="Script" path="res://pages/editor/save_panel.gd" id="1_akvb1"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_8272o"]
+
+[node name="SavePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 400.0
+theme = ExtResource("2_8272o")
+script = ExtResource("1_akvb1")
+
+[node name="SaveLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 32
+text = "-- Save Label --"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 130.0
+offset_bottom = 90.0
+text = "Title:"
+horizontal_alignment = 2
+
+[node name="CommentsLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 110.0
+offset_right = 130.0
+offset_bottom = 140.0
+text = "Comments:"
+horizontal_alignment = 2
+
+[node name="PublishNoticeLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 360.0
+offset_right = 400.0
+offset_bottom = 400.0
+theme_override_font_sizes/normal_font_size = 16
+text = "If you choose to share this creation with others, it must not contain profanity or obscene content."
+horizontal_alignment = 1
+
+[node name="TitleBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 62.0
+offset_right = 400.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 20
+
+[node name="CommentBox" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 110.0
+offset_right = 400.0
+offset_bottom = 310.0
+theme_override_font_sizes/font_size = 20
+wrap_mode = 1
+
+[node name="PublishCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 320.0
+offset_right = 400.0
+offset_bottom = 350.0
+theme_override_font_sizes/font_size = 17
+button_pressed = true
+text = "Publish?"
+alignment = 1
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

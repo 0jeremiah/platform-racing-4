@@ -43,6 +43,7 @@ var settings_list: Dictionary = {
 		},
 	"save": {
 		"setting_name": "Save",
+		"setting_func": Callable(self, "_on_save_pressed"),
 		"use_seperator": true,
 		},
 	"import": {
@@ -189,3 +190,7 @@ func _goto_other_page():
 
 func _maybe_clear_level():
 	current_editor._on_clear_pressed()
+
+
+func _on_save_pressed():
+	current_editor._on_save_pressed()

@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
 [ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://unused/mega_menu/icons/text.png" id="9_mh3pe"]
 [ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/sliderbutton.tscn" id="11_feflp"]
-[ext_resource type="Script" uid="uid://cpc4xr1mf14tr" path="res://pages/editor/stamp_mode_box.gd" id="12_kfnuy"]
+[ext_resource type="Script" uid="uid://cpc4xr1mf14tr" path="res://engine/stamp/stamp_mode_box.gd" id="12_kfnuy"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)

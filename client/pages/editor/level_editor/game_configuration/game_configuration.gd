@@ -2,7 +2,7 @@ extends Control
 
 @onready var config_tab_bar = $ConfigTabBar
 @onready var settings_container = $ScrollContainer/SettingsContainer
-@onready var editbox = preload("res://ui/game_config_editbox.gd")
+@onready var editbox = preload("res://pages/editor/level_editor/game_configuration/game_config_editbox.gd")
 
 var settings_nodes: Dictionary = {}
 
@@ -24,15 +24,18 @@ func _populate_options(key_number: int):
 		example_label.autowrap_mode = 0
 		example_label.vertical_alignment = 1
 		example_label.size.y = 40
+		example_label.set("theme_override_font_sizes/normal_font_size", 20)
 		example_label.set("theme_override_colors/default_color", Color("FFFFFFFF"))
 		example_label.set("theme_override_colors/font_shadow_color", Color("0000007F"))
 		example_label.text = key.capitalize() + ":"
 		var label_size = example_label.get_theme_font("normal_font").get_string_size(example_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, example_label.get_theme_font_size("normal_font_size"))
-		example_label.position = Vector2(0, 10)
 		example_label.focus_mode = 0
 		example_label.name = key.capitalize().replace(" ", "") + "Label"
 		example_control.add_child(example_label)
 		var example_edit = LineEdit.new()
+		example_edit.set("theme_override_font_sizes/font_size", 20)
+		example_edit.size = Vector2(100, 40)
+		example_edit.max_length = 10
 		example_edit.set_script(editbox)
 		example_edit.category_key = keys[key_number]
 		example_edit.value_key = key
@@ -44,22 +47,20 @@ func _populate_options(key_number: int):
 		else:
 			example_edit.init("string", str(edit_value))
 		example_edit.return_data.connect(_on_text_changed)
-		example_edit.max_length = 10
-		example_edit.size = Vector2(150, 40)
-		example_edit.position = Vector2(label_size.x + 10, 10)
+		example_edit.position = Vector2(label_size.x + 10, 0)
 		example_edit.focus_mode = 1
 		example_edit.name = key.capitalize().replace(" ", "") + "Edit"
 		example_control.add_child(example_edit)
-		example_edit.text = str(GameConfig.get_value(keys[key_number], key))
 		var reset_button = Button.new()
+		reset_button.size = Vector2(75, 30)
+		reset_button.set("theme_override_font_sizes/font_size", 20)
 		reset_button.text = "Reset"
-		reset_button.size = Vector2(100, 40)
-		reset_button.position = Vector2(example_edit.size.x + example_edit.position.x + 10, 10)
+		reset_button.position = Vector2(example_edit.size.x + example_edit.position.x + 10, 5)
 		reset_button.focus_mode = 0
 		reset_button.name = "ResetButton"
 		reset_button.pressed.connect(_reset_value.bind([str(GameConfig.get_default_value(keys[key_number], key)), keys[key_number], key]))
 		example_control.add_child(reset_button)
-		example_control.size = Vector2(reset_button.size.x + reset_button.position.x, example_edit.size.y + 20)
+		example_control.size = Vector2(reset_button.size.x + reset_button.position.x, example_edit.size.y)
 		example_control.custom_minimum_size = example_control.size
 		settings_container.add_child(example_control)
 		settings_nodes[key] = example_edit

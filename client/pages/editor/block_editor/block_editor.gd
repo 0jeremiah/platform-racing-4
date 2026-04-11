@@ -10,15 +10,7 @@ static var current_block_name: String
 static var current_block_description: String
 static var block_editor: Node
 
-var default_block: Dictionary = {
-	"layers": [{
-		"name": "Layer 1",
-		"lines": [],
-		"stamps": [],
-		"texts": []
-	}]
-}
-
+@onready var save_panel = preload("res://pages/editor/save_panel.tscn")
 @onready var block_manager: BlockManager = $SubViewportContainer/SubViewport/BlockManager
 #@onready var game_client = get_node("/root/Main/GameClient")
 @onready var editor_camera: Camera2D = $EditorCamera
@@ -27,6 +19,15 @@ var default_block: Dictionary = {
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
 @onready var editor_menu: Node2D = $UI/EditorMenu
+
+var default_block: Dictionary = {
+	"layers": [{
+		"name": "Layer 1",
+		"lines": [],
+		"stamps": [],
+		"texts": []
+	}]
+}
 
 
 func init(data: Dictionary = {}):
@@ -97,9 +98,10 @@ func _on_level_editor_pressed():
 
 
 func _on_save_pressed():
-	#BlockEditor.current_block = block_manager.encode_block()
-	#save_panel.initialize(LevelEditor.current_block)
-	pass
+	BlockEditor.current_block = block_manager.encode_block()
+	#var save_panel_node = save_panel.instantiate()
+	#PopupManager.add_custom_popup(save_panel_node, {"Save": null, "Cancel": null})
+	#save_panel_node.init("block", current_block)
 
 
 func _on_block_load(block_name = "", block_description = ""):

@@ -7,14 +7,8 @@ static var current_level_name: String
 static var current_level_description: String
 static var level_editor: Node
 
-var default_level: Dictionary = {
-	"layers": [{
-		"name": "Layer 1",
-		"chunks": [],
-		"rotation": 0,
-		"depth": 10
-	}]
-}
+@onready var load_panel = preload("res://pages/editor/load_panel.tscn")
+@onready var save_popup = preload("res://pages/editor/save_popup.gd")
 @onready var level_manager: LevelManager = $LevelManager
 @onready var game_client = get_node("/root/Main/GameClient")
 @onready var back = $UI/Back
@@ -23,8 +17,6 @@ var default_level: Dictionary = {
 @onready var load = $UI/Load
 @onready var save = $UI/Save
 @onready var clear = $UI/Clear
-@onready var save_panel = $UI/SavePanel
-@onready var load_panel = $UI/LoadPanel
 @onready var explore_panel = $UI/ExplorePanel
 @onready var confirm_delete_panel = $UI/ConfirmDeletePanel
 @onready var http_request = $HTTPRequest
@@ -43,11 +35,14 @@ var default_level: Dictionary = {
 @onready var users_join_edit_panel: Control = $UI/JoinEditPanel
 @onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
-
-func init(data: Dictionary = {}):
-	_on_connect_editor()
-	if data.has("saved_camera_position"):
-		editor_camera.position = data.saved_camera_position
+var default_level: Dictionary = {
+	"layers": [{
+		"name": "Layer 1",
+		"chunks": [],
+		"rotation": 0,
+		"depth": 10
+	}]
+}
 
 
 func _ready():
@@ -130,6 +125,12 @@ func _ready():
 	# now_editing_panel.init($UI/EditorMenu, self)
 
 
+func init(data: Dictionary = {}):
+	_on_connect_editor()
+	if data.has("saved_camera_position"):
+		editor_camera.position = data.saved_camera_position
+
+
 func _on_back_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
@@ -143,25 +144,23 @@ func _on_block_editor_pressed():
 
 
 func _on_explore_pressed():
-	save_panel.close()
 	load_panel.close()
 	confirm_delete_panel.close()
 	explore_panel.initialize()
 
 
 func _on_load_pressed():
-	explore_panel.close()
-	save_panel.close()
-	confirm_delete_panel.close()
-	load_panel.initialize()
+	var load_panel_node = load_panel.instantiate()
+	#PopupManager.add_custom_popup(load_panel_node, {"Load": null, "Delete": null, "Cancel": null})
 
 
 func _on_save_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	explore_panel.close()
-	load_panel.close()
-	confirm_delete_panel.close()
-	save_panel.initialize(LevelEditor.current_level)
+	PopupManager.add_custom_popup(save_popup)
+	#explore_panel.close()
+	#load_panel.close()
+	#confirm_delete_panel.close()
+	#save_panel.initialize(LevelEditor.current_level)
 
 
 func _on_test_pressed():
@@ -171,7 +170,7 @@ func _on_test_pressed():
 
 
 func _on_clear_pressed():
-	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING! Deleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\nAre you sure you want to do this?")
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
 	#save_panel.close()
 	#load_panel.close()
 	#explore_panel.close()

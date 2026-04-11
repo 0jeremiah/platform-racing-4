@@ -38,6 +38,7 @@ var settings_list: Dictionary = {
 		},
 	"save": {
 		"setting_name": "Save",
+		"setting_func": Callable(self, "_on_save_pressed"),
 		"use_seperator": true,
 		},
 	"import": {
@@ -171,3 +172,7 @@ func _goto_level_editor_page():
 
 func _goto_other_page():
 	current_editor._on_back_pressed()
+
+
+func _on_save_pressed():
+	current_editor._on_save_pressed()

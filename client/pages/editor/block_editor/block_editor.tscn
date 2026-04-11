@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b5u73jf8v3lqd" path="res://engine/block/block_manager.tscn" id="7_o0ocb"]
 [ext_resource type="PackedScene" uid="uid://cquvlgbewa40m" path="res://engine/objectbox/objectbox.tscn" id="10_ofrwg"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="11_t3joe"]
-[ext_resource type="PackedScene" uid="uid://bksfgjusb2ghj" path="res://pages/editor/new_editor_menu.tscn" id="13_qip0t"]
+[ext_resource type="PackedScene" uid="uid://bksfgjusb2ghj" path="res://pages/editor/editor_menu.tscn" id="13_qip0t"]
 
 [node name="BlockEditor" type="Node2D"]
 script = ExtResource("1_fchs8")

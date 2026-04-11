@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8o5fiu8mc2a0"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_8aq5f"]
+[ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://unused/layer_button_group.tres" id="2_em8a6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
+bg_color = Color(1, 1, 0, 0.498039)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u80jm"]
+bg_color = Color(1, 1, 0.498039, 0.498039)
+
+[node name="LevelRow" type="Control"]
+custom_minimum_size = Vector2(500, 54)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 50.0
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 54.0
+color = Color(0.027451, 0.117647, 0.419608, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 498.0
+offset_bottom = 32.0
+color = Color(0.709804, 0.835294, 0.956863, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 32.0
+offset_right = 498.0
+offset_bottom = 52.0
+color = Color(0.513726, 0.713726, 0.956863, 1)
+
+[node name="LevelLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 497.0
+offset_bottom = 32.0
+theme = ExtResource("1_8aq5f")
+theme_override_colors/default_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+text = "Awesome level"
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 32.0
+offset_right = 497.0
+offset_bottom = 52.0
+theme = ExtResource("1_8aq5f")
+theme_override_colors/default_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+theme_override_font_sizes/normal_font_size = 13
+text = "Awesome Description"
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0.74902)
+layout_mode = 1
+offset_right = 500.0
+offset_bottom = 50.0
+theme = ExtResource("1_8aq5f")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_u80jm")
+toggle_mode = true
+button_group = ExtResource("2_em8a6")

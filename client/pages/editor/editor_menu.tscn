@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bksfgjusb2ghj"]
 
-[ext_resource type="Script" uid="uid://c3xbv8r4v6bc4" path="res://pages/editor/new_editor_menu.gd" id="1_kromo"]
+[ext_resource type="Script" uid="uid://c3xbv8r4v6bc4" path="res://pages/editor/editor_menu.gd" id="1_kromo"]
 [ext_resource type="PackedScene" uid="uid://c4svh7sae6f0l" path="res://pages/editor/level_editor/level_options_menu.tscn" id="2_kromo"]
 [ext_resource type="PackedScene" uid="uid://t31di5itcpjo" path="res://pages/editor/block_editor/block_options_menu.tscn" id="3_j1n7y"]
 

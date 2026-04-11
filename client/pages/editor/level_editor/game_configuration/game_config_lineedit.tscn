@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d13lsb3g1rla6"]
+
+[ext_resource type="Script" uid="uid://31rhkn8x062v" path="res://pages/editor/level_editor/game_configuration/game_config_editbox.gd" id="1_ouymg"]
+
+[node name="GameConfigLineEdit" type="LineEdit"]
+offset_right = 100.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "tet"
+max_length = 10
+script = ExtResource("1_ouymg")

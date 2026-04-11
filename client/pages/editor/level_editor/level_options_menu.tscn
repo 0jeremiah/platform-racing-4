@@ -66,9 +66,9 @@ anchor_right = -37.05
 [node name="LevelSettingsSubmenu" parent="Submenus" instance=ExtResource("4_nlf1n")]
 visible = false
 offset_left = 535.0
-offset_top = 315.0
+offset_top = 285.0
 offset_right = 1385.0
-offset_bottom = 765.0
+offset_bottom = 795.0
 
 [node name="SlightlyLessTallPanel" type="Panel" parent="."]
 layout_mode = 0

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://yu6673gub0ky" path="res://pages/editor/level_editor/level_settings_submenu.gd" id="1_imxmr"]
 [ext_resource type="PackedScene" uid="uid://dv2s2api7sque" path="res://pages/editor/level_editor/item_settings.tscn" id="1_lmv6o"]
 [ext_resource type="PackedScene" uid="uid://dw56v2hpdj1ea" path="res://pages/editor/level_editor/general_settings.tscn" id="1_mpokk"]
-[ext_resource type="PackedScene" uid="uid://kulqo5bwtwrs" path="res://pages/editor/level_editor/game_configuration.tscn" id="4_3duu6"]
+[ext_resource type="PackedScene" uid="uid://kulqo5bwtwrs" path="res://pages/editor/level_editor/game_configuration/game_configuration.tscn" id="4_3duu6"]
 
 [node name="LevelSettingsSubmenu" type="Control"]
 layout_mode = 3
@@ -15,7 +15,7 @@ script = ExtResource("1_imxmr")
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_right = 850.0
-offset_bottom = 450.0
+offset_bottom = 510.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
@@ -67,7 +67,6 @@ offset_bottom = 268.0
 mouse_filter = 2
 
 [node name="GameConfiguration" parent="." instance=ExtResource("4_3duu6")]
-visible = false
 layout_mode = 0
 offset_left = 20.0
 offset_top = 110.0
