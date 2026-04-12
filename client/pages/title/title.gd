@@ -16,6 +16,9 @@ extends Control
 @onready var lip_credits_button = $LoggedInPanel/VBoxContainer/CreditsButton
 @onready var lip_user_settings_button = $LoggedInPanel/VBoxContainer/UserSettingsButton
 @onready var lip_logout_button = $LoggedInPanel/VBoxContainer/LogoutButton
+@onready var login_popup = preload("res://pages/title/login_popup.gd")
+@onready var register_popup = preload("res://pages/title/register_popup.gd")
+@onready var credits_popup = preload("res://pages/title/credits_popup.gd")
 
 
 func _ready():
@@ -55,26 +58,30 @@ func _update_ui():
 		logged_in_panel.hide()
 		not_logged_in_panel.show()
 
+
 func _goto_lobby():
 	Main.set_scene(Main.LOBBY)
 
+
 func _on_login_pressed():
-	if Session.is_logged_in():
-		Main.set_scene(Main.LOBBY)
-	else:
-		Main.set_scene(Main.LOGIN)
+	PopupManager.add_custom_popup(login_popup)
+
 
 func _on_create_account_pressed():
-	Main.set_scene(Main.REGISTER)
+	PopupManager.add_custom_popup(register_popup)
+
 
 func _on_level_editor_pressed():
 	Main.set_scene(Main.LEVEL_EDITOR)
 
+
 func _on_block_editor_pressed():
 	Main.set_scene(Main.BLOCK_EDITOR)
 
+
 func _on_credits_pressed():
-	Main.set_scene(Main.CREDITS)
+	PopupManager.add_custom_popup(credits_popup)
+
 
 func _on_logout_pressed():
 	logged_in_panel.hide()

@@ -3,26 +3,32 @@ extends Node
 
 @onready var popups = $Popups
 
-var button_popup = preload("res://ui/popup/button_popup.tscn")
-var text_popup = preload("res://ui/popup/text_popup.tscn")
+var popup_base = preload("res://ui/popup/popup.tscn")
+var message_popup = preload("res://ui/popup/message_popup.gd")
+var confirm_popup = preload("res://ui/popup/confirm_popup.gd")
 
 
-func add_message_popup(popup_message: String):
-	var popup = text_popup.instantiate()
+func add_message_popup(popup_message: String = ""):
+	var popup = popup_base.instantiate()
+	popup.set_script(message_popup)
+	if !popup_message.is_empty():
+		popup.popup_message = popup_message
 	popups.add_child(popup)
-	popup.set_text(popup_message)
-	popup.create_button("OK")
 
 
-func add_confirm_popup(confirm_func = null, popup_message: String = "Are you sure?"):
-	var popup = text_popup.instantiate()
+func add_confirm_popup(confirm_func = null, popup_message: String = ""):
+	var popup = popup_base.instantiate()
+	popup.set_script(confirm_popup)
+	if confirm_func is Callable:
+		popup.confirm_func = confirm_func
+	if !popup_message.is_empty():
+		popup.popup_message = popup_message
 	popups.add_child(popup)
-	popup.set_text(popup_message)
-	popup.create_button("OK", confirm_func)
-	popup.create_button("Cancel")
 
 
-func add_custom_popup(custom_popup_code: Script):
-	var popup = button_popup.instantiate()
+func add_custom_popup(custom_popup_code: Script, init_params = null):
+	var popup = popup_base.instantiate()
 	popup.set_script(custom_popup_code)
 	popups.add_child(popup)
+	if popup.has_method("init") and init_params != null:
+		popup.init(init_params)

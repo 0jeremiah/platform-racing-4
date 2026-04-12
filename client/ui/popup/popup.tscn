@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxiwhl2uem7uk"]
 
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_wb83y"]
-[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://ui/popup/button_popup.gd" id="2_ehiiy"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_wrryh"]
+[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://ui/popup/button_popup.gd" id="2_odohb"]
 
-[node name="ButtonPopup" type="Control"]
+[node name="Popup" type="Control"]
 z_index = 4096
 layout_mode = 3
 anchors_preset = 0
-theme = ExtResource("1_wb83y")
-script = ExtResource("2_ehiiy")
+theme = ExtResource("1_wrryh")
+script = ExtResource("2_odohb")
 
 [node name="IntrusiveBG" type="ColorRect" parent="."]
 layout_mode = 0

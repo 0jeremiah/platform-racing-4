@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://cjlp6cp6j6dmi"]
 
-[ext_resource type="Script" path="res://pages/editor/save_panel.gd" id="1_akvb1"]
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_8272o"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_j56th"]
+[ext_resource type="Script" path="res://pages/editor/save/save.gd" id="2_emuy6"]
 
-[node name="SavePanel" type="Control"]
+[node name="Save" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 400.0
 offset_bottom = 400.0
-theme = ExtResource("2_8272o")
-script = ExtResource("1_akvb1")
+theme = ExtResource("1_j56th")
+script = ExtResource("2_emuy6")
 
 [node name="SaveLabel" type="RichTextLabel" parent="."]
 layout_mode = 0

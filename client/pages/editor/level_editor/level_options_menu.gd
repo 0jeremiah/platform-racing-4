@@ -39,6 +39,7 @@ var settings_list: Dictionary = {
 		},
 	"load": {
 		"setting_name": "Load",
+		"setting_func": Callable(self, "_on_load_pressed"),
 		"use_seperator": false,
 		},
 	"save": {
@@ -180,17 +181,21 @@ func _call_editor_function(id: int):
 		settings_list[options_keys[id]].setting_func.call()
 
 
+func _maybe_clear_level():
+	current_editor._on_clear_pressed()
+
+
+func _on_load_pressed():
+	current_editor._on_load_pressed()
+
+
+func _on_save_pressed():
+	current_editor._on_save_pressed()
+
+
 func _goto_block_editor_page():
 	current_editor._on_block_editor_pressed()
 
 
 func _goto_other_page():
 	current_editor._on_back_pressed()
-
-
-func _maybe_clear_level():
-	current_editor._on_clear_pressed()
-
-
-func _on_save_pressed():
-	current_editor._on_save_pressed()

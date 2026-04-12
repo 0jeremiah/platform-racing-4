@@ -7,7 +7,7 @@ static var current_level_name: String
 static var current_level_description: String
 static var level_editor: Node
 
-@onready var load_panel = preload("res://pages/editor/load_panel.tscn")
+@onready var load_popup = preload("res://pages/editor/load_popup.gd")
 @onready var save_popup = preload("res://pages/editor/save_popup.gd")
 @onready var level_manager: LevelManager = $LevelManager
 @onready var game_client = get_node("/root/Main/GameClient")
@@ -56,7 +56,6 @@ func _ready():
 	save.connect("pressed", _on_save_pressed)
 	test.connect("pressed", _on_test_pressed)
 	clear.connect("pressed", _on_clear_pressed)
-	load_panel.connect("level_load", _on_level_load)
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
@@ -144,19 +143,16 @@ func _on_block_editor_pressed():
 
 
 func _on_explore_pressed():
-	load_panel.close()
-	confirm_delete_panel.close()
-	explore_panel.initialize()
+	pass
 
 
 func _on_load_pressed():
-	var load_panel_node = load_panel.instantiate()
-	#PopupManager.add_custom_popup(load_panel_node, {"Load": null, "Delete": null, "Cancel": null})
+	PopupManager.add_custom_popup(load_popup)
 
 
 func _on_save_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	PopupManager.add_custom_popup(save_popup)
+	PopupManager.add_custom_popup(save_popup, {"mode": "level", "current_data": LevelEditor.current_level})
 	#explore_panel.close()
 	#load_panel.close()
 	#confirm_delete_panel.close()

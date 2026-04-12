@@ -1,0 +1,105 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5x3p577svagt"]
+
+[ext_resource type="Script" uid="uid://bs5shu0h2phdk" path="res://pages/title/register/register.gd" id="1_7nato"]
+
+[node name="Register" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 290.0
+script = ExtResource("1_7nato")
+
+[node name="RegisterLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 370.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 32
+text = "-- Create Account --"
+horizontal_alignment = 1
+
+[node name="UsernameLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 60.0
+offset_right = 180.0
+offset_bottom = 90.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Username:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PasswordLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 100.0
+offset_right = 180.0
+offset_bottom = 130.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Password:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ConfirmPasswordLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 140.0
+offset_right = 180.0
+offset_bottom = 170.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Confirm Password:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="EmailLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 180.0
+offset_right = 180.0
+offset_bottom = 210.0
+theme_override_font_sizes/normal_font_size = 20
+text = "E-mail (Optional):"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="EmailDisclaimerLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 230.0
+offset_right = 370.0
+offset_bottom = 270.0
+theme_override_font_sizes/normal_font_size = 16
+text = "The only time your e-mail will ever be used is if you forgot your password and need to recover it."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 60.0
+offset_right = 370.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 17
+
+[node name="PasswordBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 100.0
+offset_right = 370.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 17
+secret = true
+
+[node name="ConfirmPasswordBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 140.0
+offset_right = 370.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 17
+secret = true
+
+[node name="EmailBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 180.0
+offset_right = 370.0
+offset_bottom = 210.0
+theme_override_font_sizes/font_size = 17

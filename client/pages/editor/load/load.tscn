@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://byvkv77mar56f"]
 
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_nvp1d"]
-[ext_resource type="Script" uid="uid://bwtag7h0uwast" path="res://pages/editor/load_panel.gd" id="1_qmou4"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_14u00"]
+[ext_resource type="Script" uid="uid://bwtag7h0uwast" path="res://pages/editor/load/load.gd" id="2_k8vt4"]
 
-[node name="LoadPanel" type="Control"]
+[node name="Load" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 532.0
 offset_bottom = 500.0
-theme = ExtResource("1_nvp1d")
-script = ExtResource("1_qmou4")
+theme = ExtResource("1_14u00")
+script = ExtResource("2_k8vt4")
 
 [node name="LoadLabel" type="RichTextLabel" parent="."]
 layout_mode = 0

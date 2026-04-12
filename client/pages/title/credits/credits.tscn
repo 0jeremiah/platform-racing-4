@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dro6u3186ncjo"]
+
+[node name="CreditsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1000.0
+offset_bottom = 510.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 510.0
+theme_override_font_sizes/normal_font_size = 18
+text = "--- Contributors ---
+GambitAnimating CamerTheDragon DuckJohnn JcNumbers ShweetsStuff Jeremiah Raul ShengXue97 ThePizza1k
+
+--- Libraries ---
+AudioImport - Gianclgar - https://github.com/Gianclgar/GDScriptAudioImport
+
+--- Art ---
+Kenny Particle Pack: Kenny - https://kenney.nl/assets/particle-pack
+PR3 Blocks and Backgrounds: Nicole Swimley - https://www.linkedin.com/in/nicole-swimley-8b61025
+
+--- Music ---
+Noodletown 4 Remake: Damon Bass - https://open.spotify.com/artist/35EsioXPOMMzLpzHrvHCn3?si=Cqmrf_OZSy-a5ULrm9Y9mQ
+PR1 Future Theme (Penumbra): Adulock Van Liovick - https://soundcloud.com/adulock77/pr1-future-theme-penumbra
+
+--- Playtesting ---
+JcNumbers
+Raul
+Jeremiah
+
+--- Moral Support ---
+jbg"
+horizontal_alignment = 1

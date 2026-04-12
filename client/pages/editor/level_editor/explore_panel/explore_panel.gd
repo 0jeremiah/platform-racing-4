@@ -2,7 +2,7 @@ extends Node2D
 
 signal explore_load
 
-const EXPLORE_ROW = preload("res://pages/editor/level_row.tscn")
+const EXPLORE_ROW = preload("res://pages/editor/load/level_row.tscn")
 var selected_level_id = ""
 
 @onready var row_holder = $ScrollContainer/RowHolder

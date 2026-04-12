@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 		popup.position = Vector2((screen_size.x - popup.size.x) / 2, (screen_size.y - popup.size.y) / 2)
 
 
-func add_node_to_holder(node = null, node_size = null):
+func add_node_to_holder(node = null, node_size = null) -> void:
 	if node:
 		for child in holder.get_children():
 			child.free()
@@ -64,22 +64,22 @@ func add_node_to_holder(node = null, node_size = null):
 			holder_size = node_size
 
 
-func set_dimensions(new_dimensions: Vector2):
+func set_dimensions(new_dimensions: Vector2) -> void:
 	available_size = Vector2(max(new_dimensions.x, minimum_size.x), max(new_dimensions.y, minimum_size.y))
 
 
-func position_buttons():
+func position_buttons() -> void:
 	var x_space = 0.0
 	if buttons_holder.get_child_count() > 0:
 		for button in buttons_holder.get_child_count():
-			buttons_holder.get_child(button).position.x = x_space + (10 * button)
+			buttons_holder.get_child(button).position.x = x_space + 10
 			x_space = buttons_holder.get_child(button).position.x + buttons_holder.get_child(button).size.x
 		buttons_holder.size = Vector2(x_space, 30)
 	else:
 		buttons_holder.size = Vector2(0, 0)
 
 
-func create_button(button_string: String, button_func = null):
+func create_button(button_string: String, button_func = null) -> void:
 	var button = Button.new()
 	button.size = Vector2(50.0, 30.0)
 	button.set("theme_override_font_sizes/font_size", 17)
@@ -89,6 +89,6 @@ func create_button(button_string: String, button_func = null):
 	position_buttons()
 
 
-func _maybe_do_button_func(button_func = null):
+func _maybe_do_button_func(button_func = null) -> void:
 	if button_func is Callable:
 		button_func.call()

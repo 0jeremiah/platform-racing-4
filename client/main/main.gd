@@ -56,7 +56,7 @@ func _ready():
 
 	ParticleManager.init_particles()
 	await set_scene(TITLE)
-	#PopupManager.add_message_popup("Welcome to Platform Racing 4! This game is currently in alpha status, and it's being worked on by Jiggmin and a few other contributors. If you would like to help, please go to our github!\n\nhttps://github.com/jacob-grahn/platform-racing-4")
+	PopupManager.add_message_popup("Welcome to Platform Racing 4! This game is currently in alpha status, and it's being worked on by Jiggmin and a few other contributors. If you would like to help, please go to our github!\n\nhttps://github.com/jacob-grahn/platform-racing-4")
 
 
 static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:

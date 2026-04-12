@@ -2,7 +2,7 @@ extends Control
 
 signal level_load
 
-const LEVEL_ROW = preload("res://pages/editor/level_row.tscn")
+const LEVEL_ROW = preload("res://pages/editor/load/level_row.tscn")
 var selected_level = ""
 var selected_description = ""
 
