@@ -1,0 +1,115 @@
+[gd_scene load_steps=2 format=3 uid="uid://36phe2sblh"]
+
+[ext_resource type="Script" uid="uid://cejp3eulmjvww" path="res://pages/title/login_panel/login_panel.gd" id="1_egejd"]
+
+[node name="QuickLoginPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 180.0
+script = ExtResource("1_egejd")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 180.0
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 90.0
+offset_right = 490.0
+offset_bottom = 94.0
+
+[node name="WelcomeLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 490.0
+offset_bottom = 40.0
+text = "Welcome, AAAAABBBBBCCCCCDDDDD!"
+horizontal_alignment = 1
+
+[node name="ServerLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 80.0
+offset_bottom = 80.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Server:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ServerDropdownButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 50.0
+offset_right = 410.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 17
+text = "Blossom (2032 online?)"
+
+[node name="LoginButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 50.0
+offset_right = 490.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 17
+text = "Log In"
+
+[node name="LevelEditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 100.0
+offset_right = 160.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 17
+text = "Goto Level Editor"
+
+[node name="BlockEditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 100.0
+offset_right = 320.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 17
+text = "Goto Block Editor"
+
+[node name="StampEditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 100.0
+offset_right = 490.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 17
+disabled = true
+text = "Goto Stamp Editor"
+
+[node name="UserSettingsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 140.0
+offset_right = 130.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 17
+text = "User Settings"
+
+[node name="CreditsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 140.0
+offset_right = 210.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 17
+text = "Credits"
+
+[node name="LogoutButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 140.0
+offset_right = 490.0
+offset_bottom = 170.0
+theme_override_font_sizes/font_size = 17
+text = "Log Out"

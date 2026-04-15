@@ -11,7 +11,7 @@ func init(p_character: Character):
 	character = p_character
 
 
-func _process(float) -> void:
+func _process(_delta: float) -> void:
 	if active:
 		visible = true
 		if character:

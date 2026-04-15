@@ -12,9 +12,9 @@
 			{
 				"name": "heart",
 				"params": {
+					"hp": 1,
 					"exact": false,
-					"invincibility": true,
-					"hp": 1
+					"invincibility": true
 				}
 			}
 		]

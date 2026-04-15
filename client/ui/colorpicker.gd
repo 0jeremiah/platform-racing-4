@@ -33,7 +33,7 @@ func _ready() -> void:
 	init()
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	check_buttons()
 
 

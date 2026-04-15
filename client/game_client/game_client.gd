@@ -168,7 +168,7 @@ func _retry_connect() -> void:
 	connect_timer.start()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if layers && is_instance_valid(layers):
 		var layer_node = layers.map_layers.get_node(layers.get_target_map_layer())
 		if layer_node is Parallax2D:

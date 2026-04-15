@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhw1mbgjp7dby"]
+[gd_scene load_steps=13 format=3 uid="uid://bhw1mbgjp7dby"]
 
 [ext_resource type="Script" uid="uid://dyjok55lmblxb" path="res://pages/title/title.gd" id="1_d2gdb"]
 [ext_resource type="FontFile" uid="uid://bl2oollbyb0rj" path="res://fonts/gwibble/gwibble.ttf" id="2_a4giu"]
@@ -6,6 +6,8 @@
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_k3j40"]
 [ext_resource type="Texture2D" uid="uid://bteadegxvoxj1" path="res://pages/title/title_text_fill.png" id="5_giwdd"]
 [ext_resource type="Texture2D" uid="uid://cof8kdg033oa4" path="res://pages/title/parallax_bg/hay_5.png" id="5_r1m53"]
+[ext_resource type="PackedScene" uid="uid://cstn3st68xbg7" path="res://pages/title/menu_panel/menu_panel.tscn" id="7_7a7x7"]
+[ext_resource type="PackedScene" uid="uid://36phe2sblh" path="res://pages/title/login_panel/login_panel.tscn" id="8_08g0i"]
 
 [sub_resource type="Theme" id="Theme_jjqe5"]
 default_font = ExtResource("2_a4giu")
@@ -221,29 +223,52 @@ layout_mode = 2
 theme = ExtResource("3_k3j40")
 text = "Settings"
 
-[node name="AwaitingLoginPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 518.0
-offset_right = 1147.0
-offset_bottom = 640.0
+[node name="CheckLoginPanel" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 825.0
+offset_top = 540.0
+offset_right = 1095.0
+offset_bottom = 630.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AwaitingLoginPanel"]
+[node name="Panel" type="Panel" parent="CheckLoginPanel"]
 layout_mode = 0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 325.0
-offset_bottom = 97.0
+offset_right = 270.0
+offset_bottom = 90.0
 
-[node name="Label" type="Label" parent="AwaitingLoginPanel/VBoxContainer"]
-layout_mode = 2
+[node name="CheckLoginLabel" type="RichTextLabel" parent="CheckLoginPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 260.0
+offset_bottom = 40.0
 text = "Checking your login..."
 horizontal_alignment = 1
 
-[node name="LogoutButton" type="Button" parent="AwaitingLoginPanel/VBoxContainer"]
-layout_mode = 2
+[node name="CancelButton" type="Button" parent="CheckLoginPanel"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 170.0
+offset_bottom = 80.0
 theme = ExtResource("3_k3j40")
+theme_override_font_sizes/font_size = 17
 text = "Cancel"
+
+[node name="MenuPanel" parent="." instance=ExtResource("7_7a7x7")]
+layout_mode = 0
+offset_left = 870.0
+offset_top = 540.0
+offset_right = 1050.0
+offset_bottom = 880.0
+
+[node name="LoginPanel" parent="." instance=ExtResource("8_08g0i")]
+visible = false
+layout_mode = 0
+offset_left = 710.0
+offset_top = 540.0
+offset_right = 1210.0
+offset_bottom = 720.0
 
 [node name="NotLoggedInPanel" type="Panel" parent="."]
 visible = false

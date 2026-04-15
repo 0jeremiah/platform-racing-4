@@ -20,6 +20,7 @@ color = Color(1, 1, 1, 0.49803922)
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 60.0
+focus_mode = 1
 
 [node name="DefaultPanel" type="Panel" parent="Popup"]
 layout_mode = 0

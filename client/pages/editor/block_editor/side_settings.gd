@@ -23,7 +23,6 @@ func _ready() -> void:
 		side_options.get_child(child).set_side(current_side)
 		side_options.get_child(child).set_key(sides_properties_keys[child])
 		side_options.get_child(child).set_options(side_options.sides_properties[sides_properties_keys[child]].options)
-		side_options.sides_properties[sides_properties_keys[child]].node = side_options.get_child(child)
 		side_options.get_child(child).side_option_changed.connect(_change_sides_properties.bind())
 	options_dropdown_button.pressed.connect(_show_dropdown)
 	dropdown_popup.set_dropdown_size(Vector2(options_dropdown_button.size.x, 240))

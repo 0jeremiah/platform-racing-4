@@ -17,6 +17,7 @@ signal cursor_is_enabled
 @onready var block_submenu = $Submenus/BlockSubmenu
 @onready var art_submenu = $Submenus/ArtSubmenu
 @onready var level_settings_submenu = $Submenus/LevelSettingsSubmenu
+@onready var collab_submenu = $Submenus/CollabSubmenu
 var current_submenu: Control
 var level_layers: Node2D
 var editor_events: EditorEvents
@@ -113,7 +114,7 @@ func init(new_level_layers: Node2D, new_editor_events: EditorEvents) -> void:
 			child.init()
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for child in button_list.get_children():
 		for node in child.get_children():
 			if node is TextureButton or node is MenuButton:
@@ -148,6 +149,9 @@ func set_submenu():
 		emit_signal("cursor_is_enabled", true)
 	elif selected_button == level_settings_button:
 		current_submenu = level_settings_submenu
+		emit_signal("cursor_is_enabled", false)
+	elif selected_button == collab_button:
+		current_submenu = collab_submenu
 		emit_signal("cursor_is_enabled", false)
 	current_submenu.activate()
 

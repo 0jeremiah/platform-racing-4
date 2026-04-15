@@ -33,7 +33,7 @@ func activate():
 		_play_music()
 
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	if active:
 		visible = true
 	else:

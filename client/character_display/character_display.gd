@@ -64,7 +64,7 @@ const ANIMS := [
 var played_footstep = false
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	played_footstep = false
 
 

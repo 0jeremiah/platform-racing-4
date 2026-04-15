@@ -5,7 +5,6 @@ var custom_speed: int = 50
 var custom_accel: int = 50
 var custom_jump: int = 50
 var custom_skill: int = 50
-var custom_stats_popup = preload("res://popups/customstatsoptionspopup.tscn")
 
 
 func set_custom_stats(new_custom_stats: Array):

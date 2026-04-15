@@ -105,7 +105,7 @@ func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
 			child.init()
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for child in button_list.get_children():
 		for node in child.get_children():
 			if node is TextureButton or node is MenuButton:

@@ -52,7 +52,3 @@ func init_defaults() -> void:
 	# init
 	for item_id in items:
 		items[item_id].init()
-
-
-func _process(delta: float) -> void:
-	pass

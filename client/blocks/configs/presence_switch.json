@@ -12,7 +12,10 @@
 			{
 				"name": "switch",
 				"params": {
-					"dummyvariable": 1
+					"activate_list": [35],
+					"limit_range": false,
+					"width": 10,
+					"height": 10
 				}
 			}
 		]

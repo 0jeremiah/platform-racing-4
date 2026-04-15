@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbpko7m58sjny"]
+
+[ext_resource type="Script" uid="uid://dna33q6bpjjeh" path="res://pages/title/guest/guest.gd" id="1_l2wem"]
+
+[node name="Guest" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 110.0
+script = ExtResource("1_l2wem")
+
+[node name="GuestPopup" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 399.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 32
+text = "-- Play as Guest --"
+horizontal_alignment = 1
+
+[node name="ServerLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 70.0
+offset_bottom = 90.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Server:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ServerDropdownButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 60.0
+offset_right = 400.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 17
+text = "Test Server (online?)"

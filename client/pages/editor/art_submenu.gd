@@ -119,7 +119,7 @@ func activate():
 	active = true
 
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	if active:
 		visible = true
 		for child in art_menu.get_children():

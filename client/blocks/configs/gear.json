@@ -12,8 +12,9 @@
 			{
 				"name": "gear",
 				"params": {
-					"tick_ms": 4000,
-					"tock_ms": 500
+					"rotation": 90.0,
+					"tick": 4000.0,
+					"tock": 500.0
 				}
 			}
 		]

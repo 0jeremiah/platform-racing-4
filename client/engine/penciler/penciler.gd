@@ -19,7 +19,7 @@ func init(p_current_layers, event_source, p_layer_panel: Node2D) -> void:
 		event_source.connect("level_event", _on_level_event)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var current_time = Time.get_unix_time_from_system()
 	if current_time - last_cleanup_time >= CLEANUP_INTERVAL:
 		_cleanup_old_timestamps()

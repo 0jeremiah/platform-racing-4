@@ -63,7 +63,7 @@ func update_cursor_position_remote(userID: String, pos: Vector2, layer: String, 
 		if child.name == userID:
 			child.set_block_icon(block_id)
 			
-func _process(delta):
+func _process(_delta):
 	var current_time = _get_seconds_from_time_dict(Time.get_time_dict_from_system())
 
 	for userID in position_history.keys():

@@ -20,7 +20,7 @@ func _ready() -> void:
 	#bg.texture.set_image(image)
 	#global_position = Vector2(image.get_width() / 2, image.get_height() / 2)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	current_cursor_position = get_global_mouse_position()
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

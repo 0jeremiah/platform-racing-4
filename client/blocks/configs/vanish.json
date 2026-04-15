@@ -12,8 +12,8 @@
 			{
 				"name": "vanish",
 				"params": {
-					"vanish_timer": 0.3,
-					"cooldown_timer": 2.0
+					"animation_duration": 0.3,
+					"cooldown": 2.0
 				}
 			}
 		]

@@ -18,7 +18,7 @@ func _ready() -> void:
 	slider.set_new_slider_value.connect(_set_slider_value)
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#if visible and slider_button.is_hovered() and !slider_button.is_pressed():
 	#	scale = Vector2(1.25, 1.25)
 	#else:

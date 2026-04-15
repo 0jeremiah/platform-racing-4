@@ -20,10 +20,6 @@ const STYLE_LIST: Array = [6, 1, 2, 3, 5, 4, 0, 0]
 const BLOCK_LIST: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43]
 
 var texture: Texture2D = preload("res://tiles/tileatlas.png")
-var custom_stats_popup = preload("res://popups/customstatsoptionspopup.tscn")
-var stats_popup = preload("res://popups/statsoptionspopup.tscn")
-var teleport_popup = preload("res://popups/teleportoptionspopup.tscn")
-var block_picker_focused: bool = false
 var block_row_list: Array
 var current_tab: int
 var block_picker_pages: int = 1
@@ -40,7 +36,7 @@ func _ready() -> void:
 	current_tab = tab_bar.current_tab
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if current_tab != tab_bar.current_tab:
 		_update_block_list_display()
 	current_tab = tab_bar.current_tab
@@ -120,22 +116,22 @@ func _click_block(block_id: int, block_atlas_coords: Vector2) -> void:
 		"block_id": block_id,
 		"block_atlas_coords": block_atlas_coords
 	}
-	var block_options = null
-	if CoordinateUtils.to_true_block_id(block_data.block_id) == 27 or CoordinateUtils.to_true_block_id(block_data.block_id) == 28:
-		block_options = TileOptions.new()
-		block_options.option = StatsOptions.new()
-		block_options.set_popup(stats_popup)
-		block_data.get_or_add("block_options", block_options)
-	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 32:
-		block_options = TileOptions.new()
-		block_options.option = CustomStatsOptions.new()
-		block_options.set_popup(custom_stats_popup)
-		block_data.get_or_add("block_options", block_options)
-	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 33:
-		block_options = TileOptions.new()
-		block_options.option = TeleportOptions.new()
-		block_options.set_popup(teleport_popup)
-		block_data.get_or_add("block_options", block_options)
+	#var block_options = null
+	#if CoordinateUtils.to_true_block_id(block_data.block_id) == 27 or CoordinateUtils.to_true_block_id(block_data.block_id) == 28:
+		#block_options = TileOptions.new()
+		#block_options.option = StatsOptions.new()
+		#block_options.set_popup(stats_popup)
+		#block_data.get_or_add("block_options", block_options)
+	#elif CoordinateUtils.to_true_block_id(block_data.block_id) == 32:
+		#block_options = TileOptions.new()
+		#block_options.option = CustomStatsOptions.new()
+		#block_options.set_popup(custom_stats_popup)
+		#block_data.get_or_add("block_options", block_options)
+	if CoordinateUtils.to_true_block_id(block_data.block_id) == 33:
+		#block_options = TileOptions.new()
+		#block_options.option = TeleportOptions.new()
+		#block_options.set_popup(teleport_popup)
+		#block_data.get_or_add("block_options", block_options)
 		var teleport_colorin_coords = CoordinateUtils.to_atlas_coords(block_data.block_id + 1)
 		block_data.get_or_add("teleport_colorin_coords", teleport_colorin_coords)
 		var teleport_color = "E22B2E"
@@ -148,22 +144,22 @@ func _set_current_block(block_id: int, block_atlas_coords: Vector2) -> void:
 		"block_id": block_id,
 		"block_atlas_coords": block_atlas_coords
 	}
-	var block_options = null
-	if CoordinateUtils.to_true_block_id(block_data.block_id) == 27 or CoordinateUtils.to_true_block_id(block_data.block_id) == 28:
-		block_options = TileOptions.new()
-		block_options.option = StatsOptions.new()
-		block_options.set_popup(stats_popup)
-		block_data.get_or_add("block_options", block_options)
-	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 32:
-		block_options = TileOptions.new()
-		block_options.option = CustomStatsOptions.new()
-		block_options.set_popup(custom_stats_popup)
-		block_data.get_or_add("block_options", block_options)
-	elif CoordinateUtils.to_true_block_id(block_data.block_id) == 33:
-		block_options = TileOptions.new()
-		block_options.option = TeleportOptions.new()
-		block_options.set_popup(teleport_popup)
-		block_data.get_or_add("block_options", block_options)
+	#var block_options = null
+	#if CoordinateUtils.to_true_block_id(block_data.block_id) == 27 or CoordinateUtils.to_true_block_id(block_data.block_id) == 28:
+		#block_options = TileOptions.new()
+		#block_options.option = StatsOptions.new()
+		#block_options.set_popup(stats_popup)
+		#block_data.get_or_add("block_options", block_options)
+	#elif CoordinateUtils.to_true_block_id(block_data.block_id) == 32:
+		#block_options = TileOptions.new()
+		#block_options.option = CustomStatsOptions.new()
+		#block_options.set_popup(custom_stats_popup)
+		#block_data.get_or_add("block_options", block_options)
+	if CoordinateUtils.to_true_block_id(block_data.block_id) == 33:
+		#block_options = TileOptions.new()
+		#block_options.option = TeleportOptions.new()
+		#block_options.set_popup(teleport_popup)
+		#block_data.get_or_add("block_options", block_options)
 		var teleport_colorin_coords = CoordinateUtils.to_atlas_coords(block_data.block_id + 1)
 		block_data.get_or_add("teleport_colorin_coords", teleport_colorin_coords)
 		var teleport_color = "E22B2E"

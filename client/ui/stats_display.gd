@@ -15,7 +15,7 @@ func init(game_scene):
 	game = game_scene
 	player = game_scene.get_node("PlayerManager").get_character()
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player:
 		stats = player.stats.get_total()
 		speed_text.text = str(stats[0])

@@ -32,7 +32,7 @@ func _ready() -> void:
 	show_bgs()
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for child in bg_button_container.get_children():
 		_check_clicked_button(child)
 

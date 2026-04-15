@@ -19,7 +19,7 @@ func _ready() -> void:
 	old_stats = [SpeedSlider.value, AccelSlider.value, JumpSlider.value, SkillSlider.value]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	stats = [SpeedSlider.value, AccelSlider.value, JumpSlider.value, SkillSlider.value]
 	if !stats_changed:
 		for i in stats.size():

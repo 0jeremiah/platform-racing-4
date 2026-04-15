@@ -8,7 +8,7 @@
 		"atlas_coords": {"x": 5, "y": 1}
 	},
 	"behaviors": {
-		"any_side": [
+		"stand": [
 			{
 				"name": "ice",
 				"params": {

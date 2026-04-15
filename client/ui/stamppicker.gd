@@ -32,7 +32,7 @@ func _ready() -> void:
 	show_bgs()
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if current_tab != tab_bar.current_tab:
 		show_bgs()
 	current_tab = tab_bar.current_tab

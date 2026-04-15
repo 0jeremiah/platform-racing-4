@@ -26,9 +26,6 @@ var editor_events: EditorEvents
 var current_editor = null
 var texture: Texture2D = preload("res://tiles/tileatlas.png")
 var selected_button: TextureButton
-var custom_stats_popup = preload("res://popups/customstatsoptionspopup.tscn")
-var stats_popup = preload("res://popups/statsoptionspopup.tscn")
-var teleport_popup = preload("res://popups/teleportoptionspopup.tscn")
 
 
 func _ready() -> void:
@@ -61,7 +58,7 @@ func activate():
 	active = true
 
 
-func _physics_process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if active:
 		visible = true
 		for child in block_menu.get_children():

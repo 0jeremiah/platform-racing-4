@@ -15,17 +15,22 @@ var minimum_size: Vector2 = Vector2(90, 90)
 var available_size: Vector2 = Vector2(screen_size.x / 1.2, screen_size.y / 1.2)
 var padding: Vector2 = Vector2(20.0, 20.0)
 var auto_position: bool = true
+var die_without_focus = false
 var holder_size = Vector2(0.0, 0.0)
 
 
 func _ready() -> void:
 	modulate.a = 0.0
 	screen_size = get_viewport().get_visible_rect().size
+	popup.focus_exited.connect(_check_focus)
+	default_panel.focus_exited.connect(_check_focus)
+	holder.focus_exited.connect(_check_focus)
+	buttons_holder.focus_exited.connect(_check_focus)
+	popup.grab_focus()
 
 
 func _process(_delta: float) -> void:
 	screen_size = get_viewport().get_visible_rect().size
-	size = screen_size
 	global_position = Vector2(0.0, 0.0)
 	available_size = Vector2(screen_size.x / 1.2, screen_size.y / 1.2)
 	#var main_camera = get_viewport().get_camera_2d()
@@ -92,3 +97,20 @@ func create_button(button_string: String, button_func = null) -> void:
 func _maybe_do_button_func(button_func = null) -> void:
 	if button_func is Callable:
 		button_func.call()
+
+
+func _check_focus() -> void:
+	var has_focus = false
+	if popup.has_focus() or default_panel.has_focus():
+		has_focus = true
+	elif holder.has_focus() or (holder.get_child_count() > 0 and holder.get_child(0) is Control and holder.get_child(0).has_focus):
+		has_focus = true
+	elif buttons_holder.has_focus():
+		has_focus = true
+	else:
+		for child in buttons_holder.get_children():
+			if child.has_focus():
+				has_focus = true
+				break
+	if !has_focus and die_without_focus:
+		queue_free()
