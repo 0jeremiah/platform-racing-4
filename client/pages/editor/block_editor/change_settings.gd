@@ -1,5 +1,7 @@
 extends Control
 
+signal change_settings_changed
+
 @onready var tick_box = $TickBox
 @onready var scroll_container = $ScrollContainer
 @onready var blocks_container = $ScrollContainer/BlocksContainer
@@ -123,6 +125,7 @@ func update_block_icon(block_data: Dictionary):
 func _maybe_add_block(id: int, index: int = change_block_list.size()):
 	if change_block_list.size() < 150:
 		change_block_list.insert(index, id)
+		emit_signal("change_settings_changed", {"change_tick": change_tick, "change_block_list": change_block_list})
 	_update_block_list()
 
 

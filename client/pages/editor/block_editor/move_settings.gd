@@ -1,5 +1,7 @@
 extends Control
 
+signal move_settings_changed
+
 @onready var tick_box = $TickBox
 @onready var pattern_box = $PatternBox
 @onready var random_button = $RandomButton
@@ -8,10 +10,10 @@ extends Control
 
 var allowed_commands: Array = ["up", "down", "left", "right", "wait", "random", "return"]
 var move_tick: float = 2.5
-var old_move_pattern: String = "udlr"
-var move_pattern: String = "udlr"
-var random: bool = false
-var loop: bool = true
+var old_move_pattern: String = "up, right, down, left"
+var move_pattern: String = "up, right, down, left"
+var randomize_move_pattern: bool = false
+var loop_move_pattern: bool = true
 
 
 func _ready() -> void:
@@ -25,14 +27,20 @@ func _ready() -> void:
 
 func _update_tick(new_move_tick: float):
 	move_tick = new_move_tick
+	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
+	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
 
 
 func _toggle_random():
-	random = random_button.button_pressed
+	randomize_move_pattern = random_button.button_pressed
+	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
+	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
 
 
 func _toggle_loop():
-	loop = loop_button.button_pressed
+	loop_move_pattern = loop_button.button_pressed
+	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
+	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
 
 
 func _parse_pattern():
@@ -80,3 +88,5 @@ func _parse_pattern():
 		parse_results_label.set("theme_override_colors/default_color", Color("007f00"))
 		parse_results_label.text = "PASS: All patterns are valid."
 		old_move_pattern = move_pattern
+		emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
+		"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})

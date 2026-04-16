@@ -86,11 +86,27 @@ var block_types: Dictionary = {
 }
 var block_properties: Dictionary = {
 	"health": 100.0,
-	"coin_value": 3
+	"coin_value": 3,
+	"can_move": false,
+	"move_tick": 2.5,
+	"move_pattern": "udlr",
+	"randomize_move_pattern": false,
+	"loop_move_pattern": true,
+	"can_change": false,
+	"change_tick": 2.5,
+	"change_pattern": [101, 121, 124, 113]
 }
 
 func _ready() -> void:
+	matter_type_setting_button.text = matter_type_dictionary[block_types.matter_type].label
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
+	if block_types.matter_type == "solid":
+		block_type_setting_button.text = solid_type_dictionary[block_types.block_type].label
+	elif block_types.matter_type == "liquid":
+		block_type_setting_button.text = liquid_type_dictionary[block_types.block_type].label
+	elif block_types.matter_type == "gas":
+		block_type_setting_button.text = gas_type_dictionary[block_types.block_type].label
+	block_type_setting_button.text = solid_type_dictionary["active"].label
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
 	for side in side_options.sides_dictionary.size():
 		var sides_dictionary_keys = side_options.sides_dictionary.keys()
