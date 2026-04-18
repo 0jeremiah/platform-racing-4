@@ -22,7 +22,6 @@ func encode_lines(node: Node2D) -> Array:
 			var stampData = {
 				"line_type": "stamp",
 				"id": child.stamp_id,
-				"mode": child.stamp_mode,
 				"position": {"x": child.stamp_position.x, "y": child.stamp_position.y},
 				"scale": {"x": child.stamp_scale.x, "y": child.stamp_scale.y},
 				"rotation": child.stamp_rotation
@@ -36,7 +35,6 @@ func encode_stamps(node: Node2D) -> Array:
 	for stamp: Node2D in node.get_children():
 		var stampData = {
 			"id": stamp.stamp_id,
-			"mode": stamp.stamp_mode,
 			"position": {"x": stamp.stamp_position.x, "y": stamp.stamp_position.y},
 			"scale": {"x": stamp.stamp_scale.x, "y": stamp.stamp_scale.y},
 			"rotation": stamp.stamp_rotation

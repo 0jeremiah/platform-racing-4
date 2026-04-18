@@ -135,6 +135,8 @@ func _ready() -> void:
 	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
 	health_box.init("float", "100.0", 0.00000001, 99999999.9)
 	health_box.return_line.connect(_change_health.bind())
+	move_settings.move_settings_changed.connect(_update_properties)
+	change_settings.change_settings_changed.connect(_update_properties)
 	update_display()
 	
 
@@ -234,6 +236,12 @@ func _change_setting(selected_dictionary: Dictionary):
 
 func _change_health(new_health: float):
 	block_properties.health = new_health
+
+
+func _update_properties(new_dictionary: Dictionary):
+	for key in new_dictionary.keys():
+		if block_properties.has(key):
+			block_properties[key] = new_dictionary[key]
 
 
 func update_display():
