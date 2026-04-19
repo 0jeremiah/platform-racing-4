@@ -1,4 +1,3 @@
-extends Node
 class_name Backgrounds
 
 const square = preload("res://engine/bg/100x100.png")
@@ -19,14 +18,14 @@ const pr3_volcano = preload("res://engine/bg/pr3bg6-volcano.png")
 const pr3_thanksgiving = preload("res://engine/bg/pr3bg8-thanksgiving.png")
 const pr3_main = preload("res://engine/bg/pr3bg9-main.png")
 const pr3_christmas = preload("res://engine/bg/pr3bg10-christmas.png")
-var bg_list: Array = ["pr2_field", "pr2_generic", "pr2_lake", "pr2_desert", "pr2_dots", "pr2_space", "pr2_skyscraper",
+static var bg_list: Array = ["pr2_field", "pr2_generic", "pr2_lake", "pr2_desert", "pr2_dots", "pr2_space", "pr2_skyscraper",
 "pr3_desert", "pr3_industrial", "pr3_jungle", "pr3_space", "pr3_underwater", "pr3_volcano", "pr3_thanksgiving", "pr3_main", "pr3_christmas", "blank"]
-var bg_graphic_list: Array = [pr2_field, pr2_generic, pr2_lake, pr2_desert, pr2_dots_background, pr2_space, pr2_skyscraper,
+static var bg_graphic_list: Array = [pr2_field, pr2_generic, pr2_lake, pr2_desert, pr2_dots_background, pr2_space, pr2_skyscraper,
 pr3_desert, pr3_industrial, pr3_jungle, pr3_space, pr3_underwater, pr3_volcano, pr3_thanksgiving, pr3_main, pr3_christmas]
 # ^ this is for level editor ^
-var bg_failsafe_list: Array = ["field", "generic", "lake", "desert", "dots", "space", "skyscraper"]
+static var bg_failsafe_list: Array = ["field", "generic", "lake", "desert", "dots", "space", "skyscraper"]
 
-func set_dots(sprite: Sprite2D):
+static func set_dots(sprite: Sprite2D):
 	# dots colors are random, has entire system dedicated to that.
 	if !sprite.has_node("Dots"):
 		sprite.texture = pr2_dots_background
@@ -34,7 +33,7 @@ func set_dots(sprite: Sprite2D):
 		var dots = pr2_dots_node.instantiate()
 		sprite.add_child(dots)
 
-func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
+static func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
 	var background_id = p_id
 	# deletes the dots if id isn't dots so we don't keep making more dots
 	if (background_id != "dots" or background_id != "pr2_dots") and sprite.has_node("Dots"):
@@ -74,7 +73,7 @@ func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_url: bo
 		sprite.texture = pr2_field; sprite.set_region_enabled(false)
 		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
-func get_bg_texture_rect_no_dots(sprite: TextureRect, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
+static func get_bg_texture_rect_no_dots(sprite: TextureRect, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
 	var background_id = p_id
 	# loads backgrounds from the website api if load_from_url is true.
 	# disabled as we want the backgrounds to be in game for level editor.

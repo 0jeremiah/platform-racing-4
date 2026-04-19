@@ -11,6 +11,5 @@ var song_id: String = "random"
 func set_bg(p_id: String, p_fade_color: Color) -> void:
 	id = p_id
 	fade_color = p_fade_color
-	var backgrounds = Backgrounds.new()
-	backgrounds.get_bg(sprite, id, fade_color)
+	Backgrounds.get_bg(sprite, id, fade_color)
 	fit_screen.trigger()

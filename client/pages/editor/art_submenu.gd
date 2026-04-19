@@ -139,13 +139,11 @@ func _process(_delta: float) -> void:
 func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_BACKGROUND:
 		var sprite2d = Sprite2D.new()
-		var bgs = Backgrounds.new()
-		bgs.get_bg(sprite2d, bg_id, bg_color)
+		Backgrounds.get_bg(sprite2d, bg_id, bg_color)
 		background_texture.texture = sprite2d.texture
 	if event.type == EditorEvents.SELECT_STAMP:
 		var sprite2d = Sprite2D.new()
-		var stamps = Stamps.new()
-		stamps.get_stamp(sprite2d, stamp_id)
+		Stamps.get_stamp(sprite2d, stamp_id)
 		selected_stamp_texture.texture = sprite2d.texture
 
 

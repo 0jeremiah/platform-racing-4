@@ -13,7 +13,6 @@ signal change_selected_stamp
 var graphic_array: Array
 var xoffset: float = 30
 var yoffset: float = 139
-var stamp_container: Stamps = Stamps.new()
 var stamp_graphics: Array = []
 var stamp_array: Array = []
 var current_tab: int
@@ -25,8 +24,8 @@ var custom_stamp_list: Array = []
 
 
 func _ready() -> void:
-	stamp_graphics = stamp_container.stamp_graphic_list
-	stamp_array = stamp_container.stamp_list
+	stamp_graphics = Stamps.stamp_graphic_list
+	stamp_array = Stamps.stamp_list
 	navigation.set_align("right")
 	navigation.connect("set_page", _on_set_page)
 	show_bgs()

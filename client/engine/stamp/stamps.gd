@@ -1,4 +1,3 @@
-extends Node
 class_name Stamps
 
 const cactus = preload("res://engine/stamp/cactus-graphic.svg")
@@ -11,13 +10,13 @@ const spire = preload("res://engine/stamp/spire-graphic.svg")
 const tree2 = preload("res://engine/stamp/tree2-graphic.svg")
 const tree3 = preload("res://engine/stamp/tree3-graphic.svg")
 const tree = preload("res://engine/stamp/tree-graphic.svg")
-var stamp_list: Array = ["cactus", "petrifiedtree", "rock2", "rock", "skyscraper",
+static var stamp_list: Array = ["cactus", "petrifiedtree", "rock2", "rock", "skyscraper",
 "spire2", "spire", "tree2", "tree3", "tree"]
-var stamp_graphic_list: Array = [cactus, petrifiedtree, rock2, rock, skyscraper,
+static var stamp_graphic_list: Array = [cactus, petrifiedtree, rock2, rock, skyscraper,
 spire2, spire, tree2, tree3, tree]
 # ^ this is for level editor ^
 
-func get_stamp(sprite: Sprite2D, p_id: String) -> void:
+static func get_stamp(sprite: Sprite2D, p_id: String) -> void:
 	var stamp_id = p_id
 	if stamp_id in stamp_list:
 		match stamp_id:
@@ -35,7 +34,7 @@ func get_stamp(sprite: Sprite2D, p_id: String) -> void:
 	else:
 		sprite.texture = cactus
 
-func get_stamp_texture_rect(sprite: TextureRect, p_id: String) -> void:
+static func get_stamp_texture_rect(sprite: TextureRect, p_id: String) -> void:
 	var stamp_id = p_id
 	if stamp_id in stamp_list:
 		match stamp_id:

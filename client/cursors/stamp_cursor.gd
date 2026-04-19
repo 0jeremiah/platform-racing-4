@@ -14,9 +14,8 @@ var stamp_rotation: int = 0
 
 
 func _ready() -> void:
-	var stamp_container: Stamps = Stamps.new()
-	stamp_graphics = stamp_container.stamp_graphic_list
-	stamp_array = stamp_container.stamp_list
+	stamp_graphics = Stamps.stamp_graphic_list
+	stamp_array = Stamps.stamp_list
 
 
 func deactivate():
@@ -120,8 +119,7 @@ func on_mouse_up():
 func set_stamp_id(new_id: String) -> void:
 	stamp_id = new_id
 	if stamp_id:
-		var stamps = Stamps.new()
-		stamps.get_stamp(stamp_icon, stamp_id)
+		Stamps.get_stamp(stamp_icon, stamp_id)
 		update_display()
 
 

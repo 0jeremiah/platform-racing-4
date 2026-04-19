@@ -13,7 +13,6 @@ signal change_selected_background
 var graphic_array: Array
 var xoffset: float = 30
 var yoffset: float = 88
-var bg_container: Backgrounds = Backgrounds.new()
 var background_graphics: Array = []
 var background_array: Array = []
 var bg_picker_pages: int = 1
@@ -23,9 +22,9 @@ var current_bg_array: Array = []
 
 
 func _ready() -> void:
-	background_graphics = bg_container.bg_graphic_list
+	background_graphics = Backgrounds.bg_graphic_list
 	background_graphics.push_front("ColorBox")
-	background_array = bg_container.bg_list
+	background_array = Backgrounds.bg_list
 	background_array.push_front("ColorBox")
 	navigation.set_align("right")
 	navigation.connect("set_page", _on_set_page)
