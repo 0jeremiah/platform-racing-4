@@ -10,11 +10,8 @@
 	"behaviors": {
 		"bottom": [
 			{
-				"name": "gear",
+				"name": "attach",
 				"params": {
-					"rotation": 90.0,
-					"tick": 4000.0,
-					"tock": 500.0
 				}
 			}
 		]

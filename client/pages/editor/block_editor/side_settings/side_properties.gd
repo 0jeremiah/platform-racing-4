@@ -10,7 +10,6 @@ extends Control
 @onready var custom_stats_options = $CustomStatsOptions
 @onready var enlarge_options = $EnlargeOptions
 @onready var mine_options = $MineOptions
-@onready var gear_options = $GearOptions
 @onready var happy_options = $HappyOptions
 @onready var heart_options = $HeartOptions
 @onready var hurt_options = $HurtOptions
@@ -36,7 +35,6 @@ extends Control
 	"custom_stats": {"label": "Custom Stats Options", "options": {"reset": false, "speed": 50, "accel": 50, "jump": 50, "skill": 50}, "node": custom_stats_options},
 	"enlarge": {"label": "Enlarge Options", "options": {"exact": false, "multiplier": 2.0}, "node": enlarge_options},
 	"mine": {"label": "Mine Options", "options": {"push_strength": 1000.0, "hitstun_duration": 2.5}, "node": mine_options},
-	"gear": {"label": "Gear Options", "options": {"rotation": 90.0, "tick": 4000.0, "tock": 500.0}, "node": gear_options},
 	"happy": {"label": "Happy Options", "options": {"amount": 5}, "node": happy_options},
 	"heart": {"label": "Heart Options", "options": {"hp": 1.0, "exact": false, "invincibility": false}, "node": heart_options},
 	"hurt": {"label": "Hurt Options", "options": {"push_strength": 1000.0, "hitstun_duration": 2.5}, "node": hurt_options},

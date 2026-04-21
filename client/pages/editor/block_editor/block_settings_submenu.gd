@@ -26,63 +26,64 @@ signal control_event
 
 var active: bool = false
 var matter_type_dictionary: Dictionary = {
-	"solid": {"label": "Solid", "setting": "solid"},
-	"liquid": {"label": "Liquid", "setting": "liquid"},
-	"gas": {"label": "Gas", "setting": "gas"}
+	"solid": {"label": "Solid", "setting": ConfigurableBlockSettings.SOLID},
+	"liquid": {"label": "Liquid", "setting": ConfigurableBlockSettings.LIQUID},
+	"gas": {"label": "Gas", "setting": ConfigurableBlockSettings.GAS}
 }
 var solid_type_dictionary: Dictionary = {
-	"active": {"label": "Active", "setting": "active" },
-	"impervious": {"label": "Impervious", "setting": "impervious"},
-	"move": {"label": "Move", "setting": "move"},
-	"change": {"label": "Change", "setting": "change"},
-	"egg": {"label": "Egg", "setting": "egg"}
+	"active": {"label": "Active", "setting": ConfigurableBlockSettings.ACTIVE},
+	"impervious": {"label": "Impervious", "setting": ConfigurableBlockSettings.IMPERVIOUS},
+	"move": {"label": "Move", "setting": ConfigurableBlockSettings.MOVE},
+	"change": {"label": "Change", "setting": ConfigurableBlockSettings.CHANGE},
+	"gear": {"label": "Gear", "setting": ConfigurableBlockSettings.GEAR},
+	"egg": {"label": "Egg", "setting": ConfigurableBlockSettings.EGG}
 }
 var liquid_type_dictionary: Dictionary = {
-	"water": {"label": "Water", "setting": "water"}
+	"water": {"label": "Water", "setting": ConfigurableBlockSettings.WATER}
 }
 var gas_type_dictionary: Dictionary = {
-	"inactive": {"label": "Inactive", "setting": "inactive"},
-	"start_position": {"label": "Start Position", "setting": "startpos"},
-	"sun": {"label": "Sun", "setting": "sun"},
-	"moon": {"label": "Moon", "setting": "moon"},
-	"firefly": {"label": "Firefly", "setting": "firefly"}
+	"inactive": {"label": "Inactive", "setting": ConfigurableBlockSettings.INACTIVE},
+	"start_position": {"label": "Start Position", "setting": ConfigurableBlockSettings.START_POSITION},
+	"sun": {"label": "Sun", "setting": ConfigurableBlockSettings.SUN},
+	"moon": {"label": "Moon", "setting": ConfigurableBlockSettings.MOON},
+	"firefly": {"label": "Firefly", "setting": ConfigurableBlockSettings.FIREFLY}
 }
 var sides_type_dictionary: Dictionary = {
-	"active": {"label": "Active", "setting": "active"},
-	"inactive": {"label": "Inactive", "setting": "inactive"},
-	"appear": {"label": "Appear", "setting": "appear"},
-	"be_pushed": {"label": "Be Pushed", "setting": "push"},
-	"bounce": {"label": "Bounce", "setting": "bounce"},
-	"crumble": {"label": "Crumble", "setting": "crumble"},
-	"sad": {"label": "Dec Stats", "setting": "sad"},
-	"enlarge": {"label": "Enlarge", "setting": "enlarge"},
-	"explode": {"label": "Explode", "setting": "mine"},
-	"finish": {"label": "Finish", "setting": "finish"},
-	"gear": {"label": "Gear", "setting": "gear"},
-	"heart": {"label": "Give HP", "setting": "heart"},
-	"item": {"label": "Give Item", "setting": "item"},
-	"give_stats": {"label": "Give Stats", "setting": "custom_stats"},
-	"give_time": {"label": "Give Time", "setting": "time"},
-	"hurt": {"label": "Hurt", "setting": "hurt"},
-	"ice": {"label": "Ice", "setting": "ice"},
-	"happy": {"label": "Inc Stats", "setting": "happy"},
-	"arrow_down": {"label": "Push Down", "setting": "arrow_down"},
-	"arrow_left": {"label": "Push Left", "setting": "arrow_left"},
-	"arrow_right": {"label": "Push Right", "setting": "arrow_right"},
-	"arrow_up": {"label": "Push Up", "setting": "arrow_up"},
-	"rotate_left": {"label": "Rotate Left", "setting": "rotate_left"},
-	"rotate_right": {"label": "Rotate Right", "setting": "rotate_right"},
-	"safety": {"label": "Safety", "setting": "safety"},
-	"shatter": {"label": "Shatter", "setting": "shatter"},
-	"shrink": {"label": "Shrink", "setting": "shrink"},
-	"sniper": {"label": "Sniper", "setting": "sniper"},
-	"sticky": {"label": "Sticky", "setting": "sticky"},
-	"teleport": {"label": "Teleport", "setting": "teleport"},
-	"vanish": {"label": "Vanish", "setting": "vanish"}
+	"active": {"label": "Active", "setting": ConfigurableBlockSideSettings.ACTIVE},
+	"inactive": {"label": "Inactive", "setting": ConfigurableBlockSideSettings.INACTIVE},
+	"appear": {"label": "Appear", "setting": ConfigurableBlockSideSettings.APPEAR},
+	"attach": {"label": "Attach", "setting": ConfigurableBlockSideSettings.ATTACH},
+	"be_pushed": {"label": "Be Pushed", "setting": ConfigurableBlockSideSettings.PUSH},
+	"bounce": {"label": "Bounce", "setting": ConfigurableBlockSideSettings.BOUNCE},
+	"crumble": {"label": "Crumble", "setting": ConfigurableBlockSideSettings.CRUMBLE},
+	"sad": {"label": "Dec Stats", "setting": ConfigurableBlockSideSettings.SAD},
+	"enlarge": {"label": "Enlarge", "setting": ConfigurableBlockSideSettings.ENLARGE},
+	"explode": {"label": "Explode", "setting": ConfigurableBlockSideSettings.MINE},
+	"finish": {"label": "Finish", "setting": ConfigurableBlockSideSettings.FINISH},
+	"heart": {"label": "Give HP", "setting": ConfigurableBlockSideSettings.HEART},
+	"item": {"label": "Give Item", "setting": ConfigurableBlockSideSettings.ITEM},
+	"give_stats": {"label": "Give Stats", "setting": ConfigurableBlockSideSettings.CUSTOM_STATS},
+	"give_time": {"label": "Give Time", "setting": ConfigurableBlockSideSettings.TIME},
+	"hurt": {"label": "Hurt", "setting": ConfigurableBlockSideSettings.HURT},
+	"ice": {"label": "Ice", "setting": ConfigurableBlockSideSettings.ICE},
+	"happy": {"label": "Inc Stats", "setting": ConfigurableBlockSideSettings.HAPPY},
+	"arrow_down": {"label": "Push Down", "setting": ConfigurableBlockSideSettings.ARROW_DOWN},
+	"arrow_left": {"label": "Push Left", "setting": ConfigurableBlockSideSettings.ARROW_LEFT},
+	"arrow_right": {"label": "Push Right", "setting": ConfigurableBlockSideSettings.ARROW_RIGHT},
+	"arrow_up": {"label": "Push Up", "setting": ConfigurableBlockSideSettings.ARROW_UP},
+	"rotate_left": {"label": "Rotate Left", "setting": ConfigurableBlockSideSettings.ROTATE_LEFT},
+	"rotate_right": {"label": "Rotate Right", "setting": ConfigurableBlockSideSettings.ROTATE_RIGHT},
+	"safety": {"label": "Safety", "setting": ConfigurableBlockSideSettings.SAFETY},
+	"shatter": {"label": "Shatter", "setting": ConfigurableBlockSideSettings.SHATTER},
+	"shrink": {"label": "Shrink", "setting": ConfigurableBlockSideSettings.SHRINK},
+	"sniper": {"label": "Sniper", "setting": ConfigurableBlockSideSettings.SNIPER},
+	"sticky": {"label": "Sticky", "setting": ConfigurableBlockSideSettings.STICKY},
+	"teleport": {"label": "Teleport", "setting": ConfigurableBlockSideSettings.TELEPORT},
+	"vanish": {"label": "Vanish", "setting": ConfigurableBlockSideSettings.VANISH}
 }
 var block_types: Dictionary = {
-	"matter_type": "solid",
-	"block_type": "active"
+	"matter_type": ConfigurableBlockSettings.SOLID,
+	"block_type": ConfigurableBlockSettings.ACTIVE
 }
 var block_properties: Dictionary = {
 	"health": 100.0,
@@ -94,7 +95,9 @@ var block_properties: Dictionary = {
 	"loop_move_pattern": true,
 	"can_change": false,
 	"change_tick": 2.5,
-	"change_pattern": [101, 121, 124, 113]
+	"change_pattern": [101, 121, 124, 113],
+	"item_supply": 1,
+	"stat_supply": 1
 }
 
 func _ready() -> void:

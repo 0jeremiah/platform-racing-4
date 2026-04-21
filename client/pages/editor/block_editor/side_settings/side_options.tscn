@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b753ngytaop2c"]
+[gd_scene load_steps=17 format=3 uid="uid://b753ngytaop2c"]
 
 [ext_resource type="Script" uid="uid://xwobmi1l5ekr" path="res://pages/editor/block_editor/side_settings/side_properties.gd" id="1_cjeuq"]
 [ext_resource type="PackedScene" uid="uid://bnxcbqjex4vje" path="res://pages/editor/block_editor/side_settings/vanish_options/vanish_options.tscn" id="2_cs68q"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bn3la7dl3kaqu" path="res://pages/editor/block_editor/side_settings/custom_stats_options/custom_stats_options.tscn" id="6_162er"]
 [ext_resource type="PackedScene" uid="uid://dgvmjjc72treu" path="res://pages/editor/block_editor/side_settings/size_options/size_options.tscn" id="7_k3dbk"]
 [ext_resource type="PackedScene" uid="uid://cf1ess5ufj6m0" path="res://pages/editor/block_editor/side_settings/hurt_options/hurt_options.tscn" id="8_3bjxk"]
-[ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/side_settings/gear_options/gear_options.tscn" id="9_meu1u"]
 [ext_resource type="PackedScene" uid="uid://cpikgl2pwlyam" path="res://pages/editor/block_editor/side_settings/stat_options/stat_options.tscn" id="10_p5l5i"]
 [ext_resource type="PackedScene" uid="uid://blt75002qubqu" path="res://pages/editor/block_editor/side_settings/heart_options/heart_options.tscn" id="11_go8rp"]
 [ext_resource type="PackedScene" uid="uid://cgypo2pe13qk7" path="res://pages/editor/block_editor/side_settings/ice_options/ice_options.tscn" id="12_oedxn"]
@@ -62,10 +61,6 @@ visible = false
 layout_mode = 0
 
 [node name="MineOptions" parent="." instance=ExtResource("8_3bjxk")]
-visible = false
-layout_mode = 0
-
-[node name="GearOptions" parent="." instance=ExtResource("9_meu1u")]
 visible = false
 layout_mode = 0
 
