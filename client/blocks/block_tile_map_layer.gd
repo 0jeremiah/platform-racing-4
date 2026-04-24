@@ -1,5 +1,5 @@
-class_name ConfigurableTileMapLayer
 extends TileMapLayer
+class_name ConfigurableTileMapLayer
 ## TileMapLayer extension that works with ConfigurableBlock system
 ##
 ## Provides convenience methods to place tiles by block ID instead of requiring

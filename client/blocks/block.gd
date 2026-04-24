@@ -13,6 +13,7 @@ const INVISIBLE_ALT_ID := 1
 const DEACTIVATED_ALT_ID := 2
 const INVISIBLE_DEACTIVATED_ALT_ID := 3
 
+var id: int = 1
 var _config: Dictionary
 var _behaviors: Dictionary
 var physics_type := STATIC
