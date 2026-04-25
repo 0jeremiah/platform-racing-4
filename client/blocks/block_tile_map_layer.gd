@@ -32,7 +32,7 @@ func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 	var textures_seen: Array[String] = []
 
 	for config in configs:
-		if not config.has("id") or not config.has("image"):
+		if not config.has("id") or not (config.has("image") or config.has("custom_image")):
 			continue
 
 		var block_id: String = config.id
@@ -45,6 +45,13 @@ func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 			source_id += 1
 		else:
 			texture_source_id = textures_seen.find(texture_path)
+		
+		var title = "Block"
+		if config.has("title"):
+			title = config.title
+		var comment = ""
+		if config.has("comment"):
+			comment = config.comment
 
 		# Store the mapping
 		_block_lookup[block_id] = {
@@ -52,7 +59,9 @@ func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 			"atlas_coords": Vector2i(
 				config.image.atlas_coords.get("x", 0),
 				config.image.atlas_coords.get("y", 0)
-			)
+			),
+			"title": title,
+			"comment": comment
 		}
 
 

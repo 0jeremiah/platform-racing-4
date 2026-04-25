@@ -20,34 +20,36 @@ static var SUN := "sun"
 static var MOON := "moon"
 static var FIREFLY := "firefly"
 
+static var default_properties: Dictionary = {
+	"health": 100.0,
+	"coin_value": 3,
+	"change_tick": 2.5,
+	"change_pattern": [101, 121, 124, 113],
+	"move_tick": 2.5,
+	"move_pattern": "up, down, left, right",
+	"infinite_items": false,
+	"item_supply": 1,
+	"item_array": Items.default_items,
+	"stat_supply": 1,
+	"gear_rotation": 90.0,
+	"gear_tick": 4000.0,
+	"gear_tock": 2.5
+}
 var matter_type := SOLID
 var block_type := ACTIVE
-var default_change_tick: float = 2.5
-var default_change_pattern: Array = [101, 121, 124, 113]
-var default_move_tick: float = 2.5
-var default_move_pattern: String = "up, down, left, right"
-var default_gear_rotation: float = 90.0
-var default_gear_tick: float = 4000.0
-var default_gear_tock: float = 500.0
-var can_change: bool = false
-var change_tick: float = default_change_tick
-var change_pattern: Array = default_change_pattern
-var can_move: bool = false
-var move_tick: float = default_move_tick
-var move_pattern: String = default_move_pattern
-var can_give_items: bool = false
-var infinite_items: bool = false
-var item_supply: int = 1
-var item_array = Items.default_items
-#var can_finish: bool = false
-var can_give_stats: bool = false
-var stat_supply: int = 1
-var can_rotate: bool = false
-var gear_rotation: float = default_gear_rotation
-var gear_tick: float = default_gear_tick
-var gear_tock: float = default_gear_tock
-var health: float = 100.0
-var coin_value: int = 3
+var health = default_properties.health
+var coin_value = default_properties.coin_value
+var change_tick = default_properties.change_tick
+var change_pattern = default_properties.change_pattern
+var move_tick = default_properties.move_tick
+var move_pattern = default_properties.move_pattern
+var infinite_items = default_properties.infinite_items
+var item_supply = default_properties.item_supply
+var item_array = default_properties.item_array
+var stat_supply = default_properties.stat_supply
+var gear_rotation = default_properties.gear_rotation
+var gear_tick = default_properties.gear_tick
+var gear_tock = default_properties.gear_tock
 var top: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var bottom: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var left: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
@@ -55,7 +57,6 @@ var right: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var bump: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var stand: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var any_side: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
-var sides: Array = ["top", "bottom", "left", "right", "bump", "stand", "any_side"]
 var title: String = "first"
 var comment: String = ""
 
@@ -63,10 +64,7 @@ var comment: String = ""
 func export_settings() -> Dictionary:
 	var settings = {
 		"matter_type": matter_type,
-		"block_type": block_type,
-		"health": health,
-		"stat_supply": stat_supply,
-		"item_supply": item_supply,
+		"block_type": block_type
 	}
 	if matter_type == SOLID:
 		settings.top = top.get_type()
@@ -76,22 +74,30 @@ func export_settings() -> Dictionary:
 		settings.bump = bump.get_type()
 		settings.stand = stand.get_type()
 		settings.any_side = any_side.get_type()
-	if can_give_item():
-		settings.item_array = item_array
-	if change_tick != default_change_tick:
+	if health != default_properties.health:
+		settings.health = health
+	if change_tick != default_properties.change_tick:
 		settings.change_tick = change_tick
-	if change_pattern != default_change_pattern:
+	if change_pattern != default_properties.change_pattern:
 		settings.change_pattern = change_pattern
-	if move_tick != default_move_tick:
+	if move_tick != default_properties.move_tick:
 		settings.move_tick = move_tick
-	if move_pattern != default_move_pattern:
+	if move_pattern != default_properties.move_pattern:
 		settings.move_pattern = move_pattern
-	if gear_rotation != default_gear_rotation:
+	if can_give_item():
+		settings.infinite_items = infinite_items
+		settings.item_supply = item_supply
+		settings.item_array = item_array
+	if stat_supply != default_properties.stat_supply:
+		settings.stat_supply = stat_supply
+	if gear_rotation != default_properties.gear_rotation:
 		settings.gear_rotation = gear_rotation
-	if gear_tick != default_gear_tick:
+	if gear_tick != default_properties.gear_tick:
 		settings.gear_tick = gear_tick
-	if gear_tock != default_gear_tock:
+	if gear_tock != default_properties.gear_tock:
 		settings.gear_tock = gear_tock
+	if coin_value != default_properties.coin_value:
+		settings.coin_value = coin_value
 	var encoded_settings = JSON.stringify(settings)
 	# this was in pr3 to keep block settings from getting too big
 	# dunno if this limitation will be needed, but added this code just in case
@@ -102,8 +108,8 @@ func export_settings() -> Dictionary:
 
 
 func import_settings(new_settings: Dictionary) -> void:
-	var needed_variables = ["block_type", "health", "stat_supply", "item_supply"]
-	if new_settings.matter_type == SOLID:
+	var needed_variables = ["matter_type", "block_type"]
+	if new_settings.has("matter_type") and new_settings.matter_type == SOLID:
 		needed_variables.append_array(["top", "bottom", "left", "right", "bump", "stand", "any_side"])
 	var missing_variables = []
 	for needed_variable in needed_variables:
@@ -123,8 +129,10 @@ func import_settings(new_settings: Dictionary) -> void:
 			bump.set_type(new_settings.bump)
 			stand.set_type(new_settings.stand)
 			any_side.set_type(new_settings.any_side)
-		if new_settings.has("item_array"):
-			item_array = new_settings.item_array
+		if new_settings.has("health"):
+			health = new_settings.health
+		if new_settings.has("coin_value"):
+			coin_value = new_settings.coin_value
 		if new_settings.has("change_tick"):
 			change_tick = new_settings.change_tick
 		if new_settings.has("change_pattern"):
@@ -133,6 +141,14 @@ func import_settings(new_settings: Dictionary) -> void:
 			move_tick = new_settings.move_tick
 		if new_settings.has("move_pattern"):
 			move_pattern = new_settings.move_pattern
+		if new_settings.has("infinite_items"):
+			infinite_items = new_settings.infinite_items
+		if new_settings.has("item_supply"):
+			item_supply = new_settings.item_supply
+		if new_settings.has("item_array"):
+			item_array = new_settings.item_array
+		if new_settings.has("stat_supply"):
+			stat_supply = new_settings.stat_supply
 		if new_settings.has("gear_rotation"):
 			gear_rotation = new_settings.gear_rotation
 		if new_settings.has("gear_tick"):

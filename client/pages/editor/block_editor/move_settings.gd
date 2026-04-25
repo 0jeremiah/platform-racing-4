@@ -9,9 +9,9 @@ signal move_settings_changed
 @onready var parse_results_label = $ParseResultsLabel
 
 var allowed_commands: Array = ["up", "down", "left", "right", "wait", "random", "return"]
-var move_tick: float = 2.5
-var old_move_pattern: String = "up, right, down, left"
-var move_pattern: String = "up, right, down, left"
+var move_tick: float = ConfigurableBlockSettings.default_properties.move_tick
+var old_move_pattern: String = ConfigurableBlockSettings.default_properties.move_pattern
+var move_pattern: String = ConfigurableBlockSettings.default_properties.move_pattern
 var randomize_move_pattern: bool = false
 var loop_move_pattern: bool = true
 
@@ -90,3 +90,15 @@ func _parse_pattern():
 		old_move_pattern = move_pattern
 		emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
 		"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
+
+
+func set_settings(new_settings: Dictionary):
+	if new_settings.has("move_tick"):
+		move_tick = new_settings.move_tick
+	if new_settings.has("move_pattern"):
+		pattern_box.text = new_settings.move_pattern
+		_parse_pattern()
+	if new_settings.has("randomize_move_pattern"):
+		randomize_move_pattern = new_settings.randomize_move_pattern
+	if new_settings.has("loop_move_pattern"):
+		loop_move_pattern = new_settings.loop_move_pattern

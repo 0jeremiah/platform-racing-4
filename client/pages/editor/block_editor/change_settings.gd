@@ -10,8 +10,8 @@ signal change_settings_changed
 @onready var teleport_colorin_texture = $SelectedBlockTexture/TeleportColorinTexture
 
 var tile_atlas = preload("res://tiles/tileatlas.png")
-var change_tick: float = 2.5
-var change_block_list: Array = [101, 121, 124, 113]
+var change_tick: float = ConfigurableBlockSettings.default_properties.change_tick
+var change_pattern: Array = ConfigurableBlockSettings.default_properties.change_pattern
 var quick_click_timer: float = 0.3
 var quick_click: bool = false
 var from_block_picker: bool = true
@@ -21,7 +21,7 @@ var selected_block_id: int = 0
 
 
 func _ready() -> void:
-	tick_box.init("float", "2.5", 0.0, 99999999.9)
+	tick_box.init("float", str(change_tick), 0.0, 99999999.9)
 	tick_box.return_line.connect(_update_tick)
 	block_picker.block_clicked.connect(_drag_block)
 	_update_block_list()
@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 					_maybe_add_block(selected_block_id)
 			elif Rect2(Vector2.ZERO, scroll_container.size).has_point(scroll_container.get_local_mouse_position()):
 				var block_index = int(block_dropoff_position.x + (blocks_container.columns * block_dropoff_position.y))
-				if block_index < change_block_list.size():
+				if block_index < change_pattern.size():
 					_maybe_add_block(selected_block_id, block_index)
 				else:
 					_maybe_add_block(selected_block_id)
@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 func _update_block_list():
 	for child in blocks_container.get_children():
 		child.free()
-	for block in change_block_list.size():
+	for block in change_pattern.size():
 		var block_container = Control.new()
 		block_container.size = Vector2(58, 58)
 		block_container.custom_minimum_size = Vector2(58, 58)
@@ -69,19 +69,19 @@ func _update_block_list():
 		block_button.stretch_mode = 0
 		block_button.texture_normal = AtlasTexture.new()
 		block_button.texture_normal.atlas = tile_atlas
-		var atlas_coords = CoordinateUtils.to_atlas_coords(change_block_list[block])
+		var atlas_coords = CoordinateUtils.to_atlas_coords(change_pattern[block])
 		block_button.texture_normal.region = Rect2(128 * atlas_coords.x, 128 * atlas_coords.y, 128, 128)
 		block_button.texture_normal.filter_clip = true
 		block_button.size = Vector2(48, 48)
 		block_button.position = Vector2(5, 5)
 		block_button.pivot_offset = Vector2(block_button.size.x / 2, block_button.size.y / 2)
 		var _block_data = {
-			"block_id": change_block_list[block],
+			"block_id": change_pattern[block],
 			"block_atlas_coords": atlas_coords,
 			"block_index": block
 			}
-		if CoordinateUtils.to_true_block_id(change_block_list[block]) == 33:
-			_block_data.get_or_add("teleport_colorin_coords", CoordinateUtils.to_atlas_coords(change_block_list[block] + 1))
+		if CoordinateUtils.to_true_block_id(change_pattern[block]) == 33:
+			_block_data.get_or_add("teleport_colorin_coords", CoordinateUtils.to_atlas_coords(change_pattern[block] + 1))
 			_block_data.get_or_add("teleport_color", "E22B2E")
 		block_container.add_child(block_button)
 		blocks_container.add_child(block_container)
@@ -90,10 +90,11 @@ func _update_block_list():
 
 func _update_tick(new_change_tick: float) -> void:
 	change_tick = new_change_tick
+	emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})
 
 
 func _select_block(block_data: Dictionary):
-	change_block_list.remove_at(block_data.block_index)
+	change_pattern.remove_at(block_data.block_index)
 	_update_block_list()
 	block_data.erase("block_index")
 	quick_click = true
@@ -122,10 +123,10 @@ func update_block_icon(block_data: Dictionary):
 		teleport_colorin_texture.self_modulate = Color(block_data.teleport_color + "7F")
 
 
-func _maybe_add_block(id: int, index: int = change_block_list.size()):
-	if change_block_list.size() < 150:
-		change_block_list.insert(index, id)
-		emit_signal("change_settings_changed", {"change_tick": change_tick, "change_block_list": change_block_list})
+func _maybe_add_block(id: int, index: int = change_pattern.size()):
+	if change_pattern.size() < 150:
+		change_pattern.insert(index, id)
+		emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})
 	_update_block_list()
 
 
@@ -142,3 +143,11 @@ func _check_clicked_button(node: Node):
 		else:
 			button.scale = Vector2(1, 1)
 			button.self_modulate = Color(1, 1, 1)
+
+
+func set_settings(new_settings: Dictionary):
+	if new_settings.has("change_tick"):
+		change_tick = new_settings.change_tick
+	if new_settings.has("change_pattern"):
+		change_pattern = new_settings.change_pattern
+		_update_block_list()
