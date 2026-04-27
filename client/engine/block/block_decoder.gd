@@ -5,8 +5,8 @@ signal level_event
 
 
 func decode(block: Dictionary, block_layers: BlockLayers) -> void:
-	var properties = block.get("properties", {})
-	var block_art_layers = block.get("art_layers", [])
+	var settings = block.get("settings", {})
+	var block_art_layers = block.custom_image.get("art_layers", [])
 	if block_art_layers.is_empty():
 		block_art_layers.append({"name": "Layer 1"})
 		

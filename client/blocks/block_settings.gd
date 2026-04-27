@@ -160,7 +160,7 @@ func import_settings(new_settings: Dictionary) -> void:
 		for missing_variable in missing_variables:
 			missing_variables_string = missing_variable + " ,"
 		missing_variables_string.substr(0, missing_variables_string.length() - 2)
-		push_error("These variables for this block are missing: " + missing_variables_string + ".")
+		push_warning("These variables for this block are missing: " + missing_variables_string + ".")
 
 
 func get_side_types() -> Array:

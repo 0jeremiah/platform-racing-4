@@ -14,7 +14,6 @@ func _ready() -> void:
 
 func _encode_and_decode_block_image() -> void:
 	await RenderingServer.frame_post_draw
-	print(sub_viewport.get_texture().get_image().get_size(), sub_viewport.get_texture().get_image().get_format(), sub_viewport.get_texture().get_image().has_mipmaps())
 	var buffer_size = sub_viewport.get_texture().get_image().get_data().size()
 	var width = sub_viewport.get_texture().get_image().get_width()
 	var height = sub_viewport.get_texture().get_image().get_height()

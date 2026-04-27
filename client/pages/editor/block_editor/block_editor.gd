@@ -21,12 +21,25 @@ static var block_editor: Node
 @onready var editor_menu: Node2D = $UI/EditorMenu
 
 var default_block: Dictionary = {
-	"layers": [{
-		"name": "Layer 1",
-		"lines": [],
-		"stamps": [],
-		"texts": []
-	}]
+	"title": "Basic Block 1",
+	"description": "Bland, but at least it gets the job done.",
+	"settings": {
+		"matter_type": ConfigurableBlockSettings.SOLID,
+		"block_type": ConfigurableBlockSettings.ACTIVE,
+		"health": 100,
+		"stat_supply": 1,
+		"item_supply": 1,
+		"left": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"right": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"top": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"bottom": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"bump": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"stand": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
+		"any_side": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}}
+	},
+	"custom_image": {
+		"art_layers": []
+		}
 }
 
 
@@ -57,17 +70,19 @@ func _ready():
 	penciler.init(block_manager.block_layers, editor_events, null)
 	
 	var block
-	if BlockEditor.current_block:
-		block = BlockEditor.current_block
-		block_manager.decode_block(BlockEditor.current_block, true)
-	else:
-		var saved_block = FileManager.load_from_file()
-		if saved_block:
-			block = saved_block
-			block_manager.decode_block(saved_block, true)
-		else:
-			block = default_block
-			block_manager.decode_block(default_block, true)
+	#if BlockEditor.current_block:
+		#block = BlockEditor.current_block
+		#block_manager.decode_block(BlockEditor.current_block, true)
+	#else:
+		#var saved_block = FileManager.load_from_file()
+		#if saved_block:
+			#block = saved_block
+			#block_manager.decode_block(saved_block, true)
+		#else:
+			#block = default_block
+			#block_manager.decode_block(default_block, true)
+	block = default_block
+	block_manager.decode_block(default_block, true)
 	
 	#var block_settings: Dictionary = {}
 	
