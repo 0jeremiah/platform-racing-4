@@ -1,20 +1,14 @@
 {
-	"id": "sun",
-	"display_name": "Sun",
-	"matter_type": "gas",
-	"is_safe": false,
+	"id": "38",
+	"title": "Sun Lightbreaker",
+	"description": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
+	"settings": {
+		"matter_type": "gas",
+		"block_type": "lightbreak",
+		"area": {"type": "firefly", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 6, "y": 3}
-	},
-	"behaviors": {
-		"area": [
-			{
-				"name": "charge_lightbreak",
-				"params": {
-					"lightbreak_type": "sun"
-				}
-			}
-		]
+		"atlas_coords": {"x": 8, "y": 3}
 	}
 }

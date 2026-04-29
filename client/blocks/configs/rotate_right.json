@@ -1,21 +1,20 @@
 {
-	"id": "rotate_right",
-	"display_name": "Rotate Right",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "23",
+	"title": "Rotate Right Block",
+	"description": "The world is still spinning, but in the opposite direction!",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "rotate_right", "params": {"rotations": -1, "rotation_speed": 0.025}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 1, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "rotate_right",
-				"params": {
-					"rotations": 1,
-					"rotation_speed": 0.025
-				}
-			}
-		]
+		"atlas_coords": {"x": 2, "y": 2}
 	}
 }

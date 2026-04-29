@@ -1,21 +1,20 @@
 {
-	"id": "enlarge",
-	"display_name": "Enlarge",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "40",
+	"title": "Enlarge Block",
+	"description": "Bumping this block turns you into a towering giant! (or turns you back to normal if you were already small.)",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "enlarge", "params": {"exact": false, "multiplier": 2.0}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 0, "y": 4}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "change_size",
-				"params": {
-					"exact": true,
-					"multiplier": 2.0
-				}
-			}
-		]
 	}
 }

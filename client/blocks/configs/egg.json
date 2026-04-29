@@ -1,12 +1,20 @@
 {
-	"id": "egg",
-	"display_name": "Egg",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "31",
+	"title": "Alien Egg",
+	"description": "This mischevious creature attacks anyone that gets in its way.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "egg",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 0, "y": 3}
-	},
-	"behaviors": {
 	}
 }

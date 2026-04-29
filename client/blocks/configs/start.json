@@ -1,12 +1,13 @@
 {
-	"id": "start",
-	"display_name": "Start",
-	"matter_type": "gas",
-	"is_safe": false,
+	"id": "12",
+	"title": "Start Block",
+	"description": "Marks a poNumber where players may start the level.",
+	"settings": {
+		"matter_type": "gas",
+		"block_type": "start_position"
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 1, "y": 1}
-	},
-	"behaviors": {
 	}
 }

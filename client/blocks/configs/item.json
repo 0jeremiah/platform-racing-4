@@ -1,22 +1,22 @@
 {
-	"id": "item",
-	"display_name": "Item",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "11",
+	"title": "Item Block",
+	"description": "One item per customer.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {"item_array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}},
+		"stand": {"type": "item", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"infinite_items": false,
+		"item_supply": 1
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 0, "y": 1}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "item",
-				"params": {
-					"amount": 1,
-					"infinite": false,
-					"item_list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-				}
-			}
-		]
 	}
 }

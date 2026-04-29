@@ -1,20 +1,21 @@
 {
-	"id": "sad",
-	"display_name": "Sad",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "28",
+	"title": "Sad Block",
+	"description": "It's so sad. This block will share its sadness with you by decreasing your stats if bumped.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "sad", "params": {"amount": 5}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"stat_supply": 1
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 7, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "sad",
-				"params": {
-					"amount": 5
-				}
-			}
-		]
 	}
 }

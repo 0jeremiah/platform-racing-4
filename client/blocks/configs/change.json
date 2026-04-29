@@ -1,12 +1,22 @@
 {
-	"id": "change",
-	"display_name": "Change",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "14",
+	"title": "Change Block",
+	"description": "Multiple personality disorder in block form.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "change",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"change_tick": 2.5,
+		"change_pattern": [101, 121, 124, 113]
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 3, "y": 1}
-	},
-	"behaviors": {
 	}
 }

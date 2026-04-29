@@ -1,21 +1,20 @@
 {
-	"id": "vanish",
-	"display_name": "Vanish",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "19",
+	"title": "Vanish Block",
+	"description": "Touch it, and poof! It's gone. No worries, though. It'll come back.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 8, "y": 1}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "vanish",
-				"params": {
-					"animation_duration": 0.3,
-					"cooldown": 2.0
-				}
-			}
-		]
 	}
 }

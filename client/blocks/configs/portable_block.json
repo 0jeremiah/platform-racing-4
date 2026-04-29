@@ -1,21 +1,20 @@
 {
-	"id": "portable_block",
-	"display_name": "Portable_Block",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "44",
+	"title": "Portable Block",
+	"description": "A spawnable block you can bring with you, although since it's cheap, it's not really all that sturdy.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 4, "y": 4}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "crumble",
-				"params": {
-					"armor": 10,
-					"damage_ration": 0.03
-				}
-			}
-		]
 	}
 }

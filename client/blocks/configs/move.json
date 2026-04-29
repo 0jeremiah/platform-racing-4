@@ -1,12 +1,22 @@
 {
-	"id": "move",
-	"display_name": "Move",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "20",
+	"title": "Move Block",
+	"description": "Where is it going? The world may never know... (PCs are much more faster than in 2007, but it's still a good idea to use this block sparingly.)",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "move",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"move_tick": 2.5,
+		"move_pattern": "up, down, left, right"
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 9, "y": 1}
-	},
-	"behaviors": {
 	}
 }

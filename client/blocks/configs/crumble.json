@@ -1,21 +1,20 @@
 {
-	"id": "crumble",
-	"display_name": "Crumble",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "18",
+	"title": "Crumble Block",
+	"description": "A block that shatters if it is hit too many times.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 7, "y": 1}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "crumble",
-				"params": {
-					"armor": 10.0,
-					"damage_ratio": 0.03
-				}
-			}
-		]
 	}
 }

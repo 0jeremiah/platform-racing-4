@@ -1,22 +1,23 @@
 {
-	"id": "heart",
-	"display_name": "Heart",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "29",
+	"title": "Heart Block",
+	"description": "Gives you +1 HP in deathmatches, and makes you temporarily invincible!",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"health": 100.0,
+		"stat_supply": 1,
+		"item_supply": 1,
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "heart", "params": {"hp": 1.0, "exact": false, "invincibility": false}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 8, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "heart",
-				"params": {
-					"hp": 1,
-					"exact": false,
-					"invincibility": true
-				}
-			}
-		]
 	}
 }

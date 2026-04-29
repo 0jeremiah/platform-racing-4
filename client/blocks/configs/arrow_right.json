@@ -1,21 +1,20 @@
 {
-	"id": "arrow_right",
-	"display_name": "Arrow Right",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "9",
+	"title": "Right Arrow Block",
+	"description": "Run right really fast! (or left really slowly.) It's kind of like a conveyer belt, except cooler.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "arrow_right", "params": {"force": 125.0, "direction": {"x": 1.0, "y": 0.0}}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 8, "y": 0}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "push",
-				"params": {
-					"force": 125,
-					"direction": {"x": 1, "y": 0}
-				}
-			}
-		]
 	}
 }

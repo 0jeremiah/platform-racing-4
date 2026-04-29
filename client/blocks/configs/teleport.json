@@ -1,22 +1,21 @@
 {
-	"id": "teleport",
-	"display_name": "Teleport",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "33",
+	"title": "Teleport Block",
+	"description": "Teleports a player to another teleport of the same color if it exists.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "teleport", "params": {"color": "FF7F50", "throttle_ms": 1000.0}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 2, "y": 3}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "teleport",
-				"params": {
-					"color": "FF7F50",
-					"throttle_ms": 1000.0,
-					"colorin_coords": {"x": 3, "y": 3}
-				}
-			}
-		]
+		"atlas_coords": {"x": 2, "y": 3},
+		"teleport_atlas_coords": {"x": 3, "y": 3}
 	}
 }

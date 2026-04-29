@@ -1,22 +1,22 @@
 {
-	"id": "infinite_item",
-	"display_name": "Infinite Item",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "26",
+	"title": "Infinite Item Block",
+	"description": "Grab as many items as you like! This item block will never run out. Items for all!",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {"item_array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}},
+		"stand": {"type": "item", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"infinite_items": true,
+		"item_supply": 9999999
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 5, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "item",
-				"params": {
-					"amount": 9999999,
-					"infinite": true,
-					"item_list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-				}
-			}
-		]
 	}
 }

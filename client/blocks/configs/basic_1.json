@@ -1,12 +1,20 @@
 {
-	"id": "basic_1",
-	"display_name": "Basic 1",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "1",
+	"title": "Basic Block 1",
+	"description": "Bland, but at least it gets the job done.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 0, "y": 0}
-	},
-	"behaviors": {
 	}
 }

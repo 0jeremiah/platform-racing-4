@@ -1,20 +1,21 @@
 {
-	"id": "happy",
-	"display_name": "Happy",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "27",
+	"title": "Happy Block",
+	"description": "It's so happy! This block will share its happiness with you by boosting your stats if bumped.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "happy", "params": {"amount": 5}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"stat_supply": 1
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 6, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "happy",
-				"params": {
-					"amount": 5
-				}
-			}
-		]
 	}
 }

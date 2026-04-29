@@ -1,13 +1,14 @@
 {
-	"id": "inf_item",
-	"display_name": "Infinite Item",
-	"matter_type": "solid",
-	"block_type": "water",
-	"is_safe": true,
+	"id": "21",
+	"title": "Water Block",
+	"description": "Swim!",
+	"settings": {
+		"matter_type": "liquid",
+		"block_type": "water",
+		"area": {"type": "water", "params": {"liquid_friction": 2.0}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 0, "y": 2}
-	},
-	"behaviors": {
 	}
 }

@@ -1,20 +1,14 @@
 {
-	"id": "firefly",
-	"display_name": "Firefly",
-	"matter_type": "gas",
-	"is_safe": false,
+	"id": "38",
+	"title": "Firefly Lightbreaker",
+	"description": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
+	"settings": {
+		"matter_type": "gas",
+		"block_type": "lightbreak",
+		"area": {"type": "firefly", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 8, "y": 3}
-	},
-	"behaviors": {
-		"area": [
-			{
-				"name": "charge_lightbreak",
-				"params": {
-					"lightbreak_type": "firefly"
-				}
-			}
-		]
 	}
 }

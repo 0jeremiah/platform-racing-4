@@ -1,20 +1,20 @@
 {
-	"id": "time",
-	"display_name": "Time",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "30",
+	"title": "Time Block",
+	"description": "Need some more time? Then bump this block to get an extra 10 seconds in levels.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "time", "params": {"seconds": 10.0}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 9, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "time",
-				"params": {
-					"seconds": 10.0
-				}
-			}
-		]
 	}
 }

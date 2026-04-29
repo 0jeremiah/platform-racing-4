@@ -1,24 +1,21 @@
 {
-	"id": "custom_stats",
-	"display_name": "Custom Stats",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "32",
+	"title": "Custom Stats Block",
+	"description": "Sets the player's stats to whatever you choose. Default settings is 50/50/50/50.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "custom_stats", "params": {"reset": false, "speed": 50, "accel": 50, "jump": 50, "skill": 50}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"stat_supply": 1
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 1, "y": 3}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "custom_stats",
-				"params": {
-					"reset": false,
-					"speed": 50,
-					"accel": 50,
-					"jump": 50,
-					"skill": 50
-				}
-			}
-		]
 	}
 }

@@ -1,21 +1,20 @@
 {
-	"id": "appear",
-	"display_name": "Appear",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "39",
+	"title": "Appear Block",
+	"description": "Peekaboo! This block hides in plain sight, appears when it is touched, and disappears the moment you stop touching it.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "appear", "params": {"animation_duration": 0.3, "cooldown": 2.0}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 9, "y": 3}
-	},
-	"behaviors": {
-		"any_side": [
-			{
-				"name": "appear",
-				"params": {
-					"animation_duration": 0.3,
-					"cooldown": 2.0
-				}
-			}
-		]
 	}
 }

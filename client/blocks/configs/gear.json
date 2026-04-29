@@ -1,19 +1,23 @@
 {
-	"id": "gear",
-	"display_name": "Gear",
-	"matter_type": "solid",
-	"is_safe": false,
+	"id": "34",
+	"title": "Gear Block",
+	"description": "New-age industrial machine that can rotate any blocks connected to the bottom of it.",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "gear",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "attach", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"gear_rotation": 90.0,
+		"gear_tick": 4000.0,
+		"gear_tock": 2.5
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
 		"atlas_coords": {"x": 4, "y": 3}
-	},
-	"behaviors": {
-		"bottom": [
-			{
-				"name": "attach",
-				"params": {
-				}
-			}
-		]
 	}
 }

@@ -1,21 +1,20 @@
 {
-	"id": "rotate_left",
-	"display_name": "Rotate Left",
-	"matter_type": "solid",
-	"is_safe": true,
+	"id": "22",
+	"title": "Rotate Left Block",
+	"description": "The wheels on the bus go round and round, round and round, round and round...",
+	"settings": {
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "rotate_left", "params": {"rotations": 1, "rotation_speed": 0.025}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 2, "y": 2}
-	},
-	"behaviors": {
-		"bump": [
-			{
-				"name": "rotate_left",
-				"params": {
-					"rotations": -1,
-					"rotation_speed": 0.025
-				}
-			}
-		]
+		"atlas_coords": {"x": 1, "y": 2}
 	}
 }

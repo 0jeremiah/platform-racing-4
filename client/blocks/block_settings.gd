@@ -29,7 +29,6 @@ static var default_properties: Dictionary = {
 	"move_pattern": "up, down, left, right",
 	"infinite_items": false,
 	"item_supply": 1,
-	"item_array": Items.default_items,
 	"stat_supply": 1,
 	"gear_rotation": 90.0,
 	"gear_tick": 4000.0,
@@ -45,7 +44,6 @@ var move_tick = default_properties.move_tick
 var move_pattern = default_properties.move_pattern
 var infinite_items = default_properties.infinite_items
 var item_supply = default_properties.item_supply
-var item_array = default_properties.item_array
 var stat_supply = default_properties.stat_supply
 var gear_rotation = default_properties.gear_rotation
 var gear_tick = default_properties.gear_tick
@@ -76,6 +74,8 @@ func export_settings() -> Dictionary:
 		settings.any_side = any_side.get_type()
 	if health != default_properties.health:
 		settings.health = health
+	if stat_supply != default_properties.stat_supply:
+		settings.stat_supply = stat_supply
 	if change_tick != default_properties.change_tick:
 		settings.change_tick = change_tick
 	if change_pattern != default_properties.change_pattern:
@@ -87,7 +87,6 @@ func export_settings() -> Dictionary:
 	if can_give_item():
 		settings.infinite_items = infinite_items
 		settings.item_supply = item_supply
-		settings.item_array = item_array
 	if stat_supply != default_properties.stat_supply:
 		settings.stat_supply = stat_supply
 	if gear_rotation != default_properties.gear_rotation:
@@ -131,6 +130,10 @@ func import_settings(new_settings: Dictionary) -> void:
 			any_side.set_type(new_settings.any_side)
 		if new_settings.has("health"):
 			health = new_settings.health
+		if new_settings.has("stat_supply"):
+			stat_supply = new_settings.stat_supply
+		if new_settings.has("item_supply"):
+			item_supply = new_settings.item_supply
 		if new_settings.has("coin_value"):
 			coin_value = new_settings.coin_value
 		if new_settings.has("change_tick"):
@@ -145,8 +148,6 @@ func import_settings(new_settings: Dictionary) -> void:
 			infinite_items = new_settings.infinite_items
 		if new_settings.has("item_supply"):
 			item_supply = new_settings.item_supply
-		if new_settings.has("item_array"):
-			item_array = new_settings.item_array
 		if new_settings.has("stat_supply"):
 			stat_supply = new_settings.stat_supply
 		if new_settings.has("gear_rotation"):
