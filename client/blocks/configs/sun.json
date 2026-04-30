@@ -1,14 +1,14 @@
 {
-	"id": "38",
+	"id": "36",
 	"title": "Sun Lightbreaker",
 	"description": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
 	"settings": {
 		"matter_type": "gas",
 		"block_type": "lightbreak",
-		"area": {"type": "firefly", "params": {}}
+		"area": {"type": "sun", "params": {}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",
-		"atlas_coords": {"x": 8, "y": 3}
+		"atlas_coords": {"x": 6, "y": 3}
 	}
 }

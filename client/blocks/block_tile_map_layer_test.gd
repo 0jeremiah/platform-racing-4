@@ -14,6 +14,8 @@ func _ready() -> void:
 	var configs: Array = _load_all_configs()
 	print("Loaded %d block configs" % configs.size())
 
+	configs.sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
+
 	# Setup ConfigurableTileMapLayer with all configs
 	tile_map_layer.setup_from_configs(configs)
 	print("Created tileset with %d blocks" % configs.size())
@@ -57,12 +59,14 @@ func _place_blocks(configs: Array) -> void:
 		var block_id: String = config.get("id", "")
 		if block_id.is_empty():
 			continue
+		
+		var block_name: String = config.get("title", block_id)
 
 		# Place the tile using the simple set_cell_by_id API
 		var tile_coords := Vector2i(grid_x, grid_y)
 		tile_map_layer.set_cell_by_id(tile_coords, block_id)
 
-		print("Placed %s at grid (%d, %d)" % [block_id, grid_x, grid_y])
+		print("Placed %s at grid (%d, %d)" % [block_name, grid_x, grid_y])
 
 		# Move to next grid position
 		grid_x += 1
