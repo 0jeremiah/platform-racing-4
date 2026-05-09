@@ -20,23 +20,26 @@ static var items := {
 	"sword": {"id": 13, "name": "Sword"},
 	"teleport": {"id": 14, "name": "Teleport"}
 }
-static var default_items := []
-static var item_names := []
 
 
-func _ready() -> void:
+static func get_default_item_ids() -> Array:
+	var default_item_ids = []
 	for item in items:
-		default_items.append(item.id)
-		item_names.append(item.name)
+		default_item_ids.append(items[item].id)
+	return default_item_ids
 
 
-static func get_default_items() -> Array:
-	return default_items
+static func get_default_item_names() -> Array:
+	var default_item_names = []
+	for item in items:
+		default_item_names.append(items[item].names)
+	return default_item_names
 
 
 static func get_item_name(item_id: int) -> String:
-	if item_id >= 0 and item_id < item_names.size():
-		return item_names[item_id]
+	for item in items:
+		if items[item].id == item_id:
+			return item.name
 	return ""
 
 

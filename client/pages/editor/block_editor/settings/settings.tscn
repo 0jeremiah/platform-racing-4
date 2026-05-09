@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bb5jf3xljqq0b"]
+
+[ext_resource type="PackedScene" uid="uid://ckwqld05aho6m" path="res://pages/editor/block_editor/settings/general_settings/general_settings.tscn" id="1_g37d5"]
+[ext_resource type="Script" uid="uid://cvc6wtjiu5nd5" path="res://pages/editor/block_editor/settings/settings.gd" id="1_tjyb6"]
+[ext_resource type="PackedScene" uid="uid://cr7ulk55e2boc" path="res://pages/editor/block_editor/settings/item_settings/item_settings.tscn" id="2_tjyb6"]
+[ext_resource type="PackedScene" uid="uid://b1o1xoha5nwl" path="res://pages/editor/block_editor/settings/stat_settings/stat_settings.tscn" id="3_kttlq"]
+[ext_resource type="PackedScene" uid="uid://cmlxrvie5uemp" path="res://pages/editor/block_editor/settings/teleport_settings/teleport_settings.tscn" id="3_y0t45"]
+[ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/settings/gear_settings/gear_settings.tscn" id="4_v131o"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 330.0
+offset_bottom = 110.0
+script = ExtResource("1_tjyb6")
+
+[node name="GeneralSettings" parent="." instance=ExtResource("1_g37d5")]
+visible = false
+layout_mode = 0
+
+[node name="StatSettings" parent="." instance=ExtResource("3_kttlq")]
+visible = false
+layout_mode = 0
+
+[node name="ItemSettings" parent="." instance=ExtResource("2_tjyb6")]
+visible = false
+layout_mode = 0
+
+[node name="TeleportSettings" parent="." instance=ExtResource("3_y0t45")]
+visible = false
+layout_mode = 0
+
+[node name="GearSettings" parent="." instance=ExtResource("4_v131o")]
+visible = false
+layout_mode = 0

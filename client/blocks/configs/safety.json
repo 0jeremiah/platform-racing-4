@@ -1,8 +1,8 @@
 {
 	"id": "25",
-	"title": "Safety Block",
-	"description": "Protects racers from high falls, restricted areas, or other kinds of danger by teleporting them to their last safe location.",
 	"settings": {
+		"title": "Safety Block",
+		"description": "Protects racers from high falls, restricted areas, or other kinds of danger by teleporting them to their last safe location.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

@@ -1,8 +1,8 @@
 {
 	"id": "12",
-	"title": "Start Block",
-	"description": "Marks a poNumber where players may start the level.",
 	"settings": {
+		"title": "Start Block",
+		"description": "Marks a poNumber where players may start the level.",
 		"matter_type": "gas",
 		"block_type": "start_position"
 	},

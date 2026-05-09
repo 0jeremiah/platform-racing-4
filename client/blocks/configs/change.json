@@ -1,8 +1,8 @@
 {
 	"id": "14",
-	"title": "Change Block",
-	"description": "Multiple personality disorder in block form.",
 	"settings": {
+		"title": "Change Block",
+		"description": "Multiple personality disorder in block form.",
 		"matter_type": "solid",
 		"block_type": "change",
 		"left": {"type": "active", "params": {}},

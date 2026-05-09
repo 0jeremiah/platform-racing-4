@@ -1,16 +1,16 @@
 {
 	"id": "11",
-	"title": "Item Block",
-	"description": "One item per customer.",
 	"settings": {
+		"title": "Item Block",
+		"description": "One item per customer.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "active", "params": {"item_array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}},
-		"stand": {"type": "item", "params": {}},
+		"bump": {"type": "item", "params": {"item_array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}},
+		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
 		"infinite_items": false,
 		"item_supply": 1

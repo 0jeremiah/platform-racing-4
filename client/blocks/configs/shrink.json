@@ -1,15 +1,15 @@
 {
 	"id": "41",
-	"title": "Shrink Block",
-	"description": "Bumping this block turns you into a size of a mouse! (or turns you back to normal if you were already big.)",
 	"settings": {
+		"title": "Shrink Block",
+		"description": "Bumping this block turns you into a size of a mouse! (or turns you back to normal if you were already big.)",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "shrink", "params": {"exact": false, "multiplier": 0.5}},
+		"bump": {"type": "change_size", "params": {"exact": false, "multiplier": 0.5}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}}
 	},

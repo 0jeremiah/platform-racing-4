@@ -1,8 +1,8 @@
 {
 	"id": "13",
-	"title": "Bounce Block",
-	"description": "It's like a trampoline that doesn't obey the laws of physics.",
 	"settings": {
+		"title": "Bounce Block",
+		"description": "It's like a trampoline that doesn't obey the laws of physics.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

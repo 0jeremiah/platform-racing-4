@@ -1,15 +1,15 @@
 {
 	"id": "40",
-	"title": "Enlarge Block",
-	"description": "Bumping this block turns you into a towering giant! (or turns you back to normal if you were already small.)",
 	"settings": {
+		"title": "Enlarge Block",
+		"description": "Bumping this block turns you into a towering giant! (or turns you back to normal if you were already small.)",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "enlarge", "params": {"exact": false, "multiplier": 2.0}},
+		"bump": {"type": "change_size", "params": {"exact": false, "multiplier": 2.0}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}}
 	},

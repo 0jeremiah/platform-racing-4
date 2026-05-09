@@ -1,8 +1,8 @@
 {
 	"id": "2",
-	"title": "Basic Block 2",
-	"description": "Bland, but at least it comes with peanuts.",
 	"settings": {
+		"title": "Basic Block 2",
+		"description": "Bland, but at least it comes with peanuts.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

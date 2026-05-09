@@ -87,6 +87,7 @@ func _process(_delta: float) -> void:
 		visible = false
 
 
+# TODO: change this to accomodate the new side setting properties node
 func _set_current_block(block_data: Dictionary) -> void:
 	selected_block_id = block_data.block_id
 	var teleport_colorin_coords = Vector2i(-1, -1)

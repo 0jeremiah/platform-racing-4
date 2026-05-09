@@ -16,9 +16,8 @@ static var WATER := "water"
 
 static var INACTIVE := "inactive"
 static var START_POSITION := "start_position"
-static var SUN := "sun"
-static var MOON := "moon"
-static var FIREFLY := "firefly"
+static var PRESENCE_SWITCH := "presence_switch"
+static var LIGHTBREAKER := "lightbreaker"
 
 static var default_properties: Dictionary = {
 	"health": 100.0,
@@ -27,27 +26,21 @@ static var default_properties: Dictionary = {
 	"change_pattern": [101, 121, 124, 113],
 	"move_tick": 2.5,
 	"move_pattern": "up, down, left, right",
+	"randomize_move_pattern": false,
+	"loop_move_pattern": true,
 	"infinite_items": false,
 	"item_supply": 1,
 	"stat_supply": 1,
 	"gear_rotation": 90.0,
 	"gear_tick": 4000.0,
-	"gear_tock": 2.5
+	"gear_tock": 2.5,
+	"teleport_color": "FF7F50",
+	"teleport_throttle_ms": 1000.0
 }
+var title: String = "block"
+var comment: String = ""
 var matter_type := SOLID
 var block_type := ACTIVE
-var health = default_properties.health
-var coin_value = default_properties.coin_value
-var change_tick = default_properties.change_tick
-var change_pattern = default_properties.change_pattern
-var move_tick = default_properties.move_tick
-var move_pattern = default_properties.move_pattern
-var infinite_items = default_properties.infinite_items
-var item_supply = default_properties.item_supply
-var stat_supply = default_properties.stat_supply
-var gear_rotation = default_properties.gear_rotation
-var gear_tick = default_properties.gear_tick
-var gear_tock = default_properties.gear_tock
 var top: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var bottom: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var left: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
@@ -55,8 +48,23 @@ var right: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var bump: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var stand: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var any_side: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
-var title: String = "first"
-var comment: String = ""
+var area: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
+var health = default_properties.health
+var coin_value = default_properties.coin_value
+var change_tick = default_properties.change_tick
+var change_pattern = default_properties.change_pattern
+var move_tick = default_properties.move_tick
+var move_pattern = default_properties.move_pattern
+var randomize_move_pattern = default_properties.randomize_move_pattern
+var loop_move_pattern = default_properties.loop_move_pattern
+var infinite_items = default_properties.infinite_items
+var item_supply = default_properties.item_supply
+var stat_supply = default_properties.stat_supply
+var gear_rotation = default_properties.gear_rotation
+var gear_tick = default_properties.gear_tick
+var gear_tock = default_properties.gear_tock
+var teleport_color: String = default_properties.teleport_color
+var teleport_throttle_ms: float = default_properties.teleport_throttle_ms
 
 
 func export_settings() -> Dictionary:
@@ -64,52 +72,68 @@ func export_settings() -> Dictionary:
 		"matter_type": matter_type,
 		"block_type": block_type
 	}
+	
 	if matter_type == SOLID:
-		settings.top = top.get_type()
-		settings.bottom = bottom.get_type()
-		settings.left = left.get_type()
-		settings.right = right.get_type()
-		settings.bump = bump.get_type()
-		settings.stand = stand.get_type()
-		settings.any_side = any_side.get_type()
+		settings["top"] = top.get_type()
+		settings["bottom"] = bottom.get_type()
+		settings["left"] = left.get_type()
+		settings["right"] = right.get_type()
+		settings["bump"] = bump.get_type()
+		settings["stand"] = stand.get_type()
+		settings["any_side"] = any_side.get_type()
+	elif matter_type == LIQUID or matter_type == GAS:
+		settings["area"] = area.get_type()
+		
 	if health != default_properties.health:
-		settings.health = health
-	if stat_supply != default_properties.stat_supply:
-		settings.stat_supply = stat_supply
-	if change_tick != default_properties.change_tick:
-		settings.change_tick = change_tick
-	if change_pattern != default_properties.change_pattern:
-		settings.change_pattern = change_pattern
-	if move_tick != default_properties.move_tick:
-		settings.move_tick = move_tick
-	if move_pattern != default_properties.move_pattern:
-		settings.move_pattern = move_pattern
-	if can_give_item():
-		settings.infinite_items = infinite_items
-		settings.item_supply = item_supply
-	if stat_supply != default_properties.stat_supply:
-		settings.stat_supply = stat_supply
-	if gear_rotation != default_properties.gear_rotation:
-		settings.gear_rotation = gear_rotation
-	if gear_tick != default_properties.gear_tick:
-		settings.gear_tick = gear_tick
-	if gear_tock != default_properties.gear_tock:
-		settings.gear_tock = gear_tock
+		settings["health"] = health
 	if coin_value != default_properties.coin_value:
-		settings.coin_value = coin_value
-	var encoded_settings = JSON.stringify(settings)
+		settings["coin_value"] = coin_value
+	if stat_supply != default_properties.stat_supply:
+		settings["stat_supply"] = stat_supply
+	if change_tick != default_properties.change_tick:
+		settings["change_tick"] = change_tick
+	if change_pattern != default_properties.change_pattern:
+		settings["change_pattern"] = change_pattern
+	if move_tick != default_properties.move_tick:
+		settings["move_tick"] = move_tick
+	if move_pattern != default_properties.move_pattern:
+		settings["move_pattern"] = move_pattern
+	if has_side_type(ConfigurableBlockSideSettings.ITEM):
+		settings["infinite_items"] = infinite_items
+		settings["item_supply"] = item_supply
+	if stat_supply != default_properties.stat_supply:
+		settings["stat_supply"] = stat_supply
+	if gear_rotation != default_properties.gear_rotation:
+		settings["gear_rotation"] = gear_rotation
+	if gear_tick != default_properties.gear_tick:
+		settings["gear_tick"] = gear_tick
+	if gear_tock != default_properties.gear_tock:
+		settings["gear_tock"] = gear_tock
+	if teleport_color != default_properties.teleport_color:
+		settings["teleport_color"] = teleport_color
+	if teleport_throttle_ms != default_properties.teleport_throttle_ms:
+		settings["teleport_throttle_ms"] = teleport_throttle_ms
 	# this was in pr3 to keep block settings from getting too big
 	# dunno if this limitation will be needed, but added this code just in case
-	if encoded_settings.length() > 2000:
-		PopupManager.add_message_popup("Sorry, but the settings for this block are too large! It will not fit in the database :(.\nPlease lessen or remove any settings or side settings you think might be the offender(s) and try again.")
-		return {}
+	
+	#var encoded_settings = JSON.stringify(settings)
+	#if encoded_settings.length() > 2000:
+		#PopupManager.add_message_popup("Sorry, but the settings for this block are too large! It will not fit in the database :(.\nPlease lessen or remove any settings or side settings you think might be the offender(s) and try again.")
+		#return {}
+		
 	return settings
 
 
 func import_settings(new_settings: Dictionary) -> void:
+	if new_settings.has("title"):
+		title = new_settings.title
+	if new_settings.has("comment"):
+		comment = new_settings.comment
 	var needed_variables = ["matter_type", "block_type"]
 	if new_settings.has("matter_type") and new_settings.matter_type == SOLID:
 		needed_variables.append_array(["top", "bottom", "left", "right", "bump", "stand", "any_side"])
+	elif new_settings.has("matter_type") and (new_settings.matter_type == LIQUID or new_settings.matter_type == GAS):
+		needed_variables.append_array(["area"])
 	var missing_variables = []
 	for needed_variable in needed_variables:
 		if !new_settings.has(needed_variable):
@@ -117,9 +141,6 @@ func import_settings(new_settings: Dictionary) -> void:
 	if missing_variables.is_empty():
 		matter_type = new_settings.matter_type
 		block_type = new_settings.block_type
-		health = new_settings.health
-		stat_supply = new_settings.stat_supply
-		item_supply = new_settings.item_supply
 		if new_settings.matter_type == SOLID:
 			top.set_type(new_settings.top)
 			bottom.set_type(new_settings.bottom)
@@ -128,6 +149,9 @@ func import_settings(new_settings: Dictionary) -> void:
 			bump.set_type(new_settings.bump)
 			stand.set_type(new_settings.stand)
 			any_side.set_type(new_settings.any_side)
+		if new_settings.matter_type == LIQUID or new_settings.matter_type == GAS:
+			area.set_type(new_settings.area)
+		
 		if new_settings.has("health"):
 			health = new_settings.health
 		if new_settings.has("stat_supply"):
@@ -156,6 +180,10 @@ func import_settings(new_settings: Dictionary) -> void:
 			gear_tick = new_settings.gear_tick
 		if new_settings.has("gear_tock"):
 			gear_tock = new_settings.gear_tock
+		if new_settings.has("teleport_color"):
+			teleport_color = new_settings.teleport_color
+		if new_settings.has("teleport_throttle_ms"):
+			teleport_throttle_ms = new_settings.teleport_throttle_ms
 	else:
 		var missing_variables_string = ""
 		for missing_variable in missing_variables:
@@ -164,11 +192,34 @@ func import_settings(new_settings: Dictionary) -> void:
 		push_warning("These variables for this block are missing: " + missing_variables_string + ".")
 
 
+
 func get_side_types() -> Array:
-	return [top.type, bottom.type, left.type, right.type, bump.type, stand.type, any_side.type]
+	if matter_type == SOLID:
+		return [top.type, bottom.type, left.type, right.type, bump.type, stand.type, any_side.type]
+	elif matter_type == LIQUID or matter_type == GAS:
+		return [area.type]
+	return []
 
 
-func can_give_item() -> bool:
-	if get_side_types().has(ConfigurableBlockSideSettings.ITEM):
+func has_side_type(_side_type: String) -> bool:
+	if get_side_types().has(_side_type):
 		return true
 	return false
+
+
+func get_sides() -> Dictionary:
+	if matter_type == SOLID:
+		return {
+			"top": top,
+			"bottom": bottom,
+			"left": left,
+			"right": right,
+			"bump": bump,
+			"stand": stand,
+			"any_side": any_side
+		}
+	elif matter_type == LIQUID or matter_type == GAS:
+		return {
+			"area": area
+		}
+	return {}

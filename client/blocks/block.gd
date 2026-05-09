@@ -14,9 +14,8 @@ const DEACTIVATED_ALT_ID := 2
 const INVISIBLE_DEACTIVATED_ALT_ID := 3
 
 var id: int = 1
+var settings = ConfigurableBlockSettings.new()
 var _config: Dictionary
-var _behaviors: Dictionary
-var physics_type := STATIC
 var matter_type := SOLID
 var is_safe: bool = true
 var health_dict = {}
@@ -25,19 +24,19 @@ var health_dict = {}
 func init(config: Dictionary) -> void:
 	print("Block::init ", config)
 	_config = config
-	_behaviors = _config.get("behaviors", {})
+	settings.import_settings(config.settings)
 	matter_type = _config.get("matter_type", ConfigurableBlock.SOLID)
-	physics_type = _config.get("physics_type", "static")
 	is_safe = _config.get("is_safe", true)
 
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
-	print("Block::on " + event)
-	if event not in _behaviors:
+	#print("Block::on " + event)
+	var current_sides = settings.get_sides()
+	if event not in current_sides:
 		return
-
-	for behavior in _behaviors[event]:
-		BlockBehaviors.call(behavior.name, body, tile_map_layer, coords, behavior.params)
+			
+	if BlockBehaviors.has_method(current_sides[event].type):
+		BlockBehaviors.call(current_sides[event].type, body, tile_map_layer, coords, self, current_sides[event].params)
 
 
 func get_center_position(tile_map_layer: TileMapLayer, coords: Vector2i) -> Vector2:
@@ -79,40 +78,40 @@ func get_slug(tile_map_layer: TileMapLayer, coords: Vector2i) -> String:
 	return str(tile_map_layer.get_path()) + "/" + str(coords)
 
 
-## Shatters the block
-func shatter(tile_map_layer: TileMapLayer, coords: Vector2i):
-	TileEffects.shatter(tile_map_layer, coords, 10)
-	Jukebox.play_sound("shatterblock")
-
-
+### Shatters the block
+#func shatter(tile_map_layer: TileMapLayer, coords: Vector2i):
+	#TileEffects.shatter(tile_map_layer, coords, 10)
+	#Jukebox.play_sound("shatterblock")
+#
+#
 ## Crumbles the block by how fast the node is moving
-func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary):
+#func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary):
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block
 	# this is vector projection
-	if "movement" not in node:
-		return
-	var key = get_slug(tile_map_layer, coords)
-	var magnitude = node.movement.last_velocity.length()
-	var direction = node.movement.last_collision_normal
-	var dot = node.movement.last_velocity.dot(direction)
-	var projection = (dot / direction.length_squared()) * direction
-	var magnitude_towards = projection.length()
-	var damage = (magnitude_towards * params.get("damage_ratio", 0.03)) - params.get("armor", 10.0)
-	var pieces = 1
-	if damage > 0:
-		var tile_health = health_dict.get(key, params.get("health", 100.0))
-		tile_health -= damage
-		health_dict[key] = tile_health
-		print(damage)
-		if tile_health <= 0:
-			TileEffects.shatter(tile_map_layer, coords, 10)
-			health_dict.remove(key)
-		else:
-			while damage > 0:
-				damage -= 9
-				pieces += 1
-			TileEffects.crumble(tile_map_layer, coords, pieces)
+	#if "movement" not in node:
+		#return
+	#var key = get_slug(tile_map_layer, coords)
+	#var magnitude = node.movement.last_velocity.length()
+	#var direction = node.movement.last_collision_normal
+	#var dot = node.movement.last_velocity.dot(direction)
+	#var projection = (dot / direction.length_squared()) * direction
+	#var magnitude_towards = projection.length()
+	#var damage = (magnitude_towards * params.get("damage_ratio", 0.03)) - params.get("armor", 10.0)
+	#var pieces = 1
+	#if damage > 0:
+		#var tile_health = health_dict.get(key, params.get("health", 100.0))
+		#tile_health -= damage
+		#health_dict[key] = tile_health
+		#print(damage)
+		#if tile_health <= 0:
+			#TileEffects.shatter(tile_map_layer, coords, 10)
+			#health_dict.remove(key)
+		#else:
+			#while damage > 0:
+				#damage -= 9
+				#pieces += 1
+			#TileEffects.crumble(tile_map_layer, coords, pieces)
 	# print({
 	#	"key": key,
 	#	"player_velocity" :player.last_velocity,
@@ -122,20 +121,11 @@ func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, param
 	#	"projection": projection,
 	#	"magnitude_towards": magnitude_towards
 	#})
-
-
-func finish(node: Node2D) -> void:
-	if "movement" not in node or "finished" not in node.movement:
-		return
-	if !node.movement.finished:
-		node.movement.finished = true
-		Jukebox.play_sound("victory")
-
-
-func happy(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary):
-	if "stats" not in node:
-		return
-	if is_active(tile_map_layer, coords):
-		node.stats.inc_all(params.amount)
-		Jukebox.play_sound("bumphappy")
-		deactivate(tile_map_layer, coords)
+#
+#
+#func finish(node: Node2D) -> void:
+	#if "movement" not in node or "finished" not in node.movement:
+		#return
+	#if !node.movement.finished:
+		#node.movement.finished = true
+		#Jukebox.play_sound("victory")

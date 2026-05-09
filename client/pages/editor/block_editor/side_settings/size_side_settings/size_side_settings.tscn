@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgvmjjc72treu"]
+
+[ext_resource type="Script" uid="uid://c7obbdnc5cnev" path="res://pages/editor/block_editor/side_settings/size_side_settings/size_side_settings.gd" id="1_c5say"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_u335p"]
+
+[node name="SizeSideSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 70.0
+script = ExtResource("1_c5say")
+
+[node name="MultiplierLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Multiplier:"
+vertical_alignment = 1
+
+[node name="MultiplierBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "2.0"
+script = ExtResource("2_u335p")
+
+[node name="ExactCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 120.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 17
+text = "Set size exactly"

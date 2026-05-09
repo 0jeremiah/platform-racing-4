@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt64chg1cqotb"]
+
+[ext_resource type="Script" uid="uid://d0bdwbdjjr08p" path="res://blocks/tests/crumble_test.gd" id="1_2g0w4"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_vd47b"]
+[ext_resource type="PackedScene" uid="uid://dx0rkxfnt7mlj" path="res://blocks/tests/test_ball.tscn" id="3_fsn0s"]
+
+[node name="CrumbleTest" type="Node2D"]
+script = ExtResource("1_2g0w4")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("2_vd47b")
+
+[node name="Ball" parent="." instance=ExtResource("3_fsn0s")]
+position = Vector2(512, 256)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)

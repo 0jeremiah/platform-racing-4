@@ -110,7 +110,7 @@ func _physics_process(delta: float) -> void:
 	camera_controller.process(delta, position, rotation, lightbreak.is_active())
 	
 	# Update animations
-	scale = movement.size
+	scale = Vector2(movement.size, movement.size)
 	animation.process(self, movement, super_jump)
 	
 	# Check boundaries

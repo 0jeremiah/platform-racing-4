@@ -10,7 +10,7 @@ var can_jump: bool = true
 var is_crouching: bool = false
 var previous_velocity: Vector2 = Vector2(0, 0)
 var last_velocity: Vector2 = Vector2(0, 0)
-var size: Vector2 = Vector2(1, 1)
+var size: float = 1
 var last_collision_normal: Vector2 = Vector2(0, 0)
 var attempting_bump: bool = false
 var last_bumped_block: Dictionary = {}
@@ -28,6 +28,8 @@ var hitstun_timer: float = 0.0
 var hitstun_duration: float = 0.0
 var shielded: bool = false
 var on_sticky_block: bool = false
+var speed_stickiness: float = 2.5
+var jump_stickiness: float = 8
 var is_wall_sliding: bool = false
 var wall_sliding_dir: int = 0
 var can_wall_jump: bool = true
@@ -141,11 +143,9 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 
 	# Handle jump strength/velocity increment for regular jumps
 	if not_rotating and jumped:
-		var current_jump_velocity
+		var current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity")
 		if on_sticky_block:
-			current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity") / 8
-		else:
-			current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity")
+			current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity") / jump_stickiness
 		velocity += Vector2(0, current_jump_velocity).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_movement", "player_coyote_jump_time"))
 		jump_timer -= 1
 		if jump_timer <= 0:
@@ -189,11 +189,9 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		if !hurt and is_crouching:
 			control_axis = control_axis / 2
 		
-		var current_speed
+		var current_speed = GameConfig.get_value("player_movement", "player_speed")
 		if on_sticky_block:
-			current_speed = GameConfig.get_value("player_movement", "player_speed") / 2.5
-		else:
-			current_speed = GameConfig.get_value("player_movement", "player_speed")
+			current_speed = GameConfig.get_value("player_movement", "player_speed") / speed_stickiness
 		on_sticky_block = false
 		
 		var target_velocity = Vector2(control_axis * (current_speed * speedburst_boost) * stats.get_speed_bonus(), 
@@ -254,9 +252,9 @@ func hitstun(duration: float):
 		frozen_timer = 0
 		frozen = false
 		hurt = true
-		if size.y >= 0.75 and size.y <= 1.25:
+		if size >= 0.75 and size <= 1.25:
 			Jukebox.play_sound("ouch")
-		elif size.y < 0.75:
+		elif size < 0.75:
 			Jukebox.play_sound("ouchcute")
 		else:
-			Jukebox.play_sound("ouchmanlu")
+			Jukebox.play_sound("ouchmanly")

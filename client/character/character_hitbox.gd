@@ -14,7 +14,7 @@ func _ready():
 
 
 func run(character: Character) -> void:
-	hitbox_size = character.movement.size
+	hitbox_size = Vector2(character.movement.size, character.movement.size)
 	if character.is_on_floor():
 		go_low()
 	elif character.lightbreak.is_active():

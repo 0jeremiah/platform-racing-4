@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgphqa2wxjw7x"]
+
+[ext_resource type="Script" uid="uid://c2grtd2a4neg8" path="res://blocks/tests/arrow_test.gd" id="1_521oa"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_x5xjk"]
+[ext_resource type="PackedScene" uid="uid://dx0rkxfnt7mlj" path="res://blocks/tests/test_ball.tscn" id="3_sfrwn"]
+
+[node name="ArrowTest" type="Node2D"]
+script = ExtResource("1_521oa")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("2_x5xjk")
+
+[node name="Ball" parent="." instance=ExtResource("3_sfrwn")]
+position = Vector2(512, 256)
+mass = 41.242
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)

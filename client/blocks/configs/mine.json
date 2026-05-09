@@ -1,8 +1,8 @@
 {
 	"id": "10",
-	"title": "Mine Block",
-	"description": "Explodes rather painfully if something or someone touches it.",
 	"settings": {
+		"title": "Mine Block",
+		"description": "Explodes rather painfully if something or someone touches it.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "mine", "params": {"push_strength": 1000.0, "hitstun_duration": 2.5}}
+		"any_side": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

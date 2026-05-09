@@ -1,8 +1,8 @@
 {
 	"id": "portable_block",
-	"title": "Portable Block",
-	"description": "A spawnable block you can bring with you, although since it's cheap, it's not really all that sturdy.",
 	"settings": {
+		"title": "Portable Block",
+		"description": "A spawnable block you can bring with you, although since it's cheap, it's not really all that sturdy.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

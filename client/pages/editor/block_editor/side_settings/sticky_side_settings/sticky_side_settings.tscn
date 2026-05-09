@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://b47d7ej33ul63"]
+
+[ext_resource type="Script" uid="uid://bu24st8mdciqb" path="res://pages/editor/block_editor/side_settings/sticky_side_settings/sticky_side_settings.gd" id="1_2ls2q"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_irfqr"]
+
+[node name="StickySideSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 270.0
+offset_bottom = 70.0
+script = ExtResource("1_2ls2q")
+
+[node name="SpeedStickinessLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Speed Stickiness:"
+vertical_alignment = 1
+
+[node name="SpeedStickinessBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 270.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "2.5"
+script = ExtResource("2_irfqr")
+
+[node name="JumpStickinessLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 160.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Jump Stickiness:"
+vertical_alignment = 1
+
+[node name="JumpStickinessBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 40.0
+offset_right = 260.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "8.0"
+script = ExtResource("2_irfqr")

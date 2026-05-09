@@ -1,0 +1,89 @@
+[gd_scene load_steps=16 format=3 uid="uid://b753ngytaop2c"]
+
+[ext_resource type="Script" uid="uid://xwobmi1l5ekr" path="res://pages/editor/block_editor/side_settings/side_settings.gd" id="1_o5mjo"]
+[ext_resource type="PackedScene" uid="uid://bnxcbqjex4vje" path="res://pages/editor/block_editor/side_settings/vanish_side_settings/vanish_side_settings.tscn" id="2_2apnj"]
+[ext_resource type="PackedScene" uid="uid://1e8nna0xfuha" path="res://pages/editor/block_editor/side_settings/arrow_side_settings/arrow_side_settings.tscn" id="3_b76p8"]
+[ext_resource type="PackedScene" uid="uid://bujitk64bixt6" path="res://pages/editor/block_editor/side_settings/bounce_side_settings/bounce_side_settings.tscn" id="4_8dbfa"]
+[ext_resource type="PackedScene" uid="uid://qmyqrjqjb3au" path="res://pages/editor/block_editor/side_settings/crumble_side_settings/crumble_side_settings.tscn" id="5_itkae"]
+[ext_resource type="PackedScene" uid="uid://bn3la7dl3kaqu" path="res://pages/editor/block_editor/side_settings/custom_stats_side_settings/custom_stats_side_settings.tscn" id="6_w3tas"]
+[ext_resource type="PackedScene" uid="uid://cf1ess5ufj6m0" path="res://pages/editor/block_editor/side_settings/hurt_side_settings/hurt_side_settings.tscn" id="7_2ajet"]
+[ext_resource type="PackedScene" uid="uid://blt75002qubqu" path="res://pages/editor/block_editor/side_settings/heart_side_settings/heart_side_settings.tscn" id="8_4s0aa"]
+[ext_resource type="PackedScene" uid="uid://cgypo2pe13qk7" path="res://pages/editor/block_editor/side_settings/ice_side_settings/ice_side_settings.tscn" id="9_3vh6w"]
+[ext_resource type="PackedScene" uid="uid://chw1pdiv6n0xj" path="res://pages/editor/block_editor/side_settings/item_side_settings/item_side_settings.tscn" id="10_jejyo"]
+[ext_resource type="PackedScene" uid="uid://b8dq4mhyuvhuk" path="res://pages/editor/block_editor/side_settings/rotate_side_settings/rotate_side_settings.tscn" id="11_v2wgq"]
+[ext_resource type="PackedScene" uid="uid://dgvmjjc72treu" path="res://pages/editor/block_editor/side_settings/size_side_settings/size_side_settings.tscn" id="12_2msyn"]
+[ext_resource type="PackedScene" uid="uid://cpikgl2pwlyam" path="res://pages/editor/block_editor/side_settings/stat_side_settings/stat_side_settings.tscn" id="13_50l8i"]
+[ext_resource type="PackedScene" uid="uid://b47d7ej33ul63" path="res://pages/editor/block_editor/side_settings/sticky_side_settings/sticky_side_settings.tscn" id="14_66j5b"]
+[ext_resource type="PackedScene" uid="uid://tpiqbb0lnjp5" path="res://pages/editor/block_editor/side_settings/time_side_settings/time_side_settings.tscn" id="15_akc0p"]
+
+[node name="SideSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 410.0
+offset_bottom = 320.0
+script = ExtResource("1_o5mjo")
+
+[node name="AppearSideSettings" parent="." instance=ExtResource("2_2apnj")]
+visible = false
+layout_mode = 0
+
+[node name="ArrowSideSettings" parent="." instance=ExtResource("3_b76p8")]
+visible = false
+layout_mode = 0
+offset_bottom = 110.0
+
+[node name="BounceSideSettings" parent="." instance=ExtResource("4_8dbfa")]
+visible = false
+layout_mode = 0
+
+[node name="CrumbleSideSettings" parent="." instance=ExtResource("5_itkae")]
+visible = false
+layout_mode = 0
+
+[node name="CustomStatsSideSettings" parent="." instance=ExtResource("6_w3tas")]
+visible = false
+layout_mode = 0
+
+[node name="MineSideSettings" parent="." instance=ExtResource("7_2ajet")]
+visible = false
+layout_mode = 0
+
+[node name="HeartSideSettings" parent="." instance=ExtResource("8_4s0aa")]
+visible = false
+layout_mode = 0
+
+[node name="HurtSideSettings" parent="." instance=ExtResource("7_2ajet")]
+visible = false
+layout_mode = 0
+
+[node name="IceSideSettings" parent="." instance=ExtResource("9_3vh6w")]
+visible = false
+layout_mode = 0
+
+[node name="ItemSideSettings" parent="." instance=ExtResource("10_jejyo")]
+visible = false
+layout_mode = 0
+
+[node name="RotateSideSettings" parent="." instance=ExtResource("11_v2wgq")]
+visible = false
+layout_mode = 0
+
+[node name="SizeSideSettings" parent="." instance=ExtResource("12_2msyn")]
+visible = false
+layout_mode = 0
+
+[node name="StatsSideSettings" parent="." instance=ExtResource("13_50l8i")]
+visible = false
+layout_mode = 0
+
+[node name="StickySideSettings" parent="." instance=ExtResource("14_66j5b")]
+visible = false
+layout_mode = 0
+
+[node name="TimeSideSettings" parent="." instance=ExtResource("15_akc0p")]
+visible = false
+layout_mode = 0
+
+[node name="VanishSideSettings" parent="." instance=ExtResource("2_2apnj")]
+visible = false
+layout_mode = 0

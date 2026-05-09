@@ -1,8 +1,8 @@
 {
 	"id": "3",
-	"title": "Basic Block 3",
-	"description": "Bland, but at least it's hardy.",
 	"settings": {
+		"title": "Basic Block 3",
+		"description": "Bland, but at least it's hardy.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

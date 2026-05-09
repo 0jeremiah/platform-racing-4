@@ -21,6 +21,6 @@ func set_stats():
 
 func happy(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	if is_active(tile_map_layer, coords):
-		player.stats.inc_all(increment)
+		player.stats.change_stats(increment)
 		Jukebox.play_sound("bumphappy")
 		deactivate(tile_map_layer, coords)

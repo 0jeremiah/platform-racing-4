@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbetyev51eiij"]
+
+[ext_resource type="Script" uid="uid://c42o7xg3bxumi" path="res://blocks/tests/brick_test.gd" id="1_fgnij"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_7f4o0"]
+[ext_resource type="PackedScene" uid="uid://dx0rkxfnt7mlj" path="res://blocks/tests/test_ball.tscn" id="3_f4pdv"]
+
+[node name="BrickTest" type="Node2D"]
+script = ExtResource("1_fgnij")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("2_7f4o0")
+
+[node name="Ball" parent="." instance=ExtResource("3_f4pdv")]
+position = Vector2(512, 256)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)

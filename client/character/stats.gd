@@ -2,10 +2,14 @@ class_name Stats
 ## Manages character stats and provides bonus calculations.
 ## Stats include jump, speed, acceleration, and skill attributes.
 
-var jump: int = 50
-var speed: int = 50
-var accel: int = 50
-var skill: int = 50
+var start_speed: int = 50
+var start_accel: int = 50
+var start_jump: int = 50
+var start_skill: int = 50
+var jump: int = start_speed
+var speed: int = start_accel
+var accel: int = start_jump
+var skill: int = start_skill
 var force: int = 0
 
 
@@ -49,32 +53,24 @@ func apply_force() -> float:
 	return force
 
 
-func inc_all(num: int) -> void:
-	jump += num
-	speed += num
-	accel += num
-	skill += num
-	enforce_limits()
-
-func dec_all(num: int) -> void:
-	jump -= num
-	speed -= num
-	accel -= num
-	skill -= num
-	enforce_limits()
-
-func set_stats(newspeed: int, newaccel: int, newjump: int, newskill: int) -> void:
-	speed = newspeed
-	accel = newaccel
-	jump = newjump
-	skill = newskill
+func change_stats(num: int) -> void:
+	speed = clamp(speed + num, 0, 100)
+	accel = clamp(accel + num, 0, 100)
+	jump = clamp(jump + num, 0, 100)
+	skill = clamp(skill + num, 0, 100)
 
 
-func enforce_limits() -> void:
-	jump = clamp(jump, 0, 100)
-	speed = clamp(speed, 0, 100)
-	accel = clamp(accel, 0, 100)
-	skill = clamp(skill, 0, 100)
+func set_stats(newspeed: int, newaccel: int, newjump: int, newskill: int, reset: bool = false) -> void:
+	if reset:
+		speed = clamp(start_speed, 0, 100)
+		accel = clamp(start_accel, 0, 100)
+		jump = clamp(start_jump, 0, 100)
+		skill = clamp(start_skill, 0, 100)
+	else:
+		speed = clamp(newspeed, 0, 100)
+		accel = clamp(newaccel, 0, 100)
+		jump = clamp(newjump, 0, 100)
+		skill = clamp(newskill, 0, 100)
 
 
 func get_total() -> Array:

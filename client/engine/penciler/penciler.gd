@@ -39,11 +39,11 @@ func _on_level_event(event: Dictionary) -> void:
 		var coords_key = str(coords.x) + "_" + str(coords.y)
 		var block_options: Array = []
 		
-		if event.has("block_options"):
-			if event.block_options is Array:
-				block_options = event.block_options
-			elif event.block_options is TileOptions:
-				block_options = event.block_options.data
+		#if event.has("block_options"):
+			#if event.block_options is Array:
+				#block_options = event.block_options
+			#elif event.block_options is TileOptions:
+				#block_options = event.block_options.data
 		
 		if event.has("timestamp"):
 			var new_timestamp = event.timestamp

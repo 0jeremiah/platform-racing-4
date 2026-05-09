@@ -21,7 +21,7 @@ func _setup_visual_test() -> void:
 	var mine_config := BlockTestUtils.load_config("res://blocks/configs/mine.json")
 	var tile_map_layer: ConfigurableTileMapLayer = $TileMapLayer
 	tile_map_layer.setup_from_configs([mine_config])
-	tile_map_layer.set_cell_by_id(MINE_COORDS, "mine")
+	tile_map_layer.set_cell_by_id(MINE_COORDS, mine_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = $Ball
@@ -95,7 +95,7 @@ func _create_test_scene() -> Node2D:
 	var mine_config := BlockTestUtils.load_config("res://blocks/configs/mine.json")
 	var tile_map_layer: ConfigurableTileMapLayer = scene.get_node("TileMapLayer")
 	tile_map_layer.setup_from_configs([mine_config])
-	tile_map_layer.set_cell_by_id(MINE_COORDS, "mine")
+	tile_map_layer.set_cell_by_id(MINE_COORDS, mine_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = scene.get_node("Ball")

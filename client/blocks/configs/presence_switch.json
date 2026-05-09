@@ -1,11 +1,11 @@
 {
 	"id": "35",
-	"title": "Presence Switch",
-	"description": "Just walk into this block, and any gear in the level will move automatically! Wow!",
 	"settings": {
+		"title": "Presence Switch",
+		"description": "Just walk into this block, and any gear in the level will move automatically! Wow!",
 		"matter_type": "gas",
 		"block_type": "switch",
-		"area": {"type": "switch", "params": {"activate_list": [35], "limit_range": false, "width": 10, "height": 10}}
+		"area": {"type": "presence_switch", "params": {"activate_list": [35], "limit_range": false, "width": 10, "height": 10}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

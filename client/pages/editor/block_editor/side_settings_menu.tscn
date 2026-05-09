@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://emdtyv7dn5i7"]
+
+[ext_resource type="Script" uid="uid://by0wc2klo47u2" path="res://pages/editor/block_editor/side_settings_menu.gd" id="1_jgxbj"]
+[ext_resource type="PackedScene" uid="uid://b753ngytaop2c" path="res://pages/editor/block_editor/side_settings/side_settings.tscn" id="2_ajtoq"]
+[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="3_6cnar"]
+
+[node name="SideSettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 500.0
+offset_bottom = 360.0
+script = ExtResource("1_jgxbj")
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 500.0
+offset_bottom = 44.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 190.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Current side setting:"
+vertical_alignment = 1
+
+[node name="SideSettingsDropdownButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 200.0
+offset_right = 500.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "None"
+
+[node name="SideSettings" parent="." instance=ExtResource("2_ajtoq")]
+layout_mode = 0
+offset_top = 50.0
+offset_right = 500.0
+offset_bottom = 360.0
+
+[node name="DropdownPopup" parent="." instance=ExtResource("3_6cnar")]
+visible = false

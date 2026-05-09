@@ -160,9 +160,9 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 			if tile_id == 0:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-			var tile_options:Array = []
-			if chunk.has("options") and chunk.options[i] != null:
-				tile_options = chunk.options[i]
+			#var tile_options:Array = []
+			#if chunk.has("options") and chunk.options[i] != null:
+				#tile_options = chunk.options[i]
 			
 			# Emit set tile event
 			emit_signal("level_event", {
@@ -170,5 +170,5 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
 				"block_id": tile_id,
-				"block_options": tile_options
+				#"block_options": tile_options
 			})

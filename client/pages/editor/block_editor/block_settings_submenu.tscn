@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://de82uiivhctdk"]
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
-[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_stool"]
+[ext_resource type="PackedScene" uid="uid://dy3och52t1v7o" path="res://pages/editor/block_editor/settings_menu.tscn" id="2_stool"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
 [ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/move_settings.tscn" id="3_oeqcc"]
-[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings.tscn" id="4_ybjga"]
+[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings_menu.tscn" id="4_ybjga"]
 [ext_resource type="PackedScene" uid="uid://cqfs7as8jr3yl" path="res://pages/editor/block_editor/change_settings.tscn" id="5_cx6ho"]
 
 [node name="BlockSettingsSubmenu" type="Control"]
@@ -19,7 +19,7 @@ layout_mode = 0
 offset_right = 290.0
 offset_bottom = 150.0
 
-[node name="SidesSettingsSeperator" type="HSeparator" parent="."]
+[node name="BlockSidesSeperator" type="HSeparator" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -27,7 +27,7 @@ offset_top = 140.0
 offset_right = 270.0
 offset_bottom = 144.0
 
-[node name="SidesOptionsSeperator" type="VSeparator" parent="."]
+[node name="SidesSettingsSeperator" type="VSeparator" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 280.0
@@ -35,7 +35,7 @@ offset_top = 20.0
 offset_right = 284.0
 offset_bottom = 340.0
 
-[node name="GeneralSettingsSeperator" type="HSeparator" parent="."]
+[node name="SettingsSeperator" type="HSeparator" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -120,49 +120,16 @@ offset_top = 150.0
 offset_right = 270.0
 offset_bottom = 150.0
 
-[node name="GeneralSettings" type="Control" parent="."]
+[node name="SettingsContainer" type="ScrollContainer" parent="."]
 visible = false
-anchors_preset = 0
+layout_mode = 0
 offset_left = 20.0
 offset_top = 170.0
-offset_right = 230.0
-offset_bottom = 240.0
+offset_right = 270.0
+offset_bottom = 320.0
 
-[node name="HealthLabel" type="RichTextLabel" parent="GeneralSettings"]
-layout_mode = 0
-offset_right = 70.0
-offset_bottom = 30.0
-theme_override_font_sizes/normal_font_size = 20
-text = "Health:"
-vertical_alignment = 1
-
-[node name="CoinValueLimitLabel" type="RichTextLabel" parent="GeneralSettings"]
-layout_mode = 0
-offset_top = 40.0
-offset_right = 110.0
-offset_bottom = 70.0
-theme_override_font_sizes/normal_font_size = 20
-text = "Coin Value:"
-vertical_alignment = 1
-
-[node name="HealthBox" type="LineEdit" parent="GeneralSettings"]
-layout_mode = 0
-offset_left = 70.0
-offset_right = 170.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 16
-text = "100.0"
-script = ExtResource("2_stool")
-
-[node name="CoinValueBox" type="LineEdit" parent="GeneralSettings"]
-layout_mode = 0
-offset_left = 110.0
-offset_top = 40.0
-offset_right = 210.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 16
-text = "3"
-script = ExtResource("2_stool")
+[node name="SettingsMenu" parent="SettingsContainer" instance=ExtResource("2_stool")]
+layout_mode = 2
 
 [node name="MoveSettings" parent="." instance=ExtResource("3_oeqcc")]
 visible = false
@@ -180,15 +147,15 @@ offset_top = 260.0
 offset_right = 702.0
 offset_bottom = 518.0
 
-[node name="SideOptionsContainer" type="ScrollContainer" parent="."]
+[node name="SideSettingsContainer" type="ScrollContainer" parent="."]
 visible = false
 layout_mode = 0
 offset_left = 290.0
 offset_top = 20.0
-offset_right = 740.0
+offset_right = 790.0
 offset_bottom = 380.0
 
-[node name="SideOptions" parent="SideOptionsContainer" instance=ExtResource("4_ybjga")]
+[node name="SideSettingsMenu" parent="SideSettingsContainer" instance=ExtResource("4_ybjga")]
 layout_mode = 2
 
 [node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]

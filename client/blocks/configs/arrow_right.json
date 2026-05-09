@@ -1,8 +1,8 @@
 {
 	"id": "9",
-	"title": "Right Arrow Block",
-	"description": "Run right really fast! (or left really slowly.) It's kind of like a conveyer belt, except cooler.",
 	"settings": {
+		"title": "Right Arrow Block",
+		"description": "Run right really fast! (or left really slowly.) It's kind of like a conveyer belt, except cooler.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "arrow_right", "params": {"force": 125.0, "direction": {"x": 1.0, "y": 0.0}}}
+		"any_side": {"type": "arrow", "params": {"horizontal_force": 1250.0, "vertical_force": 1100.0, "direction": {"x": 1.0, "y": 0.0}}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

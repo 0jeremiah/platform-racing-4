@@ -1,8 +1,8 @@
 {
 	"id": "17",
-	"title": "Finish Block",
-	"description": "Bumping this block marks the end of the race.",
 	"settings": {
+		"title": "Finish Block",
+		"description": "Bumping this block marks the end of the race.",
 		"matter_type": "solid",
 		"block_type": "impervious",
 		"left": {"type": "active", "params": {}},

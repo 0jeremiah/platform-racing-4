@@ -1,8 +1,8 @@
 {
 	"id": "42",
-	"title": "Sticky Block",
-	"description": "This block is covered in an unknown, slime-like substance that will slow you down. Ew... At least you can walljump off it.",
 	"settings": {
+		"title": "Sticky Block",
+		"description": "This block is covered in an unknown, slime-like substance that will slow you down. Ew... At least you can walljump off it.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "stick", "params": {"stickiness": 2.5}}
+		"any_side": {"type": "stick", "params": {"speed_stickiness": 2.5, "jump_stickiness": 8.0}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

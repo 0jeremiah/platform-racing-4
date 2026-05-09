@@ -1,6 +1,6 @@
 extends Node2D
 
-var chunk_size = Vector2i(42, 42)
+var chunk_size = Vector2i(32, 32)
 var chunk_linear_velocity = 300
 var chunk_angular_velocity = 20
 

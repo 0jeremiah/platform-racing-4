@@ -1,8 +1,8 @@
 {
 	"id": "4",
-	"title": "Basic Block 4",
-	"description": "Bland, but at least it looks like a waffle.",
 	"settings": {
+		"title": "Basic Block 4",
+		"description": "Bland, but at least it looks like a waffle.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

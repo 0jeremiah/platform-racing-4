@@ -1,8 +1,8 @@
 {
 	"id": "37",
-	"title": "Moon Lightbreaker",
-	"description": "A lightbreaker that lets you phase into a wall, and ends when you come out of said wall.",
 	"settings": {
+		"title": "Moon Lightbreaker",
+		"description": "A lightbreaker that lets you phase into a wall, and ends when you come out of said wall.",
 		"matter_type": "gas",
 		"block_type": "lightbreak",
 		"area": {"type": "moon", "params": {}}

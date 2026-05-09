@@ -1,15 +1,15 @@
 {
 	"id": "23",
-	"title": "Rotate Right Block",
-	"description": "The world is still spinning, but in the opposite direction!",
 	"settings": {
+		"title": "Rotate Right Block",
+		"description": "The world is still spinning, but in the opposite direction!",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "rotate_right", "params": {"rotations": -1, "rotation_speed": 0.025}},
+		"bump": {"type": "rotate", "params": {"rotations": -1, "rotation_speed": 0.025}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}}
 	},

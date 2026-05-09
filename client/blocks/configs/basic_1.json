@@ -1,8 +1,8 @@
 {
 	"id": "1",
-	"title": "Basic Block 1",
-	"description": "Bland, but at least it gets the job done.",
 	"settings": {
+		"title": "Basic Block 1",
+		"description": "Bland, but at least it gets the job done.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

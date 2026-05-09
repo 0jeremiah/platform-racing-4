@@ -1,8 +1,8 @@
 {
 	"id": "34",
-	"title": "Gear Block",
-	"description": "New-age industrial machine that can rotate any blocks connected to the bottom of it.",
 	"settings": {
+		"title": "Gear Block",
+		"description": "New-age industrial machine that can rotate any blocks connected to the bottom of it.",
 		"matter_type": "solid",
 		"block_type": "gear",
 		"left": {"type": "active", "params": {}},

@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr7ulk55e2boc"]
+
+[ext_resource type="Script" uid="uid://bukti2p6r1git" path="res://pages/editor/block_editor/settings/item_settings/item_settings.gd" id="1_wmxe4"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_x2pks"]
+
+[node name="ItemSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 220.0
+offset_bottom = 70.0
+script = ExtResource("1_wmxe4")
+
+[node name="InfiniteCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_right = 131.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Infinite Items"
+
+[node name="ItemSupplyLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 120.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Item Supply:"
+vertical_alignment = 1
+
+[node name="ItemSupplyBox" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 40.0
+offset_right = 220.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "9999999"
+script = ExtResource("2_x2pks")

@@ -1,8 +1,8 @@
 {
 	"id": "16",
-	"title": "Ice Block",
-	"description": "Sliperyyyyiiiee. Lowers one's acceleration.",
 	"settings": {
+		"title": "Ice Block",
+		"description": "Sliperyyyyiiiee. Lowers one's acceleration.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

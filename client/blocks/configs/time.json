@@ -1,8 +1,8 @@
 {
 	"id": "30",
-	"title": "Time Block",
-	"description": "Need some more time? Then bump this block to get an extra 10 seconds in levels.",
 	"settings": {
+		"title": "Time Block",
+		"description": "Need some more time? Then bump this block to get an extra 10 seconds in levels.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
