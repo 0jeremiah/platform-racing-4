@@ -3,7 +3,7 @@ class_name RotationController
 
 var rotation_velocity: float = 0.0
 var tick_ms: float = 4000.0 # rotate 90 degrees every 4.5 seconds
-var tock_ms: float = 0.0
+var tock_ms: float = 500.0
 var elapsed_ms: float = 0.0
 var target_rotation: float = 0.0
 var tick = 'tock'

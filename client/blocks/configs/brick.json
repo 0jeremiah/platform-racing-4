@@ -2,7 +2,7 @@
 	"id": "5",
 	"settings": {
 		"title": "Brick Block",
-		"description": "Poorly mortared blocks that will break if it is bumped from below.",
+		"comment": "Poorly mortared blocks that will break if it is bumped from below.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

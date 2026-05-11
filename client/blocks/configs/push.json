@@ -2,7 +2,7 @@
 	"id": "24",
 	"settings": {
 		"title": "Push Block",
-		"description": "You can push this block around. Bully.",
+		"comment": "You can push this block around. Bully.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

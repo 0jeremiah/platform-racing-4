@@ -26,16 +26,15 @@ func _on_resized():
 
 
 func _create_minimap_layer(block_layer):
-	var tile_map_layer_mini = TileMapLayer.new()
+	var tile_map_layer_mini = ConfigurableTileMapLayer.new()
 	tile_map_layer_mini.name = block_layer.name
 	
 	tile_map_layer_mini.tile_set = block_layer.tile_map_layer.tile_set
 	
 	var used_cells = block_layer.tile_map_layer.get_used_cells()
 	for cell in used_cells:
-		var source_id = block_layer.tile_map_layer.get_cell_source_id(cell)
-		var atlas_coords = block_layer.tile_map_layer.get_cell_atlas_coords(cell)
-		tile_map_layer_mini.set_cell(cell, source_id, atlas_coords)
+		var block_id = block_layer.tile_map_layer.get_cell_block_id(cell)
+		tile_map_layer_mini.set_cell_by_id(cell, block_id)
 
 	_update_minimap_layer_scale(tile_map_layer_mini)
 	

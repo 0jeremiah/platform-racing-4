@@ -50,24 +50,20 @@ func _ready() -> void:
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
 	animation = AnimationController.new(display, sjaura)
+	tile_interaction = TileInteractionController.new(low_area, high_area)
+	tile_interaction.last_safe_position = Vector2(position)
 	item_manager.init(self)
 	
 
-func init(tiles_node: Tiles) -> void:
-	tiles = tiles_node
-	tile_interaction = TileInteractionController.new(tiles, low_area, high_area)
-	tile_interaction.last_safe_position = Vector2(position)
-
-
 func _physics_process(delta: float) -> void:
-	if not active or not tile_interaction:
+	if not active:
 		return
 	
 	# Update hitbox based on crouch state and size
 	movement.is_crouching = tile_interaction.should_crouch(self)
 	hitbox.run(self)
-	low_area.scale = movement.size
-	high_area.scale = movement.size
+	low_area.scale = Vector2(movement.size, movement.size)
+	high_area.scale = Vector2(movement.size, movement.size)
 	
 	# Process gravity
 	gravity.run(self, delta)
@@ -94,13 +90,13 @@ func _physics_process(delta: float) -> void:
 			move_and_slide()
 	
 	# Interact with tiles
-	tile_interaction.interact_with_incoporeal_tiles(self)
-	var hit_something := tile_interaction.interact_with_solid_tiles(self, lightbreak)
+	#tile_interaction.interact_with_incoporeal_tiles(self)
+	#var hit_something := tile_interaction.interact_with_solid_tiles(self, lightbreak)
 	
 	# End lightbreak if we hit something
-	if hit_something and lightbreak.direction.length() > 0:
-		lightbreak.end_lightbreak()
-		modulate.a = 1
+	#if hit_something and lightbreak.direction.length() > 0:
+		#lightbreak.end_lightbreak()
+		#modulate.a = 1
 	
 	# Item usage
 	if !movement.finished:
@@ -122,17 +118,15 @@ func _bump_tile_covering_high_area() -> void:
 	
 	if tiles.size() != 0:
 		var tile = tiles[0]
-		var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
 	
 		movement.attempting_bump = true
 		if tile != movement.last_bumped_block:
-			tile_interaction._tiles.on("bottom", tile_type, self, tile.tile_map_layer, tile.coords)
-			tile_interaction._tiles.on("any_side", tile_type, self, tile.tile_map_layer, tile.coords)
-			tile_interaction._tiles.on("bump", tile_type, self, tile.tile_map_layer, tile.coords)
+			tile.tile_map_layer._blocks[tile.block_id].on("bottom", self, tile.tile_map_layer, tile.coords)
+			tile.tile_map_layer._blocks[tile.block_id].on("any_side", self, tile.tile_map_layer, tile.coords)
+			tile.tile_map_layer._blocks[tile.block_id].on("bump", self, tile.tile_map_layer, tile.coords)
 			movement.last_bumped_block = tile
-			Jukebox.play_sound("bump")
 	else:
-		push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
+		push_error("Character::bump_tile_covering_high_area - No tile covering high area")
 
 
 func _process_item_forces() -> void:

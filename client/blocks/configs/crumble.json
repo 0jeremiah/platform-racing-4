@@ -2,7 +2,7 @@
 	"id": "18",
 	"settings": {
 		"title": "Crumble Block",
-		"description": "A block that shatters if it is hit too many times.",
+		"comment": "A block that shatters if it is hit too many times.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

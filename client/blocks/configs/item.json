@@ -2,7 +2,7 @@
 	"id": "11",
 	"settings": {
 		"title": "Item Block",
-		"description": "One item per customer.",
+		"comment": "One item per customer.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

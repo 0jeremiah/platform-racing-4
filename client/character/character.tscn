@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=12 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" uid="uid://dpqrkiaafi0k8" path="res://character/character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="2_kipoy"]
 [ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/character_hitbox.tscn" id="2_qkr1y"]
 [ext_resource type="PackedScene" uid="uid://bxox6butkxpwh" path="res://character/invincibility.tscn" id="6_rt6gv"]
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
+[ext_resource type="Script" uid="uid://dgxkdk2hqflc5" path="res://blocks/tile_collision_detector.gd" id="9_dy06j"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
 [ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]
@@ -73,3 +74,6 @@ position = Vector2(-4, 0)
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("7_l8eep")
 offset = Vector2(0, -180)
+
+[node name="TileCollisionDetector" type="Node" parent="."]
+script = ExtResource("9_dy06j")

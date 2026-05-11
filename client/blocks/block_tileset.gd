@@ -98,7 +98,7 @@ func _create_tile_from_config(atlas_source: TileSetAtlasSource, config: Dictiona
 	atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
 
 	# Get matter type from config
-	var matter_type: String = config.get("matter_type", ConfigurableBlock.SOLID)
+	var matter_type: String = config.settings.get("matter_type", ConfigurableBlockSettings.SOLID)
 
 	# Setup collision and appearance for all alternative tiles
 	_setup_tile_alternatives(atlas_source, atlas_coords, matter_type)
@@ -115,7 +115,7 @@ func _setup_tile_alternatives(atlas_source: TileSetAtlasSource, atlas_coords: Ve
 	])
 
 	# Physics layer: 0 for solid, 1 for non-solid
-	var physics_layer: int = 0 if matter_type == ConfigurableBlock.SOLID else 1
+	var physics_layer: int = 0 if matter_type == ConfigurableBlockSettings.SOLID else 1
 
 	# Setup all alternative tiles
 	var alt_ids := [
@@ -145,4 +145,5 @@ func _setup_tile_alternatives(atlas_source: TileSetAtlasSource, atlas_coords: Ve
 static func create_from_configs(configs: Array) -> ConfigurableTileSet:
 	var tileset := ConfigurableTileSet.new()
 	tileset.init(configs)
+	tileset.uv_clipping = true
 	return tileset

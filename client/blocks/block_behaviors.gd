@@ -3,7 +3,7 @@ extends Node
 
 
 ## Push the node in a specified direction
-func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary) -> void:
+func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	print("behaviors/arrow")
 	if node is not PhysicsBody2D:
 		return
@@ -76,7 +76,7 @@ func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block:
 
 
 ## Bounce the node back
-func bounce(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary) -> void:
+func bounce(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	var bounciness: float = params.get("bounciness", 0.1)
 	var speed_limit: float = params.get("speed_limit", 12500.0)
 
@@ -104,20 +104,20 @@ func _is_moving_towards(body_pos: Vector2, body_velocity: Vector2, block_pos: Ve
 	return dot_product > 0
 
 
-func change_size(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary):
+func change_size(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	if "movement" not in node:
 		return
 	
 	var exact = params.get("exact", false)
-	var amount = params.get("amount", 1.0)
+	var multiplier = params.get("multiplier", 1.0)
 	if exact:
-		node.movement.size = clamp(amount, 0.5, 2.0)
+		node.movement.size = clamp(multiplier, 0.5, 2.0)
 	else:
-		node.movement.size = clamp(node.movement.size * amount, 0.5, 2.0)
+		node.movement.size = clamp(node.movement.size * multiplier, 0.5, 2.0)
 	Jukebox.play_sound("star")
 
 
-func change_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary):
+func change_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	if "stats" not in node:
 		return
 	
@@ -136,7 +136,7 @@ func change_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, 
 				Jukebox.play_sound("bumpsad")
 
 
-func custom_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary):
+func custom_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	if "stats" not in node:
 		return
 	
@@ -155,19 +155,17 @@ func custom_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, 
 		Jukebox.play_sound("star")
 
 
-func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary):
-	if !(node is RigidBody2D and "last_collision_normal" in node) and !(node is CharacterBody2D and "movement" in node):
+func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, normal: Vector2 = Vector2.ZERO):
+	if !(node is RigidBody2D) and !(node is CharacterBody2D):
 		return
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block
 	# this is vector projection
-	var direction = null
+	var direction = normal
 	var dot = null
 	if node is CharacterBody2D:
-		direction = node.movement.last_collision_normal
 		dot = node.movement.last_velocity.dot(direction)
 	else:
-		direction = node.last_collision_normal
 		dot = node.linear_velocity.dot(direction)
 	var projection = (dot / direction.length_squared()) * direction
 	var magnitude_towards = projection.length()
@@ -185,7 +183,7 @@ func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block
 			TileEffects.crumble(tile_map_layer, coords, pieces)
 
 
-func finish(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary) -> void:
+func finish(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	if "movement" not in node:
 		return
 
@@ -195,13 +193,13 @@ func finish(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _blo
 
 
 # Gives the player invincibility (and increases their hp if they are in a deathmatch).
-func heart(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary) -> void:
+func heart(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	if "invincibility" in node:
 		node.invincibility.activate()
 
 
 # Explode the block and push away the body
-func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary) -> void:
+func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	print("behaviors/hurt")
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
@@ -219,17 +217,17 @@ func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, 
 		body.velocity += push_velocity
 
 	# Apply hitstun
-	if body.has_method("hitstun"):
-		body.hitstun(hitstun_duration)
+	if body.movement.has_method("hitstun"):
+		body.movement.hitstun(hitstun_duration)
 
 
 # Make the node slide (ice behavior)
-func ice(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary) -> void:
+func ice(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	if "movement" in node and "on_ice" in node.movement:
 		node.movement.on_ice = true
 
 
-func item(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary) -> void:
+func item(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	if "item_manager" not in node:
 		return
 
@@ -253,7 +251,9 @@ func item(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: C
 
 
 # Explode the block and push away the body
-func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary) -> void:
+func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
+	if "movement" not in body:
+		return
 	print("behaviors/explode")
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
@@ -281,12 +281,12 @@ func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _
 	tile_map_layer.add_child(effect)
 
 	# Apply hitstun
-	if body.has_method("hitstun"):
-		body.hitstun(hitstun_duration)
+	if body.movement.has_method("hitstun"):
+		body.movement.hitstun(hitstun_duration)
 
 
 # Pushes the block depending on where the body pushed it
-func push(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary) -> void:
+func push(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	print("behaviors/push")
 	var tile_position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half).rotated(tile_map_layer.rotation)
 	var direction = tile_position - body.position
@@ -332,7 +332,7 @@ func push(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, _
 
 
 # Rotates the node
-func rotate(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary) -> void:
+func rotate(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	print("behaviors/rotate")
 
 	if "gravity" not in body:
@@ -363,7 +363,7 @@ func rotate(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i,
 
 
 # Rotates the node
-func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary) -> void:
+func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	print("behaviors/safety")
 	
 	if body is not PhysicsBody2D or "tile_interaction" not in body:
@@ -385,13 +385,13 @@ func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2
 
 
 # Shatters the block
-func shatter(_node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary):
+func shatter(_node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	TileEffects.shatter(tile_map_layer, coords, 10)
 	Jukebox.play_sound("shatterblock")
 
 
 # Enables stick-block related variables in node
-func stick(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary):
+func stick(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	if "movement" not in node:
 		return
 	node.movement.on_sticky_block = true
@@ -400,7 +400,7 @@ func stick(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _bloc
 
 
 # Makes the block vanish for a bit, then makes it reappear
-#func vanish(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary):
+#func vanish(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	#var source_id = tile_map_layer.get_cell_source_id(coords)
 	#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	#

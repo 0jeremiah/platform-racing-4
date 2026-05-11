@@ -2,7 +2,7 @@
 	"id": "27",
 	"settings": {
 		"title": "Happy Block",
-		"description": "It's so happy! This block will share its happiness with you by boosting your stats if bumped.",
+		"comment": "It's so happy! This block will share its happiness with you by boosting your stats if bumped.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

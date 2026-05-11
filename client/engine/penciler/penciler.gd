@@ -49,9 +49,9 @@ func _on_level_event(event: Dictionary) -> void:
 			var new_timestamp = event.timestamp
 			
 			if not tile_update_timestamps.has(coords_key) or tile_update_timestamps[coords_key] < new_timestamp:
-				_set_tile(event, coords, coords_key, block_options, new_timestamp)
+				_set_tile(event, coords, coords_key, new_timestamp)
 		else:
-			_set_tile(event, coords, coords_key, block_options)
+			_set_tile(event, coords, coords_key)
 
 	if event.type == EditorEvents.ADD_LINE:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
@@ -214,16 +214,16 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_block_effect_settings(event.block_effect_settings)
 
 
-func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, tile_options: Array, new_timestamp: int = -1) -> void:
+func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var layer = current_layers.map_layers.get_node(event.layer_name)
-	var tile_map_layer: TileMapLayer = current_layers.map_layers.get_node(event.layer_name).tile_map_layer
-	tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
-	var tile_data = tile_map_layer.get_cell_tile_data(coords)
-	if tile_data:
-		if tile_options != null:
-			tile_data.set_custom_data("tile_options", tile_options)
-		else:
-			tile_data.set_custom_data("tile_options", [])
+	var tile_map_layer: ConfigurableTileMapLayer = current_layers.map_layers.get_node(event.layer_name).tile_map_layer
+	tile_map_layer.set_cell_by_id(coords, str(event.block_id))
+	#var tile_data = tile_map_layer.get_cell_tile_data(coords)
+	#if tile_data:
+		#if tile_options != null:
+			#tile_data.set_custom_data("tile_options", tile_options)
+		#else:
+			#tile_data.set_custom_data("tile_options", [])
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

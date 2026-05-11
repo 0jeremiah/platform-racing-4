@@ -2,9 +2,10 @@
 	"id": "12",
 	"settings": {
 		"title": "Start Block",
-		"description": "Marks a poNumber where players may start the level.",
+		"comment": "Marks a poNumber where players may start the level.",
 		"matter_type": "gas",
-		"block_type": "start_position"
+		"block_type": "start_position",
+		"area": {"type": "start_position", "params": {}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

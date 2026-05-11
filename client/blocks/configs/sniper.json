@@ -2,7 +2,7 @@
 	"id": "43",
 	"settings": {
 		"title": "Sniper Block (Not yet implemented)",
-		"description": "This morally questionable block shoots anything that enters its field of vision.",
+		"comment": "This morally questionable block shoots anything that enters its field of vision.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

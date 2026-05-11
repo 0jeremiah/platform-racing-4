@@ -2,7 +2,7 @@
 	"id": "28",
 	"settings": {
 		"title": "Sad Block",
-		"description": "It's so sad. This block will share its sadness with you by decreasing your stats if bumped.",
+		"comment": "It's so sad. This block will share its sadness with you by decreasing your stats if bumped.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

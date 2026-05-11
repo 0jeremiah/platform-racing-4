@@ -2,7 +2,7 @@
 	"id": "38",
 	"settings": {
 		"title": "Firefly Lightbreaker",
-		"description": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
+		"comment": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
 		"matter_type": "gas",
 		"block_type": "lightbreak",
 		"area": {"type": "firefly", "params": {}}

@@ -64,11 +64,11 @@ func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 				texture_source_id = textures_seen.find(texture_path)
 		
 			var title = "Block"
-			if config.has("title"):
-				title = config.title
+			if config.has("settings") and config.settings.has("title"):
+				title = config.settings.title
 			var comment = ""
-			if config.has("comment"):
-				comment = config.comment
+			if config.has("settings") and config.settings.has("comment"):
+				comment = config.settings.comment
 
 			# Store the mapping
 			_block_lookup[block_id] = {
@@ -105,6 +105,57 @@ func get_cell_block_id(coords: Vector2i) -> String:
 	return ""
 
 
+func is_solid(coords: Vector2i) -> bool:
+	var block_id = get_cell_block_id(coords)
+	if block_id:
+		return _blocks[block_id].settings.matter_type == ConfigurableBlockSettings.SOLID
+	return false
+
+
+func is_liquid(coords: Vector2i) -> bool:
+	var block_id = get_cell_block_id(coords)
+	if block_id:
+		return _blocks[block_id].settings.matter_type == ConfigurableBlockSettings.LIQUID
+	return false
+
+
+func is_safe(coords: Vector2i) -> bool:
+	var unsafe_matter_types = [ConfigurableBlockSettings.GAS]
+	var unsafe_block_types = [ConfigurableBlockSettings.MOVE]
+	var unsafe_block_sides = [ConfigurableBlockSideSettings.MINE, ConfigurableBlockSideSettings.VANISH,
+	ConfigurableBlockSideSettings.PUSH, ConfigurableBlockSideSettings.CRUMBLE,
+	ConfigurableBlockSideSettings.SHATTER]
+	var block_id = get_cell_block_id(coords)
+	if block_id:
+		var matter_type_is_safe: bool = _blocks[block_id].settings.matter_type not in unsafe_matter_types
+		var block_type_is_safe: bool = _blocks[block_id].settings.matter_type not in unsafe_block_types
+		var block_side_types = _blocks[block_id].settings.get_side_types()
+		for block_side_type in block_side_types:
+			if block_side_type in unsafe_block_sides:
+				return false
+		return matter_type_is_safe and block_type_is_safe
+	return false
+
+
+func get_start_positions(layer_name: String) -> Array:
+	var start_blocks = []
+	for block in _blocks:
+		var block_instance = _blocks[block]
+		if block_instance.settings.block_type == ConfigurableBlockSettings.START_POSITION:
+			start_blocks.append(block)
+	var start_options = []
+	for start_block in start_blocks:
+		var coord_list = get_used_cells_by_id(_block_lookup[start_block].source_id, _block_lookup[start_block].atlas_coords)
+		for coords in coord_list:
+			var start_option = {
+				"layer_name": layer_name,
+				"coords": coords,
+				"tile_map_layer": self,
+			}
+			start_options.push_back(start_option)
+	return start_options
+
+
 ## Create ConfigurableBlock instances from configs
 func _create_blocks(configs: Array) -> void:
 	_blocks.clear()
@@ -120,7 +171,7 @@ func _create_blocks(configs: Array) -> void:
 
 
 ## Trigger block behaviors for a tile collision
-func trigger_tile_behaviors(body: PhysicsBody2D, coords: Vector2i, events: Array[String]) -> void:
+func trigger_tile_behaviors(body: PhysicsBody2D, coords: Vector2i, events: Array[String], normal: Vector2 = Vector2.ZERO) -> void:
 	var block_id := get_cell_block_id(coords)
 	if block_id == "":
 		return
@@ -130,4 +181,4 @@ func trigger_tile_behaviors(body: PhysicsBody2D, coords: Vector2i, events: Array
 		return
 
 	for event in events:
-		block.on(event, body, self, coords)
+		block.on(event, body, self, coords, normal)

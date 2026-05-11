@@ -2,7 +2,7 @@
 	"id": "32",
 	"settings": {
 		"title": "Custom Stats Block",
-		"description": "Sets the player's stats to whatever you choose. Default settings is 50/50/50/50.",
+		"comment": "Sets the player's stats to whatever you choose. Default settings is 50/50/50/50.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

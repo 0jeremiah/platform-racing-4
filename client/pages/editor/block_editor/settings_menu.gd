@@ -3,10 +3,11 @@ extends Control
 signal block_settings_changed
 
 @onready var settings_dropdown_button = $SettingsDropdownButton
-@onready var settings = $Settings
+@onready var settings = $ScrollContainer/Settings
 @onready var dropdown_popup = $DropdownPopup
 
 var settings_dictionary: Dictionary = {}
+var current_setting: String = ""
 var block_properties: Dictionary = ConfigurableBlockSettings.default_properties
 var has_settings: bool = false
 
@@ -44,18 +45,25 @@ func populate_options():
 
 
 func _maybe_enable_settings(setting_info: Dictionary):
+	var enabled_settings = []
 	if setting_info.has("block_settings"):
 		for setting in settings_dictionary:
 			if setting_info.block_settings.has(setting):
-				if setting_info.block_settings[setting] == true:
+				if setting_info.block_settings[setting].enabled == true:
 					settings_dictionary[setting] = true
+					enabled_settings.append(setting)
 				else:
 					settings_dictionary[setting] = false
+	if !has_settings and !enabled_settings.is_empty():
+		_select_options({"setting": enabled_settings[0]}) 
+	elif current_setting in settings_dictionary:
+		_select_options({"setting": current_setting})
 	populate_options()
 
 
 func _select_options(setting_info: Dictionary):
-	if setting_info.setting in settings.properties:
+	if setting_info.setting in settings_dictionary and settings_dictionary[setting_info.setting] == true:
+		current_setting = setting_info.setting
 		settings_dropdown_button.text = settings.properties[setting_info.setting].label
 		show_option(setting_info)
 	else:
@@ -63,10 +71,12 @@ func _select_options(setting_info: Dictionary):
 		for setting in settings_dictionary:
 			if settings_dictionary[setting] == true:
 				still_has_settings = true
-				settings_dropdown_button.text = settings.properties[setting_info.setting].label
+				current_setting = setting
+				settings_dropdown_button.text = settings.properties[setting].label
 				show_option({"setting": setting})
 				break
 		if !still_has_settings:
+			current_setting = ""
 			settings_dropdown_button.text = "None"
 			show_option({})
 

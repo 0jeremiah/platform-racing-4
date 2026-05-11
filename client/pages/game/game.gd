@@ -62,7 +62,7 @@ func _ready():
 			if response.get("error", ''):
 				return
 			
-			level_manager.decode_level(response, false)
+			level_manager.decode_level(response)
 			_activate_game()
 		)
 		if Game.pr2_level_id:
@@ -79,7 +79,7 @@ func _activate_game() -> void:
 	
 	bg.set_bg(level_manager.properties.get("background", "field"), level_manager.properties.get("fadeColor", "FFFFFF"))
 	level_manager.activate_node()
-	var character = player_manager.spawn_player(level_manager.level_layers, level_manager.tiles)
+	var character = player_manager.spawn_player(level_manager.level_layers)
 	
 	minimap.init(self)
 	game_timer.init(self)

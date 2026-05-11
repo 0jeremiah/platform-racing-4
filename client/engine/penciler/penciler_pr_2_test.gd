@@ -1,7 +1,7 @@
 extends Node2D
 
 var pr2_level_id = "6518241"
-var tiles: Tiles = Tiles.new()
+var default_blocks_config: Array = []
 @onready var http_request: HTTPRequest = $HTTPRequest
 @onready var level_decoder: Node2D = $LevelDecoder
 @onready var level_layers: LevelLayers = $Layers
@@ -13,8 +13,8 @@ func _ready() -> void:
 	http_request.request_completed.connect(self._http_request_completed)
 	http_request.request(ApiManager.get_base_url() + "/pr2/level/" + pr2_level_id)
 	penciler.init(level_layers, level_decoder)
-	tiles.init_defaults()
-	level_layers.init(tiles)
+	default_blocks_config = BlockManager._load_default_block_configs()
+	level_layers.init(BlockManager._load_default_block_configs())
 
  
 func _http_request_completed(_result, _response_code, _headers, body):
@@ -23,7 +23,6 @@ func _http_request_completed(_result, _response_code, _headers, body):
 	var level_data = json.get_data()
 	level_decoder.decode(level_data, level_layers)
 	
-	tiles.activate_node(level_layers)
 	var start_option = Start.get_next_start_option(level_layers)
 	camera_2d.position = start_option.coords * Settings.tile_size
 	camera_2d.position += Vector2(-350, 300)

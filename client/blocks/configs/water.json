@@ -2,7 +2,7 @@
 	"id": "21",
 	"settings": {
 		"title": "Water Block",
-		"description": "Swim!",
+		"comment": "Swim!",
 		"matter_type": "liquid",
 		"block_type": "water",
 		"area": {"type": "water", "params": {"liquid_friction": 2.0}}

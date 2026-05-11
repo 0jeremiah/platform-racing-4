@@ -2,7 +2,7 @@
 	"id": "29",
 	"settings": {
 		"title": "Heart Block",
-		"description": "Gives you +1 HP in deathmatches, and makes you temporarily invincible!",
+		"comment": "Gives you +1 HP in deathmatches, and makes you temporarily invincible!",
 		"matter_type": "solid",
 		"block_type": "active",
 		"health": 100.0,

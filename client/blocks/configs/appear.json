@@ -2,7 +2,7 @@
 	"id": "39",
 	"settings": {
 		"title": "Appear Block",
-		"description": "Peekaboo! This block hides in plain sight, appears when it is touched, and disappears the moment you stop touching it.",
+		"comment": "Peekaboo! This block hides in plain sight, appears when it is touched, and disappears the moment you stop touching it.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

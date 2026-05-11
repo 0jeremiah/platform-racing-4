@@ -109,7 +109,7 @@ func _notify_collision(
 			events.append("right")
 		events.append("any_side")
 	else:
-		if normal.y < 0:
+		if normal.y > 0:
 			events.append("bottom")
 			events.append("bump")
 		else:
@@ -118,4 +118,4 @@ func _notify_collision(
 		events.append("any_side")
 
 	# Delegate to the tile map layer to handle behaviors
-	tile_map_layer.trigger_tile_behaviors(_parent, coords, events)
+	tile_map_layer.trigger_tile_behaviors(_parent, coords, events, normal)

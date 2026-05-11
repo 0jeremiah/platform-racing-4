@@ -2,7 +2,7 @@
 	"id": "41",
 	"settings": {
 		"title": "Shrink Block",
-		"description": "Bumping this block turns you into a size of a mouse! (or turns you back to normal if you were already big.)",
+		"comment": "Bumping this block turns you into a size of a mouse! (or turns you back to normal if you were already big.)",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

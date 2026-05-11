@@ -2,7 +2,7 @@
 	"id": "42",
 	"settings": {
 		"title": "Sticky Block",
-		"description": "This block is covered in an unknown, slime-like substance that will slow you down. Ew... At least you can walljump off it.",
+		"comment": "This block is covered in an unknown, slime-like substance that will slow you down. Ew... At least you can walljump off it.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

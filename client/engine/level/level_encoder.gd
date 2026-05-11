@@ -51,13 +51,13 @@ func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Di
 	return level
 
 
-func encode_chunks(tile_map_layer: TileMapLayer) -> Array:
+func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Array:
 	var chunk_map = {}
 	var chunks = []
-	var used_coords = tile_map_layer.get_used_cells()
+	var used_coords = configurable_tile_map_layer.get_used_cells()
 	for coords in used_coords:
-		var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-		var block_id = CoordinateUtils.to_block_id(atlas_coords)
+		#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
+		var block_id = configurable_tile_map_layer.get_cell_block_id(coords)
 		#var block_options = null
 		#var tile_data = tile_map_layer.get_cell_tile_data(coords)
 		#if tile_data and tile_data.has_custom_data("tile_options"):

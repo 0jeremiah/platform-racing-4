@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://du1753xrp5vqy"]
+[gd_scene load_steps=3 format=3 uid="uid://du1753xrp5vqy"]
 
 [ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/maplayer.gd" id="1_o0aad"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_7lxxb"]
 
 [node name="MapLayer" type="Parallax2D"]
 script = ExtResource("1_o0aad")
@@ -10,6 +11,8 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayerContainer"]
+physics_quadrant_size = 1
+script = ExtResource("2_7lxxb")
 
 [node name="NonStaticTileMapLayers" type="Node2D" parent="TileMapLayerContainer"]
 

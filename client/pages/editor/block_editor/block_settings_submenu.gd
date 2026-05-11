@@ -10,8 +10,7 @@ signal control_event
 @onready var matter_type_setting_button = $MatterTypeSetting/MatterTypeSettingButton
 @onready var block_type_setting_button = $BlockTypeSetting/BlockTypeSettingButton
 @onready var sides_settings = $SidesSettings
-@onready var settings_container = $SettingsContainer
-@onready var settings_menu = $SettingsContainer/SettingsMenu
+@onready var settings_menu = $SettingsMenu
 #@onready var general_settings = $GeneralSettings
 @onready var health_box = $GeneralSettings/HealthBox
 @onready var coin_value_box = $GeneralSettings/CoinValueBox
@@ -255,19 +254,16 @@ func _change_setting(selected_dictionary: Dictionary):
 	elif selected_dictionary.button == block_type_setting_button:
 		block_settings.block_type = selected_dictionary.setting
 	else:
-		var block_sides = block_settings.get_sides()
-		if selected_dictionary.side in block_sides:
-			block_sides
+		side_settings_menu._update_sides(selected_dictionary)
 	settings_menu._maybe_enable_settings({
 		"block_settings": {
-			"general": block_settings.matter_type == ConfigurableBlockSettings.SOLID,
-			"stat": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS),
-			ConfigurableBlockSideSettings.ITEM: block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM),
-			ConfigurableBlockSideSettings.TELEPORT: block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT),
-			ConfigurableBlockSettings.GEAR: block_settings.block_type == ConfigurableBlockSettings.GEAR
+			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
+			"stat": {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS), "setting": "stat"},
+			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
+			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
 		}
 	})
-	side_settings_menu._update_sides(selected_dictionary)
 	update_buttons()
 	update_display()
 #
@@ -289,7 +285,7 @@ func update_display():
 	settings_seperator.visible = false
 	block_options_seperator.visible = false
 	sides_settings.visible = false
-	settings_container.visible = false
+	settings_menu.visible = false
 	move_settings.visible = false
 	change_settings.visible = false
 	side_settings_container.visible = false
@@ -304,9 +300,9 @@ func update_display():
 	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and settings_menu.has_settings:
 		settings_seperator.position.y = panel_size.y - 10
 		settings_seperator.visible = true
-		settings_container.position.y = panel_size.y
-		settings_container.visible = true
-		panel_size.y += (settings_container.position.y + settings_container.size.y + 20) - panel_size.y
+		settings_menu.position.y = panel_size.y
+		settings_menu.visible = true
+		panel_size.y += (settings_menu.position.y + settings_menu.size.y + 20) - panel_size.y
 	if block_settings.block_type == ConfigurableBlockSettings.MOVE:
 		block_options_seperator.position.y = panel_size.y - 10
 		block_options_seperator.visible = true

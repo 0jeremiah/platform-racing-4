@@ -2,7 +2,7 @@
 	"id": "31",
 	"settings": {
 		"title": "Alien Egg",
-		"description": "This mischevious creature attacks anyone that gets in its way.",
+		"comment": "This mischevious creature attacks anyone that gets in its way.",
 		"matter_type": "solid",
 		"block_type": "egg",
 		"left": {"type": "active", "params": {}},

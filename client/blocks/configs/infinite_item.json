@@ -2,7 +2,7 @@
 	"id": "26",
 	"settings": {
 		"title": "Infinite Item Block",
-		"description": "Grab as many items as you like! This item block will never run out. Items for all!",
+		"comment": "Grab as many items as you like! This item block will never run out. Items for all!",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

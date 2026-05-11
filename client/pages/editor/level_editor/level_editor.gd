@@ -76,15 +76,15 @@ func _ready():
 	var level
 	if LevelEditor.current_level:
 		level = LevelEditor.current_level
-		level_manager.decode_level(LevelEditor.current_level, true)
+		level_manager.decode_level(LevelEditor.current_level)
 	else:
 		var saved_level = FileManager.load_from_file()
 		if saved_level:
 			level = saved_level
-			level_manager.decode_level(saved_level, true)
+			level_manager.decode_level(saved_level)
 		else:
 			level = default_level
-			level_manager.decode_level(default_level, true)
+			level_manager.decode_level(default_level)
 	
 	if level.properties.has("background"):
 		var bg_id = level.properties.get("background")
@@ -188,8 +188,8 @@ func _on_level_load(level_name = "", level_description = ""):
 	level_manager.clear()
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(selected_level, true)
-	level_manager.level_layers.init(level_manager.tiles)
+	level_manager.decode_level(selected_level)
+	level_manager.level_layers.init(level_manager.default_blocks_config)
 
 
 func _on_request_editor_load():
@@ -197,8 +197,8 @@ func _on_request_editor_load():
 	FileManager.set_current_level_description("")
 	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(LevelEditor.current_level, true)
-	level_manager.level_layers.init(level_manager.tiles)
+	level_manager.decode_level(LevelEditor.current_level)
+	level_manager.level_layers.init(level_manager.default_blocks_config)
 
 
 func _on_explore_load(level_id):
@@ -233,8 +233,8 @@ func _on_explore_load_completed(result, response_code, _headers, body):
 	level_manager.clear()
 	LevelEditor.current_level = level_data
 	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(LevelEditor.current_level, true)
-	level_manager.level_layers.init(level_manager.tiles)
+	level_manager.decode_level(LevelEditor.current_level)
+	level_manager.level_layers.init(level_manager.default_blocks_config)
 
 
 func _on_control_event(event: Dictionary) -> void:

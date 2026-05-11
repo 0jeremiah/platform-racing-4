@@ -17,11 +17,11 @@ var anchor: Vector2 = Vector2(0, 0)
 var layer_name: String = ""
 
 
-func init(tiles: Tiles) -> void:
-	tile_map_layer.tile_set = create_tile_set(tiles, true)
-	tile_map_layer.tile_set.uv_clipping = true
+func init(default_blocks_config: Array) -> void:
+	tile_map_layer.setup_from_configs(default_blocks_config)
 	set_z_axis(z_axis)
 	set_map_layer_rotation(tile_map_rotation)
+	set_anchor(anchor)
 
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
@@ -32,9 +32,9 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	var tile_set = TileSet.new()
 	tile_set.tile_size = Settings.tile_size
 	tile_set.add_source(source)
-	tile_set.add_custom_data_layer(0)
-	tile_set.set_custom_data_layer_name(0, "tile_options")
-	tile_set.set_custom_data_layer_type(0, TYPE_ARRAY)
+	#tile_set.add_custom_data_layer(0)
+	#tile_set.set_custom_data_layer_name(0, "tile_options")
+	#tile_set.set_custom_data_layer_type(0, TYPE_ARRAY)
 	
 	if enable_collision:
 		tile_set.add_physics_layer()
@@ -97,11 +97,11 @@ func get_layer_scale() -> float:
 	return float(z_axis) / 10.0
 
 
-func set_anchor(p_anchor: Vector2) -> void:
-	anchor = p_anchor
-	tile_map_layer_container.pivot_offset = anchor
-
-
 func set_map_layer_rotation(p_rotation: int) -> void:
 	tile_map_rotation = p_rotation
 	tile_map_layer_container.rotation_degrees = tile_map_rotation
+
+
+func set_anchor(p_anchor: Vector2) -> void:
+	anchor = p_anchor
+	tile_map_layer_container.pivot_offset = anchor

@@ -10,7 +10,7 @@
 [node name="Settings" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 330.0
+offset_right = 300.0
 offset_bottom = 110.0
 script = ExtResource("1_tjyb6")
 

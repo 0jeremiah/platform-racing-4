@@ -2,7 +2,7 @@
 	"id": "10",
 	"settings": {
 		"title": "Mine Block",
-		"description": "Explodes rather painfully if something or someone touches it.",
+		"comment": "Explodes rather painfully if something or someone touches it.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

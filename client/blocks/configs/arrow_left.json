@@ -2,7 +2,7 @@
 	"id": "8",
 	"settings": {
 		"title": "Left Arrow Block",
-		"description": "Lessens your jump if you hop off it, and pushes you down if you ride on its sides or bottom.",
+		"comment": "Lessens your jump if you hop off it, and pushes you down if you ride on its sides or bottom.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "arrow", "params": {"horizontal_force": 1250.0, "vertical_force": 1100.0, "direction": {"x": -1.0, "y": 0.0}}}
+		"any_side": {"type": "arrow", "params": {"horizontal_force": 125.0, "vertical_force": 110.0, "direction": {"x": -1.0, "y": 0.0}}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

@@ -2,7 +2,7 @@
 	"id": "13",
 	"settings": {
 		"title": "Bounce Block",
-		"description": "It's like a trampoline that doesn't obey the laws of physics.",
+		"comment": "It's like a trampoline that doesn't obey the laws of physics.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

@@ -1,7 +1,7 @@
 extends Tile
 class_name Sad
 
-var decrement: int = default_stat_increment
+var decrement: int = -5
 var sad_atlas_coords: Vector2i = Vector2i(7, 32)
 
 

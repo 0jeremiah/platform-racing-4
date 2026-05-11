@@ -2,7 +2,7 @@
 	"id": "23",
 	"settings": {
 		"title": "Rotate Right Block",
-		"description": "The world is still spinning, but in the opposite direction!",
+		"comment": "The world is still spinning, but in the opposite direction!",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

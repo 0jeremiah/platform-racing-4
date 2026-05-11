@@ -2,7 +2,7 @@
 	"id": "22",
 	"settings": {
 		"title": "Rotate Left Block",
-		"description": "The wheels on the bus go round and round, round and round, round and round...",
+		"comment": "The wheels on the bus go round and round, round and round, round and round...",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

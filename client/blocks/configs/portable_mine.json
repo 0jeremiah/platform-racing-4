@@ -2,7 +2,7 @@
 	"id": "portable_mine",
 	"settings": {
 		"title": "Portable Mine",
-		"description": "A spawnable mine you can place to trip up your friends or foes (or yourself, if you're a masochist).",
+		"comment": "A spawnable mine you can place to trip up your friends or foes (or yourself, if you're a masochist).",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

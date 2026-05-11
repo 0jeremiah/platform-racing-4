@@ -2,7 +2,7 @@
 	"id": "33",
 	"settings": {
 		"title": "Teleport Block",
-		"description": "Teleports a player to another teleport of the same color if it exists.",
+		"comment": "Teleports a player to another teleport of the same color if it exists.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

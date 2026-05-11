@@ -32,13 +32,13 @@ func _process(_delta: float) -> void:
 			var finished = "finished: " +  str(character.movement.finished)
 			var hurt = "hurt: " +  str(character.movement.hurt)
 			var current_anim = "current_animation: " +  str(character.display.animations.get_current_animation())
-			var touched_tiles = "touched_tiles: " +  str(character.tile_interaction.touched_tiles)
+			#var touched_tiles = "touched_tiles: " +  str(character.tile_interaction.touched_tiles)
 			for text in debug_text_container.get_children():
 				if text is RichTextLabel:
 					text.text = (player_position + "\n" + velocity + "\n" + prev_velocity + "\n" + last_velocity
 					+ "\n" + player_size + "\n" + last_bumped_block + "\n" + speed + "\n" + accel + "\n" + jump
 					+ "\n" + skill + "\n" + hitbox_mode + "\n" + gravity + "\n" + frozen + "\n" + shielded + "\n"
-					+ finished + "\n" + hurt + "\n" + current_anim + "\n" + touched_tiles)
+					+ finished + "\n" + hurt + "\n" + current_anim)
 	elif visible:
 		visible = false
 

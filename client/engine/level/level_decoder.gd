@@ -155,8 +155,9 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:
+		# tile ids are in ints but they get outputted as strings, should probably fix
 		for i:int in chunk.data.size():
-			var tile_id:int = chunk.data[i]
+			var tile_id:int = int(chunk.data[i])
 			if tile_id == 0:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))

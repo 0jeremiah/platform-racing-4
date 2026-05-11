@@ -2,7 +2,7 @@
 	"id": "34",
 	"settings": {
 		"title": "Gear Block",
-		"description": "New-age industrial machine that can rotate any blocks connected to the bottom of it.",
+		"comment": "New-age industrial machine that can rotate any blocks connected to the bottom of it.",
 		"matter_type": "solid",
 		"block_type": "gear",
 		"left": {"type": "active", "params": {}},
@@ -14,7 +14,7 @@
 		"any_side": {"type": "active", "params": {}},
 		"gear_rotation": 90.0,
 		"gear_tick": 4000.0,
-		"gear_tock": 2.5
+		"gear_tock": 500.0
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

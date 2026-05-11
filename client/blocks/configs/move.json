@@ -2,7 +2,7 @@
 	"id": "20",
 	"settings": {
 		"title": "Move Block",
-		"description": "Where is it going? The world may never know... (PCs are much more faster than in 2007, but it's still a good idea to use this block sparingly.)",
+		"comment": "Where is it going? The world may never know... (PCs are much more faster than in 2007, but it's still a good idea to use this block sparingly.)",
 		"matter_type": "solid",
 		"block_type": "move",
 		"left": {"type": "active", "params": {}},

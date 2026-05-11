@@ -44,8 +44,8 @@ func init(data: Dictionary):
 		var content = file.get_as_text()
 		level = JSON.parse_string(content)
 
-	level_manager.decode_level(level, false)
-	level_manager.activate_node()
+	level_manager.decode_level(level)
+	#level_manager.activate_node()
 	
 	bg.set_bg(level.properties.get("background", "field"), level.properties.get("fadeColor", "FFFFFF"))
 	
@@ -55,8 +55,7 @@ func init(data: Dictionary):
 	var player_manager: PlayerManager = get_node("PlayerManager")
 	var start_option = Start.get_next_start_option(level_manager.level_layers)
 	if start_option:
-		var character = player_manager.spawn_player(level_manager.level_layers, level_manager.tiles)
-		current_player_layer = start_option.layer_name
+		var character = player_manager.spawn_player(level_manager.level_layers)
 	
 	minimap.init(self)
 	game_timer.init(self)

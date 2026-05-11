@@ -2,7 +2,7 @@
 	"id": "35",
 	"settings": {
 		"title": "Presence Switch",
-		"description": "Just walk into this block, and any gear in the level will move automatically! Wow!",
+		"comment": "Just walk into this block, and any gear in the level will move automatically! Wow!",
 		"matter_type": "gas",
 		"block_type": "switch",
 		"area": {"type": "presence_switch", "params": {"activate_list": [35], "limit_range": false, "width": 10, "height": 10}}

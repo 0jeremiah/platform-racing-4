@@ -5,7 +5,7 @@ class_name LevelManager
 @onready var level_decoder: LevelDecoder = $LevelDecoder
 @onready var level_encoder: LevelEncoder = $LevelEncoder
 
-var tiles: Tiles = Tiles.new()
+var default_blocks_config: Array = []
 var music: String = "random"
 var level_type: String = "race"
 var time: int = 120
@@ -19,8 +19,8 @@ var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
 
 func _ready() -> void:
-	tiles.init_defaults()
-	level_layers.init(tiles)
+	default_blocks_config = BlockManager._load_default_block_configs()
+	level_layers.init(default_blocks_config)
 
 
 func encode_level() -> Dictionary:
@@ -28,17 +28,18 @@ func encode_level() -> Dictionary:
 	return level_encoder.encode(level_layers, bg, self)
 
 
-func decode_level(level_data: Dictionary, is_editor: bool) -> void:
+func decode_level(level_data: Dictionary) -> void:
 	level_decoder.decode(level_data, level_layers)
+	level_layers.get_all_start_options()
 
 
 func clear() -> void:
 	level_layers.clear()
-	tiles.clear()
+	#tiles.clear()
 
 
-func activate_node() -> void:
-	tiles.activate_node(level_layers)
+#func activate_node() -> void:
+	#tiles.activate_node(level_layers)
 
 
 func calc_used_rect() -> void:

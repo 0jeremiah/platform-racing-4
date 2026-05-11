@@ -2,7 +2,7 @@
 	"id": "15",
 	"settings": {
 		"title": "Hurt Block",
-		"description": "Stuns any players that dare touch this block.",
+		"comment": "Stuns any players that dare touch this block.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},
