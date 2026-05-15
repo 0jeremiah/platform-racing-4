@@ -90,13 +90,13 @@ func _physics_process(delta: float) -> void:
 			move_and_slide()
 	
 	# Interact with tiles
-	#tile_interaction.interact_with_incoporeal_tiles(self)
-	#var hit_something := tile_interaction.interact_with_solid_tiles(self, lightbreak)
+	tile_interaction.interact_with_incoporeal_tiles(self)
+	var hit_something := tile_interaction.interact_with_solid_tiles(self, lightbreak)
 	
 	# End lightbreak if we hit something
-	#if hit_something and lightbreak.direction.length() > 0:
-		#lightbreak.end_lightbreak()
-		#modulate.a = 1
+	if hit_something and lightbreak.direction.length() > 0:
+		lightbreak.end_lightbreak()
+		modulate.a = 1
 	
 	# Item usage
 	if !movement.finished:

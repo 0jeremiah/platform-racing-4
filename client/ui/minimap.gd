@@ -15,6 +15,7 @@ func init(game_scene):
 	
 	for map_layer in map_layers.get_children():
 		var minimap_layer = _create_minimap_layer(map_layer)
+		minimap_layer.name = map_layer.name
 		display_layers.add_child(minimap_layer)
 	
 	connect("resized", Callable(self, "_on_resized"))
@@ -25,15 +26,15 @@ func _on_resized():
 		_update_minimap_layer_scale(child)
 
 
-func _create_minimap_layer(block_layer):
+func _create_minimap_layer(map_layer: MapLayer):
 	var tile_map_layer_mini = ConfigurableTileMapLayer.new()
-	tile_map_layer_mini.name = block_layer.name
+	tile_map_layer_mini.tile_set = map_layer.tile_map_layer.tile_set
+	tile_map_layer_mini._block_lookup = map_layer.tile_map_layer._block_lookup
+	tile_map_layer_mini._blocks = map_layer.tile_map_layer._blocks
 	
-	tile_map_layer_mini.tile_set = block_layer.tile_map_layer.tile_set
-	
-	var used_cells = block_layer.tile_map_layer.get_used_cells()
+	var used_cells = map_layer.tile_map_layer.get_used_cells()
 	for cell in used_cells:
-		var block_id = block_layer.tile_map_layer.get_cell_block_id(cell)
+		var block_id = map_layer.tile_map_layer.get_cell_block_id(cell)
 		tile_map_layer_mini.set_cell_by_id(cell, block_id)
 
 	_update_minimap_layer_scale(tile_map_layer_mini)
@@ -41,7 +42,7 @@ func _create_minimap_layer(block_layer):
 	return tile_map_layer_mini
 
 
-func _update_minimap_layer_scale(minimap_layer: TileMapLayer):
+func _update_minimap_layer_scale(minimap_layer: ConfigurableTileMapLayer):
 	var used_rect = minimap_layer.get_used_rect()
 	
 	var scaleX = 1.0

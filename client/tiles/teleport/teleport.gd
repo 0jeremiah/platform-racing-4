@@ -28,7 +28,7 @@ func clear():
 
 
 func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
-	var layer_name: String = str(tile_map_layer.get_parent().name)
+	var layer_name: String = str(tile_map_layer.map_layer.name)
 	var is_throttled = is_teleport_throttled(str(player.name), layer_name, coords)
 	if is_throttled:
 		return
@@ -40,7 +40,10 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 		"teleport_atlas_coords": teleport_atlas_coords
 	}
 	var next_position = get_next_position(source_position)
-	var map_layers = tile_map_layer.get_parent().get_parent()
+	if !Game.game:
+		return
+	var level_manager = Game.game.get_node("LevelManager")
+	var map_layers = level_manager.level_layers
 	var layer = map_layers.get_node(next_position.layer_name)
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tile_map_layer.global_rotation)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tile_map_layer.global_rotation)

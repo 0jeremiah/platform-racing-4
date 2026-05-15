@@ -97,9 +97,9 @@ func set_hitboxes():
 			crawl_hitbox_list.append(area_node)
 
 
-#func run(character: Character) -> void:
-	#for area in hitboxes_container.get_children():
-		#area.run(character)
+func run(character: Character) -> void:
+	for area in hitboxes_container.get_children():
+		area.run(character)
 	#hitbox_size = character.movement.size
 	#if character.is_on_floor():
 	#	go_low()
@@ -153,7 +153,7 @@ func _bump_tile_covering_high_area(character: Character, area: Area2D) -> void:
 			else:
 				push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
 	else:
-		push_error("No crawl hitboxes exist to do that. :(")
+		push_warning("No crawl hitboxes exist to do that. :(")
 
 
 func set_depth(character: Character, depth: int) -> void:

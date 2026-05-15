@@ -191,6 +191,15 @@ func _ready() -> void:
 	#move_settings.move_settings_changed.connect(_update_properties)
 	#change_settings.change_settings_changed.connect(_update_properties)
 	side_settings_menu.init(block_settings)
+	settings_menu._maybe_enable_settings({
+		"block_settings": {
+			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
+			"stat": {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS), "setting": "stat"},
+			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
+			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
+		}
+	})
 	update_display()
 	
 
@@ -253,8 +262,7 @@ func _change_setting(selected_dictionary: Dictionary):
 		block_settings.matter_type = selected_dictionary.setting
 	elif selected_dictionary.button == block_type_setting_button:
 		block_settings.block_type = selected_dictionary.setting
-	else:
-		side_settings_menu._update_sides(selected_dictionary)
+	side_settings_menu._update_sides(selected_dictionary)
 	settings_menu._maybe_enable_settings({
 		"block_settings": {
 			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},

@@ -22,6 +22,7 @@ func init(default_blocks_config: Array) -> void:
 	set_z_axis(z_axis)
 	set_map_layer_rotation(tile_map_rotation)
 	set_anchor(anchor)
+	tile_map_layer.map_layer = self
 
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:

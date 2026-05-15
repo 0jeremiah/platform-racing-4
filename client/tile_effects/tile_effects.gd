@@ -3,6 +3,7 @@ class_name TileEffects
 
 const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/shatter_effect.tscn")
 const BUMP_EFFECT = preload("res://tile_effects/bump_effect/bump_effect.tscn")
+const VANISH_EFFECT = preload("res://tile_effects/vanish_effect/vanish_effect.tscn")
 
 
 static func shatter(tile_map_layer: TileMapLayer, coords: Vector2i, pieces: int):
@@ -34,7 +35,7 @@ static func bump(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i)
 		return
 	
 	var alt_id: int = tile_map_layer.get_cell_alternative_tile(coords)
-	if alt_id == Tile.INVISIBLE_ALT_ID:
+	if alt_id == ConfigurableBlock.INVISIBLE_ALT_ID:
 		return
 	
 	var bump_effect = BUMP_EFFECT.instantiate()
@@ -44,7 +45,17 @@ static func bump(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i)
 	bump_effect.rotation = player.rotation - tile_map_layer.global_rotation
 	bump_effect.set_tile(tile_map_layer, coords, -bump_effect.rotation)
 	
-	if alt_id == Tile.DEACTIVATED_ALT_ID:
-		tile_map_layer.set_cell(coords, 0, atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
+	if alt_id == ConfigurableBlock.DEACTIVATED_ALT_ID:
+		tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
 	else:
-		tile_map_layer.set_cell(coords, 0, atlas_coords, Tile.INVISIBLE_ALT_ID)
+		tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_ALT_ID)
+
+
+static func vanish(tile_map_layer: TileMapLayer, coords: Vector2i, animation_duration: float, cooldown: float):
+	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
+	if atlas_coords == Vector2i(-1, -1):
+		return
+	var vanish_effect = VANISH_EFFECT.instantiate()
+	tile_map_layer.add_child(vanish_effect)
+	vanish_effect.init(tile_map_layer, coords, animation_duration, cooldown)
+	vanish_effect.position = coords * Settings.tile_size

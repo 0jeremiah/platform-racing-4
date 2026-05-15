@@ -8,6 +8,7 @@ class_name ConfigurableTileMapLayer
 
 var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas_coords: Vector2i}
 var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
+var map_layer: MapLayer = null
 
 
 ## Initialize the layer with a ConfigurableTileSet
@@ -124,7 +125,7 @@ func is_safe(coords: Vector2i) -> bool:
 	var unsafe_block_types = [ConfigurableBlockSettings.MOVE]
 	var unsafe_block_sides = [ConfigurableBlockSideSettings.MINE, ConfigurableBlockSideSettings.VANISH,
 	ConfigurableBlockSideSettings.PUSH, ConfigurableBlockSideSettings.CRUMBLE,
-	ConfigurableBlockSideSettings.SHATTER]
+	ConfigurableBlockSideSettings.SAFETY, ConfigurableBlockSideSettings.SHATTER]
 	var block_id = get_cell_block_id(coords)
 	if block_id:
 		var matter_type_is_safe: bool = _blocks[block_id].settings.matter_type not in unsafe_matter_types

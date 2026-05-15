@@ -8,7 +8,7 @@ var gravity_rotated: Vector2 = Vector2(gravity)
 var base_up_direction: Vector2 = Vector2(0, -1)
 var rotation: float = 0
 var target_rotation: float = 0
-var rotate_speed: float = 0.025
+var rotation_speed: float = 0.025
 var rotation_sync: bool = true
 
 
@@ -17,8 +17,8 @@ func run(character: Character, delta: float) -> void:
 	rotation_sync = true
 	if rotation != target_rotation:
 		rotation_sync = false
-		var rotation_dist = clamp(rotation - target_rotation, -rotate_speed, rotate_speed)
-		if abs(rotation_dist) < rotate_speed:
+		var rotation_dist = clamp(rotation - target_rotation, -rotation_speed, rotation_speed)
+		if abs(rotation_dist) < rotation_speed:
 			rotation = target_rotation
 			target_rotation = rotation # deal with rotation switching from negative to positive
 		else:

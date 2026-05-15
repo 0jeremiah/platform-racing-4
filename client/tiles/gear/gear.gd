@@ -12,7 +12,7 @@ func init():
 func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 	var gear_coord_list = tile_map_layer.get_used_cells_by_id(0, gear_atlas_coords)
 	var switch_atlas_coords = Vector2i(5, 3)
-	var holder = tile_map_layer.get_parent()
+	var holder = tile_map_layer.map_layer.non_static_tile_map_layers
 	var spawn = holder.get_node("NonStaticTileMapLayers")
 	var gear_counter: int = 0
 	
@@ -34,12 +34,13 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 		# spawn.move_child(rotation_controller, 4)
 		
 		# Create sub tile_map_layer
-		var sub_tile_map_layer = TileMapLayer.new()
+		var sub_tile_map_layer = ConfigurableTileMapLayer.new()
 		sub_tile_map_layer.tile_set = tile_map_layer.tile_set
 		sub_tile_map_layer.name = "gear_" + str(gear_coords) + "_tile_map_layer"
 		sub_tile_map_layer.set_cell(Vector2i(0, 0), 0, Vector2i(4, 3))
 		sub_tile_map_layer.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
 		sub_tile_map_layer.use_kinematic_bodies = true
+		sub_tile_map_layer.physics_quadrant_size = 1
 		rotation_controller.add_child(sub_tile_map_layer)
 		
 		# Transfer tiles connected to the gear into the sub tile_map_layer

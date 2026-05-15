@@ -15,7 +15,7 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 	var coord_list = tile_map_layer.get_used_cells_by_id(0, start_atlas_coords)
 	for coords in coord_list:
 		var start_option = {
-			"layer_name": str(tile_map_layer.get_parent().get_parent().name),
+			"layer_name": str(tile_map_layer.map_layer.name),
 			"coords": coords,
 			"tile_map_layer": tile_map_layer,
 		}

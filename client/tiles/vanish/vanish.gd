@@ -1,7 +1,7 @@
 extends Tile
 class_name Vanish
 
-const VANISH_EFFECT = preload("res://tiles/vanish/vanish_effect.tscn")
+const VANISH_EFFECT = preload("res://tile_effects/vanish_effect/vanish_effect.tscn")
 
 var vanish_effects = {} 
 
@@ -31,7 +31,7 @@ func vanish(_player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	
 	tile_map_layer.add_child(vanish_effect)
 	
-	vanish_effect.init(self, tile_atlas, atlas_coords, tile_map_layer, coords)
+	vanish_effect.init(tile_map_layer, coords, 0.3, 2.0)
 	vanish_effect.position = coords * Settings.tile_size
 	
 	add_to_vanish_dict(coords, vanish_effect)

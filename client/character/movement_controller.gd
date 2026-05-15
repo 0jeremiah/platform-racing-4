@@ -2,6 +2,11 @@ class_name MovementController
 ## Controls character movement, including walking, jumping, and swimming.
 ## Handles physics, frozen status, and damage hitstun.
 
+var up_pressed: bool = false
+var down_pressed: bool = false
+var left_pressed: bool = false
+var right_pressed: bool = false
+var space_pressed: bool = false
 var jump_timer: float = 0
 var facing: int = 1
 var jumped: bool = false
@@ -20,6 +25,7 @@ var phantom_velocity_decay: float = 0.25
 var accel: float = 0.0
 var speedburst_boost: float = 1.0
 var on_ice: bool = false
+var ice_friction: float = 0.0
 var frozen: bool = false
 var frozen_timer: float = 0.0
 var frozen_display_node = null
@@ -27,6 +33,8 @@ var hurt: bool = false
 var hitstun_timer: float = 0.0
 var hitstun_duration: float = 0.0
 var shielded: bool = false
+var invincible: bool = false
+var invincibility_timer: float = 0.0
 var on_sticky_block: bool = false
 var speed_stickiness: float = 2.5
 var jump_stickiness: float = 8
@@ -66,16 +74,41 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	
 	# Process hitstun
 	if hurt:
-		if hitstun_timer > 0:
+		if hitstun_timer - delta > 0:
 			hitstun_timer -= delta
 		else:
+			hitstun_timer = 0
 			hurt = false
 	
+	# Process invincibility
+	if invincible:
+		if invincibility_timer - delta > 0:
+			invincibility_timer -= delta
+		else:
+			invincibility_timer = 0
+			invincible = false
+	
 	# Handle input for movement
-	var control_axis: float = Input.get_axis("left", "right")
-	if !hurt and control_axis < 0:
+	up_pressed = false
+	down_pressed = false
+	left_pressed = false
+	right_pressed = false
+	space_pressed = false
+	var horizontal_axis: float = Input.get_axis("left", "right")
+	var vertical_axis: float = Input.get_axis("down", "up")
+	if horizontal_axis != 0:
+		if horizontal_axis < 0:
+			left_pressed = true
+		else:
+			right_pressed = true
+	if vertical_axis != 0:
+		if vertical_axis < 0:
+			down_pressed = true
+		else:
+			up_pressed = true
+	if !hurt and horizontal_axis < 0:
 		facing = -1
-	elif !hurt and control_axis > 0:
+	elif !hurt and horizontal_axis > 0:
 		facing = 1
 		
 	# Checks if player is rotating
@@ -102,7 +135,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	if not_rotating and not character.is_on_floor() and not swimming and on_sticky_block:
 		# Check for wall sliding on right walls
 		if character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x < -0.7 and last_wall_jump_dir != 1:
-			if control_axis > 0 or (control_axis == 0 and Input.is_action_pressed("left")) or wall_sliding_dir == 1:  # Pressing against the wall
+			if horizontal_axis > 0 or (horizontal_axis == 0 and Input.is_action_pressed("left")) or wall_sliding_dir == 1:  # Pressing against the wall
 				is_wall_sliding = true
 				wall_sliding_dir = 1
 				if last_wall_jump_dir != 1:  # Only allow wall jump if last jump wasn't from same side
@@ -113,7 +146,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		
 		# Check for wall sliding on left walls
 		elif character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x > 0.7 and last_wall_jump_dir != -1:
-			if control_axis < 0 or (control_axis == 0 and Input.is_action_pressed("right")) or wall_sliding_dir == -1:  # Pressing against the wall
+			if horizontal_axis < 0 or (horizontal_axis == 0 and Input.is_action_pressed("right")) or wall_sliding_dir == -1:  # Pressing against the wall
 				is_wall_sliding = true
 				wall_sliding_dir = -1
 				if last_wall_jump_dir != -1:  # Only allow wall jump if last jump wasn't from same side
@@ -185,24 +218,25 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	# Horizontal movement
 	if not_rotating:
 		if hurt or super_jump.is_locking():
-			control_axis = 0
+			horizontal_axis = 0
 		if !hurt and is_crouching:
-			control_axis = control_axis / 2
+			horizontal_axis = horizontal_axis / 2
 		
 		var current_speed = GameConfig.get_value("player_movement", "player_speed")
 		if on_sticky_block:
 			current_speed = GameConfig.get_value("player_movement", "player_speed") / speed_stickiness
 		on_sticky_block = false
 		
-		var target_velocity = Vector2(control_axis * (current_speed * speedburst_boost) * stats.get_speed_bonus(), 
+		var target_velocity = Vector2(horizontal_axis * (current_speed * speedburst_boost) * stats.get_speed_bonus(), 
 			velocity.rotated(-character.rotation).y).rotated(character.rotation)
 		
 		accel = (0.05 + ((1.45 / 100) * stats.get_exact_accel())) * speedburst_boost
 		if on_ice:
-			accel *= 0.2
+			accel *= ice_friction
 		on_ice = false
+		ice_friction = 0.0
 		
-		if control_axis != 0:
+		if horizontal_axis != 0:
 			if target_velocity.length() > velocity.length():
 				traction *= accel
 			velocity = velocity.move_toward(target_velocity, delta * traction)
@@ -246,7 +280,7 @@ func freeze(skill_bonus: float):
 
 
 func hitstun(duration: float):
-	if !shielded and !hurt:
+	if !(shielded or invincible) and !hurt:
 		hitstun_duration = duration
 		hitstun_timer = duration
 		frozen_timer = 0
@@ -258,3 +292,9 @@ func hitstun(duration: float):
 			Jukebox.play_sound("ouchcute")
 		else:
 			Jukebox.play_sound("ouchmanly")
+
+
+func grant_invincibility(character: Character):
+	var bonus = character.stats.get_skill_bonus()
+	invincibility_timer = GameConfig.get_value("other_player_stats", "invincibility_duration") * bonus
+	invincible = true

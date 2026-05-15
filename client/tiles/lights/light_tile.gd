@@ -23,7 +23,7 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 		
 		# Add a light
 		var light = LightDisplay.instantiate()
-		var holder = tile_map_layer.get_parent()
+		var holder = tile_map_layer.map_layer.effects
 		light.position = (coords * Settings.tile_size) + Settings.tile_size_half
 		light.get_node("PointLight2D").color = display_color
 		holder.add_child(light)

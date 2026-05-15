@@ -33,7 +33,7 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 func add_egg_enemy(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
 	var depth = Helpers.get_depth(tile_map_layer)
-	var spawn = tile_map_layer.get_parent().get_parent().enemies
+	var spawn = tile_map_layer.map_layer.enemies
 	egg_enemy.position = get_center_position(tile_map_layer, coords)
 	egg_enemy.name = "EggEnemy" + str(egg_counter)
 	if spawn:

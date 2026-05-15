@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bugobk0i7go7f"
-path="res://.godot/imported/tileatlasunderwater.png-e2e6b76fdd97217fc7dfa2b98344962e.ctex"
+uid="uid://bhv3n5eldfxd7"
+path="res://.godot/imported/tileatlasdesert.png-721a4bb3259ddf98150e60ac39087c29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tiles/tileatlasunderwater.png"
-dest_files=["res://.godot/imported/tileatlasunderwater.png-e2e6b76fdd97217fc7dfa2b98344962e.ctex"]
+source_file="res://blocks/tileatlasdesert.png"
+dest_files=["res://.godot/imported/tileatlasdesert.png-721a4bb3259ddf98150e60ac39087c29.ctex"]
 
 [params]
 
