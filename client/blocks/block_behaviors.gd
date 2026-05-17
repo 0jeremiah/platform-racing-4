@@ -391,6 +391,63 @@ func stick(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _bloc
 	node.movement.jump_stickiness = params.get("jump_stickiness", 8.0)
 
 
+# Teleports the player to the next teleport block it can find
+func teleport(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	var block_id = tile_map_layer.get_cell_block_id(coords)
+	if !block_id or !Game.game:
+		return
+	var level_manager = Game.game.get_node("LevelManager")
+	var map_layers = level_manager.level_layers.map_layers
+	var teleport_positions = level_manager.level_layers.get_all_teleport_positions_at_block_id(block_id)
+	#var is_throttled = is_teleport_throttled(str(player.name), layer_name, coords)
+	#if is_throttled:
+		#return
+		
+	var source_position = {
+		"color": params.get("color", "FF7F50"),
+		"tile_map_layer": tile_map_layer,
+		"coords": coords,
+		"map_layer_name": tile_map_layer.map_layer.name
+	}
+	var next_position = get_next_teleport_position(source_position, teleport_positions)
+	var layer = map_layers.get_node(next_position.map_layer_name)
+	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tile_map_layer.global_rotation)
+	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tile_map_layer.global_rotation)
+	var dist = (node.position - source_block_position).rotated(next_position.tile_map_layer.global_rotation)
+	
+	tile_map_layer.map_layer.players.remove_child(node)
+	layer.players.add_child(node)
+	node.position = next_block_position + dist
+	node.tile_interaction.set_depth(node, layer.z_axis)
+	#throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
+	
+	Game.game.set_current_player_layer(next_position.map_layer_name)
+
+
+func get_next_teleport_position(source_position: Dictionary, positions: Array) -> Dictionary:
+	# find start index
+	var i = 0
+	while i < len(positions):
+		var position = positions[i]
+		if source_position.color == position.color && source_position.coords == position.coords && source_position.map_layer_name == position.map_layer_name:
+			break
+		i += 1
+	
+	# find next teleport block with the same color
+	var j = 1
+	var k
+	while j < len(positions) + 1:
+		k = (i + j) % len(positions)
+		var position = positions[k]
+		if source_position.color == position.color:
+			break
+		j += 1
+	
+	# return the next match
+	return positions[k]
+
+
+
 # Makes the block vanish for a bit, then makes it reappear
 func vanish(_node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	var block_id = tile_map_layer.get_cell_block_id(coords)

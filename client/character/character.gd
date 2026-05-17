@@ -60,10 +60,11 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# Update hitbox based on crouch state and size
-	movement.is_crouching = tile_interaction.should_crouch(self)
-	hitbox.run(self)
-	low_area.scale = Vector2(movement.size, movement.size)
-	high_area.scale = Vector2(movement.size, movement.size)
+	if gravity.not_rotating:
+		movement.is_crouching = tile_interaction.should_crouch(self)
+		hitbox.run(self)
+		low_area.scale = Vector2(movement.size, movement.size)
+		high_area.scale = Vector2(movement.size, movement.size)
 	
 	# Process gravity
 	gravity.run(self, delta)

@@ -249,10 +249,6 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		friction = GameConfig.get_value("player_movement", "player_swimming_friction")
 	velocity = velocity * (1 - (friction * delta))
 	
-	# Add phantom velocity
-	# velocity += phantom_velocity
-	# phantom_velocity = phantom_velocity * phantom_velocity_decay
-	
 	# Save for next frame
 	previous_velocity = velocity
 	last_velocity = velocity

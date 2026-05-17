@@ -96,8 +96,16 @@ func calc_used_rect() -> void:
 
 func get_all_start_options():
 	for level_layer in map_layers.get_children():
-		var layer_start_options = level_layer.tile_map_layer.get_start_positions(level_layer.name)
+		var layer_start_options = level_layer.tile_map_layer.get_start_positions()
 		all_start_options.append_array(layer_start_options)
+
+
+func get_all_teleport_positions_at_block_id(block_id: String):
+	var all_teleport_positions = []
+	for level_layer in map_layers.get_children():
+		var teleport_positions = level_layer.tile_map_layer.get_teleport_positions_at_block_id(block_id)
+		all_teleport_positions.append_array(teleport_positions)
+	return all_teleport_positions
 
 
 func get_next_start_option() -> Dictionary:

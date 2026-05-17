@@ -3,13 +3,15 @@ extends Control
 signal block_settings_changed
 
 @onready var settings_dropdown_button = $SettingsDropdownButton
-@onready var settings = $ScrollContainer/Settings
+@onready var settings_container = $SettingsContainer
+@onready var settings = $SettingsContainer/Settings
 @onready var dropdown_popup = $DropdownPopup
 
 var settings_dictionary: Dictionary = {}
 var current_setting: String = ""
 var block_properties: Dictionary = ConfigurableBlockSettings.default_properties
 var has_settings: bool = false
+var container_y: float = 80
 
 
 func _ready() -> void:
@@ -86,3 +88,5 @@ func show_option(setting_info: Dictionary):
 		settings.get_child(child).visible = false
 	if "setting" in setting_info and setting_info.setting in settings.properties:
 		settings.properties[setting_info.setting].node.visible = true
+		settings.custom_minimum_size = settings.properties[setting_info.setting].node.size
+		settings_container.size = Vector2(clampf(settings.properties[setting_info.setting].node.size.x + 12, 0, 238), clampf(settings.properties[setting_info.setting].node.size.y + 12, 0, container_y))

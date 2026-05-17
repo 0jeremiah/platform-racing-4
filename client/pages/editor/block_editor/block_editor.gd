@@ -21,14 +21,12 @@ static var block_editor: Node
 @onready var editor_menu: Node2D = $UI/EditorMenu
 
 var default_block: Dictionary = {
-	"title": "Basic Block 1",
-	"description": "Bland, but at least it gets the job done.",
+	"id": "c-1",
 	"settings": {
+		"title": "Default Block",
+		"description": "Loaded in case no saved blocks are found, nothing is here though.",
 		"matter_type": ConfigurableBlockSettings.SOLID,
 		"block_type": ConfigurableBlockSettings.ACTIVE,
-		"health": 100,
-		"stat_supply": 1,
-		"item_supply": 1,
 		"left": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
 		"right": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
 		"top": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}},
@@ -91,8 +89,6 @@ func _ready():
 	cursor.init(editor_menu, block_manager.block_layers)
 	editor_menu.init(block_manager.block_layers, editor_events)
 	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
-	
-	# layer_panel_node.init(level_manager.level_layers)
 	
 	camera_controls.init(editor_camera)
 	

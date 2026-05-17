@@ -138,7 +138,7 @@ func is_safe(coords: Vector2i) -> bool:
 	return false
 
 
-func get_start_positions(layer_name: String) -> Array:
+func get_start_positions() -> Array:
 	var start_blocks = []
 	for block in _blocks:
 		var block_instance = _blocks[block]
@@ -149,13 +149,31 @@ func get_start_positions(layer_name: String) -> Array:
 		var coord_list = get_used_cells_by_id(_block_lookup[start_block].source_id, _block_lookup[start_block].atlas_coords)
 		for coords in coord_list:
 			var start_option = {
-				"layer_name": layer_name,
-				"coords": coords,
 				"tile_map_layer": self,
+				"coords": coords,
+				"map_layer_name": str(map_layer.name)
 			}
 			start_options.push_back(start_option)
 	return start_options
 
+
+func get_teleport_positions_at_block_id(block_id: String) -> Array:
+	if !block_id in _blocks and block_id in _block_lookup:
+		return []
+	var teleport_block = _blocks[block_id]
+	if !teleport_block.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+		return []
+	var teleport_positions = []
+	var coord_list = get_used_cells_by_id(_block_lookup[block_id].source_id, _block_lookup[block_id].atlas_coords)
+	for coords in coord_list:
+		var teleport_position = {
+			"color": _blocks[block_id].settings.teleport_color,
+			"tile_map_layer": self,
+			"coords": coords,
+			"map_layer_name": str(map_layer.name),
+		}
+		teleport_positions.push_back(teleport_position)
+	return teleport_positions
 
 ## Create ConfigurableBlock instances from configs
 func _create_blocks(configs: Array) -> void:

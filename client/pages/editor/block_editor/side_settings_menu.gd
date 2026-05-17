@@ -1,7 +1,8 @@
 extends Control
 
 @onready var side_settings_dropdown_button = $SideSettingsDropdownButton
-@onready var side_settings = $SideSettings
+@onready var side_settings_container = $SideSettingsContainer
+@onready var side_settings = $SideSettingsContainer/SideSettings
 @onready var dropdown_popup = $DropdownPopup
 
 var sides_dictionary: Dictionary = {
@@ -22,6 +23,7 @@ var current_category: String = "solids"
 var current_side: String = "top"
 var has_side_settings: bool = false
 var block_settings: ConfigurableBlockSettings = null
+var container_y: float = 298
 
 
 func _ready() -> void:
@@ -132,5 +134,12 @@ func show_option(options_dictionary: Dictionary):
 		side_settings.get_child(child).visible = false
 	if "setting" in options_dictionary and options_dictionary.setting in side_settings.sides_properties:
 		side_settings.sides_properties[options_dictionary.setting].node.visible = true
+		side_settings.custom_minimum_size = side_settings.sides_properties[options_dictionary.setting].node.size
+		side_settings.size = Vector2(clampf(side_settings.sides_properties[options_dictionary.setting].node.size.x + 12, 0, 488), clampf(side_settings.sides_properties[options_dictionary.setting].node.size.y + 12, 0, container_y - side_settings_container.position.y))
 		if "side" in options_dictionary and "side_settings" in sides_dictionary[options_dictionary.category][options_dictionary.side] and sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings != null:
 			side_settings.sides_properties[options_dictionary.setting].node.set_side_settings(sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings)
+
+
+func change_container_y(new_container_y: float):
+	container_y = new_container_y
+	side_settings_container.size.y = container_y

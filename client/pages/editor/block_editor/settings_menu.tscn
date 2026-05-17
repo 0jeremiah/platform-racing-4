@@ -8,13 +8,13 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 250.0
-offset_bottom = 150.0
+offset_bottom = 160.0
 script = ExtResource("1_p6ii4")
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 0
 offset_top = 70.0
-offset_right = 238.0
+offset_right = 250.0
 offset_bottom = 74.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -34,14 +34,13 @@ offset_bottom = 60.0
 theme_override_font_sizes/font_size = 17
 text = "None"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="SettingsContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_top = 80.0
 offset_right = 238.0
-offset_bottom = 150.0
+offset_bottom = 160.0
 
-[node name="Settings" parent="ScrollContainer" instance=ExtResource("2_1p1ry")]
-custom_minimum_size = Vector2(300, 110)
+[node name="Settings" parent="SettingsContainer" instance=ExtResource("2_1p1ry")]
 layout_mode = 2
 
 [node name="DropdownPopup" parent="." instance=ExtResource("3_1p1ry")]
