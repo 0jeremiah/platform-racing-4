@@ -118,16 +118,16 @@ func _notify_collision(
 					"coords": coords,
 					"block_id": tile_map_layer.get_cell_block_id(coords)
 					}
-				var block = tile_map_layer._blocks[tile_map_layer.get_cell_block_id(coords)]
-				if block and block.settings.bottom.type != (ConfigurableBlockSideSettings.ARROW) or block.settings.bump.type != (ConfigurableBlockSideSettings.ARROW):
+				var block = BlockManager._blocks[tile_map_layer.get_cell_block_id(coords)]
+				if block and (block.settings.bottom.type != (ConfigurableBlockSideSettings.ARROW) or block.settings.bump.type != (ConfigurableBlockSideSettings.ARROW)):
 					_parent.velocity.rotated(_parent.rotation).y = 0
+				_parent.movement.attempting_bump = true
+				_parent.movement.jumped = false
+				_parent.movement.jump_timer = 0
 		else:
 			events.append("top")
 			events.append("stand")
 			if "movement" in _parent and "tile_interaction" in _parent:
-				_parent.movement.attempting_bump = true
-				_parent.movement.jumped = false
-				_parent.movement.jump_timer = 0
 				if tile_map_layer.is_safe(coords) and tile_map_layer.name.contains("gear") == false:
 					var centre_safe_block = Vector2(
 							coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x,

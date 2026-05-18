@@ -80,7 +80,7 @@ func _ready():
 			#block = default_block
 			#block_manager.decode_block(default_block, true)
 	block = default_block
-	block_manager.decode_block(default_block, true)
+	block_manager.decode_block(default_block)
 	
 	#var block_settings: Dictionary = {}
 	

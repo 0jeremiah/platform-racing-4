@@ -122,9 +122,9 @@ func _bump_tile_covering_high_area() -> void:
 	
 		movement.attempting_bump = true
 		if tile != movement.last_bumped_block:
-			tile.tile_map_layer._blocks[tile.block_id].on("bottom", self, tile.tile_map_layer, tile.coords)
-			tile.tile_map_layer._blocks[tile.block_id].on("any_side", self, tile.tile_map_layer, tile.coords)
-			tile.tile_map_layer._blocks[tile.block_id].on("bump", self, tile.tile_map_layer, tile.coords)
+			BlockManager._blocks[tile.block_id].on("bottom", self, tile.tile_map_layer, tile.coords)
+			BlockManager._blocks[tile.block_id].on("any_side", self, tile.tile_map_layer, tile.coords)
+			BlockManager._blocks[tile.block_id].on("bump", self, tile.tile_map_layer, tile.coords)
 			movement.last_bumped_block = tile
 	else:
 		push_error("Character::bump_tile_covering_high_area - No tile covering high area")

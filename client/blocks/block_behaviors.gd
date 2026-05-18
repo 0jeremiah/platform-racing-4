@@ -44,7 +44,7 @@ func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block:
 					push_velocity = (rotated_push_dir * push_force) * 10
 			else:
 				if !node.movement.down_pressed:
-					push_velocity = rotated_push_dir * push_force
+					push_velocity = (rotated_push_dir * push_force) * 15
 		else:
 			push_velocity = rotated_push_dir * push_force
 	
@@ -373,7 +373,7 @@ func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2
 	if (body.tile_interaction.last_safe_layer != null and (body.tile_interaction.last_safe_layer.players != body.get_parent())):
 		body.get_parent().remove_child(body)
 		body.tile_interaction.last_safe_layer.players.add_child(body)
-		body.tile_interaction.set_depth(body, body.tile_interaction.last_safe_layer.depth)
+		body.tile_interaction.set_depth(body, body.tile_interaction.last_safe_layer.z_axis)
 
 
 # Shatters the block

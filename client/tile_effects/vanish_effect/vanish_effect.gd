@@ -110,8 +110,8 @@ func vanish_still_exists() -> bool:
 	if tile_map_layer and coords:
 		var current_block_id = tile_map_layer.get_cell_block_id(coords)
 		if current_block_id:
-			var current_source_id = tile_map_layer._block_lookup[current_block_id].source_id
-			var current_atlas_coords = tile_map_layer._block_lookup[current_block_id].atlas_coords
+			var current_source_id = BlockManager._block_lookup[current_block_id].source_id
+			var current_atlas_coords = BlockManager._block_lookup[current_block_id].atlas_coords
 			if current_source_id == source_id and current_atlas_coords == atlas_coords:
 				return true
 	return false

@@ -19,8 +19,8 @@ var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
 
 func _ready() -> void:
-	default_blocks_config = BlockManager._load_default_block_configs()
-	level_layers.init(default_blocks_config)
+	#default_blocks_config = BlockManager.load_default_block_configs()
+	level_layers.init()
 
 
 func encode_level() -> Dictionary:

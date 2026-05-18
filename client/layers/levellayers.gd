@@ -14,8 +14,8 @@ var default_blocks_config: Array
 
 
 
-func init(_default_blocks_config: Array) -> void:
-	default_blocks_config = _default_blocks_config
+func init() -> void:
+	#default_blocks_config = _default_blocks_config
 	for layer in map_layers.get_children():
 		if layer is MapLayer:
 			layer.init(default_blocks_config)
@@ -60,8 +60,7 @@ func add_map_layer(_name: String) -> MapLayer:
 	layer.name = _name
 	#layer.layer = 10
 	map_layers.add_child(layer)
-	if default_blocks_config:
-		layer.init(default_blocks_config)
+	layer.init()
 	return layer
 
 func add_art_layer(_name: String) -> ArtLayer:

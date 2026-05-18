@@ -17,64 +17,15 @@ var anchor: Vector2 = Vector2(0, 0)
 var layer_name: String = ""
 
 
-func init(default_blocks_config: Array) -> void:
-	tile_map_layer.setup_from_configs(default_blocks_config)
-	set_z_axis(z_axis)
-	set_map_layer_rotation(tile_map_rotation)
-	set_anchor(anchor)
+func _ready() -> void:
+	tile_map_layer.tile_set = BlockManager._tile_set
 	tile_map_layer.map_layer = self
 
 
-func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
-	var source: TileSetAtlasSource = TileSetAtlasSource.new()
-	source.texture = TILEATLAS
-	source.texture_region_size = Settings.tile_size
-	
-	var tile_set = TileSet.new()
-	tile_set.tile_size = Settings.tile_size
-	tile_set.add_source(source)
-	#tile_set.add_custom_data_layer(0)
-	#tile_set.set_custom_data_layer_name(0, "tile_options")
-	#tile_set.set_custom_data_layer_type(0, TYPE_ARRAY)
-	
-	if enable_collision:
-		tile_set.add_physics_layer()
-		tile_set.add_physics_layer()
-	
-	for tile_id in tiles.map:
-		var tile: Tile = tiles.map[tile_id]
-		var atlas_coords: Vector2i = CoordinateUtils.to_atlas_coords(int(tile_id))
-		var polygon: PackedVector2Array = PackedVector2Array([
-			Vector2(-Settings.tile_size_half.x, -Settings.tile_size_half.y),
-			Vector2(Settings.tile_size_half.x, -Settings.tile_size_half.y),
-			Vector2(Settings.tile_size_half.x, Settings.tile_size_half.y), 
-			Vector2(-Settings.tile_size_half.x, Settings.tile_size_half.y)
-		])
-		
-		source.create_tile(atlas_coords)
-		source.create_alternative_tile(atlas_coords, Tile.DEACTIVATED_ALT_ID)
-		source.create_alternative_tile(atlas_coords, Tile.INVISIBLE_ALT_ID)
-		source.create_alternative_tile(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
-		
-		for data in [
-			source.get_tile_data(atlas_coords, 0),
-			source.get_tile_data(atlas_coords, Tile.DEACTIVATED_ALT_ID),
-			source.get_tile_data(atlas_coords, Tile.INVISIBLE_ALT_ID),
-			source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
-		]:
-			if enable_collision:
-				if tile.matter_type == Tile.ACTIVE:
-					data.add_collision_polygon(0)
-					data.set_collision_polygon_points(0, 0, polygon)
-				else:
-					data.add_collision_polygon(1)
-					data.set_collision_polygon_points(1, 0, polygon)
-		
-		source.get_tile_data(atlas_coords, Tile.DEACTIVATED_ALT_ID).modulate = Color(0.5, 0.5, 0.5, 1.0)
-		source.get_tile_data(atlas_coords, Tile.INVISIBLE_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
-		source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
-	
-	return tile_set
+func init() -> void:
+	set_z_axis(z_axis)
+	set_map_layer_rotation(tile_map_rotation)
+	set_anchor(anchor)
 
 
 func set_z_axis(p_z_axis: int) -> void:

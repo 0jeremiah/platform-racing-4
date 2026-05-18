@@ -189,7 +189,7 @@ func _on_level_load(level_name = "", level_description = ""):
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(selected_level)
-	level_manager.level_layers.init(level_manager.default_blocks_config)
+	level_manager.level_layers.init()
 
 
 func _on_request_editor_load():
@@ -198,7 +198,7 @@ func _on_request_editor_load():
 	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(LevelEditor.current_level)
-	level_manager.level_layers.init(level_manager.default_blocks_config)
+	level_manager.level_layers.init()
 
 
 func _on_explore_load(level_id):
@@ -234,7 +234,7 @@ func _on_explore_load_completed(result, response_code, _headers, body):
 	LevelEditor.current_level = level_data
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(LevelEditor.current_level)
-	level_manager.level_layers.init(level_manager.default_blocks_config)
+	level_manager.level_layers.init()
 
 
 func _on_control_event(event: Dictionary) -> void:

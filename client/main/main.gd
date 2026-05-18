@@ -54,6 +54,9 @@ func _ready():
 	if await TestRunner.run_tests(self):
 		return
 
+	if BlockManager._default_blocks.is_empty():
+		BlockManager.load_default_block_configs()
+
 	ParticleManager.init_particles()
 	await set_scene(TITLE)
 	PopupManager.add_message_popup("Welcome to Platform Racing 4! This game is currently in alpha status, and it's being worked on by Jiggmin and a few other contributors. If you would like to help, please go to our github!\n\nhttps://github.com/jacob-grahn/platform-racing-4")

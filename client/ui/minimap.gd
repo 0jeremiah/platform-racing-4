@@ -28,9 +28,7 @@ func _on_resized():
 
 func _create_minimap_layer(map_layer: MapLayer):
 	var tile_map_layer_mini = ConfigurableTileMapLayer.new()
-	tile_map_layer_mini.tile_set = map_layer.tile_map_layer.tile_set
-	tile_map_layer_mini._block_lookup = map_layer.tile_map_layer._block_lookup
-	tile_map_layer_mini._blocks = map_layer.tile_map_layer._blocks
+	tile_map_layer_mini.tile_set = BlockManager._tile_set
 	
 	var used_cells = map_layer.tile_map_layer.get_used_cells()
 	for cell in used_cells:

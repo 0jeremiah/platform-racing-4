@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 ## Initialize the layer with a ConfigurableTileSet
-func add_block_configs(configs: Array) -> void:
+static func add_block_configs(configs: Array) -> void:
 	# Create and assign tileset
 	_tile_set.init(configs)
 	_tile_set.uv_clipping = true
@@ -29,7 +29,7 @@ func add_block_configs(configs: Array) -> void:
 
 
 ## Build the block_id → tile location mapping
-func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
+static func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 	_block_lookup.clear()
 
 	# Group configs by texture to match ConfigurableTileSet's source creation logic
@@ -88,7 +88,7 @@ func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) -> void:
 
 
 ## Create ConfigurableBlock instances from configs
-func _create_blocks(configs: Array) -> void:
+static func _create_blocks(configs: Array) -> void:
 	_blocks.clear()
 
 	for config in configs:
@@ -105,7 +105,7 @@ func encode_block() -> Dictionary:
 	return block_encoder.encode(block_layers, self)
 
 
-func decode_block(block_data: Dictionary, is_editor: bool) -> void:
+func decode_block(block_data: Dictionary) -> void:
 	block_decoder.decode(block_data, block_layers)
 
 
@@ -113,7 +113,13 @@ func clear() -> void:
 	block_layers.clear()
 
 
-static func _load_default_block_configs() -> Array:
+static func get_default_blocks() -> Dictionary:
+	if !_default_blocks.is_empty():
+		return _default_blocks
+	return {}
+
+
+static func load_default_block_configs():
 	var categories: Array = ["pr2", "desert", "industrial", "jungle", "space", "underwater", "pr4"]
 	var configs: Array = []
 	var id_gap: int = 0
@@ -148,9 +154,9 @@ static func _load_default_block_configs() -> Array:
 		dir.list_dir_end()
 		id_gap += 100
 	
-	configs.sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
-	
-	return configs
+	if configs:
+		configs.sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
+		add_block_configs(configs)
 
 
 func set_settings(new_settings: Dictionary):

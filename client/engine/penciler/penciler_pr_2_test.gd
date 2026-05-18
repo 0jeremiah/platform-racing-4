@@ -13,8 +13,8 @@ func _ready() -> void:
 	http_request.request_completed.connect(self._http_request_completed)
 	http_request.request(ApiManager.get_base_url() + "/pr2/level/" + pr2_level_id)
 	penciler.init(level_layers, level_decoder)
-	default_blocks_config = BlockManager._load_default_block_configs()
-	level_layers.init(BlockManager._load_default_block_configs())
+	#default_blocks_config = BlockManager.load_default_block_configs()
+	level_layers.init()
 
  
 func _http_request_completed(_result, _response_code, _headers, body):
