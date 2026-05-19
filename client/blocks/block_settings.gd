@@ -23,7 +23,7 @@ static var default_properties: Dictionary = {
 	"health": 100.0,
 	"coin_value": 3,
 	"change_tick": 2.5,
-	"change_pattern": [101, 121, 124, 113],
+	"change_pattern": ["101", "121", "124", "113"],
 	"move_tick": 2.5,
 	"move_pattern": "up, down, left, right",
 	"randomize_move_pattern": false,
@@ -83,36 +83,9 @@ func export_settings() -> Dictionary:
 		settings["any_side"] = any_side.get_type()
 	elif matter_type == LIQUID or matter_type == GAS:
 		settings["area"] = area.get_type()
-		
-	if health != default_properties.health:
-		settings["health"] = health
-	if coin_value != default_properties.coin_value:
-		settings["coin_value"] = coin_value
-	if stat_supply != default_properties.stat_supply:
-		settings["stat_supply"] = stat_supply
-	if change_tick != default_properties.change_tick:
-		settings["change_tick"] = change_tick
-	if change_pattern != default_properties.change_pattern:
-		settings["change_pattern"] = change_pattern
-	if move_tick != default_properties.move_tick:
-		settings["move_tick"] = move_tick
-	if move_pattern != default_properties.move_pattern:
-		settings["move_pattern"] = move_pattern
-	if has_side_type(ConfigurableBlockSideSettings.ITEM):
-		settings["infinite_items"] = infinite_items
-		settings["item_supply"] = item_supply
-	if stat_supply != default_properties.stat_supply:
-		settings["stat_supply"] = stat_supply
-	if gear_rotation != default_properties.gear_rotation:
-		settings["gear_rotation"] = gear_rotation
-	if gear_tick != default_properties.gear_tick:
-		settings["gear_tick"] = gear_tick
-	if gear_tock != default_properties.gear_tock:
-		settings["gear_tock"] = gear_tock
-	if teleport_color != default_properties.teleport_color:
-		settings["teleport_color"] = teleport_color
-	if teleport_throttle_ms != default_properties.teleport_throttle_ms:
-		settings["teleport_throttle_ms"] = teleport_throttle_ms
+	var extra_settings = get_settings()
+	if !extra_settings.is_empty():
+		settings.merge(extra_settings)
 	# this was in pr3 to keep block settings from getting too big
 	# dunno if this limitation will be needed, but added this code just in case
 	
@@ -191,6 +164,39 @@ func import_settings(new_settings: Dictionary) -> void:
 		missing_variables_string.substr(0, missing_variables_string.length() - 2)
 		push_warning("These variables for this block are missing: " + missing_variables_string + ".")
 
+
+func get_settings() -> Dictionary:
+	var settings = {}
+	if health != default_properties.health:
+		settings["health"] = health
+	if coin_value != default_properties.coin_value:
+		settings["coin_value"] = coin_value
+	if stat_supply != default_properties.stat_supply:
+		settings["stat_supply"] = stat_supply
+	if change_tick != default_properties.change_tick:
+		settings["change_tick"] = change_tick
+	if change_pattern != default_properties.change_pattern:
+		settings["change_pattern"] = change_pattern
+	if move_tick != default_properties.move_tick:
+		settings["move_tick"] = move_tick
+	if move_pattern != default_properties.move_pattern:
+		settings["move_pattern"] = move_pattern
+	if has_side_type(ConfigurableBlockSideSettings.ITEM):
+		settings["infinite_items"] = infinite_items
+		settings["item_supply"] = item_supply
+	if stat_supply != default_properties.stat_supply:
+		settings["stat_supply"] = stat_supply
+	if gear_rotation != default_properties.gear_rotation:
+		settings["gear_rotation"] = gear_rotation
+	if gear_tick != default_properties.gear_tick:
+		settings["gear_tick"] = gear_tick
+	if gear_tock != default_properties.gear_tock:
+		settings["gear_tock"] = gear_tock
+	if teleport_color != default_properties.teleport_color:
+		settings["teleport_color"] = teleport_color
+	if teleport_throttle_ms != default_properties.teleport_throttle_ms:
+		settings["teleport_throttle_ms"] = teleport_throttle_ms
+	return settings
 
 
 func get_side_types() -> Array:

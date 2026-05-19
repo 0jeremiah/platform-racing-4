@@ -17,10 +17,11 @@ var quick_click: bool = false
 var from_block_picker: bool = true
 var old_mouse_position: Vector2 = Vector2(0, 0)
 var check_if_not_clicking: bool = false
-var selected_block_id: int = 0
+var selected_block_id: String = ""
 
 
 func _ready() -> void:
+	BlockManager.load_default_block_configs()
 	tick_box.init("float", str(change_tick), 0.0, 99999999.9)
 	tick_box.return_line.connect(_update_tick)
 	block_picker.block_clicked.connect(_drag_block)
@@ -51,7 +52,7 @@ func _process(delta: float) -> void:
 			check_if_not_clicking = false
 			quick_click_timer = 0.3
 			quick_click = false
-			selected_block_id = 0
+			selected_block_id = ""
 	for node in blocks_container.get_children():
 		_check_clicked_button(node)
 
@@ -67,22 +68,14 @@ func _update_block_list():
 		var block_button = TextureButton.new()
 		block_button.ignore_texture_size = true
 		block_button.stretch_mode = 0
-		block_button.texture_normal = AtlasTexture.new()
-		block_button.texture_normal.atlas = tile_atlas
-		var atlas_coords = CoordinateUtils.to_atlas_coords(change_pattern[block])
-		block_button.texture_normal.region = Rect2(128 * atlas_coords.x, 128 * atlas_coords.y, 128, 128)
-		block_button.texture_normal.filter_clip = true
+		block_button.texture_normal = BlockManager.get_block_texture(change_pattern[block])
 		block_button.size = Vector2(48, 48)
 		block_button.position = Vector2(5, 5)
 		block_button.pivot_offset = Vector2(block_button.size.x / 2, block_button.size.y / 2)
 		var _block_data = {
 			"block_id": change_pattern[block],
-			"block_atlas_coords": atlas_coords,
 			"block_index": block
 			}
-		if CoordinateUtils.to_true_block_id(change_pattern[block]) == 33:
-			_block_data.get_or_add("teleport_colorin_coords", CoordinateUtils.to_atlas_coords(change_pattern[block] + 1))
-			_block_data.get_or_add("teleport_color", "E22B2E")
 		block_container.add_child(block_button)
 		blocks_container.add_child(block_container)
 		block_button.button_down.connect(_select_block.bind(_block_data))
@@ -99,31 +92,32 @@ func _select_block(block_data: Dictionary):
 	block_data.erase("block_index")
 	quick_click = true
 	old_mouse_position = blocks_container.get_local_mouse_position()
-	_drag_block(block_data, false)
+	_drag_block(block_data.block_id, false)
 	check_if_not_clicking = true
 
 
-func _drag_block(block_data: Dictionary, _from_block_picker: bool = true) -> void:
+func _drag_block(block_id: String, _from_block_picker: bool = true) -> void:
 	from_block_picker = _from_block_picker
 	quick_click = true
-	selected_block_id = block_data.block_id
-	update_block_icon(block_data)
+	selected_block_id = block_id
+	update_block_icon(block_id)
 	_update_block_list()
 	check_if_not_clicking = true
 
 
-func update_block_icon(block_data: Dictionary):
+func update_block_icon(block_id: String):
 	selected_block_texture.global_position = get_global_mouse_position() - Vector2(selected_block_texture.size.x / 2, selected_block_texture.size.y / 2)
 	teleport_colorin_texture.visible = false
 	selected_block_texture.visible = true
-	selected_block_texture.texture.region = Rect2((128 * block_data.block_atlas_coords.x), (128 * block_data.block_atlas_coords.y), 128, 128)
-	if block_data.has("teleport_colorin_coords"):
+	selected_block_texture.texture = BlockManager.get_block_texture(block_id)
+	var block_instance = BlockManager._blocks[block_id] if block_id in BlockManager._blocks else null
+	if block_instance and block_instance.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		teleport_colorin_texture.visible = true
-		teleport_colorin_texture.texture.region = Rect2((128 * block_data.teleport_colorin_coords.x), (128 * block_data.teleport_colorin_coords.y), 128, 128)
-		teleport_colorin_texture.self_modulate = Color(block_data.teleport_color + "7F")
+		teleport_colorin_texture.texture = BlockManager.get_block_teleport_texture(block_id)
+		teleport_colorin_texture.self_modulate = Color( block_instance.settings.teleport_color + "7F")
 
 
-func _maybe_add_block(id: int, index: int = change_pattern.size()):
+func _maybe_add_block(id: String, index: int = change_pattern.size()):
 	if change_pattern.size() < 150:
 		change_pattern.insert(index, id)
 		emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})

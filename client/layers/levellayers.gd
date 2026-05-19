@@ -15,7 +15,6 @@ var default_blocks_config: Array
 
 
 func init() -> void:
-	#default_blocks_config = _default_blocks_config
 	for layer in map_layers.get_children():
 		if layer is MapLayer:
 			layer.init(default_blocks_config)

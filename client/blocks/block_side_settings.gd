@@ -1,4 +1,5 @@
 class_name ConfigurableBlockSideSettings
+## Settings for the sides in ConfigurableBlock, contains side settings and parameters
 
 static var ACTIVE = "active"
 static var INACTIVE = "inactive"

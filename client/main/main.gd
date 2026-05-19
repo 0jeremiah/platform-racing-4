@@ -54,8 +54,7 @@ func _ready():
 	if await TestRunner.run_tests(self):
 		return
 
-	if BlockManager._default_blocks.is_empty():
-		BlockManager.load_default_block_configs()
+	BlockManager.load_default_block_configs()
 
 	ParticleManager.init_particles()
 	await set_scene(TITLE)

@@ -8,12 +8,10 @@ signal level_event
 
 var active: bool = false
 var mode: String = "draw"
-var block_id: int = 0
-var block_options = null
-var teleport_colorin_coords: Vector2 = Vector2(-1, -1)
-var teleport_color: String = "FFFFFF"
-var grabbed_block: int = 0
-var grabbed_block_options: Array = []
+var block_id: String = "1"
+var block_settings = null
+var grabbed_block: String = ""
+var grabbed_settings: Array = []
 var level_layers: LevelLayers
 
 
@@ -29,23 +27,6 @@ func activate():
 	active = true
 
 
-#func _draw():
-	#var camera: Camera2D = get_viewport().get_camera_2d()
-	#var screen_rect = get_viewport().get_visible_rect()
-	#if camera:
-		#var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		#var packed_vector2_array = PackedVector2Array(
-		#[Vector2((-get_parent().position.x + screen_rect.position.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y) * layer.get_layer_scale()),
-		#Vector2((-get_parent().position.x + screen_rect.position.x + screen_rect.size.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y) * layer.get_layer_scale()),
-		#Vector2((-get_parent().position.x + screen_rect.position.x + screen_rect.size.x) * layer.get_layer_scale(), (-get_parent().position.y + screen_rect.position.y + screen_rect.size.y) * layer.get_layer_scale()),
-		#Vector2((-get_parent().position.x + screen_rect.position.x) * layer.get_layer_scale(), (screen_rect.position.y + -get_parent().position.y + screen_rect.size.y) * layer.get_layer_scale())])
-		#for lines in packed_vector2_array.size():
-			#if lines + 1 < packed_vector2_array.size():
-				#draw_line(packed_vector2_array[lines], packed_vector2_array[lines + 1], Color.WHITE, 5.0, false)
-			#else:
-				#draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 5.0, false)
-
-
 func _process(_delta):
 	if active:
 		visible = true
@@ -56,19 +37,15 @@ func _process(_delta):
 		if touching_gui:
 			if mode == "erase":
 				eraser_icon.visible = true
-			elif mode == "move" and grabbed_block > 0 or mode == "draw":
+			elif mode == "move" and grabbed_block or mode == "draw":
 				block_icon.visible = true
-				var atlas_coords: Vector2i = Vector2i(-1, -1)
+				var current_block_id = block_id
 				if mode == "move":
-					atlas_coords = CoordinateUtils.to_atlas_coords(grabbed_block)
-				else:
-					atlas_coords = CoordinateUtils.to_atlas_coords(block_id)
-				block_icon.texture.region = Rect2((128 * atlas_coords.x), (128 * atlas_coords.y), 128, 128)
-				if teleport_colorin_coords != Vector2(-1, -1):
+					current_block_id = grabbed_block
+				block_icon.texture = BlockManager.get_block_texture(current_block_id)
+				if BlockManager._blocks[current_block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 					teleport_colorin.visible = true
-					teleport_colorin.texture.region = Rect2((128 * teleport_colorin_coords.x), (128 * teleport_colorin_coords.y), 128, 128)
-					teleport_colorin.self_modulate = Color(teleport_color + "7F")
-			#queue_redraw()
+					teleport_colorin.texture = BlockManager.get_block_teleport_texture(current_block_id)
 	else:
 		visible = false
 
@@ -90,12 +67,6 @@ func _on_control_event(event: Dictionary) -> void:
 			#block_options = event.block_options
 		#else:
 			#block_options = null
-		if (event.has("teleport_colorin_coords") and event.teleport_colorin_coords != null):
-			teleport_colorin_coords = event.teleport_colorin_coords
-			teleport_color = event.teleport_color
-		else:
-			teleport_colorin_coords = Vector2(-1, -1)
-			teleport_color = "FFFFFF"
 			
 
 
@@ -135,15 +106,11 @@ func on_mouse_down():
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
-		var tile_coords = tile_map_layer.get_cell_atlas_coords(coords)
-		var tile_id = CoordinateUtils.to_block_id(tile_coords)
-		#var tile_options = null
-		#var tile_data = tile_map_layer.get_cell_tile_data(coords)
-		#if tile_data and tile_data.has_custom_data("tile_options"):
-			#tile_options = tile_data.get_custom_data("tile_options")
-		if tile_id > 0:
+		var tile_id = tile_map_layer.get_cell_block_id(coords)
+		#var tile_settings = BlockManager._blocks[tile_id].settings.get_settings()
+		if tile_id:
 			grabbed_block = tile_id
-			#grabbed_block_options = tile_options
+			#grabbed_block_settings = tile_settings
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -151,9 +118,8 @@ func on_mouse_down():
 					"x": coords.x,
 					"y": coords.y
 				},
-				"block_id": 0,
-				"block_options": null,
-				"atlas_coords": Vector2(-1, -1)
+				"block_id": 0#,
+				#"block_settings": tile_settings
 			})
 
 func on_drag():
@@ -161,17 +127,15 @@ func on_drag():
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
-		var tile_id: int
-		#var tile_options: TileOptions
+		var tile_id: String
+		#var tile_settings: block_settings
 		if mode == "erase":
-			tile_id = 0
-			#tile_options = null
+			tile_id = ""
 		else:
 			tile_id = block_id
-			#tile_options = block_options
-		var atlas_coords = CoordinateUtils.to_atlas_coords(tile_id)
-		var existing_atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-		if atlas_coords != existing_atlas_coords:
+			#tile_settings = block_settings
+		var existing_tile_id = tile_map_layer.get_cell_block_id(coords)
+		if tile_id != existing_tile_id:
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -179,9 +143,8 @@ func on_drag():
 					"x": coords.x,
 					"y": coords.y
 				},
-				"block_id": tile_id,
-				#"block_options": tile_options,
-				"atlas_coords": atlas_coords
+				"block_id": tile_id#,
+				#"block_settings": tile_settings,
 			})
 
 
@@ -190,8 +153,7 @@ func on_mouse_up():
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
-		var atlas_coords = CoordinateUtils.to_atlas_coords(grabbed_block)
-		if grabbed_block > 0:
+		if grabbed_block:
 			emit_signal("level_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -200,8 +162,7 @@ func on_mouse_up():
 					"y": coords.y
 				},
 				"block_id": grabbed_block,
-				"block_options": grabbed_block_options,
-				"atlas_coords": atlas_coords
+				#"block_settings": grabbed_block_settings,
 			})
-			grabbed_block = 0
-			#grabbed_block_options = []
+			grabbed_block = ""
+			#grabbed_block_settings = null
