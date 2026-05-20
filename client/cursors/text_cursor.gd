@@ -2,12 +2,20 @@ extends Node2D
 
 signal level_event
 
+@onready var sample_text = $SampleText
 @onready var caret = $Caret
+@onready var white_caret = $Caret/WhiteCaret
+@onready var white_caret_top = $Caret/WhiteCaret/WhiteCaretTop
+@onready var white_caret_middle = $Caret/WhiteCaret/WhiteCaretMiddle
+@onready var white_caret_bottom = $Caret/WhiteCaret/WhiteCaretBottom
+@onready var black_caret = $Caret/BlackCaret
+@onready var black_caret_top = $Caret/BlackCaret/BlackCaretTop
+@onready var black_caret_middle = $Caret/BlackCaret/BlackCaretMiddle
+@onready var black_caret_bottom = $Caret/BlackCaret/BlackCaretBottom
 var active: bool = false
 var current_textbox: TextEdit
 var current_layers = null
 var text_color: Color = Color("071E6BFF")
-var text_size: int = 28
 var text_font_size: int = 28
 var text_rotation: int = 0
 
@@ -27,6 +35,7 @@ func _process(_delta):
 		var touching_gui: bool = get_parent().touching_gui
 		if touching_gui:
 			caret.visible = true
+			update_display()
 	else:
 		visible = false
 
@@ -51,11 +60,13 @@ func on_mouse_down():
 				#"rotation": selected_stamp.text_rotation, "offset": Vector2(0, 0),
 				#"size": selected_stamp.text_box.size, "scale": selected_stamp.text_box.scale})
 		else:
+			sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
+			var text_height = sample_text.get_line_height(0) / 2
 			emit_signal("level_event", {
 				"type": EditorEvents.ADD_TEXT,
 				"layer_name": current_layers.get_target_art_layer(),
 				"text": "Hello World!",
-				"font": "quicksand",
+				"font": "actionman",
 				"font_size": text_font_size,
 				"scale": {
 					"x": 1,
@@ -76,3 +87,18 @@ func on_drag():
 
 func on_mouse_up():
 	pass
+
+
+func update_display():
+	sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
+	var text_height = sample_text.get_line_height(0) / 2
+	white_caret_middle.size.y = text_height
+	black_caret_middle.size.y = text_height
+	white_caret_bottom.position.y = white_caret_middle.position.y + white_caret_middle.size.y
+	black_caret_bottom.position.y = black_caret_middle.position.y + black_caret_middle.size.y
+	white_caret.size.y = white_caret_bottom.position.y + white_caret_bottom.size.y
+	black_caret.size.y = black_caret_bottom.position.y + black_caret_bottom.size.y
+	caret.size.y = white_caret.position.y + white_caret.size.y
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)
+	caret.scale = camera.zoom

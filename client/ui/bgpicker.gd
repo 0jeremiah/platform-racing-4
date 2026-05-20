@@ -22,9 +22,11 @@ var current_bg_array: Array = []
 
 
 func _ready() -> void:
-	background_graphics = Backgrounds.bg_graphic_list
+	for bg_graphic in Backgrounds.bg_graphic_list:
+		background_graphics.append(bg_graphic)
 	background_graphics.push_front("ColorBox")
-	background_array = Backgrounds.bg_list
+	for bg_array in Backgrounds.bg_list:
+		background_array.append(bg_array)
 	background_array.push_front("ColorBox")
 	navigation.set_align("right")
 	navigation.connect("set_page", _on_set_page)

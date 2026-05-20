@@ -89,6 +89,8 @@ func init() -> void:
 	layer_panel.init(current_editor, current_layers, "art")
 	editor_events.connect_to([layer_panel])
 	editor_events.level_event.connect(_on_level_event)
+	if active:
+		layer_panel.render()
 
 
 func deactivate():
@@ -117,6 +119,8 @@ func activate():
 			"tool": "text"
 		})
 	active = true
+	if layer_panel.current_layers != null and layer_panel.current_editor != null:
+		layer_panel.render()
 
 
 func _process(_delta: float) -> void:

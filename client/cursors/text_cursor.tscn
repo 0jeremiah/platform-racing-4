@@ -5,84 +5,123 @@
 [node name="TextCursor" type="Node2D"]
 script = ExtResource("1_06iy1")
 
-[node name="Caret" type="Node2D" parent="."]
-
-[node name="WhiteCaret" type="Node2D" parent="Caret"]
-position = Vector2(1, 0)
-
-[node name="WhiteCaretPart1" type="ColorRect" parent="Caret/WhiteCaret"]
-offset_left = -8.0
-offset_top = 2.0
-offset_right = -1.0
-offset_bottom = 4.0
-mouse_filter = 2
-
-[node name="WhiteCaretPart2" type="ColorRect" parent="Caret/WhiteCaret"]
-offset_left = 1.0
-offset_top = 2.0
-offset_right = 8.0
-offset_bottom = 4.0
-mouse_filter = 2
-
-[node name="WhiteCaretPart3" type="ColorRect" parent="Caret/WhiteCaret"]
-offset_left = -1.0
-offset_top = 4.0
-offset_right = 1.0
-offset_bottom = 32.0
-mouse_filter = 2
-
-[node name="WhiteCaretPart4" type="ColorRect" parent="Caret/WhiteCaret"]
-offset_left = -8.0
-offset_top = 33.0
-offset_right = -1.0
+[node name="Caret" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 18.0
 offset_bottom = 35.0
 mouse_filter = 2
 
-[node name="WhiteCaretPart5" type="ColorRect" parent="Caret/WhiteCaret"]
-offset_left = 1.0
-offset_top = 33.0
-offset_right = 8.0
+[node name="WhiteCaret" type="Control" parent="Caret"]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 18.0
 offset_bottom = 35.0
 mouse_filter = 2
 
-[node name="BlackCaret" type="Node2D" parent="Caret"]
-position = Vector2(-1, 0)
+[node name="WhiteCaretTop" type="Control" parent="Caret/WhiteCaret"]
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 2.0
+mouse_filter = 2
 
-[node name="BlackCaretPart1" type="ColorRect" parent="Caret/BlackCaret"]
-offset_left = -8.0
-offset_right = -1.0
+[node name="WhiteCaretTop1" type="ColorRect" parent="Caret/WhiteCaret/WhiteCaretTop"]
+layout_mode = 0
+offset_right = 7.0
+offset_bottom = 2.0
+mouse_filter = 2
+
+[node name="WhiteCaretTop2" type="ColorRect" parent="Caret/WhiteCaret/WhiteCaretTop"]
+layout_mode = 0
+offset_left = 9.0
+offset_right = 16.0
+offset_bottom = 2.0
+mouse_filter = 2
+
+[node name="WhiteCaretMiddle" type="ColorRect" parent="Caret/WhiteCaret"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 2.0
+offset_right = 9.0
+offset_bottom = 31.0
+mouse_filter = 2
+
+[node name="WhiteCaretBottom" type="Control" parent="Caret/WhiteCaret"]
+anchors_preset = 0
+offset_top = 31.0
+offset_right = 16.0
+offset_bottom = 33.0
+mouse_filter = 2
+
+[node name="WhiteCaretBottom1" type="ColorRect" parent="Caret/WhiteCaret/WhiteCaretBottom"]
+layout_mode = 0
+offset_right = 7.0
+offset_bottom = 2.0
+mouse_filter = 2
+
+[node name="WhiteCaretBottom2" type="ColorRect" parent="Caret/WhiteCaret/WhiteCaretBottom"]
+layout_mode = 0
+offset_left = 9.0
+offset_right = 16.0
+offset_bottom = 2.0
+mouse_filter = 2
+
+[node name="BlackCaret" type="Control" parent="Caret"]
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 33.0
+mouse_filter = 2
+
+[node name="BlackCaretTop" type="Control" parent="Caret/BlackCaret"]
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 2.0
+mouse_filter = 2
+
+[node name="BlackCaretTop1" type="ColorRect" parent="Caret/BlackCaret/BlackCaretTop"]
+layout_mode = 0
+offset_right = 7.0
 offset_bottom = 2.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BlackCaretPart2" type="ColorRect" parent="Caret/BlackCaret"]
-offset_left = 1.0
-offset_right = 8.0
+[node name="BlackCaretTop2" type="ColorRect" parent="Caret/BlackCaret/BlackCaretTop"]
+layout_mode = 0
+offset_left = 9.0
+offset_right = 16.0
 offset_bottom = 2.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BlackCaretPart3" type="ColorRect" parent="Caret/BlackCaret"]
-offset_left = -1.0
+[node name="BlackCaretMiddle" type="ColorRect" parent="Caret/BlackCaret"]
+layout_mode = 0
+offset_left = 7.0
 offset_top = 2.0
-offset_right = 1.0
+offset_right = 9.0
 offset_bottom = 31.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BlackCaretPart4" type="ColorRect" parent="Caret/BlackCaret"]
-offset_left = -8.0
+[node name="BlackCaretBottom" type="Control" parent="Caret/BlackCaret"]
+anchors_preset = 0
 offset_top = 31.0
-offset_right = -1.0
+offset_right = 16.0
 offset_bottom = 33.0
+mouse_filter = 2
+
+[node name="BlackCaretBottom1" type="ColorRect" parent="Caret/BlackCaret/BlackCaretBottom"]
+layout_mode = 0
+offset_right = 7.0
+offset_bottom = 2.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BlackCaretPart5" type="ColorRect" parent="Caret/BlackCaret"]
-offset_left = 1.0
-offset_top = 31.0
-offset_right = 8.0
-offset_bottom = 33.0
+[node name="BlackCaretBottom2" type="ColorRect" parent="Caret/BlackCaret/BlackCaretBottom"]
+layout_mode = 0
+offset_left = 9.0
+offset_right = 16.0
+offset_bottom = 2.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 

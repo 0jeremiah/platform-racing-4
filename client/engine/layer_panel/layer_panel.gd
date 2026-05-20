@@ -71,11 +71,11 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 	anchor_x_box.return_line.connect(_anchor_x_change)
 	anchor_y_box.init("float", "0.0", -9999999.9, 99999999.9)
 	anchor_y_box.return_line.connect(_anchor_y_change)
-	render()
 
 
 func render() -> void:
 	clear()
+	var alpha_render = true
 	var layer_array = []
 	var target_layer = ""
 	if show_layer_type == "blocks":
@@ -117,7 +117,28 @@ func render() -> void:
 		layer_button.pressed.connect(_row_pressed.bind(layer.name, layer_button))
 		if target_layer == layer.name:
 			layer_button.button_pressed = true
+	if alpha_render:
+		render_layers(show_layer_type)
 	update_boxes()
+
+
+func render_layers(_show_layer_type: String):
+	var visible_layer_array = []
+	var visible_target_layer = ""
+	if "map_layers" in current_layers:
+		visible_layer_array = current_layers.map_layers.get_children()
+		visible_target_layer = current_layers.get_target_map_layer()
+		for visible_layer in visible_layer_array:
+			visible_layer.modulate.a = 0.5
+			if show_layer_type == "blocks" and visible_target_layer == visible_layer.name:
+				visible_layer.modulate.a = 1.0
+	if "art_layers" in current_layers:
+		visible_layer_array = current_layers.art_layers.get_children()
+		visible_target_layer = current_layers.get_target_art_layer()
+		for visible_layer in visible_layer_array:
+			visible_layer.modulate.a = 0.5
+			if show_layer_type == "art" and visible_target_layer == visible_layer.name:
+				visible_layer.modulate.a = 1.0
 
 
 func disable_box(box: LineEdit):

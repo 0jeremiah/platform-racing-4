@@ -82,6 +82,11 @@ func check_out_of_bounds(character: Character) -> void:
 		
 	if player_x_normalised < min_x or player_x_normalised > max_x or \
 	   player_y_normalised > max_y:
+		if (last_safe_layer != null and (last_safe_layer.players != character.get_parent())):
+			character.get_parent().remove_child(character)
+			last_safe_layer.players.add_child(character)
+			set_depth(character, last_safe_layer.z_axis)
+			Game.game.set_current_player_layer(last_safe_layer.name)
 		character.position.x = last_safe_position.x
 		character.position.y = last_safe_position.y
 		character.velocity = Vector2(0, 0)

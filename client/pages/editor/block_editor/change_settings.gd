@@ -21,7 +21,6 @@ var selected_block_id: String = ""
 
 
 func _ready() -> void:
-	BlockManager.load_default_block_configs()
 	tick_box.init("float", str(change_tick), 0.0, 99999999.9)
 	tick_box.return_line.connect(_update_tick)
 	block_picker.block_clicked.connect(_drag_block)

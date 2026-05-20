@@ -44,6 +44,8 @@ func init() -> void:
 	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
 	_set_current_block(selected_block_id)
+	if active:
+		layer_panel.render()
 
 
 func deactivate():
@@ -56,6 +58,8 @@ func activate():
 		"tool": "blocks"
 	})
 	active = true
+	if layer_panel.current_layers != null and layer_panel.current_editor != null:
+		layer_panel.render()
 
 
 func _process(_delta: float) -> void:

@@ -9,9 +9,9 @@
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "teleport", "params": {}},
+		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "active", "params": {}},
+		"any_side": {"type": "teleport", "params": {}},
 		"teleport_color": "FF7F50",
 		"teleport_throttle_ms": 1000.0
 	},
