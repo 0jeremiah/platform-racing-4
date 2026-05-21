@@ -49,6 +49,12 @@ func _exit_tree() -> void:
 func init(_editor_menu, layers) -> void:
 	print("Cursor::init")
 	editor_menu = _editor_menu
+	if "current_editor" in _editor_menu and "object_box" in _editor_menu.current_editor:
+		_editor_menu.current_editor.object_box.object_moved.connect(_object_moved)
+		_editor_menu.current_editor.object_box.object_deleted.connect(_object_deleted)
+		_editor_menu.current_editor.object_box.object_resized.connect(_object_resized)
+		_editor_menu.current_editor.object_box.object_edited.connect(_object_edited)
+		_editor_menu.current_editor.object_box.object_options_changed.connect(_object_options_changed )
 	
 	block_cursor.init(editor_menu, layers)
 	draw_cursor.init(editor_menu, layers)
@@ -144,3 +150,28 @@ func _on_control_event(event: Dictionary) -> void:
 
 func _on_subcursor_event(event: Dictionary) -> void:
 	level_event.emit(event)
+
+
+func _object_moved(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_moved"):
+		current_cursor._object_moved(object_info)
+
+
+func _object_deleted(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_deleted"):
+		current_cursor._object_deleted(object_info)
+
+
+func _object_resized(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_resized"):
+		current_cursor._object_resized(object_info)
+
+
+func _object_edited(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_edited"):
+		current_cursor._object_edited(object_info)
+
+
+func _object_options_changed(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_options_changed"):
+		current_cursor._object_options_changed(object_info)

@@ -74,7 +74,7 @@ func on_mouse_down():
 				},
 				"position": {
 					"x": mouse_position.round().x,
-					"y": mouse_position.round().y
+					"y": mouse_position.round().y - (caret.size.y / 2)
 				},
 				"rotation": 0,
 				"color": text_color

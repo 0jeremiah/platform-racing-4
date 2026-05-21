@@ -24,7 +24,7 @@ static var level_editor: Node
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
 @onready var game_config_panel = $UI/GameConfigPanel
 
-@onready var object_box = $UI/ObjectBox
+@onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var cursor = $UI/Cursor
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler

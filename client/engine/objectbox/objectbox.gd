@@ -6,12 +6,12 @@ signal object_resized
 signal object_edited
 signal object_options_changed
 
-@onready var label_text = $LabelText
+@onready var gui_touchbox = $GUITouchbox
+@onready var select_rect = $SelectRect
+@onready var move_button = $MoveButton
 @onready var edit_text_color_rect = $EditTextColorRect
 @onready var edit_text_rect = $EditTextRect
 @onready var edit_text = $EditText
-@onready var select_rect = $SelectRect
-@onready var move_button = $MoveButton
 @onready var buttons = $Buttons
 
 var delete_enabled: bool = true
@@ -24,6 +24,7 @@ var button_colors: Array = [Color("ff4b00"), Color("1fcf1f"), Color("ff8a21"), C
 var position_list: Array = [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
 var object_info: Dictionary = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0,
 "offset": Vector2(0, 0), "size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
+var extra_object_info: Dictionary = {}
 var mode : String = "idle"
 var old_position : Vector2
 var old_scale : Vector2
@@ -50,7 +51,11 @@ func _ready() -> void:
 	move_button.button_down.connect(move_object)
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		gui_touchbox.size = get_viewport().get_visible_rect().size / camera.zoom
+		gui_touchbox.global_position = camera.get_screen_center_position() - ((get_viewport().get_visible_rect().size / 2) / camera.zoom)
 	if object_info.node:
 		if mode == "resize" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var new_scale_x: float = 0.0000000001
@@ -69,31 +74,37 @@ func _process(_delta: float) -> void:
 				new_scale = Vector2(new_scale_x, new_scale_y)
 			object_info.scale = new_scale
 			object_info.node.self_modulate.a = 0.75
+			gui_touchbox.visible = true
 		elif mode == "move" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var position_x: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).x - old_mouse_position.x
 			var position_y: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).y - old_mouse_position.y
 			object_info.position = Vector2(old_position.x + position_x, old_position.y + position_y)
 			object_info.node.global_position = object_info.position
 			object_info.node.self_modulate.a = 0.75
+			move_button.global_position = object_info.position
+			gui_touchbox.visible = true
 		elif mode == "edit" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
+			gui_touchbox.visible = false
 		else:
 			if mode == "move":
-				emit_signal("object_moved", object_info.position)
+				emit_signal("object_moved", object_info)
 			elif mode == "resize":
-				emit_signal("object_resized", object_info.scale)
+				emit_signal("object_resized", object_info)
 			elif mode == "edit":
 				if edit_text.text == null or edit_text.text == "":
 					delete_object()
 				else:
 					_change_object_text(edit_text.text)
 			mode = "idle"
+			gui_touchbox.visible = false
 			edit_text.visible = false
 			edit_text_color_rect.visible = false
 			edit_text_rect.visible = false
 			select_rect.visible = true
 			buttons.visible = true
 			position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
+			move_button.position = Vector2.ZERO
 			rotation_degrees = object_info.rotation
 			if object_info.node:
 				object_info.node.visible = true
@@ -107,6 +118,7 @@ func _process(_delta: float) -> void:
 		visible = true
 	else:
 		visible = false
+		gui_touchbox.visible = false
 		select_rect.visible = false
 		buttons.visible = false
 		if object_info.node:
@@ -117,7 +129,7 @@ func _process(_delta: float) -> void:
 		edit_text_rect.visible = false
 
 
-func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary):
+func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, new_extra_object_info: Dictionary = {}):
 	var new_delete_enabled = false
 	var new_resize_enabled = false
 	var new_options_enabled = false
@@ -149,6 +161,8 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary):
 		object_info.scale = new_object_info.scale
 	if new_object_info.has("info"):
 		object_info.info = new_object_info.info
+	if !new_extra_object_info.is_empty():
+		extra_object_info = new_extra_object_info
 
 
 func update_display():
@@ -238,9 +252,10 @@ func move_object() -> void:
 
 
 func delete_object():
-	emit_signal("object_deleted")
+	emit_signal("object_deleted", object_info)
 	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
 	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
+	extra_object_info = {}
 	mode = "idle"
 
 
@@ -274,10 +289,11 @@ func _change_object_text(new_text: String):
 	if object_info.node != null and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
 		object_info.info.text = new_text
 		object_info.node.text = object_info.info.text
-		emit_signal("object_edited", object_info.info.text)
+		emit_signal("object_edited", object_info)
 
 
 func close():
 	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
 	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
+	extra_object_info = {}
 	mode = "idle"

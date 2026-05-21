@@ -62,6 +62,7 @@ func add_map_layer(_name: String) -> MapLayer:
 	layer.init()
 	return layer
 
+
 func add_art_layer(_name: String) -> ArtLayer:
 	var layer = ART_LAYER.instantiate()
 	layer.name = _name

@@ -142,6 +142,25 @@ func _on_level_event(event: Dictionary) -> void:
 		stamps.add_child(stamp)
 		stamp.set_stamp_properties(stamp_dictionary)
 	
+	if event.type == EditorEvents.SET_STAMP_POSITION:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var stamp = layer.stamps.get_node(event.stamp_name)
+		stamp.set_stamp_position(Vector2(event.position.x, event.position.y))
+	
+	if event.type == EditorEvents.SET_STAMP_SCALE:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var stamp = layer.stamps.get_node(event.stamp_name)
+		stamp.set_stamp_scale(Vector2(event.scale.x, event.scale.y))
+	
+	if event.type == EditorEvents.SET_STAMP_ROTATION:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var stamp = layer.stamps.get_node(event.stamp_name)
+		stamp.set_stamp_rotation(event.rotation)
+	
+	if event.type == EditorEvents.DELETE_STAMP:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		layer.delete_stamp(event.stamp_name)
+	
 	if event.type == EditorEvents.RENAME_MAP_LAYER:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
@@ -176,6 +195,10 @@ func _on_level_event(event: Dictionary) -> void:
 		}
 		texts.add_child(text)
 		text.set_text_properties(text_info)
+	
+	if event.type == EditorEvents.DELETE_TEXT:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		layer.delete_text(event.text_name)
 
 	if event.type == EditorEvents.SET_MAP_LAYER_Z_AXIS:
 		var layer = current_layers.map_layers.get_node(event.layer_name)

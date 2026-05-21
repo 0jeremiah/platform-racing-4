@@ -49,7 +49,10 @@ follow_viewport_enabled = true
 
 [node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]
 
-[node name="ObjectBox" parent="UI" instance=ExtResource("8_2t0x6")]
+[node name="ObjectBoxUI" type="CanvasLayer" parent="UI"]
+follow_viewport_enabled = true
+
+[node name="ObjectBox" parent="UI/ObjectBoxUI" instance=ExtResource("8_2t0x6")]
 visible = false
 
 [node name="CameraControls" parent="UI" instance=ExtResource("10_65ff4")]

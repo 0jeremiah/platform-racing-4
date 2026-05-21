@@ -36,19 +36,6 @@ func _process(_delta):
 	else:
 		visible = false
 	update_display()
-	#queue_redraw()
-
-
-func _draw() -> void:
-	var touching_gui: bool = get_parent().touching_gui
-	if touching_gui and current_layers:
-		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-		#var packed_vector2_array = layer.get_stamp_draw_packed_vector2_array_for_debug(stamp_icon)
-		#for lines in packed_vector2_array.size():
-			#if lines + 1 < packed_vector2_array.size():
-				#draw_line(packed_vector2_array[lines], packed_vector2_array[lines + 1], Color.WHITE, 1.0, false)
-			#else:
-				#draw_line(packed_vector2_array[lines], packed_vector2_array[0], Color.WHITE, 1.0, false)
 
 
 func init(_editor_menu, _current_layers) -> void:
@@ -85,12 +72,13 @@ func on_mouse_down():
 				})
 			elif mode == "sticker" and layer.get_stamp_at_position(mouse_position) != null:
 				var selected_stamp = layer.get_stamp_at_position(mouse_position)
-				#var object_box = get_parent().editor_menu.current_editor.object_box
-				#var spawn_position = camera.to_local(selected_stamp.position)
-				#object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
-				#{"type": "stamp", "node": selected_stamp, "position": spawn_position,
-				#"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
-				#"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale})
+				if "object_box" in get_parent().editor_menu.current_editor:
+					var object_box = get_parent().editor_menu.current_editor.object_box
+					var spawn_position = location.to_local(selected_stamp.position)
+					object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
+					{"type": "stamp", "node": selected_stamp, "position": spawn_position,
+					"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
+					"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale, "info": str(layer.name)})
 			else:
 				emit_signal("level_event", {
 					"type": EditorEvents.ADD_STAMP,
@@ -135,6 +123,14 @@ func set_stamp_rotation(new_rotation: float) -> void:
 
 func set_stamp_mode(new_mode: String) -> void:
 	mode = new_mode
+
+
+func _object_deleted(object_info: Dictionary):
+	emit_signal("level_event", {
+		"type": EditorEvents.DELETE_STAMP,
+		"layer_name": object_info.info,
+		"stamp_name": object_info.node.name
+	})
 
 
 func update_display():
