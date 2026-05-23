@@ -6,7 +6,7 @@ signal object_resized
 signal object_edited
 signal object_options_changed
 
-@onready var gui_touchbox = $GUITouchbox
+@onready var gui_touchbox = $GUITouchbox # is here so cursor touches gui and doesn't act weird.
 @onready var select_rect = $SelectRect
 @onready var move_button = $MoveButton
 @onready var edit_text_color_rect = $EditTextColorRect
@@ -56,6 +56,9 @@ func _physics_process(_delta: float) -> void:
 	if camera:
 		gui_touchbox.size = get_viewport().get_visible_rect().size / camera.zoom
 		gui_touchbox.global_position = camera.get_screen_center_position() - ((get_viewport().get_visible_rect().size / 2) / camera.zoom)
+	gui_touchbox.visible = false
+	if object_info.type != "block" and (mode == "move" or mode == "resize"):
+		gui_touchbox.visible = true
 	if object_info.node:
 		if mode == "resize" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var new_scale_x: float = 0.0000000001
@@ -74,7 +77,6 @@ func _physics_process(_delta: float) -> void:
 				new_scale = Vector2(new_scale_x, new_scale_y)
 			object_info.scale = new_scale
 			object_info.node.self_modulate.a = 0.75
-			gui_touchbox.visible = true
 		elif mode == "move" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var position_x: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).x - old_mouse_position.x
 			var position_y: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).y - old_mouse_position.y
@@ -82,10 +84,8 @@ func _physics_process(_delta: float) -> void:
 			object_info.node.global_position = object_info.position
 			object_info.node.self_modulate.a = 0.75
 			move_button.global_position = object_info.position
-			gui_touchbox.visible = true
 		elif mode == "edit" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
-			gui_touchbox.visible = false
 		else:
 			if mode == "move":
 				emit_signal("object_moved", object_info)
@@ -97,7 +97,6 @@ func _physics_process(_delta: float) -> void:
 				else:
 					_change_object_text(edit_text.text)
 			mode = "idle"
-			gui_touchbox.visible = false
 			edit_text.visible = false
 			edit_text_color_rect.visible = false
 			edit_text_rect.visible = false
@@ -118,7 +117,6 @@ func _physics_process(_delta: float) -> void:
 		visible = true
 	else:
 		visible = false
-		gui_touchbox.visible = false
 		select_rect.visible = false
 		buttons.visible = false
 		if object_info.node:
@@ -127,6 +125,8 @@ func _physics_process(_delta: float) -> void:
 		edit_text.visible = false
 		edit_text_color_rect.visible = false
 		edit_text_rect.visible = false
+	if !check_focus():
+		close()
 
 
 func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, new_extra_object_info: Dictionary = {}):
@@ -163,9 +163,17 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, n
 		object_info.info = new_object_info.info
 	if !new_extra_object_info.is_empty():
 		extra_object_info = new_extra_object_info
+	grab_focus()
 
 
 func update_display():
+	var camera_zoom = Vector2(1.0, 1.0)
+	var camera_scale = 1.0
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		camera_zoom = camera.zoom
+		if "camera_zoom" in camera:
+			camera_scale = camera.camera_zoom
 	if object_info.node != null:
 		var display_size = Vector2(1, 1)
 		var display_scale = Vector2(1, 1)
@@ -178,6 +186,7 @@ func update_display():
 		object_info.node.scale = object_info.scale
 		select_rect.size = display_size
 		select_rect.scale = display_scale
+		select_rect.border_width = 3.0 / camera_scale
 		move_button.size = display_size
 		move_button.scale = display_scale
 		edit_text.size = object_info.size
@@ -189,14 +198,15 @@ func update_display():
 		if mode == "edit" and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
 			display_size = Vector2(edit_text.size.x * abs(edit_text.scale.x), edit_text.size.y * abs(edit_text.scale.y))
 			display_scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
-		position_buttons(display_size, display_scale)
+		position_buttons(display_size, display_scale, camera_zoom)
 
 
-func position_buttons(rect_size: Vector2, rect_scale: Vector2) -> void:
+func position_buttons(rect_size: Vector2, rect_scale: Vector2, camera_zoom: Vector2 = Vector2(1.0, 1.0)) -> void:
 	var button_counter: int = 0
 	for button in buttons.get_child_count():
 		if !(buttons.get_child(button).name == "EditButton" and mode == "edit") and enabled_list.get(button) != null and enabled_list[button] == true:
 			buttons.get_child(button).position = Vector2((rect_size.x * (abs(rect_scale.x) / rect_scale.x)) * position_list[button_counter].x - buttons.get_child(button).size.x / 2, (rect_size.y * (abs(rect_scale.y) / rect_scale.y)) * position_list[button_counter].y - buttons.get_child(button).size.y / 2)
+			buttons.get_child(button).scale = Vector2(1.0, 1.0) / camera_zoom
 			buttons.get_child(button).visible = true
 			button_counter += 1
 		else:
@@ -297,3 +307,16 @@ func close():
 	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 	extra_object_info = {}
 	mode = "idle"
+
+
+func check_focus() -> bool:
+	if has_focus() or move_button.has_focus() or edit_text.has_focus():
+		return true
+	for button in buttons.get_children():
+		if button.has_focus():
+			return true
+		if button.get_child_count() > 0:
+			for button_child in buttons.get_children():
+				if button_child.has_focus():
+					return true
+	return false

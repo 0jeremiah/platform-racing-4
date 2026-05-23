@@ -125,11 +125,29 @@ func set_stamp_mode(new_mode: String) -> void:
 	mode = new_mode
 
 
+func _object_moved(object_info: Dictionary):
+	emit_signal("level_event", {
+		"type": EditorEvents.SET_STAMP_POSITION,
+		"layer_name": object_info.info,
+		"stamp_name": str(object_info.node.name),
+		"position": object_info.node.position
+	})
+
+
 func _object_deleted(object_info: Dictionary):
 	emit_signal("level_event", {
 		"type": EditorEvents.DELETE_STAMP,
 		"layer_name": object_info.info,
-		"stamp_name": object_info.node.name
+		"stamp_name": str(object_info.node.name)
+	})
+
+
+func _object_resized(object_info: Dictionary):
+	emit_signal("level_event", {
+		"type": EditorEvents.SET_STAMP_SCALE,
+		"layer_name": object_info.info,
+		"stamp_name": str(object_info.node.name),
+		"scale": object_info.node.scale
 	})
 
 

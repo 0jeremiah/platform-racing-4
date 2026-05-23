@@ -109,6 +109,9 @@ func on_mouse_down():
 		var tile_id = tile_map_layer.get_cell_block_id(coords)
 		#var tile_settings = BlockManager._blocks[tile_id].settings.get_settings()
 		if tile_id:
+			if "object_box" in get_parent().editor_menu.current_editor:
+				var object_box = get_parent().editor_menu.current_editor.object_box
+				object_box.close()
 			grabbed_block = tile_id
 			#grabbed_block_settings = tile_settings
 			emit_signal("level_event", {
@@ -164,5 +167,14 @@ func on_mouse_up():
 				"block_id": grabbed_block,
 				#"block_settings": grabbed_block_settings,
 			})
+			if "object_box" in get_parent().editor_menu.current_editor:
+				var object_box = get_parent().editor_menu.current_editor.object_box
+				var spawn_position = coords * Settings.tile_size
+				var block_texture = Sprite2D.new()
+				block_texture.texture = BlockManager.get_block_texture(grabbed_block)
+				object_box.set_object_info({"delete": true, "resize": false, "options": true, "edit": false},
+				{"type": "block", "node": block_texture, "position": spawn_position, "rotation": 0,
+				"offset": Vector2(0, 0), "size": Settings.tile_size, "scale": Vector2(1, 1),
+				"info": level_layers.get_target_map_layer()})
 			grabbed_block = ""
 			#grabbed_block_settings = null
