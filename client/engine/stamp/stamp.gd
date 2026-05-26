@@ -21,7 +21,7 @@ func set_stamp_properties(stamp_dictionary: Dictionary):
 func set_stamp_id(new_stamp_id: String):
 	stamp_id = new_stamp_id
 	var stamps = Stamps.new()
-	stamps.get_stamp(self, stamp_id)
+	texture = stamps.get_stamp(stamp_id)
 
 
 func set_stamp_position(new_stamp_position: Vector2):

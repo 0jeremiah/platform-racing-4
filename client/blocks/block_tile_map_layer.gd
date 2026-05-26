@@ -106,6 +106,20 @@ func get_cell_block_id(coords: Vector2i) -> String:
 	return ""
 
 
+func get_block_coords_at_position(_position: Vector2) -> Vector2:
+	var rotated_pos: Vector2
+	var world_pos = _position / map_layer.get_layer_scale()
+	rotated_pos = world_pos
+	if map_layer.tile_map_rotation != 0:
+		# Inverse rotate the point to get the correct position in rotated space
+		var rotation_radians = -deg_to_rad(map_layer.tile_map_rotation)
+		rotated_pos = Vector2(
+			world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
+			world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
+		)
+	return local_to_map(rotated_pos)
+
+
 func is_solid(coords: Vector2i) -> bool:
 	var block_id = get_cell_block_id(coords)
 	if block_id:

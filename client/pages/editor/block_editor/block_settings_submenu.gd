@@ -177,10 +177,7 @@ func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
 	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
-	#health_box.init("float", "100.0", 0.00000001, 99999999.9)
-	#health_box.return_line.connect(_change_health.bind())
-	#move_settings.move_settings_changed.connect(_update_properties)
-	#change_settings.change_settings_changed.connect(_update_properties)
+	settings_menu.init(block_settings)
 	side_settings_menu.init(block_settings)
 	settings_menu._maybe_enable_settings({
 		"block_settings": {

@@ -130,8 +130,8 @@ static func _create_blocks(configs: Array) -> void:
 		_blocks[block_id] = block
 
 
-func encode_block() -> Dictionary:
-	return block_encoder.encode(block_layers, self)
+func encode_block(_block_settings: ConfigurableBlockSettings, _block_layers: BlockLayers, _sub_viewport: SubViewport) -> Dictionary:
+	return block_encoder.encode(_block_settings, _block_layers, _sub_viewport)
 
 
 func decode_block(block_data: Dictionary) -> void:

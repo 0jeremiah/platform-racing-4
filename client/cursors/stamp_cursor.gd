@@ -107,7 +107,7 @@ func on_mouse_up():
 func set_stamp_id(new_id: String) -> void:
 	stamp_id = new_id
 	if stamp_id:
-		Stamps.get_stamp(stamp_icon, stamp_id)
+		stamp_icon.texture = Stamps.get_stamp(stamp_id)
 		update_display()
 
 

@@ -18,6 +18,7 @@ func _ready() -> void:
 	tick_box.return_line.connect(_change_tick)
 	tock_box.init("float", "500.0", 0.0, 99999999.9)
 	tock_box.return_line.connect(_change_tock)
+	connect_node(self, "gear_settings_changed")
 
 
 func _change_gear_rotation(new_gear_rotation: float):

@@ -14,6 +14,7 @@ func _ready() -> void:
 	color_button.colorbutton_color_changed.connect(_change_color)
 	throttle_ms_box.init("float", "1000.0", 0.0, 99999999.9)
 	throttle_ms_box.return_line.connect(_change_throttle_ms)
+	connect_node(self, "teleport_settings_changed")
 
 
 func _change_color(new_teleport_color: Color):

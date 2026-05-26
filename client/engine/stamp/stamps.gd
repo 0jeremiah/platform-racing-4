@@ -16,38 +16,18 @@ static var stamp_graphic_list: Array = [cactus, petrifiedtree, rock2, rock, skys
 spire2, spire, tree2, tree3, tree]
 # ^ this is for level editor ^
 
-static func get_stamp(sprite: Sprite2D, p_id: String) -> void:
-	var stamp_id = p_id
-	if stamp_id in stamp_list:
-		match stamp_id:
-			# sets stamps accordingly
-			"cactus": sprite.texture = cactus
-			"petrifiedtree": sprite.texture = petrifiedtree
-			"rock2": sprite.texture = rock2
-			"rock": sprite.texture = rock
-			"skyscraper": sprite.texture = skyscraper
-			"spire2": sprite.texture = spire2
-			"spire": sprite.texture = spire
-			"tree2": sprite.texture = tree2
-			"tree3": sprite.texture = tree3
-			"tree": sprite.texture = tree
-	else:
-		sprite.texture = cactus
-
-static func get_stamp_texture_rect(sprite: TextureRect, p_id: String) -> void:
-	var stamp_id = p_id
-	if stamp_id in stamp_list:
-		match stamp_id:
-			# sets stamps accordingly
-			"cactus": sprite.texture = cactus
-			"petrifiedtree": sprite.texture = petrifiedtree
-			"rock2": sprite.texture = rock2
-			"rock": sprite.texture = rock
-			"skyscraper": sprite.texture = skyscraper
-			"spire2": sprite.texture = spire2
-			"spire": sprite.texture = spire
-			"tree2": sprite.texture = tree2
-			"tree3": sprite.texture = tree3
-			"tree": sprite.texture = tree
-	else:
-		sprite.texture = cactus
+static func get_stamp(stamp_id: String) -> Texture2D:
+	var texture = null
+	match stamp_id:
+		# sets stamps accordingly
+		"cactus": texture = cactus
+		"petrifiedtree": texture = petrifiedtree
+		"rock2": texture = rock2
+		"rock": texture = rock
+		"skyscraper": texture = skyscraper
+		"spire2": texture = spire2
+		"spire": texture = spire
+		"tree2": texture = tree2
+		"tree3": texture = tree3
+		"tree": texture = tree
+	return texture

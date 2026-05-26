@@ -238,6 +238,7 @@ func _new_pressed():
 			"type": EditorEvents.ADD_MAP_LAYER,
 			"name": new_name
 		})
+		current_layers.set_target_map_layer(new_name)
 		render()
 	elif show_layer_type == "art":
 		var i = current_layers.art_layers.get_child_count() + 1
@@ -249,6 +250,7 @@ func _new_pressed():
 			"type": EditorEvents.ADD_ART_LAYER,
 			"name": new_name
 		})
+		current_layers.set_target_art_layer(new_name)
 		render()
 
 

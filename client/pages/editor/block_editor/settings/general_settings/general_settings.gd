@@ -14,6 +14,7 @@ func _ready() -> void:
 	health_box.return_line.connect(_change_health)
 	coin_value_box.init("float", "4000.0", 0.0, 99999999.9)
 	coin_value_box.return_line.connect(_change_coin_value)
+	connect_node(self, "general_settings_changed")
 
 
 func _change_health(new_health: float):

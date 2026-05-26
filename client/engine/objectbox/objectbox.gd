@@ -77,6 +77,7 @@ func _physics_process(_delta: float) -> void:
 				new_scale = Vector2(new_scale_x, new_scale_y)
 			object_info.scale = new_scale
 			object_info.node.self_modulate.a = 0.75
+			grab_focus()
 		elif mode == "move" and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var position_x: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).x - old_mouse_position.x
 			var position_y: float = get_local_mouse_position().rotated(deg_to_rad(object_info.rotation)).y - old_mouse_position.y
@@ -84,6 +85,7 @@ func _physics_process(_delta: float) -> void:
 			object_info.node.global_position = object_info.position
 			object_info.node.self_modulate.a = 0.75
 			move_button.global_position = object_info.position
+			grab_focus()
 		elif mode == "edit" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
 		else:
@@ -112,6 +114,8 @@ func _physics_process(_delta: float) -> void:
 				move_button.visible = true
 			else:
 				move_button.visible = false
+			if !check_focus():
+				close()
 		update_display()
 		process_buttons()
 		visible = true
@@ -125,8 +129,6 @@ func _physics_process(_delta: float) -> void:
 		edit_text.visible = false
 		edit_text_color_rect.visible = false
 		edit_text_rect.visible = false
-	if !check_focus():
-		close()
 
 
 func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, new_extra_object_info: Dictionary = {}):

@@ -104,7 +104,7 @@ func show_bgs():
 
 
 func _set_bg(new_bg_color: Color, new_bg_id: String = "blank"):
-	var bg_color = new_bg_color
+	var bg_color = new_bg_color.to_html(false)
 	var bg_id = new_bg_id
 	emit_signal("change_selected_background", [bg_color, bg_id])
 

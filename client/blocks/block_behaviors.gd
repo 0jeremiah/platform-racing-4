@@ -71,12 +71,11 @@ func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block:
 
 ## Bounce the node back
 func bounce(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
-	var bounciness: float = params.get("bounciness", 0.1)
-	var speed_limit: float = params.get("speed_limit", 12500.0)
-
 	if "movement" not in node or "tile_interaction" not in node:
 		return
 
+	var bounciness: float = params.get("bounciness", 0.1)
+	var speed_limit: float = params.get("speed_limit", 12500.0)
 	var tile_position_local := (coords * Settings.tile_size) + Settings.tile_size_half
 	var tile_position_global := tile_map_layer.to_global(tile_position_local)
 
@@ -150,7 +149,7 @@ func custom_stats(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, 
 
 
 func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, normal: Vector2 = Vector2.ZERO):
-	if !(node is RigidBody2D) and !(node is CharacterBody2D):
+	if !(node is RigidBody2D) and !(node is CharacterBody2D and "movement" in node):
 		return
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block
@@ -213,7 +212,7 @@ func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, 
 		body.velocity += push_velocity
 
 	# Apply hitstun
-	if body.movement.has_method("hitstun"):
+	if "movement" in body and body.movement.has_method("hitstun"):
 		body.movement.hitstun(hitstun_duration)
 
 
@@ -249,8 +248,6 @@ func item(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: C
 
 # Explode the block and push away the body
 func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
-	if "movement" not in body:
-		return
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
 
@@ -278,7 +275,7 @@ func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, b
 	tile_map_layer.add_child(effect)
 
 	# Apply hitstun
-	if body.movement.has_method("hitstun"):
+	if "movement" in body and body.movement.has_method("hitstun"):
 		body.movement.hitstun(hitstun_duration)
 
 
@@ -393,6 +390,8 @@ func stick(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _bloc
 
 # Teleports the player to the next teleport block it can find
 func teleport(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	if node is not Character:
+		return
 	var block_id = tile_map_layer.get_cell_block_id(coords)
 	if !block_id or !Game.game:
 		return

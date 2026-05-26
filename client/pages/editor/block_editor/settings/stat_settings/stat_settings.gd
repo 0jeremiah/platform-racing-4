@@ -13,6 +13,7 @@ func _ready() -> void:
 	infinite_check_box.pressed.connect(_toggle_infinite)
 	stat_supply_box.init("int", "1", 0, 9999999)
 	stat_supply_box.return_line.connect(_change_item_supply)
+	connect_node(self, "stat_settings_changed")
 
 
 func _toggle_infinite():

@@ -33,7 +33,7 @@ static func set_dots(sprite: Sprite2D):
 		var dots = pr2_dots_node.instantiate()
 		sprite.add_child(dots)
 
-static func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
+static func get_bg(sprite: Sprite2D, p_id: String, fade_color: String, load_from_url: bool = false) -> void:
 	var background_id = p_id
 	# deletes the dots if id isn't dots so we don't keep making more dots
 	if (background_id != "dots" or background_id != "pr2_dots") and sprite.has_node("Dots"):
@@ -66,14 +66,14 @@ static func get_bg(sprite: Sprite2D, p_id: String, fade_color: Color, load_from_
 			"pr3_main": sprite.texture = pr3_main; sprite.set_region_enabled(false)
 			"pr3_christmas": sprite.texture = pr3_christmas; sprite.set_region_enabled(false)
 		if background_id == "blank":
-			sprite.modulate = fade_color
+			sprite.modulate = Color(fade_color)
 		else:
 			sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:
 		sprite.texture = pr2_field; sprite.set_region_enabled(false)
 		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
-static func get_bg_texture_rect_no_dots(sprite: TextureRect, p_id: String, fade_color: Color, load_from_url: bool = false) -> void:
+static func get_bg_no_dots(sprite: Sprite2D, p_id: String, fade_color: String, load_from_url: bool = false) -> void:
 	var background_id = p_id
 	# loads backgrounds from the website api if load_from_url is true.
 	# disabled as we want the backgrounds to be in game for level editor.
@@ -103,7 +103,7 @@ static func get_bg_texture_rect_no_dots(sprite: TextureRect, p_id: String, fade_
 			"pr3_main": sprite.texture = pr3_main; sprite.set_region_enabled(false)
 			"pr3_christmas": sprite.texture = pr3_christmas; sprite.set_region_enabled(false)
 		if background_id == "blank":
-			sprite.modulate = fade_color
+			sprite.modulate = Color(fade_color)
 		else:
 			sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:

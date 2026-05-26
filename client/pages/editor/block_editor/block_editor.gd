@@ -18,6 +18,7 @@ static var block_editor: Node
 @onready var cursor = $UI/Cursor
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
+@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 @onready var editor_menu: Node2D = $UI/EditorMenu
 
 var default_block: Dictionary = {
@@ -109,7 +110,8 @@ func _on_level_editor_pressed():
 
 
 func _on_save_pressed():
-	BlockEditor.current_block = block_manager.encode_block()
+	await RenderingServer.frame_post_draw
+	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, block_manager.block_layers, sub_viewport)
 	PopupManager.add_custom_popup(save_popup, {"mode": "block", "current_data": BlockEditor.current_block})
 
 

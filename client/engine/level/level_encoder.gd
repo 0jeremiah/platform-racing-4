@@ -3,15 +3,15 @@ class_name LevelEncoder
 
 var chunk_size = Vector2i(10, 10)
 
-func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Dictionary:
+func encode(level_layers: Node2D, level_manager: LevelManager) -> Dictionary:
 	var level = {
 		"title": LevelEditor.current_level_name,
 		"description": LevelEditor.current_level_description,
 		"map_layers": [],
 		"art_layers": [],
 		"properties": {
-			"background": bg.id,
-			"fadeColor": bg.fade_color,
+			"background": level_manager.background_id,
+			"fadeColor": level_manager.fade_color,
 			"music": level_manager.music,
 			"level_type": level_manager.level_type,
 			"time": level_manager.time,
@@ -43,6 +43,7 @@ func encode(level_layers: Node2D, bg: Node2D, level_manager: LevelManager) -> Di
 				"stamps": GeneralEncoder.encode_stamps(group_layer.stamps),
 				"texts": GeneralEncoder.encode_texts(group_layer.texts),
 				"rotation": group_layer.art_rotation,
+				"z_axis": group_layer.z_axis,
 				"depth": group_layer.depth,
 				"alpha": group_layer.alpha,
 				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y}
@@ -58,10 +59,7 @@ func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Arr
 	for coords in used_coords:
 		#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 		var block_id = configurable_tile_map_layer.get_cell_block_id(coords)
-		#var block_options = null
-		#var tile_data = tile_map_layer.get_cell_tile_data(coords)
-		#if tile_data and tile_data.has_custom_data("tile_options"):
-			#block_options = tile_data.get_custom_data("tile_options")
+		#var block_settings = null
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
 		var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
@@ -72,18 +70,16 @@ func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Arr
 			chunk = existing_chunk
 		else:
 			var data = []
-			#var options = []
+			#var settings = {}
 			data.resize(chunk_size.x * chunk_size.y)
 			data.fill(0)
-			#options.resize(chunk_size.x * chunk_size.y)
-			#options.fill([])
 			chunk = {
 				"x": chunk_coords.x * chunk_size.x,
 				"y": chunk_coords.y * chunk_size.y,
 				"width": chunk_size.x,
 				"height": chunk_size.y,
 				"data": data,
-				#"options": options
+				#"settings": {}
 			}
 			chunks.push_back(chunk)
 			chunk_map[chunk_name] = chunk

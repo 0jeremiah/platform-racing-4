@@ -36,11 +36,23 @@ static var level_editor: Node
 @onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
 var default_level: Dictionary = {
-	"layers": [{
+	"map_layers": [{
 		"name": "Layer 1",
 		"chunks": [],
-		"rotation": 0,
-		"depth": 10
+		"tile_map_rotation": 0.0,
+		"z_axis": 10,
+		"anchor": {"x": 0.0, "y": 0.0}
+	}],
+	"art_layers": [{
+		"name": "Layer 1",
+		"lines": [],
+		"stamps": [],
+		"texts": [],
+		"rotation": 0.0,
+		"z_axis": 10,
+		"depth": 10,
+		"alpha": 100,
+		"anchor": {"x": 0.0, "y": 0.0}
 	}]
 }
 
@@ -96,6 +108,8 @@ func _ready():
 		bg.set_bg("field", "FFFFFF")
 	
 	var level_settings: Dictionary = {
+		"background_id": level.properties.get("background", "pr2_field"),
+		"fade_color": level.properties.get("fadeColor", "FFFFFF"),
 		"music": level.properties.get("music", "random"),
 		"level_type": level.properties.get("level_type", "race"),
 		"time": level.properties.get("time", 120),
@@ -245,30 +259,29 @@ func _on_control_event(event: Dictionary) -> void:
 	elif event.get("type") == "toggle_game_config":
 		game_config_panel.toggle()
 	elif event.get("type") == "set_background":
-		var bg_id = event.get("bg")
-		var fade_color = event.get("fade_color")
-		if bg_id:
-			bg.set_bg(bg_id, fade_color)
+		level_manager.background_id = event.get("bg", "pr2_field")
+		level_manager.fade_color = event.get("fade_color", "FFFFFF")
+		bg.set_bg(level_manager.background_id, level_manager.fade_color)
 	elif event.get("type") == "set_music":
-		level_manager.music = event.music
+		level_manager.music = event.get("music", "random")
 	elif event.get("type") == "set_level_type":
-		level_manager.level_type = event.level_type
+		level_manager.level_type = event.get("level_type", "race")
 	elif event.get("type") == "set_time":
-		level_manager.time = event.time
+		level_manager.time = event.get("time", 120)
 	elif event.get("type") == "set_gravity":
-		level_manager.gravity = event.gravity
+		level_manager.gravity = event.get("gravity", 1.0)
 	elif event.get("type") == "set_password":
-		level_manager.password = event.password
+		level_manager.password = event.get("password", "")
 	elif event.get("type") == "set_sfchm_chance":
-		level_manager.sfchm_chance = event.sfchm_chance
+		level_manager.sfchm_chance = event.get("sfchm_chance", 0)
 	elif event.get("type") == "set_wind_chance":
-		level_manager.wind_chance = event.wind_chance
+		level_manager.wind_chance = event.get("wind_chance", 0)
 	elif event.get("type") == "set_snow_chance":
-		level_manager.snow_chance = event.snow_chance
+		level_manager.snow_chance = event.get("snow_chance", 0)
 	elif event.get("type") == "set_alien_chance":
-		level_manager.alien_chance = event.alien_chance
+		level_manager.alien_chance = event.get("alien_chance", 0)
 	elif event.get("type") == "set_items":
-		level_manager.items = event.items
+		level_manager.items = event.get("items", Items.get_default_item_ids())
 	
 
 

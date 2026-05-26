@@ -139,7 +139,7 @@ func _set_current_block(block_id: String) -> void:
 	var block_instance = BlockManager._blocks[selected_block_id]
 	if block_instance and block_instance.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		block_draw_teleport_colorin.visible = true
-		block_draw_teleport_colorin.texture.region = BlockManager.get_block_teleport_texture(selected_block_id)
+		block_draw_teleport_colorin.texture = BlockManager.get_block_teleport_texture(selected_block_id)
 		block_draw_teleport_colorin.self_modulate = block_instance.settings.teleport_color
 	block_picker_popup.hide()
 

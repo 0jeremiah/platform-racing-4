@@ -8,7 +8,7 @@ var song_id: String = "random"
 @onready var fit_screen: Node2D = $Sprite/FitScreen
 
 
-func set_bg(p_id: String, p_fade_color: Color) -> void:
+func set_bg(p_id: String, p_fade_color: String) -> void:
 	id = p_id
 	fade_color = p_fade_color
 	Backgrounds.get_bg(sprite, id, fade_color)

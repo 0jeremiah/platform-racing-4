@@ -112,7 +112,6 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
-		current_layers.set_target_map_layer(event.name)
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:

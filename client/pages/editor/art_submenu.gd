@@ -142,13 +142,9 @@ func _process(_delta: float) -> void:
 
 func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_BACKGROUND:
-		var sprite2d = Sprite2D.new()
-		Backgrounds.get_bg(sprite2d, bg_id, bg_color)
-		background_texture.texture = sprite2d.texture
+		_set_bg([event.fade_color, event.bg])
 	if event.type == EditorEvents.SELECT_STAMP:
-		var sprite2d = Sprite2D.new()
-		Stamps.get_stamp(sprite2d, stamp_id)
-		selected_stamp_texture.texture = sprite2d.texture
+		_select_stamp(event.stamp)
 
 
 func show_boxes(boxes_list: Array):
@@ -351,6 +347,11 @@ func _set_bg(bg_data: Array):
 		"bg": bg_id,
 		"fade_color": bg_color.to_html(false)
 	})
+	Backgrounds.get_bg_no_dots(background_texture, bg_id, bg_color.to_html(false))
+	if background_texture.region_enabled:
+		background_texture.scale = Vector2(44.0, 44.0) / background_texture.region_rect.size
+	else:
+		background_texture.scale = Vector2(44.0, 44.0) / background_texture.texture.get_size()
 	bg_picker_popup.hide()
 
 
@@ -400,6 +401,7 @@ func _select_stamp(new_id: String):
 		"type": EditorEvents.SELECT_STAMP,
 		"stamp": stamp_id,
 	})
+	selected_stamp_texture.texture = Stamps.get_stamp(stamp_id)
 	stamp_picker_popup.hide()
 
 

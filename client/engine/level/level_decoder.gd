@@ -157,13 +157,16 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:
 		# tile ids are in ints but they get outputted as strings, should probably fix
 		for i:int in chunk.data.size():
-			var tile_id:int = int(chunk.data[i])
-			if tile_id == 0:
+			# failsafe for levels with block ids as int instead of string
+			if chunk.data[i] is not String:
+				chunk.data[i] = str(int(chunk.data[i]))
+			var tile_id:String = chunk.data[i]
+			if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
 			#var tile_options:Array = []
-			#if chunk.has("options") and chunk.options[i] != null:
-				#tile_options = chunk.options[i]
+			#if chunk.has("settings") and chunk.settings[i] != null:
+				#tile_settings = chunk.settings[i]
 			
 			# Emit set tile event
 			emit_signal("level_event", {
@@ -171,5 +174,5 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
 				"block_id": tile_id,
-				#"block_options": tile_options
+				#"block_settings": tile_settings
 			})

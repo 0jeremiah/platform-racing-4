@@ -6,6 +6,8 @@ class_name LevelManager
 @onready var level_encoder: LevelEncoder = $LevelEncoder
 
 var default_blocks_config: Array = []
+var background_id = "pr2_field"
+var fade_color = "FFFFFF"
 var music: String = "random"
 var level_type: String = "race"
 var time: int = 120
@@ -24,8 +26,7 @@ func _ready() -> void:
 
 
 func encode_level() -> Dictionary:
-	var bg = get_parent().get_node("BG")
-	return level_encoder.encode(level_layers, bg, self)
+	return level_encoder.encode(level_layers, self)
 
 
 func decode_level(level_data: Dictionary) -> void:
@@ -47,6 +48,14 @@ func calc_used_rect() -> void:
 
 
 func set_settings(new_settings: Dictionary):
+	if new_settings.has("background_id"):
+		background_id = new_settings.background_id
+	if new_settings.has("fade_color"):
+		fade_color = new_settings.fade_color
+	if new_settings.has("music"):
+		music = new_settings.music
+	if new_settings.has("level_type"):
+		level_type = new_settings.level_type
 	if new_settings.has("music"):
 		music = new_settings.music
 	if new_settings.has("level_type"):

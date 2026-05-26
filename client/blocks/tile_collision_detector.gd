@@ -107,7 +107,6 @@ func _notify_collision(
 			events.append("left")
 		else:
 			events.append("right")
-		events.append("any_side")
 	else:
 		if normal.y > 0:
 			events.append("bottom")
@@ -138,7 +137,7 @@ func _notify_collision(
 							(1 * Settings.tile_size.y) - 22
 					)).rotated(tile_map_layer.global_rotation + _parent.rotation)
 					_parent.tile_interaction.last_safe_layer = tile_map_layer.map_layer
-		events.append("any_side")
+	events.append("any_side")
 
 	# Delegate to the tile map layer to handle behaviors
 	tile_map_layer.trigger_tile_behaviors(_parent, coords, events, normal)

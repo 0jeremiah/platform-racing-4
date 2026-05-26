@@ -9,12 +9,15 @@ signal block_settings_changed
 
 var settings_dictionary: Dictionary = {}
 var current_setting: String = ""
-var block_properties: Dictionary = ConfigurableBlockSettings.default_properties
+var block_properties: Dictionary = {}
 var has_settings: bool = false
+var block_settings: ConfigurableBlockSettings = null
 var container_y: float = 80
 
 
 func _ready() -> void:
+	for default_setting in ConfigurableBlockSettings.default_properties:
+		block_properties[default_setting] = ConfigurableBlockSettings.default_properties[default_setting]
 	for setting in settings.properties:
 		settings.properties[setting].node.set_key(setting)
 		settings.properties[setting].node.set_settings(settings.properties[setting].settings)
@@ -26,10 +29,16 @@ func _ready() -> void:
 	populate_options()
 
 
+func init(_block_settings: ConfigurableBlockSettings):
+	block_settings = _block_settings
+
+
 func _change_properties(new_settings: Dictionary):
-	for key in new_settings:
+	for key in new_settings.settings:
 		if key in block_properties:
-			block_properties[key] = new_settings.key
+			block_properties[key] = new_settings.settings[key]
+			if block_settings and key in block_settings:
+				block_settings[key] = block_properties[key]
 
 
 func _show_dropdown():
