@@ -1,6 +1,6 @@
 #extends SliderRow
 #
-#signal level_event
+#signal editor_event
 #
 #const BACKGROUND_BUTTON: PackedScene = preload("res://unused/mega_menu/background_button.tscn")
 #const BACKGROUND_IDS := ["pr2_field", "pr2_generic", "pr2_lake", "pr2_desert", "pr2_dots", "pr2_space", "pr2_skyscraper", "pr3_desert", "pr3_industrial", "pr3_jungle", "pr3_space", "pr3_underwater", "pr3_volcano", "pr3_thanksgiving", "pr3_main", "pr3_christmas"]

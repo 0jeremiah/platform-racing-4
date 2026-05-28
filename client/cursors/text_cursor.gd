@@ -1,6 +1,6 @@
 extends Node2D
 
-signal level_event
+signal editor_event
 
 @onready var sample_text = $SampleText
 @onready var caret = $Caret
@@ -62,7 +62,7 @@ func on_mouse_down():
 		else:
 			sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
 			var text_height = sample_text.get_line_height(0) / 2
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_TEXT,
 				"layer_name": current_layers.get_target_art_layer(),
 				"text": "Hello World!",

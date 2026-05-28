@@ -1,6 +1,6 @@
 extends Node2D
 
-signal level_event
+signal editor_event
 
 @onready var stamp_icon = $StampIcon
 var active: bool = false
@@ -55,7 +55,7 @@ func on_mouse_down():
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = location.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
 			if mode == "stamp":
-				emit_signal("level_event", {
+				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_LINE,
 					"layer_name": current_layers.get_target_art_layer(),
 					"line_type": "stamp",
@@ -75,12 +75,12 @@ func on_mouse_down():
 				if "object_box" in get_parent().editor_menu.current_editor:
 					var object_box = get_parent().editor_menu.current_editor.object_box
 					var spawn_position = location.to_local(selected_stamp.position)
-					object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
+					object_box.set_object_info({"delete": true, "resize": true, "options": true, "edit": false},
 					{"type": "stamp", "node": selected_stamp, "position": spawn_position,
 					"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
 					"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale, "info": str(layer.name)})
 			else:
-				emit_signal("level_event", {
+				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_STAMP,
 					"layer_name": current_layers.get_target_art_layer(),
 					"id": stamp_id,
@@ -126,7 +126,7 @@ func set_stamp_mode(new_mode: String) -> void:
 
 
 func _object_moved(object_info: Dictionary):
-	emit_signal("level_event", {
+	emit_signal("editor_event", {
 		"type": EditorEvents.SET_STAMP_POSITION,
 		"layer_name": object_info.info,
 		"stamp_name": str(object_info.node.name),
@@ -135,7 +135,7 @@ func _object_moved(object_info: Dictionary):
 
 
 func _object_deleted(object_info: Dictionary):
-	emit_signal("level_event", {
+	emit_signal("editor_event", {
 		"type": EditorEvents.DELETE_STAMP,
 		"layer_name": object_info.info,
 		"stamp_name": str(object_info.node.name)
@@ -143,7 +143,7 @@ func _object_deleted(object_info: Dictionary):
 
 
 func _object_resized(object_info: Dictionary):
-	emit_signal("level_event", {
+	emit_signal("editor_event", {
 		"type": EditorEvents.SET_STAMP_SCALE,
 		"layer_name": object_info.info,
 		"stamp_name": str(object_info.node.name),

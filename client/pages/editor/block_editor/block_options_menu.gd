@@ -1,7 +1,7 @@
 extends Control
 
 signal control_event
-signal level_event
+signal editor_event
 signal cursor_is_enabled
 
 @onready var selection_glow = $SelectionGlow
@@ -93,8 +93,8 @@ func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
 	for child in submenus.get_children():
 		if "control_event" in child:
 			child.control_event.connect(_on_control_event)
-		if "level_event" in child:
-			child.level_event.connect(_on_level_event)
+		if "editor_event" in child:
+			child.editor_event.connect(_on_editor_event)
 		if "current_layers" in child or "editor_events" in child or "current_editor" in child:
 			if "current_layers" in child:
 				child.current_layers = layers
@@ -146,9 +146,9 @@ func _on_control_event(event: Dictionary) -> void:
 	control_event.emit(event)
 
 
-func _on_level_event(event: Dictionary) -> void:
-	print("LevelOptionsMenu::_on_level_event ", event)
-	level_event.emit(event)
+func _on_editor_event(event: Dictionary) -> void:
+	print("LevelOptionsMenu::_on_editor_event ", event)
+	editor_event.emit(event)
 
 
 func _click_block_menu(button: TextureButton):

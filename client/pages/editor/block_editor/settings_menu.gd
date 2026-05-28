@@ -55,6 +55,14 @@ func populate_options():
 			dropdown_popup.add_option(settings.properties[setting].label, {"setting": setting})
 
 
+func _update_settings(new_settings: Dictionary):
+	for key in new_settings:
+		if key in block_properties:
+			block_properties[key] = new_settings[key]
+	for setting in settings.properties:
+		settings.properties[setting].node.set_settings(new_settings)
+
+
 func _maybe_enable_settings(setting_info: Dictionary):
 	var enabled_settings = []
 	if setting_info.has("block_settings"):

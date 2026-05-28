@@ -83,9 +83,18 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
-	penciler.init(level_manager.level_layers, editor_events, null)
+	penciler.init(level_manager.level_layers, editor_events)
 	
-	var level
+	cursor.init(editor_menu, level_manager.level_layers)
+	editor_menu.init(level_manager.level_layers, editor_events)
+	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
+	
+	camera_controls.init(editor_camera)
+	
+	editor_menu.control_event.connect(_on_control_event)
+	# now_editing_panel.init($UI/EditorMenu, self)
+	
+	var level = {}
 	if LevelEditor.current_level:
 		level = LevelEditor.current_level
 		level_manager.decode_level(LevelEditor.current_level)
@@ -125,17 +134,6 @@ func _ready():
 	level_settings_submenu.set_general_settings(level_settings)
 	level_settings_submenu.set_item_settings(level.properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))
 	level_manager.set_settings(level_settings)
-	
-	cursor.init(editor_menu, level_manager.level_layers)
-	editor_menu.init(level_manager.level_layers, editor_events)
-	editor_menu.cursor_is_enabled.connect(_on_cursor_is_enabled.bind())
-	
-	# layer_panel_node.init(level_manager.level_layers)
-	
-	camera_controls.init(editor_camera)
-	
-	editor_menu.control_event.connect(_on_control_event)
-	# now_editing_panel.init($UI/EditorMenu, self)
 
 
 func init(data: Dictionary = {}):
@@ -286,12 +284,12 @@ func _on_control_event(event: Dictionary) -> void:
 
 
 func _on_connect_editor() -> void:
-	$EditorEvents.connect("send_level_event", game_client._on_send_level_event)
+	$EditorEvents.connect("send_editor_event", game_client._on_send_editor_event)
 
 
 func _on_disconnect_editor() -> void:
 	if $EditorEvents:
-		$EditorEvents.disconnect("send_level_event", game_client._on_send_level_event)
+		$EditorEvents.disconnect("send_editor_event", game_client._on_send_editor_event)
 	
 	LevelEditor.editor_cursors = null
 	

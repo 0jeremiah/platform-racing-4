@@ -75,7 +75,10 @@ func _update_sides(side_info: Dictionary):
 	if side_info.has("side") and side_info.side in sides_dictionary[side_info.category]:
 		if side_info.setting in side_settings.sides_properties and side_info.setting != sides_dictionary[side_info.category][side_info.side].setting:
 			sides_dictionary[side_info.category][side_info.side].setting = side_info.setting
-			sides_dictionary[side_info.category][side_info.side].side_settings = side_settings.sides_properties[side_info.setting].side_settings
+			if side_info.has("side_settings"):
+				sides_dictionary[side_info.category][side_info.side].side_settings = side_info.side_settings
+			else:
+				sides_dictionary[side_info.category][side_info.side].side_settings = side_settings.sides_properties[side_info.setting].side_settings
 		elif side_info.setting not in side_settings.sides_properties:
 			sides_dictionary[side_info.category][side_info.side].setting = side_info.setting
 			sides_dictionary[side_info.category][side_info.side].side_settings = null

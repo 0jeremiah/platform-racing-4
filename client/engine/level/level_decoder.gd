@@ -1,7 +1,7 @@
 extends Node2D
 class_name LevelDecoder
 
-signal level_event
+signal editor_event
 
 
 func decode(level: Dictionary, level_layers: LevelLayers) -> void:
@@ -72,7 +72,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				var chunks = encoded_layer.get("chunks", [])
 				if !chunks.is_empty():
 					# Emit add block layer event
-					emit_signal("level_event", {
+					emit_signal("editor_event", {
 						"type": EditorEvents.ADD_MAP_LAYER,
 						"name": encoded_layer.name,
 						"tile_map_rotation": encoded_layer.get("rotation", 0),
@@ -86,10 +86,9 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				var texts = encoded_layer.get("texts", [])
 				if !lines.is_empty() or !texts.is_empty():
 					# Emit add art layer event
-					emit_signal("level_event", {
+					emit_signal("editor_event", {
 						"type": EditorEvents.ADD_ART_LAYER,
 						"name": encoded_layer.name,
-						"art_scale": encoded_layer.get("scale", 1.0),
 						"art_rotation": encoded_layer.get("rotation", 0),
 						"depth": encoded_layer.get("depth", 10),
 						"z_axis": encoded_layer.get("depth", 10),
@@ -116,7 +115,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 		
 		for encoded_map_layer in level_map_layers:
 			# Emit add layer event
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_MAP_LAYER,
 				"name": encoded_map_layer.name,
 				"tile_map_rotation": encoded_map_layer.get("tile_map_rotation", 0),
@@ -134,7 +133,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 		
 		for encoded_art_layer in level_art_layers:
 			# Emit add layer event
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_ART_LAYER,
 				"name": encoded_art_layer.name,
 				"art_scale": encoded_art_layer.get("scale", 1.0),
@@ -155,24 +154,23 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:
-		# tile ids are in ints but they get outputted as strings, should probably fix
 		for i:int in chunk.data.size():
-			# failsafe for levels with block ids as int instead of string
-			if chunk.data[i] is not String:
-				chunk.data[i] = str(int(chunk.data[i]))
-			var tile_id:String = chunk.data[i]
+			# failsafe for chunks with data that isn't in the dictionary format
+			if chunk.data[i] is not Dictionary:
+				chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
+			var tile_id:String = chunk.data[i].id
 			if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-			#var tile_options:Array = []
-			#if chunk.has("settings") and chunk.settings[i] != null:
-				#tile_settings = chunk.settings[i]
+			var tile_settings = null
+			if chunk.data[i].has("settings") and chunk.data[i].settings != null:
+				tile_settings = chunk.data[i].settings
 			
 			# Emit set tile event
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
 				"block_id": tile_id,
-				#"block_settings": tile_settings
+				"block_settings": tile_settings
 			})

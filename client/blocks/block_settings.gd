@@ -199,6 +199,42 @@ func get_settings() -> Dictionary:
 	return settings
 
 
+func get_edited_settings() -> Dictionary:
+	var custom_settings = get_settings()
+	var edited_settings = {}
+	if "health" in custom_settings and health != custom_settings.health:
+		edited_settings["health"] = health
+	if "coin_value" in custom_settings and coin_value != custom_settings.coin_value:
+		edited_settings["coin_value"] = coin_value
+	if "stat_supply" in custom_settings and stat_supply != custom_settings.stat_supply:
+		edited_settings["stat_supply"] = stat_supply
+	if "change_tick" in custom_settings and change_tick != custom_settings.change_tick:
+		edited_settings["change_tick"] = change_tick
+	if "change_pattern" in custom_settings and change_pattern != custom_settings.change_pattern:
+		edited_settings["change_pattern"] = change_pattern
+	if "move_tick" in custom_settings and move_tick != custom_settings.move_tick:
+		edited_settings["move_tick"] = move_tick
+	if "move_pattern" in custom_settings and move_pattern != custom_settings.move_pattern:
+		edited_settings["move_pattern"] = move_pattern
+	if "infinite_items" in custom_settings and infinite_items != custom_settings.infinite_items:
+		edited_settings["infinite_items"] = infinite_items
+	if "item_supply" in custom_settings and item_supply != custom_settings.item_supply:
+		edited_settings["item_supply"] = item_supply
+	if "stat_supply" in custom_settings and stat_supply != custom_settings.stat_supply:
+		edited_settings["stat_supply"] = stat_supply
+	if "gear_rotation" in custom_settings and gear_rotation != custom_settings.gear_rotation:
+		edited_settings["gear_rotation"] = gear_rotation
+	if "gear_tick" in custom_settings and gear_tick != custom_settings.gear_tick:
+		edited_settings["gear_tick"] = gear_tick
+	if "gear_tock" in custom_settings and gear_tock != custom_settings.gear_tock:
+		edited_settings["gear_tock"] = gear_tock
+	if "teleport_color" in custom_settings and teleport_color != custom_settings.teleport_color:
+		edited_settings["teleport_color"] = teleport_color
+	if "teleport_throttle_ms" in custom_settings and teleport_throttle_ms != custom_settings.teleport_throttle_ms:
+		edited_settings["teleport_throttle_ms"] = teleport_throttle_ms
+	return edited_settings
+
+
 func get_side_types() -> Array:
 	if matter_type == SOLID:
 		return [top.type, bottom.type, left.type, right.type, bump.type, stand.type, any_side.type]

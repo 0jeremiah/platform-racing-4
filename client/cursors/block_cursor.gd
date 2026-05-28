@@ -1,6 +1,6 @@
 extends Node2D
 
-signal level_event
+signal editor_event
 
 @onready var eraser_icon = $EraserIcon
 @onready var block_icon = $BlockIcon
@@ -114,7 +114,7 @@ func on_mouse_down():
 				object_box.close()
 			grabbed_block = tile_id
 			#grabbed_block_settings = tile_settings
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {
@@ -139,7 +139,7 @@ func on_drag():
 			#tile_settings = block_settings
 		var existing_tile_id = tile_map_layer.get_cell_block_id(coords)
 		if tile_id != existing_tile_id:
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {
@@ -157,7 +157,7 @@ func on_mouse_up():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		if grabbed_block:
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
 				"coords": {

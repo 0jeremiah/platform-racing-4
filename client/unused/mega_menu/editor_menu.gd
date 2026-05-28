@@ -2,7 +2,7 @@
 #class_name NewEditorMenu
 #
 #signal control_event
-#signal level_event
+#signal editor_event
 #
 #const COLORS = {
 	#"meta": {
@@ -57,8 +57,8 @@
 	#row.max_width = window_size.x
 	#if row.has_signal("control_event"):
 		#row.control_event.connect(_on_control_event)
-	#if row.has_signal("level_event"):
-		#row.level_event.connect(_on_level_event)
+	#if row.has_signal("editor_event"):
+		#row.editor_event.connect(_on_editor_event)
 	#_position_rows()
 #
 #
@@ -105,6 +105,6 @@
 		#draw_row.visible = tool_id == "draw"
 #
 #
-#func _on_level_event(event: Dictionary) -> void:
-	#print("EditorMenu::_on_level_event ", event)
-	#level_event.emit(event)
+#func _on_editor_event(event: Dictionary) -> void:
+	#print("EditorMenu::_on_editor_event ", event)
+	#editor_event.emit(event)

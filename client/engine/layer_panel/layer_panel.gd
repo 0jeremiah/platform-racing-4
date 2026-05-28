@@ -1,6 +1,6 @@
 extends Control
 
-signal level_event
+signal editor_event
 signal control_event
 
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
@@ -234,7 +234,7 @@ func _new_pressed():
 		while(current_layers.map_layers.get_node(new_name)):
 			i += 1
 			new_name = "Layer " + str(i)
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.ADD_MAP_LAYER,
 			"name": new_name
 		})
@@ -246,7 +246,7 @@ func _new_pressed():
 		while(current_layers.art_layers.get_node(new_name)):
 			i += 1
 			new_name = "Layer " + str(i)
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.ADD_ART_LAYER,
 			"name": new_name
 		})
@@ -256,13 +256,13 @@ func _new_pressed():
 
 func _delete_pressed():
 	if show_layer_type == "blocks":
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.DELETE_MAP_LAYER,
 			"name": current_layers.get_target_map_layer()
 		})
 		call_deferred("render")
 	elif show_layer_type == "art":
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.DELETE_ART_LAYER,
 			"name": current_layers.get_target_art_layer()
 		})
@@ -324,13 +324,13 @@ func _row_pressed(layer_name: String, layer_button: Button):
 
 func _z_axis_change(new_z_axis: int):
 	if show_layer_type == "blocks" and new_z_axis != current_layers.map_layers.get_node(current_layers.get_target_map_layer()).z_axis:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_MAP_LAYER_Z_AXIS,
 			"layer_name": current_layers.get_target_map_layer(),
 			"z_axis": new_z_axis
 		})
 	elif show_layer_type == "art" and new_z_axis != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).z_axis:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_Z_AXIS,
 			"layer_name": current_layers.get_target_art_layer(),
 			"z_axis": new_z_axis
@@ -339,7 +339,7 @@ func _z_axis_change(new_z_axis: int):
 
 func _depth_change(new_depth: int):
 	if show_layer_type == "art" and new_depth != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).depth:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_DEPTH,
 			"layer_name": current_layers.get_target_art_layer(),
 			"depth": new_depth
@@ -348,13 +348,13 @@ func _depth_change(new_depth: int):
 
 func _rotation_change(new_rotation: int):
 	if show_layer_type == "blocks" and new_rotation != current_layers.map_layers.get_node(current_layers.get_target_map_layer()).tile_map_rotation:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_MAP_LAYER_ROTATION,
 			"layer_name": current_layers.get_target_map_layer(),
 			"rotation": new_rotation
 		})
 	elif show_layer_type == "art" and new_rotation != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).art_rotation:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_ROTATION,
 			"layer_name": current_layers.get_target_art_layer(),
 			"rotation": int(new_rotation)
@@ -363,7 +363,7 @@ func _rotation_change(new_rotation: int):
 
 func _alpha_change(new_alpha: int):
 	if show_layer_type == "art" and new_alpha != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).alpha:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_ALPHA,
 			"layer_name": current_layers.get_target_art_layer(),
 			"alpha": new_alpha
@@ -380,13 +380,13 @@ func _anchor_y_change(new_anchor_y: float):
 
 func _anchor_change(new_anchor: Vector2):
 	if show_layer_type == "blocks" and new_anchor != current_layers.map_layers.get_node(current_layers.get_target_map_layer()).anchor:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_MAP_LAYER_ANCHOR,
 			"layer_name": current_layers.get_target_map_layer(),
 			"anchor": {"x": new_anchor.x, "y": new_anchor.y}
 		})
 	elif show_layer_type == "art" and new_anchor != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).anchor:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_ANCHOR,
 			"layer_name": current_layers.get_target_art_layer(),
 			"anchor": {"x": new_anchor.x, "y": new_anchor.y}
@@ -395,7 +395,7 @@ func _anchor_change(new_anchor: Vector2):
 
 func _set_layer_name(new_layer_name: String):
 	if show_layer_type == "blocks" and current_layers.map_layers.get_node(current_layers.get_target_map_layer()).layer_name != new_layer_name:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.RENAME_MAP_LAYER,
 			"layer_name": current_layers.get_target_map_layer(),
 			"new_layer_name": new_layer_name
@@ -403,7 +403,7 @@ func _set_layer_name(new_layer_name: String):
 		rename_layer_popup.hide()
 		render()
 	elif show_layer_type == "art" and current_layers.art_layers.get_node(current_layers.get_target_art_layer()).layer_name != new_layer_name:
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.RENAME_ART_LAYER,
 			"layer_name": current_layers.get_target_art_layer(),
 			"new_layer_name": new_layer_name
@@ -422,7 +422,7 @@ func _maybe_enable_block_effect(button_index: int, block_effect_key: String):
 	for key in block_effects_keys:
 		if block_effects[key] == true:
 			enabled_block_effects.get_or_add(key, block_effects[key])
-	emit_signal("level_event", {
+	emit_signal("editor_event", {
 		"type": EditorEvents.SET_ART_LAYER_BLOCK_EFFECTS,
 		"layer_name": current_layers.get_target_art_layer(),
 		"block_effect_settings": enabled_block_effects

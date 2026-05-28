@@ -1,5 +1,5 @@
 extends Node2D
-signal receive_level_event
+signal receive_editor_event
 signal request_editor_load
 
 @export var SPLIT_SCREEN_STYLE := VERTICAL
@@ -42,7 +42,7 @@ func _ready() -> void:
 	if is_scale_multiple_instances:
 		scale_multiple_instances()
 	
-func _on_send_level_event(event: Dictionary) -> void:
+func _on_send_editor_event(event: Dictionary) -> void:
 	if !is_live_editing:
 		return
 	
@@ -289,7 +289,7 @@ func _process(_delta: float) -> void:
 					if parsed_packet.editor.user_id != Session.get_username():
 						# Give the illusion that the remote cursor appears same time as the block
 						await get_tree().create_timer(0.1).timeout
-					emit_signal("receive_level_event", parsed_packet.editor)
+					emit_signal("receive_editor_event", parsed_packet.editor)
 			elif parsed_packet.module == "ResponseRoomModule":
 				var member_id_list: Array[String] = []
 				for member_id in parsed_packet.member_id_list:
@@ -357,7 +357,7 @@ func _process(_delta: float) -> void:
 	
 	if Session.get_current_scene_name() == "LEVEL_EDITOR":
 		for packet in edit_event_buffer:
-			emit_signal("receive_level_event", packet)
+			emit_signal("receive_editor_event", packet)
 
 func toggle_editor_buttons(isDiabled: bool):
 	if editor_explore_button && is_instance_valid(editor_explore_button):

@@ -29,7 +29,7 @@ func _change_coin_value(new_coin_value: float):
 
 func set_settings(new_settings: Dictionary):
 	if new_settings.has("health"):
-		health = clamp(new_settings.health, -360.0, 360.0)
+		health = clamp(new_settings.health, 0.0, 99999999.9)
 		health_box._update_text(str(health))
 	if new_settings.has("coin_value"):
 		coin_value = clamp(new_settings.coin_value, 0.0, 99999999.9)

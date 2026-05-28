@@ -12,7 +12,6 @@ class_name ArtLayer
 
 var z_axis: int = 10
 var depth: int = 10
-var art_scale: float = 1.0
 var art_rotation: int = 0
 var alpha: float = 100
 var anchor: Vector2 = Vector2(0, 0)

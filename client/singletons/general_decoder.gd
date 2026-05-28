@@ -1,13 +1,13 @@
 extends Node
 
-signal level_event
+signal editor_event
 
 
 func decode_lines(layer_name: String, objects: Array) -> void:
 	for object in objects:
 		# checks if the line is actually a line or a stamp. (compatibility for pr3)
 		if object.has("type") and object.type == "stamp":
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_LINE,
 				"layer_name": layer_name,
 				"line_type": "stamp",
@@ -35,7 +35,7 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 			else:
 				line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 		
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_LINE,
 				"layer_name": layer_name,
 				"line_type": "line",
@@ -50,7 +50,7 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 func decode_stamps(layer_name: String, objects: Array) -> void:
 	for object in objects:
 			
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.ADD_STAMP,
 			"layer_name": layer_name,
 			"id": object.id,
@@ -124,7 +124,7 @@ func decode_texts(layer_name: String, objects: Array) -> void:
 			object.get_or_add("color", "000000")
 		
 		# Emit add usertext event
-		emit_signal("level_event", {
+		emit_signal("editor_event", {
 			"type": EditorEvents.ADD_TEXT,
 			"layer_name": layer_name,
 			"text": object.text,

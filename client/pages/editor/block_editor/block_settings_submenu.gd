@@ -171,6 +171,7 @@ var settings_lookup: Dictionary = {
 	}
 }
 var active: bool = false
+var editor_events: EditorEvents
 
 
 func _ready() -> void:
@@ -193,7 +194,7 @@ func _ready() -> void:
 
 
 func init() -> void:
-	pass
+	editor_events.editor_event.connect(_on_editor_event)
 
 
 func deactivate():
@@ -260,20 +261,33 @@ func _change_setting(selected_dictionary: Dictionary):
 			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
 		}
 	})
-	update_buttons()
 	update_display()
-#
-#
-#func _change_health(new_health: float):
-	#block_properties.health = new_health
-#
-#
-#func _update_properties(new_dictionary: Dictionary):
-	#for key in new_dictionary.keys():
-		#if block_properties.has(key):
-			#block_properties[key] = new_dictionary[key]
-#
-#
+
+
+func _on_editor_event(event: Dictionary) -> void:
+	if event.type == EditorEvents.SET_BLOCK_SETTINGS:
+		block_settings.import_settings(event.settings)
+		var sides = block_settings.get_sides()
+		var matter_type = settings_presets.matter_types.get(block_settings.matter_type, settings_presets.matter_types[settings_presets.matter_types.keys()[0]])
+		var side_setting_category = matter_type.side_setting_category
+		for side in sides:
+			var updated_side =  {"category": side_setting_category, "side": side, "setting": sides[side].type, "side_settings": sides[side].params}
+			side_settings_menu._update_sides(updated_side)
+		var settings = block_settings.get_settings()
+		if !settings.is_empty():
+			settings_menu._update_settings(settings)
+		settings_menu._maybe_enable_settings({
+			"block_settings": {
+				"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
+				"stat": {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS), "setting": "stat"},
+				ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
+				ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+				ConfigurableBlockSettings.GEAR: {"enabled": block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
+			}
+		})
+		update_display()
+
+
 func update_display():
 	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
 	block_sides_seperator.visible = false

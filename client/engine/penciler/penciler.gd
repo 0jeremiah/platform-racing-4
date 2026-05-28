@@ -8,15 +8,14 @@ var layer_panel: Node2D
 
 
 func _ready() -> void:
-	GeneralDecoder.connect("level_event", _on_level_event)
-	GeneralEncoder.connect("level_event", _on_level_event)
+	GeneralDecoder.connect("editor_event", _on_editor_event)
+	GeneralEncoder.connect("editor_event", _on_editor_event)
 
 
-func init(p_current_layers, event_source, p_layer_panel: Node2D) -> void:
+func init(p_current_layers, event_source) -> void:
 	if p_current_layers is LevelLayers or p_current_layers is BlockLayers:
 		current_layers = p_current_layers
-		layer_panel = p_layer_panel
-		event_source.connect("level_event", _on_level_event)
+		event_source.connect("editor_event", _on_editor_event)
 
 
 func _process(_delta: float) -> void:
@@ -33,17 +32,10 @@ func _cleanup_old_timestamps() -> void:
 			tile_update_timestamps.erase(key)
 
 
-func _on_level_event(event: Dictionary) -> void:
+func _on_editor_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_TILE:
 		var coords = Vector2i(event.coords.x, event.coords.y)
 		var coords_key = str(coords.x) + "_" + str(coords.y)
-		var block_options: Array = []
-		
-		#if event.has("block_options"):
-			#if event.block_options is Array:
-				#block_options = event.block_options
-			#elif event.block_options is TileOptions:
-				#block_options = event.block_options.data
 		
 		if event.has("timestamp"):
 			var new_timestamp = event.timestamp
@@ -116,12 +108,9 @@ func _on_level_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:
 		var layer = current_layers.add_art_layer(event.name)
-		layer.art_scale = event.get("art_scale", 1.0)
 		layer.set_art_rotation(event.get("art_rotation", 0))
-		if event.has("depth"):
-			layer.set_depth(event.get("depth", 10))
-		if event.has("z_axis"):
-			layer.set_z_axis(event.get("z_axis", 10))
+		layer.set_depth(event.get("depth", 10))
+		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		current_layers.set_target_art_layer(event.name)

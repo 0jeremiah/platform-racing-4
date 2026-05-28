@@ -37,7 +37,15 @@ var default_block: Dictionary = {
 		"any_side": {"type": ConfigurableBlockSideSettings.ACTIVE, "params": {}}
 	},
 	"custom_image": {
-		"art_layers": []
+		"art_layers": [{
+			"name": "Layer 1",
+			"lines": [],
+			"stamps": [],
+			"texts": [],
+			"rotation": 0.0,
+			"alpha": 100,
+			"anchor": {"x": 0.0, "y": 0.0}
+		}]
 		}
 }
 
@@ -66,26 +74,7 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, block_manager.block_decoder])
 	#editor_events.set_game_client(game_client)
-	penciler.init(block_manager.block_layers, editor_events, null)
-	
-	var block
-	#if BlockEditor.current_block:
-		#block = BlockEditor.current_block
-		#block_manager.decode_block(BlockEditor.current_block, true)
-	#else:
-		#var saved_block = FileManager.load_from_file()
-		#if saved_block:
-			#block = saved_block
-			#block_manager.decode_block(saved_block, true)
-		#else:
-			#block = default_block
-			#block_manager.decode_block(default_block, true)
-	block = default_block
-	block_manager.decode_block(default_block)
-	
-	#var block_settings: Dictionary = {}
-	
-	#block_manager.set_settings(block_settings)
+	penciler.init(block_manager.block_layers, editor_events)
 	
 	cursor.init(editor_menu, block_manager.block_layers)
 	editor_menu.init(block_manager.block_layers, editor_events)
@@ -95,23 +84,39 @@ func _ready():
 	
 	editor_menu.control_event.connect(_on_control_event)
 	# now_editing_panel.init($UI/EditorMenu, self)
+	
+	var block = {}
+	if BlockEditor.current_block:
+		block = BlockEditor.current_block
+		block_manager.decode_block(BlockEditor.current_block)
+	else:
+		block = default_block
+		block_manager.decode_block(block)
+		pass
+		#var saved_block = FileManager.load_from_file()
+		#if saved_block:
+			#block = saved_block
+			#block_manager.decode_block(saved_block, true)
+		#else:
+			#block = default_block
+			#block_manager.decode_block(default_block, true)
 
 
 func _on_back_pressed():
-	#BlockEditor.current_block = block_manager.encode_block()
+	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
 	#FileManager.save_to_file(BlockEditor.current_block, current_block_name)
 	await Main.set_scene(Main.TITLE)
 
 
 func _on_level_editor_pressed():
-	#BlockEditor.current_block = block_manager.encode_block()
+	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
 	#FileManager.save_to_file(BlockEditor.current_block, current_block_name)
 	await Main.set_scene(Main.LEVEL_EDITOR)
 
 
 func _on_save_pressed():
 	await RenderingServer.frame_post_draw
-	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, block_manager.block_layers, sub_viewport)
+	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
 	PopupManager.add_custom_popup(save_popup, {"mode": "block", "current_data": BlockEditor.current_block})
 
 
@@ -132,7 +137,6 @@ func _on_block_load(block_name = "", block_description = ""):
 
 func _on_control_event(event: Dictionary) -> void:
 	pass
-	
 
 
 func _on_cursor_is_enabled(new_bool: bool) -> void:

@@ -130,8 +130,8 @@ static func _create_blocks(configs: Array) -> void:
 		_blocks[block_id] = block
 
 
-func encode_block(_block_settings: ConfigurableBlockSettings, _block_layers: BlockLayers, _sub_viewport: SubViewport) -> Dictionary:
-	return block_encoder.encode(_block_settings, _block_layers, _sub_viewport)
+func encode_block(_block_settings: ConfigurableBlockSettings, _sub_viewport: SubViewport) -> Dictionary:
+	return block_encoder.encode(_block_settings, block_layers, _sub_viewport)
 
 
 func decode_block(block_data: Dictionary) -> void:
@@ -213,7 +213,3 @@ static func get_block_teleport_texture(block_id: String) -> Texture:
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
-
-
-func set_settings(new_settings: Dictionary):
-	pass

@@ -59,7 +59,7 @@ func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Arr
 	for coords in used_coords:
 		#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 		var block_id = configurable_tile_map_layer.get_cell_block_id(coords)
-		#var block_settings = null
+		var block_settings = null
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
 		var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
@@ -83,6 +83,6 @@ func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Arr
 			}
 			chunks.push_back(chunk)
 			chunk_map[chunk_name] = chunk
-		chunk.data[chunk_data_index] = block_id
+		chunk.data[chunk_data_index] = {"id": block_id, "settings": block_settings}
 		#chunk.options[chunk_data_index] = block_options
 	return chunks

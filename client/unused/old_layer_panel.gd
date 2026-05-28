@@ -1,6 +1,6 @@
 #extends Node2D
 #
-#signal level_event
+#signal editor_event
 #signal control_event
 #
 #const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
@@ -94,7 +94,7 @@
 		#while(layers.map_layers.get_node(new_name)):
 			#i += 1
 			#new_name = "Layer " + str(i)
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.ADD_MAP_LAYER,
 			#"name": new_name
 		#})
@@ -105,7 +105,7 @@
 		#while(layers.art_layers.get_node(new_name)):
 			#i += 1
 			#new_name = "Layer " + str(i)
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.ADD_ART_LAYER,
 			#"name": new_name
 		#})
@@ -114,13 +114,13 @@
 #
 #func _delete_pressed():
 	#if show_layer_type == "blocks":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.DELETE_MAP_LAYER,
 			#"name": layers.get_target_map_layer()
 		#})
 		#call_deferred("render")
 	#if show_layer_type == "art":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.DELETE_ART_LAYER,
 			#"name": layers.get_target_art_layer()
 		#})
@@ -158,7 +158,7 @@
 	#else:
 		#Button.modulate.a = 1
 	#if show_layer_type == "art":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.SET_ART_LAYER_ALPHA,
 			#"layer_name": layer_name,
 			#"visibility": visibility
@@ -174,13 +174,13 @@
 #
 #func _rotation_change(rotation):
 	#if show_layer_type == "blocks":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.SET_MAP_LAYER_ROTATION,
 			#"layer_name": layers.get_target_map_layer(),
 			#"rotation": rotation
 		#})
 	#if show_layer_type == "art":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.SET_ART_LAYER_ROTATION,
 			#"layer_name": layers.get_target_art_layer(),
 			#"rotation": rotation
@@ -189,7 +189,7 @@
 #
 #func _depth_change(depth):
 	#if show_layer_type == "art":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.SET_ART_LAYER_DEPTH,
 			#"layer_name": layers.get_target_art_layer(),
 			#"depth": depth
@@ -197,7 +197,7 @@
 #
 #func _set_layer_name(new_layer_name):
 	#if show_layer_type == "blocks":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.RENAME_MAP_LAYER,
 			#"layer_name": layers.get_target_map_layer(),
 			#"new_layer_name": new_layer_name
@@ -205,7 +205,7 @@
 		#new_layer_name_popup.visible = false
 		#render()
 	#if show_layer_type == "art":
-		#emit_signal("level_event", {
+		#emit_signal("editor_event", {
 			#"type": EditorEvents.RENAME_ART_LAYER,
 			#"layer_name": layers.get_target_art_layer(),
 			#"new_layer_name": new_layer_name

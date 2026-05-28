@@ -46,7 +46,7 @@ func _ready():
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
 	editor_events.connect_to([level_manager.level_decoder])
-	penciler.init(level_manager.level_layers, editor_events, null)
+	penciler.init(level_manager.level_layers, editor_events)
 	
 	if !Game.pr2_level_id or Game.pr2_level_id == '0':
 		_activate_game()

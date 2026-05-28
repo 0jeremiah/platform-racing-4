@@ -1,6 +1,6 @@
 extends Node2D
 
-signal level_event
+signal editor_event
 
 @onready var haircross = $Haircross
 @onready var brush_circle = $BrushCircle
@@ -110,7 +110,7 @@ func on_mouse_up():
 			var point_dicts = []
 			for point in simplified_points:
 				point_dicts.append({"x": point.x, "y": point.y})
-			emit_signal("level_event", {
+			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_LINE,
 				"layer_name": current_layers.get_target_art_layer(),
 				"line_type": "line",

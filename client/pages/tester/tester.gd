@@ -33,7 +33,7 @@ func init(data: Dictionary):
 	var bg: Node2D = get_node("BG")
 	var editor_events: EditorEvents = get_node("EditorEvents")
 	
-	penciler.init(level_manager.level_layers, editor_events, null)
+	penciler.init(level_manager.level_layers, editor_events)
 	editor_events.connect_to([level_manager.level_decoder])
 	
 	var level

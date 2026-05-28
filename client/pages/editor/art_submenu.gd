@@ -88,7 +88,7 @@ func init() -> void:
 	show_boxes(visible_boxes_list)
 	layer_panel.init(current_editor, current_layers, "art")
 	editor_events.connect_to([layer_panel])
-	editor_events.level_event.connect(_on_level_event)
+	editor_events.editor_event.connect(_on_editor_event)
 	if active:
 		layer_panel.render()
 
@@ -140,7 +140,7 @@ func _process(_delta: float) -> void:
 		visible = false
 
 
-func _on_level_event(event: Dictionary) -> void:
+func _on_editor_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_BACKGROUND:
 		_set_bg([event.fade_color, event.bg])
 	if event.type == EditorEvents.SELECT_STAMP:

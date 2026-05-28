@@ -9,10 +9,10 @@
 	#tile_config.init_defaults()
 	#layers.init(tile_config)
 	#layer_panel.init(layers)
-	#layer_panel.level_event.connect(_on_level_event)
+	#layer_panel.editor_event.connect(_on_editor_event)
 
 
-#func _on_level_event(event):
+#func _on_editor_event(event):
 	#if event.type == EditorEvents.ADD_LAYER:
 		#layers.add_layer(event.name)
 	#if event.type == EditorEvents.DELETE_LAYER:

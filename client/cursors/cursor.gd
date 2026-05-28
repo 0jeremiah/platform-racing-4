@@ -1,7 +1,7 @@
 extends Node2D
 class_name Cursor
 
-signal level_event
+signal editor_event
 
 var active = false
 var touching_gui = false
@@ -67,8 +67,8 @@ func init(_editor_menu, layers) -> void:
 	control.mouse_exited.connect(_on_mouse_exited)
 	
 	for child in get_children():
-		if child.has_signal("level_event"):
-			child.level_event.connect(_on_subcursor_event)
+		if child.has_signal("editor_event"):
+			child.editor_event.connect(_on_subcursor_event)
 
 
 func _on_gui_input(event: InputEvent):
@@ -149,7 +149,7 @@ func _on_control_event(event: Dictionary) -> void:
 
 
 func _on_subcursor_event(event: Dictionary) -> void:
-	level_event.emit(event)
+	editor_event.emit(event)
 
 
 func _object_moved(object_info: Dictionary):

@@ -1,8 +1,8 @@
 extends Node2D
 class_name EditorEvents
 
-signal level_event
-signal send_level_event
+signal editor_event
+signal send_editor_event
 
 # control events, switching tools, swtiching selected block, etc
 const SELECT_TOOL = 'select_tool'
@@ -38,7 +38,7 @@ const SET_SNOW_CHANCE = 'set_snow_chance'
 const SET_ALIEN_CHANCE = 'set_alien_chance'
 const SET_ITEMS = 'set_items'
 
-# level events, adding blocks, drawing, changeing a setting, etc
+# editor events, adding blocks, drawing, changeing a setting, etc
 const ADD_MAP_LAYER = 'add_map_layer'
 const ADD_ART_LAYER = 'add_art_layer'
 const SET_MAP_LAYER_ROTATION = 'set_map_layer_rotation'
@@ -69,6 +69,7 @@ const SET_TEXT_SIZE = 'set_text_size'
 const ROTATE_TEXT = 'rotate_text'
 const SET_TEXT_FONT = 'set_text_font'
 const DELETE_TEXT = 'delete_text'
+const SET_BLOCK_SETTINGS = "set_block_settings"
 const UNDO = 'undo'
 
 var events = []
@@ -79,15 +80,15 @@ var game_client: Node2D
 
 func set_game_client(p_game_client) -> void:
 	game_client = p_game_client
-	game_client.connect("receive_level_event", _on_receive_level_event)
+	game_client.connect("receive_editor_event", _on_receive_editor_event)
 
 
 func connect_to(nodes: Array) -> void:
 	for node in nodes:
-		node.connect("level_event", _on_level_event)
+		node.connect("editor_event", _on_editor_event)
 
 
-func _on_level_event(event: Dictionary) -> void:
+func _on_editor_event(event: Dictionary) -> void:
 	if event == last_send_event:
 		return
 		
@@ -97,19 +98,19 @@ func _on_level_event(event: Dictionary) -> void:
 	events.push_back(event)
 	
 	if !game_client || !game_client.is_live_editing:
-		# Single-player level editor
-		emit_signal("level_event", event)
+		# Single-player editor editor
+		emit_signal("editor_event", event)
 	else:
-		# Muti-player level editor
-		emit_signal("send_level_event", event)
+		# Muti-player editor editor
+		emit_signal("send_editor_event", event)
 
 
-func _on_receive_level_event(event: Dictionary) -> void:
-	print("EditorEvents::_on_receive_level_event ", event)
+func _on_receive_editor_event(event: Dictionary) -> void:
+	print("EditorEvents::_on_receive_editor_event ", event)
 	if len(redo_events) > 0:
 		redo_events = []
 	events.push_back(event)
-	emit_signal("level_event", event)
+	emit_signal("editor_event", event)
 
 
 func undo() -> void:
@@ -119,7 +120,7 @@ func undo() -> void:
 		"type": UNDO,
 		"event": event
 	}
-	emit_signal("level_event", undo_event)
+	emit_signal("editor_event", undo_event)
 
 
 func redo() -> void:
@@ -127,4 +128,4 @@ func redo() -> void:
 		return
 	var event = redo_events.pop_back()
 	events.push_back(event)
-	emit_signal("level_event", event)
+	emit_signal("editor_event", event)
