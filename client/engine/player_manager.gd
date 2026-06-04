@@ -26,6 +26,6 @@ func spawn_player(level_layers: LevelLayers) -> CharacterBody2D:
 	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tile_map_layer.global_rotation if start_option.tile_map_layer else 0)
 	character.active = true
 	player_holder.add_child(character)
-	character.tile_interaction.set_depth(character, layer.z_axis)
+	character.tile_interaction.set_depth(layer.z_axis)
 	
 	return character

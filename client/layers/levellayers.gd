@@ -1,23 +1,18 @@
 extends Node2D
 class_name LevelLayers
 
-const MAP_LAYER = preload("res://layers/maplayer.tscn")
-const ART_LAYER = preload("res://layers/artlayer.tscn")
+signal layers_changed
+
 @onready var map_layers = $MapLayers
 @onready var art_layers = $ArtLayers
+
+const MAP_LAYER = preload("res://layers/maplayer.tscn")
+const ART_LAYER = preload("res://layers/artlayer.tscn")
+
 var all_start_options = []
 var start_i = 0
 var map_target_layer: String = ""
 var art_target_layer: String = ""
-var tile_config: Tiles
-var default_blocks_config: Array
-
-
-
-func init() -> void:
-	for layer in map_layers.get_children():
-		if layer is MapLayer:
-			layer.init(default_blocks_config)
 
 
 func clear() -> void:
@@ -54,35 +49,37 @@ func get_target_art_layer() -> String:
 	return art_target_layer
 
 
-func add_map_layer(_name: String) -> MapLayer:
+func add_map_layer(layer_name: String) -> MapLayer:
 	var layer = MAP_LAYER.instantiate()
-	layer.name = _name
-	#layer.layer = 10
+	layer.name = layer_name
 	map_layers.add_child(layer)
 	layer.init()
+	emit_signal("layers_changed")
 	return layer
 
 
-func add_art_layer(_name: String) -> ArtLayer:
+func add_art_layer(layer_name: String) -> ArtLayer:
 	var layer = ART_LAYER.instantiate()
-	layer.name = _name
-	#layer.layer = 10
+	layer.name = layer_name
 	art_layers.add_child(layer)
+	emit_signal("layers_changed")
 	return layer
 
 
-func remove_map_layer(_name: String) -> void:
-	var layer = map_layers.get_node(_name)
+func remove_map_layer(layer_name: String) -> void:
+	var layer = map_layers.get_node(layer_name)
 	if layer:
 		map_layers.remove_child(layer)
 		layer.queue_free()
+		emit_signal("layers_changed")
 
 
-func remove_art_layer(_name: String) -> void:
-	var layer = art_layers.get_node(_name)
+func remove_art_layer(layer_name: String) -> void:
+	var layer = art_layers.get_node(layer_name)
 	if layer:
 		art_layers.remove_child(layer)
 		layer.queue_free()
+		emit_signal("layers_changed")
 
 
 func calc_used_rect() -> void:
@@ -118,7 +115,7 @@ func get_next_start_option() -> Dictionary:
 		return start_option
 	else:
 		return {
-			"layer_name": get_target_map_layer(),
+			"map_layer_name": get_target_map_layer(),
 			"coords": Vector2i(0, 0),
 			"tile_map_layer": null,
 		}

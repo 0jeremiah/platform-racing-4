@@ -28,10 +28,10 @@ func activate_item(_character: Character):
 		animation_timer.start(animations.get_current_animation_length())
 		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_laser_gun")
 		shoot(_character)
-		if _character.facing < 0:
-			_character.velocity.x += 750
+		if _character.movement.facing < 0:
+			_character.movement.current_velocity.x += 750
 		else:
-			_character.velocity.x -= 750
+			_character.movement.current_velocity.x -= 750
 		_character.item_manager.uses -= 1
 
 

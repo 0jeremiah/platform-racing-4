@@ -180,15 +180,7 @@ func _ready() -> void:
 	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
 	settings_menu.init(block_settings)
 	side_settings_menu.init(block_settings)
-	settings_menu._maybe_enable_settings({
-		"block_settings": {
-			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
-			"stat": {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS), "setting": "stat"},
-			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
-			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
-			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
-		}
-	})
+	maybe_enable_settings_menu()
 	update_display()
 	
 
@@ -210,6 +202,18 @@ func _process(_delta: float) -> void:
 		visible = true
 	else:
 		visible = false
+
+
+func maybe_enable_settings_menu() -> void:
+	settings_menu._maybe_enable_settings({
+		"block_settings": {
+			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
+			"stat": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and (block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS)), "setting": "stat"},
+			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
+			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
+		}
+	})
 
 
 func _show_matter_types(button: Button):
@@ -252,15 +256,7 @@ func _change_setting(selected_dictionary: Dictionary):
 	elif selected_dictionary.button == block_type_setting_button:
 		block_settings.block_type = selected_dictionary.setting
 	side_settings_menu._update_sides(selected_dictionary)
-	settings_menu._maybe_enable_settings({
-		"block_settings": {
-			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
-			"stat": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and (block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS)), "setting": "stat"},
-			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
-			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
-			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
-		}
-	})
+	maybe_enable_settings_menu()
 	update_display()
 
 
@@ -276,15 +272,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		var settings = block_settings.get_settings()
 		if !settings.is_empty():
 			settings_menu._update_settings(settings)
-		settings_menu._maybe_enable_settings({
-			"block_settings": {
-				"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
-				"stat": {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS), "setting": "stat"},
-				ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
-				ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
-				ConfigurableBlockSettings.GEAR: {"enabled": block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
-			}
-		})
+		maybe_enable_settings_menu()
 		update_display()
 
 

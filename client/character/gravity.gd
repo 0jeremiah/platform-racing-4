@@ -30,10 +30,10 @@ func run(character: Character, delta: float) -> void:
 	character.up_direction = base_up_direction.rotated(rotation)
 	if rotation_sync:
 		if character.movement.swimming:
-			character.velocity += (gravity_rotated / 2) * delta
+			character.movement.current_velocity += (gravity_rotated / 2) * delta
 		else:
-			character.velocity += gravity_rotated * delta
+			character.movement.current_velocity += gravity_rotated * delta
 
 
-func not_rotating(delta: float) -> bool:
+func not_rotating() -> bool:
 	return rotation_sync

@@ -22,26 +22,33 @@ func _ready() -> void:
 	tile_map_layer.map_layer = self
 
 
+#func _process(delta: float) -> void:
+	#var camera_position = Vector2(0.0, 0.0)
+	#var camera = get_viewport().get_camera_2d()
+	#if camera:
+		#camera_position = camera.get_screen_center_position()
+	#screen_offset = camera_position * Vector2(get_layer_scale(), get_layer_scale())
+
+
 func init() -> void:
 	set_z_axis(z_axis)
 	set_map_layer_rotation(tile_map_rotation)
 	set_anchor(anchor)
 
 
+func _process(_delta: float) -> void:
+	if Game.game:
+		var character = Game.game.player_manager.get_character()
+		if character.tile_interaction.character_depth == z_axis:
+			tile_map_layer.collision_enabled = true
+		else:
+			tile_map_layer.collision_enabled = false
+
+
 func set_z_axis(p_z_axis: int) -> void:
 	z_axis = p_z_axis
-	
-	var tile_set = tile_map_layer.tile_set
-	if tile_set:
-		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((z_axis * 2) - 1))
-		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((z_axis * 2) - 1))
-		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(z_axis * 2))
-		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(z_axis * 2))
-	
-	var z_axis_compat = float(z_axis)
-	var base_scale = z_axis_compat / 10.0
-	scroll_scale = Vector2(base_scale, base_scale)
-	scale = Vector2(base_scale, base_scale)
+	scroll_scale = Vector2(get_layer_scale(), get_layer_scale())
+	scale = Vector2(get_layer_scale(), get_layer_scale())
 	z_index = z_axis
 
 

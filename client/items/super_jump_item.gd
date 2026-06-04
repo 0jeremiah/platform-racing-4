@@ -9,6 +9,6 @@ func activate_item(_character: Character):
 	if !_character.item_manager.using:
 		_character.item_manager.using = true
 		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_super_jump")
-		_character.velocity.y -= 5000
+		_character.movement.current_velocity.y -= 5000
 		Jukebox.play_sound("superjump")
 		_character.item_manager.uses -= 1

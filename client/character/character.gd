@@ -50,7 +50,7 @@ func _ready() -> void:
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
 	animation = AnimationController.new(display, sjaura)
-	tile_interaction = TileInteractionController.new(low_area, high_area)
+	tile_interaction = TileInteractionController.new(self, low_area, high_area)
 	tile_interaction.last_safe_position = Vector2(position)
 	item_manager.init(self)
 	
@@ -70,23 +70,23 @@ func _physics_process(delta: float) -> void:
 	gravity.run(self, delta)
 	
 	# Update velocity from super jump
-	if not movement.hurt and gravity.not_rotating(delta):
+	if not movement.hurt and gravity.not_rotating():
 		super_jump.run(self, delta)
 	
 	# Process item forces
 	_process_item_forces()
 	
 	# Process movement
-	velocity = movement.process(delta, self, stats, gravity, super_jump)
+	velocity = movement.process(delta, self, stats, gravity, super_jump) * Vector2(tile_interaction.get_depth(), tile_interaction.get_depth())
 	
 	# Process lightbreak
 	control_vector = Input.get_vector("left", "right", "up", "down")
 	var lightbreak_velocity := lightbreak.process(delta, control_vector, self)
 	if lightbreak_velocity != Vector2.ZERO:
-		velocity = lightbreak_velocity
+		velocity = (lightbreak_velocity) * Vector2(tile_interaction.get_depth(), tile_interaction.get_depth())
 	
-	if gravity.not_rotating(delta):
-		movement.previous_velocity = velocity
+	if gravity.not_rotating():
+		movement.previous_velocity = movement.current_velocity
 		if !movement.finished:
 			move_and_slide()
 	
@@ -140,7 +140,7 @@ func _process_item_forces() -> void:
 		var item_force_y: float = 0
 		if !movement.is_crouching:
 			item_force_y = item_force.y
-		velocity += Vector2(item_force_x, item_force_y).rotated(rotation)
+		velocity += Vector2(item_force_x, item_force_y).rotated(rotation) * Vector2(tile_interaction.get_depth(), tile_interaction.get_depth())
 
 
 func _process_items() -> void:

@@ -9,7 +9,7 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 850.0
-offset_bottom = 450.0
+offset_bottom = 510.0
 script = ExtResource("1_imxmr")
 
 [node name="Panel" type="Panel" parent="."]

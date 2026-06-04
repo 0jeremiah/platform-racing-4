@@ -73,7 +73,6 @@ func _on_control_event(event: Dictionary) -> void:
 func get_mouse_to_tilemap_coords() -> Vector2:
 	if level_layers:
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var rotated_pos: Vector2
 
@@ -82,8 +81,8 @@ func get_mouse_to_tilemap_coords() -> Vector2:
 		
 		# Convert to world position taking into account camera position, zoom, and layer scale
 		#print(layer.get_layer_scale())
-		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - (get_viewport_rect().size / 2)) / camera.zoom
-		world_pos += camera.position
+		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - ((get_viewport_rect().size / layer.get_layer_scale()) / 2)) / camera.zoom
+		world_pos += camera.get_screen_center_position() * layer.get_layer_scale()
 		
 		# Adjust for layer depth scaling
 		#world_pos *= layer.get_layer_scale()

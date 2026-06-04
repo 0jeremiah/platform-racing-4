@@ -9,9 +9,9 @@ signal move_settings_changed
 @onready var parse_results_label = $ParseResultsLabel
 
 var allowed_commands: Array = ["up", "down", "left", "right", "wait", "random", "return"]
-var move_tick: float = ConfigurableBlockSettings.default_properties.move_tick
-var old_move_pattern: String = ConfigurableBlockSettings.default_properties.move_pattern
-var move_pattern: String = ConfigurableBlockSettings.default_properties.move_pattern
+var move_tick: float = ConfigurableBlockSettings.default_block_properties.move_tick
+var old_move_pattern: String = ConfigurableBlockSettings.default_block_properties.move_pattern
+var move_pattern: String = ConfigurableBlockSettings.default_block_properties.move_pattern
 var randomize_move_pattern: bool = false
 var loop_move_pattern: bool = true
 

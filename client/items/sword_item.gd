@@ -30,9 +30,9 @@ func activate_item(_character: Character):
 		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_sword")
 		slash(_character)
 		if _character.display.scale.x < 0:
-			_character.velocity.x -= 1000
+			_character.movement.current_velocity.x -= 1000
 		else:
-			_character.velocity.x += 1000
+			_character.movement.current_velocity.x += 1000
 		_character.item_manager.uses -= 1
 
 

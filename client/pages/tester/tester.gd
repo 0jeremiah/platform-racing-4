@@ -8,6 +8,7 @@ extends Node2D
 @onready var debug_display = $UI/Container/DebugDisplay
 @onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
 @onready var level_manager: LevelManager = $LevelManager
+@onready var player_manager: PlayerManager = $PlayerManager
 
 var show_debug_info: bool = true
 var current_player_layer: String = ""
@@ -21,7 +22,6 @@ func _ready():
 
 func _on_back_pressed():
 	var saved_camera_position = Vector2(0, 0)
-	var player_manager: PlayerManager = get_node("PlayerManager")
 	var character = player_manager.get_character()
 	if character:
 		saved_camera_position = character.position
@@ -52,7 +52,6 @@ func init(data: Dictionary):
 	print(level.properties.get("music", ""))
 	Jukebox.play_song(level.properties.get("music", ""))
 	
-	var player_manager: PlayerManager = get_node("PlayerManager")
 	var start_option = Start.get_next_start_option(level_manager.level_layers)
 	if start_option:
 		var character = player_manager.spawn_player(level_manager.level_layers)
@@ -73,7 +72,6 @@ func init(data: Dictionary):
 		debug_display.deactivate()
 
 func update_stats():
-	var player_manager: PlayerManager = get_node("PlayerManager")
 	var player = player_manager.get_character()
 	var player_stats = player.stats.get_total()
 	var editor_stats = stats_panel.get_total()

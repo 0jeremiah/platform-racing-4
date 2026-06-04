@@ -3,6 +3,7 @@ class_name LevelEditor
 
 static var editor_cursors: Node
 static var current_level: Dictionary
+static var current_level_folder: String
 static var current_level_name: String
 static var current_level_description: String
 static var level_editor: Node
@@ -36,6 +37,8 @@ static var level_editor: Node
 @onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
 var default_level: Dictionary = {
+	"title": "first",
+	"comment": "",
 	"map_layers": [{
 		"name": "Layer 1",
 		"chunks": [],
@@ -53,7 +56,20 @@ var default_level: Dictionary = {
 		"depth": 10,
 		"alpha": 100,
 		"anchor": {"x": 0.0, "y": 0.0}
-	}]
+	}],
+	"properties": {
+		"background_id": "pr2_field",
+		"fade_color": "FFFFFF",
+		"music": "random",
+		"level_type": "race",
+		"time": 120,
+		"gravity": 1.0,
+		"password": "",
+		"sfchm_chance": 0,
+		"wind_chance": 0,
+		"snow_chance": 0,
+		"alien_chance": 0
+		}
 }
 
 
@@ -99,7 +115,7 @@ func _ready():
 		level = LevelEditor.current_level
 		level_manager.decode_level(LevelEditor.current_level)
 	else:
-		var saved_level = FileManager.load_from_file()
+		var saved_level = FileManager.load_level_from_folder()
 		if saved_level:
 			level = saved_level
 			level_manager.decode_level(saved_level)
@@ -144,13 +160,13 @@ func init(data: Dictionary = {}):
 
 func _on_back_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
+	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
 	await Main.set_scene(Main.TITLE)
 
 
 func _on_block_editor_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
+	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
 	await Main.set_scene(Main.BLOCK_EDITOR)
 
 
@@ -159,7 +175,7 @@ func _on_explore_pressed():
 
 
 func _on_load_pressed():
-	PopupManager.add_custom_popup(load_popup)
+	PopupManager.add_custom_popup(load_popup, {"mode": "level", "load_func": Callable(self, "_on_level_load")})
 
 
 func _on_save_pressed():
@@ -173,7 +189,7 @@ func _on_save_pressed():
 
 func _on_test_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
+	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
 	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
 
 
@@ -186,22 +202,22 @@ func _on_clear_pressed():
 
 
 func _on_confirm_clear():
-	_on_level_load("", "")
+	_on_level_load("", "", "")
 
 
-func _on_level_load(level_name = "", level_description = ""):
+func _on_level_load(level_folder = current_level_folder, level_name = "", level_description = ""):
+	FileManager.set_current_level_folder(level_folder)
 	FileManager.set_current_level_name(level_name)
 	FileManager.set_current_level_description(level_description)
 	
 	var selected_level = default_level
-	if (level_name != ""):
-		selected_level = FileManager.load_from_file(level_name)
+	if (level_folder != ""):
+		selected_level = FileManager.load_level_from_folder(level_folder)
 		
 	level_manager.clear()
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(selected_level)
-	level_manager.level_layers.init()
 
 
 func _on_request_editor_load():

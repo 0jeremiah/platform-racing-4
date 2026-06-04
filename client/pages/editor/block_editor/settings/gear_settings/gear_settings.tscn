@@ -18,7 +18,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Rotation:"
 vertical_alignment = 1
 
-[node name="TickLabel" type="RichTextLabel" parent="."]
+[node name="GearTickLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_top = 40.0
 offset_right = 80.0
@@ -27,7 +27,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Tick ms:"
 vertical_alignment = 1
 
-[node name="TockLabel" type="RichTextLabel" parent="."]
+[node name="GearTockLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_top = 80.0
 offset_right = 90.0
@@ -45,7 +45,7 @@ theme_override_font_sizes/font_size = 16
 text = "90.0"
 script = ExtResource("2_h6tay")
 
-[node name="TickBox" type="LineEdit" parent="."]
+[node name="GearTickBox" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 40.0
@@ -55,7 +55,7 @@ theme_override_font_sizes/font_size = 16
 text = "4000.0"
 script = ExtResource("2_h6tay")
 
-[node name="TockBox" type="LineEdit" parent="."]
+[node name="GearTockBox" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 90.0
 offset_top = 80.0

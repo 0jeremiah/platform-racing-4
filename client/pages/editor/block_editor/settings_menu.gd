@@ -16,8 +16,8 @@ var container_y: float = 80
 
 
 func _ready() -> void:
-	for default_setting in ConfigurableBlockSettings.default_properties:
-		block_properties[default_setting] = ConfigurableBlockSettings.default_properties[default_setting]
+	for default_setting in ConfigurableBlockSettings.default_block_properties:
+		block_properties[default_setting] = ConfigurableBlockSettings.default_block_properties[default_setting]
 	for setting in settings.properties:
 		settings.properties[setting].node.set_key(setting)
 		settings.properties[setting].node.set_settings(settings.properties[setting].settings)

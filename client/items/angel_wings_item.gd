@@ -24,9 +24,9 @@ func _init_item(_character: Character):
 func process_item(_character: Character):
 	if _character:
 		if _character.item_manager.using:
-			if _character.velocity.y >= 0:
-				_character.velocity.y = 0
-			if _character.velocity.y >= -3000:
+			if _character.movement.current_velocity.y >= 0:
+				_character.movement.current_velocity.y = 0
+			if _character.movement.current_velocity.y >= -3000:
 				_character.item_manager.force = Vector2(100, -60)
 			else:
 				_character.item_manager.force = Vector2(100, 0)

@@ -3,6 +3,20 @@ class_name LevelDecoder
 
 signal editor_event
 
+var default_map_layer = {
+	"name": "Layer 1",
+	"tile_map_rotation": 0.0,
+	"z_axis": 10,
+	"anchor": {"x": 0, "y": 0}
+	}
+var default_art_layer = {
+	"name": "Layer 1",
+	"art_rotation": 0.0,
+	"depth": 10,
+	"z_axis": 10,
+	"alpha": 100,
+	"anchor": {"x": 0, "y": 0}
+	}
 
 func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 	GameConfig.clear_overrides()
@@ -67,10 +81,13 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 	# Failsafe for levels that don't have map_layers or art_layers.
 	if level.has("layers"):
 		var layers = level.get("layers", [])
+		var any_map_layers = false
+		var any_art_layers = false
 		if !layers.is_empty():
 			for encoded_layer in layers:
 				var chunks = encoded_layer.get("chunks", [])
 				if !chunks.is_empty():
+					any_map_layers = true
 					# Emit add block layer event
 					emit_signal("editor_event", {
 						"type": EditorEvents.ADD_MAP_LAYER,
@@ -85,6 +102,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				var lines = encoded_layer.get("lines", [])
 				var texts = encoded_layer.get("texts", [])
 				if !lines.is_empty() or !texts.is_empty():
+					any_art_layers = true
 					# Emit add art layer event
 					emit_signal("editor_event", {
 						"type": EditorEvents.ADD_ART_LAYER,
@@ -99,19 +117,28 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 						GeneralDecoder.decode_lines(encoded_layer.name, encoded_layer.lines)
 					if encoded_layer.get("usertextboxobjects"):
 						GeneralDecoder.decode_texts(encoded_layer.name, encoded_layer.usertextboxobjects)
-		level.get_or_add("map_layers", [])
-		level.get_or_add("art_layers", [])
-		var level_map_layers = level.get("map_layers", [])
-		if level_map_layers.is_empty():
-			level_map_layers.append({"name": "Layer 1"})
-		var level_art_layers = level.get("art_layers", [])
-		if level_art_layers.is_empty():
-			level_art_layers.append({"name": "Layer 1"})
-		level.erase("layers")
+		if !any_map_layers:
+			emit_signal("editor_event", {
+				"type": EditorEvents.ADD_MAP_LAYER,
+				"name": "Layer 1",
+				"tile_map_rotation": 0.0,
+				"z_axis": 10,
+				"anchor": {"x": 0, "y": 0}
+			})
+		if !any_art_layers:
+			emit_signal("editor_event", {
+				"type": EditorEvents.ADD_ART_LAYER,
+				"name": "Layer 1",
+				"art_rotation": 0.0,
+				"depth": 10,
+				"z_axis": 10,
+				"alpha": 100,
+				"anchor": {"x": 0, "y": 0}
+			})
 	else:
 		var level_map_layers = level.get("map_layers", [])
 		if level_map_layers.is_empty():
-			level_map_layers.append({"name": "Layer 1"})
+			level_map_layers.append(default_map_layer)
 		
 		for encoded_map_layer in level_map_layers:
 			# Emit add layer event
@@ -129,7 +156,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 		
 		var level_art_layers = level.get("art_layers", [])
 		if level_art_layers.is_empty():
-			level_art_layers.append({"name": "Layer 1"})
+			level_art_layers.append(default_art_layer)
 		
 		for encoded_art_layer in level_art_layers:
 			# Emit add layer event

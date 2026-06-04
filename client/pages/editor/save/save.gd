@@ -24,8 +24,8 @@ func init(new_mode: String, new_current_data: Dictionary) -> void:
 	mode = new_mode
 	if mode == "level":
 		save_label.text = "-- Save Level --"
-		title_box.text = FileManager.get_current_level_name()
-		comment_box.text = FileManager.get_current_level_description()
+		title_box.text = FileManager.get_current_level_name_and_description().title
+		comment_box.text = FileManager.get_current_level_name_and_description().description
 		current_data = new_current_data
 		publish_check_box.visible = true
 		publish_check_box.position.y = comment_box.position.y + comment_box.size.y + 10
@@ -59,7 +59,7 @@ func _maybe_publish() -> void:
 	#current_level.title = title_edit.text
 	#current_level.get_or_add("description")
 	#current_level.description = description_edit.text
-	#var encoded_string = FileManager.save_to_file(current_level, title_edit.text)
+	#var encoded_string = FileManager.save_level_to_file(current_level, title_edit.text)
 	#
 	#var post_data = {
 		#"level_data": encoded_string,

@@ -52,7 +52,7 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 	player.get_parent().remove_child(player)
 	layer.players.add_child(player)
 	player.position = next_block_position + dist
-	player.tile_interaction.set_depth(player, layer.depth)
+	player.tile_interaction.set_depth(layer.z_axis)
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	
 	Game.game.set_current_player_layer(next_position.layer_name)

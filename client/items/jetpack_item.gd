@@ -25,9 +25,9 @@ func process_item(_character: Character):
 		fuelon = false
 	if jetpack_timer > 0:
 		if fuelon:
-			if _character.velocity.y < -700:
+			if _character.movement.current_velocity.y < -700:
 				_character.item_manager.force = Vector2(0, -40)
-			elif _character.velocity.y <= 0:
+			elif _character.movement.current_velocity.y <= 0:
 				_character.item_manager.force = Vector2(0, -65)
 			else:
 				_character.item_manager.force = Vector2(0, -75)

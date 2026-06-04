@@ -19,7 +19,8 @@ static var START_POSITION := "start_position"
 static var PRESENCE_SWITCH := "presence_switch"
 static var LIGHTBREAKER := "lightbreaker"
 
-static var default_properties: Dictionary = {
+# default block settings that can be accessed through ConfigurableBlockSettings
+static var default_block_properties: Dictionary = {
 	"health": 100.0,
 	"coin_value": 3,
 	"change_tick": 2.5,
@@ -30,13 +31,18 @@ static var default_properties: Dictionary = {
 	"loop_move_pattern": true,
 	"infinite_items": false,
 	"item_supply": 1,
+	"infinite_stats": false,
 	"stat_supply": 1,
 	"gear_rotation": 90.0,
 	"gear_tick": 4000.0,
-	"gear_tock": 2.5,
+	"gear_tock": 500.0,
 	"teleport_color": "FF7F50",
 	"teleport_throttle_ms": 1000.0
 }
+
+# only updated once when block settings are imported, so it can determined whenever it's settings has
+# been edited through the block cursor in the editor or something like that via get_edited_settings()
+var block_properties: Dictionary = {}
 var title: String = "block"
 var comment: String = ""
 var matter_type := SOLID
@@ -49,22 +55,23 @@ var bump: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var stand: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var any_side: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var area: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
-var health = default_properties.health
-var coin_value = default_properties.coin_value
-var change_tick = default_properties.change_tick
-var change_pattern = default_properties.change_pattern
-var move_tick = default_properties.move_tick
-var move_pattern = default_properties.move_pattern
-var randomize_move_pattern = default_properties.randomize_move_pattern
-var loop_move_pattern = default_properties.loop_move_pattern
-var infinite_items = default_properties.infinite_items
-var item_supply = default_properties.item_supply
-var stat_supply = default_properties.stat_supply
-var gear_rotation = default_properties.gear_rotation
-var gear_tick = default_properties.gear_tick
-var gear_tock = default_properties.gear_tock
-var teleport_color: String = default_properties.teleport_color
-var teleport_throttle_ms: float = default_properties.teleport_throttle_ms
+var health = default_block_properties.health
+var coin_value = default_block_properties.coin_value
+var change_tick = default_block_properties.change_tick
+var change_pattern = default_block_properties.change_pattern
+var move_tick = default_block_properties.move_tick
+var move_pattern = default_block_properties.move_pattern
+var randomize_move_pattern = default_block_properties.randomize_move_pattern
+var loop_move_pattern = default_block_properties.loop_move_pattern
+var infinite_items = default_block_properties.infinite_items
+var item_supply = default_block_properties.item_supply
+var infinite_stats = default_block_properties.infinite_stats
+var stat_supply = default_block_properties.stat_supply
+var gear_rotation = default_block_properties.gear_rotation
+var gear_tick = default_block_properties.gear_tick
+var gear_tock = default_block_properties.gear_tock
+var teleport_color: String = default_block_properties.teleport_color
+var teleport_throttle_ms: float = default_block_properties.teleport_throttle_ms
 
 
 func export_settings() -> Dictionary:
@@ -145,6 +152,8 @@ func import_settings(new_settings: Dictionary) -> void:
 			infinite_items = new_settings.infinite_items
 		if new_settings.has("item_supply"):
 			item_supply = new_settings.item_supply
+		if new_settings.has("infinite_stats"):
+			infinite_stats = new_settings.infinite_stats
 		if new_settings.has("stat_supply"):
 			stat_supply = new_settings.stat_supply
 		if new_settings.has("gear_rotation"):
@@ -157,6 +166,10 @@ func import_settings(new_settings: Dictionary) -> void:
 			teleport_color = new_settings.teleport_color
 		if new_settings.has("teleport_throttle_ms"):
 			teleport_throttle_ms = new_settings.teleport_throttle_ms
+		
+		var extra_settings = get_settings()
+		if !extra_settings.is_empty():
+			block_properties = extra_settings
 	else:
 		var missing_variables_string = ""
 		for missing_variable in missing_variables:
@@ -167,71 +180,46 @@ func import_settings(new_settings: Dictionary) -> void:
 
 func get_settings() -> Dictionary:
 	var settings = {}
-	if health != default_properties.health:
+	if health != default_block_properties.health:
 		settings["health"] = health
-	if coin_value != default_properties.coin_value:
+	if coin_value != default_block_properties.coin_value:
 		settings["coin_value"] = coin_value
-	if stat_supply != default_properties.stat_supply:
+	if stat_supply != default_block_properties.stat_supply:
 		settings["stat_supply"] = stat_supply
-	if change_tick != default_properties.change_tick:
+	if change_tick != default_block_properties.change_tick:
 		settings["change_tick"] = change_tick
-	if change_pattern != default_properties.change_pattern:
+	if change_pattern != default_block_properties.change_pattern:
 		settings["change_pattern"] = change_pattern
-	if move_tick != default_properties.move_tick:
+	if move_tick != default_block_properties.move_tick:
 		settings["move_tick"] = move_tick
-	if move_pattern != default_properties.move_pattern:
+	if move_pattern != default_block_properties.move_pattern:
 		settings["move_pattern"] = move_pattern
 	if has_side_type(ConfigurableBlockSideSettings.ITEM):
 		settings["infinite_items"] = infinite_items
 		settings["item_supply"] = item_supply
-	if stat_supply != default_properties.stat_supply:
+	if stat_supply != default_block_properties.stat_supply:
 		settings["stat_supply"] = stat_supply
-	if gear_rotation != default_properties.gear_rotation:
+	if infinite_stats != default_block_properties.infinite_stats:
+		settings["infinite_stats"] = infinite_stats
+	if gear_rotation != default_block_properties.gear_rotation:
 		settings["gear_rotation"] = gear_rotation
-	if gear_tick != default_properties.gear_tick:
+	if gear_tick != default_block_properties.gear_tick:
 		settings["gear_tick"] = gear_tick
-	if gear_tock != default_properties.gear_tock:
+	if gear_tock != default_block_properties.gear_tock:
 		settings["gear_tock"] = gear_tock
-	if teleport_color != default_properties.teleport_color:
+	if teleport_color != default_block_properties.teleport_color:
 		settings["teleport_color"] = teleport_color
-	if teleport_throttle_ms != default_properties.teleport_throttle_ms:
+	if teleport_throttle_ms != default_block_properties.teleport_throttle_ms:
 		settings["teleport_throttle_ms"] = teleport_throttle_ms
 	return settings
 
 
 func get_edited_settings() -> Dictionary:
-	var custom_settings = get_settings()
+	var settings = get_settings()
 	var edited_settings = {}
-	if "health" in custom_settings and health != custom_settings.health:
-		edited_settings["health"] = health
-	if "coin_value" in custom_settings and coin_value != custom_settings.coin_value:
-		edited_settings["coin_value"] = coin_value
-	if "stat_supply" in custom_settings and stat_supply != custom_settings.stat_supply:
-		edited_settings["stat_supply"] = stat_supply
-	if "change_tick" in custom_settings and change_tick != custom_settings.change_tick:
-		edited_settings["change_tick"] = change_tick
-	if "change_pattern" in custom_settings and change_pattern != custom_settings.change_pattern:
-		edited_settings["change_pattern"] = change_pattern
-	if "move_tick" in custom_settings and move_tick != custom_settings.move_tick:
-		edited_settings["move_tick"] = move_tick
-	if "move_pattern" in custom_settings and move_pattern != custom_settings.move_pattern:
-		edited_settings["move_pattern"] = move_pattern
-	if "infinite_items" in custom_settings and infinite_items != custom_settings.infinite_items:
-		edited_settings["infinite_items"] = infinite_items
-	if "item_supply" in custom_settings and item_supply != custom_settings.item_supply:
-		edited_settings["item_supply"] = item_supply
-	if "stat_supply" in custom_settings and stat_supply != custom_settings.stat_supply:
-		edited_settings["stat_supply"] = stat_supply
-	if "gear_rotation" in custom_settings and gear_rotation != custom_settings.gear_rotation:
-		edited_settings["gear_rotation"] = gear_rotation
-	if "gear_tick" in custom_settings and gear_tick != custom_settings.gear_tick:
-		edited_settings["gear_tick"] = gear_tick
-	if "gear_tock" in custom_settings and gear_tock != custom_settings.gear_tock:
-		edited_settings["gear_tock"] = gear_tock
-	if "teleport_color" in custom_settings and teleport_color != custom_settings.teleport_color:
-		edited_settings["teleport_color"] = teleport_color
-	if "teleport_throttle_ms" in custom_settings and teleport_throttle_ms != custom_settings.teleport_throttle_ms:
-		edited_settings["teleport_throttle_ms"] = teleport_throttle_ms
+	for setting in settings:
+		if setting in block_properties and block_properties[setting] != settings[setting]:
+			edited_settings[setting] = settings[setting]
 	return edited_settings
 
 

@@ -20,7 +20,6 @@ func crumble(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block
 	# this is vector projection
-	var magnitude = player.movement.last_velocity.length()
 	var direction = player.movement.last_collision_normal
 	var dot = player.movement.last_velocity.dot(direction)
 	var projection = (dot / direction.length_squared()) * direction
@@ -41,8 +40,7 @@ func crumble(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 			TileEffects.crumble(tile_map_layer, coords, pieces)
 	# print({
 	#	"key": key,
-	#	"player_velocity" :player.last_velocity,
-	#	"magnitude": magnitude,
+	#	"player_velocity" :player.previous_velocity,
 	#	"direction": direction,
 	#	"dot": dot,
 	#	"projection": projection,

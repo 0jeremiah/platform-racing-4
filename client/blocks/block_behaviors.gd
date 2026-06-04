@@ -51,8 +51,8 @@ func arrow(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block:
 	if node is RigidBody2D:
 		var rigid_body := node as RigidBody2D
 		rigid_body.linear_velocity += push_velocity
-	elif "velocity" in node:
-		node.velocity += push_velocity
+	elif "movement" in node and "current_velocity" in node.movement:
+		node.movement.current_velocity += push_velocity
 
 	# add effect
 	if params.get("show_effect", true):
@@ -81,13 +81,13 @@ func bounce(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block
 
 	if _is_moving_towards(node.position, node.movement.previous_velocity, tile_position_global):
 		# bounce, invert velocity
-		node.velocity = node.movement.previous_velocity.bounce(node.tile_interaction.last_collision.get_normal())
+		node.movement.current_velocity = node.movement.previous_velocity.bounce(node.tile_interaction.last_collision.get_normal())
 
 		# add extra velocity
-		node.velocity = node.velocity * (Vector2(1, 1) + (Vector2(bounciness, bounciness) * node.tile_interaction.last_collision.get_normal().abs()))
+		node.movement.current_velocity = node.movement.current_velocity * (Vector2(1, 1) + (Vector2(bounciness, bounciness) * node.tile_interaction.last_collision.get_normal().abs()))
 
 		# need a speed limit to keep bouncing back and forth from getting out of hand
-		node.velocity = node.velocity.limit_length(speed_limit)
+		node.movement.current_velocity = node.movement.current_velocity.limit_length(speed_limit)
 
 
 ## Helper function to determine if a body is moving towards a block
@@ -157,7 +157,7 @@ func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block
 	var direction = normal
 	var dot = null
 	if node is CharacterBody2D:
-		dot = node.movement.last_velocity.dot(direction)
+		dot = node.movement.previous_velocity.dot(direction)
 	else:
 		dot = node.linear_velocity.dot(direction)
 	var projection = (dot / direction.length_squared()) * direction
@@ -208,8 +208,8 @@ func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, 
 	if body is RigidBody2D:
 		var rigid_body := body as RigidBody2D
 		rigid_body.linear_velocity += push_velocity
-	elif "velocity" in body:
-		body.velocity += push_velocity
+	elif "movement" in body and "current_velocity" in body.movement:
+		body.movement.current_velocity += push_velocity
 
 	# Apply hitstun
 	if "movement" in body and body.movement.has_method("hitstun"):
@@ -265,7 +265,7 @@ func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, b
 	if body is RigidBody2D:
 		var rigid_body := body as RigidBody2D
 		rigid_body.linear_velocity += push_velocity
-	elif "velocity" in body:
+	elif "movement" in body and "current_velocity" in body.movement:
 		body.velocity += push_velocity
 
 	# Add explosion effect
@@ -364,13 +364,13 @@ func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2
 	if body is RigidBody2D:
 		var rigid_body := body as RigidBody2D
 		rigid_body.linear_velocity = Vector2(0, 0)
-	elif "velocity" in body:
-		body.velocity = Vector2(0, 0)
+	elif "movement" in body and "current_velocity" in body.movement:
+		body.movement.current_velocity = Vector2(0, 0)
 
 	if (body.tile_interaction.last_safe_layer != null and (body.tile_interaction.last_safe_layer.players != body.get_parent())):
 		body.get_parent().remove_child(body)
 		body.tile_interaction.last_safe_layer.players.add_child(body)
-		body.tile_interaction.set_depth(body, body.tile_interaction.last_safe_layer.z_axis)
+		body.tile_interaction.set_depth(body.tile_interaction.last_safe_layer.z_axis)
 
 
 # Shatters the block
@@ -417,7 +417,7 @@ func teleport(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _blo
 	tile_map_layer.map_layer.players.remove_child(node)
 	layer.players.add_child(node)
 	node.position = next_block_position + dist
-	node.tile_interaction.set_depth(node, layer.z_axis)
+	node.tile_interaction.set_depth(layer.z_axis)
 	#throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	
 	Game.game.set_current_player_layer(next_position.map_layer_name)

@@ -3,6 +3,7 @@ extends ButtonPopup
 @onready var load = preload("res://pages/editor/load/load.tscn")
 
 var load_node = null
+var load_func = null
 
 
 func _ready() -> void:
@@ -14,16 +15,17 @@ func _ready() -> void:
 	create_button("Cancel", Callable(self, "_cancel"))
 
 
-#func init(init_params: Dictionary):
-	#var mode = ""
-	#if "mode" in init_params:
-		#mode = init_params.mode
-	#if !mode.is_empty():
-		#load_panel_node.init(mode)
+func init(init_params: Dictionary):
+	if "mode" in init_params:
+		load_node.init(init_params.mode)
+	if "load_func" in init_params:
+		load_func = init_params.load_func
 
 
 func _load():
-	# loading code goes here
+	var load_params = load_node.get_load_params()
+	if load_func is Callable:
+		load_func.call(load_params.folder, load_params.title, load_params.description)
 	queue_free()
 
 

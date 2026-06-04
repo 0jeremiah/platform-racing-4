@@ -2,35 +2,35 @@ extends BlockSetting
 
 signal teleport_settings_changed
 
-@onready var color_button = $ColorButton
-@onready var throttle_ms_box = $ThrottlemsBox
+@onready var teleport_color_button = $TeleportColorButton
+@onready var teleport_throttle_ms_box = $TeleportThrottleMsBox
 
 var teleport_color: Color = Color("FF7F50")
-var throttle_ms: float = 1000.0
+var teleport_throttle_ms: float = 1000.0
 
 
 func _ready() -> void:
-	color_button.set_color(teleport_color)
-	color_button.colorbutton_color_changed.connect(_change_color)
-	throttle_ms_box.init("float", "1000.0", 0.0, 99999999.9)
-	throttle_ms_box.return_line.connect(_change_throttle_ms)
+	teleport_color_button.set_color(teleport_color)
+	teleport_color_button.colorbutton_color_changed.connect(_change_teleport_color)
+	teleport_throttle_ms_box.init("float", "1000.0", 0.0, 99999999.9)
+	teleport_throttle_ms_box.return_line.connect(_change_teleport_throttle_ms)
 	connect_node(self, "teleport_settings_changed")
 
 
-func _change_color(new_teleport_color: Color):
+func _change_teleport_color(new_teleport_color: Color):
 	teleport_color = new_teleport_color
-	emit_signal("teleport_settings_changed", {"color": teleport_color.to_html(false), "throttle_ms": throttle_ms})
+	emit_signal("teleport_settings_changed", {"teleport_color": teleport_color.to_html(false), "teleport_throttle_ms": teleport_throttle_ms})
 
 
-func _change_throttle_ms(new_throttle_ms: float):
-	throttle_ms = new_throttle_ms
-	emit_signal("teleport_settings_changed", {"color": teleport_color.to_html(false), "throttle_ms": throttle_ms})
+func _change_teleport_throttle_ms(new_teleport_throttle_ms: float):
+	teleport_throttle_ms = new_teleport_throttle_ms
+	emit_signal("teleport_settings_changed", {"teleport_color": teleport_color.to_html(false), "teleport_throttle_ms": teleport_throttle_ms})
 
 
 func set_settings(new_settings: Dictionary):
-	if new_settings.has("color"):
-		teleport_color = Color(new_settings.color)
-		color_button.set_color(teleport_color)
-	if new_settings.has("throttle_ms"):
-		throttle_ms = clamp(new_settings.throttle_ms, 0.0, 99999999.9)
-		throttle_ms_box._update_text(str(throttle_ms))
+	if new_settings.has("teleport_color"):
+		teleport_color = Color(new_settings.teleport_color)
+		teleport_color_button.set_color(teleport_color)
+	if new_settings.has("teleport_throttle_ms"):
+		teleport_throttle_ms = clamp(new_settings.teleport_throttle_ms, 0.0, 99999999.9)
+		teleport_throttle_ms_box._update_text(str(teleport_throttle_ms))

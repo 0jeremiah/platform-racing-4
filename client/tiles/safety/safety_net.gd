@@ -15,4 +15,4 @@ func safety_net(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	if (player.tile_interaction.last_safe_layer != null and (player.tile_interaction.last_safe_layer.players != player.get_parent())):
 		player.get_parent().remove_child(player)
 		player.tile_interaction.last_safe_layer.players.add_child(player)
-		player.tile_interaction.set_depth(player, player.tile_interaction.last_safe_layer.depth)
+		player.tile_interaction.set_depth(player.tile_interaction.last_safe_layer.depth)

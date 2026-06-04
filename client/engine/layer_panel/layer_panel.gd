@@ -58,11 +58,13 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 		else:
 			z_axis_box.init("int", "10", 0, 16)
 			z_axis_box.return_line.connect(_z_axis_change)
+		current_layers.layers_changed.connect(render)
 	elif current_editor is BlockEditor:
 		var block_effects_keys = block_effects.keys()
 		for child in block_effect_settings.get_child_count():
 			if block_effect_settings.get_child(child) is CheckBox:
 				block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
+		current_layers.layers_changed.connect(render)
 	rotation_box.init("int", "0", 0, 359)
 	rotation_box.return_line.connect(_rotation_change)
 	alpha_box.init("int", "0", 0, 100)
@@ -171,10 +173,10 @@ func update_boxes() -> void:
 	if layer is MapLayer:
 		enable_box(z_axis_box)
 		z_axis_box._update_text(str(layer.z_axis))
-		depth_box._update_text(str(layer.z_axis))
+		depth_box._update_text("10")
 		enable_box(rotation_box)
 		rotation_box._update_text(str(layer.tile_map_rotation))
-		alpha_box._update_text(str(100))
+		alpha_box._update_text("100")
 		enable_box(anchor_x_box)
 		anchor_x_box._update_text(str(layer.anchor.x))
 		enable_box(anchor_y_box)
@@ -239,7 +241,6 @@ func _new_pressed():
 			"name": new_name
 		})
 		current_layers.set_target_map_layer(new_name)
-		render()
 	elif show_layer_type == "art":
 		var i = current_layers.art_layers.get_child_count() + 1
 		var new_name = "Layer " + str(i)
@@ -251,7 +252,6 @@ func _new_pressed():
 			"name": new_name
 		})
 		current_layers.set_target_art_layer(new_name)
-		render()
 
 
 func _delete_pressed():
@@ -260,13 +260,11 @@ func _delete_pressed():
 			"type": EditorEvents.DELETE_MAP_LAYER,
 			"name": current_layers.get_target_map_layer()
 		})
-		call_deferred("render")
 	elif show_layer_type == "art":
 		emit_signal("editor_event", {
 			"type": EditorEvents.DELETE_ART_LAYER,
 			"name": current_layers.get_target_art_layer()
 		})
-		call_deferred("render")
 
 
 func _move_up_layer():

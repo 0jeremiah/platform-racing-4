@@ -10,12 +10,20 @@ var high_area: Area2D
 var last_safe_position: Vector2 = Vector2(0, 0)
 var last_safe_layer: Node
 var last_collision: KinematicCollision2D
+var character_depth: = 10
 
 
-func _init(low_area_node: Area2D, high_area_node: Area2D):
+func _init(_character: Character, low_area_node: Area2D, high_area_node: Area2D):
 	low_area = low_area_node
 	high_area = high_area_node
 	last_safe_position = Vector2(0, 0)
+	var solid_layer = Helpers.to_bitmask_32((10 * 2) - 1)
+	var vapor_layer = Helpers.to_bitmask_32(10 * 2)
+	_character.collision_layer = solid_layer
+	_character.collision_mask = solid_layer
+	low_area.collision_layer = vapor_layer
+	low_area.collision_mask = solid_layer | vapor_layer
+	high_area.collision_mask = solid_layer
 
 
 func should_crouch(character: Character) -> bool:
@@ -85,11 +93,11 @@ func check_out_of_bounds(character: Character) -> void:
 		if (last_safe_layer != null and (last_safe_layer.players != character.get_parent())):
 			character.get_parent().remove_child(character)
 			last_safe_layer.players.add_child(character)
-			set_depth(character, last_safe_layer.z_axis)
+			set_depth(last_safe_layer.z_axis)
 			Game.game.set_current_player_layer(last_safe_layer.name)
 		character.position.x = last_safe_position.x
 		character.position.y = last_safe_position.y
-		character.velocity = Vector2(0, 0)
+		character.movement.current_velocity = Vector2(0, 0)
 
 
 func get_tiles_overlapping_area(area: Area2D) -> Array:
@@ -117,11 +125,9 @@ func is_in_solid(character: Character) -> bool:
 	return false
 
 
-func set_depth(character: Character, depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
-	var vapor_layer = Helpers.to_bitmask_32(depth * 2)
-	character.collision_layer = solid_layer
-	character.collision_mask = solid_layer
-	low_area.collision_layer = vapor_layer
-	low_area.collision_mask = solid_layer | vapor_layer
-	high_area.collision_mask = solid_layer
+func set_depth(depth: int) -> void:
+	character_depth = depth
+
+
+func get_depth() -> float:
+	return character_depth / 10.0

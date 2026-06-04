@@ -10,6 +10,7 @@ signal cursor_is_enabled
 var current_editor = null
 var current_layers: Node2D
 var editor_events: EditorEvents
+var can_edit: bool = true
 
 
 func _ready():

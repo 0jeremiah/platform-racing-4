@@ -211,8 +211,8 @@ pivot_offset = Vector2(24, 24)
 [node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw"]
 layout_mode = 1
 anchors_preset = -1
-offset_right = 192.0
-offset_bottom = 192.0
+offset_right = 128.0
+offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.375, 0.375)

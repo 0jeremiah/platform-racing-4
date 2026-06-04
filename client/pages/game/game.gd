@@ -9,6 +9,7 @@ static var game: Node2D
 @onready var game_timer: GameTimer = $UI/Container/GameTimer
 @onready var stats_display: StatsDisplay = $UI/Container/StatsDisplay
 @onready var level_manager: LevelManager = $LevelManager
+@onready var player_manager: PlayerManager = $PlayerManager
 
 var used_rects: Dictionary = {}
 var current_player_layer: String = ""
@@ -74,12 +75,12 @@ func _ready():
 
 
 func _activate_game() -> void:
-	var player_manager: PlayerManager = get_node("PlayerManager")
+	#var player_manager: PlayerManager = get_node("PlayerManager")
 	var bg: Node2D = get_node("BG")
 	
 	bg.set_bg(level_manager.properties.get("background", "field"), level_manager.properties.get("fadeColor", "FFFFFF"))
 	level_manager.activate_node()
-	var character = player_manager.spawn_player(level_manager.level_layers)
+	player_manager.spawn_player(level_manager.level_layers)
 	
 	minimap.init(self)
 	game_timer.init(self)

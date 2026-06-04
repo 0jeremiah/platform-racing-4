@@ -19,7 +19,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Teleport Color:"
 vertical_alignment = 1
 
-[node name="ThrottlemsLabel" type="RichTextLabel" parent="."]
+[node name="TeleportThrottleMsLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_top = 40.0
 offset_right = 200.0
@@ -28,13 +28,13 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Teleport Throttle ms:"
 vertical_alignment = 1
 
-[node name="ColorButton" parent="." instance=ExtResource("2_qpvwv")]
+[node name="TeleportColorButton" parent="." instance=ExtResource("2_qpvwv")]
 layout_mode = 0
 offset_left = 150.00002
 offset_right = 198.00002
 scale = Vector2(0.625, 0.625)
 
-[node name="ThrottlemsBox" type="LineEdit" parent="."]
+[node name="TeleportThrottleMsBox" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 200.0
 offset_top = 40.0

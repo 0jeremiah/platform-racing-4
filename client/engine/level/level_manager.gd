@@ -5,6 +5,42 @@ class_name LevelManager
 @onready var level_decoder: LevelDecoder = $LevelDecoder
 @onready var level_encoder: LevelEncoder = $LevelEncoder
 
+static var default_level: Dictionary = {
+	"title": "first",
+	"comment": "",
+	"map_layers": [{
+		"name": "Layer 1",
+		"chunks": [],
+		"tile_map_rotation": 0.0,
+		"z_axis": 10,
+		"anchor": {"x": 0.0, "y": 0.0}
+	}],
+	"art_layers": [{
+		"name": "Layer 1",
+		"lines": [],
+		"stamps": [],
+		"texts": [],
+		"rotation": 0.0,
+		"z_axis": 10,
+		"depth": 10,
+		"alpha": 100,
+		"anchor": {"x": 0.0, "y": 0.0}
+	}],
+	"properties": {
+		"background_id": "pr2_field",
+		"fade_color": "FFFFFF",
+		"music": "random",
+		"level_type": "race",
+		"time": 120,
+		"gravity": 1.0,
+		"password": "",
+		"sfchm_chance": 0,
+		"wind_chance": 0,
+		"snow_chance": 0,
+		"alien_chance": 0
+		}
+}
+
 var default_blocks_config: Array = []
 var background_id = "pr2_field"
 var fade_color = "FFFFFF"
@@ -18,11 +54,6 @@ var wind_chance: int = 0
 var snow_chance: int = 0
 var alien_chance: int = 0
 var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-
-
-func _ready() -> void:
-	#default_blocks_config = BlockManager.load_default_block_configs()
-	level_layers.init()
 
 
 func encode_level() -> Dictionary:

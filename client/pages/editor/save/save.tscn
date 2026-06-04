@@ -50,6 +50,7 @@ offset_left = 150.0
 offset_top = 62.0
 offset_right = 400.0
 offset_bottom = 92.0
+focus_mode = 1
 theme_override_font_sizes/font_size = 20
 
 [node name="CommentBox" type="TextEdit" parent="."]
@@ -58,6 +59,7 @@ offset_left = 150.0
 offset_top = 110.0
 offset_right = 400.0
 offset_bottom = 310.0
+focus_mode = 1
 theme_override_font_sizes/font_size = 20
 wrap_mode = 1
 
@@ -67,6 +69,7 @@ offset_left = 300.0
 offset_top = 320.0
 offset_right = 400.0
 offset_bottom = 350.0
+focus_mode = 0
 theme_override_font_sizes/font_size = 17
 button_pressed = true
 text = "Publish?"

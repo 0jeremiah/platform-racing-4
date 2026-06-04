@@ -119,7 +119,7 @@ func _notify_collision(
 					}
 				var block = BlockManager._blocks[tile_map_layer.get_cell_block_id(coords)]
 				if block and (block.settings.bottom.type != (ConfigurableBlockSideSettings.ARROW) or block.settings.bump.type != (ConfigurableBlockSideSettings.ARROW)):
-					_parent.velocity.rotated(_parent.rotation).y = 0
+					_parent.movement.current_velocity.rotated(_parent.rotation).y = 0
 				_parent.movement.attempting_bump = true
 				_parent.movement.jumped = false
 				_parent.movement.jump_timer = 0

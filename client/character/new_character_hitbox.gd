@@ -105,7 +105,7 @@ func run(character: Character) -> void:
 	#	go_low()
 	#elif character.lightbreak.is_active():
 	#	go_low()
-	#elif character.velocity.rotated(-character.rotation).y >= -0.01:
+	#elif character.movement.current_velocity.rotated(-character.rotation).y >= -0.01:
 	#	go_low()
 	#elif character.movement.is_crouching:
 	#	go_low()

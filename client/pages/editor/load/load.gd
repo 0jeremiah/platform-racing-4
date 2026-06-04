@@ -1,40 +1,46 @@
 extends Control
 
-signal level_load
-
 const LEVEL_ROW = preload("res://pages/editor/load/level_row.tscn")
-var selected_level = ""
+var selected_folder = ""
+var selected_title = ""
 var selected_description = ""
 
+var mode = "level"
+
+@onready var levels = $Levels
 @onready var levels_holder = $Levels/LevelsContainer/LevelsHolder
 
 
-func _ready():
+func init(new_mode: String):
+	mode = new_mode
 	render()
 
 
 func render() -> void:
+	levels.visible = false
 	clear()
-
-	var save_level_array = FileManager.list_saved_levels()
-	for level_name in save_level_array:
-		var row = LEVEL_ROW.instantiate()
-		#row.position.y = levels_holder.get_child_count() * 50
-		row.get_node("LevelLabel").text = level_name
-		levels_holder.add_child(row)
-		var button = row.get_node("Button")
-		button.pressed.connect(_row_pressed.bind(level_name))
-		if FileManager.get_current_level_name() == level_name:
-			button.button_pressed = true
+	
+	if mode == "level":
+		var save_level_array = FileManager.list_saved_levels()
+		for level_info in save_level_array:
+			var row = LEVEL_ROW.instantiate()
+			#row.position.y = levels_holder.get_child_count() * 50
+			row.get_node("LevelLabel").text = level_info.title
+			if level_info.description != "":
+				row.get_node("DescriptionLabel").text = level_info.description
+			else:
+				row.get_node("DescriptionLabel").text = ""
+			levels_holder.add_child(row)
+			var button = row.get_node("Button")
+			button.pressed.connect(_row_pressed.bind(level_info))
+			#if FileManager.get_current_level_folder() == level_info.folder:
+				#button.button_pressed = true
+			levels.visible = true
 
 
 func clear() -> void:
 	for child in levels_holder.get_children():
 		child.queue_free()
-
-
-func _load_pressed():
-	emit_signal("level_load", selected_level, selected_description)
 
 
 #func _delete_pressed():
@@ -51,5 +57,12 @@ func _load_pressed():
 	#selected_level = ""
 	#selected_description = ""
 
-func _row_pressed(level_name: String):
-	selected_level = level_name
+
+func _row_pressed(load_info: Dictionary):
+	selected_folder = load_info.folder
+	selected_title = load_info.title
+	selected_description = load_info.description
+
+
+func get_load_params() -> Dictionary:
+	return {"folder": selected_folder, "title": selected_title, "description": selected_description}

@@ -11,15 +11,15 @@ static var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
 static var _tile_set: ConfigurableTileSet = ConfigurableTileSet.new()
 
 
-func _ready() -> void:
-	pass
-
-
 ## Initialize the layer with a ConfigurableTileSet
 static func add_block_configs(configs: Array) -> void:
 	# Create and assign tileset
 	_tile_set.init(configs)
 	_tile_set.uv_clipping = true
+	_tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((10 * 2) - 1))
+	_tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((10 * 2) - 1))
+	_tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(10 * 2))
+	_tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(10 * 2))
 
 	# Build lookup table: block_id → tile info
 	_build_block_lookup(configs, _tile_set)
@@ -213,3 +213,14 @@ static func get_block_teleport_texture(block_id: String) -> Texture:
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
+
+
+static func get_tile_set():
+	var current_tile_set = TileSet.new()
+	current_tile_set.tile_size = _tile_set.tile_size
+	current_tile_set.add_physics_layer()
+	current_tile_set.add_physics_layer()
+	for _tile_source in _tile_set.get_source_count():
+		var _current_tile_source = _tile_set.get_source(_tile_source)
+		for _tile in _current_tile_source.get_tiles_count():
+			var tile_id = _current_tile_source.get_tile_id
