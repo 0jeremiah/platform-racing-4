@@ -20,6 +20,9 @@ var layer_name: String = ""
 func _ready() -> void:
 	tile_map_layer.tile_set = BlockManager._tile_set
 	tile_map_layer.map_layer = self
+	set_z_axis(z_axis)
+	set_map_layer_rotation(tile_map_rotation)
+	set_anchor(anchor)
 
 
 #func _process(delta: float) -> void:
@@ -28,12 +31,6 @@ func _ready() -> void:
 	#if camera:
 		#camera_position = camera.get_screen_center_position()
 	#screen_offset = camera_position * Vector2(get_layer_scale(), get_layer_scale())
-
-
-func init() -> void:
-	set_z_axis(z_axis)
-	set_map_layer_rotation(tile_map_rotation)
-	set_anchor(anchor)
 
 
 func _process(_delta: float) -> void:

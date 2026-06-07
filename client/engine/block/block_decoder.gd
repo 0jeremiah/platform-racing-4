@@ -4,13 +4,12 @@ class_name BlockDecoder
 signal editor_event
 
 
-func decode(block: Dictionary, block_layers: BlockLayers) -> void:
+func decode(block: Dictionary) -> void:
 	var settings = block.get("settings", {})
 	emit_signal("editor_event", {
 		"type": EditorEvents.SET_BLOCK_SETTINGS,
 		"settings": settings
 	})
-	print("this ran right")
 	var block_art_layers = block.custom_image.get("art_layers", [])
 	if block_art_layers.is_empty():
 		block_art_layers.append({

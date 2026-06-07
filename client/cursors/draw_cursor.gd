@@ -4,11 +4,13 @@ signal editor_event
 
 @onready var haircross = $Haircross
 @onready var brush_circle = $BrushCircle
+
 var active: bool = false
+var current_layers = null
+var cursor_parent = null
 var current_line: Line2D
 var current_point: Vector2i
 var optimization_epsilon: float = 1.0 # bigger = more line optimization
-var current_layers = null
 var mode: String = "draw"
 var draw_size: float = 5.0
 var erase_size: float = 5.0
@@ -48,20 +50,23 @@ func _process(_delta):
 		visible = false
 
 
-func init(_editor_menu, _current_layers) -> void:
+func init(_current_layers, _cursor_parent) -> void:
+	print("DrawCursor::init")
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
-		_editor_menu.connect("control_event", _on_control_event)
+	cursor_parent = _cursor_parent
+	cursor_parent.editor_menu.connect("control_event", _on_control_event)
 
 
 func _on_control_event(event: Dictionary) -> void:
-	print("DrawCursor::_on_control_event", event)
-	if event.type == EditorEvents.SELECT_BRUSH_MODE:
-		mode = event.mode
+	if active:
+		print("DrawCursor::_on_control_event", event)
+		if event.type == EditorEvents.SELECT_BRUSH_MODE:
+			mode = event.mode
 
 
 func on_mouse_down():
-	if active:
+	if active and cursor_parent.editor_menu.can_edit and cursor_parent.editor_menu.can_edit:
 		if !current_line:
 			print("DrawCursor::on_mouse_down")
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
@@ -87,7 +92,7 @@ func on_mouse_down():
 
 
 func on_drag():
-	if active:
+	if active and cursor_parent.editor_menu.can_edit:
 		if current_line:
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
@@ -100,7 +105,7 @@ func on_drag():
 
 
 func on_mouse_up():
-	if active:
+	if active and cursor_parent.editor_menu.can_edit:
 		if current_line:
 			# Just clicks with no drag should produce a dot
 			if len(current_line.points) == 1:

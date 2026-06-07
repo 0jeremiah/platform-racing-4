@@ -7,12 +7,13 @@ signal editor_event
 @onready var teleport_colorin = $BlockIcon/TeleportColorin
 
 var active: bool = false
+var level_layers: LevelLayers
+var cursor_parent = null
 var mode: String = "draw"
 var block_id: String = "1"
 var block_settings = null
 var grabbed_block: String = ""
 var grabbed_settings: Array = []
-var level_layers: LevelLayers
 
 
 func _ready():
@@ -50,23 +51,25 @@ func _process(_delta):
 		visible = false
 
 
-func init(_editor_menu, _level_layers) -> void:
+func init(_level_layers, _cursor_parent) -> void:
 	print("BlockCursor::init")
 	if _level_layers is LevelLayers:
 		level_layers = _level_layers
-		_editor_menu.connect("control_event", _on_control_event)
+	cursor_parent = _cursor_parent
+	cursor_parent.editor_menu.connect("control_event", _on_control_event)
 	
 
 func _on_control_event(event: Dictionary) -> void:
-	print("BlockCursor::_on_control_event", event)
-	if event.type == EditorEvents.SELECT_BLOCK_MODE:
-		mode = event.mode
-	if event.type == EditorEvents.SELECT_BLOCK:
-		block_id = event.block_id
-		#if event.has("block_options"):
-			#block_options = event.block_options
-		#else:
-			#block_options = null
+	if active:
+		print("BlockCursor::_on_control_event", event)
+		if event.type == EditorEvents.SELECT_BLOCK_MODE:
+			mode = event.mode
+		if event.type == EditorEvents.SELECT_BLOCK:
+			block_id = event.block_id
+			#if event.has("block_options"):
+				#block_options = event.block_options
+			#else:
+				#block_options = null
 			
 
 
@@ -101,15 +104,15 @@ func get_mouse_to_tilemap_coords() -> Vector2:
 
 
 func on_mouse_down():
-	if active and level_layers and mode == "move":
+	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_cell_block_id(coords)
 		#var tile_settings = BlockManager._blocks[tile_id].settings.get_settings()
 		if tile_id:
-			if "object_box" in get_parent().editor_menu.current_editor:
-				var object_box = get_parent().editor_menu.current_editor.object_box
+			if "object_box" in cursor_parent.editor_menu.current_editor:
+				var object_box = cursor_parent.editor_menu.current_editor.object_box
 				object_box.close()
 			grabbed_block = tile_id
 			#grabbed_block_settings = tile_settings
@@ -125,7 +128,7 @@ func on_mouse_down():
 			})
 
 func on_drag():
-	if active and level_layers and (mode == "draw" or mode == "erase"):
+	if active and cursor_parent.editor_menu.can_edit and level_layers and (mode == "draw" or mode == "erase"):
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
@@ -151,7 +154,7 @@ func on_drag():
 
 
 func on_mouse_up():
-	if active and level_layers and mode == "move":
+	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())

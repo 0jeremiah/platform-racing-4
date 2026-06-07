@@ -2,6 +2,7 @@ extends Node2D
 class_name LevelLayers
 
 signal layers_changed
+signal layers_loaded
 
 @onready var map_layers = $MapLayers
 @onready var art_layers = $ArtLayers
@@ -22,6 +23,7 @@ func clear() -> void:
 		layer.queue_free()
 	all_start_options = []
 	start_i = 0
+	emit_signal("layers_changed")
 
 
 func set_target_map_layer(layer_name: String) -> void:
@@ -53,7 +55,6 @@ func add_map_layer(layer_name: String) -> MapLayer:
 	var layer = MAP_LAYER.instantiate()
 	layer.name = layer_name
 	map_layers.add_child(layer)
-	layer.init()
 	emit_signal("layers_changed")
 	return layer
 
@@ -69,7 +70,6 @@ func add_art_layer(layer_name: String) -> ArtLayer:
 func remove_map_layer(layer_name: String) -> void:
 	var layer = map_layers.get_node(layer_name)
 	if layer:
-		map_layers.remove_child(layer)
 		layer.queue_free()
 		emit_signal("layers_changed")
 
@@ -77,7 +77,6 @@ func remove_map_layer(layer_name: String) -> void:
 func remove_art_layer(layer_name: String) -> void:
 	var layer = art_layers.get_node(layer_name)
 	if layer:
-		art_layers.remove_child(layer)
 		layer.queue_free()
 		emit_signal("layers_changed")
 
@@ -119,3 +118,7 @@ func get_next_start_option() -> Dictionary:
 			"coords": Vector2i(0, 0),
 			"tile_map_layer": null,
 		}
+
+
+func _layers_loaded():
+	emit_signal("layers_loaded")

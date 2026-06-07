@@ -6,7 +6,6 @@ var tiles: Tiles = Tiles.new()
 
 func _ready():
 	tiles.init_defaults()
-	layer.init(tiles)
 	var tile_map_layer: TileMapLayer = layer.tile_map_layer
 	var coords = Vector2i(1, 1)
 	var source_id = 0

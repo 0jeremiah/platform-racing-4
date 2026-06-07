@@ -3,8 +3,10 @@ extends Node2D
 signal editor_event
 
 @onready var stamp_icon = $StampIcon
+
 var active: bool = false
 var current_layers = null
+var cursor_parent = null
 var mode: String = "sticker"
 var stamp_graphics: Array = []
 var stamp_array: Array = []
@@ -38,13 +40,21 @@ func _process(_delta):
 	update_display()
 
 
-func init(_editor_menu, _current_layers) -> void:
+func init(_current_layers, _cursor_parent) -> void:
+	print("StampCursor::init")
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
+	cursor_parent = _cursor_parent
+	cursor_parent.editor_menu.connect("control_event", _on_control_event)
+
+
+func _on_control_event(event: Dictionary) -> void:
+	if active:
+		print("StampCursor::_on_control_event", event)
 
 
 func on_mouse_down():
-	if active:
+	if active and cursor_parent.editor_menu.can_edit and cursor_parent.editor_menu.can_edit:
 		if stamp_id:
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var location: Node2D = null
@@ -72,8 +82,8 @@ func on_mouse_down():
 				})
 			elif mode == "sticker" and layer.get_stamp_at_position(mouse_position) != null:
 				var selected_stamp = layer.get_stamp_at_position(mouse_position)
-				if "object_box" in get_parent().editor_menu.current_editor:
-					var object_box = get_parent().editor_menu.current_editor.object_box
+				if "object_box" in cursor_parent.editor_menu.current_editor:
+					var object_box = cursor_parent.editor_menu.current_editor.object_box
 					var spawn_position = location.to_local(selected_stamp.position)
 					object_box.set_object_info({"delete": true, "resize": true, "options": true, "edit": false},
 					{"type": "stamp", "node": selected_stamp, "position": spawn_position,

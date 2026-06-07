@@ -12,9 +12,11 @@ signal editor_event
 @onready var black_caret_top = $Caret/BlackCaret/BlackCaretTop
 @onready var black_caret_middle = $Caret/BlackCaret/BlackCaretMiddle
 @onready var black_caret_bottom = $Caret/BlackCaret/BlackCaretBottom
+
 var active: bool = false
-var current_textbox: TextEdit
 var current_layers = null
+var cursor_parent = null
+var current_textbox: TextEdit
 var text_color: Color = Color("071E6BFF")
 var text_font_size: int = 28
 var text_rotation: int = 0
@@ -40,13 +42,21 @@ func _process(_delta):
 		visible = false
 
 
-func init(_current_layers) -> void:
+func init(_current_layers, _cursor_parent) -> void:
+	print("TextCursor::init")
 	if _current_layers is LevelLayers or _current_layers is BlockLayers:
 		current_layers = _current_layers
-	
+	cursor_parent = _cursor_parent
+	cursor_parent.editor_menu.connect("control_event", _on_control_event)
+
+
+func _on_control_event(event: Dictionary) -> void:
+	if active:
+		print("TextCursor::_on_control_event", event)
+
 
 func on_mouse_down():
-	if active:
+	if active and cursor_parent.editor_menu.can_edit and cursor_parent.editor_menu.can_edit:
 		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		var texts: Node2D = layer.texts
 		var camera: Camera2D = get_viewport().get_camera_2d()

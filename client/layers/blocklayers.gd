@@ -2,6 +2,7 @@ extends Node2D
 class_name BlockLayers
 
 signal layers_changed
+signal layers_loaded
 
 @onready var art_layers = $ArtLayers
 
@@ -13,6 +14,7 @@ var art_target_layer: String = ""
 func clear() -> void:
 	for layer in art_layers.get_children():
 		layer.queue_free()
+	emit_signal("layers_changed")
 
 
 func set_target_art_layer(layer_name: String) -> void:
@@ -36,9 +38,12 @@ func add_art_layer(layer_name: String) -> ArtLayer:
 	return layer
 
 
-func remove_art_layer(layer_namename: String) -> void:
-	var layer = art_layers.get_node(layer_namename)
+func remove_art_layer(layer_name: String) -> void:
+	var layer = art_layers.get_node(layer_name)
 	if layer:
-		art_layers.remove_child(layer)
 		layer.queue_free()
 		emit_signal("layers_changed")
+
+
+func _layers_loaded():
+	emit_signal("layers_loaded")

@@ -8,7 +8,6 @@ script = ExtResource("1_vb1cq")
 [node name="Text" type="RichTextLabel" parent="."]
 focus_mode = 1
 theme_override_font_sizes/normal_font_size = 14
-text = "uttutututtuutut"
 fit_content = true
 autowrap_mode = 0
 vertical_alignment = 1

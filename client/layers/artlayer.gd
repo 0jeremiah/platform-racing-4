@@ -26,10 +26,10 @@ func _process(_delta):
 		var window_size = get_viewport().get_visible_rect().size
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
-		lines_viewpoint_container.scale = Vector2(1, 1) / main_camera.zoom
+		lines_viewpoint_container.scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
 		lines_viewpoint_container.global_position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
-		lines_container.global_position = -lines_viewpoint_container.global_position * main_camera.zoom
-		lines_container.scale = Vector2(1, 1) * main_camera.zoom
+		lines_container.global_position = -(lines_viewpoint_container.global_position + (screen_offset * (get_layer_depth() - 1))) * main_camera.zoom
+		lines_container.scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
 
 
 func set_z_axis(p_z_axis: int) -> void:
@@ -56,12 +56,12 @@ func set_anchor(p_anchor: Vector2) -> void:
 
 
 func set_viewport_scale():
-	scroll_scale = Vector2(float(depth) / 10, float(depth) / 10)
-	scale = Vector2(float(z_axis) / 10, float(z_axis) / 10)
+	scroll_scale = Vector2(get_layer_depth(), get_layer_depth())
+	scale = Vector2(get_layer_scale(), get_layer_scale())
 	lines_container.pivot_offset = anchor
 	stamps_container.pivot_offset = anchor
 	texts_container.pivot_offset = anchor
-	z_index = depth - 10
+	z_index = int(get_layer_depth())
 
 
 func set_art_rotation(new_rotation: int) -> void:

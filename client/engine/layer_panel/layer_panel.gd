@@ -25,6 +25,7 @@ const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 @onready var block_effect_settings = $BlockEffectSettingsContainer/BlockEffectSettings
 @onready var rename_layer_popup = $RenameLayerPopup
 
+var active: bool = false
 var current_layers: Node2D
 var current_editor = null
 var show_layer_type: String = "blocks"
@@ -58,13 +59,14 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 		else:
 			z_axis_box.init("int", "10", 0, 16)
 			z_axis_box.return_line.connect(_z_axis_change)
-		current_layers.layers_changed.connect(render)
 	elif current_editor is BlockEditor:
 		var block_effects_keys = block_effects.keys()
 		for child in block_effect_settings.get_child_count():
 			if block_effect_settings.get_child(child) is CheckBox:
 				block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
+	if current_layers:
 		current_layers.layers_changed.connect(render)
+		current_layers.layers_loaded.connect(render)
 	rotation_box.init("int", "0", 0, 359)
 	rotation_box.return_line.connect(_rotation_change)
 	alpha_box.init("int", "0", 0, 100)
@@ -77,33 +79,36 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 
 func render() -> void:
 	clear()
+	new_button.disabled = true
+	move_up_button.disabled = true
+	move_down_button.disabled = true
+	set_anchor_button.disabled = true
+	delete_button.disabled = true
 	var alpha_render = true
 	var layer_array = []
 	var target_layer = ""
-	if show_layer_type == "blocks":
+	if current_editor.editor_menu.can_edit and show_layer_type == "blocks":
 		layer_array = current_layers.map_layers.get_children()
 		layer_array.reverse()
 		target_layer = current_layers.get_target_map_layer()
+		new_button.disabled = false
 		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() > 0:
 			move_down_button.disabled = false
-		else:
-			move_down_button.disabled = true
 		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() < current_layers.map_layers.get_child_count() - 1:
 			move_up_button.disabled = false
-		else:
-			move_up_button.disabled = true
-	elif show_layer_type == "art":
+		if current_layers.map_layers.get_child_count() > 1:
+			delete_button.disabled = false
+	elif current_editor.editor_menu.can_edit and show_layer_type == "art":
 		layer_array = current_layers.art_layers.get_children()
 		layer_array.reverse()
 		target_layer = current_layers.get_target_art_layer()
+		new_button.disabled = false
 		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() > 0:
 			move_down_button.disabled = false
-		else:
-			move_down_button.disabled = true
 		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() < current_layers.art_layers.get_child_count() - 1:
 			move_up_button.disabled = false
-		else:
-			move_up_button.disabled = true
+		if current_layers.art_layers.get_child_count() > 1:
+			delete_button.disabled = false
 	var i: int = 0
 	for layer in layer_array:
 		if not (layer is MapLayer or layer is ArtLayer):
@@ -111,14 +116,17 @@ func render() -> void:
 		i += 1
 		var row = LAYER_ROW.instantiate()
 		row.name = "LayerRow" + str(i)
-		row.position.y = (row_holder.get_child_count() * 44)
 		row.get_node("LayerNameButton").text = layer.layer_name
 		row_holder.add_child(row)
 		
 		var layer_button = row.get_node("LayerNameButton")
-		layer_button.pressed.connect(_row_pressed.bind(layer.name, layer_button))
-		if target_layer == layer.name:
-			layer_button.button_pressed = true
+		if current_editor.editor_menu.can_edit:
+			layer_button.modulate.a = 1.0
+			layer_button.pressed.connect(_row_pressed.bind(layer.name, layer_button))
+			if target_layer == layer.name:
+				layer_button.button_pressed = true
+		else:
+			layer_button.modulate.a = 0.5
 	if alpha_render:
 		render_layers(show_layer_type)
 	update_boxes()
@@ -164,48 +172,61 @@ func update_boxes() -> void:
 	disable_box(anchor_x_box)
 	disable_box(anchor_y_box)
 	settings_tab.visible = false
+	for tab in settings_tab.tab_count:
+		settings_tab.set_tab_disabled(tab, true)
+	for child in block_effect_settings.get_child_count():
+		if block_effect_settings.get_child(child) is CheckBox:
+			block_effect_settings.get_child(child).disabled = true
 	light_settings_color_rect.size.y = 125.0
 	light_settings_color_rect.position.y = settings_tab.position.y
-	if show_layer_type == "blocks":
-		layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
-	elif show_layer_type == "art":
-		layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-	if layer is MapLayer:
-		enable_box(z_axis_box)
-		z_axis_box._update_text(str(layer.z_axis))
-		depth_box._update_text("10")
-		enable_box(rotation_box)
-		rotation_box._update_text(str(layer.tile_map_rotation))
-		alpha_box._update_text("100")
-		enable_box(anchor_x_box)
-		anchor_x_box._update_text(str(layer.anchor.x))
-		enable_box(anchor_y_box)
-		anchor_y_box._update_text(str(layer.anchor.y))
-	if layer is ArtLayer:
-		if current_editor is LevelEditor:
+	if current_editor.editor_menu.can_edit:
+		if show_layer_type == "blocks":
+			layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
+		elif show_layer_type == "art":
+			layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		if layer is MapLayer:
 			enable_box(z_axis_box)
 			z_axis_box._update_text(str(layer.z_axis))
-			enable_box(depth_box)
-			depth_box._update_text(str(layer.depth))
-		elif current_editor is BlockEditor:
-			settings_tab.visible = true
-			light_settings_color_rect.size.y -= settings_tab.size.y + 5
-			light_settings_color_rect.position.y += settings_tab.size.y + 5
-			for child in block_effect_settings.get_child_count():
-				if block_effect_settings.get_child(child) is CheckBox:
-					block_effect_settings.get_child(child).set_pressed_no_signal(false)
-			var block_effects_keys = block_effects.keys()
-			for child in block_effect_settings.get_child_count():
-				if block_effects_keys[child] in layer.block_effect_settings and layer.block_effect_settings[block_effects_keys[child]] == true:
-					block_effect_settings.get_child(child).set_pressed_no_signal(true)
-		enable_box(rotation_box)
-		rotation_box._update_text(str(round(layer.art_rotation)))
-		enable_box(alpha_box)
-		alpha_box._update_text(str(layer.alpha))
-		enable_box(anchor_x_box)
-		anchor_x_box._update_text(str(layer.anchor.x))
-		enable_box(anchor_y_box)
-		anchor_y_box._update_text(str(layer.anchor.y))
+			depth_box._update_text("10")
+			enable_box(rotation_box)
+			rotation_box._update_text(str(layer.tile_map_rotation))
+			alpha_box._update_text("100")
+			enable_box(anchor_x_box)
+			anchor_x_box._update_text(str(layer.anchor.x))
+			enable_box(anchor_y_box)
+			anchor_y_box._update_text(str(layer.anchor.y))
+		if layer is ArtLayer:
+			if current_editor is LevelEditor:
+				enable_box(z_axis_box)
+				z_axis_box._update_text(str(layer.z_axis))
+				enable_box(depth_box)
+				depth_box._update_text(str(layer.depth))
+			elif current_editor is BlockEditor:
+				for tab in settings_tab.tab_count:
+					settings_tab.set_tab_disabled(tab, false)
+				settings_tab.visible = true
+				light_settings_color_rect.size.y -= settings_tab.size.y + 5
+				light_settings_color_rect.position.y += settings_tab.size.y + 5
+				for child in block_effect_settings.get_child_count():
+					if block_effect_settings.get_child(child) is CheckBox:
+						block_effect_settings.get_child(child).disabled = false
+						block_effect_settings.get_child(child).set_pressed_no_signal(false)
+				var block_effects_keys = block_effects.keys()
+				for child in block_effect_settings.get_child_count():
+					if block_effects_keys[child] in layer.block_effect_settings and layer.block_effect_settings[block_effects_keys[child]] == true:
+						block_effect_settings.get_child(child).set_pressed_no_signal(true)
+			enable_box(rotation_box)
+			rotation_box._update_text(str(round(layer.art_rotation)))
+			enable_box(alpha_box)
+			alpha_box._update_text(str(layer.alpha))
+			enable_box(anchor_x_box)
+			anchor_x_box._update_text(str(layer.anchor.x))
+			enable_box(anchor_y_box)
+			anchor_y_box._update_text(str(layer.anchor.y))
+	elif current_editor is BlockEditor:
+		settings_tab.visible = true
+		light_settings_color_rect.size.y -= settings_tab.size.y + 5
+		light_settings_color_rect.position.y += settings_tab.size.y + 5
 	dark_settings_color_rect.size.y = light_settings_color_rect.size.y - 10
 	dark_settings_color_rect.position.y = light_settings_color_rect.position.y + 5
 	layer_settings_container.size.y = dark_settings_color_rect.size.y
@@ -229,7 +250,6 @@ func clear() -> void:
 
 
 func _new_pressed():
-	print("LayerPanel::add layer")
 	if show_layer_type == "blocks":
 		var i = current_layers.map_layers.get_child_count() + 1
 		var new_name = "Layer " + str(i)

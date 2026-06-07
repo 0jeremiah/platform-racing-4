@@ -18,7 +18,7 @@ var default_art_layer = {
 	"anchor": {"x": 0, "y": 0}
 	}
 
-func decode(level: Dictionary, level_layers: LevelLayers) -> void:
+func decode(level: Dictionary) -> void:
 	GameConfig.clear_overrides()
 	var properties = level.get("properties", {})
 	print("LevelDecoder::decode: ", properties)
@@ -73,11 +73,11 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 		"type": EditorEvents.SET_ITEMS,
 		"items": properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
 	})
-	
+
 	# checks for any game config overrides and imports them if they exist
 	if properties.has("game_config_overrides"):
 		GameConfig.import_overrides(properties.game_config_overrides)
-	
+
 	# Failsafe for levels that don't have map_layers or art_layers.
 	if level.has("layers"):
 		var layers = level.get("layers", [])
@@ -139,7 +139,7 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 		var level_map_layers = level.get("map_layers", [])
 		if level_map_layers.is_empty():
 			level_map_layers.append(default_map_layer)
-		
+
 		for encoded_map_layer in level_map_layers:
 			# Emit add layer event
 			emit_signal("editor_event", {
@@ -149,15 +149,15 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				"z_axis": encoded_map_layer.get("z_axis", 10),
 				"anchor": encoded_map_layer.get("anchor", {"x": 0, "y": 0})
 			})
-		
+
 			if encoded_map_layer.get("chunks"):
 				decode_chunks(encoded_map_layer.name, encoded_map_layer.chunks)
-		
-		
+
+
 		var level_art_layers = level.get("art_layers", [])
 		if level_art_layers.is_empty():
 			level_art_layers.append(default_art_layer)
-		
+
 		for encoded_art_layer in level_art_layers:
 			# Emit add layer event
 			emit_signal("editor_event", {
@@ -170,14 +170,14 @@ func decode(level: Dictionary, level_layers: LevelLayers) -> void:
 				"alpha": encoded_art_layer.get("alpha", 100),
 				"anchor": encoded_art_layer.get("anchor", {"x": 0, "y": 0})
 			})
-		
+
 			if encoded_art_layer.get("lines"):
 				GeneralDecoder.decode_lines(encoded_art_layer.name, encoded_art_layer.lines)
 			if encoded_art_layer.get("stamps"):
 				GeneralDecoder.decode_stamps(encoded_art_layer.name, encoded_art_layer.stamps)
 			if encoded_art_layer.get("texts"):
 				GeneralDecoder.decode_texts(encoded_art_layer.name, encoded_art_layer.texts)
-		
+
 
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:

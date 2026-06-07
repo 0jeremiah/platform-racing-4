@@ -135,7 +135,7 @@ func encode_block(_block_settings: ConfigurableBlockSettings, _sub_viewport: Sub
 
 
 func decode_block(block_data: Dictionary) -> void:
-	block_decoder.decode(block_data, block_layers)
+	block_decoder.decode(block_data)
 
 
 func clear() -> void:

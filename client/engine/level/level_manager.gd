@@ -61,17 +61,12 @@ func encode_level() -> Dictionary:
 
 
 func decode_level(level_data: Dictionary) -> void:
-	level_decoder.decode(level_data, level_layers)
+	level_decoder.decode(level_data)
 	level_layers.get_all_start_options()
 
 
 func clear() -> void:
 	level_layers.clear()
-	#tiles.clear()
-
-
-#func activate_node() -> void:
-	#tiles.activate_node(level_layers)
 
 
 func calc_used_rect() -> void:

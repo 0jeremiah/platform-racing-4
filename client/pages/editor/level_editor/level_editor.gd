@@ -12,18 +12,8 @@ static var level_editor: Node
 @onready var save_popup = preload("res://pages/editor/save_popup.gd")
 @onready var level_manager: LevelManager = $LevelManager
 @onready var game_client = get_node("/root/Main/GameClient")
-@onready var back = $UI/Back
-@onready var test = $UI/Test
-@onready var explore = $UI/Explore
-@onready var load = $UI/Load
-@onready var save = $UI/Save
-@onready var clear = $UI/Clear
-@onready var explore_panel = $UI/ExplorePanel
-@onready var confirm_delete_panel = $UI/ConfirmDeletePanel
 @onready var http_request = $HTTPRequest
 @onready var editor_camera: Camera2D = $EditorCamera
-@onready var now_editing_panel: Node2D = $UI/NowEditingPanel
-@onready var game_config_panel = $UI/GameConfigPanel
 
 @onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var cursor = $UI/Cursor
@@ -32,9 +22,6 @@ static var level_editor: Node
 @onready var bg: Node2D = $BG
 @onready var editor_events: EditorEvents = $EditorEvents
 @onready var editor_menu: Node2D = $UI/EditorMenu
-@onready var users_host_edit_panel: Control = $UI/HostEditPanel
-@onready var users_join_edit_panel: Control = $UI/JoinEditPanel
-@onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
 var default_level: Dictionary = {
 	"title": "first",
@@ -78,24 +65,10 @@ func _ready():
 	editor_menu.set_editor_mode(self)
 	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.stop_song(false)
-	back.connect("pressed", _on_back_pressed)
-	explore.connect("pressed", _on_explore_pressed)
-	load.connect("pressed", _on_load_pressed)
-	save.connect("pressed", _on_save_pressed)
-	test.connect("pressed", _on_test_pressed)
-	clear.connect("pressed", _on_clear_pressed)
-	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
 	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
 	LevelEditor.editor_cursors.init(level_manager.level_layers)
-	
-	var penciler: Node2D = get_node("Penciler")
-	var editor_events: EditorEvents = get_node("EditorEvents")
-	var cursor: Cursor = get_node("UI/Cursor")
-	var editor_menu = get_node("UI/EditorMenu")
-	var layer_panel_node = get_node("UI/LayerPanel")
-	var game_client_node = get_node("/root/Main/GameClient")
 	
 	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
@@ -108,20 +81,19 @@ func _ready():
 	camera_controls.init(editor_camera)
 	
 	editor_menu.control_event.connect(_on_control_event)
-	# now_editing_panel.init($UI/EditorMenu, self)
 	
 	var level = {}
 	if LevelEditor.current_level:
 		level = LevelEditor.current_level
-		level_manager.decode_level(LevelEditor.current_level)
+		_load_level(LevelEditor.current_level)
 	else:
 		var saved_level = FileManager.load_level_from_folder()
 		if saved_level:
 			level = saved_level
-			level_manager.decode_level(saved_level)
+			_load_level(saved_level)
 		else:
 			level = default_level
-			level_manager.decode_level(default_level)
+			_load_level(default_level)
 	
 	if level.properties.has("background"):
 		var bg_id = level.properties.get("background")
@@ -152,6 +124,14 @@ func _ready():
 	level_manager.set_settings(level_settings)
 
 
+func _load_level(level_data: Dictionary):
+	editor_menu.disable_editing()
+	editor_camera.position = Vector2(0.0, 0.0)
+	level_manager.decode_level(level_data)
+	editor_menu.enable_editing()
+	level_manager.level_layers._layers_loaded()
+
+
 func init(data: Dictionary = {}):
 	_on_connect_editor()
 	if data.has("saved_camera_position"):
@@ -170,10 +150,6 @@ func _on_block_editor_pressed():
 	await Main.set_scene(Main.BLOCK_EDITOR)
 
 
-func _on_explore_pressed():
-	pass
-
-
 func _on_load_pressed():
 	PopupManager.add_custom_popup(load_popup, {"mode": "level", "load_func": Callable(self, "_on_level_load")})
 
@@ -181,24 +157,16 @@ func _on_load_pressed():
 func _on_save_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
 	PopupManager.add_custom_popup(save_popup, {"mode": "level", "current_data": LevelEditor.current_level})
-	#explore_panel.close()
-	#load_panel.close()
-	#confirm_delete_panel.close()
-	#save_panel.initialize(LevelEditor.current_level)
 
 
 func _on_test_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
 	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
-	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
+	Main.set_scene(Main.TESTER, {"level": LevelEditor.current_level})
 
 
 func _on_clear_pressed():
 	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
-	#save_panel.close()
-	#load_panel.close()
-	#explore_panel.close()
-	#confirm_delete_panel.initialize(self, "clear")
 
 
 func _on_confirm_clear():
@@ -206,6 +174,7 @@ func _on_confirm_clear():
 
 
 func _on_level_load(level_folder = current_level_folder, level_name = "", level_description = ""):
+	editor_menu.disable_editing()
 	FileManager.set_current_level_folder(level_folder)
 	FileManager.set_current_level_name(level_name)
 	FileManager.set_current_level_description(level_description)
@@ -213,56 +182,23 @@ func _on_level_load(level_folder = current_level_folder, level_name = "", level_
 	var selected_level = default_level
 	if (level_folder != ""):
 		selected_level = FileManager.load_level_from_folder(level_folder)
-		
+	
 	level_manager.clear()
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(selected_level)
+	_load_level(selected_level)
+	editor_menu.enable_editing()
 
 
 func _on_request_editor_load():
+	editor_menu.disable_editing()
+	FileManager.set_current_level_folder("")
 	FileManager.set_current_level_name("")
 	FileManager.set_current_level_description("")
 	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(LevelEditor.current_level)
-	level_manager.level_layers.init()
-
-
-func _on_explore_load(level_id):
-	var url = ApiManager.get_base_url() + "/level/" + str(level_id)
-	var error = http_request.request(url)
-	if error != OK:
-		push_error("An error occurred in the HTTP request.")
-		return
-
-	$HTTPRequest.request_completed.connect(_on_explore_load_completed)
-
-
-func _on_explore_load_completed(result, response_code, _headers, body):
-	if result != OK or response_code != 200:
-		push_error("Failed to fetch level.")
-		return
-	
-	var json = JSON.new()
-	json.parse(body.get_string_from_utf8())
-	var response = json.get_data()
-	if !response:
-		print("No data received for level.")
-		return
-	
-	var level_name = response.get("level_name", "")
-	var level_data = response.get("level_data", "")
-	
-	level_data = Marshalls.base64_to_utf8(level_data)
-	level_data = JSON.parse_string(level_data)
-	FileManager.set_current_level_name(level_name)
-
-	level_manager.clear()
-	LevelEditor.current_level = level_data
-	await get_tree().create_timer(0.1).timeout
-	level_manager.decode_level(LevelEditor.current_level)
-	level_manager.level_layers.init()
+	_load_level(LevelEditor.current_level)
+	editor_menu.enable_editing()
 
 
 func _on_control_event(event: Dictionary) -> void:
@@ -270,8 +206,6 @@ func _on_control_event(event: Dictionary) -> void:
 		var zoom_value = event.get("zoom")
 		if zoom_value:
 			editor_camera.change_camera_zoom(zoom_value)
-	elif event.get("type") == "toggle_game_config":
-		game_config_panel.toggle()
 	elif event.get("type") == "set_background":
 		level_manager.background_id = event.get("bg", "pr2_field")
 		level_manager.fade_color = event.get("fade_color", "FFFFFF")

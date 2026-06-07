@@ -56,10 +56,10 @@ func init(_editor_menu, layers) -> void:
 		_editor_menu.current_editor.object_box.object_edited.connect(_object_edited)
 		_editor_menu.current_editor.object_box.object_options_changed.connect(_object_options_changed )
 	
-	block_cursor.init(editor_menu, layers)
-	draw_cursor.init(editor_menu, layers)
-	stamp_cursor.init(editor_menu, layers)
-	text_cursor.init(layers)
+	block_cursor.init(layers, self)
+	draw_cursor.init(layers, self)
+	stamp_cursor.init(layers, self)
+	text_cursor.init(layers, self)
 	
 	editor_menu.control_event.connect(_on_control_event)
 	control.gui_input.connect(_on_gui_input)

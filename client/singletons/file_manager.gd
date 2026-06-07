@@ -66,10 +66,11 @@ func get_current_level_dir() -> String:
 	return save_dir + level_folder_dir + "/" + current_level_folder + "/level.json"
 
 
-func get_level_folder_name(level_name: String) -> String:
-	return "/" + level_name
+func get_level_folder_name(level_folder: String) -> String:
+	return "/" + level_folder
 
 
+# only used for converting old levels without level folders
 func get_level_file_name(level_name: String) -> String:
 	return "/" + level_name + ".json"
 
@@ -124,26 +125,48 @@ func find_name_for_level_folder() -> String:
 	
 
 
-func save_level_to_file(level: Dictionary, level_name: String) -> String:
+func save_level_to_file(level: Dictionary, level_name: String, level_description: String) -> String:
 	if level_name == "":
 		return ""
 
-	current_level_name = level_name
-	# ensure directory exists
+	# ensure level directory exists
 	if not DirAccess.dir_exists_absolute(save_dir + level_folder_dir):
 		DirAccess.make_dir_absolute(save_dir + level_folder_dir)
 
-	#var file_name := get_level_file_name(level_name)
-	var file_name := find_name_for_level_folder()
-	var save_file_path: String = save_dir + level_folder_dir + get_level_file_name(file_name)
-	# save level to disk
-	var file := FileAccess.open(save_file_path, FileAccess.WRITE)
-	var json_string := JSON.stringify(level)
-	var encoded_data := Marshalls.utf8_to_base64(json_string)
+	# try to find a name for the level folder
+	var level_list = list_saved_levels()
+	var possible_level_folder = ""
+	for level_info in level_list:
+		if level_info.title == level_name:
+			possible_level_folder = level_info.folder
+			break
+	if !possible_level_folder:
+		possible_level_folder = find_name_for_level_folder()
 
-	file.store_string(json_string)
-	file.close()
-	return encoded_data
+	# save level to disk if we have a level folder name
+	if possible_level_folder:
+		var save_file_path: String = save_dir + level_folder_dir + get_level_folder_name(possible_level_folder)
+		var level_path: String = save_file_path + "/level.json"
+		var blocks_path: String = save_file_path + "/blocks"
+		var stamps_path: String = save_file_path + "/stamps"
+		var file := FileAccess.open(level_path, FileAccess.WRITE)
+		# TODO: make folders for any needed blocks and stamps
+		if not DirAccess.dir_exists_absolute(blocks_path):
+			DirAccess.make_dir_absolute(blocks_path)
+		if not DirAccess.dir_exists_absolute(stamps_path):
+			DirAccess.make_dir_absolute(stamps_path)
+		var json_string := JSON.stringify(level)
+		var encoded_data := Marshalls.utf8_to_base64(json_string)
+
+		file.store_string(json_string)
+		file.close()
+		
+		current_level_folder = possible_level_folder
+		current_level_name = level_name
+		current_level_description = level_description
+		
+		return encoded_data
+	return ""
 
 
 func delete_level(level_name: String = current_level_name) -> void:
@@ -191,15 +214,20 @@ func update_editor_folder():
 				if filenames[file].ends_with(".json"):
 					#var compat_level_name = filenames[file].get_basename().remove_chars("<>:/|?*.!").replace(" ", "_").substr(0, 25)
 					var level_folder = "level" + str(file + 1)
-					var level_file = FileAccess.open(save_dir + "/" + filenames[file], FileAccess.READ)
+					var save_level_folder_dir = save_dir + level_folder_dir + get_level_folder_name(level_folder)
+					dir.make_dir(save_level_folder_dir)
+					dir.rename(save_dir + "/" + filenames[file], save_level_folder_dir + "/temp_level.json")
+					var level_file = FileAccess.open(save_level_folder_dir + "/temp_level.json", FileAccess.READ)
 					var level: Dictionary = JSON.parse_string(level_file.get_as_text())
-					dir.make_dir(save_dir + level_folder_dir + "/" + level_folder)
-					dir.rename(save_dir + "/" + filenames[file], save_dir + level_folder_dir + "/" + level_folder + "/temp_level.json")
-					var renamed_level_file = FileAccess.open(save_dir + level_folder_dir + "/" + level_folder + "/level.json", FileAccess.WRITE_READ)
+					level_file.close()
 					var title = filenames[file].get_basename()
 					if level.has("title"):
 						title = level.title
 					level["title"] = str(title)
 					var json_string := JSON.stringify(level)
+					var renamed_level_file = FileAccess.open(save_level_folder_dir + "/level.json", FileAccess.WRITE_READ)
 					renamed_level_file.store_string(json_string)
 					renamed_level_file.close()
+					dir.remove(save_level_folder_dir + "/temp_level.json")
+					dir.make_dir(save_level_folder_dir + "/blocks")
+					dir.make_dir(save_level_folder_dir + "/stamps")

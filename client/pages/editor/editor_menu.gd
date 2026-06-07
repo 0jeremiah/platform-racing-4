@@ -46,6 +46,14 @@ func set_editor_mode(new_current_editor):
 			block_options_menu.visible = true
 
 
+func disable_editing():
+	can_edit = false
+
+
+func enable_editing():
+	can_edit = true
+
+
 func _on_size_changed():
 	var window_size = get_viewport().get_visible_rect().size
 	if window_size.x > 0 and window_size.y > 0:

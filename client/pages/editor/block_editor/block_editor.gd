@@ -88,18 +88,29 @@ func _ready():
 	var block = {}
 	if BlockEditor.current_block:
 		block = BlockEditor.current_block
-		block_manager.decode_block(BlockEditor.current_block)
+		_load_block(BlockEditor.current_block)
 	else:
 		block = default_block
-		block_manager.decode_block(block)
+		_load_block(block)
 		pass
 		#var saved_block = FileManager.load_from_file()
 		#if saved_block:
 			#block = saved_block
-			#block_manager.decode_block(saved_block, true)
+			#_load_block(saved_block)
 		#else:
 			#block = default_block
-			#block_manager.decode_block(default_block, true)
+			#_load_block(default_block)
+
+
+func _load_block(block_data: Dictionary):
+	editor_menu.can_edit = false
+	block_manager.decode_block(block_data)
+	editor_menu.can_edit = true
+	block_manager.block_layers._layers_loaded()
+
+
+func _enable_editing():
+	editor_menu.can_edit = true
 
 
 func _on_back_pressed():
@@ -127,11 +138,12 @@ func _on_block_load(block_name = "", block_description = ""):
 	#var selected_block = default_block
 	#if (block_name != ""):
 		#selected_block = FileManager.load_from_file(block_name)
-		
+	
+	#editor_menu.disable_editing()
 	#block_manager.clear()
 	#BlockEditor.current_block = selected_block
 	#await get_tree().create_timer(0.1).timeout
-	#block_manager.decode_level(selected_block, true)
+	#_load_block(selected_block)
 	pass
 
 
