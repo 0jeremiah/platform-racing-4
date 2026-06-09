@@ -115,6 +115,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		current_layers.set_target_art_layer(event.name)
 		layer.layer_name = event.name
+		current_layers.emit_signal("layers_changed")
 	
 	if event.type == EditorEvents.ADD_STAMP:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
@@ -153,13 +154,13 @@ func _on_editor_event(event: Dictionary) -> void:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
 		current_layers.set_target_map_layer(layer.name)
-		layer.layer_name = event.new_layer_name
+		layer.set_layer_name(event.new_layer_name)
 	
 	if event.type == EditorEvents.RENAME_ART_LAYER:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.name = event.new_layer_name
 		current_layers.set_target_art_layer(layer.name)
-		layer.layer_name = event.new_layer_name
+		layer.set_layer_name(event.new_layer_name)
 
 	if event.type == EditorEvents.DELETE_MAP_LAYER:
 		current_layers.remove_map_layer(event.name)

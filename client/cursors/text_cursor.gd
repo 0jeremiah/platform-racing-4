@@ -60,7 +60,7 @@ func on_mouse_down():
 		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		var texts: Node2D = layer.texts
 		var camera: Camera2D = get_viewport().get_camera_2d()
-		var mouse_position = texts.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
+		var mouse_position = texts.get_local_mouse_position() + (camera.get_screen_center_position() * layer.get_layer_scale()) - (camera.get_screen_center_position() * layer.get_layer_scale())
 		if layer.get_text_at_position(mouse_position) != null:
 				var selected_text = layer.get_text_at_position(mouse_position)
 				var object_box = get_parent().editor_menu.current_editor.object_box
@@ -110,5 +110,9 @@ func update_display():
 	black_caret.size.y = black_caret_bottom.position.y + black_caret_bottom.size.y
 	caret.size.y = white_caret.position.y + white_caret.size.y
 	var camera: Camera2D = get_viewport().get_camera_2d()
+	var layer_scale = 1.0
+	var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+	if layer:
+		layer_scale = layer.get_layer_scale()
 	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)
-	caret.scale = camera.zoom
+	caret.scale = Vector2(layer_scale, layer_scale) * camera.zoom

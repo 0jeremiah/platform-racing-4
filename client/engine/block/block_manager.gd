@@ -213,14 +213,3 @@ static func get_block_teleport_texture(block_id: String) -> Texture:
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
-
-
-static func get_tile_set():
-	var current_tile_set = TileSet.new()
-	current_tile_set.tile_size = _tile_set.tile_size
-	current_tile_set.add_physics_layer()
-	current_tile_set.add_physics_layer()
-	for _tile_source in _tile_set.get_source_count():
-		var _current_tile_source = _tile_set.get_source(_tile_source)
-		for _tile in _current_tile_source.get_tiles_count():
-			var tile_id = _current_tile_source.get_tile_id

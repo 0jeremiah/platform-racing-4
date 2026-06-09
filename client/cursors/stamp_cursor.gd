@@ -63,7 +63,7 @@ func on_mouse_down():
 			else:
 				location = layer.stamps
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = location.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))
+			var mouse_position = location.get_local_mouse_position() + (camera.get_screen_center_position() * layer.get_layer_scale()) - (camera.get_screen_center_position() * layer.get_layer_scale())
 			if mode == "stamp":
 				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_LINE,
@@ -163,6 +163,10 @@ func _object_resized(object_info: Dictionary):
 
 func update_display():
 	var camera: Camera2D = get_viewport().get_camera_2d()
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * (0.01 * stamp_size) * (camera.camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * (0.01 * stamp_size) * (camera.camera_zoom * 2)))
+	var layer_scale = 1.0
+	var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+	if layer:
+		layer_scale = layer.get_layer_scale()
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2)))
 	stamp_icon.rotation_degrees = stamp_rotation
-	stamp_icon.scale = Vector2((0.01 * stamp_size) * (camera.camera_zoom * 2), (0.01 * stamp_size) * (camera.camera_zoom * 2))
+	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2), ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2))

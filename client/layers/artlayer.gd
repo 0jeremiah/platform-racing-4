@@ -11,7 +11,7 @@ class_name ArtLayer
 @onready var texts = $TextsContainer/Texts
 
 var z_axis: int = 10
-var depth: int = 10
+var depth: float = 10.0
 var art_rotation: int = 0
 var alpha: float = 100
 var anchor: Vector2 = Vector2(0, 0)
@@ -41,13 +41,13 @@ func get_layer_scale() -> float:
 	return float(z_axis) / 10.0
 
 
-func set_depth(p_depth: int) -> void:
+func set_depth(p_depth: float) -> void:
 	depth = p_depth
 	set_viewport_scale()
 
 
 func get_layer_depth() -> float:
-	return float(depth) / 10.0
+	return depth / 10.0
 
 
 func set_anchor(p_anchor: Vector2) -> void:
@@ -76,6 +76,10 @@ func set_art_alpha(new_alpha: int) -> void:
 	lines.modulate = Color(1, 1, 1, (alpha / 100))
 	stamps.modulate = Color(1, 1, 1, (alpha / 100))
 	texts.modulate = Color(1, 1, 1, (alpha / 100))
+
+
+func set_layer_name(new_layer_name: String) -> void:
+	layer_name = new_layer_name
 
 
 func set_block_effect_settings(new_block_effects_settings: Dictionary):

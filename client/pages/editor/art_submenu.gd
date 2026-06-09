@@ -90,7 +90,7 @@ func init() -> void:
 	editor_events.connect_to([layer_panel])
 	editor_events.editor_event.connect(_on_editor_event)
 	if active:
-		layer_panel.render()
+		layer_panel._render()
 
 
 func deactivate():
@@ -120,7 +120,7 @@ func activate():
 		})
 	active = true
 	if layer_panel.current_layers != null and layer_panel.current_editor != null:
-		layer_panel.render()
+		layer_panel._render()
 
 
 func _process(_delta: float) -> void:

@@ -1,0 +1,172 @@
+[gd_scene load_steps=12 format=3 uid="uid://2wbam05w8ent"]
+
+[ext_resource type="Texture2D" uid="uid://d0udxcy0tbyat" path="res://pages/lobby/mod_icon.png" id="1_aw8x5"]
+[ext_resource type="Texture2D" uid="uid://le06pl0g71lb" path="res://pages/lobby/customization_icon.png" id="1_cprp2"]
+[ext_resource type="Texture2D" uid="uid://5t0r1nwt5v3g" path="res://pages/lobby/singleplayer_icon.png" id="2_b76dg"]
+[ext_resource type="Texture2D" uid="uid://dep7sulmwmm0i" path="res://pages/lobby/multiplayer_icon.png" id="3_3d704"]
+[ext_resource type="Texture2D" uid="uid://cn8mj6ghlp5qd" path="res://pages/lobby/chat_icon.png" id="4_3d704"]
+[ext_resource type="Texture2D" uid="uid://bcgbgba36jdwt" path="res://pages/lobby/friends_icon.png" id="5_xcamc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0qehh"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tufjb"]
+bg_color = Color(1, 1, 1, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cprp2"]
+bg_color = Color(0.9529412, 0.4745098, 0.015686275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9529412, 0.4745098, 0.015686275, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b76dg"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9529412, 0.4745098, 0.015686275, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3d704"]
+bg_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Simplelobbymenu" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 518.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0qehh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 72.0
+offset_right = 56.0
+offset_bottom = 120.0
+theme_override_constants/separation = 10
+
+[node name="ModButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("1_aw8x5")
+expand_icon = true
+
+[node name="TextureButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("1_cprp2")
+expand_icon = true
+
+[node name="TextureButton2" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("2_b76dg")
+expand_icon = true
+
+[node name="TextureButton3" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("3_3d704")
+expand_icon = true
+
+[node name="TextureButton4" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("4_3d704")
+expand_icon = true
+
+[node name="TextureButton5" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+toggle_mode = true
+icon = ExtResource("5_xcamc")
+expand_icon = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 514.0
+offset_bottom = 34.0
+text = "Customization"
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 4.0
+offset_top = 30.0
+offset_right = 514.0
+offset_bottom = 60.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Customize your chacter, change your stats, and all that jazz."
+vertical_alignment = 1

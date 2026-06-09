@@ -61,3 +61,7 @@ func set_map_layer_rotation(p_rotation: int) -> void:
 func set_anchor(p_anchor: Vector2) -> void:
 	anchor = p_anchor
 	tile_map_layer_container.pivot_offset = anchor
+
+
+func set_layer_name(new_layer_name: String) -> void:
+	layer_name = new_layer_name

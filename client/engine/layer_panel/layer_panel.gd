@@ -51,7 +51,7 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 	current_layers = new_layers
 	show_layer_type = new_show_layer_type
 	if current_editor is LevelEditor:
-		depth_box.init("int", "120", 0, 50)
+		depth_box.init("float", "10.0", 0.0, 50.0)
 		depth_box.return_line.connect(_depth_change)
 		if show_layer_type == "art":
 			z_axis_box.init("int", "10", 0, 50)
@@ -65,11 +65,10 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 			if block_effect_settings.get_child(child) is CheckBox:
 				block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
 	if current_layers:
-		current_layers.layers_changed.connect(render)
-		current_layers.layers_loaded.connect(render)
+		current_layers.layers_changed.connect(_render)
 	rotation_box.init("int", "0", 0, 359)
 	rotation_box.return_line.connect(_rotation_change)
-	alpha_box.init("int", "0", 0, 100)
+	alpha_box.init("int", "100", 0, 100)
 	alpha_box.return_line.connect(_alpha_change)
 	anchor_x_box.init("float", "0.0", -9999999.9, 99999999.9)
 	anchor_x_box.return_line.connect(_anchor_x_change)
@@ -77,7 +76,7 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 	anchor_y_box.return_line.connect(_anchor_y_change)
 
 
-func render() -> void:
+func _render() -> void:
 	clear()
 	new_button.disabled = true
 	move_up_button.disabled = true
@@ -92,23 +91,21 @@ func render() -> void:
 		layer_array.reverse()
 		target_layer = current_layers.get_target_map_layer()
 		new_button.disabled = false
+		delete_button.disabled = false
 		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() > 0:
 			move_down_button.disabled = false
 		if current_layers.map_layers.get_child_count() > 1 and current_layers.map_layers.get_node(target_layer).get_index() < current_layers.map_layers.get_child_count() - 1:
 			move_up_button.disabled = false
-		if current_layers.map_layers.get_child_count() > 1:
-			delete_button.disabled = false
 	elif current_editor.editor_menu.can_edit and show_layer_type == "art":
 		layer_array = current_layers.art_layers.get_children()
 		layer_array.reverse()
 		target_layer = current_layers.get_target_art_layer()
 		new_button.disabled = false
+		delete_button.disabled = false
 		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() > 0:
 			move_down_button.disabled = false
 		if current_layers.art_layers.get_child_count() > 1 and current_layers.art_layers.get_node(target_layer).get_index() < current_layers.art_layers.get_child_count() - 1:
 			move_up_button.disabled = false
-		if current_layers.art_layers.get_child_count() > 1:
-			delete_button.disabled = false
 	var i: int = 0
 	for layer in layer_array:
 		if not (layer is MapLayer or layer is ArtLayer):
@@ -261,6 +258,7 @@ func _new_pressed():
 			"name": new_name
 		})
 		current_layers.set_target_map_layer(new_name)
+		_render()
 	elif show_layer_type == "art":
 		var i = current_layers.art_layers.get_child_count() + 1
 		var new_name = "Layer " + str(i)
@@ -272,6 +270,7 @@ func _new_pressed():
 			"name": new_name
 		})
 		current_layers.set_target_art_layer(new_name)
+		_render()
 
 
 func _delete_pressed():
@@ -280,11 +279,13 @@ func _delete_pressed():
 			"type": EditorEvents.DELETE_MAP_LAYER,
 			"name": current_layers.get_target_map_layer()
 		})
+		_render()
 	elif show_layer_type == "art":
 		emit_signal("editor_event", {
 			"type": EditorEvents.DELETE_ART_LAYER,
 			"name": current_layers.get_target_art_layer()
 		})
+		_render()
 
 
 func _move_up_layer():
@@ -292,12 +293,12 @@ func _move_up_layer():
 		var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 		if layer.get_index() < current_layers.map_layers.get_child_count() - 1:
 			current_layers.map_layers.move_child(layer, layer.get_index() + 1)
-			render()
+			_render()
 	elif show_layer_type == "art":
 		var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		if layer.get_index() < current_layers.art_layers.get_child_count() - 1:
 			current_layers.art_layers.move_child(layer, layer.get_index() + 1)
-			render()
+			_render()
 
 
 func _move_down_layer():
@@ -305,12 +306,12 @@ func _move_down_layer():
 		var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
 		if layer.get_index() > 0:
 			current_layers.map_layers.move_child(layer, layer.get_index() - 1)
-			render()
+			_render()
 	elif show_layer_type == "art":
 		var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		if layer.get_index() > 0:
 			current_layers.art_layers.move_child(layer, layer.get_index() - 1)
-			render()
+			_render()
 
 
 func _row_pressed(layer_name: String, layer_button: Button):
@@ -325,7 +326,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 				"type": EditorEvents.SELECT_MAP_LAYER,
 				"layer_name": layer_name
 			})
-			call_deferred("render")
+			_render()
 	elif show_layer_type == "art":
 		if current_layers.get_target_art_layer() == layer_name:
 			var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
@@ -337,7 +338,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 				"type": EditorEvents.SELECT_ART_LAYER,
 				"layer_name": layer_name
 			})
-			call_deferred("render")
+			_render()
 
 
 func _z_axis_change(new_z_axis: int):
@@ -355,7 +356,7 @@ func _z_axis_change(new_z_axis: int):
 		})
 
 
-func _depth_change(new_depth: int):
+func _depth_change(new_depth: float):
 	if show_layer_type == "art" and new_depth != current_layers.art_layers.get_node(current_layers.get_target_art_layer()).depth:
 		emit_signal("editor_event", {
 			"type": EditorEvents.SET_ART_LAYER_DEPTH,
@@ -419,7 +420,7 @@ func _set_layer_name(new_layer_name: String):
 			"new_layer_name": new_layer_name
 		})
 		rename_layer_popup.hide()
-		render()
+		_render()
 	elif show_layer_type == "art" and current_layers.art_layers.get_node(current_layers.get_target_art_layer()).layer_name != new_layer_name:
 		emit_signal("editor_event", {
 			"type": EditorEvents.RENAME_ART_LAYER,
@@ -427,7 +428,7 @@ func _set_layer_name(new_layer_name: String):
 			"new_layer_name": new_layer_name
 		})
 		rename_layer_popup.hide()
-		render()
+		_render()
 
 
 func _maybe_enable_block_effect(button_index: int, block_effect_key: String):

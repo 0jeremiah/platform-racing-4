@@ -2,7 +2,6 @@ extends Node2D
 class_name LevelLayers
 
 signal layers_changed
-signal layers_loaded
 
 @onready var map_layers = $MapLayers
 @onready var art_layers = $ArtLayers
@@ -18,9 +17,9 @@ var art_target_layer: String = ""
 
 func clear() -> void:
 	for layer in map_layers.get_children():
-		layer.queue_free()
+		layer.free()
 	for layer in art_layers.get_children():
-		layer.queue_free()
+		layer.free()
 	all_start_options = []
 	start_i = 0
 	emit_signal("layers_changed")
@@ -42,6 +41,7 @@ func get_target_map_layer() -> String:
 		map_target_layer = map_layers.get_child(0).name
 	return map_target_layer
 
+
 func get_target_art_layer() -> String:
 	if art_layers.get_child_count() == 0:
 		art_target_layer = ""
@@ -54,31 +54,43 @@ func get_target_art_layer() -> String:
 func add_map_layer(layer_name: String) -> MapLayer:
 	var layer = MAP_LAYER.instantiate()
 	layer.name = layer_name
+	layer.set_layer_name(layer_name)
 	map_layers.add_child(layer)
-	emit_signal("layers_changed")
 	return layer
 
 
 func add_art_layer(layer_name: String) -> ArtLayer:
 	var layer = ART_LAYER.instantiate()
 	layer.name = layer_name
+	layer.set_layer_name(layer_name)
 	art_layers.add_child(layer)
-	emit_signal("layers_changed")
 	return layer
 
 
 func remove_map_layer(layer_name: String) -> void:
 	var layer = map_layers.get_node(layer_name)
 	if layer:
-		layer.queue_free()
-		emit_signal("layers_changed")
+		if map_layers.get_child_count() - 1 > 0:
+			if layer.get_index() > 0:
+				set_target_map_layer(map_layers.get_child(layer.get_index() - 1).name)
+			else:
+				set_target_map_layer(map_layers.get_child(0).name)
+		layer.free()
+		if map_layers.get_child_count() == 0:
+			set_target_map_layer(add_map_layer("Layer 1").name)
 
 
 func remove_art_layer(layer_name: String) -> void:
 	var layer = art_layers.get_node(layer_name)
 	if layer:
-		layer.queue_free()
-		emit_signal("layers_changed")
+		if art_layers.get_child_count() - 1 > 0:
+			if layer.get_index() > 0:
+				set_target_art_layer(art_layers.get_child(layer.get_index() - 1).name)
+			else:
+				set_target_art_layer(art_layers.get_child(0).name)
+		layer.free()
+		if art_layers.get_child_count() == 0:
+			set_target_art_layer(add_art_layer("Layer 1").name)
 
 
 func calc_used_rect() -> void:
@@ -121,4 +133,4 @@ func get_next_start_option() -> Dictionary:
 
 
 func _layers_loaded():
-	emit_signal("layers_loaded")
+	emit_signal("layers_changed")
