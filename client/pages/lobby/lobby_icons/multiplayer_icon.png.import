@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcgbgba36jdwt"
-path="res://.godot/imported/friends_icon.png-185b67bd7368fdea9b8948cb77fe04b8.ctex"
+uid="uid://dep7sulmwmm0i"
+path="res://.godot/imported/multiplayer_icon.png-9e948df90d7634da4c6a72fd2c5f2218.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pages/lobby/friends_icon.png"
-dest_files=["res://.godot/imported/friends_icon.png-185b67bd7368fdea9b8948cb77fe04b8.ctex"]
+source_file="res://pages/lobby/lobby_icons/multiplayer_icon.png"
+dest_files=["res://.godot/imported/multiplayer_icon.png-9e948df90d7634da4c6a72fd2c5f2218.ctex"]
 
 [params]
 

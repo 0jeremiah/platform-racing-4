@@ -1,11 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://2wbam05w8ent"]
+[gd_scene load_steps=17 format=3 uid="uid://2wbam05w8ent"]
 
-[ext_resource type="Texture2D" uid="uid://d0udxcy0tbyat" path="res://pages/lobby/mod_icon.png" id="1_aw8x5"]
-[ext_resource type="Texture2D" uid="uid://le06pl0g71lb" path="res://pages/lobby/customization_icon.png" id="1_cprp2"]
-[ext_resource type="Texture2D" uid="uid://5t0r1nwt5v3g" path="res://pages/lobby/singleplayer_icon.png" id="2_b76dg"]
-[ext_resource type="Texture2D" uid="uid://dep7sulmwmm0i" path="res://pages/lobby/multiplayer_icon.png" id="3_3d704"]
-[ext_resource type="Texture2D" uid="uid://cn8mj6ghlp5qd" path="res://pages/lobby/chat_icon.png" id="4_3d704"]
-[ext_resource type="Texture2D" uid="uid://bcgbgba36jdwt" path="res://pages/lobby/friends_icon.png" id="5_xcamc"]
+[ext_resource type="Texture2D" uid="uid://d0udxcy0tbyat" path="res://pages/lobby/lobby_icons/mod_icon.png" id="1_aw8x5"]
+[ext_resource type="Texture2D" uid="uid://le06pl0g71lb" path="res://pages/lobby/lobby_icons/customization_icon.png" id="1_cprp2"]
+[ext_resource type="Script" uid="uid://x8lxticjwgmx" path="res://pages/lobby/simplelobbymenu.gd" id="1_yvcpo"]
+[ext_resource type="Texture2D" uid="uid://5t0r1nwt5v3g" path="res://pages/lobby/lobby_icons/singleplayer_icon.png" id="2_b76dg"]
+[ext_resource type="Texture2D" uid="uid://dep7sulmwmm0i" path="res://pages/lobby/lobby_icons/multiplayer_icon.png" id="3_3d704"]
+[ext_resource type="Texture2D" uid="uid://cn8mj6ghlp5qd" path="res://pages/lobby/lobby_icons/chat_icon.png" id="4_3d704"]
+[ext_resource type="Texture2D" uid="uid://bcgbgba36jdwt" path="res://pages/lobby/lobby_icons/friends_icon.png" id="5_xcamc"]
+[ext_resource type="Texture2D" uid="uid://ci3h1cgl0m8sd" path="res://pages/lobby/lobby_icons/mail_icon.png" id="8_a8vle"]
+[ext_resource type="Texture2D" uid="uid://b7hxtumbfp6cq" path="res://pages/lobby/lobby_icons/extra_options_icon.png" id="9_23j28"]
+[ext_resource type="PackedScene" uid="uid://b6xjghqdq76s5" path="res://pages/lobby/customize/customize.tscn" id="10_a8vle"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0qehh"]
 bg_color = Color(1, 1, 1, 1)
@@ -18,6 +22,15 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_corcu"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9529412, 0.4745098, 0.015686275, 1)
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tufjb"]
 bg_color = Color(1, 1, 1, 0)
@@ -68,105 +81,341 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Simplelobbymenu" type="Node2D"]
+[node name="SimpleLobbyMenu" type="Node2D"]
+script = ExtResource("1_yvcpo")
 
-[node name="Panel" type="Panel" parent="."]
-offset_right = 518.0
+[node name="LobbyTab" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 640.0
+offset_top = 20.0
+offset_right = 1260.0
+offset_bottom = 162.0
+
+[node name="Panel" type="Panel" parent="LobbyTab"]
+layout_mode = 0
+offset_right = 620.0
 offset_bottom = 64.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_0qehh")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 8.0
-offset_top = 72.0
-offset_right = 56.0
-offset_bottom = 120.0
-theme_override_constants/separation = 10
+[node name="SelectedButtonPanel" type="Panel" parent="LobbyTab"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 62.0
+offset_right = 128.0
+offset_bottom = 142.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_corcu")
 
-[node name="ModButton" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("1_aw8x5")
-expand_icon = true
-
-[node name="TextureButton" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("1_cprp2")
-expand_icon = true
-
-[node name="TextureButton2" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("2_b76dg")
-expand_icon = true
-
-[node name="TextureButton3" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("3_3d704")
-expand_icon = true
-
-[node name="TextureButton4" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("4_3d704")
-expand_icon = true
-
-[node name="TextureButton5" type="Button" parent="HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
-toggle_mode = true
-icon = ExtResource("5_xcamc")
-expand_icon = true
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="PageTitle" type="RichTextLabel" parent="LobbyTab"]
+layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 514.0
 offset_bottom = 34.0
-text = "Customization"
+text = "Customize"
 vertical_alignment = 1
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+[node name="PageDescription" type="RichTextLabel" parent="LobbyTab"]
+layout_mode = 0
 offset_left = 4.0
 offset_top = 30.0
-offset_right = 514.0
+offset_right = 604.0
 offset_bottom = 60.0
 theme_override_font_sizes/normal_font_size = 18
-text = "Customize your chacter, change your stats, and all that jazz."
+text = "Customize your character, change your stats, and all that jazz."
 vertical_alignment = 1
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="LobbyTab"]
+layout_mode = 0
+offset_top = 72.0
+offset_right = 620.0
+offset_bottom = 136.0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ModButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+visible = false
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/ModButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/ModButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("1_aw8x5")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="CustomizeButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/CustomizeButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/CustomizeButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("1_cprp2")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="SinglePlayerButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/SinglePlayerButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/SinglePlayerButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("2_b76dg")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="MultiPlayerButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/MultiPlayerButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/MultiPlayerButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("3_3d704")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ChatButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/ChatButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/ChatButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("4_3d704")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="PlayersButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/PlayersButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/PlayersButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("5_xcamc")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="MessagesButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/MessagesButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/MessagesButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("8_a8vle")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="JumpMenuButton" type="Control" parent="LobbyTab/ButtonsContainer"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LobbyTab/ButtonsContainer/JumpMenuButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 69.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tufjb")
+
+[node name="Button" type="Button" parent="LobbyTab/ButtonsContainer/JumpMenuButton"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 64.0
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tufjb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cprp2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b76dg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_3d704")
+icon = ExtResource("9_23j28")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="CustomizeContainer" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 485.0
+offset_top = 205.0
+offset_right = 1435.0
+offset_bottom = 875.0
+
+[node name="Panel" type="Panel" parent="CustomizeContainer"]
+layout_mode = 0
+offset_right = 950.0
+offset_bottom = 670.0
+
+[node name="Customize" parent="CustomizeContainer" instance=ExtResource("10_a8vle")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 850.0
+offset_bottom = 620.0
+
+[node name="SinglePlayerContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayPR2LevelButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 474.0
+offset_top = 483.0
+offset_right = 681.0
+offset_bottom = 523.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play PR2 Level"
+
+[node name="ImportPR2LevelButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 474.0
+offset_top = 535.0
+offset_right = 681.0
+offset_bottom = 575.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Import PR2 Level"
+
+[node name="ImportPR3LevelButton" type="Button" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 474.0
+offset_top = 586.0
+offset_right = 681.0
+offset_bottom = 626.0
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "Import PR3 Level"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 569.0
+offset_top = 329.0
+offset_right = 1379.0
+offset_bottom = 368.0
+text = "Some single player stuff that wroks offline goes here..."
