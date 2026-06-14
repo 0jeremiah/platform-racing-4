@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dm05i643isjp6" path="res://ui/filepicker/filerow.gd" id="1_nc27u"]
 
 [node name="Filerow" type="Button"]
-custom_minimum_size = Vector2(768, 30)
-offset_right = 768.0
+custom_minimum_size = Vector2(798, 30)
+offset_right = 792.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "Filename"

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1qopihr1wvpo"]
+
+[ext_resource type="Script" uid="uid://bc8byslvxf8up" path="res://ui/filepicker/filepicker_test.gd" id="1_osyfx"]
+
+[node name="FilepickerTest" type="Node2D"]
+script = ExtResource("1_osyfx")

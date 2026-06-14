@@ -1,110 +1,135 @@
-[gd_scene load_steps=3 format=3 uid="uid://3gcok706f02h"]
+[gd_scene load_steps=5 format=3 uid="uid://3gcok706f02h"]
 
 [ext_resource type="Script" uid="uid://bjj80obx7qbif" path="res://ui/filepicker/filepicker.gd" id="1_8hfrt"]
 [ext_resource type="Texture2D" uid="uid://kkw0myxvkp7v" path="res://ui/filepicker/folder_icon.png" id="2_c0tvp"]
+[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="3_toedw"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_toedw"]
+color = Color(0.7490196, 0.7490196, 0.7490196, 1)
+grow_begin = -5.0
+grow_end = -5.0
+thickness = 2
 
 [node name="Filepicker" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1000.0
-offset_bottom = 500.0
+offset_bottom = 550.0
 script = ExtResource("1_8hfrt")
+
+[node name="FilePickerLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 32
+text = "-- File Picker --"
+horizontal_alignment = 1
+
+[node name="FolderOrFileName" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 520.0
+offset_right = 100.0
+offset_bottom = 550.0
+theme_override_font_sizes/normal_font_size = 18
+text = "File name:"
+vertical_alignment = 1
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 0
+offset_top = 50.0
 offset_right = 40.0
-offset_bottom = 30.0
+offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 disabled = true
 text = "◀"
 
 [node name="ForwardButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 50.0
-offset_right = 90.0
-offset_bottom = 30.0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 80.0
+offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▶"
 
-[node name="RecentLocationsButton" type="MenuButton" parent="."]
+[node name="RecentLocationsButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 100.0
-offset_right = 140.0
-offset_bottom = 30.0
+offset_left = 80.0
+offset_top = 50.0
+offset_right = 120.0
+offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▼"
-flat = false
 
 [node name="UpButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 150.0
-offset_right = 190.0
-offset_bottom = 30.0
+offset_left = 120.0
+offset_top = 50.0
+offset_right = 160.0
+offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▲"
 
-[node name="DirectoryBar" type="LineEdit" parent="."]
+[node name="RefreshButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 200.0
-offset_right = 1000.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 18
-text = "C:/Windows/Users/PR4"
-
-[node name="ColorRect2" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 200.0
-offset_top = 40.0
-offset_right = 1000.0
-offset_bottom = 500.0
-color = Color(0.7581918, 0.7581918, 0.7581917, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 210.0
+offset_left = 930.0
 offset_top = 50.0
-offset_right = 990.0
-offset_bottom = 490.0
+offset_right = 1000.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 16
+text = "Refresh"
+
+[node name="FileTypeButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 800.0
+offset_top = 520.0
+offset_right = 1000.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 15
+disabled = true
+text = "(JSON) .json"
+clip_text = true
 
 [node name="Libraries" type="Control" parent="."]
 anchors_preset = 0
-offset_top = 40.0
-offset_right = 200.0
-offset_bottom = 500.0
+offset_top = 90.0
+offset_right = 160.0
+offset_bottom = 510.0
 
 [node name="ColorRect" type="ColorRect" parent="Libraries"]
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 460.0
-color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+offset_right = 160.0
+offset_bottom = 420.0
+color = Color(0.62352943, 0.62352943, 0.62352943, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="Libraries"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 190.0
-offset_bottom = 450.0
-color = Color(0.1882353, 0.1882353, 0.1882353, 1)
+offset_right = 150.0
+offset_bottom = 410.0
+color = Color(0.8745098, 0.8745098, 0.8745098, 1)
 
 [node name="DirectoriesContainer" type="ScrollContainer" parent="Libraries"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 190.0
-offset_bottom = 450.0
+offset_right = 150.0
+offset_bottom = 410.0
 
 [node name="Directories" type="VBoxContainer" parent="Libraries/DirectoriesContainer"]
-custom_minimum_size = Vector2(168, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="NormalDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories"]
-custom_minimum_size = Vector2(168, 180)
+custom_minimum_size = Vector2(128, 180)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="DesktopButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Desktop"
@@ -115,7 +140,7 @@ clip_text = true
 expand_icon = true
 
 [node name="DocumentsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Documents"
@@ -126,7 +151,7 @@ clip_text = true
 expand_icon = true
 
 [node name="DownloadsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Downloads"
@@ -137,7 +162,7 @@ clip_text = true
 expand_icon = true
 
 [node name="MusicButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Music"
@@ -148,7 +173,7 @@ clip_text = true
 expand_icon = true
 
 [node name="PicturesButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Pictures"
@@ -159,7 +184,7 @@ clip_text = true
 expand_icon = true
 
 [node name="VideosButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(138, 30)
+custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Videos"
@@ -170,21 +195,68 @@ clip_text = true
 expand_icon = true
 
 [node name="HSeparator" type="HSeparator" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
-custom_minimum_size = Vector2(168, 10)
+custom_minimum_size = Vector2(128, 10)
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_toedw")
 
 [node name="DriversDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories"]
-custom_minimum_size = Vector2(168, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="FilesList" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 170.0
+offset_top = 90.0
+offset_right = 1000.0
+offset_bottom = 510.0
+
+[node name="ColorRect" type="ColorRect" parent="FilesList"]
 layout_mode = 0
-offset_left = 210.0
-offset_top = 50.0
-offset_right = 990.0
-offset_bottom = 490.0
+offset_right = 830.0
+offset_bottom = 420.0
+color = Color(0.7490196, 0.7490196, 0.7490196, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="ColorRect2" type="ColorRect" parent="FilesList"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 820.0
+offset_bottom = 410.0
+
+[node name="FilesAndFoldersContainer" type="ScrollContainer" parent="FilesList"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 820.0
+offset_bottom = 410.0
+
+[node name="FilesAndFolders" type="VBoxContainer" parent="FilesList/FilesAndFoldersContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="DirectoryBar" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 50.0
+offset_right = 920.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 18
+text = "C:/Windows/Users/PR4/Downloads"
+
+[node name="DestinationBar" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 520.0
+offset_right = 1000.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 18
+
+[node name="RecentLocationsPopup" parent="." instance=ExtResource("3_toedw")]
+position = Vector2i(80, 30)
+visible = false
+
+[node name="FileTypesPopup" parent="." instance=ExtResource("3_toedw")]
+transparent_bg = false
+position = Vector2i(800, 230)
+visible = false

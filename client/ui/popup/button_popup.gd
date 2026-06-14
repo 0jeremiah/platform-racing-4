@@ -94,6 +94,11 @@ func create_button(button_string: String, button_func = null) -> void:
 	position_buttons()
 
 
+func clear_buttons() -> void:
+	for button in buttons_holder.get_children():
+		button.free()
+
+
 func _maybe_do_button_func(button_func = null) -> void:
 	if button_func is Callable:
 		button_func.call()
