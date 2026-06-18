@@ -33,7 +33,8 @@ var dir_page: int = 0
 var include_files: bool = false
 var limit_to_extensions: bool = true
 var allowed_extensions: Array = ["json"]
-var double_click_timer: float = 0.3
+var double_click_interval: float = 0.5
+var double_click_timer: float = 0.0
 var double_click: bool = false
 var selected_dir: String = ""
 
@@ -154,7 +155,7 @@ func folder_select(new_path: String):
 		double_click = false
 		maybe_new_dir = ""
 	else:
-		double_click_timer = 0.3
+		double_click_timer = double_click_interval
 		double_click = true
 		maybe_new_dir = new_path
 
@@ -169,7 +170,7 @@ func file_select(new_path: String):
 			double_click = false
 			maybe_new_dir = ""
 		else:
-			double_click_timer = 0.3
+			double_click_timer = double_click_interval
 			double_click = true
 			maybe_new_dir = new_path
 
@@ -293,8 +294,8 @@ func get_destination_bar_text() -> String:
 
 func error_popup(error_type: int = 0, params: String = ""):
 	match error_type:
-		0: PopupManager.add_message_popup("The following directory is either missing, hidden, or otherwise not available:/n" + params)
-		1: PopupManager.add_message_popup("This directory is either not a valid folder path or just can't be written to:/n" + params)
-		2: PopupManager.add_message_popup("This file either no longer exists or cannot be written to:/n" + params)
+		0: PopupManager.add_message_popup("The following directory is either missing, hidden, or otherwise not available:\n" + params)
+		1: PopupManager.add_message_popup("This directory is either not a valid folder path or just can't be written to:\n" + params)
+		2: PopupManager.add_message_popup("This file either no longer exists or cannot be written to:\n" + params)
 		3: PopupManager.add_message_popup("Page number was indexed out of dir_history's bounds.")
-		_: PopupManager.add_message_popup("Unspecified error:/n" + params)
+		_: PopupManager.add_message_popup("Unspecified error:\n" + params)

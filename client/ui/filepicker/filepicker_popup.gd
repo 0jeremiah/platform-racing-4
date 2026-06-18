@@ -48,7 +48,7 @@ func _maybe_load_folder(new_dir: String = ""):
 			load_func.call(chosen_dir)
 		queue_free()
 	else:
-		PopupManager.add_message_popup("Cannot load:/n" + chosen_dir + "/nIt's either missing or unreadable.")
+		error_popup(0)
 
 
 func _maybe_save_folder(new_dir: String = ""):
@@ -63,7 +63,7 @@ func _maybe_save_folder(new_dir: String = ""):
 			save_func.call(chosen_dir)
 		queue_free()
 	else:
-		PopupManager.add_message_popup("Cannot save folder at:/n" + chosen_dir + "/nIt's either missing or unreadable.")
+		error_popup(1)
 
 
 func _maybe_load_file(new_dir: String = ""):
@@ -77,7 +77,7 @@ func _maybe_load_file(new_dir: String = ""):
 			load_func.call(chosen_dir)
 		queue_free()
 	else:
-		PopupManager.add_message_popup("Cannot load:/n" + chosen_dir + "/nIt's either missing or unreadable.")
+		error_popup(2)
 
 
 func _maybe_save_file(new_dir: String = ""):
@@ -91,7 +91,16 @@ func _maybe_save_file(new_dir: String = ""):
 			save_func.call(chosen_dir)
 		queue_free()
 	else:
-		PopupManager.add_message_popup("Cannot save file at:/n" + chosen_dir + "/nIt's either missing or unreadable.")
+		error_popup(3)
+
+
+func error_popup(error_type: int = 0):
+	match error_type:
+		0: PopupManager.add_message_popup("Cannot load the folder specified. It's either missing or unreadable.")
+		1: PopupManager.add_message_popup("Cannot save the folder specified. It's either missing or unreadable.")
+		2: PopupManager.add_message_popup("Cannot load the file specified. It's either missing or unreadable.")
+		3: PopupManager.add_message_popup("Cannot save the file specified It's either missing or unreadable.")
+		_: PopupManager.add_message_popup("Unspecified error.")
 
 
 func _cancel():

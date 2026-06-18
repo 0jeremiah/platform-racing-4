@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr7bji6ujgh2v"]
+
+[ext_resource type="Script" uid="uid://v1dh31mxse8g" path="res://engine/level/pr_2_level_decoder_test.gd" id="1_24dra"]
+[ext_resource type="Script" uid="uid://qbtl2glaih22" path="res://engine/level/pr2_level_decoder.gd" id="2_hg087"]
+
+[node name="Pr2LevelDecoderTest" type="Node2D"]
+script = ExtResource("1_24dra")
+
+[node name="PR2LevelDecoder" type="Node2D" parent="."]
+script = ExtResource("2_hg087")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 22.0
+offset_top = 11.0
+offset_right = 263.0
+offset_bottom = 49.0
+text = "decode pr2 level"
