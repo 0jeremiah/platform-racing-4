@@ -10,6 +10,7 @@ signal file_chosen
 @onready var recent_locations_button = $RecentLocationsButton
 @onready var up_button = $UpButton
 @onready var refresh_button = $RefreshButton
+@onready var files_and_folders_container = $FilesList/FilesAndFoldersContainer
 @onready var files_and_folders = $FilesList/FilesAndFoldersContainer/FilesAndFolders
 @onready var desktop_button = $Libraries/DirectoriesContainer/Directories/NormalDirectories/DesktopButton
 @onready var documents_button = $Libraries/DirectoriesContainer/Directories/NormalDirectories/DocumentsButton
@@ -115,6 +116,8 @@ func update_list(dir_location: String):
 	up_button.disabled = true
 	for child in files_and_folders.get_children():
 		child.queue_free()
+	files_and_folders_container.scroll_horizontal = 0
+	files_and_folders_container.scroll_vertical = 0
 	var folders = DirAccess.get_directories_at(dir_location)
 	for folder in folders:
 		var file_node = file_row.instantiate()

@@ -55,6 +55,7 @@ func _ready():
 		return
 
 	BlockManager.load_default_block_configs()
+	Stamps.add_block_stamps()
 
 	ParticleManager.init_particles()
 	await set_scene(TITLE)

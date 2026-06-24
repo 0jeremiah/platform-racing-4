@@ -155,24 +155,24 @@ tab_count = 2
 tab_0/title = "Layer Settings"
 tab_1/title = "Block Effect Settings"
 
-[node name="LayerSettingsContainer" type="ScrollContainer" parent="."]
+[node name="LayerSettingsScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 285.0
 offset_right = 315.0
 offset_bottom = 365.0
 
-[node name="LayerSettings" type="Control" parent="LayerSettingsContainer"]
-custom_minimum_size = Vector2(300, 110)
+[node name="LayerSettings" type="Control" parent="LayerSettingsScrollContainer"]
+custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 
-[node name="ZAxisContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+[node name="ZAxisContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
 custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
 offset_right = 138.0
 offset_bottom = 30.0
 
-[node name="ZAxisText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/ZAxisContainer"]
+[node name="ZAxisText" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/ZAxisContainer"]
 layout_mode = 0
 offset_right = 63.0
 offset_bottom = 30.0
@@ -180,7 +180,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "Z Axis:"
 vertical_alignment = 1
 
-[node name="ZAxisBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/ZAxisContainer"]
+[node name="ZAxisBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/ZAxisContainer"]
 layout_mode = 0
 offset_left = 63.0
 offset_right = 137.99998
@@ -191,14 +191,14 @@ theme_override_font_sizes/font_size = 17
 text = "10"
 script = ExtResource("4_gyawm")
 
-[node name="DepthContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+[node name="DepthContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
 custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
 offset_left = 148.0
 offset_right = 286.0
 offset_bottom = 30.0
 
-[node name="DepthText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/DepthContainer"]
+[node name="DepthText" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/DepthContainer"]
 layout_mode = 0
 offset_right = 63.0
 offset_bottom = 30.0
@@ -206,7 +206,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "Depth:"
 vertical_alignment = 1
 
-[node name="DepthBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/DepthContainer"]
+[node name="DepthBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/DepthContainer"]
 layout_mode = 0
 offset_left = 63.0
 offset_right = 138.0
@@ -217,14 +217,14 @@ theme_override_font_sizes/font_size = 17
 text = "10"
 script = ExtResource("4_gyawm")
 
-[node name="RotationContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+[node name="RotationContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
 custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
 offset_top = 40.0
 offset_right = 138.0
 offset_bottom = 70.0
 
-[node name="RotationText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/RotationContainer"]
+[node name="RotationText" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/RotationContainer"]
 layout_mode = 0
 offset_right = 63.0
 offset_bottom = 30.0
@@ -232,7 +232,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "RotDeg:"
 vertical_alignment = 1
 
-[node name="RotationBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/RotationContainer"]
+[node name="RotationBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/RotationContainer"]
 layout_mode = 0
 offset_left = 63.0
 offset_right = 138.0
@@ -243,7 +243,7 @@ theme_override_font_sizes/font_size = 17
 text = "0"
 script = ExtResource("4_gyawm")
 
-[node name="AlphaContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+[node name="AlphaContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
 custom_minimum_size = Vector2(138, 30)
 anchors_preset = 0
 offset_left = 148.0
@@ -251,7 +251,7 @@ offset_top = 40.0
 offset_right = 286.0
 offset_bottom = 70.0
 
-[node name="AlphaText" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AlphaContainer"]
+[node name="AlphaText" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/AlphaContainer"]
 layout_mode = 0
 offset_right = 63.0
 offset_bottom = 30.0
@@ -259,7 +259,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "Alpha:"
 vertical_alignment = 1
 
-[node name="AlphaBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AlphaContainer"]
+[node name="AlphaBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/AlphaContainer"]
 layout_mode = 0
 offset_left = 63.0
 offset_right = 138.0
@@ -270,14 +270,14 @@ theme_override_font_sizes/font_size = 17
 text = "100"
 script = ExtResource("4_gyawm")
 
-[node name="AnchorContainer" type="Control" parent="LayerSettingsContainer/LayerSettings"]
+[node name="AnchorContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
 custom_minimum_size = Vector2(270, 30)
 anchors_preset = 0
 offset_top = 80.0
 offset_right = 270.0
 offset_bottom = 110.0
 
-[node name="AnchorText1" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
+[node name="AnchorText1" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 30.0
@@ -285,7 +285,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "Anchor: {x:"
 vertical_alignment = 1
 
-[node name="AnchorText2" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
+[node name="AnchorText2" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 155.0
 offset_right = 185.0
@@ -294,7 +294,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = ", y:"
 vertical_alignment = 1
 
-[node name="AnchorText3" type="RichTextLabel" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
+[node name="AnchorText3" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 260.0
 offset_right = 270.0
@@ -303,7 +303,7 @@ theme_override_font_sizes/normal_font_size = 16
 text = "}"
 vertical_alignment = 1
 
-[node name="AnchorXBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
+[node name="AnchorXBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 80.0
 offset_right = 155.0
@@ -314,7 +314,7 @@ theme_override_font_sizes/font_size = 17
 text = "0.0"
 script = ExtResource("4_gyawm")
 
-[node name="AnchorYBox" type="LineEdit" parent="LayerSettingsContainer/LayerSettings/AnchorContainer"]
+[node name="AnchorYBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/AnchorContainer"]
 layout_mode = 0
 offset_left = 185.00009
 offset_right = 260.0
@@ -323,6 +323,32 @@ focus_mode = 1
 mouse_force_pass_scroll_events = false
 theme_override_font_sizes/font_size = 17
 text = "0.0"
+script = ExtResource("4_gyawm")
+
+[node name="ZIndexContainer" type="Control" parent="LayerSettingsScrollContainer/LayerSettings"]
+custom_minimum_size = Vector2(138, 30)
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 138.0
+offset_bottom = 150.0
+
+[node name="ZIndexText" type="RichTextLabel" parent="LayerSettingsScrollContainer/LayerSettings/ZIndexContainer"]
+layout_mode = 0
+offset_right = 63.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Z Index:"
+vertical_alignment = 1
+
+[node name="ZIndexBox" type="LineEdit" parent="LayerSettingsScrollContainer/LayerSettings/ZIndexContainer"]
+layout_mode = 0
+offset_left = 63.0
+offset_right = 137.99998
+offset_bottom = 30.0
+focus_mode = 1
+mouse_force_pass_scroll_events = false
+theme_override_font_sizes/font_size = 17
+text = "10"
 script = ExtResource("4_gyawm")
 
 [node name="BlockEffectSettingsContainer" type="ScrollContainer" parent="."]

@@ -10,47 +10,51 @@ signal change_selected_stamp
 @onready var stamp_button_container = $StampButtonContainer
 @onready var no_stamps_text = $NoStampsText
 
-var graphic_array: Array
 var xoffset: float = 30
 var yoffset: float = 139
-var stamp_graphics: Array = []
-var stamp_array: Array = []
+var stamp_dictionary: Dictionary = {}
 var current_tab: int
 var stamp_picker_pages: int = 1
 var stamp_picker_page: int = 1
-var current_stamp_graphics: Array = []
-var current_stamp_array: Array = []
-var custom_stamp_list: Array = []
+var current_stamp_dictionary: Dictionary = {}
+var custom_stamp_dictionary: Dictionary = {}
 
 
 func _ready() -> void:
-	stamp_graphics = Stamps.stamp_graphic_list
-	stamp_array = Stamps.stamp_list
+	stamp_dictionary.clear()
+	for stamp in Stamps.stamp_dictionary:
+		stamp_dictionary[stamp] = {"id": stamp, "texture": Stamps.stamp_dictionary[stamp].texture}
 	navigation.set_align("right")
 	navigation.connect("set_page", _on_set_page)
-	show_bgs()
+	tab_bar.tab_changed.connect(show_stamps)
+	show_stamps()
 
 
 func _process(_delta: float) -> void:
-	if current_tab != tab_bar.current_tab:
-		show_bgs()
-	current_tab = tab_bar.current_tab
 	for child in stamp_button_container.get_children():
 		_check_clicked_button(child)
 
 
 func _check_clicked_button(node: Node):
 	if node.get_parent().name != "ColorBox" and (node is TextureButton or node is Button):
-		if node.visible and node.is_hovered() and !node.is_pressed():
-			node.scale = Vector2(1.25, 1.25)
+		if node.visible and node.is_hovered():
+			if node.is_pressed():
+				node.scale = Vector2(1, 1)
+				node.self_modulate = Color(0.75, 0.75, 0.75)
+			else:
+				node.scale = Vector2(1.25, 1.25)
+				node.self_modulate = Color(1.25, 1.25, 1.25)
 		else:
 			node.scale = Vector2(1, 1)
+			node.self_modulate = Color(1, 1, 1)
 
 
-func show_bgs():
-	graphic_array = stamp_graphics
-	current_stamp_graphics = []
-	current_stamp_array = []
+func show_stamps():
+	stamp_dictionary.clear()
+	for stamp in Stamps.stamp_dictionary:
+		stamp_dictionary[stamp] = {"id": stamp, "texture": Stamps.stamp_dictionary[stamp].texture}
+	current_stamp_dictionary.clear()
+	var stamp_dictionary_keys = stamp_dictionary.keys()
 	for child in stamp_button_container.get_children():
 		child.free()
 	stamp_picker_pages = 1
@@ -58,20 +62,19 @@ func show_bgs():
 	if tab_bar.current_tab == 1:
 		pass # custom stamps code goes here
 	else:
-		var full_stamp_graphics = stamp_graphics
-		var full_stamp_array = stamp_array
-		while (15 * page_counter) < stamp_graphics.size():
+		while (15 * page_counter) < stamp_dictionary_keys.size():
 			stamp_picker_pages += 1
 			page_counter += 1
-		current_stamp_graphics = full_stamp_graphics.slice((15 * (stamp_picker_page - 1)), (15 * stamp_picker_page))
-		current_stamp_array = full_stamp_array.slice((15 * (stamp_picker_page - 1)), (15 * stamp_picker_page))
+		stamp_dictionary_keys = stamp_dictionary_keys.slice((15 * (stamp_picker_page - 1)), (15 * stamp_picker_page))
+		for stamp in stamp_dictionary_keys:
+			current_stamp_dictionary[stamp] = {"id": stamp, "texture": stamp_dictionary[stamp].texture}
 		navigation.init(stamp_picker_page, stamp_picker_pages, 4, true)
-	if !current_stamp_graphics.is_empty():
+	if !current_stamp_dictionary.is_empty():
 		no_stamps_text.visible = false
 		navigation.init(stamp_picker_page, stamp_picker_pages, 4, true)
-		for graphic in current_stamp_graphics.size():
+		for graphic in current_stamp_dictionary.size():
 			var graphicbutton = TextureButton.new()
-			graphicbutton.texture_normal = current_stamp_graphics[graphic]
+			graphicbutton.texture_normal = current_stamp_dictionary[stamp_dictionary_keys[graphic]].texture
 			graphicbutton.ignore_texture_size = true
 			graphicbutton.stretch_mode = 5
 			graphicbutton.size = Vector2(48, 48)
@@ -79,7 +82,7 @@ func show_bgs():
 			graphicbutton.pivot_offset = Vector2(graphicbutton.size.x / 2, graphicbutton.size.y / 2)
 			graphicbutton.name = "StampButton" + str(graphic)
 			stamp_button_container.add_child(graphicbutton)
-			graphicbutton.pressed.connect(_set_stamp.bind(current_stamp_array[graphic]))
+			graphicbutton.pressed.connect(_set_stamp.bind(current_stamp_dictionary[stamp_dictionary_keys[graphic]].id))
 			stamp_picker_panel.size = Vector2(380, yoffset + ((68 * (snapped((graphic / 5), 1) + 1)) + 20))
 			stamp_button_container.size = Vector2(320, (68 * (snapped((graphic / 5), 1) + 1)) - 20)
 	else:
@@ -109,4 +112,4 @@ func _set_page(incordec: bool, new_page_number: int):
 		stamp_picker_page += new_page_number
 	else:
 		stamp_picker_page = new_page_number
-	show_bgs()
+	show_stamps()

@@ -10,24 +10,19 @@ signal change_selected_background
 @onready var no_bgs_text = $NoBGsText
 @onready var color_box = preload("res://ui/colorbutton.tscn")
 
-var graphic_array: Array
 var xoffset: float = 30
 var yoffset: float = 88
-var background_graphics: Array = []
-var background_array: Array = []
+var bg_dictionary: Dictionary = {}
 var bg_picker_pages: int = 1
 var bg_picker_page: int = 1
-var current_bg_graphics: Array = []
-var current_bg_array: Array = []
+var current_bg_dictionary: Dictionary = {}
+var custom_bg_dictionary: Dictionary = {}
 
 
 func _ready() -> void:
-	for bg_graphic in Backgrounds.bg_graphic_list:
-		background_graphics.append(bg_graphic)
-	background_graphics.push_front("ColorBox")
-	for bg_array in Backgrounds.bg_list:
-		background_array.append(bg_array)
-	background_array.push_front("ColorBox")
+	bg_dictionary.clear()
+	for bg in Backgrounds.bg_dictionary:
+		bg_dictionary[bg] = {"id": bg, "texture": Backgrounds.bg_dictionary[bg].texture}
 	navigation.set_align("right")
 	navigation.connect("set_page", _on_set_page)
 	show_bgs()
@@ -47,30 +42,30 @@ func _check_clicked_button(node: Node):
 
 
 func show_bgs():
-	graphic_array = background_graphics
-	current_bg_graphics = []
-	current_bg_array = []
-	# print(tab_bar.current_tab)
+	bg_dictionary.clear()
+	for bg in Backgrounds.bg_dictionary:
+		bg_dictionary[bg] = {"id": bg, "texture": Backgrounds.bg_dictionary[bg].texture}
+	current_bg_dictionary.clear()
+	var bg_dictionary_keys = bg_dictionary.keys()
 	for child in bg_button_container.get_children():
 		child.free()
 	bg_picker_pages = 1
 	var page_counter: int = 1
-	var full_bg_graphics = background_graphics
-	var full_bg_array = background_array
-	while (15 * page_counter) < background_graphics.size():
+	while (15 * page_counter) < bg_dictionary_keys.size():
 		bg_picker_pages += 1
 		page_counter += 1
-	current_bg_graphics = full_bg_graphics.slice((15 * (bg_picker_page - 1)), (15 * bg_picker_page))
-	current_bg_array = full_bg_array.slice((15 * (bg_picker_page - 1)), (15 * bg_picker_page))
+	bg_dictionary_keys = bg_dictionary_keys.slice((15 * (bg_picker_page - 1)), (15 * bg_picker_page))
+	for bg in bg_dictionary_keys:
+		current_bg_dictionary[bg] = {"id": bg, "texture": bg_dictionary[bg].texture}
 	navigation.init(bg_picker_page, bg_picker_pages, 4, true)
-	if !current_bg_graphics.is_empty():
+	if !current_bg_dictionary.is_empty():
 		no_bgs_text.visible = false
 		navigation.init(bg_picker_page, bg_picker_pages, 4, true)
-		for graphic in current_bg_graphics.size():
-			if current_bg_graphics[graphic] is String:
+		for bg in current_bg_dictionary.size():
+			if bg_dictionary_keys[bg] == "blank":
 				var bg_color_button = color_box.instantiate()
 				bg_color_button.size = Vector2(48, 48)
-				bg_color_button.position = Vector2(68 * snapped((graphic % 5), 1), 68 * snapped((graphic / 5), 1))
+				bg_color_button.position = Vector2(68 * snapped((bg % 5), 1), 68 * snapped((bg / 5), 1))
 				bg_color_button.pivot_offset = Vector2(bg_color_button.size.x / 2, bg_color_button.size.y / 2)
 				bg_color_button.name = "ColorBox"
 				bg_color_button.spawn_x = bg_color_button.size.x
@@ -79,17 +74,17 @@ func show_bgs():
 				bg_color_button.colorbutton_color_changed.connect(_set_bg.bind())
 			else:
 				var graphicbutton = TextureButton.new()
-				graphicbutton.texture_normal = current_bg_graphics[graphic]
+				graphicbutton.texture_normal = current_bg_dictionary[bg_dictionary_keys[bg]].texture
 				graphicbutton.ignore_texture_size = true
 				graphicbutton.stretch_mode = 0
 				graphicbutton.size = Vector2(48, 48)
-				graphicbutton.position = Vector2(68 * snapped((graphic % 5), 1), 68 * snapped((graphic / 5), 1))
+				graphicbutton.position = Vector2(68 * snapped((bg % 5), 1), 68 * snapped((bg / 5), 1))
 				graphicbutton.pivot_offset = Vector2(graphicbutton.size.x / 2, graphicbutton.size.y / 2)
-				graphicbutton.name = "BGButton" + str(graphic)
+				graphicbutton.name = "BGButton" + str(bg)
 				bg_button_container.add_child(graphicbutton)
-				graphicbutton.pressed.connect(_set_bg.bind(Color("FFFFFF"), current_bg_array[graphic]))
-			bg_picker_panel.size = Vector2(380, yoffset + ((68 * (snapped((graphic / 5), 1) + 1)) + 20))
-			bg_button_container.size = Vector2(320, (68 * (snapped((graphic / 5), 1) + 1)) - 20)
+				graphicbutton.pressed.connect(_set_bg.bind(Color("FFFFFF"), current_bg_dictionary[bg_dictionary_keys[bg]].id))
+			bg_picker_panel.size = Vector2(380, yoffset + ((68 * (snapped((bg / 5), 1) + 1)) + 20))
+			bg_button_container.size = Vector2(320, (68 * (snapped((bg / 5), 1) + 1)) - 20)
 	else:
 		no_bgs_text.visible = true
 		navigation.init(1, 0, 3, false)

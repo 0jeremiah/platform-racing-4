@@ -10,14 +10,19 @@ class_name ArtLayer
 @onready var texts_container = $TextsContainer
 @onready var texts = $TextsContainer/Texts
 
-var z_axis: int = 10
+var z_axis: float = 10.0
 var depth: float = 10.0
 var art_rotation: int = 0
 var alpha: float = 100
 var anchor: Vector2 = Vector2(0, 0)
 var layer_name: String = ""
+var layer_z_index: int = 10
 var block_effect_settings = {}
 var main_camera = null
+
+
+func _ready() -> void:
+	z_as_relative = false
 
 
 func _process(_delta):
@@ -32,13 +37,13 @@ func _process(_delta):
 		lines_container.scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
 
 
-func set_z_axis(p_z_axis: int) -> void:
+func set_z_axis(p_z_axis: float) -> void:
 	z_axis = p_z_axis
 	set_viewport_scale()
 
 
 func get_layer_scale() -> float:
-	return float(z_axis) / 10.0
+	return z_axis / 10.0
 
 
 func set_depth(p_depth: float) -> void:
@@ -61,7 +66,7 @@ func set_viewport_scale():
 	lines_container.pivot_offset = anchor
 	stamps_container.pivot_offset = anchor
 	texts_container.pivot_offset = anchor
-	z_index = int(get_layer_depth())
+	z_index = layer_z_index
 
 
 func set_art_rotation(new_rotation: int) -> void:
@@ -84,6 +89,11 @@ func set_layer_name(new_layer_name: String) -> void:
 
 func set_block_effect_settings(new_block_effects_settings: Dictionary):
 	block_effect_settings = new_block_effects_settings
+
+
+func set_layer_z_index(p_z_index: int) -> void:
+	layer_z_index = p_z_index
+	set_viewport_scale()
 
 
 func get_stamp_at_position(mouse_position: Vector2) -> Sprite2D:

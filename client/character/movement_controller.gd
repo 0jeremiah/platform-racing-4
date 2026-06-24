@@ -248,7 +248,11 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		friction = GameConfig.get_value("player_movement", "player_swimming_friction")
 	current_velocity = current_velocity * (1 - (friction * delta))
 	
-	if character.is_on_wall():
+	# should we stop momentum (so we dont stop trying to jump from a 1x1 block gap)
+	var should_stop_momentum = false
+	if character.is_on_floor() and (facing > 0 and character.get_wall_normal().rotated(-character.rotation).x < -0.7) or (facing < 0 and character.get_wall_normal().rotated(-character.rotation).x > 0.7):
+		should_stop_momentum = true
+	if character.is_on_wall() and should_stop_momentum:
 		current_velocity.x = 0.0
 	
 	# Save for next frame

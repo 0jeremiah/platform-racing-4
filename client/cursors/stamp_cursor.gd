@@ -8,16 +8,9 @@ var active: bool = false
 var current_layers = null
 var cursor_parent = null
 var mode: String = "sticker"
-var stamp_graphics: Array = []
-var stamp_array: Array = []
 var stamp_id: String = "cactus"
 var stamp_size: int = 100
 var stamp_rotation: int = 0
-
-
-func _ready() -> void:
-	stamp_graphics = Stamps.stamp_graphic_list
-	stamp_array = Stamps.stamp_list
 
 
 func deactivate():

@@ -14,13 +14,14 @@ const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 @onready var light_settings_color_rect = $LightSettingsColorRect
 @onready var dark_settings_color_rect = $DarkSettingsColorRect
 @onready var settings_tab = $SettingsTab
-@onready var layer_settings_container = $LayerSettingsContainer
-@onready var z_axis_box = $LayerSettingsContainer/LayerSettings/ZAxisContainer/ZAxisBox
-@onready var depth_box = $LayerSettingsContainer/LayerSettings/DepthContainer/DepthBox
-@onready var rotation_box = $LayerSettingsContainer/LayerSettings/RotationContainer/RotationBox
-@onready var alpha_box = $LayerSettingsContainer/LayerSettings/AlphaContainer/AlphaBox
-@onready var anchor_x_box = $LayerSettingsContainer/LayerSettings/AnchorContainer/AnchorXBox
-@onready var anchor_y_box = $LayerSettingsContainer/LayerSettings/AnchorContainer/AnchorYBox
+@onready var layer_settings_scroll_container = $LayerSettingsScrollContainer
+@onready var z_axis_box = $LayerSettingsScrollContainer/LayerSettings/ZAxisContainer/ZAxisBox
+@onready var depth_box = $LayerSettingsScrollContainer/LayerSettings/DepthContainer/DepthBox
+@onready var rotation_box = $LayerSettingsScrollContainer/LayerSettings/RotationContainer/RotationBox
+@onready var alpha_box = $LayerSettingsScrollContainer/LayerSettings/AlphaContainer/AlphaBox
+@onready var anchor_x_box = $LayerSettingsScrollContainer/LayerSettings/AnchorContainer/AnchorXBox
+@onready var anchor_y_box = $LayerSettingsScrollContainer/LayerSettings/AnchorContainer/AnchorYBox
+@onready var z_index_box = $LayerSettingsScrollContainer/LayerSettings/ZIndexContainer/ZIndexBox
 @onready var block_effect_settings_container = $BlockEffectSettingsContainer
 @onready var block_effect_settings = $BlockEffectSettingsContainer/BlockEffectSettings
 @onready var rename_layer_popup = $RenameLayerPopup
@@ -54,11 +55,15 @@ func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -
 		depth_box.init("float", "10.0", 0.0, 50.0)
 		depth_box.return_line.connect(_depth_change)
 		if show_layer_type == "art":
-			z_axis_box.init("int", "10", 0, 50)
+			z_axis_box.init("float", "10.0", 0, 50)
 			z_axis_box.return_line.connect(_z_axis_change)
+			z_index_box.init("int", "10", 0, 4096)
+			z_index_box.return_line.connect(_z_index_change)
 		else:
 			z_axis_box.init("int", "10", 0, 16)
 			z_axis_box.return_line.connect(_z_axis_change)
+			z_index_box.init("int", "10", 0, 4096)
+			z_index_box.return_line.connect(_z_index_change)
 	elif current_editor is BlockEditor:
 		var block_effects_keys = block_effects.keys()
 		for child in block_effect_settings.get_child_count():
@@ -168,6 +173,7 @@ func update_boxes() -> void:
 	disable_box(alpha_box)
 	disable_box(anchor_x_box)
 	disable_box(anchor_y_box)
+	disable_box(z_index_box)
 	settings_tab.visible = false
 	for tab in settings_tab.tab_count:
 		settings_tab.set_tab_disabled(tab, true)
@@ -192,18 +198,20 @@ func update_boxes() -> void:
 			anchor_x_box._update_text(str(layer.anchor.x))
 			enable_box(anchor_y_box)
 			anchor_y_box._update_text(str(layer.anchor.y))
+			enable_box(z_index_box)
+			z_index_box._update_text(str(layer.layer_z_index))
 		if layer is ArtLayer:
 			if current_editor is LevelEditor:
 				enable_box(z_axis_box)
 				z_axis_box._update_text(str(layer.z_axis))
 				enable_box(depth_box)
 				depth_box._update_text(str(layer.depth))
+				enable_box(z_index_box)
+				z_index_box._update_text(str(layer.z_index))
 			elif current_editor is BlockEditor:
+				z_index_box._update_text("10")
 				for tab in settings_tab.tab_count:
 					settings_tab.set_tab_disabled(tab, false)
-				settings_tab.visible = true
-				light_settings_color_rect.size.y -= settings_tab.size.y + 5
-				light_settings_color_rect.position.y += settings_tab.size.y + 5
 				for child in block_effect_settings.get_child_count():
 					if block_effect_settings.get_child(child) is CheckBox:
 						block_effect_settings.get_child(child).disabled = false
@@ -220,25 +228,25 @@ func update_boxes() -> void:
 			anchor_x_box._update_text(str(layer.anchor.x))
 			enable_box(anchor_y_box)
 			anchor_y_box._update_text(str(layer.anchor.y))
-	elif current_editor is BlockEditor:
-		settings_tab.visible = true
-		light_settings_color_rect.size.y -= settings_tab.size.y + 5
-		light_settings_color_rect.position.y += settings_tab.size.y + 5
+		if current_editor is BlockEditor:
+			settings_tab.visible = true
+			light_settings_color_rect.size.y -= settings_tab.size.y + 5
+			light_settings_color_rect.position.y += settings_tab.size.y + 5
 	dark_settings_color_rect.size.y = light_settings_color_rect.size.y - 10
 	dark_settings_color_rect.position.y = light_settings_color_rect.position.y + 5
-	layer_settings_container.size.y = dark_settings_color_rect.size.y
-	layer_settings_container.position.y = dark_settings_color_rect.position.y
+	layer_settings_scroll_container.size.y = dark_settings_color_rect.size.y
+	layer_settings_scroll_container.position.y = dark_settings_color_rect.position.y
 	block_effect_settings_container.size.y = dark_settings_color_rect.size.y
 	block_effect_settings_container.position.y = dark_settings_color_rect.position.y
 
 
 func _change_tab(new_index: int):
-	layer_settings_container.visible = false
+	layer_settings_scroll_container.visible = false
 	block_effect_settings_container.visible = false
 	if new_index == 1:
 		block_effect_settings_container.visible = true
 	else:
-		layer_settings_container.visible = true
+		layer_settings_scroll_container.visible = true
 
 
 func clear() -> void:
@@ -446,3 +454,22 @@ func _maybe_enable_block_effect(button_index: int, block_effect_key: String):
 		"layer_name": current_layers.get_target_art_layer(),
 		"block_effect_settings": enabled_block_effects
 	})
+
+
+func _z_index_change(new_z_index: int):
+	if current_editor is LevelEditor and show_layer_type == "blocks" and current_layers.map_layers.get_node(current_layers.get_target_map_layer()).z_index != new_z_index:
+		emit_signal("editor_event", {
+			"type": EditorEvents.SET_MAP_LAYER_Z_INDEX,
+			"layer_name": current_layers.get_target_map_layer(),
+			"z_index": new_z_index
+		})
+		rename_layer_popup.hide()
+		_render()
+	elif current_editor is LevelEditor and show_layer_type == "art" and current_layers.art_layers.get_node(current_layers.get_target_art_layer()).z_index != new_z_index:
+		emit_signal("editor_event", {
+			"type": EditorEvents.SET_ART_LAYER_Z_INDEX,
+			"layer_name": current_layers.get_target_art_layer(),
+			"z_index": new_z_index
+		})
+		rename_layer_popup.hide()
+		_render()

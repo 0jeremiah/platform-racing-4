@@ -104,6 +104,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
+		layer.set_layer_z_index(event.get("z_index", 10))
 		layer.layer_name = event.name
 	
 	if event.type == EditorEvents.ADD_ART_LAYER:
@@ -113,6 +114,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
 		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
+		layer.set_layer_z_index(event.get("z_index", 10))
 		current_layers.set_target_art_layer(event.name)
 		layer.layer_name = event.name
 		current_layers.emit_signal("layers_changed")
@@ -224,6 +226,14 @@ func _on_editor_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_ART_LAYER_BLOCK_EFFECTS:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.set_block_effect_settings(event.block_effect_settings)
+	
+	if event.type == EditorEvents.SET_MAP_LAYER_Z_INDEX:
+		var layer = current_layers.map_layers.get_node(event.layer_name)
+		layer.set_layer_z_index(event.z_index)
+	
+	if event.type == EditorEvents.SET_ART_LAYER_Z_INDEX:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		layer.set_layer_z_index(event.z_index)
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:

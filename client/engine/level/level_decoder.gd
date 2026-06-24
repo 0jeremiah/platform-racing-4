@@ -147,7 +147,8 @@ func decode(level: Dictionary) -> void:
 				"name": encoded_map_layer.name,
 				"tile_map_rotation": encoded_map_layer.get("tile_map_rotation", 0),
 				"z_axis": encoded_map_layer.get("z_axis", 10),
-				"anchor": encoded_map_layer.get("anchor", {"x": 0, "y": 0})
+				"anchor": encoded_map_layer.get("anchor", {"x": 0, "y": 0}),
+				"z_index": encoded_map_layer.get("z_index", 10),
 			})
 
 			if encoded_map_layer.get("chunks"):
@@ -168,7 +169,8 @@ func decode(level: Dictionary) -> void:
 				"depth": encoded_art_layer.get("depth", 10),
 				"z_axis": encoded_art_layer.get("z_axis", 10),
 				"alpha": encoded_art_layer.get("alpha", 100),
-				"anchor": encoded_art_layer.get("anchor", {"x": 0, "y": 0})
+				"anchor": encoded_art_layer.get("anchor", {"x": 0, "y": 0}),
+				"z_index": encoded_art_layer.get("z_index", 10),
 			})
 
 			if encoded_art_layer.get("lines"):
@@ -201,3 +203,31 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"block_id": tile_id,
 				"block_settings": tile_settings
 			})
+
+
+func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> void:
+	var chunks_array = chunks_container.split("`")
+	for chunk_string in chunks_array:
+		var chunks = str_to_var(chunk_string) # if done correctly this should be an array
+		if chunks is Array:
+			for chunk in chunks:
+				for i:int in chunk.data.size():
+					# failsafe for chunks with data that isn't in the dictionary format
+					if chunk.data[i] is not Dictionary:
+						chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
+					var tile_id:String = chunk.data[i].id
+					if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
+						continue
+					var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
+					var tile_settings = null
+					if chunk.data[i].has("settings") and chunk.data[i].settings != null:
+						tile_settings = chunk.data[i].settings
+					
+					# Emit set tile event
+					emit_signal("editor_event", {
+						"type": EditorEvents.SET_TILE,
+						"layer_name": encoded_layer_name,
+						"coords": {"x": coords.x, "y": coords.y},
+						"block_id": tile_id,
+						"block_settings": tile_settings
+					})
