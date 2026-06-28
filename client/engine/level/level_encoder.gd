@@ -91,6 +91,57 @@ func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Arr
 	return chunks
 
 
+func new_encode(level_layers: Node2D, level_manager: LevelManager) -> Dictionary:
+	var level = {
+		"title": LevelEditor.current_level_name,
+		"description": LevelEditor.current_level_description,
+		"map_layers": [],
+		"art_layers": [],
+		"properties": {
+			"background": level_manager.background_id,
+			"fadeColor": level_manager.fade_color,
+			"music": level_manager.music,
+			"level_type": level_manager.level_type,
+			"time": level_manager.time,
+			"gravity": level_manager.gravity,
+			"password": level_manager.password,
+			"sfchm_chance": level_manager.sfchm_chance,
+			"wind_chance": level_manager.wind_chance,
+			"snow_chance": level_manager.snow_chance,
+			"alien_chance": level_manager.alien_chance,
+			"items": level_manager.items,
+			"game_config_overrides": GameConfig.export_overrides()
+		}
+	}
+	for group_layer in level_layers.map_layers.get_children():
+		if group_layer is MapLayer:
+			var map_layer = {
+				"name": group_layer.layer_name,
+				"chunks": new_encode_chunks(group_layer.tile_map_layer),
+				"tile_map_rotation": group_layer.tile_map_rotation,
+				"z_axis": group_layer.z_axis,
+				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y},
+				"z_index": group_layer.layer_z_index
+			}
+			level.map_layers.push_back(map_layer)
+	for group_layer in level_layers.art_layers.get_children():
+		if group_layer is ArtLayer:
+			var art_layer = {
+				"name": group_layer.layer_name,
+				"lines": GeneralEncoder.new_encode_lines(group_layer.lines),
+				"stamps": GeneralEncoder.new_encode_stamps(group_layer.stamps),
+				"texts": GeneralEncoder.new_encode_texts(group_layer.texts),
+				"rotation": group_layer.art_rotation,
+				"z_axis": group_layer.z_axis,
+				"depth": group_layer.depth,
+				"alpha": group_layer.alpha,
+				"anchor": {"x": group_layer.anchor.x, "y": group_layer.anchor.y},
+				"z_index": group_layer.layer_z_index
+			}
+			level.art_layers.push_back(art_layer)
+	return level
+
+
 func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> String:
 	var save_string = ""
 	var chunk_map = {}

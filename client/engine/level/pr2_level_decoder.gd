@@ -1,12 +1,16 @@
 extends Node2D
 class_name PR2LevelDecoder
 
+@onready var lines = $Lines
+@onready var stamps = $Stamps
+@onready var texts = $Texts
+
 var pr2_objects: Dictionary = {
 	0: {"type": "stamp", "name": "tree_stamp", "compat_id": "tree"},
 	1: {"type": "stamp", "name": "tree2_stamp", "compat_id": "tree2"},
 	2: {"type": "stamp", "name": "tree3_stamp", "compat_id": "tree3"},
 	3: {"type": "stamp", "name": "petrified_tree_stamp", "compat_id": "petrifiedtree"},
-	4: {"type": "stamp", "name": "cactus_stamp", "compat_id": "cactus"},
+	4: {"type": "stamp", "name": "cactus_stamp", "compat_id": "pr2_cactus"},
 	5: {"type": "stamp", "name": "rock_stamp", "compat_id": "rock"},
 	6: {"type": "stamp", "name": "rock2_stamp", "compat_id": "rock2"},
 	7: {"type": "stamp", "name": "spire1_stamp", "compat_id": "spire"},
@@ -45,13 +49,13 @@ var pr2_objects: Dictionary = {
 	130: {"type": "block", "name": "minion_egg_block", "compat_id": "classic_minionegg"},
 	131: {"type": "block", "name": "custom_stats_block", "compat_id": "classic_customstats"},
 	132: {"type": "block", "name": "teleport_block", "compat_id": "classic_teleport"},
-	201: {"type": "background", "name": "BG1"},
-	202: {"type": "background", "name": "BG2"},
-	203: {"type": "background", "name": "BG3"},
-	204: {"type": "background", "name": "BG4"},
-	205: {"type": "background", "name": "BG5"},
-	206: {"type": "background", "name": "BG6"},
-	207: {"type": "background", "name": "BG7"},
+	201: {"type": "background", "name": "BG1", "compat_id": "pr2_field"},
+	202: {"type": "background", "name": "BG2", "compat_id": "pr2_generic"},
+	203: {"type": "background", "name": "BG3", "compat_id": "pr2_lake"},
+	204: {"type": "background", "name": "BG4", "compat_id": "pr2_desert"},
+	205: {"type": "background", "name": "BG5", "compat_id": "pr2_dots"},
+	206: {"type": "background", "name": "BG6", "compat_id": "pr2_space"},
+	207: {"type": "background", "name": "BG7", "compat_id": "pr2_skyscraper"},
 	300: {"type": "text", "name": "text_code"}
 }
 
@@ -60,7 +64,17 @@ func _ready() -> void:
 	BlockManager.load_default_block_configs()
 
 
-func decode_pr2_level(pr2_level: String) -> String:
+func clear():
+	for child in lines.get_children():
+		child.free()
+	for child in stamps.get_children():
+		child.free()
+	for child in texts.get_children():
+		child.free()
+
+
+func decode_pr2_level(pr2_level: String) -> Dictionary:
+	clear()
 	var decoded_level = {}
 	var pr2_level_data_array = pr2_level.split("&")
 	var pr2_level_data = {}
@@ -72,6 +86,8 @@ func decode_pr2_level(pr2_level: String) -> String:
 			data2 = data_string[1]
 		pr2_level_data[data1] = data2
 	if "data" in pr2_level_data:
+		var converted_map_layers = []
+		var converted_art_layers = []
 		var data_array = Array(pr2_level_data.data.split("`"))
 		# 0 - version number
 		# 1 - background color
@@ -101,9 +117,14 @@ func decode_pr2_level(pr2_level: String) -> String:
 			data_array[0] = str(("0x" + data_array[0]).hex_to_int())
 			if version == "m1":
 				data_array[1] = decode_objectstring(data_array[1])
+				converted_map_layers.append(convert_pr2_blocks_to_pr4(data_array[1]))
 				data_array[2] = decode_objectstring(data_array[2])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[5], data_array[2], 10.0, 10, "Art 1"))
 				data_array[3] = decode_objectstring(data_array[3])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[6], data_array[3], 5.0, 10, "Art 2"))
 				data_array[4] = decode_objectstring(data_array[4])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[7], data_array[4], 2.5, 10, "Art 3"))
+				decoded_level = convert_pr2_level_to_pr4(pr2_level_data, converted_map_layers, converted_art_layers)
 			elif version == "m2" or version == "m3" or version == "m4":
 				if version == "m2":
 					data_array[1] = decode_objectstring2(data_array[1])
@@ -111,37 +132,22 @@ func decode_pr2_level(pr2_level: String) -> String:
 					data_array[1] = decode_objectstring2(data_array[1], 30)
 				else:
 					data_array[1] = decode_blockstring(data_array[1])
+				converted_map_layers.append(convert_pr2_blocks_to_pr4(data_array[1]))
 				data_array[2] = decode_objectstring2(data_array[2])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[5], data_array[2], 10.0, 10, "Art 1"))
 				data_array[3] = decode_objectstring2(data_array[3])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[6], data_array[3], 5.0, 10, "Art 2"))
 				data_array[4] = decode_objectstring2(data_array[4])
+				converted_art_layers.append(convert_pr2_art_to_pr4(data_array[7], data_array[4], 2.5, 10, "Art 3"))
 				if data_array.get(9) != null:
 					data_array[9] = decode_objectstring2(data_array[9])
+					converted_art_layers.append(convert_pr2_art_to_pr4(data_array[11], data_array[9], 10.0, 11, "Art 0"))
 				if data_array.get(10) != null:
 					data_array[10] = decode_objectstring2(data_array[10])
-			var converted_blocks = convert_pr2_blocks_to_pr4(data_array[1])
-			return data_array[5]
-			#return "`".join(data_array)
-	return ""
-	#return {
-		#"title": pr2_level_data.get("title", "pr2_level"),
-		#"description": pr2_level_data.get("note", ""),
-		#"map_layers": [],
-		#"art_layers": [],
-		#"properties": {
-			#"background": "pr2_field",
-			#"fadeColor": pr2_level_data.data[1],
-			#"music": get_music(pr2_level_data.get("music", "random")),
-			#"level_type": pr2_level_data.get("gameMode", "race"),
-			#"time": pr2_level_data.get("max_time", 120),
-			#"gravity": pr2_level_data.get("gravity", 1.0),
-			#"sfchm_chance": pr2_level_data.get("cowboyChance", 0),
-			#"wind_chance": 0,
-			#"snow_chance": 0,
-			#"alien_chance": 0,
-			#"items": Items.convert_pr2_items(Array(pr2_level_data.get("items", "").split("`"))),
-			#"game_config_overrides": []
-			#},
-		#}
+					converted_art_layers.append(convert_pr2_art_to_pr4(data_array[12], data_array[10], 20.0, 11, "Art 00"))
+				decoded_level = convert_pr2_level_to_pr4(pr2_level_data, converted_map_layers, converted_art_layers)
+	clear()
+	return decoded_level
 
 
 func decode_objectstring(objectstring: String) -> String:
@@ -152,18 +158,18 @@ func decode_objectstring(objectstring: String) -> String:
 	var loc_11: int = NAN
 	var loc_2: Array = Array(objectstring.split(","))
 	var loc_3: Array = loc_2.pop_front().split(";")
-	var loc_4: int = ("0x" + loc_3[0]).hex_to_int()
-	var loc_5: int = ("0x" + loc_3[1]).hex_to_int()
+	var loc_4: int = loc_3[0].hex_to_int()
+	var loc_5: int = loc_3[1].hex_to_int()
 	var loc_6: int = 0
 	while loc_6 < loc_2.size():
 		loc_3 = loc_2[loc_6].split(";")
-		loc_7 = ("0x" + loc_3[0]).hex_to_int()
-		loc_8 = ("0x" + loc_3[1]).hex_to_int() + loc_4
-		loc_9 = ("0x" + loc_3[2]).hex_to_int() + loc_5
+		loc_7 = loc_3[0].hex_to_int()
+		loc_8 = loc_3[1].hex_to_int() + loc_4
+		loc_9 = loc_3[2].hex_to_int() + loc_5
 		loc_2[loc_6] = "o" + str(loc_7) + ";" + str(loc_8) + ";" + str(loc_9)
 		if loc_3.get(3) != null:
-			loc_10 = ("0x" + loc_3[3]).hex_to_int() / 100
-			loc_11 = ("0x" + loc_3[4]).hex_to_int() / 100
+			loc_10 = int(loc_3[3].hex_to_int() / 100)
+			loc_11 = int(loc_3[4].hex_to_int() / 100)
 			loc_2[loc_6] = loc_2[loc_6] + ";" + str(loc_10) + ";" + str(loc_11)
 		loc_6 += 1
 	return ",".join(loc_2)
@@ -241,13 +247,13 @@ func decode_blockstring(blockstring: String) -> String:
 			loc_11 = ""
 			if loc_8.get(3) != null:
 				loc_11 = ";" + loc_8[3]
-			loc_2[loc_7] = "o" + str(loc_4) + ";" + str(loc_5 * 30) + ";" + str(loc_6 * 30) + str(loc_11)
+			loc_2[loc_7] = "o" + str(loc_4) + ";" + str(loc_5) + ";" + str(loc_6) + str(loc_11)
 			loc_7 += 1
 		loc_3 = ",".join(loc_2)
 	return loc_3
 
 
-func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> String:
+func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 	var converted_blocks = {}
 	var pr2_block_string_array = Array(pr2_block_string.split(","))
 	var configurable_tile_map_layer = ConfigurableTileMapLayer.new()
@@ -316,72 +322,201 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> String:
 									}
 						#converted_blocks[Vector2i(int(block_code_array[1]), int(block_code_array[2]))]["options"] = options
 					configurable_tile_map_layer.set_cell_by_id(Vector2i(int(block_code_array[1]), int(block_code_array[2])), str(block_id - 99))
-	return level_encoder.new_encode_chunks(configurable_tile_map_layer)
+	return {
+				"name": "Blocks",
+				"chunks": level_encoder.new_encode_chunks(configurable_tile_map_layer),
+				"tile_map_rotation": 0,
+				"z_axis": 10,
+				"anchor": {"x": 0.0, "y": 0.0},
+				"z_index": 10
+			}
 
 
-func convert_pr2_lines_to_pr4(pr2_lines_string: String) -> String:
-	var brush_size: int = 4
+func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
+	var line_position = Vector2(0.0, 0.0)
+	var brush_size: int = 8
 	var brush_color: Color = Color("000000")
 	var mode = "draw"
-	var pr2_lines_string_array = Array(pr2_lines_string.split(","))
-	var level_encoder = LevelEncoder.new()
-	var lines_holder = Node2D.new()
-	for line_string in pr2_lines_string_array:
-		var line_code = line_string.substr(0, 1)
-		var line_params = line_string.substr(1)
+	var pr2_drawbg_string_array = Array(pr2_drawbg_string.split(","))
+	var stamp = preload("res://engine/stamp/stamp.tscn")
+	var text = preload("res://engine/textbox.tscn")
+	for drawbg_string in pr2_drawbg_string_array:
+		var drawbg_code = drawbg_string.substr(0, 1)
+		var drawbg_params = drawbg_string.substr(1)
 		var draw_lines = []
-		if line_code.begins_with("d"):
-			var stroke_array = Array(line_params.split(";"))
-			var brush_position = Vector2(int(line_params[0]), int(line_params[1]))
-			draw_lines.append(Vector2(brush_position.x, brush_position.y))
+		if drawbg_code.begins_with("d"):
+			var stroke_array = Array(drawbg_params.split(";"))
+			line_position = Vector2(float(stroke_array[0]) / 2, float(stroke_array[1]) / 2)
 			var stroke_increment: int = 2
 			while stroke_increment < stroke_array.size():
-				brush_position += Vector2(int(stroke_array[stroke_increment]), int(stroke_array[stroke_increment + 1]))
-				draw_lines.append(Vector2(brush_position.x, brush_position.y))
+				draw_lines.append(Vector2(float(stroke_array[stroke_increment]), float(stroke_array[stroke_increment + 1])))
 				stroke_increment += 2
-		elif line_code.begins_with("c"):
-			brush_color = get_color(line_params)
-		elif line_code.begins_with("t"):
-			brush_size = line_params * 2
-		elif line_code.begins_with("m"):
-			mode = line_params
-		elif line_code.begins_with("o"):
-			pass
-		elif line_code.begins_with("u"):
-			pass
+		elif drawbg_code.begins_with("c"):
+			brush_color = get_color(("0x" + drawbg_params).hex_to_int())
+		elif drawbg_code.begins_with("t"):
+			brush_size = float(drawbg_params) * 2
+		elif drawbg_code.begins_with("m"):
+			mode = drawbg_params
+		elif drawbg_code.begins_with("o"):
+			var object_array = Array(drawbg_params.split(";"))
+			var object_scale_x = 1.0 if object_array.get(3) == null or !object_array.get(3).is_valid_float() else float(object_array.get(3))
+			var object_scale_y = 1.0 if object_array.get(4) == null or !object_array.get(4).is_valid_float() else float(object_array.get(4))
+			var object_id = pr2_objects.get(object_array.get(0))
+			if object_id != null:
+				var stamp_object = stamp.instantiate()
+				stamps.add_child(stamp_object)
+				stamp_object.set_stamp_properties({"id": object_array.get(0), "position": {"x": float(drawbg_params.get(1)) * layer_scale, "y": float(drawbg_params.get(2)) * layer_scale}})
+				if object_array.get(4) != null:
+					stamp_object.set_stamp_scale(Vector2(float(object_array.get(3)), float(object_array.get(4))))
+		elif drawbg_code.begins_with("u"):
+			var text_array = Array(drawbg_params.split(";"))
+			var text_string = text_array.get(0)
+			var text_x = int(text_array.get(1))
+			var text_y = int(text_array.get(2))
+			var text_color = get_color(int(text_array.get(3)))
+			var text_scale_x = float(text_array.get(4)) / 100.0
+			var text_scale_y = float(text_array.get(5)) / 100.0
+			var text_object = text.instantiate()
+			texts.add_child(text)
+			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x * layer_scale, "y": text_y * layer_scale}, "scale": {"x": text_scale_x * layer_scale, "y": text_scale_y * layer_scale}, "color": text_color})
 		if mode == "erase":
 			if !draw_lines.is_empty():
-				#var line2d = Line2D.new()
-				#line2d.position = Vector2(0.0, 0.0)
-				#line2d.points = []
-				#line2d.width = 4.0 * 2
-				#line2d.color = Color("000000")
-				#var draw_material = CanvasItemMaterial.new()
-				#draw_material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
-				#lines_holder = add_child(line2d)
+				var line2d = Line2D.new()
+				lines.add_child(line2d)
+				line2d.position = line_position
+				line2d.add_point(Vector2(0.0, 0.0))
+				line2d.points = PackedVector2Array(draw_lines)
+				line2d.end_cap_mode = Line2D.LINE_CAP_ROUND
+				line2d.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				line2d.width = brush_size
+				line2d.default_color = Color("000000")
+				line2d.material = CanvasItemMaterial.new()
+				line2d.material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
 				draw_lines = []
 		if mode == "draw":
 			if !draw_lines.is_empty():
-				#var line2d = Line2D.new()
-				#line2d.position = Vector2(0.0, 0.0)
-				#line2d.points = []
-				#line2d.width = 4.0 * 2
-				#line2d.color = Color("000000")
-				#var draw_material = CanvasItemMaterial.new()
-				#draw_material.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
-				#lines_holder = add_child(line2d)
+				var line2d = Line2D.new()
+				lines.add_child(line2d)
+				line2d.position = line_position
+				line2d.points = PackedVector2Array(draw_lines)
+				line2d.end_cap_mode = Line2D.LINE_CAP_ROUND
+				line2d.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				line2d.width = brush_size
+				line2d.default_color = brush_color
+				line2d.material = CanvasItemMaterial.new()
+				line2d.material.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
 				draw_lines = []
-	return ""
+
+
+func convert_objbg(pr2_objbg_string: String):
+	var pr2_objbg_string_array = Array(pr2_objbg_string.split(","))
+	var objects_array = []
+	var stamp = preload("res://engine/stamp/stamp.tscn")
+	var text = preload("res://engine/textbox.tscn")
+	for objbg_string in pr2_objbg_string_array:
+		var objbg_code = objbg_string.substr(0, 1)
+		var objbg_params = objbg_string.substr(1)
+		if objbg_code.begins_with("o"):
+			var object_array = Array(objbg_params.split(";"))
+			if pr2_objects.get(object_array.get(0)) != null:
+				var stamp_object = stamp.instantiate()
+				stamps.add_child(stamp_object)
+				stamp_object.set_stamp_properties({"id": object_array.get(0), "position": {"x": float(object_array.get(1)), "y": float(object_array.get(2))}})
+				if object_array.get(4) != null:
+					stamp_object.set_stamp_scale(Vector2(float(object_array.get(3)), float(object_array.get(4))))
+				objects_array.push_back(stamp_object)
+		elif objbg_code.begins_with("m"):
+			var object_array = Array(objbg_params.split(";"))
+			var stamp_object = objects_array.get(int(object_array.get(0)))
+			if stamp_object != null:
+				stamp_object.position = Vector2(float(object_array.get(1)), float(object_array.get(2)))
+		elif objbg_code.begins_with("d"):
+			var stamp_object = objects_array.get(int(objbg_params))
+			if stamp_object:
+				stamp_object.free()
+		elif objbg_code.begins_with("r"):
+			var object_array = Array(objbg_params.split(";"))
+			var stamp_object = objects_array.get(int(object_array.get(0)))
+			if stamp_object != null:
+				stamp_object.scale = Vector2(float(object_array.get(1)), float(object_array.get(2)))
+		elif objbg_code.begins_with("u"):
+			var object_array = Array(objbg_params.split(";"))
+			var text_string = object_array.get(0)
+			var text_x = int(object_array.get(1))
+			var text_y = int(object_array.get(2))
+			var text_color = get_color(("0x" + object_array.get(3)).hex_to_int())
+			var text_scale_x = float(object_array.get(4)) / 100.0
+			var text_scale_y = float(object_array.get(5)) / 100.0
+			var text_object = text.instantiate()
+			texts.add_child(text_object)
+			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x, "y": text_y}})
+			text_object.set_text_scale(Vector2(text_scale_x, text_scale_y))
+			objects_array.push_back(text_object)
+		elif objbg_code.begins_with("y"):
+			var object_array = Array(objbg_params.split(";"))
+			var text_object = objects_array.get(int(object_array.get(0)))
+			if text_object and text_object.has_method("set_text_properties"):
+				var text_string = object_array.get(1)
+				var text_color = get_color(("0x" + object_array.get(2)).hex_to_int())
+				text_object.set_text_string(text_string)
+				text_object.set_text_color(text_color)
+
+
+func convert_pr2_art_to_pr4(pr2_drawbg_string: String, pr2_objbg_string: String, layer_z_axis: float, layer_z_index: int, layer_name: String = "Layer 1"):
+	convert_drawbg(pr2_drawbg_string, layer_z_axis / 10.0)
+	convert_objbg(pr2_objbg_string)
+	return {
+		"name": layer_name,
+		"lines": GeneralEncoder.new_encode_lines(lines),
+		"stamps": GeneralEncoder.new_encode_stamps(stamps),
+		"texts": GeneralEncoder.new_encode_texts(texts),
+		"rotation": 0,
+		"z_axis": layer_z_axis,
+		"depth": layer_z_axis,
+		"alpha": 100,
+		"anchor": {"x": 0.0, "y": 0.0},
+		"z_index": layer_z_index
+	}
+
+
+func convert_pr2_level_to_pr4(pr2_level_data: Dictionary, converted_map_layers: Array, converted_art_layers: Array):
+	var background = "blank"
+	var fade_color = "FFFFFF"
+	var pr2_level_data_array = pr2_level_data.data.split("`")
+	if (pr2_level_data_array[9] == "-1" or pr2_level_data_array[9] == "Square") and pr2_level_data_array[1]:
+		fade_color = pr2_level_data_array[1]
+	else:
+		background = pr2_level_data_array[9]
+	return {
+		"title": pr2_level_data.get("title", "pr2_level"),
+		"description": pr2_level_data.get("note", ""),
+		"map_layers": converted_map_layers,
+		"art_layers": converted_art_layers,
+		"properties": {
+			"background": background,
+			"fadeColor": fade_color,
+			"music": get_music(pr2_level_data.get("music", "random")),
+			"level_type": pr2_level_data.get("gameMode", "race"),
+			"time": int(pr2_level_data.get("max_time", "120")),
+			"gravity": float(pr2_level_data.get("gravity", "1.0")),
+			"sfchm_chance": int(pr2_level_data.get("cowboyChance", "0")),
+			"wind_chance": 0,
+			"snow_chance": 0,
+			"alien_chance": 0,
+			"items": Items.convert_pr2_items(get_items(pr2_level_data.get("items", ""))),
+			"game_config_overrides": {}
+		},
+	}
 
 
 func get_music(id: String = "") -> String:
 	var full_music_list = Jukebox.get_music_list()
-	var music_list = {}
-	for song in full_music_list.keys():
-		if full_music_list.get(song).group == "pr2":
+	var music_list = []
+	for song in full_music_list.size():
+		if full_music_list.get(full_music_list.keys()[song]).group == "pr2":
 			music_list.push_back(song)
 	if id.is_valid_int():
-		if int(id) > 0 and music_list.size() - 1 >= int(id) and music_list[int(id)] != "":
+		if int(id) > 0 and music_list.size() - 1 >= int(id) and music_list[int(id)] != null:
 			return music_list[int(id)]
 		elif int(id) == 0:
 			return "none"
@@ -398,16 +533,8 @@ func get_color(color_int: int) -> Color:
 		return Color(1, 1, 1)
 
 
-#var background_color = data_array.get(1)
-#var block_layer = data_array.get(2)
-#var bg_1 = data_array.get(3)
-#var bg_2 = data_array.get(4)
-#var bg_3 = data_array.get(5)
-#var draw_1 = data_array.get(6)
-#var draw_2 = data_array.get(7)
-#var draw_3 = data_array.get(8)
-#var bg = data_array.get(9)
-#var bg_4 = data_array.get(10)
-#var bg_5 = data_array.get(11)
-#var draw_4 = data_array.get(12)
-#var draw_5 = data_array.get(13)
+func get_items(items_string: String) -> Array:
+	var item_array = Array(items_string.split("`"))
+	for item in item_array.size():
+		item_array[item] = int(item_array[item])
+	return item_array

@@ -95,18 +95,9 @@ func _ready():
 			level = default_level
 			_load_level(default_level)
 	
-	if level.properties.has("background"):
-		var bg_id = level.properties.get("background")
-		var fade_color = "FFFFFF"
-		if level.properties.has("fadeColor"):
-			fade_color = level.properties.get("fadeColor")
-		bg.set_bg(bg_id, fade_color)
-	else:
-		bg.set_bg("field", "FFFFFF")
+	bg.set_bg(level_manager.background_id, level_manager.fade_color)
 	
-	var level_settings: Dictionary = {
-		"background_id": level.properties.get("background", "pr2_field"),
-		"fade_color": level.properties.get("fadeColor", "FFFFFF"),
+	var general_settings: Dictionary = {
 		"music": level.properties.get("music", "random"),
 		"level_type": level.properties.get("level_type", "race"),
 		"time": level.properties.get("time", 120),
@@ -119,9 +110,8 @@ func _ready():
 	}
 	
 	var level_settings_submenu = editor_menu.level_options_menu.level_settings_submenu
-	level_settings_submenu.set_general_settings(level_settings)
-	level_settings_submenu.set_item_settings(level.properties.get("items", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]))
-	level_manager.set_settings(level_settings)
+	level_settings_submenu.set_general_settings(general_settings)
+	level_settings_submenu.set_item_settings(level_manager.items)
 
 
 func _load_level(level_data: Dictionary):

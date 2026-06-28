@@ -1,24 +1,24 @@
 class_name Stamps
 
 static var stamp_dictionary = {
-	"cactus": {"texture" = preload("res://engine/stamp/cactus-graphic.svg")},
-	"petrifiedtree": {"texture" = preload("res://engine/stamp/petrifiedtree-graphic.svg")},
-	"rock2": {"texture" = preload("res://engine/stamp/rock2-graphic.svg")},
-	"rock": {"texture" = preload("res://engine/stamp/rock-graphic.svg")},
-	"skyscraper": {"texture" = preload("res://engine/stamp/skyscraper-graphic.svg")},
-	"spire2": {"texture" = preload("res://engine/stamp/spire2-graphic.svg")},
-	"spire": {"texture" = preload("res://engine/stamp/spire-graphic.svg")},
-	"tree2": {"texture" = preload("res://engine/stamp/tree2-graphic.svg")},
-	"tree3": {"texture" = preload("res://engine/stamp/tree3-graphic.svg")},
-	"tree": {"texture" = preload("res://engine/stamp/tree-graphic.svg")}
-}
+	"cactus": {"texture": preload("res://engine/stamp/cactus-graphic.svg")},
+	"petrifiedtree": {"texture": preload("res://engine/stamp/petrifiedtree-graphic.svg"), "pr2_scale": Vector2(0.7604731394775752, 0.7606581899775617)},
+	"rock2": {"texture": preload("res://engine/stamp/rock2-graphic.svg"), "pr2_scale": Vector2(1.0, 1.0)},
+	"rock": {"texture": preload("res://engine/stamp/rock-graphic.svg"), "pr2_scale": Vector2(0.7124183006535948, 0.7078957604045119)},
+	"skyscraper": {"texture": preload("res://engine/stamp/skyscraper-graphic.svg"), "pr2_scale": Vector2(1.819209039548023, 1.819363222871995)},
+	"spire2": {"texture": preload("res://engine/stamp/spire2-graphic.svg"), "pr2_scale": Vector2(1.864342313787639, 1.867734075878872)},
+	"spire": {"texture": preload("res://engine/stamp/spire-graphic.svg"), "pr2_scale": Vector2(2.326530612244898, 2.326664241542379)},
+	"tree2": {"texture": preload("res://engine/stamp/tree2-graphic.svg"), "pr2_scale": Vector2(1.694945848375451, 1.694926796050392)},
+	"tree3": {"texture": preload("res://engine/stamp/tree3-graphic.svg"), "pr2_scale": Vector2(1.577235772357724, 1.577333333333333)},
+	"tree": {"texture": preload("res://engine/stamp/tree-graphic.svg"), "pr2_scale": Vector2(1.330998248686515, 1.330893682588598)}
+	}
 static var pr2_only_stamps: Dictionary = {
+	"pr2_cactus": {"texture": preload("res://engine/stamp/pr2-cactus-graphic.png")},
 	"classic_start1": {"texture": preload("res://engine/level/PR2_Start1.png")},
 	"classic_start2": {"texture": preload("res://engine/level/PR2_Start2.png")},
 	"classic_start3": {"texture": preload("res://engine/level/PR2_Start3.png")},
 	"classic_start4": {"texture": preload("res://engine/level/PR2_Start4.png")}
 	}
-# ^ this is for level editor ^
 
 
 static func add_block_stamps():

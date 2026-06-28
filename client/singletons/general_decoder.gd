@@ -28,10 +28,12 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 			else:
 				line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html(true)
 
-			# add material if it exists
+			# changes line blend mode
+			var line_mode = "draw"
 			var line_material = CanvasItemMaterial.new()
-			if object.has("material"):
-				line_material = object.material
+			if object.has("mode") and object.mode == "erase":
+				line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
+				line_mode = "erase"
 			else:
 				line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 		
@@ -43,7 +45,7 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 				"points": points_array,
 				"color": line_color,
 				"thickness": object.thickness,
-				"material": line_material
+				"mode": line_mode
 			})
 
 
@@ -139,8 +141,8 @@ func decode_texts(layer_name: String, objects: Array) -> void:
 func new_decode_lines(layer_name: String, objects_container: String) -> void:
 	var objects_array = objects_container.split("`")
 	for object_string in objects_array:
-		var objects = str_to_var(object_string) # if done correctly this should be a dictionary
-		if objects is Dictionary:
+		var objects = str_to_var(object_string) # if done correctly this should be an array
+		if objects is Array:
 			for object in objects:
 				# checks if the line is actually a line or a stamp. (compatibility for pr3)
 				if object.has("type") and object.type == "stamp":
@@ -165,10 +167,12 @@ func new_decode_lines(layer_name: String, objects_container: String) -> void:
 					else:
 						line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html(true)
 
-					# add material if it exists
+					# changes line blend mode
 					var line_material = CanvasItemMaterial.new()
-					if object.has("material"):
-						line_material = object.material
+					var line_mode = "draw"
+					if object.has("mode") and object.mode == "erase":
+						line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
+						line_mode = "erase"
 					else:
 						line_material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 				
@@ -180,15 +184,15 @@ func new_decode_lines(layer_name: String, objects_container: String) -> void:
 						"points": points_array,
 						"color": line_color,
 						"thickness": object.thickness,
-						"material": line_material
+						"mode": line_mode
 					})
 
 
 func new_decode_stamps(layer_name: String, objects_container: String) -> void:
 	var objects_array = objects_container.split("`")
 	for object_string in objects_array:
-		var objects = str_to_var(object_string) # if done correctly this should be a dictionary
-		if objects is Dictionary:
+		var objects = str_to_var(object_string) # if done correctly this should be an array
+		if objects is Array:
 			for object in objects:
 				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_STAMP,
@@ -203,8 +207,8 @@ func new_decode_stamps(layer_name: String, objects_container: String) -> void:
 func new_decode_texts(layer_name: String, objects_container: String) -> void:
 	var objects_array = objects_container.split("`")
 	for object_string in objects_array:
-		var objects = str_to_var(object_string) # if done correctly this should be a dictionary
-		if objects is Dictionary:
+		var objects = str_to_var(object_string) # if done correctly this should be an array
+		if objects is Array:
 			for object in objects:
 				
 				#Failsafes for old text.

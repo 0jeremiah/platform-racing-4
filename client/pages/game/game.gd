@@ -2,6 +2,7 @@ extends Node2D
 class_name Game
 
 static var pr2_level_id
+static var local_pr2_level
 static var game: Node2D
 
 @onready var back_button = $UI/Container/BackButton
@@ -49,7 +50,10 @@ func _ready():
 	editor_events.connect_to([level_manager.level_decoder])
 	penciler.init(level_manager.level_layers, editor_events)
 	
-	if !Game.pr2_level_id or Game.pr2_level_id == '0':
+	if Game.local_pr2_level and Game.local_pr2_level is String:
+		level_manager.decode_pr2_level(local_pr2_level)
+		_activate_game()
+	elif !Game.pr2_level_id or Game.pr2_level_id == '0':
 		_activate_game()
 	else:
 		print("Game: Loading level id: " + Game.pr2_level_id)
@@ -75,17 +79,15 @@ func _ready():
 
 
 func _activate_game() -> void:
-	#var player_manager: PlayerManager = get_node("PlayerManager")
 	var bg: Node2D = get_node("BG")
 	
-	bg.set_bg(level_manager.properties.get("background", "field"), level_manager.properties.get("fadeColor", "FFFFFF"))
-	level_manager.activate_node()
+	bg.set_bg(level_manager.background_id, level_manager.fade_color)
 	player_manager.spawn_player(level_manager.level_layers)
 	
 	minimap.init(self)
 	game_timer.init(self)
 	stats_display.init(self)
-	game_timer.set_timer(level_manager.properties.get("time", 120))
+	game_timer.set_timer(level_manager.time)
 	game_timer.start_timer()
 	level_manager.calc_used_rect()
 

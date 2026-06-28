@@ -3,10 +3,10 @@ class_name Backgrounds
 static var pr2_dots_node = preload("res://engine/bg/pr2bg5-dots.tscn")
 static var bg_dictionary: Dictionary = {
 	"blank": {"texture": preload("res://engine/bg/100x100.png")},
-	"pr2_field": {"texture": preload("res://engine/bg/pr2bg1-Field.svg")},
-	"pr2_generic": {"texture": preload("res://engine/bg/pr2bg2-generic.svg")},
-	"pr2_lake": {"texture": preload("res://engine/bg/pr2bg3-lake.svg")},
-	"pr2_desert": {"texture": preload("res://engine/bg/pr2bg4-desert.svg"), "sprite_rect": Rect2(3.0, 0.0, 550.0, 400.0)},
+	"pr2_field": {"texture": preload("res://engine/bg/pr2bg1-Field.svg"), "color_transform": "7cb481"},
+	"pr2_generic": {"texture": preload("res://engine/bg/pr2bg2-generic.svg"), "color_transform": "cab1aa"},
+	"pr2_lake": {"texture": preload("res://engine/bg/pr2bg3-lake.svg"), "color_transform": "81008"},
+	"pr2_desert": {"texture": preload("res://engine/bg/pr2bg4-desert.svg"), "sprite_rect": Rect2(3.0, 0.0, 550.0, 400.0), "color_transform": "e0c8b8"},
 	"pr2_dots": {"texture": preload("res://engine/bg/pr2bg5-dots-blank.svg")},
 	"pr2_space": {"texture": preload("res://engine/bg/pr2bg6-space.svg"), "sprite_rect": Rect2(22.0, 0.0, 550.0, 400.0)},
 	"pr2_skyscraper": {"texture": preload("res://engine/bg/pr2bg7-skyscraper.svg"), "sprite_rect": Rect2(48.0, 0.0, 550.0, 400.0)},
@@ -19,7 +19,7 @@ static var bg_dictionary: Dictionary = {
 	"pr3_thanksgiving": {"texture": preload("res://engine/bg/pr3bg8-thanksgiving.png")}, 
 	"pr3_main": {"texture": preload("res://engine/bg/pr3bg9-main.png")}, 
 	"pr3_christmas": {"texture": preload("res://engine/bg/pr3bg10-christmas.png")}
-}
+	}
 static var bg_failsafe_dictionary: Dictionary = {
 	"field": {"compat_id": "pr2_field"},
 	"generic": {"compat_id": "pr2_generic"},
@@ -28,7 +28,7 @@ static var bg_failsafe_dictionary: Dictionary = {
 	"dots": {"compat_id": "pr2_dots"},
 	"space": {"compat_id": "pr2_space"},
 	"skyscraper": {"compat_id": "pr2_skyscraper"}
-}
+	}
 
 
 static func set_dots(sprite: Sprite2D):
@@ -60,6 +60,9 @@ static func get_bg(sprite: Sprite2D, p_id: String, fade_color: String) -> void:
 				sprite.set_region_rect(bg_dictionary[background_id].sprite_rect)
 		if background_id == "blank":
 			sprite.modulate = Color(fade_color)
+		elif "color_transform" in bg_dictionary[background_id]:
+			var color_transform = get_bg_color(Color(bg_dictionary[background_id].color_transform))
+			sprite.modulate = Color(1.0, 1.0, 1.0, 1.0).blend(color_transform)
 		else:
 			sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:
@@ -85,3 +88,10 @@ static func get_bg_no_dots(sprite: Sprite2D, p_id: String, fade_color: String) -
 	else:
 		sprite.texture = bg_dictionary["pr2_field"].texture; sprite.set_region_enabled(false)
 		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+
+static func get_bg_color(color_transform: Color) -> Color:
+	var calculated_r = clamp((1.0 * 0.9) + (color_transform.r * 0.9), 0.0, 1.0)
+	var calculated_g = clamp((1.0 * 0.9) + (color_transform.g * 0.9), 0.0, 1.0)
+	var calculated_b = clamp((1.0 * 0.9) + (color_transform.b * 0.9), 0.0, 1.0)
+	return Color(calculated_r, calculated_g, calculated_b)

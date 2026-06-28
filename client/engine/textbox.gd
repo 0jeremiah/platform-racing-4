@@ -35,17 +35,20 @@ func set_text_properties(text_properties: Dictionary):
 
 func set_text_string(new_text_string: String):
 	text_string = new_text_string
-	text_box.text = text_string
+	if text_box:
+		text_box.text = text_string
 
 
 func set_text_font(new_text_font: String) -> void:
 	var new_font = FontManager.get_font(new_text_font)
-	text_box.set("theme_override_fonts/normal_font", new_font)
+	if text_box:
+		text_box.set("theme_override_fonts/normal_font", new_font)
 
 
 func set_text_font_size(new_text_font_size: int):
 	text_font_size = new_text_font_size
-	text_box.set("theme_override_font_sizes/normal_font_size", text_font_size)
+	if text_box:
+		text_box.set("theme_override_font_sizes/normal_font_size", text_font_size)
 
 
 func set_text_scale(new_text_scale: Vector2):
@@ -65,4 +68,5 @@ func set_text_rotation(new_text_rotation: int):
 
 func set_text_color(new_text_color: Color):
 	text_color = new_text_color.to_html(false)
-	text_box.set("theme_override_colors/default_color", text_color)
+	if text_box:
+		text_box.set("theme_override_colors/default_color", text_color)

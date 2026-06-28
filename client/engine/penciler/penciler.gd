@@ -93,10 +93,10 @@ func _on_editor_event(event: Dictionary) -> void:
 				line.width = event.width
 			if event.has("thickness"):
 				line.width = event.thickness
-			if event.has("material"):
-				line.material = event.material
+			line.material = CanvasItemMaterial.new()
+			if event.has("mode") and event.mode == "erase":
+				line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
 			else:
-				line.material = CanvasItemMaterial.new()
 				line.material.blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 
 	if event.type == EditorEvents.ADD_MAP_LAYER:

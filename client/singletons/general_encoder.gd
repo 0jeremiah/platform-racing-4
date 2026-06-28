@@ -11,6 +11,9 @@ func encode_lines(node: Node2D) -> Array:
 			var pointObjects = []
 			for point in child.points:
 				pointObjects.push_back({"x": point.x, "y": point.y})
+			var line_mode = "draw"
+			if child.material.blend_mode == CanvasItemMaterial.BLEND_MODE_SUB:
+				line_mode = "erase"
 			var lineData = {
 				"line_type": "line",
 				"x": child.position.x,
@@ -18,7 +21,7 @@ func encode_lines(node: Node2D) -> Array:
 				"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
 				"color": child.default_color,
 				"thickness": child.width,
-				"material": child.material
+				"mode": line_mode
 			}
 			lines.push_back(lineData)
 		elif child is Sprite2D:
@@ -84,6 +87,9 @@ func new_encode_lines(node: Node2D) -> String:
 				var pointObjects = []
 				for point in line_node.points:
 					pointObjects.push_back({"x": point.x, "y": point.y})
+				var line_mode = "draw"
+				if line_node.material.blend_mode == CanvasItemMaterial.BLEND_MODE_SUB:
+					line_mode = "erase"
 				var lineData = {
 					"line_type": "line",
 					"x": line_node.position.x,
@@ -91,7 +97,7 @@ func new_encode_lines(node: Node2D) -> String:
 					"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
 					"color": line_node.default_color,
 					"thickness": line_node.width,
-					"material": line_node.material
+					"mode": line_mode
 				}
 				lines.push_back(lineData)
 			elif line_node is Sprite2D:

@@ -126,7 +126,7 @@ func on_mouse_up():
 				"points": point_dicts,
 				"width": current_line.width,
 				"color": current_line.default_color.to_html(true), # Include alpha in hex format (e.g. FFFFFFFF)
-				"material": current_line.material
+				"mode": mode
 			})
 			# Remove the temporary line
 			current_line.queue_free()

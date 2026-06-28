@@ -202,26 +202,13 @@ position = Vector2(721, 156)
 scale = Vector2(0.644, 0.644)
 texture = ExtResource("5_giwdd")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -400.0
-offset_bottom = 50.0
-grow_horizontal = 0
-theme_override_constants/separation = 10
-
-[node name="LogoutButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_k3j40")
-text = "Logout"
-
-[node name="UserSettingsButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_k3j40")
-text = "Settings"
+[node name="ImportPR2LevelButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 866.0
+offset_top = 903.0
+offset_right = 1067.0
+offset_bottom = 941.0
+text = "Import PR2 Level"
 
 [node name="CheckLoginPanel" type="Control" parent="."]
 visible = false
