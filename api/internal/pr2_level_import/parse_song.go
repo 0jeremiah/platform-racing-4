@@ -50,7 +50,7 @@ func parseMusic(music string) string {
 		return ""
 	}
 	if music == "17" {
-		return "oodaloo"
+		return "toodaloo"
 	}
 	if music == "18" {
 		return "night-shade"

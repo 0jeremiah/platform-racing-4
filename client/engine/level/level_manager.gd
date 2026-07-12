@@ -20,6 +20,7 @@ var wind_chance: int = 0
 var snow_chance: int = 0
 var alien_chance: int = 0
 var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+var error: bool = false
 
 
 func _ready() -> void:
@@ -46,6 +47,9 @@ func new_decode_level(level_data: Dictionary) -> void:
 
 func decode_pr2_level(raw_pr2_level_data: String) -> void:
 	var pr2_level = pr2_level_decoder.decode_pr2_level(raw_pr2_level_data)
+	if pr2_level.is_empty():
+		error = true
+		return
 	level_decoder.new_decode(pr2_level)
 	level_layers.get_all_start_options()
 

@@ -52,7 +52,10 @@ func _ready():
 	
 	if Game.local_pr2_level and Game.local_pr2_level is String:
 		level_manager.decode_pr2_level(local_pr2_level)
-		_activate_game()
+		if !level_manager.error:
+			_activate_game()
+		else:
+			Main.set_scene(Main.TITLE)
 	elif !Game.pr2_level_id or Game.pr2_level_id == '0':
 		_activate_game()
 	else:

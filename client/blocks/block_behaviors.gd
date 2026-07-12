@@ -423,6 +423,17 @@ func teleport(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _blo
 	Game.game.set_current_player_layer(next_position.map_layer_name)
 
 
+# Teleports the player to the next teleport block it can find
+func time(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	if "increase_time" not in node:
+		return
+	
+	if block.is_active(tile_map_layer, coords):
+		node.emit_signal("increase_time", params.get("seconds", 10.0))
+		block.deactivate(tile_map_layer, coords)
+		Jukebox.play_sound("ticktock")
+
+
 func get_next_teleport_position(source_position: Dictionary, positions: Array) -> Dictionary:
 	# find start index
 	var i = 0

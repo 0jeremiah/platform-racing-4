@@ -176,7 +176,7 @@ func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) ->
 				var data = []
 				#var settings = {}
 				data.resize(chunk_size.x * chunk_size.y)
-				data.fill(0)
+				data.fill({})
 				chunk = {
 					"x": chunk_coords.x * chunk_size.x,
 					"y": chunk_coords.y * chunk_size.y,

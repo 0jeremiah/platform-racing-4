@@ -41,6 +41,8 @@ func set_text_string(new_text_string: String):
 
 func set_text_font(new_text_font: String) -> void:
 	var new_font = FontManager.get_font(new_text_font)
+	if new_text_font in FontManager.font_list:
+		text_font = new_text_font
 	if text_box:
 		text_box.set("theme_override_fonts/normal_font", new_font)
 

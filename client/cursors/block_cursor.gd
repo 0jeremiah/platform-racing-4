@@ -80,16 +80,11 @@ func get_mouse_to_tilemap_coords() -> Vector2:
 		var rotated_pos: Vector2
 
 		# Get screen position of mouse
-		var viewport_mouse_pos = get_viewport().get_mouse_position()
-		
+		var viewport_mouse_pos = get_viewport().get_mouse_position()# + (camera.get_screen_center_position() + get_viewport().get_visible_rect().position)
+
 		# Convert to world position taking into account camera position, zoom, and layer scale
-		#print(layer.get_layer_scale())
-		var world_pos = ((viewport_mouse_pos / layer.get_layer_scale()) - ((get_viewport_rect().size / layer.get_layer_scale()) / 2)) / camera.zoom
-		world_pos += camera.get_screen_center_position() * layer.get_layer_scale()
-		
-		# Adjust for layer depth scaling
-		#world_pos *= layer.get_layer_scale()
-		
+		var world_pos = layer.to_local(((viewport_mouse_pos - (get_viewport_rect().size / 2)) / camera.zoom) + camera.get_screen_center_position())
+
 		# Account for tilemap rotation
 		rotated_pos = world_pos
 		if layer.tile_map_rotation != 0:

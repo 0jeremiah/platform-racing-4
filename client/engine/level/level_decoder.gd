@@ -95,7 +95,8 @@ func decode(level: Dictionary) -> void:
 						"name": encoded_layer.name,
 						"tile_map_rotation": encoded_layer.get("rotation", 0),
 						"z_axis": encoded_layer.get("depth", 10),
-						"anchor": {"x": 0, "y": 0}
+						"anchor": {"x": 0, "y": 0},
+						"z_index": encoded_layer.get("depth", 10)
 					})
 					if encoded_layer.get("chunks"):
 						decode_chunks(encoded_layer.name, encoded_layer.chunks)
@@ -112,7 +113,8 @@ func decode(level: Dictionary) -> void:
 						"depth": encoded_layer.get("depth", 10),
 						"z_axis": encoded_layer.get("depth", 10),
 						"alpha": 100,
-						"anchor": {"x": 0, "y": 0}
+						"anchor": {"x": 0, "y": 0},
+						"z_index": encoded_layer.get("depth", 10)
 					})
 					if encoded_layer.get("lines"):
 						GeneralDecoder.decode_lines(encoded_layer.name, encoded_layer.lines)
@@ -124,7 +126,8 @@ func decode(level: Dictionary) -> void:
 				"name": "Layer 1",
 				"tile_map_rotation": 0.0,
 				"z_axis": 10,
-				"anchor": {"x": 0, "y": 0}
+				"anchor": {"x": 0, "y": 0},
+				"z_index": 10
 			})
 		if !any_art_layers:
 			emit_signal("editor_event", {
@@ -134,7 +137,8 @@ func decode(level: Dictionary) -> void:
 				"depth": 10,
 				"z_axis": 10,
 				"alpha": 100,
-				"anchor": {"x": 0, "y": 0}
+				"anchor": {"x": 0, "y": 0},
+				"z_index": 10
 			})
 	else:
 		var level_map_layers = level.get("map_layers", [])
@@ -282,7 +286,8 @@ func new_decode(level: Dictionary) -> void:
 						"name": encoded_layer.name,
 						"tile_map_rotation": encoded_layer.get("rotation", 0),
 						"z_axis": encoded_layer.get("depth", 10),
-						"anchor": {"x": 0, "y": 0}
+						"anchor": {"x": 0, "y": 0},
+						"z_index": encoded_layer.get("depth", 10)
 					})
 					if encoded_layer.get("chunks"):
 						new_decode_chunks(encoded_layer.name, encoded_layer.chunks)
@@ -299,7 +304,8 @@ func new_decode(level: Dictionary) -> void:
 						"depth": encoded_layer.get("depth", 10),
 						"z_axis": encoded_layer.get("depth", 10),
 						"alpha": 100,
-						"anchor": {"x": 0, "y": 0}
+						"anchor": {"x": 0, "y": 0},
+						"z_index": encoded_layer.get("depth", 10)
 					})
 					if encoded_layer.get("lines"):
 						GeneralDecoder.new_decode_lines(encoded_layer.name, encoded_layer.lines)
@@ -311,7 +317,8 @@ func new_decode(level: Dictionary) -> void:
 				"name": "Layer 1",
 				"tile_map_rotation": 0.0,
 				"z_axis": 10,
-				"anchor": {"x": 0, "y": 0}
+				"anchor": {"x": 0, "y": 0},
+				"z_index": 10
 			})
 		if !any_art_layers:
 			emit_signal("editor_event", {
@@ -321,7 +328,8 @@ func new_decode(level: Dictionary) -> void:
 				"depth": 10,
 				"z_axis": 10,
 				"alpha": 100,
-				"anchor": {"x": 0, "y": 0}
+				"anchor": {"x": 0, "y": 0},
+				"z_index": 10
 			})
 	else:
 		var level_map_layers = level.get("map_layers", [])
@@ -379,6 +387,8 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 					# failsafe for chunks with data that isn't in the dictionary format
 					if chunk.data[i] is not Dictionary:
 						chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
+					if "id" not in chunk.data[i]:
+						continue
 					var tile_id:String = chunk.data[i].id
 					if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 						continue

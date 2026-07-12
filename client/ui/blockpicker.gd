@@ -76,7 +76,7 @@ func _update_block_list_display(selected_category: String):
 			new_block_button.pivot_offset = Vector2(new_block_button.size.x / 2, new_block_button.size.y / 2)
 			new_block_button.focus_mode = 1
 			new_block_button.name = "BlockButton" + str(block)
-			#new_block_button.tooltip_text = BlockManager._block_lookup[tile_id].title + "/n" + BlockManager._block_lookup[tile_id].comment
+			#new_block_button.tooltip_text = BlockManager._block_lookup[tile_id].title + "\n" + BlockManager._block_lookup[tile_id].comment
 			new_block_button.button_down.connect(_click_block.bind(tile_id))
 			new_block_button.pressed.connect(_set_current_block.bind(tile_id))
 			block_container.add_child(new_block_button)

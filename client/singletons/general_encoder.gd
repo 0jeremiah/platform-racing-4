@@ -19,7 +19,7 @@ func encode_lines(node: Node2D) -> Array:
 				"x": child.position.x,
 				"y": child.position.y,
 				"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
-				"color": child.default_color,
+				"color": child.default_color.to_html(false),
 				"thickness": child.width,
 				"mode": line_mode
 			}
@@ -95,7 +95,7 @@ func new_encode_lines(node: Node2D) -> String:
 					"x": line_node.position.x,
 					"y": line_node.position.y,
 					"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
-					"color": line_node.default_color,
+					"color": line_node.default_color.to_html(false),
 					"thickness": line_node.width,
 					"mode": line_mode
 				}
