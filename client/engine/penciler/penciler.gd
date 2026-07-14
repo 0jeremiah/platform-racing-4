@@ -186,7 +186,42 @@ func _on_editor_event(event: Dictionary) -> void:
 		}
 		texts.add_child(text)
 		text.set_text_properties(text_info)
-	
+
+	if event.type == EditorEvents.SET_TEXT_STRING:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.text_name)
+		text.set_text_string(event.text)
+
+	if event.type == EditorEvents.SET_TEXT_POSITION:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.text_name)
+		text.set_text_position(Vector2(event.position.x, event.position.y))
+
+	if event.type == EditorEvents.SET_TEXT_SCALE:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.text_name)
+		text.set_text_scale(Vector2(event.scale.x, event.scale.y))
+
+	if event.type == EditorEvents.SET_TEXT_FONT_SIZE:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.text_name)
+		text.set_text_font_size(event.font_size)
+
+	if event.type == EditorEvents.SET_TEXT_COLOR:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.text_name)
+		text.set_text_color(event.color)
+
+	if event.type == EditorEvents.SET_TEXT_ROTATION:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.stamp_name)
+		text.set_text_rotation(event.rotation)
+
+	if event.type == EditorEvents.SET_TEXT_FONT:
+		var layer = current_layers.art_layers.get_node(event.layer_name)
+		var text = layer.texts.get_node(event.stamp_name)
+		text.set_text_font(event.font)
+
 	if event.type == EditorEvents.DELETE_TEXT:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
 		layer.delete_text(event.text_name)

@@ -53,7 +53,7 @@ func init(_editor_menu, layers) -> void:
 		_editor_menu.current_editor.object_box.object_moved.connect(_object_moved)
 		_editor_menu.current_editor.object_box.object_deleted.connect(_object_deleted)
 		_editor_menu.current_editor.object_box.object_resized.connect(_object_resized)
-		_editor_menu.current_editor.object_box.object_edited.connect(_object_edited)
+		_editor_menu.current_editor.object_box.object_text_edited.connect(_object_text_edited)
 		_editor_menu.current_editor.object_box.object_options_changed.connect(_object_options_changed )
 	
 	block_cursor.init(layers, self)
@@ -146,6 +146,12 @@ func _on_control_event(event: Dictionary) -> void:
 				stamp_cursor.set_stamp_rotation(event.rotation)
 		elif event.type == EditorEvents.SELECT_STAMP_MODE and current_cursor == stamp_cursor:
 				stamp_cursor.set_stamp_mode(event.mode)
+		elif event.type == EditorEvents.SELECT_TEXT_SIZE and current_cursor == text_cursor:
+				text_cursor.set_text_font_size(event.size)
+		elif event.type == EditorEvents.SELECT_TEXT_COLOR and current_cursor == text_cursor:
+				text_cursor.set_text_color(event.color)
+		elif event.type == EditorEvents.SELECT_TEXT_ROTATION and current_cursor == text_cursor:
+				text_cursor.set_text_rotation(event.rotation)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:
@@ -167,9 +173,9 @@ func _object_resized(object_info: Dictionary):
 		current_cursor._object_resized(object_info)
 
 
-func _object_edited(object_info: Dictionary):
-	if current_cursor != null and current_cursor.has_method("_object_edited"):
-		current_cursor._object_edited(object_info)
+func _object_text_edited(object_info: Dictionary):
+	if current_cursor != null and current_cursor.has_method("_object_text_edited"):
+		current_cursor._object_text_edited(object_info)
 
 
 func _object_options_changed(object_info: Dictionary):

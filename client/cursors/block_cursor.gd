@@ -169,7 +169,7 @@ func on_mouse_up():
 				var spawn_position = coords * Settings.tile_size
 				var block_texture = Sprite2D.new()
 				block_texture.texture = BlockManager.get_block_texture(grabbed_block)
-				object_box.set_object_info({"delete": true, "resize": false, "options": true, "edit": false},
+				object_box.set_object_info({"delete": true, "resize": false, "options": true, "text": false},
 				{"type": "block", "node": block_texture, "position": spawn_position, "rotation": 0,
 				"offset": Vector2(0, 0), "size": Settings.tile_size, "scale": Vector2(1, 1),
 				"info": level_layers.get_target_map_layer()})

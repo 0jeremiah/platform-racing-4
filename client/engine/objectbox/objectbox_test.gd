@@ -8,7 +8,7 @@ var example_node = null
 
 func _ready() -> void:
 	example_node = stamp_graphic
-	object_box.set_object_info({"delete": true, "resize": true, "options": true, "edit": false},
+	object_box.set_object_info({"delete": true, "resize": true, "options": true, "text": false},
 	{"type": "stamp", "node": example_node, "position": example_node.global_position,
 	"rotation": example_node.rotation_degrees, "offset": example_node.offset,
 	"size": example_node.texture.get_size(), "scale": example_node.scale})

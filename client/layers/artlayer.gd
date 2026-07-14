@@ -109,7 +109,7 @@ func get_text_at_position(mouse_position: Vector2) -> Node2D:
 	var texts_array = texts.get_children()
 	texts_array.reverse()
 	for child in texts_array:
-		if Rect2(Vector2.ZERO, child.text_box.size * child.text_scale).has_point(child.to_local(mouse_position)):
+		if Rect2(Vector2.ZERO, child.text_box.size).has_point(child.to_local(mouse_position)):
 			return child
 	return null
 

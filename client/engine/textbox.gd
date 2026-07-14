@@ -7,7 +7,7 @@ var old_mouse_position : Vector2
 var buttonSize = 32
 var text_string: String = "Text!"
 var text_font: String = "poetsenone"
-var text_font_size: int = 24
+var text_font_size: int = 28
 var text_scale: Vector2 = Vector2(1, 1)
 var text_position: Vector2 = Vector2(0, 0)
 var text_rotation: int = 0

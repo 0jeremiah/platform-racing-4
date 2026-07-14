@@ -65,10 +65,11 @@ func on_mouse_down():
 				var selected_text = layer.get_text_at_position(mouse_position)
 				var object_box = get_parent().editor_menu.current_editor.object_box
 				var spawn_position = camera.to_local(selected_text.position)
-				#object_box.set_object_info({"delete": true, "resize": true, "options": false, "edit": false},
-				#{"type": "text", "node": selected_text.text_box, "position": spawn_position,
-				#"rotation": selected_stamp.text_rotation, "offset": Vector2(0, 0),
-				#"size": selected_stamp.text_box.size, "scale": selected_stamp.text_box.scale})
+				object_box.set_object_info({"delete": true, "resize": true, "options": false, "text": true},
+				{"type": "text", "node": selected_text, "position": spawn_position,
+				"rotation": selected_text.text_rotation, "offset": Vector2(0, 0),
+				"size": selected_text.text_box.size, "scale": selected_text.text_box.scale,
+				"text": selected_text.text_string, "info": str(layer.name)})
 		else:
 			sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
 			var text_height = sample_text.get_line_height(0) / 2
@@ -86,7 +87,7 @@ func on_mouse_down():
 					"x": mouse_position.round().x,
 					"y": mouse_position.round().y - (caret.size.y / 2)
 				},
-				"rotation": 0,
+				"rotation": text_rotation,
 				"color": text_color
 			})
 
@@ -97,6 +98,56 @@ func on_drag():
 
 func on_mouse_up():
 	pass
+
+
+func set_text_font_size(new_size: int) -> void:
+	text_font_size = new_size
+	update_display()
+
+
+func set_text_color(new_color: Color) -> void:
+	text_color = new_color
+	update_display()
+
+
+func set_text_rotation(new_rotation: int) -> void:
+	text_rotation = new_rotation
+	update_display()
+
+
+func _object_moved(object_info: Dictionary):
+	emit_signal("editor_event", {
+		"type": EditorEvents.SET_TEXT_POSITION,
+		"layer_name": object_info.info,
+		"text_name": str(object_info.node.name),
+		"position": object_info.node.position
+	})
+
+
+func _object_deleted(object_info: Dictionary):
+	emit_signal("editor_event", {
+		"type": EditorEvents.DELETE_TEXT,
+		"layer_name": object_info.info,
+		"text_name": str(object_info.node.name)
+	})
+
+
+func _object_resized(object_info: Dictionary):
+	emit_signal("editor_event", {
+		"type": EditorEvents.SET_TEXT_SCALE,
+		"layer_name": object_info.info,
+		"text_name": str(object_info.node.name),
+		"scale": object_info.node.scale
+	})
+
+
+func _object_text_edited(object_info: Dictionary):
+	emit_signal("editor_event", {
+		"type": EditorEvents.SET_TEXT_STRING,
+		"layer_name": object_info.info,
+		"text_name": str(object_info.node.name),
+		"text": object_info.text
+	})
 
 
 func update_display():
@@ -116,3 +167,4 @@ func update_display():
 		layer_scale = layer.get_layer_scale()
 	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)
 	caret.scale = Vector2(layer_scale, layer_scale) * camera.zoom
+	caret.rotation_degrees = text_rotation

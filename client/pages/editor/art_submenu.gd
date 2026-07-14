@@ -61,7 +61,7 @@ var erase_alpha: float = 100
 var stamp_id: String = "cactus"
 var stamp_size: float = 100
 var stamp_rotation: float = 0
-var text_size: float = 14
+var text_size: float = 28
 var text_rotation: float = 0
 var text_color: Color = Color("071E6BFF")
 var color_box = preload("res://ui/colorbutton.tscn")
@@ -430,6 +430,10 @@ func _select_stamp_mode(new_mode: String):
 
 func _select_text_color(new_color: Color):
 	text_color = new_color
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_TEXT_COLOR,
+		"color": text_color
+	})
 
 
 func _select_text_size(new_size: int):

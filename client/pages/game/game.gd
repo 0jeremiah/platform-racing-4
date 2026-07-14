@@ -24,6 +24,10 @@ func get_used_rect(layer_name: String) -> Rect2i:
 	return used_rects.get(layer_name, Rect2i())
 
 
+func get_total_used_rect_in_z_axis(z_axis: int) -> Rect2i:
+	return level_manager.level_layers.get_total_used_rect_in_z_axis(z_axis)
+
+
 func clear_used_rects() -> void:
 	used_rects.clear()
 

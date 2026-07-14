@@ -6,7 +6,7 @@ signal editor_event
 func decode_lines(layer_name: String, objects: Array) -> void:
 	for object in objects:
 		# checks if the line is actually a line or a stamp. (compatibility for pr3)
-		if object.has("type") and object.type == "stamp":
+		if object.has("line_type") and object.line_type == "stamp":
 			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_LINE,
 				"layer_name": layer_name,
@@ -145,7 +145,7 @@ func new_decode_lines(layer_name: String, objects_container: String) -> void:
 		if objects is Array:
 			for object in objects:
 				# checks if the line is actually a line or a stamp. (compatibility for pr3)
-				if object.has("type") and object.type == "stamp":
+				if object.has("line_type") and object.line_type == "stamp":
 					emit_signal("editor_event", {
 						"type": EditorEvents.ADD_LINE,
 						"layer_name": layer_name,

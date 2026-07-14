@@ -78,7 +78,7 @@ func on_mouse_down():
 				if "object_box" in cursor_parent.editor_menu.current_editor:
 					var object_box = cursor_parent.editor_menu.current_editor.object_box
 					var spawn_position = location.to_local(selected_stamp.position)
-					object_box.set_object_info({"delete": true, "resize": true, "options": true, "edit": false},
+					object_box.set_object_info({"delete": true, "resize": true, "options": true, "text": false},
 					{"type": "stamp", "node": selected_stamp, "position": spawn_position,
 					"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
 					"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale, "info": str(layer.name)})

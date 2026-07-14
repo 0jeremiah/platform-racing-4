@@ -3,7 +3,7 @@ extends Control
 signal object_moved
 signal object_deleted
 signal object_resized
-signal object_edited
+signal object_text_edited
 signal object_options_changed
 
 @onready var gui_touchbox = $GUITouchbox # is here so cursor touches gui and doesn't act weird.
@@ -17,8 +17,8 @@ signal object_options_changed
 var delete_enabled: bool = true
 var resize_enabled: bool = true
 var options_enabled: bool = true
-var edit_enabled: bool = true
-var button_list: Array = [delete_enabled, resize_enabled, options_enabled, edit_enabled]
+var text_enabled: bool = true
+var button_list: Array = [delete_enabled, resize_enabled, options_enabled, text_enabled]
 var enabled_list: Array = [true, true, true, true]
 var button_colors: Array = [Color("ff4b00"), Color("1fcf1f"), Color("ff8a21"), Color("7b31f9")]
 var position_list: Array = [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
@@ -31,9 +31,10 @@ var old_scale : Vector2
 var old_mouse_position : Vector2
 
 
-#set_object_info({"delete": true, "resize": false, "options": true, "edit": false}, {"type": "block",
+#set_object_info({"delete": true, "resize": false, "options": true, "text": false}, {"type": "block",
 	#"node": example_node, "position": example_node.position, "rotation": example_node.rotation_degrees,
-	#"offset": example_node.offset, "size": example_node.texture.region.size, "scale": example_node.scale})
+	#"offset": example_node.offset, "size": example_node.texture.region.size, "scale": example_node.scale,
+	#"text": null, "info": null})
 
 
 func _ready() -> void:
@@ -45,7 +46,7 @@ func _ready() -> void:
 				elif button.get_parent().name == "ResizeButton":
 					button.button_down.connect(resize_object)
 				elif button.get_parent().name == "EditButton":
-					button.button_down.connect(edit_object)
+					button.button_down.connect(edit_object_text)
 				elif button.get_parent().name == "OptionsButton":
 					button.button_down.connect(show_object_options)
 	move_button.button_down.connect(move_object)
@@ -86,14 +87,14 @@ func _physics_process(_delta: float) -> void:
 			object_info.node.self_modulate.a = 0.75
 			move_button.global_position = object_info.position
 			grab_focus()
-		elif mode == "edit" and edit_text.has_focus():
+		elif mode == "text" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
 		else:
 			if mode == "move":
 				emit_signal("object_moved", object_info)
 			elif mode == "resize":
 				emit_signal("object_resized", object_info)
-			elif mode == "edit":
+			elif mode == "text":
 				if edit_text.text == null or edit_text.text == "":
 					delete_object()
 				else:
@@ -135,16 +136,16 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, n
 	var new_delete_enabled = false
 	var new_resize_enabled = false
 	var new_options_enabled = false
-	var new_edit_enabled = false
+	var new_text_enabled = false
 	if enabled_buttons.has("delete") and enabled_buttons.delete == true:
 		new_delete_enabled = true
 	if enabled_buttons.has("resize") and enabled_buttons.resize == true:
 		new_resize_enabled = true
 	if enabled_buttons.has("options") and enabled_buttons.options == true:
 		new_options_enabled = true
-	if enabled_buttons.has("edit") and enabled_buttons.edit == true:
-		new_edit_enabled = true
-	enabled_list = [new_delete_enabled, new_resize_enabled, new_options_enabled, new_edit_enabled]
+	if enabled_buttons.has("text") and enabled_buttons.text == true:
+		new_text_enabled = true
+	enabled_list = [new_delete_enabled, new_resize_enabled, new_options_enabled, new_text_enabled]
 	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
 	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
 	if new_object_info.has("type"):
@@ -179,7 +180,7 @@ func update_display():
 	if object_info.node != null:
 		var display_size = Vector2(1, 1)
 		var display_scale = Vector2(1, 1)
-		if object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
+		if object_info.type == "text" and object_info.text != null:
 			display_size = Vector2(object_info.node.size.x * abs(object_info.node.scale.x), object_info.node.size.y * abs(object_info.node.scale.y))
 			display_scale = Vector2(abs(object_info.node.scale.x) / object_info.node.scale.x, abs(object_info.node.scale.y) / object_info.node.scale.y)
 		else:
@@ -197,7 +198,7 @@ func update_display():
 		edit_text_color_rect.scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
 		edit_text_rect.size = Vector2(edit_text.size.x * abs(edit_text.scale.x), edit_text.size.y * abs(edit_text.scale.y))
 		edit_text_rect.scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
-		if mode == "edit" and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
+		if mode == "text" and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
 			display_size = Vector2(edit_text.size.x * abs(edit_text.scale.x), edit_text.size.y * abs(edit_text.scale.y))
 			display_scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
 		position_buttons(display_size, display_scale, camera_zoom)
@@ -206,7 +207,7 @@ func update_display():
 func position_buttons(rect_size: Vector2, rect_scale: Vector2, camera_zoom: Vector2 = Vector2(1.0, 1.0)) -> void:
 	var button_counter: int = 0
 	for button in buttons.get_child_count():
-		if !(buttons.get_child(button).name == "EditButton" and mode == "edit") and enabled_list.get(button) != null and enabled_list[button] == true:
+		if !(buttons.get_child(button).name == "EditButton" and mode == "text") and enabled_list.get(button) != null and enabled_list[button] == true:
 			buttons.get_child(button).position = Vector2((rect_size.x * (abs(rect_scale.x) / rect_scale.x)) * position_list[button_counter].x - buttons.get_child(button).size.x / 2, (rect_size.y * (abs(rect_scale.y) / rect_scale.y)) * position_list[button_counter].y - buttons.get_child(button).size.y / 2)
 			buttons.get_child(button).scale = Vector2(1.0, 1.0) / camera_zoom
 			buttons.get_child(button).visible = true
@@ -285,8 +286,8 @@ func show_object_options():
 	pass
 
 
-func edit_object():
-	if object_info.node != null and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
+func edit_object_text():
+	if object_info.node != null and object_info.type == "text" and object_info.text != null:
 		select_rect.visible = false
 		object_info.node.visible = false
 		move_button.visible = false
@@ -294,14 +295,14 @@ func edit_object():
 		edit_text_rect.visible = true
 		edit_text.visible = true
 		edit_text.grab_focus()
-		mode = "edit"
+		mode = "text"
 
 
 func _change_object_text(new_text: String):
-	if object_info.node != null and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
-		object_info.info.text = new_text
-		object_info.node.text = object_info.info.text
-		emit_signal("object_edited", object_info)
+	if object_info.node != null and object_info.type == "text" and object_info.text != null:
+		object_info.text = new_text
+		object_info.node.text = object_info.text
+		emit_signal("object_text_edited", object_info)
 
 
 func close():

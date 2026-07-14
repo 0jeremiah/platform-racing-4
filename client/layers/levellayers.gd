@@ -101,6 +101,27 @@ func calc_used_rect() -> void:
 			Game.game.set_used_rect(layer.name, map_used_rect)
 
 
+func get_total_used_rect_in_z_axis(z_axis: int) -> Rect2i:
+	var total_used_vector4 = Vector4i(0, 0, 0, 0)
+	var compat_used_rects = []
+	for layer in map_layers.get_children():
+		if layer.z_axis == z_axis:
+			compat_used_rects.append(layer.tile_map_layer.get_used_rect())
+	if !compat_used_rects.is_empty():
+		total_used_vector4 = Vector4i(compat_used_rects[0].position.x, compat_used_rects[0].position.y, compat_used_rects[0].position.x + compat_used_rects[0].size.x, compat_used_rects[0].position.y + compat_used_rects[0].size.y)
+		for used_rect in compat_used_rects:
+			if used_rect.position.x < total_used_vector4.x:
+				total_used_vector4.x = used_rect.position.x
+			if used_rect.position.y < total_used_vector4.y:
+				total_used_vector4.y = used_rect.position.y
+		for used_rect in compat_used_rects:
+			if used_rect.position.x + used_rect.size.x > total_used_vector4.z:
+				total_used_vector4.z = used_rect.position.x + used_rect.size.x
+			if used_rect.position.y + used_rect.size.y > total_used_vector4.w:
+				total_used_vector4.w = used_rect.position.y + used_rect.size.y
+	return Rect2i(total_used_vector4.x, total_used_vector4.y, abs(total_used_vector4.x - total_used_vector4.z), abs(total_used_vector4.y - total_used_vector4.w))
+
+
 func get_all_start_options():
 	for level_layer in map_layers.get_children():
 		var layer_start_options = level_layer.tile_map_layer.get_start_positions()

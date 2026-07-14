@@ -284,6 +284,7 @@ stretch_mode = 0
 [node name="BlockOptionsPopup" type="Popup" parent="BlockMenu/BlockOptions"]
 transparent_bg = true
 oversampling_override = 1.0
+visible = true
 
 [node name="PopupHolder" type="Control" parent="BlockMenu/BlockOptions/BlockOptionsPopup"]
 layout_mode = 3

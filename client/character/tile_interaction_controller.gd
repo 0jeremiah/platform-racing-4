@@ -78,7 +78,7 @@ func check_out_of_bounds(character: Character) -> void:
 	var current_layer = Game.game.get_current_player_layer()
 	if not current_layer:
 		return
-	var map_used_rect = Game.game.get_used_rect(current_layer)
+	var map_used_rect = Game.game.get_total_used_rect_in_z_axis(character_depth)
 	
 	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
 	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT
@@ -87,7 +87,7 @@ func check_out_of_bounds(character: Character) -> void:
 	
 	var player_x_normalised = character.position.x / Settings.tile_size.x
 	var player_y_normalised = character.position.y / Settings.tile_size.y
-		
+
 	if player_x_normalised < min_x or player_x_normalised > max_x or \
 	   player_y_normalised > max_y:
 		if (last_safe_layer != null and (last_safe_layer.players != character.get_parent())):
