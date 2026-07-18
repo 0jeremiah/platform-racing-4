@@ -6,13 +6,13 @@ signal heart_side_settings_changed
 @onready var exact_check_box = $ExactCheckBox
 @onready var invincibility_check_box = $InvincibilityCheckBox
 
-var hp: float = 1.0
+var hp: float = 1
 var exact: bool = false
 var invincibility: bool = false
 
 
 func _ready() -> void:
-	heart_box.init("float", "1.0", -9999999.9, 99999999.9)
+	heart_box.init("int", "1", -999999999, 9999999999)
 	heart_box.return_line.connect(_change_hp)
 	exact_check_box.pressed.connect(_toggle_exact)
 	invincibility_check_box.pressed.connect(_toggle_invincibility)
@@ -36,7 +36,7 @@ func _change_hp(new_hp: float):
 
 func set_side_settings(new_side_settings: Dictionary):
 	if new_side_settings.has("hp"):
-		hp = clamp(new_side_settings.hp, -9999999.9, 99999999.9)
+		hp = clamp(new_side_settings.hp, -999999999, 9999999999)
 		heart_box._update_text(str(hp))
 	if new_side_settings.has("exact"):
 		exact = new_side_settings.exact

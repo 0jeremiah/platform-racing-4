@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "hurt", "params": {"push_strength": 1000.0, "hitstun_duration": 2.5}}
+		"any_side": {"type": "hurt", "params": {"push_strength": 1000.0, "hitstun_duration": 2.5, "hp_sap": 20}}
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

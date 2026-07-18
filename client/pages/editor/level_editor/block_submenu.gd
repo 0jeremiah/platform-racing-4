@@ -33,7 +33,7 @@ func _ready() -> void:
 	block_killer_button.pressed.connect(_click_block_menu.bind(block_killer_button))
 	block_dropper_button.pressed.connect(_click_block_menu.bind(block_dropper_button))
 	if !selected_block_id:
-		selected_block_id = "1"
+		selected_block_id = "601"
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_picker.connect("change_selected_block", _set_current_block)
 	block_options_button.pressed.connect(_show_block_options)

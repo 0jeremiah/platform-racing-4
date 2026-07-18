@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cr7bji6ujgh2v"]
+[gd_scene load_steps=3 format=3 uid="uid://cr7bji6ujgh2v"]
 
 [ext_resource type="Script" uid="uid://v1dh31mxse8g" path="res://engine/level/pr_2_level_decoder_test.gd" id="1_24dra"]
 [ext_resource type="PackedScene" uid="uid://fjaksdgcarcs" path="res://engine/level/pr2_level_decoder.tscn" id="2_24dra"]
-[ext_resource type="Texture2D" uid="uid://h73h4losk6kw" path="res://engine/bg/pr2bg4-desert.svg" id="3_hg087"]
 
 [node name="Pr2LevelDecoderTest" type="Node2D"]
 script = ExtResource("1_24dra")
@@ -15,8 +14,3 @@ offset_top = 11.0
 offset_right = 263.0
 offset_bottom = 49.0
 text = "decode pr2 level"
-
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("3_hg087")

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cld2kelekhq2w"]
+
+[ext_resource type="Script" uid="uid://dfuelo42at8pe" path="res://ui/hp_display.gd" id="1_qjuxa"]
+[ext_resource type="FontFile" uid="uid://bt2lhc1in1ark" path="res://fonts/arial/arial.ttf" id="2_7bjb2"]
+
+[node name="HPDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 268.0
+offset_bottom = 50.0
+script = ExtResource("1_qjuxa")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 1
+offset_right = 268.0
+offset_bottom = 50.0
+
+[node name="HPText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 262.0
+offset_bottom = 46.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("2_7bjb2")
+theme_override_font_sizes/normal_font_size = 20
+text = "HP: 100 / 100 (100.0%)"
+horizontal_alignment = 1
+vertical_alignment = 1

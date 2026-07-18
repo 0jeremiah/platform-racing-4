@@ -59,6 +59,12 @@ const ANIMS := [
 @onready var hat_holder: Node2D = $HatHolder
 @onready var my_hat: Node2D = $HatHolder/Hat1
 @onready var item_holder: Node2D = $ItemHolder
+@onready var life_bar = $LifeBar
+@onready var life_bar_rect = $LifeBar/LifeBarRect
+@onready var remaining_life_bar = $LifeBar/RemainingLifeBar
+@onready var health_text = $LifeBar/HealthText
+@onready var username = $Username
+@onready var username_text = $Username/UsernameText
 @onready var animations: AnimationPlayer = $Animations
 
 var played_footstep = false
@@ -254,3 +260,32 @@ func play_footstep() -> void:
 			2: Jukebox.play_sound("run2")
 			3: Jukebox.play_sound("run3")
 			4: Jukebox.play_sound("run4")
+
+
+func toggle_life_bar(toggle: bool):
+	if toggle:
+		life_bar.visible = true
+	else:
+		life_bar.visible = false
+
+
+func update_life_bar(current_hp: int, max_hp: int, facing: int = 1):
+	var max_health_size_x = life_bar_rect.size.x - (life_bar_rect.border_width + 4)
+	remaining_life_bar.position.x = (life_bar_rect.position.x + ((life_bar_rect.border_width / 2) + 2)) * facing
+	remaining_life_bar.size.x = max_health_size_x * (float(current_hp) / float(max_hp))
+	remaining_life_bar.scale.x = facing
+	health_text.position.x = remaining_life_bar.position.x
+	health_text.size.x = max_health_size_x
+	health_text.scale.x = remaining_life_bar.scale.x
+	health_text.text = str(current_hp) + " / " + str(max_hp) + " (" + str(snappedf(float(current_hp) / float(max_hp), 0.001) * 100) + "%)"
+
+
+func toggle_username(toggle: bool):
+	if toggle:
+		username.visible = true
+	else:
+		username.visible = false
+
+
+func set_username(new_username_text: String):
+	username_text.text = new_username_text

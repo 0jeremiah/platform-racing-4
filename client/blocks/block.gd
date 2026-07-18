@@ -21,7 +21,7 @@ var _config: Dictionary
 func init(config: Dictionary) -> void:
 	#print("Block::init ", config)
 	_config = config
-	settings.import_settings(config.settings)
+	settings.import_settings(_config.settings)
 
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
@@ -42,16 +42,19 @@ func get_center_position(tile_map_layer: TileMapLayer, coords: Vector2i) -> Vect
 
 
 func activate(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
-	tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.VISIBLE_ALT_ID)
+	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, ConfigurableBlock.VISIBLE_ALT_ID)
 
 
 func deactivate(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
-	tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.DEACTIVATED_ALT_ID)
+	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, ConfigurableBlock.DEACTIVATED_ALT_ID)
 
 
 func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) -> void:
+	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	var alt_id: int
 	if visible:
@@ -64,7 +67,7 @@ func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) 
 			alt_id = ConfigurableBlock.INVISIBLE_ALT_ID
 		else:
 			alt_id = ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID
-	tile_map_layer.set_cell(coords, 0, atlas_coords, alt_id)
+	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, alt_id)
 
 
 func is_active(tile_map_layer: TileMapLayer, coords: Vector2i) -> bool:

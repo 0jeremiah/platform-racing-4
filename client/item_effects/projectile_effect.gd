@@ -148,7 +148,7 @@ func _notify_character_collision(
 ) -> void:
 	if character != from_player:
 		character.velocity += hit_velocity
-		character.movement.hitstun(2.5)
+		character.movement.hitstun(2.5, 20)
 	projectile_hit()
 
 

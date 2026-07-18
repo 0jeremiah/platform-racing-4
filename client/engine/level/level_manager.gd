@@ -6,20 +6,26 @@ class_name LevelManager
 @onready var level_encoder: LevelEncoder = $LevelEncoder
 @onready var pr2_level_decoder: PR2LevelDecoder = $PR2LevelDecoder
 
+static var race = "race"
+static var deathmatch = "deathmatch"
+static var hat_attack = "hatAttack"
+static var coin_fiend = "coinFiend"
+static var objective = "objective"
+static var alien_eggs = "alienEggs"
+static var roguelike = "roguelike"
 
-var default_blocks_config: Array = []
+static var level_type: String = "race"
+static var time: int = 120
+static var gravity: float = 1.0
+static var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 var background_id = "pr2_field"
 var fade_color = "FFFFFF"
 var music: String = "random"
-var level_type: String = "race"
-var time: int = 120
-var gravity: float = 1.0
 var password: String = ""
 var sfchm_chance: int = 0
 var wind_chance: int = 0
 var snow_chance: int = 0
 var alien_chance: int = 0
-var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 var error: bool = false
 
 

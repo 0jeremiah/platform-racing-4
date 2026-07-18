@@ -12,7 +12,7 @@
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "heart", "params": {"hp": 1.0, "exact": false, "invincibility": false}},
+		"bump": {"type": "heart", "params": {"hp": 1, "exact": false, "invincibility": false}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}}
 	},

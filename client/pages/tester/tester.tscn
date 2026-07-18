@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://btetwq0fyumv"]
+[gd_scene load_steps=14 format=3 uid="uid://btetwq0fyumv"]
 
 [ext_resource type="Script" uid="uid://cwwwmewm0phss" path="res://pages/tester/tester.gd" id="1_uug6k"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="2_o2o8t"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_8qmsf"]
 [ext_resource type="PackedScene" uid="uid://bfq7acty6r4e5" path="res://ui/stats_display.tscn" id="10_7uc45"]
 [ext_resource type="PackedScene" uid="uid://c2bs3b11phh58" path="res://ui/debug_display.tscn" id="10_gtifp"]
+[ext_resource type="PackedScene" uid="uid://cld2kelekhq2w" path="res://ui/hp_display.tscn" id="11_x6nje"]
 
 [node name="Tester" type="Node2D"]
 script = ExtResource("1_uug6k")
@@ -39,20 +40,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("3_sy0tr")
 
-[node name="BackgroundPanel" type="Panel" parent="UI/Container"]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -150.0
-offset_right = 250.0
-grow_horizontal = 2
-grow_vertical = 0
-
 [node name="Minimap" parent="UI/Container" instance=ExtResource("7_ju48d")]
 layout_mode = 1
 anchors_preset = -1
@@ -62,16 +49,24 @@ offset_bottom = 0.0
 [node name="GameTimer" parent="UI/Container" instance=ExtResource("9_8qmsf")]
 layout_mode = 0
 offset_left = 1640.0
-offset_top = 11.0
+offset_top = 10.0
 offset_right = 1908.0
-offset_bottom = 91.0
+offset_bottom = 90.0
 
 [node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_7uc45")]
 layout_mode = 0
 offset_left = 1640.0
-offset_top = 101.0
+offset_top = 100.0
 offset_right = 1908.0
-offset_bottom = 151.0
+offset_bottom = 150.0
+
+[node name="HPDisplay" parent="UI/Container" instance=ExtResource("11_x6nje")]
+visible = false
+layout_mode = 0
+offset_left = 1640.0
+offset_top = 160.0
+offset_right = 1908.0
+offset_bottom = 210.0
 
 [node name="StatsPanel" parent="UI/Container" instance=ExtResource("7_74ued")]
 layout_mode = 1

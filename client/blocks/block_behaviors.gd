@@ -168,7 +168,7 @@ func crumble(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block
 		block.settings.health -= damage
 		if block.settings.health - damage <= 0:
 			block.settings.health = 0
-			TileEffects.shatter(tile_map_layer, coords, 10)
+			TileEffects.shatter(tile_map_layer, coords, 10, block.settings.coin_value)
 			Jukebox.play_sound("shatterblock")
 		else:
 			block.settings.health -= damage
@@ -189,8 +189,16 @@ func finish(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _blo
 
 # Gives the player invincibility (and increases their hp if they are in a deathmatch).
 func heart(node: Node2D, _tile_map_layer: TileMapLayer, _coords: Vector2i, _block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
+	var hp = params.get("hp", 1)
+	var exact = params.get("exact", false)
+	var invincibility = params.get("invincibility", true)
 	if "movement" in node:
-		node.movement.grant_invincibility(node)
+		if invincibility:
+			node.movement.grant_invincibility(node)
+		if exact:
+			node.movement.life = hp
+		else:
+			node.movement.life += hp
 
 
 # Explode the block and push away the body
@@ -198,6 +206,7 @@ func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, 
 	print("behaviors/hurt")
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
+	var hp_sap: int = params.get("hp_sap", 20)
 
 	# Push the body away
 	var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
@@ -213,7 +222,7 @@ func hurt(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, coords: Vector2i, 
 
 	# Apply hitstun
 	if "movement" in body and body.movement.has_method("hitstun"):
-		body.movement.hitstun(hitstun_duration)
+		body.movement.hitstun(hitstun_duration, hp_sap)
 
 
 # Make the node slide (ice behavior)
@@ -250,6 +259,7 @@ func item(node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: C
 func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
+	var hp_sap: int = params.get("hp_sap", 20)
 
 	# Shatter the tile if it's not impervious
 	if block.settings.block_type != ConfigurableBlockSettings.IMPERVIOUS:
@@ -266,7 +276,7 @@ func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, b
 		var rigid_body := body as RigidBody2D
 		rigid_body.linear_velocity += push_velocity
 	elif "movement" in body and "current_velocity" in body.movement:
-		body.velocity += push_velocity
+		body.movement.current_velocity += push_velocity
 
 	# Add explosion effect
 	var EXPLODE_EFFECT: PackedScene = preload("res://tiles/mine/explode_effect.tscn")
@@ -276,7 +286,7 @@ func mine(body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, b
 
 	# Apply hitstun
 	if "movement" in body and body.movement.has_method("hitstun"):
-		body.movement.hitstun(hitstun_duration)
+		body.movement.hitstun(hitstun_duration, hp_sap)
 
 
 # Pushes the block depending on where the body pushed it
@@ -374,8 +384,8 @@ func safety(body: PhysicsBody2D, _tile_map_layer: TileMapLayer, _coords: Vector2
 
 
 # Shatters the block
-func shatter(_node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, _block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
-	TileEffects.shatter(tile_map_layer, coords, 10)
+func shatter(_node: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i, block: ConfigurableBlock, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	TileEffects.shatter(tile_map_layer, coords, 10, block.settings.coin_value)
 	Jukebox.play_sound("shatterblock")
 
 

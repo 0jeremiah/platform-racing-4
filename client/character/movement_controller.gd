@@ -42,6 +42,9 @@ var can_wall_jump: bool = true
 var last_wall_jump_dir: int = 0
 var wall_slide_friction_timer: float = 0.25
 var finished: bool = false
+var has_health: bool = false
+var life: int = 100
+var max_life: int = 100
 
 
 func _init(ice_node = null):
@@ -67,7 +70,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		if frozen_display_node:
 			frozen_display_node.visible = false
 		frozen = false
-	
+
 	# Process hitstun
 	if hurt:
 		if hitstun_timer - delta > 0:
@@ -106,7 +109,11 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		facing = -1
 	elif !hurt and horizontal_axis > 0:
 		facing = 1
-		
+
+	# Position life bar if health is enabled
+	if has_health:
+		character.display.update_life_bar(life, max_life, facing)
+
 	# Checks if player is rotating
 	var not_rotating: bool = gravity.not_rotating()
 
@@ -279,13 +286,19 @@ func freeze(skill_bonus: float):
 	frozen_timer = GameConfig.get_value("player_movement", "player_frozen_duration") / skill_bonus
 
 
-func hitstun(duration: float):
+func hitstun(duration: float = 2.5, hp_sap: int = 20):
 	if !(shielded or invincible) and !hurt:
 		hitstun_duration = duration
 		hitstun_timer = duration
 		frozen_timer = 0
 		frozen = false
 		hurt = true
+		if has_health:
+			if life - hp_sap > 0:
+				life -= hp_sap
+			else:
+				life = 0
+				finished = true
 		if size >= 0.75 and size <= 1.25:
 			Jukebox.play_sound("ouch")
 		elif size < 0.75:
@@ -298,3 +311,8 @@ func grant_invincibility(character: Character):
 	var bonus = character.stats.get_skill_bonus()
 	invincibility_timer = GameConfig.get_value("other_player_stats", "invincibility_duration") * bonus
 	invincible = true
+
+
+func toggle_health(character: Character, toggle: bool):
+	has_health = toggle
+	character.display.toggle_life_bar(has_health)

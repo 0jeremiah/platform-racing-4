@@ -10,7 +10,7 @@ var active: bool = false
 var level_layers: LevelLayers
 var cursor_parent = null
 var mode: String = "draw"
-var block_id: String = "1"
+var block_id: String = "601"
 var block_settings = null
 var grabbed_block: String = ""
 var grabbed_settings: Array = []

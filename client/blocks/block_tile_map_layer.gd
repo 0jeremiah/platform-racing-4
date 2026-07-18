@@ -8,6 +8,7 @@ class_name ConfigurableTileMapLayer
 
 #var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas_coords: Vector2i}
 #var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
+const EGG_ENEMY = preload("res://tiles/egg/egg_enemy.tscn")
 var map_layer: MapLayer = null
 
 
@@ -32,20 +33,6 @@ func get_cell_block_id(coords: Vector2i) -> String:
 			return block_id
 
 	return ""
-
-
-func get_block_coords_at_position(_position: Vector2) -> Vector2:
-	var rotated_pos: Vector2
-	var world_pos = _position / map_layer.get_layer_scale()
-	rotated_pos = world_pos
-	if map_layer.tile_map_rotation != 0:
-		# Inverse rotate the point to get the correct position in rotated space
-		var rotation_radians = -deg_to_rad(map_layer.tile_map_rotation)
-		rotated_pos = Vector2(
-			world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
-			world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
-		)
-	return local_to_map(rotated_pos)
 
 
 func is_solid(coords: Vector2i) -> bool:
@@ -97,6 +84,47 @@ func get_start_positions() -> Array:
 			}
 			start_options.push_back(start_option)
 	return start_options
+
+
+func get_finish_blocks() -> Array:
+	var finish_blocks = []
+	for block in BlockManager._blocks:
+		var block_instance = BlockManager._blocks[block]
+		if block_instance.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
+			finish_blocks.append(block)
+	var finish_options = []
+	for finish_block in finish_blocks:
+		var coord_list = get_used_cells_by_id(BlockManager._block_lookup[finish_block].source_id, BlockManager._block_lookup[finish_block].atlas_coords)
+		for coords in coord_list:
+			var start_option = {
+				"tile_map_layer": self,
+				"coords": coords,
+				"map_layer_name": str(map_layer.name)
+			}
+			finish_options.push_back(start_option)
+	return finish_options
+
+
+func spawn_eggs():
+	var egg_blocks = []
+	for block in BlockManager._blocks:
+		var block_instance = BlockManager._blocks[block]
+		if block_instance.settings.block_type == ConfigurableBlockSettings.EGG:
+			egg_blocks.append(block)
+	for egg in egg_blocks:
+		var egg_counter = 0
+		var coord_list = get_used_cells_by_id(BlockManager._block_lookup[egg].source_id, BlockManager._block_lookup[egg].atlas_coords)
+		for coords in coord_list:
+			egg_counter += 1
+			var egg_enemy = EGG_ENEMY.instantiate()
+			var depth = Helpers.get_depth(map_layer)
+			egg_enemy.position = BlockManager._blocks[egg].get_center_position(self, coords)
+			egg_enemy.name = "EggEnemy" + str(egg_counter)
+			map_layer.enemies.add_child(egg_enemy)
+			egg_enemy.set_depth(depth)
+			BlockManager._blocks[egg].deactivate(self, coords)
+			BlockManager._blocks[egg].set_visible(self, coords, false)
+			erase_cell(coords)
 
 
 func get_teleport_positions_at_block_id(block_id: String) -> Array:

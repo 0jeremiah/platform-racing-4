@@ -2947,6 +2947,58 @@ texture = ExtResource("21_fohab")
 [node name="ItemHolder" type="Node2D" parent="."]
 position = Vector2(-6, -128)
 
+[node name="LifeBar" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, 25)
+
+[node name="LifeBarRect" type="ReferenceRect" parent="LifeBar"]
+offset_left = -125.0
+offset_top = -20.0
+offset_right = 125.0
+offset_bottom = 20.0
+border_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="RemainingLifeBar" type="ColorRect" parent="LifeBar"]
+offset_left = -122.0
+offset_top = -17.0
+offset_right = 122.0
+offset_bottom = 17.0
+color = Color(0.9607843, 0.7921569, 0.40392157, 1)
+
+[node name="HealthText" type="RichTextLabel" parent="LifeBar"]
+offset_left = -122.0
+offset_top = -17.0
+offset_right = 122.0
+offset_bottom = 17.0
+theme_override_colors/default_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 24
+text = "100 / 100"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Username" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, -280)
+
+[node name="UsernameText" type="RichTextLabel" parent="Username"]
+offset_left = -125.0
+offset_top = -20.0
+offset_right = 125.0
+offset_bottom = 20.0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 24
+text = "test_username_cool"
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Animations" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_rfx8m")

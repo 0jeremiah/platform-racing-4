@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://olpwwpdnwmko"]
+
+[ext_resource type="Script" uid="uid://behragidysqtk" path="res://effects/coin/coin_effect.gd" id="1_m8lay"]
+[ext_resource type="Texture2D" uid="uid://cmnki644mxb5o" path="res://effects/coin/CoinGraphic.png" id="2_f2iey"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_m8lay"]
+friction = 0.01
+bounce = 0.75
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ghwua"]
+size = Vector2(64, 64)
+
+[node name="CoinEffect" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_m8lay")
+gravity_scale = 0.1
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_m8lay")
+
+[node name="CoinGraphic" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_f2iey")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ghwua")

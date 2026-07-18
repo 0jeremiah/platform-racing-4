@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ro82b48ln0gj"]
+[gd_scene load_steps=12 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_yuilv"]
 [ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_lhgqe"]
 [ext_resource type="PackedScene" uid="uid://bfq7acty6r4e5" path="res://ui/stats_display.tscn" id="10_nlto3"]
+[ext_resource type="PackedScene" uid="uid://cld2kelekhq2w" path="res://ui/hp_display.tscn" id="11_nlto3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_cq41v")
@@ -39,16 +40,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("7_3ylxm")
 
-[node name="BackgroundPanel" type="Panel" parent="UI/Container"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.861
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 0.119934
-grow_vertical = 2
-
 [node name="Minimap" parent="UI/Container" instance=ExtResource("7_yuilv")]
 layout_mode = 1
 anchors_preset = -1
@@ -58,16 +49,24 @@ offset_bottom = 0.0
 [node name="GameTimer" parent="UI/Container" instance=ExtResource("9_lhgqe")]
 layout_mode = 0
 offset_left = 1640.0
-offset_top = 11.0
+offset_top = 10.0
 offset_right = 1908.0
-offset_bottom = 91.0
+offset_bottom = 90.0
 
 [node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_nlto3")]
 layout_mode = 0
 offset_left = 1640.0
-offset_top = 101.0
+offset_top = 100.0
 offset_right = 1908.0
-offset_bottom = 151.0
+offset_bottom = 150.0
+
+[node name="HPDisplay" parent="UI/Container" instance=ExtResource("11_nlto3")]
+visible = false
+layout_mode = 0
+offset_left = 1640.0
+offset_top = 160.0
+offset_right = 1908.0
+offset_bottom = 210.0
 
 [node name="BackButton" type="Button" parent="UI/Container"]
 layout_mode = 1

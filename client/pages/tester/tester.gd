@@ -4,6 +4,7 @@ extends Node2D
 @onready var minimap: Minimap = $UI/Container/Minimap
 @onready var game_timer: GameTimer = $UI/Container/GameTimer
 @onready var stats_display: StatsDisplay = $UI/Container/StatsDisplay
+@onready var hp_display: HPDisplay = $UI/Container/HPDisplay
 @onready var stats_panel = $UI/Container/StatsPanel
 @onready var debug_display = $UI/Container/DebugDisplay
 @onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
@@ -59,10 +60,14 @@ func init(data: Dictionary):
 	minimap.init(self)
 	game_timer.init(self)
 	stats_display.init(self)
+	if level_manager.level_type == level_manager.deathmatch:
+		hp_display.init(self)
+		hp_display.visible = true
 	debug_display.init(player_manager.get_character())
 	game_timer.set_timer(level.properties.get("time", 120))
 	game_timer.start_timer()
 	level_manager.calc_used_rect()
+	level_manager.level_layers.spawn_eggs()
 	update_stats_timer.connect("timeout", update_stats)
 	update_stats_timer.start()
 	

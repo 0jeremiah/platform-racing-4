@@ -9,6 +9,7 @@ static var game: Node2D
 @onready var minimap: Minimap = $UI/Container/Minimap
 @onready var game_timer: GameTimer = $UI/Container/GameTimer
 @onready var stats_display: StatsDisplay = $UI/Container/StatsDisplay
+@onready var hp_display: HPDisplay = $UI/Container/HPDisplay
 @onready var level_manager: LevelManager = $LevelManager
 @onready var player_manager: PlayerManager = $PlayerManager
 
@@ -94,9 +95,13 @@ func _activate_game() -> void:
 	minimap.init(self)
 	game_timer.init(self)
 	stats_display.init(self)
+	if level_manager.level_type == level_manager.deathmatch:
+		hp_display.init(self)
+		hp_display.visible = true
 	game_timer.set_timer(level_manager.time)
 	game_timer.start_timer()
 	level_manager.calc_used_rect()
+	level_manager.level_layers.spawn_eggs()
 
 
 func finish():
