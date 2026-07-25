@@ -11,9 +11,9 @@ var level_layers: LevelLayers
 var cursor_parent = null
 var mode: String = "draw"
 var block_id: String = "601"
-var block_settings = null
+var block_settings: Dictionary = {}
 var grabbed_block: String = ""
-var grabbed_settings: Array = []
+var grabbed_settings: Dictionary = {}
 
 
 func _ready():
@@ -66,10 +66,10 @@ func _on_control_event(event: Dictionary) -> void:
 			mode = event.mode
 		if event.type == EditorEvents.SELECT_BLOCK:
 			block_id = event.block_id
-			#if event.has("block_options"):
-				#block_options = event.block_options
-			#else:
-				#block_options = null
+			if event.has("block_settings"):
+				block_settings = event.block_settings
+			else:
+				block_settings = {}
 			
 
 
@@ -103,14 +103,14 @@ func on_mouse_down():
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
-		var tile_id = tile_map_layer.get_cell_block_id(coords)
-		#var tile_settings = BlockManager._blocks[tile_id].settings.get_settings()
+		var tile_id = tile_map_layer.get_block(coords).id
+		var tile_settings = tile_map_layer.get_block(coords).settings.get_edited_settings()
 		if tile_id:
 			if "object_box" in cursor_parent.editor_menu.current_editor:
 				var object_box = cursor_parent.editor_menu.current_editor.object_box
 				object_box.close()
 			grabbed_block = tile_id
-			#grabbed_block_settings = tile_settings
+			grabbed_settings = tile_settings
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -118,8 +118,8 @@ func on_mouse_down():
 					"x": coords.x,
 					"y": coords.y
 				},
-				"block_id": 0#,
-				#"block_settings": tile_settings
+				"block_id": 0,
+				"block_settings": null
 			})
 
 func on_drag():
@@ -128,13 +128,14 @@ func on_drag():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: String
-		#var tile_settings: block_settings
+		var tile_settings: Dictionary
 		if mode == "erase":
 			tile_id = ""
+			tile_settings = {}
 		else:
 			tile_id = block_id
-			#tile_settings = block_settings
-		var existing_tile_id = tile_map_layer.get_cell_block_id(coords)
+			tile_settings = block_settings
+		var existing_tile_id = tile_map_layer.get_block(coords).id
 		if tile_id != existing_tile_id:
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
@@ -143,8 +144,8 @@ func on_drag():
 					"x": coords.x,
 					"y": coords.y
 				},
-				"block_id": tile_id#,
-				#"block_settings": tile_settings,
+				"block_id": tile_id,
+				"block_settings": tile_settings
 			})
 
 
@@ -162,7 +163,7 @@ func on_mouse_up():
 					"y": coords.y
 				},
 				"block_id": grabbed_block,
-				#"block_settings": grabbed_block_settings,
+				"block_settings": grabbed_settings
 			})
 			if "object_box" in get_parent().editor_menu.current_editor:
 				var object_box = get_parent().editor_menu.current_editor.object_box
@@ -174,4 +175,4 @@ func on_mouse_up():
 				"offset": Vector2(0, 0), "size": Settings.tile_size, "scale": Vector2(1, 1),
 				"info": level_layers.get_target_map_layer()})
 			grabbed_block = ""
-			#grabbed_block_settings = null
+			grabbed_settings = {}

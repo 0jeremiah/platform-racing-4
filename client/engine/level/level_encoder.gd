@@ -58,11 +58,11 @@ func encode(level_layers: Node2D, level_manager: LevelManager) -> Dictionary:
 func encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) -> Array:
 	var chunk_map = {}
 	var chunks = []
-	var used_coords = configurable_tile_map_layer.get_used_cells()
+	var used_coords = configurable_tile_map_layer.get_all_block_coords()
 	for coords in used_coords:
 		#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-		var block_id = configurable_tile_map_layer.get_cell_block_id(coords)
-		var block_settings = null
+		var block_id = configurable_tile_map_layer.get_block(coords).id
+		var block_settings = configurable_tile_map_layer.get_block(coords).settings.get_edited_settings()
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
 		var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
@@ -146,7 +146,7 @@ func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) ->
 	var save_string = ""
 	var chunk_map = {}
 	var chunks = []
-	var used_coords = configurable_tile_map_layer.get_used_cells()
+	var used_coords = configurable_tile_map_layer.get_all_block_coords()
 	var compat_used_coords = []
 	# seems godot eventually makes chunks null if the chunks array get too big
 	# let's limit megachunks to 1000 chunks and save them as string instead to try to combat this
@@ -162,8 +162,8 @@ func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) ->
 		chunk_map = {}
 		for coords in compat_coords:
 			#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-			var block_id = configurable_tile_map_layer.get_cell_block_id(coords)
-			var block_settings = null
+			var block_id = configurable_tile_map_layer.get_block(coords).id
+			var block_settings = configurable_tile_map_layer.get_block(coords).settings.get_edited_settings()
 			var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 			var chunk_data_coords = coords - (chunk_coords * chunk_size)
 			var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)

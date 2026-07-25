@@ -3,7 +3,7 @@ extends Node2D
 ##
 ## Loads all block configs from blocks/configs/ and places one of each block
 ## in a grid on screen. Much simpler than the old tileset test thanks to
-## ConfigurableTileMapLayer's set_cell_by_id() method.
+## ConfigurableTileMapLayer's add_block() method.
 
 
 @onready var tile_map_layer: ConfigurableTileMapLayer = $TileMapLayer
@@ -62,9 +62,9 @@ func _place_blocks(configs: Array) -> void:
 		
 		var block_name: String = config.get("title", block_id)
 
-		# Place the tile using the simple set_cell_by_id API
+		# Place the tile using the simple add_block API
 		var tile_coords := Vector2i(grid_x, grid_y)
-		tile_map_layer.set_cell_by_id(tile_coords, block_id)
+		tile_map_layer.add_block(tile_coords, block_id)
 
 		print("Placed %s at grid (%d, %d)" % [block_name, grid_x, grid_y])
 

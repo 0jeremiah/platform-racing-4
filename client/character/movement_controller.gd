@@ -281,6 +281,18 @@ func _cap_velocity(velocity: Vector2) -> Vector2:
 	return velocity
 
 
+func maybe_finish(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	if LevelManager.level_type == LevelManager.race:
+		finished = true
+		Jukebox.play_sound("victory")
+	elif LevelManager.level_type == LevelManager.objective:
+		var level_manager = Game.game.level_manager
+		level_manager.update_finish_blocks(tile_map_layer, coords)
+		if level_manager.reached_finish_blocks >= level_manager.finish_blocks.size():
+			finished = true
+		Jukebox.play_sound("victory")
+
+
 func freeze(skill_bonus: float):
 	frozen = true
 	frozen_timer = GameConfig.get_value("player_movement", "player_frozen_duration") / skill_bonus

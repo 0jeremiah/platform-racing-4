@@ -41,6 +41,7 @@ static func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) ->
 			continue
 
 		var block_id: String = config.id
+		print(block_id)
 		if config.has("custom_image"):
 			# Loads compressed image using these variables and shows the notfound block graphic if it can't.
 			var custom_block_image = _load_custom_block_image(config.custom_image)
@@ -82,11 +83,12 @@ static func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) ->
 				)
 
 		var title = "Block"
-		if config.has("settings") and config.settings.has("title"):
-			title = config.settings.title
 		var comment = ""
-		if config.has("settings") and config.settings.has("comment"):
-			comment = config.settings.comment
+		if config.has("settings"):
+			if config.has("settings") and config.settings.has("title"):
+				title = config.settings.title
+			if config.has("settings") and config.settings.has("comment"):
+				comment = config.settings.comment
 
 		# Assumes the block is a custom block since category is
 		# only initalized through load_default_block_configs
@@ -97,6 +99,7 @@ static func _build_block_lookup(configs: Array, tileset: ConfigurableTileSet) ->
 		# Store additional block info
 		_block_lookup[block_id]["title"] = title
 		_block_lookup[block_id]["comment"] = comment
+		_block_lookup[block_id]["settings"] = config.settings
 		_block_lookup[block_id]["category"] = category
 
 
@@ -162,18 +165,23 @@ static func load_default_block_configs():
 				var file_path := "res://blocks/configs/" + file_name
 				var config := BlockTestUtils.load_config(file_path)
 				if not config.is_empty():
-					if config.has("id") and config.id.is_valid_int():
-						config.id = str(int(config.id) + id_gap)
-					else:
-						config.id = config.id + category
-					config["category"] = category
-					var src = "res://blocks/tileatlas" + category + ".png"
-					if config.has("image") and config.image.has("src") and src.is_absolute_path():
-						config.image.src = src
-					if !config.id.contains("portable_block") and !config.id.contains("portable_mine"):
-						_blocks_categories[category].append({"id": config.id})
-					configs.append(config)
-					#print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
+					if config.has("id"):
+						if !config.id.contains("portable_block") and !config.id.contains("portable_mine"):
+							if config.id.is_valid_int():
+								config.id = str(int(config.id) + id_gap)
+							else:
+								config.id = config.id + category
+							config["category"] = category
+							var src = "res://blocks/tileatlas" + category + ".png"
+							if config.has("image") and config.image.has("src") and src.is_absolute_path():
+								config.image.src = src
+							if !config.id.contains("portable_block") and !config.id.contains("portable_mine"):
+								_blocks_categories[category].append({"id": config.id})
+							configs.append(config)
+							#print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
+						else: # special cases for portable block / portable mine
+							config["category"] = "hidden"
+							configs.append(config)
 			file_name = dir.get_next()
 
 		dir.list_dir_end()
@@ -185,7 +193,7 @@ static func load_default_block_configs():
 		add_block_configs(configs)
 
 
-static func get_block_texture(block_id: String) -> Texture:
+static func get_block_texture(block_id: String) -> Texture2D:
 	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	if block_id not in _block_lookup:
 		return not_found_block_texture
@@ -200,7 +208,7 @@ static func get_block_texture(block_id: String) -> Texture:
 	return texture
 
 
-static func get_block_teleport_texture(block_id: String) -> Texture:
+static func get_block_teleport_texture(block_id: String) -> Texture2D:
 	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		return not_found_block_texture
@@ -213,3 +221,35 @@ static func get_block_teleport_texture(block_id: String) -> Texture:
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
+
+
+static func new_get_block_texture(block_id: String, teleport_color: String = "") -> Texture2D:
+	var block_texture = DrawableTexture2D.new()
+	block_texture.setup(128, 128, DrawableTexture2D.DRAWABLE_FORMAT_RGBA8, Color(1.0, 1.0, 1.0, 0.0), false)
+	# get block texture
+	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
+	if block_id not in _block_lookup:
+		return not_found_block_texture
+	var texture = null
+	if _block_lookup[block_id].has("custom_texture"):
+		texture = _load_custom_block_image(_block_lookup[block_id]["custom_texture"])
+	else:
+		texture = AtlasTexture.new()
+		texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].atlas_coords), Settings.tile_size)
+		texture.filter_clip = true
+	# if block is a teleport block, get teleport colorin
+	if _blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+		if teleport_color == "" or !teleport_color.is_valid_html_color():
+			teleport_color = _blocks[block_id].settings.teleport_color
+		var teleport_color_texture = null
+		if _block_lookup[block_id].has("custom_teleport_texture"):
+			teleport_color_texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
+		else:
+			teleport_color_texture = AtlasTexture.new()
+			teleport_color_texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+			teleport_color_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
+			teleport_color_texture.filter_clip = true
+		block_texture.blit_rect(Rect2i(0, 0, 128, 128), teleport_color_texture, Color(teleport_color))
+	block_texture.blit_rect(Rect2i(0, 0, 128, 128), texture, Color(1.0, 1.0, 1.0, 1.0))
+	return block_texture

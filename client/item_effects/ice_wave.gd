@@ -1,30 +1,26 @@
-extends CharacterBody2D
+extends ProjectileEffect
 
-@onready var IceWave = $IceWave
-@onready var IceWaveArea = $IceWaveArea
-
-var dir: float
-var spawnpos: Vector2
-var spawnrot: float
-var life: float = 0.0
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	global_position = spawnpos
-	global_rotation = spawnrot
-	life = GameConfig.get_value("items-effects", "ice_wave_lifetime")
+@onready var ice_wave_sprite = $IceWaveSprite
+@onready var ice_wave_area = $IceWaveArea
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
-	var speed = GameConfig.get_value("items-effects", "ice_wave_speed")
-	if scale.x < 0:
-		speed *= -1
-	velocity = Vector2(speed, 0).rotated(dir)
-	move_and_slide()
-	IceWave.modulate = Color(1.0, 1.0, 1.0, randf_range((0.5 / 2.5) * life, (1.0 / 2.5) * life))
-	
-	if life > 0:
+func _ready() -> void:
+	set_projectile_area(ice_wave_area)
+
+
+func _process(delta: float):
+	if life - delta > 0:
 		life -= delta
 	else:
 		queue_free()
+	if ice_wave_sprite:
+		ice_wave_sprite.self_modulate = Color(1.0, 1.0, 1.0, randf_range((0.5 / 2.5) * life, (1.0 / 2.5) * life))
+
+
+func hit_player(_character: Character) -> void:
+	if _character.movement.frozen:
+		_character.movement.freeze(_character.stats.skill)
+
+
+func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:
+	pass

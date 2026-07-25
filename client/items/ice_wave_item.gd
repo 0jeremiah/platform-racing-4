@@ -1,9 +1,11 @@
 extends Item
 class_name IceWaveItem
 
-@onready var projectile = load("res://item_effects/ice_wave.tscn")
-@onready var animations: AnimationPlayer = $Animations
+var ice_wave = load("res://item_effects/ice_wave.tscn")
 var animation_timer = Timer.new()
+var ice_wave_amount: int = 3
+var ice_wave_rotation: float = 0.0
+@onready var animations: AnimationPlayer = $Animations
 
 
 func _ready():
@@ -40,24 +42,18 @@ func activate_item(_character: Character):
 func shoot(_character: Character):
 	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.projectiles
-	var icewave1 = projectile.instantiate()
-	spawn.add_child.call_deferred(icewave1)
-	icewave1.dir = 112.5
-	icewave1.spawnpos = global_position
-	icewave1.spawnrot = 112.5
-	icewave1.scale.x = _character.movement.facing
-	var icewave2 = projectile.instantiate()
-	spawn.add_child.call_deferred(icewave2)
-	icewave2.dir = 0
-	icewave2.spawnpos = global_position
-	icewave2.spawnrot = 0
-	icewave2.scale.x = _character.movement.facing
-	var icewave3 = projectile.instantiate()
-	spawn.add_child.call_deferred(icewave3)
-	icewave3.dir = -112.5
-	icewave3.spawnpos = global_position
-	icewave3.spawnrot = -112.5
-	icewave3.scale.x = _character.movement.facing
+	var angle_increment = 0
+	var angle = 0
+	if ice_wave_amount > 1:
+		angle_increment = 90.0 / (ice_wave_amount - 1)
+		angle = ice_wave_rotation - (45.0 + angle_increment)
+	for current_ice_wave in ice_wave_amount:
+		angle += angle_increment
+		var ice_wave_projectile = ice_wave.instantiate()
+		ice_wave_projectile.global_position = global_position
+		ice_wave_projectile.rotation_degrees = angle
+		ice_wave_projectile.set_projectile(ice_wave_projectile, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation).rotated(_character.rotation), _character.movement.facing == -1, _character)
+		spawn.add_child(ice_wave_projectile)
 	Jukebox.play_sound("icewave")
 
 

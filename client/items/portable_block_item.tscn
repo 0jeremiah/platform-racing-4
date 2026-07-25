@@ -1,15 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dv3sujajqjjig"]
+[gd_scene format=3 uid="uid://dv3sujajqjjig"]
 
 [ext_resource type="Script" uid="uid://dx23pqiv76gus" path="res://items/portable_block_item.gd" id="1_c2o3p"]
 [ext_resource type="Texture2D" uid="uid://co5i0jeihdtnd" path="res://items/portable_block_item.png" id="1_mf4e7"]
 
-[node name="PortableBlockItem" type="Node2D"]
+[node name="PortableBlockItem" type="Node2D" unique_id=280579378]
 script = ExtResource("1_c2o3p")
 
-[node name="VisualAid" type="Sprite2D" parent="."]
+[node name="VisualAid" type="Sprite2D" parent="." unique_id=956274919]
 self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
 scale = Vector2(2.222, 2.222)
 texture = ExtResource("1_mf4e7")
 
-[node name="PortableBlockIcon" type="Sprite2D" parent="."]
+[node name="BlockIcon" type="Sprite2D" parent="." unique_id=43336731]
 texture = ExtResource("1_mf4e7")

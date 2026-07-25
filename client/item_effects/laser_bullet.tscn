@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ch24f5sy82uud"]
+[gd_scene format=3 uid="uid://ch24f5sy82uud"]
 
 [ext_resource type="Script" uid="uid://cnrgeqh7dcxcy" path="res://item_effects/laser_bullet.gd" id="1_50gli"]
 [ext_resource type="Texture2D" uid="uid://b4ba46wwd02p1" path="res://item_effects/laser_bullet.png" id="1_ytyyu"]
@@ -6,13 +6,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_actp8"]
 size = Vector2(130, 10)
 
-[node name="LaserBullet" type="RigidBody2D"]
+[node name="LaserBullet" type="RigidBody2D" unique_id=1014510892]
 gravity_scale = 0.0
 script = ExtResource("1_50gli")
 
-[node name="LaserBulletHitbox" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_actp8")
-
-[node name="LaserBullet" type="Sprite2D" parent="."]
+[node name="LaserBullet" type="Sprite2D" parent="." unique_id=747297501]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_ytyyu")
+
+[node name="LaserBulletArea" type="Area2D" parent="." unique_id=2118486736]
+
+[node name="LaserBulletHitbox" type="CollisionShape2D" parent="LaserBulletArea" unique_id=2077654666]
+shape = SubResource("RectangleShape2D_actp8")

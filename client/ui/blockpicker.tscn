@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bs4ybsv1i40pe"]
+[gd_scene format=3 uid="uid://bs4ybsv1i40pe"]
 
 [ext_resource type="Script" uid="uid://cpodw3q8ckyqa" path="res://ui/blockpicker.gd" id="1_88ku6"]
 [ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="3_hm74r"]
 
-[node name="BlockPicker" type="Control"]
+[node name="BlockPicker" type="Control" unique_id=1422876712]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 726.0
 offset_bottom = 222.0
 script = ExtResource("1_88ku6")
 
-[node name="BlockPickerPanel" type="Panel" parent="."]
+[node name="BlockPickerPanel" type="Panel" parent="." unique_id=678311882]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 726.0
 offset_bottom = 222.0
 
-[node name="TabBar" type="TabBar" parent="."]
+[node name="TabBar" type="TabBar" parent="." unique_id=147593004]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 20.0
@@ -38,14 +38,14 @@ tab_5/title = "Space"
 tab_6/title = "Classic"
 tab_7/title = "Custom"
 
-[node name="Navigation" parent="." instance=ExtResource("3_hm74r")]
+[node name="Navigation" parent="." unique_id=1014196168 instance=ExtResource("3_hm74r")]
 layout_mode = 0
 offset_left = 707.0
 offset_top = 71.0
 offset_right = 707.0
 offset_bottom = 71.0
 
-[node name="LightColorRect" type="ColorRect" parent="."]
+[node name="LightColorRect" type="ColorRect" parent="." unique_id=690831998]
 layout_mode = 0
 offset_left = 18.0
 offset_top = 124.0
@@ -53,7 +53,7 @@ offset_right = 708.0
 offset_bottom = 202.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="DarkColorRect" type="ColorRect" parent="."]
+[node name="DarkColorRect" type="ColorRect" parent="." unique_id=340293505]
 layout_mode = 0
 offset_left = 23.0
 offset_top = 129.0
@@ -61,7 +61,7 @@ offset_right = 703.0
 offset_bottom = 197.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="BlockContainer" type="Control" parent="."]
+[node name="BlockContainer" type="Control" parent="." unique_id=953414300]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 33.0
@@ -69,7 +69,7 @@ offset_top = 139.0
 offset_right = 693.0
 offset_bottom = 187.0
 
-[node name="NoBlocksText" type="RichTextLabel" parent="."]
+[node name="NoBlocksText" type="RichTextLabel" parent="." unique_id=816833164]
 layout_mode = 0
 offset_left = 263.0
 offset_top = 138.0

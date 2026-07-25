@@ -1,30 +1,21 @@
-extends CharacterBody2D
+extends ProjectileEffect
 
-@onready var SwordArea = $SwordArea
+@onready var sword_area = $SwordArea
+@onready var sword_hitbox = $SwordArea/SwordHitbox
 @onready var animations: AnimationPlayer = $Animations
-@export var SPEED = 0
+var sword_hitbox_range = Vector2(37.0, 65.0) # sword_hitbox's starting and final position in 'slash' animation;
+# used for calcuating the strength of the sword hit velocity
 
-var dir: float
-var spawnpos: Vector2
-var spawnrot: float
-var velx: float
-var life: float = 0.0
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	global_position = spawnpos
-	global_rotation = spawnrot
-	velx = scale.x
-	life = GameConfig.get_value("items-effects", "sword_slash_lifetime")
+	set_projectile_area(sword_area)
 	animations.play("slash")
-	Jukebox.play_sound("swish")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
-	velocity = Vector2((2500 * (life * 5)) * velx, 0).rotated(dir)
-	move_and_slide()
-	if life > 0:
-		life -= delta
-	else:
-		queue_free()
+func hit_player(_character: Character) -> void:
+	_character.velocity += Vector2(-75.0 * (1 + (abs(sword_hitbox_range.y - sword_hitbox.position.x) / abs(sword_hitbox_range.y - sword_hitbox_range.x))), -33.0)
+	_character.movement.hitstun(2.5, 20)
+
+
+func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:
+	pass

@@ -20,7 +20,7 @@ func _setup_visual_test() -> void:
 	var brick_config := BlockTestUtils.load_config("res://blocks/configs/brick.json")
 	var tile_map_layer: ConfigurableTileMapLayer = $TileMapLayer
 	tile_map_layer.setup_from_configs([brick_config])
-	tile_map_layer.set_cell_by_id(BRICK_COORDS, brick_config.id)
+	tile_map_layer.add_block(BRICK_COORDS, brick_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = $Ball
@@ -82,7 +82,7 @@ func _create_test_scene() -> Node2D:
 	var brick_config := BlockTestUtils.load_config("res://blocks/configs/brick.json")
 	var tile_map_layer: ConfigurableTileMapLayer = scene.get_node("TileMapLayer")
 	tile_map_layer.setup_from_configs([brick_config])
-	tile_map_layer.set_cell_by_id(BRICK_COORDS, brick_config.id)
+	tile_map_layer.add_block(BRICK_COORDS, brick_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = scene.get_node("Ball")

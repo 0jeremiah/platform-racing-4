@@ -37,10 +37,12 @@ static var default_block_properties: Dictionary = {
 	"gear_tick": 4000.0,
 	"gear_tock": 500.0,
 	"teleport_color": "FF7F50",
-	"teleport_throttle_ms": 1000.0
+	"teleport_throttle_ms": 1000.0,
+	"infinite_time": false,
+	"time_supply": 1
 }
 
-# only updated once when block settings are imported, so it can determined whenever it's settings has
+# only updated once when block settings are imported, so it can be determined whenever it's settings has
 # been edited through the block cursor in the editor or something like that via get_edited_settings()
 var block_properties: Dictionary = {}
 var title: String = "block"
@@ -72,6 +74,12 @@ var gear_tick = default_block_properties.gear_tick
 var gear_tock = default_block_properties.gear_tock
 var teleport_color: String = default_block_properties.teleport_color
 var teleport_throttle_ms: float = default_block_properties.teleport_throttle_ms
+var infinite_time = default_block_properties.infinite_time
+var time_supply = default_block_properties.time_supply
+var can_give_items: bool = item_supply > 0
+var can_give_stats: bool = stat_supply > 0
+var can_finish: bool = true
+var can_give_time: bool = time_supply > 0
 
 
 func export_settings() -> Dictionary:
@@ -166,6 +174,10 @@ func import_settings(new_settings: Dictionary) -> void:
 			teleport_color = new_settings.teleport_color
 		if new_settings.has("teleport_throttle_ms"):
 			teleport_throttle_ms = new_settings.teleport_throttle_ms
+		if new_settings.has("infinite_time"):
+			infinite_time = new_settings.infinite_time
+		if new_settings.has("time_supply"):
+			time_supply = new_settings.time_supply
 		
 		var extra_settings = get_settings()
 		if !extra_settings.is_empty():
@@ -176,6 +188,47 @@ func import_settings(new_settings: Dictionary) -> void:
 			missing_variables_string = missing_variable + " ,"
 		missing_variables_string.substr(0, missing_variables_string.length() - 2)
 		push_warning("These variables for this block are missing: " + missing_variables_string + ".")
+
+
+func import_edited_settings(edited_settings: Dictionary):
+	if edited_settings.has("health"):
+		health = edited_settings.health
+	if edited_settings.has("stat_supply"):
+		stat_supply = edited_settings.stat_supply
+	if edited_settings.has("item_supply"):
+		item_supply = edited_settings.item_supply
+	if edited_settings.has("coin_value"):
+		coin_value = edited_settings.coin_value
+	if edited_settings.has("change_tick"):
+		change_tick = edited_settings.change_tick
+	if edited_settings.has("change_pattern"):
+		change_pattern = edited_settings.change_pattern
+	if edited_settings.has("move_tick"):
+		move_tick = edited_settings.move_tick
+	if edited_settings.has("move_pattern"):
+		move_pattern = edited_settings.move_pattern
+	if edited_settings.has("infinite_items"):
+		infinite_items = edited_settings.infinite_items
+	if edited_settings.has("item_supply"):
+		item_supply = edited_settings.item_supply
+	if edited_settings.has("infinite_stats"):
+		infinite_stats = edited_settings.infinite_stats
+	if edited_settings.has("stat_supply"):
+		stat_supply = edited_settings.stat_supply
+	if edited_settings.has("gear_rotation"):
+		gear_rotation = edited_settings.gear_rotation
+	if edited_settings.has("gear_tick"):
+		gear_tick = edited_settings.gear_tick
+	if edited_settings.has("gear_tock"):
+		gear_tock = edited_settings.gear_tock
+	if edited_settings.has("teleport_color"):
+		teleport_color = edited_settings.teleport_color
+	if edited_settings.has("teleport_throttle_ms"):
+		teleport_throttle_ms = edited_settings.teleport_throttle_ms
+	if edited_settings.has("infinite_time"):
+		infinite_time = edited_settings.infinite_time
+	if edited_settings.has("time_supply"):
+		time_supply = edited_settings.time_supply
 
 
 func get_settings() -> Dictionary:
@@ -211,6 +264,10 @@ func get_settings() -> Dictionary:
 		settings["teleport_color"] = teleport_color
 	if teleport_throttle_ms != default_block_properties.teleport_throttle_ms:
 		settings["teleport_throttle_ms"] = teleport_throttle_ms
+	if infinite_time != default_block_properties.infinite_time:
+		settings["infinite_time"] = infinite_time
+	if time_supply != default_block_properties.time_supply:
+		settings["time_supply"] = time_supply
 	return settings
 
 

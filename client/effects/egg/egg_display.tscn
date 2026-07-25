@@ -1,33 +1,25 @@
-[gd_scene load_steps=20 format=3 uid="uid://2abefujwdjsl"]
+[gd_scene format=3 uid="uid://cgv8m108fvfpo"]
 
-[ext_resource type="Script" uid="uid://cqfrq1tys8r7w" path="res://tiles/egg/egg_enemy.gd" id="1_l1sxf"]
-[ext_resource type="Texture2D" uid="uid://ctsoswrm7jau1" path="res://character_display/parts/classic/classic_foot_back_color.png" id="2_mt2yq"]
-[ext_resource type="Texture2D" uid="uid://damd8r8qtxful" path="res://character_display/parts/classic/classic_foot_back_lines.png" id="3_dw3e2"]
-[ext_resource type="Texture2D" uid="uid://yfou0088dbe" path="res://character_display/parts/classic/classic_foot_back_epic_color.png" id="4_68vhc"]
-[ext_resource type="Texture2D" uid="uid://5q3hv5k8v60n" path="res://tiles/egg/egg_color.svg" id="5_3wetp"]
-[ext_resource type="Texture2D" uid="uid://bxbjatsqn8771" path="res://character_display/parts/classic/classic_foot_back_misc1.png" id="5_av0n4"]
-[ext_resource type="Texture2D" uid="uid://b8htaupqlayja" path="res://tiles/egg/egg_outline.svg" id="6_mrex7"]
-[ext_resource type="Texture2D" uid="uid://d2t1qqip08oqx" path="res://tiles/egg/egg_spots.svg" id="7_7anv0"]
-[ext_resource type="Texture2D" uid="uid://dpgs5fbdpujdg" path="res://tiles/egg/egg_antennas.svg" id="8_lfc1b"]
-[ext_resource type="Texture2D" uid="uid://cy8l8tvqgu06v" path="res://character_display/parts/classic/classic_foot_front_color.png" id="10_c00se"]
-[ext_resource type="Texture2D" uid="uid://x1fnqrmy58b8" path="res://character_display/parts/classic/classic_foot_front_lines.png" id="11_tsbp4"]
-[ext_resource type="Texture2D" uid="uid://dlw5vcxwe1pal" path="res://character_display/parts/classic/classic_foot_front_epic_color.png" id="12_86rcx"]
-[ext_resource type="Texture2D" uid="uid://bwmsm35fm7flh" path="res://character_display/parts/classic/classic_foot_front_misc1.png" id="13_5260y"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ar3lm"]
-radius = 34.0
-height = 98.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eocsl"]
-radius = 97.0
-height = 344.0
+[ext_resource type="Script" uid="uid://co4vaip1jqdl" path="res://effects/egg/egg_display.gd" id="1_nmsct"]
+[ext_resource type="Texture2D" uid="uid://ctsoswrm7jau1" path="res://character_display/parts/classic/classic_foot_back_color.png" id="2_n441m"]
+[ext_resource type="Texture2D" uid="uid://damd8r8qtxful" path="res://character_display/parts/classic/classic_foot_back_lines.png" id="3_4wt1b"]
+[ext_resource type="Texture2D" uid="uid://yfou0088dbe" path="res://character_display/parts/classic/classic_foot_back_epic_color.png" id="4_wrqeo"]
+[ext_resource type="Texture2D" uid="uid://bxbjatsqn8771" path="res://character_display/parts/classic/classic_foot_back_misc1.png" id="5_j04si"]
+[ext_resource type="Texture2D" uid="uid://5q3hv5k8v60n" path="res://effects/egg/egg_color.svg" id="6_03cmx"]
+[ext_resource type="Texture2D" uid="uid://b8htaupqlayja" path="res://effects/egg/egg_outline.svg" id="7_dd0fi"]
+[ext_resource type="Texture2D" uid="uid://d2t1qqip08oqx" path="res://effects/egg/egg_spots.svg" id="8_tp8um"]
+[ext_resource type="Texture2D" uid="uid://dpgs5fbdpujdg" path="res://effects/egg/egg_antennas.svg" id="9_6t4bk"]
+[ext_resource type="Texture2D" uid="uid://cy8l8tvqgu06v" path="res://character_display/parts/classic/classic_foot_front_color.png" id="10_tdj2w"]
+[ext_resource type="Texture2D" uid="uid://x1fnqrmy58b8" path="res://character_display/parts/classic/classic_foot_front_lines.png" id="11_qbuof"]
+[ext_resource type="Texture2D" uid="uid://dlw5vcxwe1pal" path="res://character_display/parts/classic/classic_foot_front_epic_color.png" id="12_wjr5n"]
+[ext_resource type="Texture2D" uid="uid://bwmsm35fm7flh" path="res://character_display/parts/classic/classic_foot_front_misc1.png" id="13_u5iaj"]
 
 [sub_resource type="Animation" id="Animation_itr6u"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Display/FootFront:position")
+tracks/0/path = NodePath("FootFront:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -39,7 +31,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Display/FootFront:rotation")
+tracks/1/path = NodePath("FootFront:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -51,7 +43,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Display/FootBack:position")
+tracks/2/path = NodePath("FootBack:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -63,7 +55,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Display/FootBack:rotation")
+tracks/3/path = NodePath("FootBack:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -75,7 +67,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Display/Egg2:position")
+tracks/4/path = NodePath("Egg:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -87,7 +79,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Display/Egg2:rotation")
+tracks/5/path = NodePath("Egg:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -105,7 +97,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Display/FootFront:position")
+tracks/0/path = NodePath("FootFront:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -117,7 +109,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Display/FootFront:rotation")
+tracks/1/path = NodePath("FootFront:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -129,7 +121,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Display/FootBack:position")
+tracks/2/path = NodePath("FootBack:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -141,7 +133,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Display/FootBack:rotation")
+tracks/3/path = NodePath("FootBack:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -153,7 +145,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Display/Egg2:position")
+tracks/4/path = NodePath("Egg:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -165,7 +157,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Display/Egg2:rotation")
+tracks/5/path = NodePath("Egg:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -182,7 +174,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Display/FootFront:position")
+tracks/0/path = NodePath("FootFront:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -194,7 +186,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Display/FootFront:rotation")
+tracks/1/path = NodePath("FootFront:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -206,7 +198,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Display/FootBack:position")
+tracks/2/path = NodePath("FootBack:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -218,7 +210,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Display/FootBack:rotation")
+tracks/3/path = NodePath("FootBack:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -230,7 +222,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Display/Egg2:position")
+tracks/4/path = NodePath("Egg:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -242,7 +234,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Display/Egg2:rotation")
+tracks/5/path = NodePath("Egg:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -259,92 +251,70 @@ _data = {
 &"walk": SubResource("Animation_h882w")
 }
 
-[node name="EggEnemy" type="CharacterBody2D"]
-script = ExtResource("1_l1sxf")
+[node name="EggDisplay" type="Node2D" unique_id=556755436]
+script = ExtResource("1_nmsct")
 
-[node name="Display" type="Node2D" parent="."]
-
-[node name="FootBack" type="Node2D" parent="Display"]
+[node name="FootBack" type="Node2D" parent="." unique_id=1538387974]
 position = Vector2(14, -64)
 scale = Vector2(0.55, 0.55)
 
-[node name="Color" type="Sprite2D" parent="Display/FootBack"]
+[node name="Color" type="Sprite2D" parent="FootBack" unique_id=1884769147]
 self_modulate = Color(0.392157, 0.47451, 0.807843, 1)
-texture = ExtResource("2_mt2yq")
+texture = ExtResource("2_n441m")
 
-[node name="Lines" type="Sprite2D" parent="Display/FootBack"]
-texture = ExtResource("3_dw3e2")
+[node name="Lines" type="Sprite2D" parent="FootBack" unique_id=1469084643]
+texture = ExtResource("3_4wt1b")
 
-[node name="Color2" type="Sprite2D" parent="Display/FootBack"]
+[node name="Color2" type="Sprite2D" parent="FootBack" unique_id=203212120]
 visible = false
-texture = ExtResource("4_68vhc")
+texture = ExtResource("4_wrqeo")
 
-[node name="Misc1" type="Sprite2D" parent="Display/FootBack"]
-texture = ExtResource("5_av0n4")
+[node name="Misc1" type="Sprite2D" parent="FootBack" unique_id=924134435]
+texture = ExtResource("5_j04si")
 
-[node name="Misc2" type="Sprite2D" parent="Display/FootBack"]
+[node name="Misc2" type="Sprite2D" parent="FootBack" unique_id=1593946899]
 
-[node name="Egg2" type="Node2D" parent="Display"]
+[node name="Egg" type="Node2D" parent="." unique_id=1376963596]
 position = Vector2(0, -58)
 scale = Vector2(0.5, 0.5)
 
-[node name="EggColor" type="Sprite2D" parent="Display/Egg2"]
+[node name="EggColor" type="Sprite2D" parent="Egg" unique_id=2023951248]
 self_modulate = Color(0.74902, 0.101961, 0.101961, 1)
 position = Vector2(-1, 0)
-texture = ExtResource("5_3wetp")
+texture = ExtResource("6_03cmx")
 
-[node name="EggOutline" type="Sprite2D" parent="Display/Egg2"]
-texture = ExtResource("6_mrex7")
+[node name="EggOutline" type="Sprite2D" parent="Egg" unique_id=1254613512]
+texture = ExtResource("7_dd0fi")
 
-[node name="EggSpots" type="Sprite2D" parent="Display/Egg2"]
+[node name="EggSpots" type="Sprite2D" parent="Egg" unique_id=1685065634]
 self_modulate = Color(0, 1, 0.6, 1)
 position = Vector2(39, -41)
-texture = ExtResource("7_7anv0")
+texture = ExtResource("8_tp8um")
 
-[node name="EggAntennas" type="Sprite2D" parent="Display/Egg2"]
+[node name="EggAntennas" type="Sprite2D" parent="Egg" unique_id=199172857]
 position = Vector2(60, -109)
-texture = ExtResource("8_lfc1b")
+texture = ExtResource("9_6t4bk")
 
-[node name="FootFront" type="Node2D" parent="Display"]
+[node name="FootFront" type="Node2D" parent="." unique_id=1154183850]
 position = Vector2(-16, -64)
 scale = Vector2(0.55, 0.55)
 
-[node name="Color" type="Sprite2D" parent="Display/FootFront"]
+[node name="Color" type="Sprite2D" parent="FootFront" unique_id=1125878489]
 self_modulate = Color(0.392157, 0.47451, 0.807843, 1)
-texture = ExtResource("10_c00se")
+texture = ExtResource("10_tdj2w")
 
-[node name="Lines" type="Sprite2D" parent="Display/FootFront"]
-texture = ExtResource("11_tsbp4")
+[node name="Lines" type="Sprite2D" parent="FootFront" unique_id=1005090209]
+texture = ExtResource("11_qbuof")
 
-[node name="Color2" type="Sprite2D" parent="Display/FootFront"]
+[node name="Color2" type="Sprite2D" parent="FootFront" unique_id=92501987]
 visible = false
-texture = ExtResource("12_86rcx")
+texture = ExtResource("12_wjr5n")
 
-[node name="Misc1" type="Sprite2D" parent="Display/FootFront"]
-texture = ExtResource("13_5260y")
+[node name="Misc1" type="Sprite2D" parent="FootFront" unique_id=1876128205]
+texture = ExtResource("13_u5iaj")
 
-[node name="Misc2" type="Sprite2D" parent="Display/FootFront"]
+[node name="Misc2" type="Sprite2D" parent="FootFront" unique_id=1455635744]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -49)
-shape = SubResource("CapsuleShape2D_ar3lm")
-
-[node name="SightArea" type="Area2D" parent="."]
-light_mask = 2
-visibility_layer = 3
-monitorable = false
-
-[node name="SightArea" type="CollisionShape2D" parent="SightArea"]
-position = Vector2(138, -97)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_eocsl")
-
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_h1vgd")
-}
-autoplay = "walk"
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1050613419]
+libraries/ = SubResource("AnimationLibrary_h1vgd")
+autoplay = &"walk"

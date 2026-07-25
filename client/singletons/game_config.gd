@@ -85,6 +85,7 @@ var default_values: Dictionary = {
 		"speed_burst_duration": 6.0,
 		"speed_burst_multiplier": 2.0,
 		"sword_slash_lifetime": 0.2,
+		"sword_slash_speed": 1500.0,
 		"teleport_horizontal_distance": 3.0,
 		"teleport_vertical_distance": 0.0
 	}

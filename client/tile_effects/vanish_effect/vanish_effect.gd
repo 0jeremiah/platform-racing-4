@@ -27,7 +27,7 @@ func init(_tile_map_layer: TileMapLayer, _coords: Vector2i, animation_duration: 
 	coords = _coords
 	source_id = tile_map_layer.get_cell_source_id(coords)
 	atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-	block_id = tile_map_layer.get_cell_block_id(coords)
+	block_id = tile_map_layer.get_block(coords).id
 	
 	sprite.texture = tile_map_layer.tile_set.get_source(source_id).texture
 	sprite.region_enabled = true
@@ -45,7 +45,7 @@ func init(_tile_map_layer: TileMapLayer, _coords: Vector2i, animation_duration: 
 		animation_player.speed_scale = 0
 	invisibility_timer.wait_time = cooldown
 	
-	tile_map_layer.set_cell_by_id(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
+	tile_map_layer.add_block(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
 
 
 func vanish_again() -> void:
@@ -80,9 +80,9 @@ func _try_to_appear() -> void:
 		if body is Character: # TODO: Ignore if wearing top hat
 			return
 	
-	var current_block_id = tile_map_layer.get_cell_block_id(coords)
+	var current_block_id = tile_map_layer.get_block(coords).id
 	if current_block_id == "":
-		tile_map_layer.set_cell_by_id(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
+		tile_map_layer.add_block(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
 	animation_player.play("appear")
 
 
@@ -90,11 +90,11 @@ func _on_animation_finished(animation_name: StringName) -> void:
 	match animation_name:
 		"vanish":
 			if vanish_still_exists():
-				tile_map_layer.erase_cell(coords)
+				tile_map_layer.delete_block(coords)
 				invisibility_timer.start()
 		"appear":
 			if vanish_still_exists():
-				tile_map_layer.set_cell_by_id(coords, block_id, ConfigurableBlock.VISIBLE_ALT_ID)
+				tile_map_layer.add_block(coords, block_id, ConfigurableBlock.VISIBLE_ALT_ID)
 			queue_free()
 
 
@@ -108,7 +108,7 @@ func _on_body_exited(_body) -> void:
 
 func vanish_still_exists() -> bool:
 	if tile_map_layer and coords:
-		var current_block_id = tile_map_layer.get_cell_block_id(coords)
+		var current_block_id = tile_map_layer.get_block(coords).id
 		if current_block_id:
 			var current_source_id = BlockManager._block_lookup[current_block_id].source_id
 			var current_atlas_coords = BlockManager._block_lookup[current_block_id].atlas_coords

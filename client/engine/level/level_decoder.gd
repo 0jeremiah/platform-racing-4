@@ -196,7 +196,7 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 			if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 				continue
 			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-			var tile_settings = null
+			var tile_settings = {}
 			if chunk.data[i].has("settings") and chunk.data[i].settings != null:
 				tile_settings = chunk.data[i].settings
 			
@@ -393,7 +393,7 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 					if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 						continue
 					var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-					var tile_settings = null
+					var tile_settings = {}
 					if chunk.data[i].has("settings") and chunk.data[i].settings != null:
 						tile_settings = chunk.data[i].settings
 					

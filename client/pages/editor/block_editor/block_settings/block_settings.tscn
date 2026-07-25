@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b63nnd20dbn0s"]
+
+[ext_resource type="PackedScene" uid="uid://bb5jf3xljqq0b" path="res://pages/editor/block_editor/settings/settings.tscn" id="1_duhpl"]
+[ext_resource type="PackedScene" uid="uid://b753ngytaop2c" path="res://pages/editor/block_editor/side_settings/side_settings.tscn" id="2_4p5vs"]
+
+[node name="BlockSettings" type="Control" unique_id=753743006]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="TabBar" type="TabBar" parent="." unique_id=934461307]
+layout_mode = 0
+offset_right = 410.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+current_tab = 0
+tab_alignment = 1
+tab_count = 2
+tab_0/title = "General Settings"
+tab_1/title = "Side Settings"
+
+[node name="HSeparator" type="HSeparator" parent="." unique_id=95138599]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 410.0
+offset_bottom = 50.0
+
+[node name="Settings" parent="." unique_id=765255440 instance=ExtResource("1_duhpl")]
+layout_mode = 0
+offset_top = 50.0
+offset_bottom = 160.0
+
+[node name="SideSettings" parent="." unique_id=356412320 instance=ExtResource("2_4p5vs")]
+layout_mode = 0
+offset_top = 50.0
+offset_bottom = 370.0

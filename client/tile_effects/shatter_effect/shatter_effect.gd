@@ -5,7 +5,7 @@ var chunk_linear_velocity = 300
 var chunk_angular_velocity = 20
 
 
-func add_pieces(atlas: Texture, coords: Vector2i, pieces) -> void:
+func add_pieces(atlas: Texture, coords: Vector2i, pieces: int) -> void:
 	for i in range(0, pieces):
 		var randi = randi_range(0, 9)
 		var offset = Vector2i(randi % 3, randi / 3) * chunk_size

@@ -42,7 +42,7 @@ func shoot(_character: Character):
 	bullet.global_position = global_position
 	bullet.collision_layer = _character.collision_layer
 	bullet.collision_mask = _character.collision_mask
-	bullet.set_projectile(bullet, _character, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0), Vector2(-50, 0.1))
+	bullet.set_projectile(bullet, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
 	spawn.add_child(bullet)
 	Jukebox.play_sound("laser")
 

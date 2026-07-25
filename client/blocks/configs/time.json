@@ -11,7 +11,9 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "time", "params": {"seconds": 10.0}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "active", "params": {}}
+		"any_side": {"type": "active", "params": {}},
+		"infinite_time": false,
+		"time_supply": 1
 	},
 	"image": {
 		"src": "res://tiles/tileatlas.png",

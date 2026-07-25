@@ -1,31 +1,10 @@
-extends Node
+extends PhysicsBody2D
 class_name ProjectileEffect
 ## Same thing as TileCollisionDetector except designed specifically for projectiles.
 
-var projectile: PhysicsBody2D
-var from_player: Character = null
-var projectile_velocity: Vector2 = Vector2(4800.0, 0.0)
-var hit_velocity: Vector2 = Vector2(0.0, 0.0)
-var life: float = 100.0
-
-
-func set_projectile_node(projectile_node: PhysicsBody2D) -> void:
-	projectile = projectile_node
-	if projectile is RigidBody2D:
-		_setup_rigidbody_signals()
-
-
-func _setup_rigidbody_signals() -> void:
-	var rigid_body := projectile as RigidBody2D
-	rigid_body.contact_monitor = true
-	rigid_body.max_contacts_reported = 10
-	rigid_body.body_shape_entered.connect(_on_body_shape_entered)
-
-
-func _physics_process(_delta: float) -> void:
-	# For CharacterBody2D, detect collisions using get_last_slide_collision
-	if projectile is CharacterBody2D:
-		_detect_character_body_collisions()
+var projectile: Node2D
+var life: float = 3.3
+var from = null
 
 
 func _process(delta: float) -> void:
@@ -35,46 +14,30 @@ func _process(delta: float) -> void:
 		queue_free()
 
 
-func set_projectile(projectile_node: PhysicsBody2D, _from_player: Character, _life: float, _projectile_velocity: Vector2, _hit_velocity: Vector2):
-	set_projectile_node(projectile_node)
-	from_player = _from_player
-	life = _life
-	projectile_velocity = _projectile_velocity * from_player.movement.facing
-	hit_velocity = _hit_velocity
-	projectile.scale.x = from_player.movement.facing
+func set_projectile_area(projectile_area: Area2D) -> void:
+	projectile_area.collision_layer = collision_layer
+	projectile_area.collision_mask = collision_mask
+	projectile_area.body_shape_entered.connect(_on_body_shape_entered)
+
+
+func set_projectile(projectile_node: Node2D, p_collision_layer: int, p_collision_mask: int, p_life: float, p_velocity: Vector2, face_left: bool = false, p_from = null):
+	projectile = projectile_node
+	collision_layer = p_collision_layer
+	collision_mask = p_collision_mask
+	life = p_life
+	var projectile_velocity = p_velocity
+	if face_left:
+		projectile_velocity *= Vector2(-1, -1)
+		projectile.scale.x = -1
 	if projectile is RigidBody2D:
-		projectile.linear_velocity = _projectile_velocity
-	elif "velocity" in projectile:
-		projectile.velocity = _projectile_velocity
+		projectile.linear_velocity = projectile_velocity
+	elif projectile is CharacterBody2D:
+		projectile.velocity = projectile_velocity
+	if p_from:
+		from = p_from
 
 
-func _detect_character_body_collisions() -> void:
-	var character_body := projectile as CharacterBody2D
-	var collision: KinematicCollision2D = character_body.get_last_slide_collision()
-
-	if not collision:
-		return
-
-	var collider := collision.get_collider()
-	if not (collider is ConfigurableTileMapLayer or collider is Character):
-		return
-
-	if collider is ConfigurableTileMapLayer:
-		var normal := collision.get_normal()
-		var rid := collision.get_collider_rid()
-		var coords: Vector2i = collider.get_coords_for_body_rid(rid)
-
-		_notify_tile_collision(collider, coords, normal)
-	elif collider is Character:
-		_notify_character_collision(collider)
-
-
-func _on_body_shape_entered(
-	body_rid: RID,
-	body: Node,
-	_body_shape_index: int,
-	_local_shape_index: int
-) -> void:
+func _on_body_shape_entered(body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	# For RigidBody2D, detect collisions using body_shape_entered signal
 	if not (body is ConfigurableTileMapLayer or body is Character):
 		return
@@ -115,11 +78,7 @@ func _on_body_shape_entered(
 		_notify_character_collision(body)
 
 
-func _notify_tile_collision(
-	tile_map_layer: ConfigurableTileMapLayer,
-	coords: Vector2i,
-	normal: Vector2
-) -> void:
+func _notify_tile_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2) -> void:
 	# Determine which event(s) to trigger based on collision normal
 	var events: Array[String] = []
 
@@ -138,19 +97,11 @@ func _notify_tile_collision(
 			events.append("stand")
 		events.append("any_side")
 
-	# Delegate to the tile map layer to handle behaviors
-	tile_map_layer.trigger_tile_behaviors(projectile, coords, events, normal)
-	projectile_hit()
+	# Tells projectile to handle hitting blocks
+	if projectile.has_method("hit_block"):
+		projectile.hit_block(tile_map_layer, coords, events, normal)
 
 
-func _notify_character_collision(
-	character: Character
-) -> void:
-	if character != from_player:
-		character.velocity += hit_velocity
-		character.movement.hitstun(2.5, 20)
-	projectile_hit()
-
-
-func projectile_hit() -> void:
-	projectile.queue_free()
+func _notify_character_collision(character: Character) -> void:
+	if character != from and projectile.has_method("hit_player"):
+		projectile.hit_player(character)

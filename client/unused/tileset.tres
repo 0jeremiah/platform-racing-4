@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dg3po8j6ulajq"]
+[gd_resource type="TileSet" format=3 uid="uid://dg3po8j6ulajq"]
 
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="1_bruia"]
 

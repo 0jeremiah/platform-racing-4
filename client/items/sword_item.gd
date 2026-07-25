@@ -1,7 +1,7 @@
 extends Item
 class_name SwordItem
 
-@onready var swordslash = load("res://item_effects/sword_slash.tscn")
+@onready var sword_slash = load("res://item_effects/sword_slash.tscn")
 @onready var animations: AnimationPlayer = $Animations
 var animation_timer = Timer.new()
 
@@ -28,7 +28,7 @@ func activate_item(_character: Character):
 		animations.play("swing")
 		animation_timer.start(animations.get_current_animation_length())
 		_character.item_manager.reload_timer = GameConfig.get_value("items-uses", "reload_sword")
-		slash(_character)
+		swing(_character)
 		if _character.display.scale.x < 0:
 			_character.movement.current_velocity.x -= 1000
 		else:
@@ -36,15 +36,16 @@ func activate_item(_character: Character):
 		_character.item_manager.uses -= 1
 
 
-func slash(_character: Character):
+func swing(_character: Character):
 	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.projectiles
-	var slash = swordslash.instantiate()
-	slash.dir = 0
-	slash.spawnpos = _character.item_manager.global_position
-	slash.spawnrot = 0
-	slash.scale.x = _character.movement.facing
-	spawn.add_child.call_deferred(slash)
+	var slash = sword_slash.instantiate()
+	slash.global_position = global_position
+	slash.collision_layer = _character.collision_layer
+	slash.collision_mask = _character.collision_mask
+	slash.set_projectile(slash, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "sword_slash_lifetime"), Vector2(GameConfig.get_value("items-effects", "sword_slash_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
+	spawn.add_child(slash)
+	Jukebox.play_sound("swish")
 
 
 func _remove_item(_character: Character):

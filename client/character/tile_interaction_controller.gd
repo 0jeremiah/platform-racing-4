@@ -107,7 +107,7 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 		if !(tile_map_layer is TileMapLayer):
 			continue
 		var coords = tile_map_layer.local_to_map(tile_map_layer.to_local(area.to_global(Vector2.ZERO)))
-		var block_id = tile_map_layer.get_cell_block_id(coords)
+		var block_id = tile_map_layer.get_block(coords).id
 		if block_id != "":
 			tiles.push_back({
 				"tile_map_layer": tile_map_layer,

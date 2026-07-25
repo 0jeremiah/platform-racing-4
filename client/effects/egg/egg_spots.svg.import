@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d2t1qqip08oqx"
-path="res://.godot/imported/egg_spots.svg-74cfc8bb3bc5cdbf55533c7d3f9bf92c.ctex"
+path="res://.godot/imported/egg_spots.svg-f23b95590491fd7def9f1370f2e8e19d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tiles/egg/egg_spots.svg"
-dest_files=["res://.godot/imported/egg_spots.svg-74cfc8bb3bc5cdbf55533c7d3f9bf92c.ctex"]
+source_file="res://effects/egg/egg_spots.svg"
+dest_files=["res://.godot/imported/egg_spots.svg-f23b95590491fd7def9f1370f2e8e19d.ctex"]
 
 [params]
 

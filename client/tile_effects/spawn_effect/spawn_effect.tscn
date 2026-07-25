@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bod2suey75awd"]
+[gd_scene format=3 uid="uid://bod2suey75awd"]
 
-[ext_resource type="Script" uid="uid://8bxr83p8nn0f" path="res://item_effects/portable_block.gd" id="1_wtdel"]
-[ext_resource type="Texture2D" uid="uid://co5i0jeihdtnd" path="res://items/portable_block_item.png" id="2_32qce"]
-[ext_resource type="Texture2D" uid="uid://pwd7k2oybjs6" path="res://item_effects/portable_block_light_mask.png" id="3_ewm4e"]
+[ext_resource type="Script" uid="uid://8bxr83p8nn0f" path="res://tile_effects/spawn_effect/spawn_effect.gd" id="1_cvdam"]
+[ext_resource type="Texture2D" uid="uid://co5i0jeihdtnd" path="res://items/portable_block_item.png" id="2_30btl"]
 
 [sub_resource type="Animation" id="Animation_ggu70"]
 length = 0.001
@@ -21,7 +20,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("PortableBlock:visible")
+tracks/1/path = NodePath("BlockIcon:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -33,7 +32,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("PortableBlockLightMask:visible")
+tracks/2/path = NodePath("BlockLightMask:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -69,7 +68,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("PortableBlockLightMask:modulate")
+tracks/5/path = NodePath("BlockLightMask:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -122,7 +121,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("PortableBlock:visible")
+tracks/3/path = NodePath("BlockIcon:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -134,7 +133,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("PortableBlockLightMask:visible")
+tracks/4/path = NodePath("BlockLightMask:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -146,7 +145,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("PortableBlockLightMask:modulate")
+tracks/5/path = NodePath("BlockLightMask:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -162,23 +161,22 @@ _data = {
 &"spawn": SubResource("Animation_c67bf")
 }
 
-[node name="PortableBlock" type="Node2D"]
-script = ExtResource("1_wtdel")
+[node name="SpawnBlockEffect" type="Node2D" unique_id=494826101]
+script = ExtResource("1_cvdam")
 
-[node name="PortableBlock" type="Sprite2D" parent="."]
+[node name="BlockIcon" type="Sprite2D" parent="." unique_id=1847263952]
 position = Vector2(0, 3.57628e-06)
-texture = ExtResource("2_32qce")
+texture = ExtResource("2_30btl")
 
-[node name="PortableBlockLightMask" type="Sprite2D" parent="."]
+[node name="BlockLightMask" type="Sprite2D" parent="." unique_id=841645428]
 visible = false
-texture = ExtResource("3_ewm4e")
+self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
+texture = ExtResource("2_30btl")
 
-[node name="AnimationTimer" type="Timer" parent="."]
+[node name="AnimationTimer" type="Timer" parent="." unique_id=1471212365]
 wait_time = 1.5
 one_shot = true
 
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_d1xdr")
-}
-autoplay = "spawn"
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=2075974416]
+libraries/ = SubResource("AnimationLibrary_d1xdr")
+autoplay = &"spawn"

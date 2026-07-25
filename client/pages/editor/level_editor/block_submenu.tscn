@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://2fx8rnu1jlwj"]
+[gd_scene format=3 uid="uid://2fx8rnu1jlwj"]
 
 [ext_resource type="Script" uid="uid://b1ptlej0ruuk5" path="res://pages/editor/level_editor/block_submenu.gd" id="1_17vj3"]
 [ext_resource type="Texture2D" uid="uid://cgrx5oouw1dry" path="res://unused/mega_menu/icons/dragblock.png" id="1_dm6xf"]
@@ -41,17 +41,12 @@ atlas = ExtResource("5_17vj3")
 region = Rect2(0, 0, 128, 128)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xpnty"]
-atlas = ExtResource("5_17vj3")
-region = Rect2(0, 0, 128, 128)
-filter_clip = true
-
-[node name="BlockSubmenu" type="Control"]
+[node name="BlockSubmenu" type="Control" unique_id=1897337857]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_17vj3")
 
-[node name="BlockMenu" type="Control" parent="."]
+[node name="BlockMenu" type="Control" parent="." unique_id=374242026]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 10.0
@@ -59,13 +54,13 @@ offset_top = 10.0
 offset_right = 98.0
 offset_bottom = 234.0
 
-[node name="Panel" type="Panel" parent="BlockMenu"]
+[node name="Panel" type="Panel" parent="BlockMenu" unique_id=1649325074]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 88.0
 offset_bottom = 224.0
 
-[node name="SelectionGlow" type="ColorRect" parent="BlockMenu"]
+[node name="SelectionGlow" type="ColorRect" parent="BlockMenu" unique_id=345802218]
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 15.0
@@ -74,7 +69,7 @@ offset_right = 73.0
 offset_bottom = 209.0
 color = Color(1, 1, 0, 1)
 
-[node name="BlockMover" type="Control" parent="BlockMenu"]
+[node name="BlockMover" type="Control" parent="BlockMenu" unique_id=1363438370]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -84,7 +79,7 @@ offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 tooltip_text = "Carefully move blocks to their destination."
 
-[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockMover"]
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockMover" unique_id=274880248]
 self_modulate = Color(0.552941, 0.286275, 0.980392, 1)
 layout_mode = 1
 offset_right = 48.0
@@ -92,7 +87,7 @@ offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_20g40")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockMover"]
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockMover" unique_id=1790271694]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -104,7 +99,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockMover"]
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockMover" unique_id=357045097]
 self_modulate = Color(0.552941, 0.286275, 0.980392, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -114,7 +109,7 @@ texture_normal = ExtResource("1_dm6xf")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockKiller" type="Control" parent="BlockMenu"]
+[node name="BlockKiller" type="Control" parent="BlockMenu" unique_id=829644469]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -124,14 +119,14 @@ offset_bottom = 136.0
 pivot_offset = Vector2(24, 24)
 tooltip_text = "This ruthless eraser destroys any block on contact."
 
-[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockKiller"]
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockKiller" unique_id=1816208641]
 self_modulate = Color(1, 0.372549, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_sxige")
 
-[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockKiller"]
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockKiller" unique_id=995185636]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -143,7 +138,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockKiller"]
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockKiller" unique_id=922464358]
 self_modulate = Color(1, 0.372549, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -153,7 +148,7 @@ texture_normal = ExtResource("2_17vj3")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockDropper" type="Control" parent="BlockMenu"]
+[node name="BlockDropper" type="Control" parent="BlockMenu" unique_id=251662603]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -163,14 +158,14 @@ offset_bottom = 204.0
 pivot_offset = Vector2(24, 24)
 tooltip_text = "Draw blocks!"
 
-[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockDropper"]
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockDropper" unique_id=2025911253]
 self_modulate = Color(0, 0.752941, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_xvrhh")
 
-[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockDropper"]
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockDropper" unique_id=666993286]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -182,7 +177,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDropper"]
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDropper" unique_id=1666673433]
 self_modulate = Color(0, 0.752941, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -192,14 +187,14 @@ texture_normal = ExtResource("3_u7n6r")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockDrawPanel" type="Panel" parent="BlockMenu"]
+[node name="BlockDrawPanel" type="Panel" parent="BlockMenu" unique_id=1391180326]
 layout_mode = 1
 anchors_preset = -1
 offset_top = 234.0
 offset_right = 88.0
 offset_bottom = 322.0
 
-[node name="BlockDraw" type="Control" parent="BlockMenu"]
+[node name="BlockDraw" type="Control" parent="BlockMenu" unique_id=242870151]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -208,7 +203,7 @@ offset_right = 68.0
 offset_bottom = 302.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw"]
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw" unique_id=1304536806]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 128.0
@@ -220,30 +215,28 @@ focus_mode = 1
 button_mask = 3
 texture_normal = SubResource("AtlasTexture_dm6xf")
 
-[node name="TeleportColorin" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton"]
-visible = false
+[node name="TeleportColorin" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton" unique_id=89538633]
 show_behind_parent = true
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
-texture = SubResource("AtlasTexture_xpnty")
 
-[node name="BlockPickerPopup" type="Popup" parent="BlockMenu"]
+[node name="BlockPickerPopup" type="Popup" parent="BlockMenu" unique_id=1246544531]
 transparent_bg = true
 oversampling_override = 1.0
 position = Vector2i(108, 244)
 size = Vector2i(726, 222)
 
-[node name="Blockpicker" parent="BlockMenu/BlockPickerPopup" instance=ExtResource("9_nu4fj")]
+[node name="Blockpicker" parent="BlockMenu/BlockPickerPopup" unique_id=1355081405 instance=ExtResource("9_nu4fj")]
 
-[node name="BlockOptionsPanel" type="Panel" parent="BlockMenu"]
+[node name="BlockOptionsPanel" type="Panel" parent="BlockMenu" unique_id=724867035]
 layout_mode = 1
 anchors_preset = -1
 offset_top = 332.0
 offset_right = 88.0
 offset_bottom = 420.0
 
-[node name="BlockOptions" type="Control" parent="BlockMenu"]
+[node name="BlockOptions" type="Control" parent="BlockMenu" unique_id=1927428050]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 352.0
@@ -251,7 +244,7 @@ offset_right = 68.0
 offset_bottom = 400.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockOptions"]
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockOptions" unique_id=281597370]
 self_modulate = Color(1, 0.5411765, 0.12941177, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -259,7 +252,7 @@ offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_xvrhh")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockOptions"]
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockOptions" unique_id=594995450]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -271,7 +264,7 @@ offset_top = 0.76
 offset_right = 44.76
 offset_bottom = 44.76
 
-[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockOptions"]
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockOptions" unique_id=188058296]
 self_modulate = Color(1, 0.5411765, 0.12941177, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -281,18 +274,18 @@ texture_normal = ExtResource("6_sxige")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockOptionsPopup" type="Popup" parent="BlockMenu/BlockOptions"]
+[node name="BlockOptionsPopup" type="Popup" parent="BlockMenu/BlockOptions" unique_id=91153705]
 transparent_bg = true
 oversampling_override = 1.0
 visible = true
 
-[node name="PopupHolder" type="Control" parent="BlockMenu/BlockOptions/BlockOptionsPopup"]
+[node name="PopupHolder" type="Control" parent="BlockMenu/BlockOptions/BlockOptionsPopup" unique_id=421492184]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="LayerPanel" parent="." instance=ExtResource("8_xpnty")]
+[node name="LayerPanel" parent="." unique_id=268501718 instance=ExtResource("8_xpnty")]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 682.0

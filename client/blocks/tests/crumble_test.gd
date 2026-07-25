@@ -21,7 +21,7 @@ func _setup_visual_test() -> void:
 	var crumble_config := BlockTestUtils.load_config("res://blocks/configs/crumble.json")
 	var tile_map_layer: ConfigurableTileMapLayer = $TileMapLayer
 	tile_map_layer.setup_from_configs([crumble_config])
-	tile_map_layer.set_cell_by_id(CRUMBLE_COORDS, crumble_config.id)
+	tile_map_layer.add_block(CRUMBLE_COORDS, crumble_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = $Ball
@@ -80,7 +80,7 @@ func _create_test_scene() -> Node2D:
 	var crumble_config := BlockTestUtils.load_config("res://blocks/configs/crumble.json")
 	var tile_map_layer: ConfigurableTileMapLayer = scene.get_node("TileMapLayer")
 	tile_map_layer.setup_from_configs([crumble_config])
-	tile_map_layer.set_cell_by_id(CRUMBLE_COORDS, crumble_config.id)
+	tile_map_layer.add_block(CRUMBLE_COORDS, crumble_config.id)
 
 	# Setup ball
 	var ball: RigidBody2D = scene.get_node("Ball")

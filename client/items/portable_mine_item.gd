@@ -3,9 +3,9 @@ class_name PortableMineItem
 
 
 func _ready():
-	PortableBlock = load("res://item_effects/portable_mine.tscn")
-	tile_id = 46
-	icon = $PortableMineItem
+	tile_id = "portable_mine"
+	visual_aid.texture = BlockManager.get_block_texture(tile_id)
+	block_icon.texture = BlockManager.get_block_texture(tile_id)
 
 
 func _init_item(_character: Character):

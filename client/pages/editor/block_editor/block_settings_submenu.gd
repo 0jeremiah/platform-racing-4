@@ -19,7 +19,7 @@ signal control_event
 static var block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings.new()
 
 # all available options the block settings submenu can see
-# can add new options and it will be added automatically
+# its very convoluted but with the upside that you can add new options and it will be added automatically
 var settings_presets: Dictionary = {
 	"matter_types": {
 		"solid": {
@@ -51,7 +51,7 @@ var settings_presets: Dictionary = {
 					"finish": {"label": "Finish", "setting": ConfigurableBlockSideSettings.FINISH},
 					"heart": {"label": "Give HP", "setting": ConfigurableBlockSideSettings.HEART},
 					"item": {"label": "Give Item", "setting": ConfigurableBlockSideSettings.ITEM},
-					"give_time": {"label": "Give Time", "setting": ConfigurableBlockSideSettings.TIME},
+					"time": {"label": "Give Time", "setting": ConfigurableBlockSideSettings.TIME},
 					"hurt": {"label": "Hurt", "setting": ConfigurableBlockSideSettings.HURT},
 					"ice": {"label": "Ice", "setting": ConfigurableBlockSideSettings.ICE},
 					"rotate": {"label": "Rotate", "setting": ConfigurableBlockSideSettings.ROTATE},
@@ -211,6 +211,7 @@ func maybe_enable_settings_menu() -> void:
 			"stat": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and (block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS)), "setting": "stat"},
 			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
 			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+			ConfigurableBlockSideSettings.TIME: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TIME), "setting": ConfigurableBlockSideSettings.TIME},
 			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
 		}
 	})

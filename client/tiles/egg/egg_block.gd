@@ -1,7 +1,7 @@
 extends Tile
 class_name EggBlock
 
-const EGG_ENEMY = preload("res://tiles/egg/egg_enemy.tscn")
+const EGG_ENEMY = preload("res://effects/egg/egg_enemy.tscn")
 
 var timer: Timer
 var egg_atlas_coords: Vector2i = Vector2i(0, 33)

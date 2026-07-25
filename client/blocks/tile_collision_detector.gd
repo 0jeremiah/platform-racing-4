@@ -51,12 +51,7 @@ func _detect_character_body_collisions() -> void:
 	_notify_collision(tile_map_layer, coords, normal)
 
 
-func _on_body_shape_entered(
-	body_rid: RID,
-	body: Node,
-	_body_shape_index: int,
-	_local_shape_index: int
-) -> void:
+func _on_body_shape_entered(body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	# For RigidBody2D, detect collisions using body_shape_entered signal
 	if not (body is ConfigurableTileMapLayer):
 		return
@@ -94,11 +89,7 @@ func _on_body_shape_entered(
 	_notify_collision(tile_map_layer, coords, normal)
 
 
-func _notify_collision(
-	tile_map_layer: ConfigurableTileMapLayer,
-	coords: Vector2i,
-	normal: Vector2
-) -> void:
+func _notify_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2) -> void:
 	# Determine which event(s) to trigger based on collision normal
 	var events: Array[String] = []
 
@@ -115,9 +106,9 @@ func _notify_collision(
 				_parent.movement.last_bumped_block = {
 					"tile_map_layer": tile_map_layer,
 					"coords": coords,
-					"block_id": tile_map_layer.get_cell_block_id(coords)
+					"block_id": tile_map_layer.get_block(coords).id
 					}
-				var block = BlockManager._blocks[tile_map_layer.get_cell_block_id(coords)]
+				var block = BlockManager._blocks[tile_map_layer.get_block(coords).id]
 				if block and (block.settings.bottom.type != (ConfigurableBlockSideSettings.ARROW) or block.settings.bump.type != (ConfigurableBlockSideSettings.ARROW)):
 					_parent.movement.current_velocity.rotated(_parent.rotation).y = 0
 				_parent.movement.attempting_bump = true

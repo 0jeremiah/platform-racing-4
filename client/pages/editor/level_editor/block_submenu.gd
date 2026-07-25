@@ -19,7 +19,7 @@ signal control_event
 @onready var layer_panel = $LayerPanel
 
 static var selected_block_id: String
-static var selected_block_settings = null
+static var selected_block_settings: Dictionary
 var active: bool = false
 var current_layers: Node2D
 var editor_events: EditorEvents
@@ -34,6 +34,7 @@ func _ready() -> void:
 	block_dropper_button.pressed.connect(_click_block_menu.bind(block_dropper_button))
 	if !selected_block_id:
 		selected_block_id = "601"
+		selected_block_settings = BlockManager._block_lookup[selected_block_id].settings
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_picker.connect("change_selected_block", _set_current_block)
 	block_options_button.pressed.connect(_show_block_options)
@@ -92,48 +93,14 @@ func _process(_delta: float) -> void:
 
 
 # TODO: change this to accomodate the new side setting properties node
-func _set_current_block(block_id: String) -> void:
+func _set_current_block(block_id: String, block_settings: Dictionary = {}) -> void:
 	selected_block_id = block_id
+	selected_block_settings = block_settings
 	block_draw_teleport_colorin.visible = false
-	#for child in block_options_popup.get_node("PopupHolder").get_children():
-		#child.free()
-	#if block_data.has("block_options"):
-		#selected_block_options = block_data.block_options
-		#if block_data.block_options.option is StatsOptions:
-			#var popup = block_data.block_options.popup.instantiate()
-			#block_options_popup.get_node("PopupHolder").add_child(popup)
-			#var block_label = ""
-			#var description_label = ""
-			#if CoordinateUtils.to_true_block_id(selected_block_id) == 28:
-				#block_label = "Sad"
-				#description_label = "decrease"
-			#else:
-				#block_label = "Happy"
-				#description_label = "increase"
-			#popup.init(5, block_label, description_label)
-			#popup.connect("amount_changed", change_stat_amount)
-		#elif block_data.block_options.option is CustomStatsOptions:
-			#var popup = block_data.block_options.popup.instantiate()
-			#block_options_popup.get_node("PopupHolder").add_child(popup)
-			#popup.set_custom_stats([50, 50, 50, 50])
-			#popup.connect("custom_stats_changed", change_custom_stats)
-		#elif block_data.block_options.option is TeleportOptions:
-			#if block_data.has("teleport_colorin_coords"):
-				#teleport_colorin_coords = block_data.teleport_colorin_coords
-			#if block_data.has("teleport_color"):
-				#teleport_color = block_data.teleport_color
-			#block_draw_teleport_colorin.visible = true
-			#block_draw_teleport_colorin.texture.region = Rect2((128 * teleport_colorin_coords.x), (128 * teleport_colorin_coords.y), 128, 128)
-			#block_draw_teleport_colorin.self_modulate = teleport_color
-			#var popup = block_data.block_options.popup.instantiate()
-			#block_options_popup.get_node("PopupHolder").add_child(popup)
-			#popup.init(Color(teleport_color), block_draw_button.texture_normal.atlas, Rect2((128 * block_data.block_atlas_coords.x), (128 * block_data.block_atlas_coords.y), 128, 128), Rect2((128 * teleport_colorin_coords.x), (128 * teleport_colorin_coords.y), 128, 128))
-			#popup.connect("teleport_color_changed", change_teleport_color)
-	#else:
-		#selected_block_options = null
 	emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK,
-			"block_id": selected_block_id
+			"block_id": selected_block_id,
+			"block_settings": selected_block_settings
 		})
 	block_draw_button.texture_normal = BlockManager.get_block_texture(selected_block_id)
 	var block_instance = BlockManager._blocks[selected_block_id]

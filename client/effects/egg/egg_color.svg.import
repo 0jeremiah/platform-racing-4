@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nte07xafsr3r"
-path="res://.godot/imported/portable_mine_light_mask.png-03c4c8c4558c4939230eb0d9a41205be.ctex"
+uid="uid://5q3hv5k8v60n"
+path="res://.godot/imported/egg_color.svg-a23072b98732829678993273a4983356.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://item_effects/portable_mine_light_mask.png"
-dest_files=["res://.godot/imported/portable_mine_light_mask.png-03c4c8c4558c4939230eb0d9a41205be.ctex"]
+source_file="res://effects/egg/egg_color.svg"
+dest_files=["res://.godot/imported/egg_color.svg-a23072b98732829678993273a4983356.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

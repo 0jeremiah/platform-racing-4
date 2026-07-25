@@ -30,10 +30,10 @@ func _create_minimap_layer(map_layer: MapLayer):
 	var tile_map_layer_mini = ConfigurableTileMapLayer.new()
 	tile_map_layer_mini.tile_set = BlockManager._tile_set
 	
-	var used_cells = map_layer.tile_map_layer.get_used_cells()
+	var used_cells = map_layer.tile_map_layer.get_all_block_coords()
 	for cell in used_cells:
-		var block_id = map_layer.tile_map_layer.get_cell_block_id(cell)
-		tile_map_layer_mini.set_cell_by_id(cell, block_id)
+		var block_id = map_layer.tile_map_layer.get_block(cell).id
+		tile_map_layer_mini.add_block(cell, block_id)
 
 	_update_minimap_layer_scale(tile_map_layer_mini)
 	

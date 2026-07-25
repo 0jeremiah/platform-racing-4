@@ -3,7 +3,7 @@ class_name Backgrounds
 static var pr2_dots_node = preload("res://engine/bg/pr2bg5-dots.tscn")
 static var bg_dictionary: Dictionary = {
 	"blank": {"texture": preload("res://engine/bg/100x100.png")},
-	"pr2_field": {"texture": preload("res://engine/bg/pr2bg1-Field.svg"), "color_transform": "7cb481"},
+	"pr2_field": {"texture": preload("res://engine/bg/pr2bg1-field.svg"), "color_transform": "7cb481"},
 	"pr2_generic": {"texture": preload("res://engine/bg/pr2bg2-generic.svg"), "color_transform": "cab1aa"},
 	"pr2_lake": {"texture": preload("res://engine/bg/pr2bg3-lake.svg"), "color_transform": "81008"},
 	"pr2_desert": {"texture": preload("res://engine/bg/pr2bg4-desert.svg"), "sprite_rect": Rect2(3.0, 0.0, 550.0, 400.0), "color_transform": "e0c8b8"},

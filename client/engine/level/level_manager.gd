@@ -18,6 +18,8 @@ static var level_type: String = "race"
 static var time: int = 120
 static var gravity: float = 1.0
 static var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+static var finish_blocks = []
+static var reached_finish_blocks: int = 0
 var background_id = "pr2_field"
 var fade_color = "FFFFFF"
 var music: String = "random"
@@ -43,12 +45,10 @@ func new_encode_level() -> Dictionary:
 
 func decode_level(level_data: Dictionary) -> void:
 	level_decoder.decode(level_data)
-	level_layers.get_all_start_options()
 
 
 func new_decode_level(level_data: Dictionary) -> void:
 	level_decoder.new_decode(level_data)
-	level_layers.get_all_start_options()
 
 
 func decode_pr2_level(raw_pr2_level_data: String) -> void:
@@ -57,7 +57,6 @@ func decode_pr2_level(raw_pr2_level_data: String) -> void:
 		error = true
 		return
 	level_decoder.new_decode(pr2_level)
-	level_layers.get_all_start_options()
 
 
 func clear() -> void:
@@ -66,6 +65,19 @@ func clear() -> void:
 
 func calc_used_rect() -> void:
 	level_layers.calc_used_rect()
+
+
+func update_finish_blocks(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var level_manager = Game.game.level_manager
+	level_manager.level_layers.get_all_finish_blocks()
+	finish_blocks = level_manager.level_layers.all_finish_blocks
+	for finish_block in finish_blocks:
+			if finish_block.tile_map_layer == tile_map_layer and finish_block.coords == coords and !finish_block.reached:
+				reached_finish_blocks += 1
+				finish_block.reached = true
+				var settings = tile_map_layer.get_block(coords).settings
+				settings.can_finish = false
+				break
 
 
 func _on_control_event(event: Dictionary):

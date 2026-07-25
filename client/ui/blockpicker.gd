@@ -66,6 +66,7 @@ func _update_block_list_display(selected_category: String):
 		navigation.init(block_picker_page, block_picker_pages, 6, true)
 		for block in current_block_list.size():
 			var tile_id = current_block_list[block].id
+			var tile_settings = BlockManager._block_lookup[tile_id].settings
 			var coords = Vector2i(block % 10, block / 10)
 			var new_block_button = TextureButton.new()
 			new_block_button.ignore_texture_size = true
@@ -77,8 +78,8 @@ func _update_block_list_display(selected_category: String):
 			new_block_button.focus_mode = 1
 			new_block_button.name = "BlockButton" + str(block)
 			#new_block_button.tooltip_text = BlockManager._block_lookup[tile_id].title + "\n" + BlockManager._block_lookup[tile_id].comment
-			new_block_button.button_down.connect(_click_block.bind(tile_id))
-			new_block_button.pressed.connect(_set_current_block.bind(tile_id))
+			new_block_button.button_down.connect(_click_block.bind(tile_id, tile_settings))
+			new_block_button.pressed.connect(_set_current_block.bind(tile_id, tile_settings))
 			block_container.add_child(new_block_button)
 			var block_instance = BlockManager._blocks[tile_id]
 			if block_instance.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
@@ -106,12 +107,12 @@ func _update_block_list_display(selected_category: String):
 	size = block_picker_panel.size
 
 
-func _click_block(block_id: String) -> void:
-	emit_signal("block_clicked", block_id)
+func _click_block(block_id: String, block_settings: Dictionary = {}) -> void:
+	emit_signal("block_clicked", block_id, block_settings)
 
 
-func _set_current_block(block_id: String) -> void:
-	emit_signal("change_selected_block", block_id)
+func _set_current_block(block_id: String, block_settings: Dictionary = {}) -> void:
+	emit_signal("change_selected_block", block_id, block_settings)
 
 
 func _on_set_page(new_page_number: int):

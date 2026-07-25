@@ -29,9 +29,8 @@ func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords
 	var current_sides = settings.get_sides()
 	if event not in current_sides:
 		return
-			
 	if BlockBehaviors.has_method(current_sides[event].type):
-		BlockBehaviors.call(current_sides[event].type, body, tile_map_layer, coords, self, current_sides[event].params, normal)
+		BlockBehaviors.call(current_sides[event].type, body, tile_map_layer, coords, current_sides[event].params, normal)
 	if event == "bump":
 		#TileEffects.bump(body, tile_map_layer, coords)
 		Jukebox.play_sound("bump")

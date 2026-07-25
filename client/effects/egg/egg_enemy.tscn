@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://2abefujwdjsl"]
+
+[ext_resource type="Script" uid="uid://cqfrq1tys8r7w" path="res://effects/egg/egg_enemy.gd" id="1_l1sxf"]
+[ext_resource type="PackedScene" uid="uid://cgv8m108fvfpo" path="res://effects/egg/egg_display.tscn" id="2_ms8qg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3b3k0"]
+size = Vector2(50, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6efyl"]
+size = Vector2(320, 100)
+
+[node name="EggEnemy" type="CharacterBody2D" unique_id=210491933]
+script = ExtResource("1_l1sxf")
+
+[node name="EggDisplay" parent="." unique_id=556755436 instance=ExtResource("2_ms8qg")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=408518994]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_3b3k0")
+
+[node name="SightArea" type="Area2D" parent="." unique_id=1504606908]
+light_mask = 2
+visibility_layer = 3
+monitorable = false
+
+[node name="SightArea" type="CollisionShape2D" parent="SightArea" unique_id=1101727724]
+position = Vector2(135, -50)
+shape = SubResource("RectangleShape2D_6efyl")
+
+[node name="Timer" type="Timer" parent="." unique_id=1441652634]
+wait_time = 0.5
+autostart = true

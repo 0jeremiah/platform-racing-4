@@ -9,7 +9,6 @@ signal change_settings_changed
 @onready var selected_block_texture = $SelectedBlockTexture
 @onready var teleport_colorin_texture = $SelectedBlockTexture/TeleportColorinTexture
 
-var tile_atlas = preload("res://tiles/tileatlas.png")
 var change_tick: float = ConfigurableBlockSettings.default_block_properties.change_tick
 var change_pattern: Array = ConfigurableBlockSettings.default_block_properties.change_pattern
 var quick_click_timer: float = 0.3
@@ -91,11 +90,13 @@ func _select_block(block_data: Dictionary):
 	block_data.erase("block_index")
 	quick_click = true
 	old_mouse_position = blocks_container.get_local_mouse_position()
-	_drag_block(block_data.block_id, false)
+	_drag_block(block_data.block_id, {}, false)
 	check_if_not_clicking = true
 
 
-func _drag_block(block_id: String, _from_block_picker: bool = true) -> void:
+func _drag_block(block_id: String, _block_settings: Dictionary = {}, _from_block_picker: bool = true) -> void:
+	# blockpicker returns block id and block settings but we only need block id (i'm not adding customizable
+	# settings to change settings ui dawg)
 	from_block_picker = _from_block_picker
 	quick_click = true
 	selected_block_id = block_id

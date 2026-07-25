@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://b75kfhur51xbc"]
+[gd_scene format=3 uid="uid://b75kfhur51xbc"]
 
 [ext_resource type="Script" uid="uid://rxl1sk37emmh" path="res://items/portable_mine_item.gd" id="1_6gcto"]
 [ext_resource type="Texture2D" uid="uid://daxkddqv8rxkc" path="res://items/portable_mine_item.png" id="1_jisdh"]
 
-[node name="PortableMineItem" type="Node2D"]
+[node name="PortableMineItem" type="Node2D" unique_id=211470001]
 script = ExtResource("1_6gcto")
 
-[node name="VisualAid" type="Sprite2D" parent="."]
+[node name="VisualAid" type="Sprite2D" parent="." unique_id=559956094]
 self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
 position = Vector2(50, 15)
 scale = Vector2(2.222, 2.222)
 texture = ExtResource("1_jisdh")
 
-[node name="PortableMineItem" type="Sprite2D" parent="."]
+[node name="BlockIcon" type="Sprite2D" parent="." unique_id=871460676]
 position = Vector2(50, 15)
 texture = ExtResource("1_jisdh")

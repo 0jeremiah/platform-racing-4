@@ -53,6 +53,12 @@ func init(data: Dictionary):
 	print(level.properties.get("music", ""))
 	Jukebox.play_song(level.properties.get("music", ""))
 	
+	level_manager.calc_used_rect()
+	level_manager.level_layers.get_all_start_options()
+	level_manager.reached_finish_blocks = 0
+	level_manager.level_layers.get_all_finish_blocks()
+	level_manager.level_layers.spawn_eggs()
+	
 	var start_option = Start.get_next_start_option(level_manager.level_layers)
 	if start_option:
 		var character = player_manager.spawn_player(level_manager.level_layers)
@@ -66,8 +72,6 @@ func init(data: Dictionary):
 	debug_display.init(player_manager.get_character())
 	game_timer.set_timer(level.properties.get("time", 120))
 	game_timer.start_timer()
-	level_manager.calc_used_rect()
-	level_manager.level_layers.spawn_eggs()
 	update_stats_timer.connect("timeout", update_stats)
 	update_stats_timer.start()
 	
