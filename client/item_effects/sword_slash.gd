@@ -13,7 +13,7 @@ func _ready():
 
 
 func hit_player(_character: Character) -> void:
-	_character.velocity += Vector2(-75.0 * (1 + (abs(sword_hitbox_range.y - sword_hitbox.position.x) / abs(sword_hitbox_range.y - sword_hitbox_range.x))), -33.0)
+	_character.movement.current_velocity += Vector2(-3500.0 * (1 + (abs(sword_hitbox_range.y - sword_hitbox.position.x) / abs(sword_hitbox_range.y - sword_hitbox_range.x))), -3300.0)
 	_character.movement.hitstun(2.5, 20)
 
 

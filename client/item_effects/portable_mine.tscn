@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://8bxr83p8nn0f" path="res://tile_effects/spawn_effect/spawn_effect.gd" id="1_2odj6"]
 [ext_resource type="Texture2D" uid="uid://daxkddqv8rxkc" path="res://items/portable_mine_item.png" id="1_pwc0h"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_at6wu"]
-load_path = "res://.godot/imported/portable_mine_light_mask.png-03c4c8c4558c4939230eb0d9a41205be.ctex"
-
 [sub_resource type="Animation" id="Animation_7ev07"]
 length = 0.001
 tracks/0/type = "value"
@@ -171,7 +168,7 @@ texture = ExtResource("1_pwc0h")
 
 [node name="PortableMineLightMask" type="Sprite2D" parent="." unique_id=544495399]
 visible = false
-texture = SubResource("CompressedTexture2D_at6wu")
+texture = ExtResource("1_pwc0h")
 
 [node name="AnimationTimer" type="Timer" parent="." unique_id=1005103462]
 wait_time = 1.5

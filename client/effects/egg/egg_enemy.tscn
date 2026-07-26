@@ -26,7 +26,3 @@ monitorable = false
 [node name="SightArea" type="CollisionShape2D" parent="SightArea" unique_id=1101727724]
 position = Vector2(135, -50)
 shape = SubResource("RectangleShape2D_6efyl")
-
-[node name="Timer" type="Timer" parent="." unique_id=1441652634]
-wait_time = 0.5
-autostart = true

@@ -32,7 +32,6 @@ func set_block_position(_character: Character):
 	can_place = false
 	var layer = Game.get_target_map_layer_node()
 	tile_map_layer = layer.tile_map_layer
-	spawn_position = to_local(Vector2(0, 0))
 	coords = tile_map_layer.get_block_position_at_local_position(Vector2(_character.global_position.x + (Settings.tile_size_half.x * _character.movement.facing), _character.global_position.y - Settings.tile_size_half.y))
 	if !tile_map_layer.is_solid(coords):
 		can_place = true

@@ -1,7 +1,7 @@
 extends Item
 class_name RocketLauncherItem
 
-@onready var projectile = load("res://item_effects/rocket.tscn")
+var rocket = load("res://item_effects/rocket.tscn")
 @onready var animations: AnimationPlayer = $Animations
 var animation_timer = Timer.new()
 
@@ -37,14 +37,15 @@ func activate_item(_character: Character):
 
 
 func launch(_character: Character):
-	var rocket = projectile.instantiate()
-	rocket.dir = 0
-	rocket.spawnpos = global_position
-	rocket.spawnrot = 0
-	rocket.scale.x = _character.movement.facing
 	var layer = Game.get_target_map_layer_node()
 	var spawn = layer.projectiles
-	spawn.add_child.call_deferred(rocket)
+	var missle = rocket.instantiate()
+	missle.global_position = global_position
+	missle.collision_layer = _character.collision_layer
+	missle.collision_mask = _character.collision_mask
+	missle.set_projectile(missle, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "rocket_lifetime"), Vector2(GameConfig.get_value("items-effects", "rocket_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
+	spawn.add_child(missle)
+	Jukebox.play_sound("misslelauncher")
 
 
 func _remove_item(_character: Character):

@@ -89,6 +89,9 @@ func _physics_process(delta: float) -> void:
 		movement.previous_velocity = movement.current_velocity
 		if !movement.finished:
 			move_and_slide()
+			var collision = get_last_slide_collision()
+			if collision:
+				movement.current_velocity = velocity / Vector2(tile_interaction.get_depth(), tile_interaction.get_depth())
 	
 	# Interact with tiles
 	tile_interaction.interact_with_incoporeal_tiles(self)

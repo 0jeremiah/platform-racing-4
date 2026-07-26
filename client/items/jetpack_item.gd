@@ -26,11 +26,11 @@ func process_item(_character: Character):
 	if jetpack_timer > 0:
 		if fuelon:
 			if _character.movement.current_velocity.y < -700:
-				_character.item_manager.force = Vector2(0, -40)
+				_character.movement.current_velocity.y += -40
 			elif _character.movement.current_velocity.y <= 0:
-				_character.item_manager.force = Vector2(0, -65)
+				_character.movement.current_velocity.y += -65
 			else:
-				_character.item_manager.force = Vector2(0, -75)
+				_character.movement.current_velocity.y += -75
 			jetpack_timer -= 1
 			exhaustscale = randf_range(0.5, 1.0)
 			Exhaust1.modulate = Color(1.0, 1.0, 1.0, exhaustscale)

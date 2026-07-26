@@ -18,8 +18,8 @@ func _process(delta: float):
 
 
 func hit_player(_character: Character) -> void:
-	if _character.movement.frozen:
-		_character.movement.freeze(_character.stats.skill)
+	if !_character.movement.frozen:
+		_character.movement.freeze(_character.stats.get_skill_bonus())
 
 
 func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:

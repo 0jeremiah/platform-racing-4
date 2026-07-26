@@ -181,6 +181,7 @@ func spawn_eggs():
 			egg_counter += 1
 			var egg_enemy = EGG_ENEMY.instantiate()
 			var depth = Helpers.get_depth(map_layer)
+			egg_enemy.tile_map_layer = self
 			egg_enemy.position = BlockManager._blocks[egg].get_center_position(self, coords)
 			egg_enemy.name = "EggEnemy" + str(egg_counter)
 			map_layer.enemies.add_child(egg_enemy)

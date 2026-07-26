@@ -165,6 +165,7 @@ _data = {
 }
 
 [node name="SwordSlash" type="RigidBody2D" unique_id=123964402]
+gravity_scale = 0.0
 script = ExtResource("1_hgxgu")
 
 [node name="SwordArea" type="Area2D" parent="." unique_id=949341237]

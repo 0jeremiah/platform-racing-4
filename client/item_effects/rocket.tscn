@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cd20fgaowojly"]
+[gd_scene format=3 uid="uid://cd20fgaowojly"]
 
 [ext_resource type="Texture2D" uid="uid://khxxsjm5q2hl" path="res://item_effects/rocket.svg" id="1_8f1pt"]
 [ext_resource type="Script" uid="uid://b0ekqov56dpki" path="res://item_effects/rocket.gd" id="1_diylb"]
@@ -22,40 +22,33 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_ldn51")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwb6a"]
-radius = 5.0
-height = 128.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4up4"]
+size = Vector2(172, 20)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Rocket" type="RigidBody2D" unique_id=1168286062]
+gravity_scale = 0.0
+center_of_mass_mode = 1
+center_of_mass = Vector2(-96, 0)
 script = ExtResource("1_diylb")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-82, 0)
+[node name="Exhaust" type="AnimatedSprite2D" parent="." unique_id=657804720]
+position = Vector2(-117, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_gper0")
 frame_progress = 0.0205107
 speed_scale = 8.0
 
-[node name="Rocket" type="Sprite2D" parent="."]
-position = Vector2(35, 0)
+[node name="Rocket" type="Sprite2D" parent="." unique_id=1315675219]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_8f1pt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(34, 1)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_fwb6a")
+[node name="RocketArea" type="Area2D" parent="." unique_id=928691449]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
-position = Vector2(34, 1)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_fwb6a")
+[node name="RocketHitbox" type="CollisionShape2D" parent="RocketArea" unique_id=660977846]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_p4up4")

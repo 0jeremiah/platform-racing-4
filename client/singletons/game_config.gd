@@ -81,12 +81,13 @@ var default_values: Dictionary = {
 		"laser_bullet_lifetime": 3.3,
 		"laser_bullet_speed": 4800.0,
 		"rocket_lifetime": 3.3,
+		"rocket_speed": 2400.0,
 		"shield_duration": 10.0,
 		"speed_burst_duration": 6.0,
 		"speed_burst_multiplier": 2.0,
 		"sword_slash_lifetime": 0.2,
 		"sword_slash_speed": 1500.0,
-		"teleport_horizontal_distance": 3.0,
+		"teleport_horizontal_distance": 3.5,
 		"teleport_vertical_distance": 0.0
 	}
 }

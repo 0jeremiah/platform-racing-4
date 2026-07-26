@@ -27,9 +27,8 @@ func process_item(_character: Character):
 			if _character.movement.current_velocity.y >= 0:
 				_character.movement.current_velocity.y = 0
 			if _character.movement.current_velocity.y >= -3000:
-				_character.item_manager.force = Vector2(100, -60)
-			else:
-				_character.item_manager.force = Vector2(100, 0)
+				_character.movement.current_velocity.y += -60
+			_character.movement.current_velocity.x += 100 * _character.movement.facing
 		else:
 			_character.item_manager.force = Vector2(0, 0)
 		if decrease_uses_timer > 0:

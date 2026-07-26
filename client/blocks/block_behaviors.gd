@@ -84,6 +84,9 @@ func bounce(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 		node.movement.current_velocity = node.movement.current_velocity * (Vector2(1, 1) + (Vector2(bounciness, bounciness) * node.tile_interaction.last_collision.get_normal().abs()))
 		# need a speed limit to keep bouncing back and forth from getting out of hand
 		node.movement.current_velocity = node.movement.current_velocity.limit_length(speed_limit)
+		node.velocity = node.movement.current_velocity * Vector2(node.tile_interaction.get_depth(), node.tile_interaction.get_depth())
+		print(node.velocity)
+		Jukebox.play_sound("sproing")
 
 
 ## Helper function to determine if a body is moving towards a block
