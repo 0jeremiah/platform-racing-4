@@ -5,13 +5,13 @@ signal item_settings_changed
 @onready var infinite_items_check_box = $InfiniteItemsCheckBox
 @onready var item_supply_box = $ItemSupplyBox
 
-var infinite_items: bool = false
-var item_supply: int = 1
+var infinite_items: bool = ConfigurableBlockSettings.default_block_properties.infinite_items
+var item_supply: int = ConfigurableBlockSettings.default_block_properties.item_supply
 
 
 func _ready() -> void:
 	infinite_items_check_box.pressed.connect(_toggle_infinite_items)
-	item_supply_box.init("int", "1", 0, 9999999)
+	item_supply_box.init("int", str(item_supply), 0, 9999999)
 	item_supply_box.return_line.connect(_change_item_supply)
 	connect_node(self, "item_settings_changed")
 

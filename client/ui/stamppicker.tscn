@@ -1,19 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://coenrjwlg2bck"]
+[gd_scene format=3 uid="uid://coenrjwlg2bck"]
 
 [ext_resource type="Script" uid="uid://um6dkj4awx7w" path="res://ui/stamppicker.gd" id="1_hi5ag"]
-[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="2_mur5c"]
+[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/pagination.tscn" id="2_mur5c"]
 
-[node name="StampPicker" type="Control"]
+[node name="StampPicker" type="Control" unique_id=1046217058]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_hi5ag")
 
-[node name="StampPickerPanel" type="Panel" parent="."]
+[node name="StampPickerPanel" type="Panel" parent="." unique_id=1704443944]
 layout_mode = 0
 offset_right = 380.0
 offset_bottom = 225.0
 
-[node name="TabBar" type="TabBar" parent="."]
+[node name="TabBar" type="TabBar" parent="." unique_id=1811851776]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 20.0
@@ -29,14 +29,14 @@ tab_count = 2
 tab_0/title = "Classic"
 tab_1/title = "Custom"
 
-[node name="Navigation" parent="." instance=ExtResource("2_mur5c")]
+[node name="Pagination" parent="." unique_id=1826374547 instance=ExtResource("2_mur5c")]
 layout_mode = 0
 offset_left = 360.0
 offset_top = 71.0
 offset_right = 360.0
 offset_bottom = 71.0
 
-[node name="LightColorRect" type="ColorRect" parent="."]
+[node name="LightColorRect" type="ColorRect" parent="." unique_id=1234918824]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 124.0
@@ -44,7 +44,7 @@ offset_right = 365.0
 offset_bottom = 202.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="DarkColorRect" type="ColorRect" parent="."]
+[node name="DarkColorRect" type="ColorRect" parent="." unique_id=1310413323]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 129.0
@@ -52,14 +52,14 @@ offset_right = 360.0
 offset_bottom = 197.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="StampButtonContainer" type="Control" parent="."]
+[node name="StampButtonContainer" type="Control" parent="." unique_id=183254568]
 anchors_preset = 0
 offset_left = 30.0
 offset_top = 139.0
 offset_right = 350.0
 offset_bottom = 187.0
 
-[node name="NoStampsText" type="RichTextLabel" parent="."]
+[node name="NoStampsText" type="RichTextLabel" parent="." unique_id=1565461668]
 layout_mode = 0
 offset_left = 106.0
 offset_top = 138.0

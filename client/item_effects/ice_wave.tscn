@@ -6,8 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmtn"]
 size = Vector2(125, 200)
 
-[node name="IceWave" type="RigidBody2D" unique_id=1610183568]
-gravity_scale = 0.0
+[node name="IceWave" type="CharacterBody2D" unique_id=1924648844]
 script = ExtResource("1_d33do")
 
 [node name="IceWaveSprite" type="Sprite2D" parent="." unique_id=928182107]

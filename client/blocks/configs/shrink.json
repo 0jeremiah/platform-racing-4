@@ -14,7 +14,7 @@
 		"any_side": {"type": "active", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 1, "y": 4}
 	}
 }

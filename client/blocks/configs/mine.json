@@ -5,16 +5,16 @@
 		"comment": "Explodes rather painfully if something or someone touches it.",
 		"matter_type": "solid",
 		"block_type": "active",
-		"left": {"type": "active", "params": {}},
-		"right": {"type": "active", "params": {}},
-		"top": {"type": "active", "params": {}},
-		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "active", "params": {}},
+		"left": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}},
+		"right": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}},
+		"top": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}},
+		"bottom": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}},
+		"bump": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "mine", "params": {"push_strength": 5000.0, "hitstun_duration": 2.5, "hp_sap": 20}}
+		"any_side": {"type": "active", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 9, "y": 0}
 	}
 }

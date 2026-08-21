@@ -128,16 +128,16 @@ func init(data: Dictionary = {}):
 		editor_camera.position = data.saved_camera_position
 
 
-func _on_back_pressed():
-	LevelEditor.current_level = level_manager.encode_level()
-	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
-	await Main.set_scene(Main.TITLE)
+func _on_undo_pressed():
+	pass
 
 
-func _on_block_editor_pressed():
-	LevelEditor.current_level = level_manager.encode_level()
-	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
-	await Main.set_scene(Main.BLOCK_EDITOR)
+func _on_redo_pressed():
+	pass
+
+
+func _on_clear_pressed():
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
 
 
 func _on_load_pressed():
@@ -149,14 +149,30 @@ func _on_save_pressed():
 	PopupManager.add_custom_popup(save_popup, {"mode": "level", "current_data": LevelEditor.current_level})
 
 
+func _on_import_pressed():
+	pass
+
+
+func _on_export_pressed():
+	pass
+
+
+func _on_block_editor_pressed():
+	LevelEditor.current_level = level_manager.encode_level()
+	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
+	await Main.set_scene(Main.BLOCK_EDITOR)
+
+
+func _on_back_pressed():
+	LevelEditor.current_level = level_manager.encode_level()
+	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
+	await Main.set_scene(Main.TITLE)
+
+
 func _on_test_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
 	#FileManager.save_level_to_file(LevelEditor.current_level, current_level_name)
 	Main.set_scene(Main.TESTER, {"level": LevelEditor.current_level})
-
-
-func _on_clear_pressed():
-	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
 
 
 func _on_confirm_clear():

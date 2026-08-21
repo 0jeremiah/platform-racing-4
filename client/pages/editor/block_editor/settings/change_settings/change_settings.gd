@@ -1,4 +1,4 @@
-extends Control
+extends BlockSetting
 
 signal change_settings_changed
 
@@ -23,7 +23,11 @@ func _ready() -> void:
 	tick_box.init("float", str(change_tick), 0.0, 99999999.9)
 	tick_box.return_line.connect(_update_tick)
 	block_picker.block_clicked.connect(_drag_block)
+	block_picker._change_tab(0)
+	#block_picker.set_block_container_grid_size(8, 3)
+	#block_picker.set_block_picker_pagination_max_buttons(2)
 	_update_block_list()
+	connect_node(self, "change_settings_changed")
 
 
 func _process(delta: float) -> void:
@@ -71,8 +75,8 @@ func _update_block_list():
 		block_button.position = Vector2(5, 5)
 		block_button.pivot_offset = Vector2(block_button.size.x / 2, block_button.size.y / 2)
 		var _block_data = {
-			"block_id": change_pattern[block],
-			"block_index": block
+			"id": change_pattern[block],
+			"index": block
 			}
 		block_container.add_child(block_button)
 		blocks_container.add_child(block_container)
@@ -85,22 +89,23 @@ func _update_tick(new_change_tick: float) -> void:
 
 
 func _select_block(block_data: Dictionary):
-	change_pattern.remove_at(block_data.block_index)
+	change_pattern.remove_at(block_data.index)
 	_update_block_list()
-	block_data.erase("block_index")
+	block_data.erase("index")
 	quick_click = true
 	old_mouse_position = blocks_container.get_local_mouse_position()
-	_drag_block(block_data.block_id, {}, false)
+
+	_drag_block(block_data, false)
 	check_if_not_clicking = true
 
 
-func _drag_block(block_id: String, _block_settings: Dictionary = {}, _from_block_picker: bool = true) -> void:
+func _drag_block(block_data: Dictionary, _from_block_picker: bool = true) -> void:
 	# blockpicker returns block id and block settings but we only need block id (i'm not adding customizable
 	# settings to change settings ui dawg)
 	from_block_picker = _from_block_picker
 	quick_click = true
-	selected_block_id = block_id
-	update_block_icon(block_id)
+	selected_block_id = block_data.id
+	update_block_icon(block_data.id)
 	_update_block_list()
 	check_if_not_clicking = true
 

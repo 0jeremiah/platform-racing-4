@@ -3,9 +3,10 @@ class_name ButtonPopup
 
 @onready var intrusive_bg = $IntrusiveBG
 @onready var popup = $Popup
-@onready var default_panel = $Popup/DefaultPanel
-@onready var holder = $Popup/Holder
-@onready var buttons_holder = $Popup/ButtonsHolder
+@onready var popup_container = $Popup/PopupContainer
+@onready var default_panel = $Popup/PopupContainer/DefaultPanel
+@onready var holder = $Popup/PopupContainer/Holder
+@onready var buttons_holder = $Popup/PopupContainer/ButtonsHolder
 
 var intrusive: bool = true
 var fade_in_speed: float = 0.12
@@ -17,31 +18,32 @@ var padding: Vector2 = Vector2(20.0, 20.0)
 var auto_position: bool = true
 var die_without_focus = false
 var holder_size = Vector2(0.0, 0.0)
+var popup_alpha: float = 0.0
 
 
 func _ready() -> void:
-	modulate.a = 0.0
-	screen_size = get_viewport().get_visible_rect().size
-	popup.focus_exited.connect(_check_focus)
-	default_panel.focus_exited.connect(_check_focus)
-	holder.focus_exited.connect(_check_focus)
-	buttons_holder.focus_exited.connect(_check_focus)
+	popup.popup_window = false
 	popup.grab_focus()
+	popup_alpha = 0.0
+	screen_size = get_viewport().get_visible_rect().size
+	popup.focus_exited.connect(_maybe_die_without_focus)
 
 
 func _process(_delta: float) -> void:
 	screen_size = get_viewport().get_visible_rect().size
-	global_position = Vector2(0.0, 0.0)
+	position = Vector2(0.0, 0.0)
 	available_size = Vector2(screen_size.x / 1.2, screen_size.y / 1.2)
 	#var main_camera = get_viewport().get_camera_2d()
 	#if main_camera:
 		#scale = Vector2(1, 1) / main_camera.zoom
 		#global_position = (main_camera.get_screen_center_position() - ((screen_size / main_camera.zoom) / 2))
-	if modulate.a < target_alpha:
-		if modulate.a + fade_in_speed > target_alpha:
-			modulate.a = target_alpha
+	if popup_alpha < target_alpha:
+		if popup_alpha + fade_in_speed > target_alpha:
+			popup_alpha = target_alpha
 		else:
-			modulate.a += fade_in_speed
+			popup_alpha += fade_in_speed
+	intrusive_bg.modulate.a = popup_alpha
+	popup_container.modulate.a = popup_alpha
 	if intrusive:
 		intrusive_bg.size = screen_size
 		intrusive_bg.visible = true
@@ -57,7 +59,7 @@ func _process(_delta: float) -> void:
 	default_panel.size = Vector2(holder.size.x + (padding.x * 2), (buttons_holder.size.y + buttons_holder.position.y) + padding.y)
 	popup.size = default_panel.size
 	if auto_position:
-		popup.position = Vector2((screen_size.x - popup.size.x) / 2, (screen_size.y - popup.size.y) / 2)
+		popup.position = Vector2((screen_size.x - default_panel.size.x) / 2, (screen_size.y - default_panel.size.y) / 2)
 
 
 func add_node_to_holder(node = null, node_size = null) -> void:
@@ -71,6 +73,18 @@ func add_node_to_holder(node = null, node_size = null) -> void:
 
 func set_dimensions(new_dimensions: Vector2) -> void:
 	available_size = Vector2(max(new_dimensions.x, minimum_size.x), max(new_dimensions.y, minimum_size.y))
+
+
+func set_intrusive(new_intrusive: bool):
+	intrusive = new_intrusive
+
+
+func set_auto_position(new_auto_position: bool):
+	auto_position = new_auto_position
+
+
+func set_die_without_focus(new_die_without_focus: bool):
+	die_without_focus = new_die_without_focus
 
 
 func position_buttons() -> void:
@@ -104,18 +118,6 @@ func _maybe_do_button_func(button_func = null) -> void:
 		button_func.call()
 
 
-func _check_focus() -> void:
-	var has_focus = false
-	if popup.has_focus() or default_panel.has_focus():
-		has_focus = true
-	elif holder.has_focus() or (holder.get_child_count() > 0 and holder.get_child(0) is Control and holder.get_child(0).has_focus):
-		has_focus = true
-	elif buttons_holder.has_focus():
-		has_focus = true
-	else:
-		for child in buttons_holder.get_children():
-			if child.has_focus():
-				has_focus = true
-				break
-	if !has_focus and die_without_focus:
+func _maybe_die_without_focus() -> void:
+	if die_without_focus:
 		queue_free()

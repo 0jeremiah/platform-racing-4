@@ -8,7 +8,7 @@
 		"area": {"type": "moon", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 7, "y": 3}
 	}
 }

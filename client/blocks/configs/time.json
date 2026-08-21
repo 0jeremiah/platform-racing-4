@@ -16,7 +16,7 @@
 		"time_supply": 1
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 9, "y": 2}
 	}
 }

@@ -3,7 +3,7 @@ extends Control
 signal change_selected_background
 
 @onready var bg_picker_panel = $BGPickerPanel
-@onready var navigation = $Navigation
+@onready var pagination = $Pagination
 @onready var light_color_rect = $LightColorRect
 @onready var dark_color_rect = $DarkColorRect
 @onready var bg_button_container = $BGButtonContainer
@@ -23,8 +23,8 @@ func _ready() -> void:
 	bg_dictionary.clear()
 	for bg in Backgrounds.bg_dictionary:
 		bg_dictionary[bg] = {"id": bg, "texture": Backgrounds.bg_dictionary[bg].texture}
-	navigation.set_align("right")
-	navigation.connect("set_page", _on_set_page)
+	pagination.set_align("right")
+	pagination.connect("set_page", _on_set_page)
 	show_bgs()
 
 
@@ -57,10 +57,10 @@ func show_bgs():
 	bg_dictionary_keys = bg_dictionary_keys.slice((15 * (bg_picker_page - 1)), (15 * bg_picker_page))
 	for bg in bg_dictionary_keys:
 		current_bg_dictionary[bg] = {"id": bg, "texture": bg_dictionary[bg].texture}
-	navigation.init(bg_picker_page, bg_picker_pages, 4, true)
+	pagination.init(bg_picker_page, bg_picker_pages, 4, true)
 	if !current_bg_dictionary.is_empty():
 		no_bgs_text.visible = false
-		navigation.init(bg_picker_page, bg_picker_pages, 4, true)
+		pagination.init(bg_picker_page, bg_picker_pages, 4, true)
 		for bg in current_bg_dictionary.size():
 			if bg_dictionary_keys[bg] == "blank":
 				var bg_color_button = color_box.instantiate()
@@ -87,7 +87,7 @@ func show_bgs():
 			bg_button_container.size = Vector2(320, (68 * (snapped((bg / 5), 1) + 1)) - 20)
 	else:
 		no_bgs_text.visible = true
-		navigation.init(1, 0, 3, false)
+		pagination.init(1, 0, 3, false)
 		bg_picker_panel.size = Vector2(380, yoffset + 88)
 		bg_button_container.size = Vector2(320, 48)
 	light_color_rect.size = Vector2(bg_button_container.size.x + 20, bg_button_container.size.y + 20)

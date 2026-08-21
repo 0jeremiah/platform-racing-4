@@ -12,12 +12,12 @@
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
 		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "heart", "params": {"hp": 1, "exact": false, "invincibility": false}},
+		"bump": {"type": "heart", "params": {"hp": 20, "exact": false, "invincibility": false}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 8, "y": 2}
 	}
 }

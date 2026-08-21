@@ -1,26 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://bv7hg0hol6uny"]
+[gd_scene format=3 uid="uid://bv7hg0hol6uny"]
 
 [ext_resource type="Script" uid="uid://vgwwfe4gubb5" path="res://ui/bgpicker.gd" id="1_t28sc"]
-[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="2_lk8lb"]
+[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/pagination.tscn" id="2_lk8lb"]
 
-[node name="BGPicker" type="Control"]
+[node name="BGPicker" type="Control" unique_id=1467916149]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_t28sc")
 
-[node name="BGPickerPanel" type="Panel" parent="."]
+[node name="BGPickerPanel" type="Panel" parent="." unique_id=1745356629]
 layout_mode = 0
 offset_right = 380.0
 offset_bottom = 174.0
 
-[node name="Navigation" parent="." instance=ExtResource("2_lk8lb")]
+[node name="Pagination" parent="." unique_id=1627862314 instance=ExtResource("2_lk8lb")]
 layout_mode = 0
 offset_left = 360.0
 offset_top = 20.0
 offset_right = 360.0
 offset_bottom = 20.0
 
-[node name="LightColorRect" type="ColorRect" parent="."]
+[node name="LightColorRect" type="ColorRect" parent="." unique_id=1823237098]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 73.0
@@ -28,7 +28,7 @@ offset_right = 365.0
 offset_bottom = 151.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="DarkColorRect" type="ColorRect" parent="."]
+[node name="DarkColorRect" type="ColorRect" parent="." unique_id=234133036]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 78.0
@@ -36,14 +36,14 @@ offset_right = 360.0
 offset_bottom = 146.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="BGButtonContainer" type="Control" parent="."]
+[node name="BGButtonContainer" type="Control" parent="." unique_id=1040806533]
 anchors_preset = 0
 offset_left = 30.0
 offset_top = 88.0
 offset_right = 350.0
 offset_bottom = 136.0
 
-[node name="NoBGsText" type="RichTextLabel" parent="."]
+[node name="NoBGsText" type="RichTextLabel" parent="." unique_id=1777829772]
 layout_mode = 0
 offset_left = 58.0
 offset_top = 87.0

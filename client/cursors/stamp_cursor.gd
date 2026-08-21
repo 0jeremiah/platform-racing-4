@@ -156,10 +156,13 @@ func _object_resized(object_info: Dictionary):
 
 func update_display():
 	var camera: Camera2D = get_viewport().get_camera_2d()
+	var camera_zoom = camera.zoom.x
+	if "camera_zoom" in camera:
+		camera_zoom = camera.camera_zoom
 	var layer_scale = 1.0
 	var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		layer_scale = layer.get_layer_scale()
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2)))
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2)))
 	stamp_icon.rotation_degrees = stamp_rotation
-	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2), ((0.01 * stamp_size) * layer_scale) * (camera.camera_zoom * 2))
+	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2), ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2))

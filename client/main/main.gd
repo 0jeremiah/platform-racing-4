@@ -54,6 +54,7 @@ func _ready():
 	if await TestRunner.run_tests(self):
 		return
 
+	BlockManager.init()
 	BlockManager.load_default_block_configs()
 	Stamps.add_block_stamps()
 
@@ -63,6 +64,7 @@ func _ready():
 
 
 static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:
+	PopupManager.delete_all_popups()
 	if !instance:
 		return null
 	return await instance._set_scene(scene_name, data)

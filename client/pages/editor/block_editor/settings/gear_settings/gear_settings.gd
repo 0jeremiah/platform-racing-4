@@ -6,17 +6,17 @@ signal gear_settings_changed
 @onready var gear_tick_box = $GearTickBox
 @onready var gear_tock_box = $GearTockBox
 
-var gear_rotation: float = 90.0
-var gear_tick: float = 4000.0
-var gear_tock: float = 500.0
+var gear_rotation: float = ConfigurableBlockSettings.default_block_properties.gear_rotation
+var gear_tick: float = ConfigurableBlockSettings.default_block_properties.gear_tick
+var gear_tock: float = ConfigurableBlockSettings.default_block_properties.gear_tock
 
 
 func _ready() -> void:
-	gear_rotation_box.init("float", "90.0", -360.0, 360.0)
+	gear_rotation_box.init("float", str(gear_rotation), -360.0, 360.0)
 	gear_rotation_box.return_line.connect(_change_gear_rotation)
-	gear_tick_box.init("float", "4000.0", 0.0, 99999999.9)
+	gear_tick_box.init("float", str(gear_tick), 0.0, 99999999.9)
 	gear_tick_box.return_line.connect(_change_gear_tick)
-	gear_tock_box.init("float", "500.0", 0.0, 99999999.9)
+	gear_tock_box.init("float", str(gear_tock), 0.0, 99999999.9)
 	gear_tock_box.return_line.connect(_change_gear_tock)
 	connect_node(self, "gear_settings_changed")
 

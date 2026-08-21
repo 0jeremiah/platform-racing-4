@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://mcscxiumfayq"]
+
+[ext_resource type="Script" uid="uid://cvfwgfsmuaxkq" path="res://ui/pagination.gd" id="1_6ijid"]
+[ext_resource type="PackedScene" uid="uid://b7le1iohdrfv2" path="res://ui/gotopage.tscn" id="2_reyns"]
+
+[node name="Pagination" type="Control" unique_id=1690417911]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6ijid")
+
+[node name="Holder" type="Control" parent="." unique_id=1420325299]
+anchors_preset = 0
+
+[node name="LeftButton" type="Button" parent="Holder" unique_id=475106814]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+offset_right = 40.0
+offset_bottom = 40.0
+focus_mode = 0
+disabled = true
+text = "<"
+
+[node name="NumberedPagesButtons" type="Control" parent="Holder" unique_id=1738298851]
+visible = false
+anchors_preset = 0
+offset_left = 49.0
+offset_right = 49.0
+offset_bottom = 38.0
+
+[node name="GoToPagePopup" type="Popup" parent="Holder" unique_id=516216504]
+auto_translate_mode = 1
+oversampling_override = 1.0
+size = Vector2i(353, 133)
+min_size = Vector2i(353, 133)
+
+[node name="GoToPage" parent="Holder/GoToPagePopup" unique_id=1447498711 instance=ExtResource("2_reyns")]
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 353.0
+offset_bottom = 133.0
+
+[node name="RightButton" type="Button" parent="Holder" unique_id=292167899]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+offset_left = 50.0
+offset_right = 90.0
+offset_bottom = 40.0
+focus_mode = 0
+disabled = true
+text = ">"

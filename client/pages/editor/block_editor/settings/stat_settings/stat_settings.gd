@@ -5,13 +5,13 @@ signal stat_settings_changed
 @onready var infinite_stats_check_box = $InfiniteStatsCheckBox
 @onready var stat_supply_box = $StatSupplyBox
 
-var infinite_stats: bool = false
-var stat_supply: int = 1
+var infinite_stats: bool = ConfigurableBlockSettings.default_block_properties.infinite_stats
+var stat_supply: int = ConfigurableBlockSettings.default_block_properties.stat_supply
 
 
 func _ready() -> void:
 	infinite_stats_check_box.pressed.connect(_toggle_infinite_stats)
-	stat_supply_box.init("int", "1", 0, 9999999)
+	stat_supply_box.init("int", str(stat_supply), 0, 9999999)
 	stat_supply_box.return_line.connect(_change_item_supply)
 	connect_node(self, "stat_settings_changed")
 

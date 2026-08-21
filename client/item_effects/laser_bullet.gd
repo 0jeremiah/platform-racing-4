@@ -16,4 +16,4 @@ func hit_player(_character: Character) -> void:
 
 
 func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:
-	pass
+	touch_block(tile_map_layer, coords, events, normal)

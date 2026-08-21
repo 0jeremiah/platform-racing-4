@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://12oda6t5ktlu"]
+
+[ext_resource type="Script" uid="uid://cm4ns32x0degw" path="res://ui/jump_menu/jump_menu_button.gd" id="1_0ge4n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rlya"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wmy22"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwmtn"]
+bg_color = Color(1, 1, 1, 0.49803922)
+
+[node name="JumpMenuButton" type="Button" unique_id=2043677909]
+custom_minimum_size = Vector2(160, 30)
+offset_right = 160.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_6rlya")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wmy22")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dwmtn")
+text = "Undo (Ctrl-Z)"
+alignment = 0
+clip_text = true
+script = ExtResource("1_0ge4n")

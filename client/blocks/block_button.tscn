@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://lttewlshc5tf"]
+
+[ext_resource type="Script" uid="uid://dx5w1eoron1jl" path="res://blocks/block_button.gd" id="1_ibywv"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://blocks/tileatlaspr4.png" id="2_lerbd"]
+[ext_resource type="Texture2D" uid="uid://d112xmxqpey7t" path="res://blocks/tileatlaspr2.png" id="3_lerbd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rlya"]
+atlas = ExtResource("2_lerbd")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwmtn"]
+atlas = ExtResource("3_lerbd")
+region = Rect2(384, 384, 128, 128)
+
+[node name="BlockButton" type="Control" unique_id=747498303]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 60.0
+offset_bottom = 60.0
+script = ExtResource("1_ibywv")
+
+[node name="BlockButton" type="TextureButton" parent="." unique_id=1923238901]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 54.0
+offset_bottom = 54.0
+pivot_offset = Vector2(24, 24)
+focus_mode = 1
+texture_normal = SubResource("AtlasTexture_6rlya")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TeleportBlock" type="TextureRect" parent="BlockButton" unique_id=1855980012]
+visible = false
+show_behind_parent = true
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("AtlasTexture_dwmtn")
+expand_mode = 1

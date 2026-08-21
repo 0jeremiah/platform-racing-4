@@ -1,40 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxiwhl2uem7uk"]
+[gd_scene format=3 uid="uid://cxiwhl2uem7uk"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_wrryh"]
 [ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://ui/popup/button_popup.gd" id="2_odohb"]
 
-[node name="Popup" type="Control"]
-z_index = 4096
+[node name="Popup" type="Control" unique_id=252576712]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_wrryh")
 script = ExtResource("2_odohb")
 
-[node name="IntrusiveBG" type="ColorRect" parent="."]
+[node name="IntrusiveBG" type="ColorRect" parent="." unique_id=2108341208]
+show_behind_parent = true
 layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
+offset_right = 1912.0
+offset_bottom = 1072.0
 color = Color(1, 1, 1, 0.49803922)
 
-[node name="Popup" type="Control" parent="."]
+[node name="Popup" type="Popup" parent="." unique_id=154986207]
+transparent_bg = true
+oversampling_override = 1.0
+size = Vector2i(40, 60)
+visible = true
+transparent = true
+
+[node name="PopupContainer" type="Control" parent="Popup" unique_id=2050140194]
+layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 60.0
-focus_mode = 1
 
-[node name="DefaultPanel" type="Panel" parent="Popup"]
+[node name="DefaultPanel" type="Panel" parent="Popup/PopupContainer" unique_id=1512992143]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 60.0
 
-[node name="Holder" type="Control" parent="Popup"]
+[node name="Holder" type="Control" parent="Popup/PopupContainer" unique_id=492027952]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 20.0
 offset_bottom = 20.0
 
-[node name="ButtonsHolder" type="Control" parent="Popup"]
+[node name="ButtonsHolder" type="Control" parent="Popup/PopupContainer" unique_id=1427546921]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 40.0

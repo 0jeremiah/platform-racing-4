@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://b63nnd20dbn0s"]
 
-[ext_resource type="PackedScene" uid="uid://bb5jf3xljqq0b" path="res://pages/editor/block_editor/settings/settings.tscn" id="1_duhpl"]
-[ext_resource type="PackedScene" uid="uid://b753ngytaop2c" path="res://pages/editor/block_editor/side_settings/side_settings.tscn" id="2_4p5vs"]
+[ext_resource type="Script" uid="uid://b0dc1t5rl0nsp" path="res://pages/editor/block_editor/block_settings/block_settings.gd" id="1_4p5vs"]
+[ext_resource type="PackedScene" uid="uid://dy3och52t1v7o" path="res://pages/editor/block_editor/settings_menu.tscn" id="2_076bd"]
+[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings_menu.tscn" id="3_5qqt2"]
 
 [node name="BlockSettings" type="Control" unique_id=753743006]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_4p5vs")
 
 [node name="TabBar" type="TabBar" parent="." unique_id=934461307]
 layout_mode = 0
-offset_right = 410.0
+offset_right = 500.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 20
 current_tab = 0
@@ -21,15 +23,17 @@ tab_1/title = "Side Settings"
 [node name="HSeparator" type="HSeparator" parent="." unique_id=95138599]
 layout_mode = 0
 offset_top = 40.0
-offset_right = 410.0
+offset_right = 500.0
 offset_bottom = 50.0
 
-[node name="Settings" parent="." unique_id=765255440 instance=ExtResource("1_duhpl")]
+[node name="SettingsMenu" parent="." unique_id=1595585349 instance=ExtResource("2_076bd")]
 layout_mode = 0
 offset_top = 50.0
-offset_bottom = 160.0
+offset_right = 500.0
+offset_bottom = 410.0
 
-[node name="SideSettings" parent="." unique_id=356412320 instance=ExtResource("2_4p5vs")]
+[node name="SideSettingsMenu" parent="." unique_id=2097856954 instance=ExtResource("3_5qqt2")]
+visible = false
 layout_mode = 0
 offset_top = 50.0
-offset_bottom = 370.0
+offset_bottom = 410.0

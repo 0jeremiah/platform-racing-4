@@ -8,7 +8,7 @@
 		"area": {"type": "presence_switch", "params": {"activate_list": [35], "limit_range": false, "width": 10, "height": 10}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 5, "y": 3}
 	}
 }

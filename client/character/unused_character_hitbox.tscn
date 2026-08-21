@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://lue0fopbycbd"]
+
+[ext_resource type="Script" uid="uid://b7hu7hqwdfy3c" path="res://character/unused_character_hitbox.gd" id="1_bq4nn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ohgwb"]
+size = Vector2(48, 190)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmxg"]
+size = Vector2(64, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibj5s"]
+size = Vector2(64, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euwns"]
+size = Vector2(2, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0eroj"]
+size = Vector2(64, 94)
+
+[node name="CharacterHitbox" type="Node2D" unique_id=2112663590]
+position = Vector2(0, -90)
+script = ExtResource("1_bq4nn")
+
+[node name="HitboxesContainer" type="Node2D" parent="." unique_id=857251172]
+
+[node name="Area1" type="Area2D" parent="HitboxesContainer" unique_id=1231897363]
+position = Vector2(0, -5)
+
+[node name="Hitbox1" type="CollisionShape2D" parent="HitboxesContainer/Area1" unique_id=1777050877]
+shape = SubResource("RectangleShape2D_ohgwb")
+disabled = true
+
+[node name="Area2" type="Area2D" parent="HitboxesContainer" unique_id=1345202911]
+position = Vector2(0, -99.5)
+
+[node name="Hitbox2" type="CollisionShape2D" parent="HitboxesContainer/Area2" unique_id=1058965915]
+shape = SubResource("RectangleShape2D_4fmxg")
+disabled = true
+
+[node name="Area3" type="Area2D" parent="HitboxesContainer" unique_id=1018081567]
+position = Vector2(0, 89.5)
+
+[node name="Hitbox3" type="CollisionShape2D" parent="HitboxesContainer/Area3" unique_id=1580923227]
+shape = SubResource("RectangleShape2D_ibj5s")
+
+[node name="Area4" type="Area2D" parent="HitboxesContainer" unique_id=1670297047]
+position = Vector2(0, -52)
+
+[node name="Hitbox4" type="CollisionShape2D" parent="HitboxesContainer/Area4" unique_id=247035044]
+shape = SubResource("RectangleShape2D_euwns")
+disabled = true
+
+[node name="Area5" type="Area2D" parent="HitboxesContainer" unique_id=2111551063]
+position = Vector2(0, 43)
+
+[node name="Hitbox5" type="CollisionShape2D" parent="HitboxesContainer/Area5" unique_id=1157383477]
+shape = SubResource("RectangleShape2D_0eroj")

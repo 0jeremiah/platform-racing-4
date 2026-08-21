@@ -14,7 +14,7 @@
 		"any_side": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 4, "y": 4}
 	}
 }

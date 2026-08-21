@@ -14,7 +14,7 @@
 		"any_side": {"type": "stick", "params": {"speed_stickiness": 2.5, "jump_stickiness": 8.0}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 2, "y": 4}
 	}
 }

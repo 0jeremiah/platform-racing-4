@@ -14,7 +14,7 @@
 		"any_side": {"type": "arrow", "params": {"horizontal_force": 125.0, "vertical_force": 110.0, "direction": {"x": -1.0, "y": 0.0}}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 7, "y": 0}
 	}
 }

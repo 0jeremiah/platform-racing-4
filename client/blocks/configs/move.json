@@ -16,7 +16,7 @@
 		"move_pattern": "up, down, left, right"
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 9, "y": 1}
 	}
 }

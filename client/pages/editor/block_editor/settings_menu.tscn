@@ -1,48 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy3och52t1v7o"]
+[gd_scene format=3 uid="uid://dy3och52t1v7o"]
 
 [ext_resource type="Script" uid="uid://luym4gtxrrt" path="res://pages/editor/block_editor/settings_menu.gd" id="1_p6ii4"]
 [ext_resource type="PackedScene" uid="uid://bb5jf3xljqq0b" path="res://pages/editor/block_editor/settings/settings.tscn" id="2_1p1ry"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="3_1p1ry"]
 
-[node name="SettingsMenu" type="Control"]
+[node name="SettingsMenu" type="Control" unique_id=603678807]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 250.0
-offset_bottom = 160.0
+offset_right = 726.0
+offset_bottom = 570.0
 script = ExtResource("1_p6ii4")
 
-[node name="HSeparator" type="HSeparator" parent="."]
+[node name="HSeparator" type="HSeparator" parent="." unique_id=626713283]
 layout_mode = 0
-offset_top = 70.0
-offset_right = 250.0
-offset_bottom = 74.0
+offset_top = 40.0
+offset_right = 726.0
+offset_bottom = 44.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=2145534984]
 layout_mode = 0
-offset_right = 250.0
+offset_right = 160.0
 offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Current settings:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SettingsDropdownButton" type="Button" parent="."]
+[node name="SettingsDropdownButton" type="Button" parent="." unique_id=48907709]
 layout_mode = 0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 60.0
+offset_left = 160.0
+offset_right = 500.0
+offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "None"
 
-[node name="SettingsContainer" type="ScrollContainer" parent="."]
+[node name="SettingsContainer" type="ScrollContainer" parent="." unique_id=1474870333]
 layout_mode = 0
-offset_top = 80.0
-offset_right = 238.0
-offset_bottom = 160.0
+offset_top = 50.0
+offset_right = 726.0
+offset_bottom = 570.0
 
-[node name="Settings" parent="SettingsContainer" instance=ExtResource("2_1p1ry")]
+[node name="Settings" parent="SettingsContainer" unique_id=698638111 instance=ExtResource("2_1p1ry")]
 layout_mode = 2
 
-[node name="DropdownPopup" parent="." instance=ExtResource("3_1p1ry")]
+[node name="DropdownPopup" parent="." unique_id=1223647647 instance=ExtResource("3_1p1ry")]
 transparent_bg = false
 visible = false

@@ -164,8 +164,7 @@ _data = {
 &"slash": SubResource("Animation_ayhc7")
 }
 
-[node name="SwordSlash" type="RigidBody2D" unique_id=123964402]
-gravity_scale = 0.0
+[node name="SwordSlash" type="CharacterBody2D" unique_id=518383939]
 script = ExtResource("1_hgxgu")
 
 [node name="SwordArea" type="Area2D" parent="." unique_id=949341237]

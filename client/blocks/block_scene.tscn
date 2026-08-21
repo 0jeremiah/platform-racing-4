@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://csqyk0m3t85aa"]
+
+[ext_resource type="Script" uid="uid://br57x0ycn8uf1" path="res://blocks/block_scene.gd" id="1_1f6pq"]
+[ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="2_1f6pq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rlya"]
+size = Vector2(128, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6hn1h"]
+size = Vector2(128, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmtn"]
+size = Vector2(64, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j48hi"]
+size = Vector2(64, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4kmw"]
+size = Vector2(128, 128)
+
+[node name="BlockScene" type="StaticBody2D" unique_id=1701347136]
+script = ExtResource("1_1f6pq")
+
+[node name="BlockTexture" type="TextureRect" parent="." unique_id=1692934373]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("2_1f6pq")
+metadata/_edit_use_anchors_ = true
+
+[node name="TopHitbox" type="CollisionShape2D" parent="." unique_id=2045483699]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_6rlya")
+one_way_collision = true
+
+[node name="BottomHitbox" type="CollisionShape2D" parent="." unique_id=677671508]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_6hn1h")
+one_way_collision = true
+one_way_collision_direction = Vector2(0, -1)
+
+[node name="LeftHitbox" type="CollisionShape2D" parent="." unique_id=1842339298]
+position = Vector2(-32, 0)
+shape = SubResource("RectangleShape2D_dwmtn")
+one_way_collision = true
+one_way_collision_direction = Vector2(1, 0)
+
+[node name="RightHitbox" type="CollisionShape2D" parent="." unique_id=544027684]
+position = Vector2(32, 0)
+shape = SubResource("RectangleShape2D_j48hi")
+one_way_collision = true
+one_way_collision_direction = Vector2(-1, 0)
+
+[node name="AreaHitbox" type="CollisionShape2D" parent="." unique_id=1650038927]
+shape = SubResource("RectangleShape2D_c4kmw")
+disabled = true
+one_way_collision = true
+one_way_collision_direction = Vector2(-1, 0)

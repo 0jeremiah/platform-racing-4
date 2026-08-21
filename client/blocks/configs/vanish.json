@@ -5,16 +5,16 @@
 		"comment": "Touch it, and poof! It's gone. No worries, though. It'll come back.",
 		"matter_type": "solid",
 		"block_type": "active",
-		"left": {"type": "active", "params": {}},
-		"right": {"type": "active", "params": {}},
-		"top": {"type": "active", "params": {}},
-		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "active", "params": {}},
+		"left": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}},
+		"right": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}},
+		"top": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}},
+		"bottom": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}},
+		"bump": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "vanish", "params": {"animation_duration": 0.3, "cooldown": 2.0}}
+		"any_side": {"type": "active", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 8, "y": 1}
 	}
 }

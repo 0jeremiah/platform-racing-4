@@ -1,4 +1,4 @@
-extends Control
+extends BlockSetting
 
 signal move_settings_changed
 
@@ -12,17 +12,18 @@ var allowed_commands: Array = ["up", "down", "left", "right", "wait", "random", 
 var move_tick: float = ConfigurableBlockSettings.default_block_properties.move_tick
 var old_move_pattern: String = ConfigurableBlockSettings.default_block_properties.move_pattern
 var move_pattern: String = ConfigurableBlockSettings.default_block_properties.move_pattern
-var randomize_move_pattern: bool = false
-var loop_move_pattern: bool = true
+var randomize_move_pattern: bool = ConfigurableBlockSettings.default_block_properties.randomize_move_pattern
+var loop_move_pattern: bool = ConfigurableBlockSettings.default_block_properties.loop_move_pattern
 
 
 func _ready() -> void:
-	tick_box.init("float", "2.5", 0.0, 99999999.9)
+	tick_box.init("float", str(move_tick), 0.0, 99999999.9)
 	tick_box.return_line.connect(_update_tick)
 	pattern_box.text_changed.connect(_parse_pattern)
 	random_button.pressed.connect(_toggle_random)
 	loop_button.pressed.connect(_toggle_loop)
 	_parse_pattern()
+	connect_node(self, "move_settings_changed")
 
 
 func _update_tick(new_move_tick: float):

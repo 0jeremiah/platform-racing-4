@@ -312,6 +312,22 @@ func hitstun(duration: float = 2.5, hp_sap: int = 20):
 			Jukebox.play_sound("ouchmanly")
 
 
+func give_hp(hp: float, exact: bool = false):
+	var extra_life = hp if hp <= GameConfig.get_value("other_player_stats", "max_health") else GameConfig.get_value("other_player_stats", "max_health")
+	if exact:
+		if hp <= GameConfig.get_value("other_player_stats", "max_health"):
+			life = extra_life
+		else:
+			life = GameConfig.get_value("other_player_stats", "max_health")
+	else:
+		if life + hp <= GameConfig.get_value("other_player_stats", "max_health"):
+			life += extra_life
+		else:
+			life = GameConfig.get_value("other_player_stats", "max_health")
+	if life > max_life:
+		max_life = life
+
+
 func grant_invincibility(character: Character):
 	var bonus = character.stats.get_skill_bonus()
 	invincibility_timer = GameConfig.get_value("other_player_stats", "invincibility_duration") * bonus

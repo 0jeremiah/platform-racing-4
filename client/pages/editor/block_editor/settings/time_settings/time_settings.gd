@@ -5,13 +5,13 @@ signal time_settings_changed
 @onready var infinite_time_check_box = $InfiniteTimeCheckBox
 @onready var time_supply_box = $TimeSupplyBox
 
-var infinite_time: bool = false
-var time_supply: float = 10.0
+var infinite_time: bool = ConfigurableBlockSettings.default_block_properties.infinite_time
+var time_supply: float = ConfigurableBlockSettings.default_block_properties.time_supply
 
 
 func _ready() -> void:
 	infinite_time_check_box.pressed.connect(_toggle_infinite_time)
-	time_supply_box.init("int", "10.0", 0.0, 99999999.9)
+	time_supply_box.init("int", str(time_supply), 0.0, 99999999.9)
 	time_supply_box.return_line.connect(_change_time_supply)
 	connect_node(self, "time_settings_changed")
 

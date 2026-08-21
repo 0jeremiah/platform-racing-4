@@ -1,0 +1,20 @@
+{
+	"id": "47",
+	"settings": {
+		"title": "One Way Right Block",
+		"comment": "The only way forward, is forward. (unless the path goes left, then you're screwed)",
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "inactive", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "inactive", "params": {}},
+		"bottom": {"type": "inactive", "params": {}},
+		"bump": {"type": "inactive", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}}
+	},
+	"image": {
+		"src": "res://blocks/tileatlaspr4.png",
+		"atlas_coords": {"x": 9, "y": 4}
+	}
+}

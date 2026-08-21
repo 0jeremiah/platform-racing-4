@@ -53,7 +53,7 @@ func add_block(coords: Vector2i, block_id: String, alt_id: int = ConfigurableBlo
 	block_settings.import_settings(BlockManager._block_lookup[block_id].settings)
 	if !settings.is_empty():
 		block_settings.import_edited_settings(settings)
-	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings}
+	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings, "node": null}
 
 
 ## Get cell block ID from coordinates (reverse lookup)

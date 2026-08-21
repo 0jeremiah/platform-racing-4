@@ -3,17 +3,11 @@ class_name ConfigurableBlock
 ##
 ## Allows runtime creation of tiles with custom behaviors defined in JSON or code.
 
-const STATIC := "static"
-const SOLID := "solid"
-const LIQUID := "liquid"
-const GAS := "gas"
-
 const VISIBLE_ALT_ID := 0
 const INVISIBLE_ALT_ID := 1
 const DEACTIVATED_ALT_ID := 2
 const INVISIBLE_DEACTIVATED_ALT_ID := 3
 
-var id: int = 1
 var settings = ConfigurableBlockSettings.new()
 var _config: Dictionary
 
@@ -26,6 +20,8 @@ func init(config: Dictionary) -> void:
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
 	#print("Block::on " + event)
+	if tile_map_layer.get_block(coords).id == "":
+		return
 	var current_sides = settings.get_sides()
 	if event not in current_sides:
 		return

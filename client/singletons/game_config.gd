@@ -30,6 +30,7 @@ var default_values: Dictionary = {
 
 	# Other Player Stats
 	"other_player_stats": {
+		"max_health": 300.0,
 		"invincibility_duration": 5.0,
 		"lightbreak_speed": 200000.0
 	},

@@ -85,7 +85,6 @@ func bounce(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 		# need a speed limit to keep bouncing back and forth from getting out of hand
 		node.movement.current_velocity = node.movement.current_velocity.limit_length(speed_limit)
 		node.velocity = node.movement.current_velocity * Vector2(node.tile_interaction.get_depth(), node.tile_interaction.get_depth())
-		print(node.velocity)
 		Jukebox.play_sound("sproing")
 
 
@@ -190,16 +189,13 @@ func finish(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 
 # Gives the player invincibility (and increases their hp if they are in a deathmatch).
 func heart(node: Node2D, _tile_map_layer: ConfigurableTileMapLayer, _coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
-	var hp = params.get("hp", 1)
+	var hp = params.get("hp", 20)
 	var exact = params.get("exact", false)
 	var invincibility = params.get("invincibility", true)
 	if "movement" in node:
 		if invincibility:
 			node.movement.grant_invincibility(node)
-		if exact:
-			node.movement.life = hp
-		else:
-			node.movement.life += hp
+		node.movement.give_hp(hp, exact)
 
 
 # Explode the block and push away the body
@@ -290,8 +286,8 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 func push(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	var tile_position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half).rotated(tile_map_layer.rotation)
 	var direction = tile_position - body.position
-	var source_id = tile_map_layer.get_cell_source_id(coords)
-	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
+	var block_id = tile_map_layer.get_block(coords).id
+	var block_settings = tile_map_layer.get_block(coords).settings.get_edited_settings()
 	
 	# force direction into 1 move
 	if abs(direction.x) > abs(direction.y):
@@ -311,24 +307,22 @@ func push(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	
 	# move over other move blocks, creates the illusion that they all move over one
 	var target_coords = coords + Vector2i(direction)
-	var existing_source_id = null
-	var existing_atlas_coords = null
+	var existing_block_id = ""
 	while true:
-		existing_source_id = tile_map_layer.get_cell_source_id(target_coords)
-		existing_atlas_coords = tile_map_layer.get_cell_atlas_coords(target_coords)
-		if existing_source_id == source_id and existing_atlas_coords == atlas_coords:
+		existing_block_id = tile_map_layer.get_block(target_coords).id
+		if existing_block_id == block_id:
 			target_coords = target_coords + Vector2i(direction)
 		else:
 			break
 	
 	# prevent moving through other blocks
-	existing_atlas_coords = tile_map_layer.get_cell_atlas_coords(target_coords)
-	if existing_atlas_coords != Vector2i(-1, -1):
+	existing_block_id = tile_map_layer.get_block(target_coords).id
+	if existing_block_id != "":
 		return
 	
 	# move!
-	tile_map_layer.set_cell(coords, -1)
-	tile_map_layer.set_cell(target_coords, 0, atlas_coords)
+	tile_map_layer.delete_block(coords)
+	tile_map_layer.add_block(target_coords, block_id, ConfigurableBlock.VISIBLE_ALT_ID, block_settings)
 
 
 # Rotates the node

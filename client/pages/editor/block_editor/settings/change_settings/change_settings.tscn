@@ -1,35 +1,35 @@
 [gd_scene format=3 uid="uid://cqfs7as8jr3yl"]
 
-[ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="1_6t2cv"]
-[ext_resource type="Script" uid="uid://cprpa8py4lujd" path="res://pages/editor/block_editor/change_settings.gd" id="1_vcmgd"]
-[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_7fopi"]
-[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_vcmgd"]
+[ext_resource type="Script" uid="uid://cprpa8py4lujd" path="res://pages/editor/block_editor/settings/change_settings/change_settings.gd" id="1_vo557"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_4gam5"]
+[ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="3_gdmyv"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="4_hk7dw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
-atlas = ExtResource("2_vcmgd")
+atlas = ExtResource("4_hk7dw")
 region = Rect2(0, 0, 128, 128)
 
 [node name="ChangeSettings" type="Control" unique_id=914833375]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 682.0
-offset_bottom = 258.0
-script = ExtResource("1_vcmgd")
+offset_right = 500.0
+offset_bottom = 484.0
+script = ExtResource("1_vo557")
 
 [node name="LightColorRect" type="ColorRect" parent="." unique_id=581999329]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 40.0
-offset_right = 682.0
-offset_bottom = 258.0
+offset_right = 500.0
+offset_bottom = 170.0
 color = Color(0, 0, 0, 0.247059)
 
 [node name="DarkColorRect" type="ColorRect" parent="." unique_id=1424915744]
 layout_mode = 0
 offset_left = 85.0
 offset_top = 45.0
-offset_right = 677.0
-offset_bottom = 253.0
+offset_right = 495.0
+offset_bottom = 165.0
 color = Color(0, 0, 0, 0.247059)
 
 [node name="TickLabel" type="RichTextLabel" parent="." unique_id=1350490647]
@@ -47,7 +47,7 @@ offset_right = 140.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "2.5"
-script = ExtResource("2_7fopi")
+script = ExtResource("2_4gam5")
 
 [node name="PerSecLabel" type="RichTextLabel" parent="." unique_id=1454397484]
 layout_mode = 0
@@ -71,8 +71,8 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 85.0
 offset_top = 45.0
-offset_right = 677.0
-offset_bottom = 248.0
+offset_right = 495.0
+offset_bottom = 245.0
 
 [node name="BlocksContainer" type="GridContainer" parent="ScrollContainer" unique_id=773164170]
 layout_mode = 2
@@ -80,14 +80,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-columns = 10
+columns = 6
 
-[node name="BlockPicker" parent="." unique_id=156263760 instance=ExtResource("1_6t2cv")]
+[node name="BlockPicker" parent="." unique_id=156263760 instance=ExtResource("3_gdmyv")]
 layout_mode = 0
-offset_left = -20.0
-offset_top = 298.0
-offset_right = 706.0
-offset_bottom = 520.0
+offset_left = 8.0
+offset_top = 190.0
+offset_right = 608.0
+offset_bottom = 590.0
 
 [node name="SelectedBlockTexture" type="TextureRect" parent="." unique_id=2124128093]
 visible = false
@@ -103,3 +103,9 @@ show_behind_parent = true
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
+
+[node name="HSeparator" type="HSeparator" parent="." unique_id=350283429]
+layout_mode = 0
+offset_top = 175.0
+offset_right = 500.0
+offset_bottom = 185.0

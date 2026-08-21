@@ -1,6 +1,7 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://88sly8e3w83r"]
+[gd_resource type="TileSet" format=3 uid="uid://88sly8e3w83r"]
 
 [ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://blocks/tileatlaspr4.png" id="1_fmr6d"]
+[ext_resource type="PackedScene" uid="uid://csqyk0m3t85aa" path="res://blocks/block_scene.tscn" id="2_3ocij"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pgym4"]
 texture = ExtResource("1_fmr6d")
@@ -93,10 +94,13 @@ texture_region_size = Vector2i(128, 128)
 4:4/0 = 0
 4:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_1m6hv"]
+resource_name = "Default"
+scenes/1/scene = ExtResource("2_3ocij")
+
 [resource]
 tile_size = Vector2i(128, 128)
 uv_clipping = true
 physics_layer_0/collision_layer = 1
-custom_data_layer_0/name = "options"
-custom_data_layer_0/type = 24
 sources/0 = SubResource("TileSetAtlasSource_pgym4")
+sources/1 = SubResource("TileSetScenesCollectionSource_1m6hv")

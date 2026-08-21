@@ -2,6 +2,7 @@ extends Control
 
 signal control_event
 
+@onready var blockpicker_popup = preload("res://ui/blockpickerpopup.gd")
 @onready var block_menu = $BlockMenu
 @onready var selection_glow = $BlockMenu/SelectionGlow
 @onready var block_mover_button = $BlockMenu/BlockMover/TextureButton
@@ -10,8 +11,6 @@ signal control_event
 @onready var block_dropper_button = $BlockMenu/BlockDropper/TextureButton
 @onready var block_draw_button = $BlockMenu/BlockDraw/TextureButton
 @onready var block_draw_teleport_colorin = $BlockMenu/BlockDraw/TextureButton/TeleportColorin
-@onready var block_picker_popup = $BlockMenu/BlockPickerPopup
-@onready var block_picker = $BlockMenu/BlockPickerPopup/Blockpicker
 @onready var block_options_panel = $BlockMenu/BlockOptionsPanel
 @onready var block_options_node = $BlockMenu/BlockOptions
 @onready var block_options_button = $BlockMenu/BlockOptions/TextureButton
@@ -20,7 +19,7 @@ signal control_event
 
 static var selected_block_id: String
 static var selected_block_settings: Dictionary
-var active: bool = false
+var active: bool = true
 var current_layers: Node2D
 var editor_events: EditorEvents
 var current_editor = null
@@ -36,7 +35,6 @@ func _ready() -> void:
 		selected_block_id = "601"
 		selected_block_settings = BlockManager._block_lookup[selected_block_id].settings
 	block_draw_button.pressed.connect(_show_block_picker)
-	block_picker.connect("change_selected_block", _set_current_block)
 	block_options_button.pressed.connect(_show_block_options)
 	_click_block_menu(block_dropper_button)
 
@@ -44,7 +42,7 @@ func _ready() -> void:
 func init() -> void:
 	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
-	_set_current_block(selected_block_id)
+	_set_current_block({"id": selected_block_id})
 	if active:
 		layer_panel._render()
 
@@ -84,8 +82,6 @@ func _process(_delta: float) -> void:
 			block_options_panel.visible = false
 			block_options_node.visible = false
 
-		block_picker_popup.size = block_picker.size
-
 		if selected_button:
 			set_selection_glow()
 	else:
@@ -93,9 +89,9 @@ func _process(_delta: float) -> void:
 
 
 # TODO: change this to accomodate the new side setting properties node
-func _set_current_block(block_id: String, block_settings: Dictionary = {}) -> void:
-	selected_block_id = block_id
-	selected_block_settings = block_settings
+func _set_current_block(block_data: Dictionary) -> void:
+	selected_block_id = block_data.id
+	selected_block_settings = block_data.get("settings", {})
 	block_draw_teleport_colorin.visible = false
 	emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK,
@@ -108,7 +104,6 @@ func _set_current_block(block_id: String, block_settings: Dictionary = {}) -> vo
 		block_draw_teleport_colorin.visible = true
 		block_draw_teleport_colorin.texture = BlockManager.get_block_teleport_texture(selected_block_id)
 		block_draw_teleport_colorin.self_modulate = block_instance.settings.teleport_color
-	block_picker_popup.hide()
 
 
 func _check_clicked_button(node: Node):
@@ -146,7 +141,6 @@ func _check_clicked_button(node: Node):
 func _click_block_menu(button: TextureButton):
 	var tool_id: String = ""
 	selected_button = button
-	print(selected_block_id)
 	if selected_button == block_mover_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK_MODE,
@@ -165,7 +159,7 @@ func _click_block_menu(button: TextureButton):
 
 
 func _show_block_picker():
-	block_picker_popup.show()
+	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_func": Callable(self, "_set_current_block"), "block_id": selected_block_id, "popup_position": Vector2(block_draw_panel.global_position.x + (block_draw_panel.size.x + 20), block_draw_panel.global_position.y)})
 
 
 func _show_block_options():

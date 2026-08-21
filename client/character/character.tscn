@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" uid="uid://dpqrkiaafi0k8" path="res://character/character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="2_kipoy"]
@@ -14,17 +14,21 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ju3rb"]
 
-[node name="Character" type="CharacterBody2D"]
+[node name="Character" type="CharacterBody2D" unique_id=1541502241]
+slide_on_ceiling = false
+safe_margin = 0.001
 script = ExtResource("1_phdif")
 
-[node name="CharacterHitbox" parent="." instance=ExtResource("2_qkr1y")]
+[node name="CharacterHitbox" parent="." unique_id=913120360 instance=ExtResource("2_qkr1y")]
+one_way_collision = true
+one_way_collision_direction = Vector2(0, -1)
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=859147482]
 position = Vector2(0, -100)
 ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
 
-[node name="Light" type="PointLight2D" parent="."]
+[node name="Light" type="PointLight2D" parent="." unique_id=580974972]
 position = Vector2(0, -66)
 enabled = false
 energy = 0.5
@@ -32,48 +36,48 @@ shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("2_kipoy")
 
-[node name="Particles" type="Node2D" parent="."]
+[node name="Particles" type="Node2D" parent="." unique_id=1496325478]
 
-[node name="Display" parent="." instance=ExtResource("9_ydu4f")]
+[node name="Display" parent="." unique_id=1671002185 instance=ExtResource("9_ydu4f")]
 
-[node name="LowArea" type="Area2D" parent="."]
+[node name="LowArea" type="Area2D" parent="." unique_id=886289884]
 position = Vector2(0, -32)
 collision_layer = 2
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LowArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowArea" unique_id=69097023]
 shape = SubResource("RectangleShape2D_hdlk0")
 
-[node name="HighArea" type="Area2D" parent="."]
+[node name="HighArea" type="Area2D" parent="." unique_id=390545606]
 position = Vector2(0, -180)
 collision_layer = 2
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea" unique_id=1020576908]
 shape = SubResource("RectangleShape2D_ju3rb")
 
-[node name="ItemManager" parent="." instance=ExtResource("12_hq3og")]
+[node name="ItemManager" parent="." unique_id=1018396176 instance=ExtResource("12_hq3og")]
 position = Vector2(-6, -128)
 
-[node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
+[node name="Invincibility" parent="." unique_id=1534082044 instance=ExtResource("6_rt6gv")]
 visible = false
 modulate = Color(1, 1, 1, 0.247059)
 z_index = 1
 position = Vector2(10, -10)
 scale = Vector2(0.3, 0.3)
 
-[node name="SuperJumpAura" type="Sprite2D" parent="."]
+[node name="SuperJumpAura" type="Sprite2D" parent="." unique_id=518921341]
 visible = false
 scale = Vector2(1.25, 0.5)
 texture = ExtResource("11_r00fj")
 offset = Vector2(0, -74)
 
-[node name="Ice" type="Sprite2D" parent="."]
+[node name="Ice" type="Sprite2D" parent="." unique_id=655222964]
 visible = false
 position = Vector2(-4, 0)
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("7_l8eep")
 offset = Vector2(0, -180)
 
-[node name="TileCollisionDetector" type="Node" parent="."]
+[node name="TileCollisionDetector" type="Node" parent="." unique_id=1765624089]
 script = ExtResource("9_dy06j")

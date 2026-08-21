@@ -16,7 +16,7 @@
 		"item_supply": 9999999
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 5, "y": 2}
 	}
 }

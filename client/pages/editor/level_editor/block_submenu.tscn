@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="5_17vj3"]
 [ext_resource type="Texture2D" uid="uid://cuc3nqt34javl" path="res://engine/objectbox/large_settings_button.png" id="6_sxige"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_xpnty"]
-[ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="9_nu4fj"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
@@ -220,14 +219,6 @@ show_behind_parent = true
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
-
-[node name="BlockPickerPopup" type="Popup" parent="BlockMenu" unique_id=1246544531]
-transparent_bg = true
-oversampling_override = 1.0
-position = Vector2i(108, 244)
-size = Vector2i(726, 222)
-
-[node name="Blockpicker" parent="BlockMenu/BlockPickerPopup" unique_id=1355081405 instance=ExtResource("9_nu4fj")]
 
 [node name="BlockOptionsPanel" type="Panel" parent="BlockMenu" unique_id=724867035]
 layout_mode = 1

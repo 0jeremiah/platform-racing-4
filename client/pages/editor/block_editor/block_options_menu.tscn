@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://t31di5itcpjo"]
+[gd_scene format=3 uid="uid://t31di5itcpjo"]
 
 [ext_resource type="Script" uid="uid://dfhyjaha6ynmx" path="res://pages/editor/block_editor/block_options_menu.gd" id="1_lx5s2"]
 [ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/editor/art_submenu.tscn" id="2_2f24w"]
@@ -29,7 +29,7 @@ width = 48
 height = 48
 fill_to = Vector2(0, 1)
 
-[node name="BlockOptionsMenu" type="Control"]
+[node name="BlockOptionsMenu" type="Control" unique_id=1705606942]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1724.0
@@ -37,18 +37,18 @@ offset_right = 1909.0
 offset_bottom = 68.0
 script = ExtResource("1_lx5s2")
 
-[node name="Submenus" type="Node2D" parent="."]
+[node name="Submenus" type="Node2D" parent="." unique_id=1468729501]
 position = Vector2(-1724, 0)
 
-[node name="ArtSubmenu" parent="Submenus" instance=ExtResource("2_2f24w")]
+[node name="ArtSubmenu" parent="Submenus" unique_id=2105880787 instance=ExtResource("2_2f24w")]
 
-[node name="BlockSettingsSubmenu" parent="Submenus" instance=ExtResource("3_ujr18")]
+[node name="BlockSettingsSubmenu" parent="Submenus" unique_id=2018823561 instance=ExtResource("3_ujr18")]
 visible = false
 offset_left = 10.0
 offset_top = 10.0
 offset_bottom = 330.0
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1604593267]
 layout_mode = 0
 offset_left = 185.0
 offset_top = 68.0
@@ -57,7 +57,7 @@ offset_bottom = 146.0
 rotation = 3.14159
 theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
 
-[node name="SelectionGlow" type="ColorRect" parent="."]
+[node name="SelectionGlow" type="ColorRect" parent="." unique_id=371314853]
 self_modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 5.0
@@ -66,34 +66,34 @@ offset_right = 63.0
 offset_bottom = 63.0
 color = Color(1, 1, 0, 1)
 
-[node name="Buttons" type="Control" parent="."]
+[node name="Buttons" type="Control" parent="." unique_id=1683727745]
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 174.0
 offset_bottom = 58.0
 
-[node name="ArtMenuButton" type="Control" parent="Buttons"]
+[node name="ArtMenuButton" type="Control" parent="Buttons" unique_id=1232127315]
 anchors_preset = 0
 offset_right = 48.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton" unique_id=680115341]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/ArtMenuButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/ArtMenuButton" unique_id=982874585]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/ArtMenuButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/ArtMenuButton" unique_id=1669502559]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -104,28 +104,28 @@ texture_normal = ExtResource("3_pss0k")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockSettingsButton" type="Control" parent="Buttons"]
+[node name="BlockSettingsButton" type="Control" parent="Buttons" unique_id=561607913]
 anchors_preset = 0
 offset_left = 58.0
 offset_right = 106.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/BlockSettingsButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/BlockSettingsButton" unique_id=107894675]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/BlockSettingsButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/BlockSettingsButton" unique_id=1994774359]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/BlockSettingsButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/BlockSettingsButton" unique_id=283433367]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -136,40 +136,34 @@ texture_normal = ExtResource("4_xlcod")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ExtraOptionsButton" type="Control" parent="Buttons"]
+[node name="ExtraOptionsButton" type="Control" parent="Buttons" unique_id=1036082059]
 anchors_preset = 0
 offset_left = 116.0
 offset_right = 164.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton" unique_id=1517643875]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/ExtraOptionsButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/ExtraOptionsButton" unique_id=151605662]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureRect2" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/ExtraOptionsButton" unique_id=205937982]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
-texture = ExtResource("5_8nuq4")
-expand_mode = 1
-
-[node name="BlockSettingsDropdownButton" type="MenuButton" parent="Buttons/ExtraOptionsButton"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-offset_right = 48.0
-offset_bottom = 48.0
-tooltip_text = "Save/load levels, or jump to other areas of the game."
+tooltip_text = "Settings for the level. Adjust them to your liking."
 focus_mode = 1
-toggle_mode = false
+texture_normal = ExtResource("5_8nuq4")
+ignore_texture_size = true
+stretch_mode = 0

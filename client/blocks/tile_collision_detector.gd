@@ -109,7 +109,7 @@ func _notify_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2
 					"block_id": tile_map_layer.get_block(coords).id
 					}
 				var block = BlockManager._blocks[tile_map_layer.get_block(coords).id]
-				if block and (block.settings.bottom.type != (ConfigurableBlockSideSettings.ARROW) or block.settings.bump.type != (ConfigurableBlockSideSettings.ARROW)):
+				if block and (block.settings.bottom.type != ConfigurableBlockSideSettings.ARROW or block.settings.bump.type != ConfigurableBlockSideSettings.ARROW):
 					_parent.movement.current_velocity.rotated(_parent.rotation).y = 0
 				_parent.movement.attempting_bump = true
 				_parent.movement.jumped = false

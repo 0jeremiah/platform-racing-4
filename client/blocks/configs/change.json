@@ -16,7 +16,7 @@
 		"change_pattern": [101, 121, 124, 113]
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 3, "y": 1}
 	}
 }

@@ -32,3 +32,8 @@ func add_custom_popup(custom_popup_code: Script, init_params = null):
 	popups.add_child(popup)
 	if popup.has_method("init") and init_params != null:
 		popup.init(init_params)
+
+
+func delete_all_popups():
+	for popup in popups.get_children():
+		popup.queue_free()

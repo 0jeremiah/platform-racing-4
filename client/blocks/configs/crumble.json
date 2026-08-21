@@ -5,16 +5,16 @@
 		"comment": "A block that shatters if it is hit too many times.",
 		"matter_type": "solid",
 		"block_type": "active",
-		"left": {"type": "active", "params": {}},
-		"right": {"type": "active", "params": {}},
-		"top": {"type": "active", "params": {}},
-		"bottom": {"type": "active", "params": {}},
-		"bump": {"type": "active", "params": {}},
+		"left": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}},
+		"right": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}},
+		"top": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}},
+		"bottom": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}},
+		"bump": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "crumble", "params": {"health": 100, "armor": 10, "damage_ratio": 0.03}}
+		"any_side": {"type": "active", "params": {}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 7, "y": 1}
 	}
 }

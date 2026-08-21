@@ -14,7 +14,7 @@
 		"any_side": {"type": "mine", "params": {"push_strength": 1000.0, "hitstun_duration": 2.5}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 5, "y": 4}
 	}
 }

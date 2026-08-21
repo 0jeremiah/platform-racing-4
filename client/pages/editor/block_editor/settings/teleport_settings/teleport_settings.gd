@@ -5,14 +5,14 @@ signal teleport_settings_changed
 @onready var teleport_color_button = $TeleportColorButton
 @onready var teleport_throttle_ms_box = $TeleportThrottleMsBox
 
-var teleport_color: Color = Color("FF7F50")
-var teleport_throttle_ms: float = 1000.0
+var teleport_color: Color = Color(ConfigurableBlockSettings.default_block_properties.teleport_color)
+var teleport_throttle_ms: float = ConfigurableBlockSettings.default_block_properties.teleport_throttle_ms
 
 
 func _ready() -> void:
 	teleport_color_button.set_color(teleport_color)
 	teleport_color_button.colorbutton_color_changed.connect(_change_teleport_color)
-	teleport_throttle_ms_box.init("float", "1000.0", 0.0, 99999999.9)
+	teleport_throttle_ms_box.init("float", str(teleport_throttle_ms), 0.0, 99999999.9)
 	teleport_throttle_ms_box.return_line.connect(_change_teleport_throttle_ms)
 	connect_node(self, "teleport_settings_changed")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4svh7sae6f0l"]
+[gd_scene format=3 uid="uid://c4svh7sae6f0l"]
 
 [ext_resource type="Script" uid="uid://wsk7s4o36abg" path="res://pages/editor/level_editor/level_options_menu.gd" id="1_n2mkv"]
 [ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://unused/mega_menu/icons/blocks.png" id="1_n683b"]
@@ -41,7 +41,7 @@ colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.8
 gradient = SubResource("Gradient_38tde")
 fill_to = Vector2(0, 1)
 
-[node name="LevelOptionsMenu" type="Control"]
+[node name="LevelOptionsMenu" type="Control" unique_id=182287888]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1482.0
@@ -49,26 +49,26 @@ offset_right = 1910.0
 offset_bottom = 98.0
 script = ExtResource("1_n2mkv")
 
-[node name="Submenus" type="Control" parent="."]
+[node name="Submenus" type="Control" parent="." unique_id=1989387605]
 anchors_preset = 0
 offset_left = -1482.0
 offset_right = -1482.0
 
-[node name="BlockSubmenu" parent="Submenus" instance=ExtResource("2_k63ob")]
+[node name="BlockSubmenu" parent="Submenus" unique_id=1500761538 instance=ExtResource("2_k63ob")]
 visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -37.05
 anchor_right = -37.05
 
-[node name="ArtSubmenu" parent="Submenus" instance=ExtResource("3_nlf1n")]
+[node name="ArtSubmenu" parent="Submenus" unique_id=1507250206 instance=ExtResource("3_nlf1n")]
 visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -37.05
 anchor_right = -37.05
 
-[node name="LevelSettingsSubmenu" parent="Submenus" instance=ExtResource("4_nlf1n")]
+[node name="LevelSettingsSubmenu" parent="Submenus" unique_id=993468314 instance=ExtResource("4_nlf1n")]
 visible = false
 layout_mode = 0
 offset_left = 535.0
@@ -76,7 +76,7 @@ offset_top = 285.0
 offset_right = 1385.0
 offset_bottom = 795.0
 
-[node name="CollabSubmenu" parent="Submenus" instance=ExtResource("5_46rbo")]
+[node name="CollabSubmenu" parent="Submenus" unique_id=762750696 instance=ExtResource("5_46rbo")]
 visible = false
 layout_mode = 0
 offset_left = 10.0
@@ -84,7 +84,7 @@ offset_top = 10.0
 offset_right = 510.0
 offset_bottom = 210.0
 
-[node name="SlightlyLessTallPanel" type="Panel" parent="."]
+[node name="SlightlyLessTallPanel" type="Panel" parent="." unique_id=1685070558]
 layout_mode = 0
 offset_left = 302.0
 offset_top = 68.0
@@ -93,7 +93,7 @@ offset_bottom = 146.0
 rotation = 3.14159
 theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
 
-[node name="TallPanel" type="Panel" parent="."]
+[node name="TallPanel" type="Panel" parent="." unique_id=1657388810]
 layout_mode = 0
 offset_left = 428.0
 offset_top = 87.99999
@@ -102,7 +102,7 @@ offset_bottom = 185.99998
 rotation = 3.14159
 theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
 
-[node name="SelectionGlow" type="ColorRect" parent="."]
+[node name="SelectionGlow" type="ColorRect" parent="." unique_id=807038633]
 self_modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 7.0
@@ -111,34 +111,34 @@ offset_right = 65.0
 offset_bottom = 65.0
 color = Color(1, 1, 0, 1)
 
-[node name="Buttons" type="Control" parent="."]
+[node name="Buttons" type="Control" parent="." unique_id=280365653]
 anchors_preset = 0
 offset_left = 12.0
 offset_top = 12.0
 offset_right = 397.0
 offset_bottom = 76.0
 
-[node name="BlockMenuButton" type="Control" parent="Buttons"]
+[node name="BlockMenuButton" type="Control" parent="Buttons" unique_id=378871054]
 anchors_preset = 0
 offset_right = 48.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/BlockMenuButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/BlockMenuButton" unique_id=682447183]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/BlockMenuButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/BlockMenuButton" unique_id=1494298218]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/BlockMenuButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/BlockMenuButton" unique_id=2115089010]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -149,28 +149,28 @@ texture_normal = ExtResource("1_n683b")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ArtMenuButton" type="Control" parent="Buttons"]
+[node name="ArtMenuButton" type="Control" parent="Buttons" unique_id=1608587558]
 anchors_preset = 0
 offset_left = 58.0
 offset_right = 106.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton" unique_id=1971343117]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/ArtMenuButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/ArtMenuButton" unique_id=478660991]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/ArtMenuButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/ArtMenuButton" unique_id=184779884]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -181,28 +181,28 @@ texture_normal = ExtResource("2_n2mkv")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="LevelSettingsButton" type="Control" parent="Buttons"]
+[node name="LevelSettingsButton" type="Control" parent="Buttons" unique_id=499667584]
 anchors_preset = 0
 offset_left = 116.0
 offset_right = 164.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/LevelSettingsButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/LevelSettingsButton" unique_id=139863645]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/LevelSettingsButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/LevelSettingsButton" unique_id=1488234003]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/LevelSettingsButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/LevelSettingsButton" unique_id=1152265601]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -213,28 +213,28 @@ texture_normal = ExtResource("3_reton")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CollabButton" type="Control" parent="Buttons"]
+[node name="CollabButton" type="Control" parent="Buttons" unique_id=920105182]
 anchors_preset = 0
 offset_left = 174.0
 offset_right = 222.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/CollabButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/CollabButton" unique_id=307791651]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/CollabButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/CollabButton" unique_id=1551879809]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/CollabButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/CollabButton" unique_id=1947756807]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -245,66 +245,60 @@ texture_normal = ExtResource("4_k63ob")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ExtraOptionsButton" type="Control" parent="Buttons"]
+[node name="ExtraOptionsButton" type="Control" parent="Buttons" unique_id=310561630]
 anchors_preset = 0
 offset_left = 232.0
 offset_right = 280.0
 offset_bottom = 48.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton" unique_id=1018485162]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_l665r")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/ExtraOptionsButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/ExtraOptionsButton" unique_id=317737659]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 46.0
 offset_bottom = 46.0
 
-[node name="TextureRect2" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/ExtraOptionsButton" unique_id=1383231093]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
-texture = ExtResource("5_nlf1n")
-expand_mode = 1
-
-[node name="LevelSettingsDropdownButton" type="MenuButton" parent="Buttons/ExtraOptionsButton"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-offset_right = 48.0
-offset_bottom = 48.0
-tooltip_text = "Save/load levels, or jump to other areas of the game."
+tooltip_text = "Invite your guild, your friends, or random people to start editing your level in real-time!"
 focus_mode = 1
-toggle_mode = false
+texture_normal = ExtResource("5_nlf1n")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="TestLevelButton" type="Control" parent="Buttons"]
+[node name="TestLevelButton" type="Control" parent="Buttons" unique_id=215514076]
 anchors_preset = 0
 offset_left = 321.0
 offset_right = 385.0
 offset_bottom = 64.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="Buttons/TestLevelButton"]
+[node name="TextureRect" type="TextureRect" parent="Buttons/TestLevelButton" unique_id=1938436686]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_ceuls")
 
-[node name="ColorRect" type="ColorRect" parent="Buttons/TestLevelButton"]
+[node name="ColorRect" type="ColorRect" parent="Buttons/TestLevelButton" unique_id=148831161]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 3.0
 offset_right = 61.0
 offset_bottom = 61.0
 
-[node name="TextureButton" type="TextureButton" parent="Buttons/TestLevelButton"]
+[node name="TextureButton" type="TextureButton" parent="Buttons/TestLevelButton" unique_id=827999673]
 self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
 layout_mode = 0
 offset_right = 64.0

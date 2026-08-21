@@ -16,7 +16,7 @@
 		"teleport_throttle_ms": 1000.0
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 2, "y": 3},
 		"teleport_atlas_coords": {"x": 3, "y": 3}
 	}

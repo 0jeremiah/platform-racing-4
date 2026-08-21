@@ -1,5 +1,6 @@
 extends Control
 
+signal set_pages
 signal set_page
 
 @onready var holder = $Holder
@@ -18,9 +19,9 @@ var padding: int = 10
 
 
 func _ready():
-	left_button.pressed.connect(_set_page.bind(true, -1))
+	left_button.pressed.connect(_set_cur_page.bind(true, -1))
 	go_to_page.connect("set_navagation_page", _on_set_page)
-	right_button.pressed.connect(_set_page.bind(true, 1))
+	right_button.pressed.connect(_set_cur_page.bind(true, 1))
 
 
 func init(page: int, pages: int, buttons: int, allow: bool):
@@ -40,8 +41,8 @@ func set_align(new_align: String):
 
 func update_display():
 	for old_button in numbered_pages_button.get_children():
-		if old_button.is_connected("pressed", _set_page):
-			old_button.disconnect("pressed", _set_page)
+		if old_button.is_connected("pressed", _set_cur_page):
+			old_button.disconnect("pressed", _set_cur_page)
 		if old_button.is_connected("pressed", _show_popup):
 			old_button.disconnect("pressed", _show_popup)
 		old_button.queue_free()
@@ -71,7 +72,7 @@ func update_display():
 		newbutton.disabled = true
 		if total_pages > 1 and increment > 0:
 			newbutton.disabled = false
-		newbutton.size = Vector2(48, 38)
+		newbutton.size = Vector2(40, 40)
 		newbutton.set("theme_override_font_sizes/font_size", 22)
 		newbutton.position.x = (newbutton.size.x + padding) * button
 		numbered_pages_button.size.x += newbutton.size.x + padding
@@ -80,7 +81,7 @@ func update_display():
 			newbutton.pressed.connect(_show_popup.bind(newbutton.position.x, newbutton.size.y + newbutton.position.y))
 		else:
 			newbutton.text = str(increment)
-			newbutton.pressed.connect(_set_page.bind(false, increment))
+			newbutton.pressed.connect(_set_cur_page.bind(false, increment))
 		numbered_pages_button.add_child(newbutton)
 		if !newbutton.disabled and newbutton.text == str(cursor_page):
 			newbutton.self_modulate = Color(1, 1, 0.5, 1)
@@ -99,12 +100,30 @@ func update_display():
 		holder.position.x = 0
 
 
-func _set_page(incordec: bool, new_cursor_page: int):
+func _set_cur_page(incordec: bool, new_cursor_page: int):
 	if incordec:
-		cursor_page += new_cursor_page
+		cursor_page = clamp(cursor_page + new_cursor_page, 1, total_pages)
 	else:
-		cursor_page = new_cursor_page
+		cursor_page = clamp(new_cursor_page, 1, total_pages)
 	emit_signal("set_page", cursor_page)
+	update_display()
+
+
+func _set_page(new_cursor_page: int):
+	cursor_page = clamp(new_cursor_page, 1, total_pages)
+	update_display()
+
+
+func _set_pages(new_cursor_pages: int):
+	total_pages = new_cursor_pages
+	if cursor_page > total_pages:
+		cursor_page = total_pages
+	emit_signal("set_pages", cursor_page)
+	update_display()
+
+
+func _set_allow_go_to_page(new_allow_go_to_page: bool):
+	allow_go_to_page = new_allow_go_to_page
 	update_display()
 
 
@@ -114,5 +133,9 @@ func _show_popup(spawn_x: int, spawn_y: int):
 
 
 func _on_set_page(new_page_number: int):
-	_set_page(false, clamp(new_page_number, 1, total_pages))
+	_set_cur_page(false, clamp(new_page_number, 1, total_pages))
 	go_to_page_popup.visible = false
+
+
+func get_page() -> int:
+	return cursor_page

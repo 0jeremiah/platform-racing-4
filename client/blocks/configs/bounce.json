@@ -14,7 +14,7 @@
 		"any_side": {"type": "bounce", "params": {"bounciness": 0.1, "speed_limit": 12500.0}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 2, "y": 1}
 	}
 }

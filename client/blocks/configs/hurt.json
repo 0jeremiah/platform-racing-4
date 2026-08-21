@@ -14,7 +14,7 @@
 		"any_side": {"type": "hurt", "params": {"push_strength": 1000.0, "hitstun_duration": 2.5, "hp_sap": 20}}
 	},
 	"image": {
-		"src": "res://tiles/tileatlas.png",
+		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 4, "y": 1}
 	}
 }

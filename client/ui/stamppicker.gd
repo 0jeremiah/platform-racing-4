@@ -4,7 +4,7 @@ signal change_selected_stamp
 
 @onready var stamp_picker_panel = $StampPickerPanel
 @onready var tab_bar = $TabBar
-@onready var navigation = $Navigation
+@onready var pagination = $Pagination
 @onready var light_color_rect = $LightColorRect
 @onready var dark_color_rect = $DarkColorRect
 @onready var stamp_button_container = $StampButtonContainer
@@ -24,8 +24,8 @@ func _ready() -> void:
 	stamp_dictionary.clear()
 	for stamp in Stamps.stamp_dictionary:
 		stamp_dictionary[stamp] = {"id": stamp, "texture": Stamps.stamp_dictionary[stamp].texture}
-	navigation.set_align("right")
-	navigation.connect("set_page", _on_set_page)
+	pagination.set_align("right")
+	pagination.connect("set_page", _on_set_page)
 	tab_bar.tab_changed.connect(show_stamps)
 	show_stamps()
 
@@ -68,10 +68,10 @@ func show_stamps():
 		stamp_dictionary_keys = stamp_dictionary_keys.slice((15 * (stamp_picker_page - 1)), (15 * stamp_picker_page))
 		for stamp in stamp_dictionary_keys:
 			current_stamp_dictionary[stamp] = {"id": stamp, "texture": stamp_dictionary[stamp].texture}
-		navigation.init(stamp_picker_page, stamp_picker_pages, 4, true)
+		pagination.init(stamp_picker_page, stamp_picker_pages, 4, true)
 	if !current_stamp_dictionary.is_empty():
 		no_stamps_text.visible = false
-		navigation.init(stamp_picker_page, stamp_picker_pages, 4, true)
+		pagination.init(stamp_picker_page, stamp_picker_pages, 4, true)
 		for graphic in current_stamp_dictionary.size():
 			var graphicbutton = TextureButton.new()
 			graphicbutton.texture_normal = current_stamp_dictionary[stamp_dictionary_keys[graphic]].texture
@@ -87,7 +87,7 @@ func show_stamps():
 			stamp_button_container.size = Vector2(320, (68 * (snapped((graphic / 5), 1) + 1)) - 20)
 	else:
 		no_stamps_text.visible = true
-		navigation.init(1, 0, 3, false)
+		pagination.init(1, 0, 3, false)
 		stamp_picker_panel.size = Vector2(380, yoffset + 88)
 		stamp_button_container.size = Vector2(320, 48)
 	light_color_rect.size = Vector2(stamp_button_container.size.x + 20, stamp_button_container.size.y + 20)

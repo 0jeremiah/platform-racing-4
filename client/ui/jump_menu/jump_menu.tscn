@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c26150jka30yl"]
+
+[ext_resource type="Script" uid="uid://do641tr2jc08l" path="res://ui/jump_menu/jump_menu.gd" id="1_hem07"]
+
+[node name="JumpMenu" type="Control" unique_id=888712970]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 160.0
+offset_bottom = 30.0
+script = ExtResource("1_hem07")
+
+[node name="JumpMenuContainer" type="VBoxContainer" parent="." unique_id=1413205482]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 30.0
+theme_override_constants/separation = 0

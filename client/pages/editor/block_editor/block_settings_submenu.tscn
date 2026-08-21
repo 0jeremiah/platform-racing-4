@@ -1,25 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://de82uiivhctdk"]
+[gd_scene format=3 uid="uid://de82uiivhctdk"]
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
 [ext_resource type="PackedScene" uid="uid://dy3och52t1v7o" path="res://pages/editor/block_editor/settings_menu.tscn" id="2_stool"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
-[ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/move_settings.tscn" id="3_oeqcc"]
+[ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/settings/move_settings/move_settings.tscn" id="3_oeqcc"]
 [ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings_menu.tscn" id="4_ybjga"]
-[ext_resource type="PackedScene" uid="uid://cqfs7as8jr3yl" path="res://pages/editor/block_editor/change_settings.tscn" id="5_cx6ho"]
+[ext_resource type="PackedScene" uid="uid://cqfs7as8jr3yl" path="res://pages/editor/block_editor/settings/change_settings/change_settings.tscn" id="5_cx6ho"]
 
-[node name="BlockSettingsSubmenu" type="Control"]
+[node name="BlockSettingsSubmenu" type="Control" unique_id=2133086886]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 290.0
 offset_bottom = 150.0
 script = ExtResource("1_ga453")
 
-[node name="BlockSettingsPanel" type="Panel" parent="."]
+[node name="BlockSettingsPanel" type="Panel" parent="." unique_id=1935991314]
 layout_mode = 0
 offset_right = 290.0
 offset_bottom = 150.0
 
-[node name="BlockSidesSeperator" type="HSeparator" parent="."]
+[node name="BlockSidesSeperator" type="HSeparator" parent="." unique_id=1925914412]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -27,7 +27,7 @@ offset_top = 140.0
 offset_right = 270.0
 offset_bottom = 144.0
 
-[node name="SidesSettingsSeperator" type="VSeparator" parent="."]
+[node name="SidesSettingsSeperator" type="VSeparator" parent="." unique_id=1879988821]
 visible = false
 layout_mode = 0
 offset_left = 280.0
@@ -35,7 +35,7 @@ offset_top = 20.0
 offset_right = 284.0
 offset_bottom = 340.0
 
-[node name="SettingsSeperator" type="HSeparator" parent="."]
+[node name="SettingsSeperator" type="HSeparator" parent="." unique_id=1758914641]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -43,7 +43,7 @@ offset_top = 160.0
 offset_right = 270.0
 offset_bottom = 164.0
 
-[node name="BlockOptionsSeperator" type="HSeparator" parent="."]
+[node name="BlockOptionsSeperator" type="HSeparator" parent="." unique_id=31914598]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -51,7 +51,7 @@ offset_top = 250.0
 offset_right = 270.0
 offset_bottom = 254.0
 
-[node name="BlockSettingsLabel" type="RichTextLabel" parent="."]
+[node name="BlockSettingsLabel" type="RichTextLabel" parent="." unique_id=1236748010]
 layout_mode = 0
 offset_left = 35.0
 offset_top = 20.0
@@ -61,14 +61,14 @@ text = "-- Block Settings --"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MatterTypeSetting" type="Control" parent="."]
+[node name="MatterTypeSetting" type="Control" parent="." unique_id=1212750192]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 60.0
 offset_right = 270.0
 offset_bottom = 90.0
 
-[node name="MatterTypeSettingLabel" type="RichTextLabel" parent="MatterTypeSetting"]
+[node name="MatterTypeSettingLabel" type="RichTextLabel" parent="MatterTypeSetting" unique_id=1756657463]
 layout_mode = 0
 offset_right = 120.0
 offset_bottom = 30.0
@@ -77,7 +77,7 @@ text = "Matter Type:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="MatterTypeSettingButton" type="Button" parent="MatterTypeSetting"]
+[node name="MatterTypeSettingButton" type="Button" parent="MatterTypeSetting" unique_id=54335621]
 layout_mode = 0
 offset_left = 130.0
 offset_right = 250.0
@@ -87,14 +87,14 @@ text = "Solid"
 alignment = 0
 clip_text = true
 
-[node name="BlockTypeSetting" type="Control" parent="."]
+[node name="BlockTypeSetting" type="Control" parent="." unique_id=766462312]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 100.0
 offset_right = 270.0
 offset_bottom = 130.0
 
-[node name="BlockTypeSettingLabel" type="RichTextLabel" parent="BlockTypeSetting"]
+[node name="BlockTypeSettingLabel" type="RichTextLabel" parent="BlockTypeSetting" unique_id=245269526]
 layout_mode = 0
 offset_right = 120.0
 offset_bottom = 30.0
@@ -103,7 +103,7 @@ text = "Block Type:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="BlockTypeSettingButton" type="Button" parent="BlockTypeSetting"]
+[node name="BlockTypeSettingButton" type="Button" parent="BlockTypeSetting" unique_id=1040222850]
 layout_mode = 0
 offset_left = 130.0
 offset_right = 250.0
@@ -113,14 +113,14 @@ text = "Active"
 alignment = 0
 clip_text = true
 
-[node name="SidesSettings" type="Control" parent="."]
+[node name="SidesSettings" type="Control" parent="." unique_id=501827568]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 150.0
 offset_right = 270.0
 offset_bottom = 150.0
 
-[node name="SideSettingsMenu" parent="." instance=ExtResource("4_ybjga")]
+[node name="SideSettingsMenu" parent="." unique_id=454218624 instance=ExtResource("4_ybjga")]
 visible = false
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 0
@@ -129,7 +129,7 @@ offset_top = 20.0
 offset_right = 790.0
 offset_bottom = 380.0
 
-[node name="SettingsMenu" parent="." instance=ExtResource("2_stool")]
+[node name="SettingsMenu" parent="." unique_id=305821833 instance=ExtResource("2_stool")]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -137,7 +137,7 @@ offset_top = 170.0
 offset_right = 270.0
 offset_bottom = 330.0
 
-[node name="MoveSettings" parent="." instance=ExtResource("3_oeqcc")]
+[node name="MoveSettings" parent="." unique_id=878729777 instance=ExtResource("3_oeqcc")]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -145,7 +145,7 @@ offset_top = 260.0
 offset_right = 520.0
 offset_bottom = 680.0
 
-[node name="ChangeSettings" parent="." instance=ExtResource("5_cx6ho")]
+[node name="ChangeSettings" parent="." unique_id=153699256 instance=ExtResource("5_cx6ho")]
 visible = false
 layout_mode = 0
 offset_left = 20.0
@@ -153,5 +153,5 @@ offset_top = 260.0
 offset_right = 702.0
 offset_bottom = 518.0
 
-[node name="DropdownPopup" parent="." instance=ExtResource("2_wcm35")]
+[node name="DropdownPopup" parent="." unique_id=53189282 instance=ExtResource("2_wcm35")]
 visible = false

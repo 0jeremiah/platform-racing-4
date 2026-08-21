@@ -7,11 +7,43 @@ var life: float = 3.3
 var from = null
 
 
+func _setup_rigidbody_signals() -> void:
+	var rigid_body := projectile as RigidBody2D
+	rigid_body.contact_monitor = true
+	rigid_body.max_contacts_reported = 10
+	rigid_body.body_shape_entered.connect(_on_body_shape_entered)
+
+
+func _physics_process(_delta: float) -> void:
+	# For CharacterBody2D, detect collisions using get_last_slide_collision
+	if projectile is CharacterBody2D:
+		_detect_character_body_collisions()
+
+
 func _process(delta: float) -> void:
 	if life - delta > 0:
 		life -= delta
 	else:
 		queue_free()
+	if projectile is CharacterBody2D:
+		projectile.move_and_slide()
+
+
+func _detect_character_body_collisions() -> void:
+	var character_body := projectile as CharacterBody2D
+	var collision: KinematicCollision2D = character_body.get_last_slide_collision()
+	if not collision:
+		return
+	var collider := collision.get_collider()
+	if not (collider is ConfigurableTileMapLayer or collider is Character):
+		return
+	if collider is ConfigurableTileMapLayer:
+		var normal := collision.get_normal()
+		var rid := collision.get_collider_rid()
+		var coords: Vector2i = collider.get_coords_for_body_rid(rid)
+		_notify_tile_collision(collider, coords, normal)
+	elif collider is Character:
+		_notify_character_collision(collider)
 
 
 func set_projectile_area(projectile_area: Area2D) -> void:
@@ -20,8 +52,10 @@ func set_projectile_area(projectile_area: Area2D) -> void:
 	projectile_area.body_shape_entered.connect(_on_body_shape_entered)
 
 
-func set_projectile(projectile_node: Node2D, p_collision_layer: int, p_collision_mask: int, p_life: float, p_velocity: Vector2, face_left: bool = false, p_from = null):
+func set_projectile(projectile_node: PhysicsBody2D, p_collision_layer: int, p_collision_mask: int, p_life: float, p_velocity: Vector2, face_left: bool = false, p_from = null):
 	projectile = projectile_node
+	if projectile is RigidBody2D:
+		_setup_rigidbody_signals()
 	collision_layer = p_collision_layer
 	collision_mask = p_collision_mask
 	life = p_life
@@ -37,7 +71,7 @@ func set_projectile(projectile_node: Node2D, p_collision_layer: int, p_collision
 		from = p_from
 
 
-func _on_body_shape_entered(body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
+func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	# For RigidBody2D, detect collisions using body_shape_entered signal
 	if not (body is ConfigurableTileMapLayer or body is Character):
 		return
@@ -91,15 +125,28 @@ func _notify_tile_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Ve
 	else:
 		if normal.y > 0:
 			events.append("bottom")
-			events.append("bump")
 		else:
 			events.append("top")
-			events.append("stand")
 		events.append("any_side")
+	events.append("bump")
 
 	# Tells projectile to handle hitting blocks
 	if projectile.has_method("hit_block"):
 		projectile.hit_block(tile_map_layer, coords, events, normal)
+
+
+func touch_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array[String], normal: Vector2 = Vector2.ZERO) -> void:
+	var block_id = tile_map_layer.get_block(coords).id
+	if block_id == "":
+		return
+
+	var block: ConfigurableBlock = BlockManager._blocks.get(block_id)
+	if not block:
+		return
+
+	for event in events:
+		block.on(event, self, tile_map_layer, coords, normal)
+	queue_free()
 
 
 func _notify_character_collision(character: Character) -> void:

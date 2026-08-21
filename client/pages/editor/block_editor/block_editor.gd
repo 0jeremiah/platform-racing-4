@@ -113,10 +113,16 @@ func _enable_editing():
 	editor_menu.can_edit = true
 
 
-func _on_back_pressed():
-	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
-	#FileManager.save_to_file(BlockEditor.current_block, current_block_name)
-	await Main.set_scene(Main.TITLE)
+func _on_undo_pressed():
+	pass
+
+
+func _on_redo_pressed():
+	pass
+
+
+func _on_clear_pressed():
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
 
 
 func _on_level_editor_pressed():
@@ -125,10 +131,28 @@ func _on_level_editor_pressed():
 	await Main.set_scene(Main.LEVEL_EDITOR)
 
 
+func _on_load_pressed():
+	pass
+
+
 func _on_save_pressed():
 	await RenderingServer.frame_post_draw
 	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
 	PopupManager.add_custom_popup(save_popup, {"mode": "block", "current_data": BlockEditor.current_block})
+
+
+func _on_import_pressed():
+	pass
+
+
+func _on_export_pressed():
+	pass
+
+
+func _on_back_pressed():
+	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
+	#FileManager.save_to_file(BlockEditor.current_block, current_block_name)
+	await Main.set_scene(Main.TITLE)
 
 
 func _on_block_load(block_name = "", block_description = ""):

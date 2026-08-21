@@ -6,8 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_actp8"]
 size = Vector2(130, 10)
 
-[node name="LaserBullet" type="RigidBody2D" unique_id=1014510892]
-gravity_scale = 0.0
+[node name="LaserBullet" type="CharacterBody2D" unique_id=1540964817]
 script = ExtResource("1_50gli")
 
 [node name="LaserBullet" type="Sprite2D" parent="." unique_id=747297501]

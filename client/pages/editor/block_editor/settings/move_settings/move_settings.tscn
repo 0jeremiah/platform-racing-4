@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://caedfguoqnyjb"]
+[gd_scene format=3 uid="uid://caedfguoqnyjb"]
 
-[ext_resource type="Script" uid="uid://bdyjhfpphrg1w" path="res://pages/editor/block_editor/move_settings.gd" id="1_1d4om"]
+[ext_resource type="Script" uid="uid://bdyjhfpphrg1w" path="res://pages/editor/block_editor/settings/move_settings/move_settings.gd" id="1_1d4om"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_3xyeg"]
 
-[node name="MoveSettings" type="Control"]
+[node name="MoveSettings" type="Control" unique_id=308767851]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 500.0
 offset_bottom = 420.0
 script = ExtResource("1_1d4om")
 
-[node name="HSeparator" type="HSeparator" parent="."]
+[node name="HSeparator" type="HSeparator" parent="." unique_id=942674008]
 layout_mode = 0
 offset_top = 190.0
 offset_right = 500.0
 offset_bottom = 194.0
 
-[node name="TickLabel" type="RichTextLabel" parent="."]
+[node name="TickLabel" type="RichTextLabel" parent="." unique_id=1332597884]
 layout_mode = 0
 offset_right = 50.0
 offset_bottom = 30.0
@@ -24,7 +24,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Tick:"
 vertical_alignment = 1
 
-[node name="TickBox" type="LineEdit" parent="."]
+[node name="TickBox" type="LineEdit" parent="." unique_id=1342582731]
 layout_mode = 0
 offset_left = 50.0
 offset_right = 140.0
@@ -34,7 +34,7 @@ text = "2.5"
 max_length = 10
 script = ExtResource("2_3xyeg")
 
-[node name="PerSecLabel" type="RichTextLabel" parent="."]
+[node name="PerSecLabel" type="RichTextLabel" parent="." unique_id=1916951282]
 layout_mode = 0
 offset_left = 150.0
 offset_right = 290.0
@@ -43,7 +43,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "per second(s)."
 vertical_alignment = 1
 
-[node name="PatternLabel" type="RichTextLabel" parent="."]
+[node name="PatternLabel" type="RichTextLabel" parent="." unique_id=461837193]
 layout_mode = 0
 offset_top = 40.0
 offset_right = 80.0
@@ -52,7 +52,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Pattern:"
 vertical_alignment = 1
 
-[node name="PatternBox" type="TextEdit" parent="."]
+[node name="PatternBox" type="TextEdit" parent="." unique_id=1295128112]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 40.0
@@ -62,7 +62,7 @@ theme_override_font_sizes/font_size = 16
 text = "up, right, down, left"
 wrap_mode = 1
 
-[node name="RandomButton" type="CheckBox" parent="."]
+[node name="RandomButton" type="CheckBox" parent="." unique_id=288361382]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 70.0
@@ -71,7 +71,7 @@ offset_bottom = 100.0
 theme_override_font_sizes/font_size = 17
 text = "Rnd."
 
-[node name="LoopButton" type="CheckBox" parent="."]
+[node name="LoopButton" type="CheckBox" parent="." unique_id=1546008067]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 110.0
@@ -81,7 +81,7 @@ theme_override_font_sizes/font_size = 17
 button_pressed = true
 text = "Loop"
 
-[node name="ParseResultsLabel" type="RichTextLabel" parent="."]
+[node name="ParseResultsLabel" type="RichTextLabel" parent="." unique_id=1583954064]
 layout_mode = 0
 offset_top = 150.0
 offset_right = 500.0
@@ -90,7 +90,7 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Pattern parsing results goes here."
 vertical_alignment = 1
 
-[node name="SyntaxLabel" type="RichTextLabel" parent="."]
+[node name="SyntaxLabel" type="RichTextLabel" parent="." unique_id=515791240]
 layout_mode = 0
 offset_top = 200.0
 offset_right = 500.0

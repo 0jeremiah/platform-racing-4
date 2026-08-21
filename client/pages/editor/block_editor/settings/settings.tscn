@@ -4,18 +4,28 @@
 [ext_resource type="Script" uid="uid://cvc6wtjiu5nd5" path="res://pages/editor/block_editor/settings/settings.gd" id="1_tjyb6"]
 [ext_resource type="PackedScene" uid="uid://cr7ulk55e2boc" path="res://pages/editor/block_editor/settings/item_settings/item_settings.tscn" id="2_tjyb6"]
 [ext_resource type="PackedScene" uid="uid://b1o1xoha5nwl" path="res://pages/editor/block_editor/settings/stat_settings/stat_settings.tscn" id="3_kttlq"]
+[ext_resource type="PackedScene" uid="uid://caedfguoqnyjb" path="res://pages/editor/block_editor/settings/move_settings/move_settings.tscn" id="3_qs65k"]
 [ext_resource type="PackedScene" uid="uid://cmlxrvie5uemp" path="res://pages/editor/block_editor/settings/teleport_settings/teleport_settings.tscn" id="3_y0t45"]
 [ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_editor/settings/gear_settings/gear_settings.tscn" id="4_v131o"]
+[ext_resource type="PackedScene" uid="uid://cqfs7as8jr3yl" path="res://pages/editor/block_editor/settings/change_settings/change_settings.tscn" id="4_y1dwi"]
 [ext_resource type="PackedScene" uid="uid://758n7f1dd2ji" path="res://pages/editor/block_editor/settings/time_settings/time_settings.tscn" id="6_388u4"]
 
 [node name="Settings" type="Control" unique_id=765255440]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 300.0
-offset_bottom = 110.0
+offset_right = 726.0
+offset_bottom = 520.0
 script = ExtResource("1_tjyb6")
 
 [node name="GeneralSettings" parent="." unique_id=1043676503 instance=ExtResource("1_g37d5")]
+visible = false
+layout_mode = 0
+
+[node name="MoveSettings" parent="." unique_id=308767851 instance=ExtResource("3_qs65k")]
+visible = false
+layout_mode = 0
+
+[node name="ChangeSettings" parent="." unique_id=914833375 instance=ExtResource("4_y1dwi")]
 visible = false
 layout_mode = 0
 

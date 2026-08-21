@@ -62,10 +62,6 @@ var pr2_to_pr4_scale_ratio: float = 128.0 / 30.0
 var seg_size: int = 30
 
 
-func _ready() -> void:
-	BlockManager.load_default_block_configs()
-
-
 func clear():
 	for child in lines.get_children():
 		child.free()
