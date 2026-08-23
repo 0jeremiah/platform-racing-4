@@ -11,7 +11,8 @@ func _ready():
 
 
 func test():
+	BlockManager.load_default_block_configs()
 	var effect = ShatterEffect.instantiate()
-	effect.add_pieces(tileatlas, Vector2i(randi_range(0, 9), randi_range(0, 4)))
+	effect.add_pieces("5", 4)
 	effect.position = Vector2(200, 200)
 	add_child(effect)

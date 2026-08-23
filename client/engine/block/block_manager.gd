@@ -9,6 +9,7 @@ static var _blocks_categories: Dictionary = {}  # contains block categories with
 static var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas_coords: Vector2i}
 static var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
 static var _tile_set: ConfigurableTileSet = ConfigurableTileSet.new()
+static var _block_textures: Dictionary = {}
 
 
 ## Initialize BlockManager with a ConfigurableTileSet
@@ -16,12 +17,6 @@ static func init() -> void:
 	# Create and assign tileset
 	_tile_set.init()
 	_tile_set.uv_clipping = true
-	# 0: any side
-	# 1: top
-	# 2: bottom
-	# 3: left
-	# 4: right
-	# 5: area
 	_tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((10 * 2) - 1))
 	_tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((10 * 2) - 1))
 	_tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(10 * 2))
@@ -33,7 +28,7 @@ static func add_block_configs(configs: Array) -> void:
 	# Build lookup table: block_id → tile info
 	_build_block_lookup(configs)
 
-	_tile_set.add_configs(configs)
+	#_tile_set.add_configs(configs)
 
 	# Create block instances
 	_create_blocks(configs)
@@ -44,16 +39,15 @@ static func _build_block_lookup(configs: Array) -> void:
 	#_block_lookup.clear()
 
 	# Group configs by texture to match ConfigurableTileSet's source creation logic
-	var source_id := _tile_set.get_source_count()
-	print(_tile_set.sources_map.keys())
-	var textures_seen: Array = _tile_set.sources_map.keys()
+	#var source_id := _tile_set.get_source_count()
+	#print(_tile_set.sources_map.keys())
+	#var textures_seen: Array = _tile_set.sources_map.keys()
 
 	for config in configs:
 		if not config.has("id") or not (config.has("image") or config.has("custom_image")):
 			continue
 
 		var block_id: String = config.id
-		print(block_id)
 		if config.has("custom_image"):
 			# Loads compressed image using these variables and shows the notfound block graphic if it can't.
 			var custom_block_image = _load_custom_block_image(config.custom_image)
@@ -71,13 +65,19 @@ static func _build_block_lookup(configs: Array) -> void:
 			# Load from the game's default blockset. (this is for default blocks)
 			var texture_path: String = config.image.get("src", "")
 
-			# Track which source_id this texture gets
-			var texture_source_id := source_id
-			if texture_path not in textures_seen:
-				textures_seen.append(texture_path)
-				source_id += 1
+			if texture_path and FileAccess.file_exists(texture_path):
+				if texture_path not in _block_textures:
+					_block_textures[texture_path] = ImageTexture.create_from_image(Image.load_from_file(texture_path))
 			else:
-				texture_source_id = textures_seen.find(texture_path)
+				continue
+
+			# Track which source_id this texture gets
+			#var texture_source_id := source_id
+			#if texture_path not in textures_seen:
+				#textures_seen.append(texture_path)
+				#source_id += 1
+			#else:
+				#texture_source_id = textures_seen.find(texture_path)
 
 			#var texture2d = AtlasTexture.new()
 			#var image_texture = ImageTexture.create_from_image(Image.load_from_file(texture_path))
@@ -88,7 +88,10 @@ static func _build_block_lookup(configs: Array) -> void:
 
 			# Store the mapping
 			_block_lookup[block_id] = {
-				"source_id": texture_source_id,
+				"texture_path": texture_path,
+				"source_id": 0,
+				"alternative_tile": 0, # right now there's only one scene in our TileSetScenesCollectionSource
+				# but if we ever make more we must account for that
 				"atlas_coords": Vector2i(
 					config.image.atlas_coords.get("x", 0),
 					config.image.atlas_coords.get("y", 0)
@@ -225,9 +228,7 @@ static func get_block_texture(block_id: String) -> Texture2D:
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_texture"])
 	else:
 		texture = AtlasTexture.new()
-		print(_block_lookup[block_id])
-		print(_tile_set.get_source_count())
-		texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
@@ -242,7 +243,7 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
 	else:
 		texture = AtlasTexture.new()
-		texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	return texture
@@ -251,7 +252,7 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 #static func new_get_block_texture(block_id: String, teleport_color: String = "") -> Texture2D:
 	#var block_texture = DrawableTexture2D.new()
 	#block_texture.setup(128, 128, DrawableTexture2D.DRAWABLE_FORMAT_RGBA8, Color(1.0, 1.0, 1.0, 0.0), false)
-	## get block texture
+	# get block texture
 	#var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	#if block_id not in _block_lookup:
 		#return not_found_block_texture
@@ -260,10 +261,10 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 		#texture = _load_custom_block_image(_block_lookup[block_id]["custom_texture"])
 	#else:
 		#texture = AtlasTexture.new()
-		#texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+		#texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		#texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].atlas_coords), Settings.tile_size)
 		#texture.filter_clip = true
-	## if block is a teleport block, get teleport colorin
+	# if block is a teleport block, get teleport colorin
 	#if _blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		#if teleport_color == "" or !teleport_color.is_valid_html_color():
 			#teleport_color = _blocks[block_id].settings.teleport_color
@@ -272,7 +273,7 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 			#teleport_color_texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
 		#else:
 			#teleport_color_texture = AtlasTexture.new()
-			#teleport_color_texture.atlas = _tile_set.get_source(_block_lookup[block_id].source_id).texture
+			#teleport_color_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 			#teleport_color_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 			#teleport_color_texture.filter_clip = true
 		#block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].teleport_image_texture), Color(teleport_color))

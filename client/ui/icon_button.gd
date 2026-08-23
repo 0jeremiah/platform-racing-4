@@ -49,7 +49,7 @@ func _setup_trail_container() -> void:
 func _setup_sparks() -> void:
 	# Create the first spark
 	spark1 = Sprite2D.new()
-	spark1.texture = preload("res://character/star_08.png")
+	spark1.texture = preload("res://particles/textures/star_08.png")
 	spark1.scale = Vector2(0.3, 0.3)
 	spark1.visible = false
 	spark1.z_index = 5
@@ -58,7 +58,7 @@ func _setup_sparks() -> void:
 	
 	# Create the second spark
 	spark2 = Sprite2D.new()
-	spark2.texture = preload("res://character/star_08.png")
+	spark2.texture = preload("res://particles/textures/star_08.png")
 	spark2.scale = Vector2(0.25, 0.25)
 	spark2.visible = false
 	spark2.z_index = 5

@@ -45,7 +45,7 @@ func init(_tile_map_layer: TileMapLayer, _coords: Vector2i, animation_duration: 
 		animation_player.speed_scale = 0
 	invisibility_timer.wait_time = cooldown
 	
-	tile_map_layer.add_block(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
+	#tile_map_layer.add_block(coords, block_id)
 
 
 func vanish_again() -> void:
@@ -82,7 +82,8 @@ func _try_to_appear() -> void:
 	
 	var current_block_id = tile_map_layer.get_block(coords).id
 	if current_block_id == "":
-		tile_map_layer.add_block(coords, block_id, ConfigurableBlock.INVISIBLE_ALT_ID)
+		#tile_map_layer.add_block(coords, block_id)
+		pass
 	animation_player.play("appear")
 
 
@@ -94,7 +95,8 @@ func _on_animation_finished(animation_name: StringName) -> void:
 				invisibility_timer.start()
 		"appear":
 			if vanish_still_exists():
-				tile_map_layer.add_block(coords, block_id, ConfigurableBlock.VISIBLE_ALT_ID)
+				#tile_map_layer.add_block(coords, block_id)
+				pass
 			queue_free()
 
 

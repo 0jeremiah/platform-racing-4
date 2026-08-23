@@ -35,13 +35,19 @@ func _detect_character_body_collisions() -> void:
 	if not collision:
 		return
 	var collider := collision.get_collider()
-	if not (collider is ConfigurableTileMapLayer or collider is Character):
+	var parent = collider.get_parent()
+	if not (parent is ConfigurableTileMapLayer or collider is Character):
 		return
-	if collider is ConfigurableTileMapLayer:
+	if parent is ConfigurableTileMapLayer:
 		var normal := collision.get_normal()
 		var rid := collision.get_collider_rid()
-		var coords: Vector2i = collider.get_coords_for_body_rid(rid)
-		_notify_tile_collision(collider, coords, normal)
+		var coords = null
+		if parent.tile_set is TileSetAtlasSource:
+			coords = parent.get_coords_for_body_rid(rid)
+		elif collision.get_collider() is BlockScene:
+			coords = collision.get_collider().get_coords()
+		if coords:
+			_notify_tile_collision(parent, coords, normal)
 	elif collider is Character:
 		_notify_character_collision(collider)
 
@@ -73,11 +79,12 @@ func set_projectile(projectile_node: PhysicsBody2D, p_collision_layer: int, p_co
 
 func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	# For RigidBody2D, detect collisions using body_shape_entered signal
-	if not (body is ConfigurableTileMapLayer or body is Character):
+	var parent = body.get_parent()
+	if not (parent is ConfigurableTileMapLayer or body is Character):
 		return
 
-	if body is ConfigurableTileMapLayer:
-		var tile_map_layer := body as ConfigurableTileMapLayer
+	if parent is ConfigurableTileMapLayer:
+		var tile_map_layer := parent as ConfigurableTileMapLayer
 
 		# Calculate the collision tile position
 		# We need to determine which tile was actually hit based on the collision normal direction

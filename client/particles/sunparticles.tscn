@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://fi3yarhyobcw"]
+[gd_scene format=3 uid="uid://fi3yarhyobcw"]
 
-[ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="1_23es4"]
+[ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://particles/textures/fire_01.png" id="1_23es4"]
 [ext_resource type="Material" uid="uid://clbprmjlxhp8i" path="res://particles/sunparticles.tres" id="2_rxber"]
 
-[node name="Sunparticles" type="GPUParticles2D"]
+[node name="Sunparticles" type="GPUParticles2D" unique_id=2122331001]
 emitting = false
 amount = 30
 texture = ExtResource("1_23es4")

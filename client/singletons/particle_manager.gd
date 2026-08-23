@@ -10,6 +10,8 @@ var speed_burst_particle = preload("res://particles/speedparticles.tscn")
 var speed_burst_process_material = preload("res://particles/speedparticles.tres")
 var invincibility_particle = preload("res://particles/invincibilityparticles.tscn")
 var invincibility_process_material = preload("res://particles/invincibilityparticles.tres")
+var smoke_particle = preload("res://particles/smokeparticles.tscn")
+var smoke_process_material = preload("res://particles/smokeparticles.tres")
 var particle_list = {
 	"sun": {
 		"particle": sun_particle,
@@ -27,6 +29,10 @@ var particle_list = {
 		"particle": invincibility_particle,
 		"process_material": invincibility_process_material
 		},
+	"smoke": {
+		"particle": smoke_particle,
+		"process_material": smoke_process_material
+		}
 	}
 var custom_particle_list = {}
 

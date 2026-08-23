@@ -104,8 +104,8 @@ func on_mouse_down():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_block(coords).id
-		var tile_settings = tile_map_layer.get_block(coords).settings.get_edited_settings()
 		if tile_id:
+			var tile_settings = tile_map_layer.get_block(coords).settings.get_edited_settings()
 			if "object_box" in cursor_parent.editor_menu.current_editor:
 				var object_box = cursor_parent.editor_menu.current_editor.object_box
 				object_box.close()

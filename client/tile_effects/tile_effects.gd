@@ -22,43 +22,43 @@ static func shatter(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, 
 
 
 static func crumble(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int):
-	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-	if atlas_coords == Vector2i(-1, -1):
+	var block_id = tile_map_layer.get_block(coords).id
+	if !block_id:
 		return
-	var tile_atlas = tile_map_layer.tile_set.get_source(tile_map_layer.get_cell_source_id(coords)).texture
 	var shatter_effect = SHATTER_EFFECT.instantiate()
 	shatter_effect.position = coords * Settings.tile_size
-	shatter_effect.add_pieces(tile_atlas, atlas_coords, pieces)
+	shatter_effect.add_pieces(block_id, pieces)
 	tile_map_layer.map_layer.effects.add_child(shatter_effect)
 	
 
 static func bump(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-	if atlas_coords == Vector2i(-1, -1):
-		return
-	
-	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
-	if tile_map_layer.map_layer.effects.has_node(effect_name):
-		var effect = tile_map_layer.map_layer.effects.get_node(effect_name)
-		var animation_player = effect.get_node("AnimationPlayer") as AnimationPlayer
-		animation_player.seek(0.1)
-		return
-	
-	var alt_id: int = tile_map_layer.get_cell_alternative_tile(coords)
-	if alt_id == ConfigurableBlock.INVISIBLE_ALT_ID:
-		return
-	
-	var bump_effect = BUMP_EFFECT.instantiate()
-	bump_effect.name = effect_name
-	tile_map_layer.map_layer.effects.add_child(bump_effect)
-	bump_effect.position = coords * Settings.tile_size + Settings.tile_size_half
-	bump_effect.rotation = player.rotation - tile_map_layer.global_rotation
-	bump_effect.set_tile(tile_map_layer, coords, -bump_effect.rotation)
-	
-	if alt_id == ConfigurableBlock.DEACTIVATED_ALT_ID:
-		tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
-	else:
-		tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_ALT_ID)
+	#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
+	#if atlas_coords == Vector2i(-1, -1):
+		#return
+	#
+	#var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
+	#if tile_map_layer.map_layer.effects.has_node(effect_name):
+		#var effect = tile_map_layer.map_layer.effects.get_node(effect_name)
+		#var animation_player = effect.get_node("AnimationPlayer") as AnimationPlayer
+		#animation_player.seek(0.1)
+		#return
+	#
+	#var alt_id: int = tile_map_layer.get_cell_alternative_tile(coords)
+	#if alt_id == ConfigurableBlock.INVISIBLE_ALT_ID:
+		#return
+	#
+	#var bump_effect = BUMP_EFFECT.instantiate()
+	#bump_effect.name = effect_name
+	#tile_map_layer.map_layer.effects.add_child(bump_effect)
+	#bump_effect.position = coords * Settings.tile_size + Settings.tile_size_half
+	#bump_effect.rotation = player.rotation - tile_map_layer.global_rotation
+	#bump_effect.set_tile(tile_map_layer, coords, -bump_effect.rotation)
+	#
+	#if alt_id == ConfigurableBlock.DEACTIVATED_ALT_ID:
+		#tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
+	#else:
+		#tile_map_layer.set_cell(coords, 0, atlas_coords, ConfigurableBlock.INVISIBLE_ALT_ID)
+	pass
 
 
 static func spawn(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, block_id: String):
@@ -72,10 +72,11 @@ static func spawn(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, bl
 
 
 static func vanish(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, animation_duration: float, cooldown: float):
-	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
-	if atlas_coords == Vector2i(-1, -1):
-		return
-	var vanish_effect = VANISH_EFFECT.instantiate()
-	tile_map_layer.map_layer.effects.add_child(vanish_effect)
-	vanish_effect.init(tile_map_layer, coords, animation_duration, cooldown)
-	vanish_effect.position = coords * Settings.tile_size
+	#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
+	#if atlas_coords == Vector2i(-1, -1):
+		#return
+	#var vanish_effect = VANISH_EFFECT.instantiate()
+	#tile_map_layer.map_layer.effects.add_child(vanish_effect)
+	#vanish_effect.init(tile_map_layer, coords, animation_duration, cooldown)
+	#vanish_effect.position = coords * Settings.tile_size
+	pass

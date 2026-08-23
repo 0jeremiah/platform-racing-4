@@ -16,6 +16,15 @@ static var atlas_textures = {}
 func init() -> void:
 	# Set tile size from settings
 	tile_size = Settings.tile_size
+	
+	# Create scenes collection source
+	var scenes_collection_source: TileSetScenesCollectionSource = TileSetScenesCollectionSource.new()
+
+	# Add source to tileset
+	add_source(scenes_collection_source, 0)
+
+	# Create block scene in ScenesCollectionSource (other scenes can also be added for stuff that aren't blocks)
+	scenes_collection_source.create_scene_tile(block_scene, 0)
 
 	# Setup physics layers
 	_setup_physics_layers()
@@ -24,10 +33,12 @@ func init() -> void:
 ## Adds an array of block configuration dictionaries for the tileset to initialize
 func add_configs(configs: Array) -> void:
 	# Group configs by texture source to deduplicate atlases
-	var new_sources_map: Dictionary = _group_by_texture(configs)
+	#var new_sources_map: Dictionary = _group_by_texture(configs)
 
 	# Create atlas sources and tiles
-	_create_atlas_sources(new_sources_map)
+	#_create_atlas_sources(new_sources_map)
+	
+	pass
 
 
 ## Setup physics layers: layer 0 for solid, layer 1 for non-solid (liquid/gas)
@@ -90,32 +101,6 @@ func _create_atlas_sources(new_sources_map: Dictionary) -> void:
 		source_id += 1
 
 
-## Create TileSetScenesCollectionSource for each unique texture and populate with tiles
-#func _create_scenes_collection_sources(sources_map: Dictionary) -> void:
-	#var source_id: int = 0
-
-	#for texture_path in sources_map:
-		#var configs: Array = sources_map[texture_path]
-
-		# Load the texture
-		#var texture: Texture2D = load(texture_path)
-		#if not texture:
-			#push_error("Failed to load texture: " + texture_path)
-			#continue
-
-		# Create atlas source
-		#var scenes_collection_source: TileSetScenesCollectionSource = TileSetScenesCollectionSource.new()
-
-		# Add source to tileset
-		#add_source(scenes_collection_source, source_id)
-
-		# Create tiles for all configs using this texture
-		#for config in configs:
-			#_create_tile_from_config(atlas_source, config)
-
-		#source_id += 1
-
-
 ## Create a tile and its alternatives from a config dictionary
 func _create_tile_from_config(atlas_source: TileSetAtlasSource, config: Dictionary) -> void:
 	var image_data: Dictionary = config.image
@@ -132,35 +117,8 @@ func _create_tile_from_config(atlas_source: TileSetAtlasSource, config: Dictiona
 	atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.DEACTIVATED_ALT_ID)
 	atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
 
-	# Get matter type from config
-	var matter_type: String = config.settings.get("matter_type", ConfigurableBlockSettings.SOLID)
-
 	# Setup collision and appearance for all alternative tiles
 	_setup_tile_alternatives(atlas_source, atlas_coords, config.settings)
-
-
-## Create a tile and its alternatives from a config dictionary
-#func _new_create_tile_from_config(scenes_collection_source: TileSetScenesCollectionSource, config: Dictionary) -> void:
-	#var block_id = config.id
-	#var image_data: Dictionary = config.image
-	#var atlas_coords := Vector2i(
-		#image_data.atlas_coords.get("x", 0),
-		#image_data.atlas_coords.get("y", 0)
-	#)
-
-	# Create the base tile
-	#scenes_collection_source.create_tile(block_scene, block_id)
-
-	# Create alternative tiles
-	#atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.INVISIBLE_ALT_ID)
-	#atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.DEACTIVATED_ALT_ID)
-	#atlas_source.create_alternative_tile(atlas_coords, ConfigurableBlock.INVISIBLE_DEACTIVATED_ALT_ID)
-
-	# Get matter type from config
-	#var matter_type: String = config.settings.get("matter_type", ConfigurableBlockSettings.SOLID)
-
-	# Setup collision and appearance for all alternative tiles
-	#_setup_tile_alternatives(atlas_source, atlas_coords, config.settings)
 
 
 ## Setup collision polygons and modulation for all tile alternatives
@@ -174,13 +132,7 @@ func _setup_tile_alternatives(atlas_source: TileSetAtlasSource, atlas_coords: Ve
 	])
 
 	# Physics layer: 0 for solid, 1 for non-solid
-	var is_solid = settings.get("matter_type", ConfigurableBlockSettings.SOLID) == ConfigurableBlockSettings.SOLID
-	var sides = ["top", "bottom", "left", 'right', "bump", "stand", "any_side"] if is_solid else ["area"]
-	var inactive_settings = [ConfigurableBlockSideSettings.INACTIVE, ConfigurableBlockSideSettings.START_POSITION]
-	var solid_sides = []
-	for side in sides:
-		if settings.get(side, ConfigurableBlockSideSettings.INACTIVE).type not in inactive_settings:
-			solid_sides.append(side)
+	var physics_layer: int = 0 if settings.get("matter_type", ConfigurableBlockSettings.SOLID) == ConfigurableBlockSettings.SOLID else 1
 
 	# Setup all alternative tiles
 	var alt_ids := [
@@ -194,29 +146,8 @@ func _setup_tile_alternatives(atlas_source: TileSetAtlasSource, atlas_coords: Ve
 		var tile_data: TileData = atlas_source.get_tile_data(atlas_coords, alt_id)
 
 		# Add collision polygon
-		if is_solid:
-			if solid_sides.has("any_side"):
-				tile_data.add_collision_polygon(0)
-				tile_data.set_collision_polygon_points(0, 0, polygon)
-			if solid_sides.has("top"):
-				tile_data.add_collision_polygon(1)
-				tile_data.set_collision_polygon_points(1, 1, polygon)
-				tile_data.set_collision_polygon_one_way(1, 0, true)
-			if solid_sides.has("bottom"):
-				tile_data.add_collision_polygon(2)
-				tile_data.set_collision_polygon_points(2, 2, polygon)
-				tile_data.set_collision_polygon_one_way(2, 0, true)
-			if solid_sides.has("left"):
-				tile_data.add_collision_polygon(3)
-				tile_data.set_collision_polygon_points(3, 3, polygon)
-				tile_data.set_collision_polygon_one_way(3, 0, true)
-			if solid_sides.has("right"):
-				tile_data.add_collision_polygon(4)
-				tile_data.set_collision_polygon_points(4, 4, polygon)
-				tile_data.set_collision_polygon_one_way(4, 0, true)
-		elif solid_sides.has("area"):
-			tile_data.add_collision_polygon(5)
-			tile_data.set_collision_polygon_points(5, 0, polygon)
+		tile_data.add_collision_polygon(physics_layer)
+		tile_data.set_collision_polygon_points(physics_layer, 0, polygon)
 
 		# Apply modulation based on state
 		if alt_id == ConfigurableBlock.DEACTIVATED_ALT_ID:

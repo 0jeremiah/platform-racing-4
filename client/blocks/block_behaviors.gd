@@ -117,6 +117,7 @@ func change_stats(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords
 		if !settings.infinite_stats and settings.stat_supply - 1 <= 0:
 			settings.stat_supply = 0
 			settings.can_give_stats = false
+			tile_map_layer.block_dict[tile_map_layer.get_block_dict_name(coords)].node.dull_out()
 		elif !settings.infinite_stats:
 			settings.stat_supply -= 1
 		if amount != 0:
@@ -466,4 +467,5 @@ func time(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector
 func vanish(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	var block_id = tile_map_layer.get_block(coords).id
 	if block_id:
-		TileEffects.vanish(tile_map_layer, coords, params.get("animation_duration", 0.3), params.get("cooldown", 2.0))
+		#TileEffects.vanish(tile_map_layer, coords, params.get("animation_duration", 0.3), params.get("cooldown", 2.0))
+		pass

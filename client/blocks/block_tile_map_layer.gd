@@ -47,29 +47,31 @@ func add_block(coords: Vector2i, block_id: String, alt_id: int = ConfigurableBlo
 	if tile_info.is_empty():
 		push_warning("Block ID not found: " + block_id)
 		return
-	set_cell(coords, tile_info.source_id, tile_info.atlas_coords, alt_id)
 	var block_dict_name = get_block_dict_name(coords)
 	var block_settings = ConfigurableBlockSettings.new()
 	block_settings.import_settings(BlockManager._block_lookup[block_id].settings)
 	if !settings.is_empty():
 		block_settings.import_edited_settings(settings)
-	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings, "node": null}
+	var maybe_block = null
+	if block_dict.has(block_dict_name) and block_dict[block_dict_name].node != null:
+		maybe_block = block_dict[block_dict_name].node
+	elif find_child(block_dict_name) != null:
+		maybe_block = find_child(block_dict_name)
+	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings, "node": maybe_block}
+	if maybe_block:
+		maybe_block.init(block_id, block_settings)
+	else:
+		set_cell(coords, 0, Vector2i(0, 0), tile_info.alternative_tile)
 
 
 ## Get cell block ID from coordinates (reverse lookup)
 func get_block(coords: Vector2i) -> Dictionary:
-	var source_id := get_cell_source_id(coords)
-	var atlas_coords := get_cell_atlas_coords(coords)
 	var block_dict_name = get_block_dict_name(coords)
-	if block_dict.has(block_dict_name):
-		for block_id in BlockManager._block_lookup:
-			var info: Dictionary = BlockManager._block_lookup[block_id]
-			if info.source_id == source_id and info.atlas_coords == atlas_coords:
-				var block_settings = null
-				if block_dict[block_dict_name].has("settings") and block_dict[block_dict_name].settings != null:
-					block_settings = block_dict[block_dict_name].settings
-				return {"id": block_id, "settings": block_settings}
-
+	if block_dict.has(block_dict_name) and block_dict[block_dict_name].has("id") and block_dict[block_dict_name]["id"] != "":
+		var block_settings = null
+		if block_dict[block_dict_name].has("settings") and block_dict[block_dict_name].settings != null:
+				block_settings = block_dict[block_dict_name].settings
+		return {"id": block_dict[block_dict_name]["id"], "settings": block_settings}
 	return {"id": "", "settings": null}
 
 

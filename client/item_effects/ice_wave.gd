@@ -22,5 +22,6 @@ func hit_player(_character: Character) -> void:
 		_character.movement.freeze(_character.stats.get_skill_bonus())
 
 
-func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:
-	pass
+func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _events: Array, _normal: Vector2 = Vector2.ZERO) -> void:
+	if tile_map_layer.block_dict.has(tile_map_layer.get_block_dict_name(coords)) and !tile_map_layer.block_dict[tile_map_layer.get_block_dict_name(coords)].node.frozen:
+		tile_map_layer.block_dict[tile_map_layer.get_block_dict_name(coords)].node.freeze()

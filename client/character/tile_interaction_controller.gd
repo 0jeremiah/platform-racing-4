@@ -54,18 +54,18 @@ func interact_with_solid_tiles(character: Character, lighting: LightbreakControl
 	if !collision:
 		return false
 		
-	var tile_map_layer = collision.get_collider()
-	if not (tile_map_layer is ConfigurableTileMapLayer):
+	var parent = collision.get_collider().get_parent()
+	if not (parent is ConfigurableTileMapLayer):
 		return false
 
 	var normal = collision.get_normal().rotated(-character.rotation)
 	var rid = collision.get_collider_rid()
-	var coords = tile_map_layer.get_coords_for_body_rid(rid)
+	var coords = parent.get_coords_for_body_rid(rid)
 	character.movement.last_collision_normal = normal
 	
 	# Blow up tiles when sun lightbreaking
 	if lighting.direction.length() > 0 and lighting.fire_power > 0:
-		TileEffects.shatter(tile_map_layer, coords, 10)
+		TileEffects.shatter(parent, coords, 10)
 		lighting.fire_power -= 1
 		return false
 	else:
@@ -103,14 +103,15 @@ func check_out_of_bounds(character: Character) -> void:
 func get_tiles_overlapping_area(area: Area2D) -> Array:
 	var tiles = []
 	var bodies: Array = area.get_overlapping_bodies()
-	for tile_map_layer in bodies:
-		if !(tile_map_layer is TileMapLayer):
+	for body in bodies:
+		var parent = body.get_parent()
+		if !(parent is ConfigurableTileMapLayer):
 			continue
-		var coords = tile_map_layer.local_to_map(tile_map_layer.to_local(area.to_global(Vector2.ZERO)))
-		var block_id = tile_map_layer.get_block(coords).id
+		var coords = parent.local_to_map(parent.to_local(area.to_global(Vector2.ZERO)))
+		var block_id = parent.get_block(coords).id
 		if block_id != "":
 			tiles.push_back({
-				"tile_map_layer": tile_map_layer,
+				"tile_map_layer": parent,
 				"coords": coords,
 				"block_id": block_id
 			})

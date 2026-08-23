@@ -2,58 +2,77 @@
 
 [ext_resource type="Script" uid="uid://br57x0ycn8uf1" path="res://blocks/block_scene.gd" id="1_1f6pq"]
 [ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="2_1f6pq"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://blocks/tileatlaspr4.png" id="3_aqaxj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwmtn"]
+atlas = ExtResource("3_aqaxj")
+region = Rect2(640, 128, 128, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6rlya"]
+custom_solver_bias = 1.0
 size = Vector2(128, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6hn1h"]
+custom_solver_bias = 1.0
 size = Vector2(128, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmtn"]
+custom_solver_bias = 1.0
 size = Vector2(64, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j48hi"]
+custom_solver_bias = 1.0
 size = Vector2(64, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4kmw"]
+custom_solver_bias = 1.0
 size = Vector2(128, 128)
 
 [node name="BlockScene" type="StaticBody2D" unique_id=1701347136]
 script = ExtResource("1_1f6pq")
 
-[node name="BlockTexture" type="TextureRect" parent="." unique_id=1692934373]
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
+[node name="BlockTexture" type="Sprite2D" parent="." unique_id=838241233]
 texture = ExtResource("2_1f6pq")
 metadata/_edit_use_anchors_ = true
+
+[node name="TeleportColorinTexture" type="Sprite2D" parent="BlockTexture" unique_id=90420942]
+visible = false
+show_behind_parent = true
+texture = ExtResource("2_1f6pq")
+metadata/_edit_use_anchors_ = true
+
+[node name="FrozenTexture" type="Sprite2D" parent="." unique_id=859472906]
+visible = false
+texture = SubResource("AtlasTexture_dwmtn")
 
 [node name="TopHitbox" type="CollisionShape2D" parent="." unique_id=2045483699]
 position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_6rlya")
 one_way_collision = true
+one_way_collision_margin = 128.0
 
 [node name="BottomHitbox" type="CollisionShape2D" parent="." unique_id=677671508]
 position = Vector2(0, 32)
 shape = SubResource("RectangleShape2D_6hn1h")
 one_way_collision = true
+one_way_collision_margin = 128.0
 one_way_collision_direction = Vector2(0, -1)
 
 [node name="LeftHitbox" type="CollisionShape2D" parent="." unique_id=1842339298]
 position = Vector2(-32, 0)
 shape = SubResource("RectangleShape2D_dwmtn")
 one_way_collision = true
+one_way_collision_margin = 128.0
 one_way_collision_direction = Vector2(1, 0)
 
 [node name="RightHitbox" type="CollisionShape2D" parent="." unique_id=544027684]
 position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_j48hi")
 one_way_collision = true
+one_way_collision_margin = 128.0
 one_way_collision_direction = Vector2(-1, 0)
 
 [node name="AreaHitbox" type="CollisionShape2D" parent="." unique_id=1650038927]
 shape = SubResource("RectangleShape2D_c4kmw")
 disabled = true
-one_way_collision = true
 one_way_collision_direction = Vector2(-1, 0)

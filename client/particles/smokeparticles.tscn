@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://r16wukuc6nul"]
+
+[ext_resource type="Texture2D" uid="uid://cerecqdydfq3i" path="res://particles/textures/black_smoke.png" id="1_cwepk"]
+[ext_resource type="Material" uid="uid://j5te5qsd8xf4" path="res://particles/smokeparticles.tres" id="2_gpjns"]
+
+[node name="SmokeParticles" type="GPUParticles2D" unique_id=754621444]
+emitting = false
+amount = 10
+texture = ExtResource("1_cwepk")
+one_shot = true
+process_material = ExtResource("2_gpjns")
