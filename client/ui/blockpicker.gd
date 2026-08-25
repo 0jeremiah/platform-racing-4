@@ -7,7 +7,6 @@ signal change_selected_block
 @onready var tab_bar = $TabBar
 @onready var block_selector = $BlockSelector
 
-var texture: Texture2D = preload("res://tiles/tileatlas.png")
 var block_button = preload("res://blocks/block_button.tscn")
 var selected_category: String = "pr4"
 var block_picker_pages: int = 1

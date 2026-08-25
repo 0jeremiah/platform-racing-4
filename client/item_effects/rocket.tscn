@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://b0mxglg45vqom" path="res://item_effects/rocket_launcher_exhaust_3.png" id="3_b2npj"]
 [ext_resource type="Texture2D" uid="uid://d3u7i2yof336i" path="res://item_effects/rocket_launcher_exhaust_4.png" id="4_ldn51"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4up4"]
+size = Vector2(80, 20)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_gper0"]
 animations = [{
 "frames": [{
@@ -27,14 +30,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4up4"]
-size = Vector2(172, 20)
-
 [node name="Rocket" type="RigidBody2D" unique_id=1168286062]
 gravity_scale = 0.0
 center_of_mass_mode = 1
 center_of_mass = Vector2(-96, 0)
 script = ExtResource("1_diylb")
+
+[node name="RocketHitbox2" type="CollisionShape2D" parent="." unique_id=634411938]
+position = Vector2(40, 1)
+shape = SubResource("RectangleShape2D_p4up4")
 
 [node name="Exhaust" type="AnimatedSprite2D" parent="." unique_id=657804720]
 position = Vector2(-117, 0)
@@ -50,5 +54,5 @@ texture = ExtResource("1_8f1pt")
 [node name="RocketArea" type="Area2D" parent="." unique_id=928691449]
 
 [node name="RocketHitbox" type="CollisionShape2D" parent="RocketArea" unique_id=660977846]
-position = Vector2(0, 1)
+position = Vector2(40, 1)
 shape = SubResource("RectangleShape2D_p4up4")

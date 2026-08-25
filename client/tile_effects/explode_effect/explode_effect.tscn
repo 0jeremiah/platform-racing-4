@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpea801ovi7ub"]
+[gd_scene format=3 uid="uid://cpea801ovi7ub"]
 
 [ext_resource type="Texture2D" uid="uid://dwoosahvdwjrb" path="res://tiles/mine/circle_01.png" id="1_26qna"]
+[ext_resource type="Script" uid="uid://6kar2q1rec5i" path="res://tile_effects/explode_effect/explode_effect.gd" id="1_m8a4e"]
 [ext_resource type="Texture2D" uid="uid://cr23mu52c1tto" path="res://tiles/mine/star_01.png" id="2_t63xr"]
 
 [sub_resource type="Animation" id="Animation_d1axp"]
@@ -101,17 +102,16 @@ _data = {
 &"explode": SubResource("Animation_1xfj4")
 }
 
-[node name="ExplodeEffect" type="Node2D"]
+[node name="ExplodeEffect" type="Node2D" unique_id=623090790]
+script = ExtResource("1_m8a4e")
 
-[node name="Circle01" type="Sprite2D" parent="."]
+[node name="Circle01" type="Sprite2D" parent="." unique_id=1727188680]
 texture = ExtResource("1_26qna")
 
-[node name="Star01" type="Sprite2D" parent="."]
+[node name="Star01" type="Sprite2D" parent="." unique_id=1392336899]
 modulate = Color(1, 0.976471, 0.921569, 1)
 texture = ExtResource("2_t63xr")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_lj8cr")
-}
-autoplay = "explode"
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1921080812]
+libraries/ = SubResource("AnimationLibrary_lj8cr")
+autoplay = &"explode"

@@ -12,6 +12,6 @@ func hit_player(_character: Character) -> void:
 	_character.movement.hitstun(2.5, 20)
 
 
-func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, events: Array, normal: Vector2 = Vector2.ZERO) -> void:
-	pass
+func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _events: Array, _normal: Vector2 = Vector2.ZERO) -> void:
+	TileEffects.explode(tile_map_layer, coords, 4)
 	queue_free()

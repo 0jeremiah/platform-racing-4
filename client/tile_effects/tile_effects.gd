@@ -3,6 +3,7 @@ class_name TileEffects
 
 const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/shatter_effect.tscn")
 const BUMP_EFFECT = preload("res://tile_effects/bump_effect/bump_effect.tscn")
+const EXPLODE_EFFECT = preload("res://tile_effects/explode_effect/explode_effect.tscn")
 const SPAWN_EFFECT = preload("res://tile_effects/spawn_effect/spawn_effect.tscn")
 const VANISH_EFFECT = preload("res://tile_effects/vanish_effect/vanish_effect.tscn")
 const COIN_EFFECT = preload("res://effects/coin/coin_effect.tscn")
@@ -29,7 +30,16 @@ static func crumble(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, 
 	shatter_effect.position = coords * Settings.tile_size
 	shatter_effect.add_pieces(block_id, pieces)
 	tile_map_layer.map_layer.effects.add_child(shatter_effect)
-	
+
+
+static func explode(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int):
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.node != null and block_info.node.settings.block_type != ConfigurableBlockSettings.IMPERVIOUS:
+		shatter(tile_map_layer, coords, pieces)
+		var explode_effect = EXPLODE_EFFECT.instantiate()
+		explode_effect.position = coords * Settings.tile_size
+		tile_map_layer.map_layer.effects.add_child(explode_effect)
+
 
 static func bump(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	#var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)

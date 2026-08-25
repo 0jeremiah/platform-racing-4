@@ -53,11 +53,7 @@ func init(data: Dictionary):
 	print(level.properties.get("music", ""))
 	Jukebox.play_song(level.properties.get("music", ""))
 	
-	level_manager.calc_used_rect()
-	level_manager.level_layers.get_all_start_options()
-	level_manager.reached_finish_blocks = 0
-	level_manager.level_layers.get_all_finish_blocks()
-	level_manager.level_layers.spawn_eggs()
+	level_manager.init_level()
 	
 	var start_option = Start.get_next_start_option(level_manager.level_layers)
 	if start_option:

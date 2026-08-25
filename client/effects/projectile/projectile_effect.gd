@@ -36,18 +36,17 @@ func _detect_character_body_collisions() -> void:
 		return
 	var collider := collision.get_collider()
 	var parent = collider.get_parent()
-	if not (parent is ConfigurableTileMapLayer or collider is Character):
+	if not ((parent is ConfigurableTileMapLayer) or collider is Character):
 		return
 	if parent is ConfigurableTileMapLayer:
 		var normal := collision.get_normal()
-		var rid := collision.get_collider_rid()
-		var coords = null
-		if parent.tile_set is TileSetAtlasSource:
-			coords = parent.get_coords_for_body_rid(rid)
-		elif collision.get_collider() is BlockScene:
+		var coords: Vector2i
+		if collision.get_collider() is BlockScene:
 			coords = collision.get_collider().get_coords()
-		if coords:
-			_notify_tile_collision(parent, coords, normal)
+		else:
+			var rid := collision.get_collider_rid()
+			coords = parent.get_coords_for_body_rid(rid)
+		_notify_tile_collision(parent, coords, normal)
 	elif collider is Character:
 		_notify_character_collision(collider)
 
@@ -62,7 +61,7 @@ func set_projectile(projectile_node: PhysicsBody2D, p_collision_layer: int, p_co
 	projectile = projectile_node
 	if projectile is RigidBody2D:
 		_setup_rigidbody_signals()
-	collision_layer = p_collision_layer
+	collision_layer = 0
 	collision_mask = p_collision_mask
 	life = p_life
 	var projectile_velocity = p_velocity
@@ -92,20 +91,24 @@ func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, 
 		var tile_position := tile_map_layer.map_to_local(tile_map_layer.local_to_map(tile_map_layer.to_local(body_global)))
 		var tile_global := tile_map_layer.to_global(tile_position)
 		var direction := (body_global - tile_global).normalized()
+		var coords: Vector2i
 
-		# Determine collision side to find the adjacent tile
-		# Offset body position toward the collision direction to find the hit tile
-		var offset := Vector2.ZERO
-		if abs(direction.x) > abs(direction.y):
-			# Horizontal collision - offset horizontally
-			offset = Vector2(sign(direction.x) * 64, 0)
+		if body is BlockScene:
+			coords = body.get_coords()
 		else:
-			# Vertical collision - offset vertically
-			offset = Vector2(0, sign(direction.y) * 64)
+			# Determine collision side to find the adjacent tile
+			# Offset body position toward the collision direction to find the hit tile
+			var offset := Vector2.ZERO
+			if abs(direction.x) > abs(direction.y):
+				# Horizontal collision - offset horizontally
+				offset = Vector2(sign(direction.x) * 64, 0)
+			else:
+				# Vertical collision - offset vertically
+				offset = Vector2(0, sign(direction.y) * 64)
 
-		var contact_point := body_global + offset
-		var body_local := tile_map_layer.to_local(contact_point)
-		var coords: Vector2i = tile_map_layer.local_to_map(body_local)
+			var contact_point := body_global + offset
+			var body_local := tile_map_layer.to_local(contact_point)
+			coords = tile_map_layer.local_to_map(body_local)
 
 		# Normal is based on the offset direction
 		var normal := Vector2.ZERO

@@ -90,12 +90,7 @@ func _activate_game() -> void:
 	var bg: Node2D = get_node("BG")
 	
 	bg.set_bg(level_manager.background_id, level_manager.fade_color)
-	level_manager.calc_used_rect()
-	level_manager.level_layers.get_all_start_options()
-	level_manager.reached_finish_blocks = 0
-	level_manager.level_layers.get_all_finish_blocks()
-	level_manager.level_layers.spawn_eggs()
-	player_manager.spawn_player(level_manager.level_layers)
+	level_manager.init_level()
 	
 	minimap.init(self)
 	game_timer.init(self)

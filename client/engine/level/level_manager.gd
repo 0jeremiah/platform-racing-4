@@ -80,6 +80,15 @@ func update_finish_blocks(tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 				break
 
 
+func init_level():
+	calc_used_rect()
+	level_layers.spawn_gears()
+	level_layers.get_all_start_options()
+	reached_finish_blocks = 0
+	level_layers.get_all_finish_blocks()
+	level_layers.spawn_eggs()
+
+
 func _on_control_event(event: Dictionary):
 	set_settings(event)
 

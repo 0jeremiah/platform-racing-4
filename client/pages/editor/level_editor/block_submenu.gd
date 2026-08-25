@@ -23,7 +23,6 @@ var active: bool = true
 var current_layers: Node2D
 var editor_events: EditorEvents
 var current_editor = null
-var texture: Texture2D = preload("res://tiles/tileatlas.png")
 var selected_button: TextureButton
 
 

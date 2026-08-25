@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2roqhu1iol58"]
+[gd_scene format=3 uid="uid://d2roqhu1iol58"]
 
 [ext_resource type="Script" uid="uid://b0ri713blnvc7" path="res://items/ice_wave_item.gd" id="1_3otq0"]
 [ext_resource type="Texture2D" uid="uid://foxqaekyn1ll" path="res://items/ice_wave_item.svg" id="1_su0sh"]
-[ext_resource type="Texture2D" uid="uid://buey1umqxf0b1" path="res://item_effects/ice_wave_light_mask.png" id="3_dcwlr"]
 
 [sub_resource type="Animation" id="Animation_pfnxb"]
 length = 0.001
@@ -28,7 +27,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(20, 20, 20, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -164,7 +163,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(20, 20, 20, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -301,7 +300,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(20, 20, 20, 1), Color(20, 20, 20, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -419,32 +418,31 @@ _data = {
 &"shoot": SubResource("Animation_s4ytc")
 }
 
-[node name="IceWaveItem" type="Node2D"]
+[node name="IceWaveItem" type="Node2D" unique_id=1001470926]
 script = ExtResource("1_3otq0")
 
-[node name="IceWaveItem" type="Sprite2D" parent="."]
+[node name="IceWaveItem" type="Sprite2D" parent="." unique_id=532299761]
 texture = ExtResource("1_su0sh")
 
-[node name="IceWaveGhost1" type="Sprite2D" parent="."]
+[node name="IceWaveGhost1" type="Sprite2D" parent="." unique_id=31094002]
 visible = false
 scale = Vector2(1.6, 1.6)
 texture = ExtResource("1_su0sh")
 
-[node name="IceWaveGhost2" type="Sprite2D" parent="."]
+[node name="IceWaveGhost2" type="Sprite2D" parent="." unique_id=1172343484]
 visible = false
 scale = Vector2(1.28, 1.28)
 texture = ExtResource("1_su0sh")
 
-[node name="IceWaveLightMask" type="Sprite2D" parent="."]
+[node name="IceWaveLightMask" type="Sprite2D" parent="." unique_id=202821632]
 visible = false
+self_modulate = Color(20, 20, 20, 1)
 scale = Vector2(1.28, 1.28)
-texture = ExtResource("3_dcwlr")
+texture = ExtResource("1_su0sh")
 
-[node name="AnimationTimer" type="Timer" parent="."]
+[node name="AnimationTimer" type="Timer" parent="." unique_id=378417715]
 wait_time = 1.25
 one_shot = true
 
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_trmx4")
-}
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1067398224]
+libraries/ = SubResource("AnimationLibrary_trmx4")

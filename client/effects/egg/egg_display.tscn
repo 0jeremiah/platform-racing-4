@@ -89,6 +89,82 @@ tracks/5/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_nmsct"]
+resource_name = "jump"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FootBack:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.43333334, 0.6, 0.8),
+"transitions": PackedFloat32Array(2, 0.5, 2, 0.5, -2, 1),
+"update": 0,
+"values": [Vector2(17, -64), Vector2(43, -26), Vector2(24, 32), Vector2(47, -52), Vector2(4, -33), Vector2(11, -49)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FootBack:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.6, 0.8),
+"transitions": PackedFloat32Array(-2, -2, -2, 1),
+"update": 0,
+"values": [0.08726646259971647, 2.239257430308725, -1.045452221944603, -0.3665191429188092]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FootFront:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.43333334, 0.6, 0.8),
+"transitions": PackedFloat32Array(2, 0.5, 2, 0.5, -2, 1),
+"update": 0,
+"values": [Vector2(-10, -64), Vector2(20, -17), Vector2(-4, 32), Vector2(21, -44), Vector2(-14, -33), Vector2(-8, -42)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FootFront:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.6, 0.8),
+"transitions": PackedFloat32Array(-2, -2, -2, 1),
+"update": 0,
+"values": [0.11344640137963143, 2.490584842595908, -0.9075712110370514, -0.342084533390889]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Egg:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, -52)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Egg:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.53333336, 0.8),
+"transitions": PackedFloat32Array(-2, -2, -2, 1),
+"update": 0,
+"values": [0.22689280275926285, 0.3525565089028544, -0.05235987755982989, 0.06981317007977318]
+}
+
 [sub_resource type="Animation" id="Animation_8v124"]
 resource_name = "run"
 length = 0.4
@@ -247,6 +323,7 @@ tracks/5/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h1vgd"]
 _data = {
 &"RESET": SubResource("Animation_itr6u"),
+&"jump": SubResource("Animation_nmsct"),
 &"run": SubResource("Animation_8v124"),
 &"walk": SubResource("Animation_h882w")
 }

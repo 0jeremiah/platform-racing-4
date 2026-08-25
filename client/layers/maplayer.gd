@@ -9,8 +9,6 @@ class_name MapLayer
 @onready var projectiles = $Projectiles
 @onready var effects = $Effects
 
-const TILEATLAS = preload("res://tiles/tileatlas.png")
-
 var z_axis: int = 10
 var tile_map_rotation: int = 0
 var anchor: Vector2 = Vector2(0, 0)

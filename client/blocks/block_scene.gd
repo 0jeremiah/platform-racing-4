@@ -3,7 +3,7 @@ class_name BlockScene
 
 @onready var block_texture = $BlockTexture
 @onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
-@onready var frozen_texture = $FrozenTexture
+@onready var frozen_texture = $BlockTexture/FrozenTexture
 @onready var top_hitbox = $TopHitbox
 @onready var bottom_hitbox = $BottomHitbox
 @onready var left_hitbox = $LeftHitbox
@@ -15,6 +15,8 @@ var settings = ConfigurableBlockSettings.new()
 var location: String = ""
 var frozen: bool = false
 var freeze_timer: float = 0.0
+var bump_timer: float = 0.0
+var bump_direction: Vector2 = Vector2(0, -1)
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -45,6 +47,7 @@ func _ready():
 			is_valid = true
 		if !is_valid:
 			queue_free()
+		frozen_texture.texture = BlockManager.get_block_texture("16")
 
 
 func _process(delta: float) -> void:
@@ -56,6 +59,12 @@ func _process(delta: float) -> void:
 			freeze_timer = 0
 			frozen = false
 			frozen_texture.visible = false
+	if bump_timer > 0:
+		if bump_timer - delta > 0:
+			bump_timer -= delta
+		else:
+			bump_timer = 0
+	block_texture.position = block_texture.position.lerp(Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5)), delta * 30.0)
 
 
 func get_coords() -> Vector2i:
@@ -87,6 +96,11 @@ func freeze():
 	freeze_timer = 1.666
 	frozen = true
 	frozen_texture.visible = true
+
+
+func animate_bump(new_bump_direction: Vector2 = Vector2(0.0, -1.0)):
+	bump_timer = 0.5
+	bump_direction = new_bump_direction
 
 
 func dull_out():

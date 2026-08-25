@@ -13,6 +13,8 @@ func _process(delta: float):
 		life -= delta
 	else:
 		queue_free()
+	if projectile is CharacterBody2D:
+		projectile.move_and_slide()
 	if ice_wave_sprite:
 		ice_wave_sprite.self_modulate = Color(1.0, 1.0, 1.0, randf_range((0.5 / 2.5) * life, (1.0 / 2.5) * life))
 

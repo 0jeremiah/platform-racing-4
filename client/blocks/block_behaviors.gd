@@ -201,7 +201,6 @@ func heart(node: Node2D, _tile_map_layer: ConfigurableTileMapLayer, _coords: Vec
 
 # Explode the block and push away the body
 func hurt(body: PhysicsBody2D, _tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
-	print("behaviors/hurt")
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
 	var hp_sap: int = params.get("hp_sap", 20)
@@ -258,10 +257,8 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
 	var hp_sap: int = params.get("hp_sap", 20)
-	var settings = tile_map_layer.get_block(coords).settings
 	# Shatter the tile if it's not impervious
-	if settings.block_type != ConfigurableBlockSettings.IMPERVIOUS:
-		TileEffects.shatter(tile_map_layer, coords, 10)
+	TileEffects.explode(tile_map_layer, coords, 10)
 	Jukebox.play_sound("explosion")
 	# Push the body away
 	var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
@@ -273,11 +270,6 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 		rigid_body.linear_velocity += push_velocity
 	elif "movement" in body and "current_velocity" in body.movement:
 		body.movement.current_velocity += push_velocity
-	# Add explosion effect
-	var EXPLODE_EFFECT: PackedScene = preload("res://tiles/mine/explode_effect.tscn")
-	var effect := EXPLODE_EFFECT.instantiate()
-	effect.position = block_position
-	tile_map_layer.add_child(effect)
 	# Apply hitstun
 	if "movement" in body and body.movement.has_method("hitstun"):
 		body.movement.hitstun(hitstun_duration, hp_sap)
