@@ -217,42 +217,42 @@ func spawn_gears():
 		var gear_counter = 0
 		var coord_list = get_all_block_coords_by_id(gear)
 		for coords in coord_list:
-			delete_block(coords)
-			gear_counter += 1
-			# Create rotation controller
-			var rotation_controller = RotationController.new()
-			rotation_controller.position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-			rotation_controller.rotation = rotation
-			rotation_controller.target_rotation = rotation
-			rotation_controller.name = "GearTile" + str(gear_counter)
-			non_static_tile_map_layers.add_child(rotation_controller)
-			# Create sub tile_map_layer
-			var sub_tile_map_layer = ConfigurableTileMapLayer.new()
-			sub_tile_map_layer.tile_set = BlockManager._tile_set
-			sub_tile_map_layer.map_layer = map_layer
-			sub_tile_map_layer.name = "gear_" + str(coords) + "_configurable_tile_map_layer"
-			sub_tile_map_layer.add_block(Vector2i(0, 0), gear)
-			sub_tile_map_layer.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
-			sub_tile_map_layer.use_kinematic_bodies = true
-			sub_tile_map_layer.physics_quadrant_size = 1
-			rotation_controller.add_child(sub_tile_map_layer)
-			# Transfer tiles connected to the gear into the sub tile_map_layer
-			for attached_direction in attached_directions:
-				var queue = [coords + attached_direction]
-				while(len(queue) > 0):
-					var current_coords: Vector2i = queue.pop_back()
-					var block_info = get_block(current_coords)
-					if block_info.id != "":
-						var block_settings = {}
-						if block_info.settings != null:
-							block_settings = block_info.settings.get_edited_settings()
-						delete_block(current_coords)
-						sub_tile_map_layer.add_block(current_coords - coords, block_info.id, ConfigurableBlock.VISIBLE_ALT_ID, block_settings)
-						queue.append_array(get_surrounding_cells(current_coords))
-						# If there is a switch, deactivate rotation by default (probably make it an option in block editor)
-						#if (code to check if it can only be moved by presence switch goes here):
-							#rotation_controller.enabled = false
-							#rotation_controller.tick_ms = 2000
+			if get_block(coords).id != "":
+				delete_block(coords)
+				gear_counter += 1
+				# Create rotation controller
+				var rotation_controller = RotationController.new()
+				rotation_controller.pivot_offset = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
+				rotation_controller.rotation = rotation
+				rotation_controller.target_rotation = rotation
+				rotation_controller.name = "GearTile" + str(gear_counter)
+				non_static_tile_map_layers.add_child(rotation_controller)
+				# Create sub tile_map_layer
+				var sub_tile_map_layer = ConfigurableTileMapLayer.new()
+				sub_tile_map_layer.tile_set = BlockManager._tile_set
+				sub_tile_map_layer.map_layer = map_layer
+				sub_tile_map_layer.name = "gear_" + str(coords) + "_configurable_tile_map_layer"
+				sub_tile_map_layer.add_block(coords, gear)
+				sub_tile_map_layer.use_kinematic_bodies = true
+				sub_tile_map_layer.physics_quadrant_size = 1
+				rotation_controller.add_child(sub_tile_map_layer)
+				# Transfer tiles connected to the gear into the sub tile_map_layer
+				for attached_direction in attached_directions:
+					var queue = [coords + attached_direction]
+					while(len(queue) > 0):
+						var current_coords: Vector2i = queue.pop_back()
+						var block_info = get_block(current_coords)
+						if block_info.id != "":
+							var block_settings = {}
+							if block_info.settings != null:
+								block_settings = block_info.settings.get_edited_settings()
+							delete_block(current_coords)
+							sub_tile_map_layer.add_block(current_coords, block_info.id, ConfigurableBlock.VISIBLE_ALT_ID, block_settings)
+							queue.append_array(get_surrounding_cells(current_coords))
+							# If there is a switch, deactivate rotation by default (probably make it an option in block editor)
+							#if (code to check if it can only be moved by presence switch goes here):
+								#rotation_controller.enabled = false
+								#rotation_controller.tick_ms = 2000
 
 
 func get_teleport_positions_at_block_id(block_id: String) -> Array:

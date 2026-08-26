@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d3ul8rfnnwv3p"]
+[gd_scene format=3 uid="uid://d3ul8rfnnwv3p"]
 
 [ext_resource type="Script" uid="uid://d31xedau7l00s" path="res://character_display/character_display.gd" id="1_a0uep"]
 [ext_resource type="Texture2D" uid="uid://ctsoswrm7jau1" path="res://character_display/parts/classic/classic_foot_back_color.png" id="2_or3ot"]
@@ -194,7 +194,7 @@ tracks/13/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_qhbdg"]
-resource_name = "airborn"
+resource_name = "airborne"
 length = 0.001
 loop_mode = 1
 tracks/0/type = "value"
@@ -1945,7 +1945,6 @@ tracks/13/keys = {
 
 [sub_resource type="Animation" id="Animation_f26m5"]
 resource_name = "jump"
-length = 100.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -2113,6 +2112,20 @@ tracks/13/keys = {
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
 "values": [0.0, -0.174533]
+}
+tracks/14/type = "method"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath(".")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"deferred_play_airborne"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_vibsf"]
@@ -2828,7 +2841,7 @@ tracks/13/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rfx8m"]
 _data = {
 &"RESET": SubResource("Animation_5crqw"),
-&"airborn": SubResource("Animation_qhbdg"),
+&"airborne": SubResource("Animation_qhbdg"),
 &"charge": SubResource("Animation_lk06q"),
 &"charge_hold": SubResource("Animation_8xrj2"),
 &"crawl": SubResource("Animation_lwjgd"),
@@ -2845,113 +2858,113 @@ _data = {
 &"wall_slide": SubResource("Animation_a1244")
 }
 
-[node name="CharacterDisplay" type="Node2D"]
+[node name="CharacterDisplay" type="Node2D" unique_id=1346430861]
 script = ExtResource("1_a0uep")
 
-[node name="FootBack" type="Node2D" parent="."]
+[node name="FootBack" type="Node2D" parent="." unique_id=2052844195]
 position = Vector2(10, -75)
 scale = Vector2(0.65, 0.65)
 
-[node name="Color" type="Sprite2D" parent="FootBack"]
+[node name="Color" type="Sprite2D" parent="FootBack" unique_id=1098760226]
 texture = ExtResource("2_or3ot")
 
-[node name="Lines" type="Sprite2D" parent="FootBack"]
+[node name="Lines" type="Sprite2D" parent="FootBack" unique_id=1849797173]
 texture = ExtResource("3_f5014")
 
-[node name="Color2" type="Sprite2D" parent="FootBack"]
+[node name="Color2" type="Sprite2D" parent="FootBack" unique_id=1478464850]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3y508")
 
-[node name="Misc1" type="Sprite2D" parent="FootBack"]
+[node name="Misc1" type="Sprite2D" parent="FootBack" unique_id=2042191734]
 texture = ExtResource("5_ia7t2")
 
-[node name="Misc2" type="Sprite2D" parent="FootBack"]
+[node name="Misc2" type="Sprite2D" parent="FootBack" unique_id=1062897300]
 
-[node name="Body" type="Node2D" parent="."]
+[node name="Body" type="Node2D" parent="." unique_id=553407511]
 position = Vector2(-6, -98)
 scale = Vector2(0.65, 0.65)
 
-[node name="Color" type="Sprite2D" parent="Body"]
+[node name="Color" type="Sprite2D" parent="Body" unique_id=1030620405]
 texture = ExtResource("6_jmb14")
 
-[node name="Lines" type="Sprite2D" parent="Body"]
+[node name="Lines" type="Sprite2D" parent="Body" unique_id=867518356]
 texture = ExtResource("7_kqs4i")
 
-[node name="Color2" type="Sprite2D" parent="Body"]
+[node name="Color2" type="Sprite2D" parent="Body" unique_id=584988165]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("8_6cta1")
 
-[node name="Misc1" type="Sprite2D" parent="Body"]
+[node name="Misc1" type="Sprite2D" parent="Body" unique_id=1559169437]
 texture = ExtResource("9_12620")
 
-[node name="Misc2" type="Sprite2D" parent="Body"]
+[node name="Misc2" type="Sprite2D" parent="Body" unique_id=1436590026]
 
-[node name="FootFront" type="Node2D" parent="."]
+[node name="FootFront" type="Node2D" parent="." unique_id=247552334]
 position = Vector2(-5, -74)
 scale = Vector2(0.65, 0.65)
 
-[node name="Color" type="Sprite2D" parent="FootFront"]
+[node name="Color" type="Sprite2D" parent="FootFront" unique_id=496209184]
 texture = ExtResource("10_dbu7o")
 
-[node name="Lines" type="Sprite2D" parent="FootFront"]
+[node name="Lines" type="Sprite2D" parent="FootFront" unique_id=777548971]
 texture = ExtResource("11_m0jbk")
 
-[node name="Color2" type="Sprite2D" parent="FootFront"]
+[node name="Color2" type="Sprite2D" parent="FootFront" unique_id=1011464771]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("12_f0ydy")
 
-[node name="Misc1" type="Sprite2D" parent="FootFront"]
+[node name="Misc1" type="Sprite2D" parent="FootFront" unique_id=1478954277]
 texture = ExtResource("13_077jn")
 
-[node name="Misc2" type="Sprite2D" parent="FootFront"]
+[node name="Misc2" type="Sprite2D" parent="FootFront" unique_id=2102506735]
 
-[node name="Head" type="Node2D" parent="."]
+[node name="Head" type="Node2D" parent="." unique_id=1227352356]
 position = Vector2(-4, -184)
 scale = Vector2(0.65, 0.65)
 
-[node name="Color" type="Sprite2D" parent="Head"]
+[node name="Color" type="Sprite2D" parent="Head" unique_id=1061692928]
 texture = ExtResource("14_nl2mn")
 
-[node name="Lines" type="Sprite2D" parent="Head"]
+[node name="Lines" type="Sprite2D" parent="Head" unique_id=1654382299]
 texture = ExtResource("15_pyffb")
 
-[node name="Color2" type="Sprite2D" parent="Head"]
+[node name="Color2" type="Sprite2D" parent="Head" unique_id=1499526911]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("16_t41j5")
 
-[node name="Misc1" type="Sprite2D" parent="Head"]
+[node name="Misc1" type="Sprite2D" parent="Head" unique_id=1510732483]
 texture = ExtResource("17_ld2r1")
 
-[node name="Misc2" type="Sprite2D" parent="Head"]
+[node name="Misc2" type="Sprite2D" parent="Head" unique_id=1397362076]
 
-[node name="HatHolder" type="Node2D" parent="."]
+[node name="HatHolder" type="Node2D" parent="." unique_id=1371021751]
 position = Vector2(-4, -184)
 scale = Vector2(0.65, 0.65)
 
-[node name="Hat1" type="Node2D" parent="HatHolder"]
+[node name="Hat1" type="Node2D" parent="HatHolder" unique_id=1182018621]
 
-[node name="Color" type="Sprite2D" parent="HatHolder/Hat1"]
+[node name="Color" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1014409860]
 texture = ExtResource("18_stwk4")
 
-[node name="Lines" type="Sprite2D" parent="HatHolder/Hat1"]
+[node name="Lines" type="Sprite2D" parent="HatHolder/Hat1" unique_id=355165914]
 texture = ExtResource("19_ttr1n")
 
-[node name="Color2" type="Sprite2D" parent="HatHolder/Hat1"]
+[node name="Color2" type="Sprite2D" parent="HatHolder/Hat1" unique_id=534212593]
 texture = ExtResource("20_fctkm")
 
-[node name="Misc1" type="Sprite2D" parent="HatHolder/Hat1"]
+[node name="Misc1" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1467554520]
 texture = ExtResource("21_fohab")
 
-[node name="Misc2" type="Sprite2D" parent="HatHolder/Hat1"]
+[node name="Misc2" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1792052625]
 
-[node name="ItemHolder" type="Node2D" parent="."]
+[node name="ItemHolder" type="Node2D" parent="." unique_id=2091602048]
 position = Vector2(-6, -128)
 
-[node name="LifeBar" type="Node2D" parent="."]
+[node name="LifeBar" type="Node2D" parent="." unique_id=355034780]
 visible = false
 position = Vector2(0, 25)
 
-[node name="LifeBarRect" type="ReferenceRect" parent="LifeBar"]
+[node name="LifeBarRect" type="ReferenceRect" parent="LifeBar" unique_id=1485291910]
 offset_left = -125.0
 offset_top = -20.0
 offset_right = 125.0
@@ -2960,14 +2973,14 @@ border_color = Color(0.02745098, 0.11764706, 0.41960785, 1)
 border_width = 2.0
 editor_only = false
 
-[node name="RemainingLifeBar" type="ColorRect" parent="LifeBar"]
+[node name="RemainingLifeBar" type="ColorRect" parent="LifeBar" unique_id=1608021673]
 offset_left = -122.0
 offset_top = -17.0
 offset_right = 122.0
 offset_bottom = 17.0
 color = Color(0.9607843, 0.7921569, 0.40392157, 1)
 
-[node name="HealthText" type="RichTextLabel" parent="LifeBar"]
+[node name="HealthText" type="RichTextLabel" parent="LifeBar" unique_id=1821768185]
 offset_left = -122.0
 offset_top = -17.0
 offset_right = 122.0
@@ -2982,11 +2995,11 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Username" type="Node2D" parent="."]
+[node name="Username" type="Node2D" parent="." unique_id=1566531803]
 visible = false
 position = Vector2(0, -280)
 
-[node name="UsernameText" type="RichTextLabel" parent="Username"]
+[node name="UsernameText" type="RichTextLabel" parent="Username" unique_id=717984301]
 offset_left = -125.0
 offset_top = -20.0
 offset_right = 125.0
@@ -2999,9 +3012,7 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_rfx8m")
-}
-autoplay = "idle"
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=119167770]
+libraries/ = SubResource("AnimationLibrary_rfx8m")
+autoplay = &"idle"
 playback_default_blend_time = 0.2

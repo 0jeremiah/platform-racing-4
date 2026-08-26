@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3jd0f0e3i6uj"]
+[gd_scene format=3 uid="uid://d3jd0f0e3i6uj"]
 
 [ext_resource type="Script" uid="uid://tdomvq837gw" path="res://tiles/gear/rotation_controller.gd" id="1_rpq48"]
 
-[node name="RotationController" type="Node2D"]
+[node name="RotationController" type="Control" unique_id=774935255]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_rpq48")

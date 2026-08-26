@@ -3,7 +3,7 @@ extends Node2D
 ## Displays and animates a character with customizable parts and colors.
 ## Provides methods to control animations and appearance.
 
-const AIRBORN := "airborn"
+const AIRBORNE := "airborne"
 const CHARGE := "charge"
 const CHARGE_HOLD := "charge_hold"
 const CRAWL := "crawl"
@@ -19,7 +19,7 @@ const RUN := "run"
 const SWIM := "swim"
 const WALL_SLIDE := "wall_slide"
 const ANIMS := [
-	AIRBORN,
+	AIRBORNE,
 	CHARGE,
 	CHARGE_HOLD,
 	CRAWL,
@@ -241,6 +241,10 @@ func set_style_from_path(character_config: Dictionary) -> void:
 
 func play(anim: String) -> void:
 	animations.play(anim)
+
+
+func deferred_play_airborne() -> void:
+	animations.play(AIRBORNE)
 
 
 func play_random() -> void:

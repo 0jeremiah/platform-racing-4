@@ -55,7 +55,7 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 		display.play(CharacterDisplay.SWIM)
 	elif !movement.hurt and movement.is_wall_sliding:
 		display.play(CharacterDisplay.WALL_SLIDE)
-	elif !movement.hurt:
+	elif !movement.hurt and display.animations.get_current_animation() != display.AIRBORNE:
 		display.play(CharacterDisplay.JUMP)
 	
 	# Super jump charge effect

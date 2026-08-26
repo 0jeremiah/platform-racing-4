@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name RotationController
 
 var rotation_velocity: float = 0.0
@@ -12,18 +12,13 @@ var enabled_temp = false # set to true to kick off only one rotation
 var init_timer: float = 0.2
 
 
-func _ready():
-	pass
-
-
-func _physics_process(delta):
-	
+func _physics_process(delta: float):
 	# workaround for a bug when setting tile_map_layer.collision_animatable = true
-	if init_timer > 0:
-		init_timer -= delta
-		for child in get_children():
-			child.position = Settings.tile_size_half * -1
-		return
+	#if init_timer > 0:
+		#init_timer -= delta
+		#for child in get_children():
+			#child.position = Settings.tile_size_half * -1
+		#return
 	
 	# rotate!
 	elapsed_ms += delta * 1000
