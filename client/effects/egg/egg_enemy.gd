@@ -17,6 +17,10 @@ func _ready():
 	egg_display.scale.x = 1 - (2 * randi_range(0, 1))
 	velocity.x = walk_velocity * egg_display.scale.x
 	sight_area.scale.x = egg_display.scale.x
+	collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	sight_area.collision_layer = collision_layer
+	sight_area.collision_mask = collision_mask
 	egg_display.play("walk")
 
 
@@ -84,11 +88,3 @@ func attack():
 				ice_wave_projectile.set_projectile(ice_wave_projectile, collision_layer, collision_mask, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation).rotated(rotation), egg_display.scale.x == -1, self)
 				spawn.add_child(ice_wave_projectile)
 			Jukebox.play_sound("icewave")
-
-
-func set_depth(depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
-	collision_layer = solid_layer
-	collision_mask = solid_layer
-	sight_area.collision_layer = collision_layer
-	sight_area.collision_mask = collision_mask

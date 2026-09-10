@@ -1,6 +1,6 @@
 extends ButtonPopup
 
-@onready var load = preload("res://pages/editor/load/load.tscn")
+@onready var load_scene = preload("res://pages/editor/load/load.tscn")
 
 var load_node = null
 var load_func = null
@@ -8,7 +8,7 @@ var load_func = null
 
 func _ready() -> void:
 	super()
-	load_node = load.instantiate()
+	load_node = load_scene.instantiate()
 	add_node_to_holder(load_node)
 	create_button("Load", Callable(self, "_load"))
 	create_button("Delete", Callable(self, "_maybe_delete"))

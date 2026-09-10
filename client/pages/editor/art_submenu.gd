@@ -2,6 +2,9 @@ extends Control
 
 signal control_event
 
+@onready var stamp_picker_popup = preload("res://ui/stamppickerpopup.gd")
+@onready var stamp_mode_popup = preload("res://pages/editor/setting_popups/stamp_mode_popup.gd")
+@onready var font_picker_popup = preload("res://ui/fontpickerpopup.gd")
 @onready var art_menu = $ArtMenu
 @onready var art_menu_panel = $ArtMenu/ArtMenuPanel
 @onready var selection_glow = $ArtMenu/SelectionGlow
@@ -26,18 +29,17 @@ signal control_event
 @onready var selected_stamp_texture = $ArtSettings/SelectedStampBox/StampTexture
 @onready var selected_stamp_button = $ArtSettings/SelectedStampBox/Button
 @onready var size_box = $ArtSettings/SizeBox
-@onready var size_text = $ArtSettings/SizeBox/SizeText
-@onready var size_button = $ArtSettings/SizeBox/Button
 @onready var alpha_box = $ArtSettings/AlphaBox
-@onready var alpha_label = $ArtSettings/AlphaBox/AlphaLabel
-@onready var alpha_text = $ArtSettings/AlphaBox/AlphaText
 @onready var rotation_box = $ArtSettings/RotationBox
-@onready var rotation_label = $ArtSettings/RotationBox/RotationLabel
-@onready var rotation_text = $ArtSettings/RotationBox/RotationText
 @onready var stamp_mode_box = $ArtSettings/StampModeBox
+@onready var stamp_mode_text = $ArtSettings/StampModeBox/ModeText
+@onready var stamp_mode_button = $ArtSettings/StampModeBox/StampModeButton
+@onready var font_box = $ArtSettings/FontBox
+@onready var font_text = $ArtSettings/FontBox/FontText
+@onready var font_button = $ArtSettings/FontBox/FontButton
 @onready var bg_picker_popup = $BGPickerPopup
 @onready var bg_picker = $BGPickerPopup/BGPicker
-@onready var stamp_picker_popup = $StampPickerPopup
+#@onready var stamp_picker_popup = $StampPickerPopup
 @onready var stamp_picker = $StampPickerPopup/StampPicker
 @onready var layer_panel = $LayerPanel
 
@@ -59,12 +61,13 @@ var draw_alpha: float = 100
 var erase_size: float = 5
 var erase_alpha: float = 100
 var stamp_id: String = "cactus"
-var stamp_size: float = 100
+var stamp_size: float = 200
 var stamp_rotation: float = 0
-var text_size: float = 28
+var stamp_mode: String = "sticker"
+var text_size: float = 56
 var text_rotation: float = 0
 var text_color: Color = Color("071E6BFF")
-var color_box = preload("res://ui/colorbutton.tscn")
+var text_font: String = "actionman"
 
 
 func _ready() -> void:
@@ -76,7 +79,8 @@ func _ready() -> void:
 	selected_stamp_button.pressed.connect(_show_stamp_picker_popup)
 	stamp_mode_box.connect("stamp_mode_changed", _select_stamp_mode.bind())
 	bg_picker.connect("change_selected_background", _set_bg.bind())
-	stamp_picker.connect("change_selected_stamp", _select_stamp.bind())
+	stamp_mode_button.pressed.connect(_show_stamp_mode_popup)
+	font_button.pressed.connect(_show_font_picker_popup)
 	
 	_click_art_menu(brush_button)
 
@@ -133,7 +137,7 @@ func _process(_delta: float) -> void:
 			for node in child.get_children():
 				_check_clicked_button(node)
 		bg_picker_popup.size = bg_picker.size
-		stamp_picker_popup.size = stamp_picker.size
+		#stamp_picker_popup.size = stamp_picker.size
 		if selected_button:
 			set_selection_glow()
 	else:
@@ -211,8 +215,15 @@ func _show_bg_picker_popup():
 
 
 func _show_stamp_picker_popup():
-	stamp_picker_popup.position = Vector2(art_menu.global_position.x + art_menu.size.x + 10, selected_stamp_button.global_position.y)
-	stamp_picker_popup.show()
+	PopupManager.add_custom_popup(stamp_picker_popup, {"stamppicker_func": Callable(self, "_select_stamp"), "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)})
+
+
+func _show_stamp_mode_popup():
+	PopupManager.add_custom_popup(stamp_mode_popup, {"stamp_mode_func": Callable(self, "_select_stamp_mode"), "stamp_mode": stamp_mode, "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)})
+
+
+func _show_font_picker_popup():
+	PopupManager.add_custom_popup(font_picker_popup, {"fontpicker_func": Callable(self, "_select_text_font"), "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)})
 
 
 func disconnect_button(button):
@@ -230,7 +241,6 @@ func disconnect_button(button):
 
 func _click_art_menu(button: TextureButton):
 	selected_button = button
-	var tool_id: String = ""
 	color_box_button.visible = false
 	disconnect_button(color_box_button)
 	disconnect_button(size_box)
@@ -240,6 +250,7 @@ func _click_art_menu(button: TextureButton):
 	alpha_box.visible = false
 	rotation_box.visible = false
 	stamp_mode_box.visible = false
+	font_box.visible = false
 	if selected_button == brush_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
@@ -306,8 +317,8 @@ func _click_art_menu(button: TextureButton):
 		rotation_box.connect("slider_value_changed", _select_stamp_rotation.bind())
 		stamp_mode_box.visible = true
 		stamp_mode_box.position = Vector2(20, 224)
-		stamp_mode_box.spawn_x = stamp_mode_box.size.x + 20
-		stamp_mode_box.connect("stamp_box_changed", _select_stamp_mode.bind())
+		#stamp_mode_box.spawn_x = stamp_mode_box.size.x + 20
+		#stamp_mode_button.connect("stamp_box_changed", _select_stamp_mode.bind())
 		art_settings_panel.size = Vector2(88, 292)
 		art_settings.size = Vector2(98, 302)
 	elif selected_button == text_button:
@@ -323,15 +334,17 @@ func _click_art_menu(button: TextureButton):
 		size_box.visible = true
 		size_box.position = Vector2(20, 88)
 		size_box.spawn_x = size_box.size.x + 20
-		size_box.set_button("Size", text_size, 1, 200)
+		size_box.set_button("Size", text_size, 1, 2000)
 		size_box.connect("slider_value_changed", _select_text_size.bind())
 		rotation_box.visible = true
 		rotation_box.position = Vector2(20, 156)
 		rotation_box.spawn_x = rotation_box.size.x + 10
 		rotation_box.set_button("Rot", text_rotation, 0, 359)
 		rotation_box.connect("slider_value_changed", _select_text_rotation.bind())
-		art_settings_panel.size = Vector2(88, 224)
-		art_settings.size = Vector2(98, 234)
+		font_box.visible = true
+		font_box.position = Vector2(20, 224)
+		art_settings_panel.size = Vector2(88, 292)
+		art_settings.size = Vector2(98, 302)
 
 
 func set_selection_glow():
@@ -395,14 +408,14 @@ func _select_erase_alpha(new_alpha: int):
 	})
 
 
-func _select_stamp(new_id: String):
-	stamp_id = new_id
-	emit_signal("control_event", {
-		"type": EditorEvents.SELECT_STAMP,
-		"stamp": stamp_id,
-	})
-	selected_stamp_texture.texture = Stamps.get_stamp(stamp_id)
-	stamp_picker_popup.hide()
+func _select_stamp(stamp_data: Dictionary):
+	if stamp_data.has("id"):
+		stamp_id = stamp_data.id
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_STAMP,
+			"stamp": stamp_id,
+		})
+		selected_stamp_texture.texture = StampManager.get_stamp_texture(stamp_id)
 
 
 func _select_stamp_size(new_size: int):
@@ -421,11 +434,16 @@ func _select_stamp_rotation(new_rotation: int):
 	})
 
 
-func _select_stamp_mode(new_mode: String):
+func _select_stamp_mode(new_stamp_mode: String):
+	stamp_mode = new_stamp_mode
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_STAMP_MODE,
-		"mode": new_mode
+		"mode": stamp_mode
 	})
+	if stamp_mode == "stamp":
+		stamp_mode_text.text = "Stmp."
+	elif stamp_mode == "sticker":
+		stamp_mode_text.text = "Stckr."
 
 
 func _select_text_color(new_color: Color):
@@ -450,3 +468,13 @@ func _select_text_rotation(new_rotation: int):
 		"type": EditorEvents.SELECT_TEXT_ROTATION,
 		"rotation": text_rotation
 	})
+
+
+func _select_text_font(font_data: Dictionary):
+	if font_data.has("id"):
+		text_font = font_data.id
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_TEXT_FONT,
+			"font": text_font
+		})
+		font_text.set("theme_override_fonts/normal_font", FontManager.get_font(text_font))

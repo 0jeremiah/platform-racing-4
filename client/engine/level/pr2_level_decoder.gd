@@ -109,8 +109,6 @@ func decode_pr2_level(pr2_level: String) -> Dictionary:
 			data2 = data_string[1]
 		pr2_level_data[data1] = data2
 	if "data" in pr2_level_data:
-		var converted_map_layers = []
-		var converted_art_layers = []
 		var data_array = Array(pr2_level_data.data.split("`"))
 		# 0 - version number
 		# 1 - background color
@@ -266,10 +264,10 @@ func decode_objectstring2(objectstring: String, seg_mult: int = 1) -> String:
 	var data_array = []
 	if objectstring != "":
 		data_array = Array(objectstring.split(","))
-	var decoded_string: String
-	var object_code: int
-	var current_x: int
-	var current_y: int
+	var decoded_string: String = ""
+	var object_code: int = 0
+	var current_x: int = 0
+	var current_y: int = 0
 	if data_array.size() > 0:
 		for i in data_array.size():
 			width_perc = 0.0
@@ -340,10 +338,10 @@ func decode_blockstring(blockstring: String) -> String:
 	var data_array = []
 	if blockstring != "":
 		data_array = Array(blockstring.split(","))
-	var decoded_string: String
-	var block_code: int
-	var current_x: int
-	var current_y: int
+	var decoded_string: String = ""
+	var block_code: int = 0
+	var current_x: int = 0
+	var current_y: int = 0
 	if data_array.size() > 0:
 		for i in data_array.size():
 			var this_block = data_array[i].split(";")
@@ -508,7 +506,7 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 
 func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 	var brush_position = Vector2(0.0, 0.0)
-	var brush_size: int = 8
+	var brush_size: float = 8.0
 	var brush_color: Color = Color("000000")
 	var mode = "draw"
 	var pr2_drawbg_string_array = Array(pr2_drawbg_string.split(","))
@@ -634,7 +632,7 @@ func convert_objbg(pr2_objbg_string: String):
 			var text_scale_y = float(object_array.get(5)) / 100.0
 			var text_object = text.instantiate()
 			texts.add_child(text_object)
-			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x, "y": text_y}})
+			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x, "y": text_y}, "color": text_color})
 			text_object.set_text_scale(Vector2(text_scale_x, text_scale_y))
 			objects_array.push_back(text_object)
 		elif objbg_code.begins_with("y"):

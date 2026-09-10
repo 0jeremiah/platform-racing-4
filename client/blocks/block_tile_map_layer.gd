@@ -9,11 +9,45 @@ class_name ConfigurableTileMapLayer
 const EGG_ENEMY = preload("res://effects/egg/egg_enemy.tscn")
 var map_layer: MapLayer = null
 var block_dict = {}
+#var cull_unseen_blocks: bool = true
+#var outside_block_count_before_cull: int = 50
 
+
+func _process(_delta: float):
+	if Game.game and Game.game.player_manager.get_character() != null and Game.game.player_manager.get_character().tile_interaction.character_depth == map_layer.z_axis:
+		collision_enabled = true
+	else:
+		collision_enabled = false
+	#if map_layer and cull_unseen_blocks:
+		#var camera = get_viewport().get_camera_2d()
+		#if camera:
+			#var visible_block_viewport_size = Vector2(Vector2(get_viewport().size) / camera.zoom) + Vector2(Settings.tile_size.x * outside_block_count_before_cull, Settings.tile_size.y * outside_block_count_before_cull)
+			#var visible_rect = Rect2(((camera.get_screen_center_position() - (visible_block_viewport_size / 2)) * camera.zoom), visible_block_viewport_size * camera.zoom)
+			#var used_coords = get_used_cells()
+			#for used_coord in used_coords:
+				#var block_location = Vector2(((Vector2(Settings.tile_size) * Vector2(used_coord)) + Vector2(Settings.tile_size) / 2) * camera.zoom)
+				#if !visible_rect.has_point(block_location.rotated(map_layer.tile_map_rotation)):
+					#erase_cell(used_coord)
+			#for block in block_dict:
+				#var coords = get_coords_from_block_dict_name(block)
+				#if coords == null:
+					#continue
+				#var block_location = Vector2(((Vector2(Settings.tile_size) * Vector2(coords)) + Vector2(Settings.tile_size) / 2) * camera.zoom)
+				#if visible_rect.has_point(block_location.rotated(map_layer.tile_map_rotation)) and coords not in used_coords:
+					#var tile_info: Dictionary = BlockManager._block_lookup.get(block_dict[block].id, {})
+					#set_cell(coords, 0, Vector2i(0, 0), tile_info.alternative_tile)
 
 ## Converts coords into a name used for storing them into block_dict
 func get_block_dict_name(coords: Vector2i) -> String:
 	return str(coords.x) + "," + str(coords.y)
+
+
+## Converts name from block_dict into coords
+func get_coords_from_block_dict_name(block_dict_name: String) -> Variant:
+	var split_block_dict_name = Array(block_dict_name.split(","))
+	if split_block_dict_name.size() == 2 and split_block_dict_name[0].is_valid_int() and split_block_dict_name[1].is_valid_int():
+		return Vector2i(int(split_block_dict_name[0]), int(split_block_dict_name[1]))
+	return null
 
 
 ## Gets all used coords from block_dict
@@ -58,6 +92,7 @@ func add_block(coords: Vector2i, block_id: String, alt_id: int = ConfigurableBlo
 	elif find_child(block_dict_name) != null:
 		maybe_block = find_child(block_dict_name)
 	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings, "node": maybe_block}
+	#if !cull_unseen_blocks:
 	if maybe_block:
 		maybe_block.init(block_id, block_settings)
 	else:
@@ -86,22 +121,16 @@ func delete_block(coords: Vector2i) -> void:
 
 
 func is_solid(coords: Vector2i) -> bool:
-	#var block_id = get_block(coords).id
 	var block_dict_name = get_block_dict_name(coords)
 	if block_dict.has(block_dict_name):
 		return block_dict[block_dict_name].settings.matter_type == ConfigurableBlockSettings.SOLID
-	#if block_id:
-		#return BlockManager._blocks[block_id].settings.matter_type == ConfigurableBlockSettings.SOLID
 	return false
 
 
 func is_liquid(coords: Vector2i) -> bool:
-	#var block_id = get_block(coords).id
 	var block_dict_name = get_block_dict_name(coords)
 	if block_dict.has(block_dict_name):
 		return block_dict[block_dict_name].settings.matter_type == ConfigurableBlockSettings.LIQUID
-	#if block_id:
-		#return BlockManager._blocks[block_id].settings.matter_type == ConfigurableBlockSettings.LIQUID
 	return false
 
 
@@ -111,8 +140,6 @@ func is_safe(coords: Vector2i) -> bool:
 	var unsafe_block_sides = [ConfigurableBlockSideSettings.MINE, ConfigurableBlockSideSettings.VANISH,
 	ConfigurableBlockSideSettings.PUSH, ConfigurableBlockSideSettings.CRUMBLE,
 	ConfigurableBlockSideSettings.SAFETY, ConfigurableBlockSideSettings.SHATTER]
-	#var block_id = get_block(coords).id
-	#if block_id:
 	var block_dict_name = get_block_dict_name(coords)
 	if block_dict.has(block_dict_name):
 		var matter_type_is_safe: bool = block_dict[block_dict_name].settings.matter_type not in unsafe_matter_types
@@ -185,12 +212,10 @@ func spawn_eggs():
 		for coords in coord_list:
 			egg_counter += 1
 			var egg_enemy = EGG_ENEMY.instantiate()
-			var depth = Helpers.get_depth(map_layer)
 			egg_enemy.tile_map_layer = self
 			egg_enemy.position = BlockManager._blocks[egg].get_center_position(self, coords)
 			egg_enemy.name = "EggEnemy" + str(egg_counter)
 			map_layer.enemies.add_child(egg_enemy)
-			egg_enemy.set_depth(depth)
 			#BlockManager._blocks[egg].deactivate(self, coords)
 			#BlockManager._blocks[egg].set_visible(self, coords, false)
 			delete_block(coords)

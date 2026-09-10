@@ -9,7 +9,7 @@ var current_layers = null
 var cursor_parent = null
 var mode: String = "sticker"
 var stamp_id: String = "cactus"
-var stamp_size: int = 100
+var stamp_size: int = 200
 var stamp_rotation: int = 0
 
 
@@ -64,8 +64,8 @@ func on_mouse_down():
 					"line_type": "stamp",
 					"id": stamp_id,
 					"position": {
-						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
-						"y": mouse_position.round().y - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
+						"x": mouse_position.round().x - round((stamp_icon.texture.get_size() / 2).rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
+						"y": mouse_position.round().y - round((stamp_icon.texture.get_size() / 2).rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
 					},
 					"scale": {
 						"x": (0.01 * stamp_size),
@@ -88,8 +88,8 @@ func on_mouse_down():
 					"layer_name": current_layers.get_target_art_layer(),
 					"id": stamp_id,
 					"position": {
-						"x": mouse_position.round().x - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
-						"y": mouse_position.round().y - round(stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
+						"x": mouse_position.round().x - round((stamp_icon.texture.get_size() / 2).rotated(deg_to_rad(stamp_rotation)).x * (0.01 * stamp_size)),
+						"y": mouse_position.round().y - round((stamp_icon.texture.get_size() / 2).rotated(deg_to_rad(stamp_rotation)).y * (0.01 * stamp_size))
 					},
 					"scale": {
 						"x": (0.01 * stamp_size),
@@ -110,7 +110,7 @@ func on_mouse_up():
 func set_stamp_id(new_id: String) -> void:
 	stamp_id = new_id
 	if stamp_id:
-		stamp_icon.texture = Stamps.get_stamp(stamp_id)
+		stamp_icon.texture = StampManager.get_stamp_texture(stamp_id)
 		update_display()
 
 
@@ -163,6 +163,6 @@ func update_display():
 	var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		layer_scale = layer.get_layer_scale()
-	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2)))
+	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)))
 	stamp_icon.rotation_degrees = stamp_rotation
-	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2), ((0.01 * stamp_size) * layer_scale) * (camera_zoom * 2))
+	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera_zoom), ((0.01 * stamp_size) * layer_scale) * (camera_zoom))

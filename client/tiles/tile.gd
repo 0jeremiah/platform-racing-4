@@ -59,11 +59,11 @@ func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void
 		behavior.call(source, target, coords)
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(_tile_map_layer: TileMapLayer) -> void:
 	pass
 
 
-func activate_tile_options(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func activate_tile_options(_tile_map_layer: TileMapLayer, _coords: Vector2i) -> void:
 	pass
 
 

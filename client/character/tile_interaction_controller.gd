@@ -17,8 +17,8 @@ func _init(_character: Character, low_area_node: Area2D, high_area_node: Area2D)
 	low_area = low_area_node
 	high_area = high_area_node
 	last_safe_position = Vector2(0, 0)
-	var solid_layer = Helpers.to_bitmask_32((10 * 2) - 1)
-	var vapor_layer = Helpers.to_bitmask_32(10 * 2)
+	var solid_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	var vapor_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
 	_character.collision_layer = solid_layer
 	_character.collision_mask = solid_layer
 	low_area.collision_layer = vapor_layer
@@ -116,9 +116,17 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 				"block_id": block_id
 			})
 	return tiles
-	
 
-func is_in_solid(character: Character) -> bool:
+
+func maybe_mark_safe_block(character: Character, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	if tile_map_layer.is_safe(coords) and tile_map_layer.name.contains("gear") == false:
+		var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x,
+		coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tile_map_layer.global_rotation)
+		last_safe_position = centre_safe_block - (Vector2(0, (float(Settings.tile_size.y) / 2))).rotated(tile_map_layer.global_rotation + character.rotation)
+		last_safe_layer = tile_map_layer.map_layer
+
+
+func is_in_solid() -> bool:
 	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
 	for tile in tiles_overlapping:
 		if tile.tile_map_layer.is_solid(tile.coords):

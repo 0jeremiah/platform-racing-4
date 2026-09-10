@@ -1,0 +1,12 @@
+{
+	"id": "pr2-cactus",
+	"settings": {
+		"title": "Cactus (PR2)",
+		"comment": "The cactus graphic seen in Platform Racing 2.",
+		"category": "hidden",
+		"pr2_scale": {"x": 1.0, "y": 1.0}
+	},
+	"image": {
+		"src": "res://stamps/pr2-cactus.png"
+	}
+}

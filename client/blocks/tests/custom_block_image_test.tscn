@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://pi3ivsibto6m"]
+[gd_scene format=3 uid="uid://pi3ivsibto6m"]
 
 [ext_resource type="Script" uid="uid://b3ngfa1ejv3rt" path="res://blocks/tests/custom_block_image_test.gd" id="1_kt2yx"]
-[ext_resource type="Texture2D" uid="uid://i6o2v2uo0qhy" path="res://engine/stamp/tree-graphic.svg" id="2_vlxq1"]
+[ext_resource type="Texture2D" uid="uid://i6o2v2uo0qhy" path="res://stamps/tree-graphic.svg" id="2_vlxq1"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_06osd"]
 
@@ -10,57 +10,57 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hd0mp"]
 blend_mode = 2
 
-[node name="CustomBlockImageTest" type="Node2D"]
+[node name="CustomBlockImageTest" type="Node2D" unique_id=1100473904]
 script = ExtResource("1_kt2yx")
 
-[node name="EncodedBlockDataText" type="RichTextLabel" parent="."]
+[node name="EncodedBlockDataText" type="RichTextLabel" parent="." unique_id=1048036898]
 offset_left = 11.0
 offset_top = 303.0
 offset_right = 1897.0
 offset_bottom = 1055.0
 theme_override_font_sizes/normal_font_size = 10
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=199947070]
 offset_right = 128.0
 offset_bottom = 128.0
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1198755346]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(128, 128)
 render_target_update_mode = 4
 
-[node name="Node2D" type="Node2D" parent="SubViewportContainer/SubViewport"]
+[node name="Node2D" type="Node2D" parent="SubViewportContainer/SubViewport" unique_id=61127280]
 
-[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/Node2D"]
+[node name="Line2D" type="Line2D" parent="SubViewportContainer/SubViewport/Node2D" unique_id=80430316]
 material = SubResource("CanvasItemMaterial_06osd")
 points = PackedVector2Array(-41, -29, 95, 196, 23, -47, 173, 163)
 default_color = Color(1, 1, 1, 0.9019608)
 
-[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/Node2D"]
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/Node2D" unique_id=865311849]
 material = SubResource("CanvasItemMaterial_bopre")
 position = Vector2(28.625008, 61)
 scale = Vector2(0.83004385, 0.6083815)
 texture = ExtResource("2_vlxq1")
 
-[node name="Line2D2" type="Line2D" parent="SubViewportContainer/SubViewport/Node2D"]
+[node name="Line2D2" type="Line2D" parent="SubViewportContainer/SubViewport/Node2D" unique_id=1256566208]
 material = SubResource("CanvasItemMaterial_hd0mp")
 points = PackedVector2Array(107, -22, -50, 120, 177, 19, -7, 169)
 default_color = Color(1, 1, 1, 0.30980393)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Node2D"]
+[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Node2D" unique_id=1270316972]
 offset_left = 72.0
 offset_top = 45.0
 offset_right = 138.0
 offset_bottom = 147.0
 text = "this is a block"
 
-[node name="DecodedBlockTexture" type="TextureRect" parent="."]
+[node name="DecodedBlockTexture" type="TextureRect" parent="." unique_id=1349910294]
 offset_left = 256.0
 offset_right = 384.0
 offset_bottom = 128.0
 
-[node name="EncodeAndDecodeButton" type="Button" parent="."]
+[node name="EncodeAndDecodeButton" type="Button" parent="." unique_id=1443871631]
 offset_left = 23.0
 offset_top = 173.0
 offset_right = 290.0

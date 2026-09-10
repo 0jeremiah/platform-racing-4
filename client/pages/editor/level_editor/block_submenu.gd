@@ -138,7 +138,6 @@ func _check_clicked_button(node: Node):
 
 
 func _click_block_menu(button: TextureButton):
-	var tool_id: String = ""
 	selected_button = button
 	if selected_button == block_mover_button:
 		emit_signal("control_event", {

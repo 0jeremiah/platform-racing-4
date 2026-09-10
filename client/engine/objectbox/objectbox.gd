@@ -148,6 +148,7 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, n
 	enabled_list = [new_delete_enabled, new_resize_enabled, new_options_enabled, new_text_enabled]
 	object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
 	"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
+	extra_object_info = {}
 	if new_object_info.has("type"):
 		object_info.type = new_object_info.type
 	if new_object_info.has("node"):
@@ -162,6 +163,8 @@ func set_object_info(enabled_buttons: Dictionary, new_object_info: Dictionary, n
 		object_info.size = new_object_info.size
 	if new_object_info.has("scale"):
 		object_info.scale = new_object_info.scale
+	if new_object_info.has("text"):
+		object_info.text = new_object_info.text
 	if new_object_info.has("info"):
 		object_info.info = new_object_info.info
 	if !new_extra_object_info.is_empty():
@@ -180,8 +183,8 @@ func update_display():
 	if object_info.node != null:
 		var display_size = Vector2(1, 1)
 		var display_scale = Vector2(1, 1)
-		if object_info.type == "text" and object_info.text != null:
-			display_size = Vector2(object_info.node.size.x * abs(object_info.node.scale.x), object_info.node.size.y * abs(object_info.node.scale.y))
+		if object_info.type == "text" and object_info.text != null and "text_box" in object_info.node:
+			display_size = Vector2(object_info.node.text_box.size.x * abs(object_info.node.scale.x), object_info.node.text_box.size.y * abs(object_info.node.scale.y))
 			display_scale = Vector2(abs(object_info.node.scale.x) / object_info.node.scale.x, abs(object_info.node.scale.y) / object_info.node.scale.y)
 		else:
 			display_size = Vector2(object_info.size.x * abs(object_info.scale.x), object_info.size.y * abs(object_info.scale.y))
@@ -198,7 +201,7 @@ func update_display():
 		edit_text_color_rect.scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
 		edit_text_rect.size = Vector2(edit_text.size.x * abs(edit_text.scale.x), edit_text.size.y * abs(edit_text.scale.y))
 		edit_text_rect.scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
-		if mode == "text" and object_info.type == "text" and object_info.has("info") and object_info.info.has("text"):
+		if mode == "text" and object_info.type == "text" and object_info.has("text"):
 			display_size = Vector2(edit_text.size.x * abs(edit_text.scale.x), edit_text.size.y * abs(edit_text.scale.y))
 			display_scale = Vector2(abs(edit_text.scale.x) / edit_text.scale.x, abs(edit_text.scale.y) / edit_text.scale.y)
 		position_buttons(display_size, display_scale, camera_zoom)
@@ -291,6 +294,9 @@ func edit_object_text():
 		select_rect.visible = false
 		object_info.node.visible = false
 		move_button.visible = false
+		edit_text.set("theme_override_font_sizes/font_size", object_info.node.text_font_size)
+		edit_text.set("theme_override_fonts/font", FontManager.get_font(object_info.node.text_font))
+		edit_text.text = object_info.text
 		edit_text_color_rect.visible = true
 		edit_text_rect.visible = true
 		edit_text.visible = true
@@ -299,9 +305,9 @@ func edit_object_text():
 
 
 func _change_object_text(new_text: String):
-	if object_info.node != null and object_info.type == "text" and object_info.text != null:
+	if object_info.node != null and object_info.type == "text" and object_info.text != null and "text_box" in object_info.node:
 		object_info.text = new_text
-		object_info.node.text = object_info.text
+		object_info.node.set_text_string(object_info.text)
 		emit_signal("object_text_edited", object_info)
 
 

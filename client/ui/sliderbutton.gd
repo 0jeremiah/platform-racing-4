@@ -26,14 +26,14 @@ func _process(_delta: float) -> void:
 	pass
 
 
-func set_button(label: String, value: int, min: int, max: int):
+func set_button(label: String, value: int, min_value: int, max_value: int):
 	label_text.text = label
 	value_text.text = str(value)
-	slider.init(value, min, max)
+	slider.init(value, min_value, max_value)
 
 
 func _show_popup(_spawn_x: float = spawn_x, _spawn_y: float = spawn_y):
-	slider_popup.popup(Rect2i(global_position.x + _spawn_x, global_position.y + _spawn_y, 250, 114))
+	slider_popup.popup(Rect2(global_position.x + _spawn_x, global_position.y + _spawn_y, 250.0, 114.0))
 
 
 func _set_slider_value(new_slider_value: int):

@@ -323,8 +323,8 @@ func rotate(body: PhysicsBody2D, _tile_map_layer: ConfigurableTileMapLayer, _coo
 	if "gravity" not in body:
 		return
 		
-	#if block.cooldown(tile_map_layer, coords, 1):
-		#return
+	if !body.gravity.not_rotating():
+		return
 
 	var rotations = params.get("rotations", 1)
 	var rotation_speed = params.get("rotation_speed", 0.025)

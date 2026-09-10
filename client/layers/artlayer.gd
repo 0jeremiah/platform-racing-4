@@ -101,7 +101,10 @@ func get_stamp_at_position(mouse_position: Vector2) -> Sprite2D:
 	stamps_array.reverse()
 	for child in stamps_array:
 		if Rect2(Vector2.ZERO, child.texture.get_size()).has_point(child.to_local(mouse_position)):
-			return child
+			var image = child.texture.get_image()
+			if image and image.get_pixelv(child.to_local(mouse_position)).a > 0.0:
+				return child
+			return null
 	return null
 
 

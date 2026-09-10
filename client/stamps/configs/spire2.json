@@ -1,0 +1,12 @@
+{
+	"id": "spire2",
+	"settings": {
+		"title": "Spire 2",
+		"comment": "An even larger rock, almost like something you might see from the Grand Canyon.",
+		"category": "general",
+		"pr2_scale": {"x": 1.864342313787639, "y": 1.867734075878872}
+	},
+	"image": {
+		"src": "res://stamps/spire2.svg"
+	}
+}

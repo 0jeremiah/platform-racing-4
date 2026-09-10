@@ -50,7 +50,7 @@ window/stretch/aspect="expand"
 
 theme/default_font_multichannel_signed_distance_field=true
 theme/custom="uid://cf25w553mynfo"
-theme/custom_font="res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+theme/custom_font="uid://d2cvw5tsucqbp"
 
 [input]
 

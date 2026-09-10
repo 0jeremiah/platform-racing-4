@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d4ghr4q21r3mr"]
+
+[ext_resource type="Script" uid="uid://brutd8tlli58q" path="res://layers/block_layers/blocklayers.gd" id="1_rcxp4"]
+
+[node name="BlockLayers" type="Node2D" unique_id=1097055353]
+script = ExtResource("1_rcxp4")
+
+[node name="ArtLayers" type="Node2D" parent="." unique_id=763392891]

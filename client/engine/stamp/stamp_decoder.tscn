@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bi78je3vct1tm"]
+
+[ext_resource type="Script" uid="uid://ctnwfl5xm6nwr" path="res://engine/stamp/stamp_decoder.gd" id="1_fbtij"]
+
+[node name="StampDecoder" type="Node2D" unique_id=841687520]
+script = ExtResource("1_fbtij")

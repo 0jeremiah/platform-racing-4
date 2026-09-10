@@ -20,8 +20,8 @@ func init(new_type: String, current_value: String = "", new_min: float = -999999
 		type = "int"
 		if !current_value:
 			current_value = "0"
-		int_min = new_min
-		int_max = new_max
+		int_min = int(new_min)
+		int_max = int(new_max)
 		var new_number: int
 		if int(current_value) >= int_min and int(current_value) <= int_max:
 			new_number = int(current_value)

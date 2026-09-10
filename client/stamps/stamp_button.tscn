@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ko7w5i4fch0c"]
+
+[ext_resource type="Script" uid="uid://cyj8hcv5or2co" path="res://stamps/stamp_button.gd" id="1_o78gs"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://stamps/cactus.svg" id="2_o78gs"]
+
+[node name="StampButton" type="Control" unique_id=747498303]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 60.0
+offset_bottom = 60.0
+script = ExtResource("1_o78gs")
+
+[node name="StampButton" type="TextureButton" parent="." unique_id=1923238901]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 54.0
+offset_bottom = 54.0
+pivot_offset = Vector2(24, 24)
+focus_mode = 1
+texture_normal = ExtResource("2_o78gs")
+ignore_texture_size = true
+stretch_mode = 5

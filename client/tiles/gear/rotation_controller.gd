@@ -13,13 +13,6 @@ var init_timer: float = 0.2
 
 
 func _physics_process(delta: float):
-	# workaround for a bug when setting tile_map_layer.collision_animatable = true
-	#if init_timer > 0:
-		#init_timer -= delta
-		#for child in get_children():
-			#child.position = Settings.tile_size_half * -1
-		#return
-	
 	# rotate!
 	elapsed_ms += delta * 1000
 	
@@ -41,5 +34,5 @@ func _physics_process(delta: float):
 	rotation += rotation_velocity * delta
 	
 	# this is needed to let the tile_map_layer know something has changed and it needs to update
-	for child in get_children():
-		child.rotation = 0
+	#for child in get_children():
+		#child.rotation = 0

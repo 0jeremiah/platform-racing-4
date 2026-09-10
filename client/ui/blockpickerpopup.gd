@@ -19,7 +19,6 @@ func _ready() -> void:
 
 func init(init_params: Dictionary):
 	var block_id = ""
-	var current_data = {}
 	if "blockpicker_func" in init_params:
 		blockpicker_func = init_params.blockpicker_func
 	if "block_id" in init_params:

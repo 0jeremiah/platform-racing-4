@@ -152,6 +152,8 @@ func _on_control_event(event: Dictionary) -> void:
 				text_cursor.set_text_color(event.color)
 		elif event.type == EditorEvents.SELECT_TEXT_ROTATION and current_cursor == text_cursor:
 				text_cursor.set_text_rotation(event.rotation)
+		elif event.type == EditorEvents.SELECT_TEXT_FONT and current_cursor == text_cursor:
+				text_cursor.set_text_font(event.font)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

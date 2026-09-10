@@ -4,13 +4,14 @@ class_name PlayerManager
 const CHARACTER = preload("res://character/character.tscn")
 
 var character: CharacterBody2D
+var player_array: Array = []
 
 
 func get_character() -> CharacterBody2D:
 	return character
 
 
-func spawn_player(level_layers: LevelLayers) -> CharacterBody2D:
+func spawn_local_player(level_layers: LevelLayers) -> CharacterBody2D:
 	var start_option = level_layers.get_next_start_option()
 	if !start_option:
 		return null
@@ -28,5 +29,5 @@ func spawn_player(level_layers: LevelLayers) -> CharacterBody2D:
 	player_holder.add_child(character)
 	character.tile_interaction.set_depth(layer.z_axis)
 	character.movement.toggle_health(character, LevelManager.level_type == LevelManager.deathmatch)
-	
+	player_array.append(character)
 	return character

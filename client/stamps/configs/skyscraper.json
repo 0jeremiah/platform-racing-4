@@ -1,0 +1,12 @@
+{
+	"id": "skyscraper",
+	"settings": {
+		"title": "Skyscraper",
+		"comment": "Straight from the big city.",
+		"category": "general",
+		"pr2_scale": {"x": 1.819209039548023, "y": 1.819363222871995}
+	},
+	"image": {
+		"src": "res://stamps/skyscraper.svg"
+	}
+}

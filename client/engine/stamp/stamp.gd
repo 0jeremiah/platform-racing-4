@@ -4,7 +4,6 @@ var stamp_id = ""
 var stamp_position: Vector2 = Vector2(0, 0)
 var stamp_scale: Vector2 = Vector2(0, 0)
 var stamp_rotation: int = 0
-var size_multiplier: float = 2
 
 
 func set_stamp_properties(stamp_dictionary: Dictionary):
@@ -20,8 +19,7 @@ func set_stamp_properties(stamp_dictionary: Dictionary):
 
 func set_stamp_id(new_stamp_id: String):
 	stamp_id = new_stamp_id
-	var stamps = Stamps.new()
-	texture = stamps.get_stamp(stamp_id)
+	texture = StampManager.get_stamp_texture(stamp_id)
 
 
 func set_stamp_position(new_stamp_position: Vector2):
@@ -31,7 +29,7 @@ func set_stamp_position(new_stamp_position: Vector2):
 
 func set_stamp_scale(new_stamp_scale: Vector2):
 	stamp_scale = new_stamp_scale
-	scale = stamp_scale * size_multiplier
+	scale = stamp_scale
 
 
 func set_stamp_rotation(new_stamp_rotation: int):

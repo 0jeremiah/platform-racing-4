@@ -74,7 +74,6 @@ func on_mouse_down():
 			print("DrawCursor::on_mouse_down")
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
-			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = lines.get_local_mouse_position()
 			current_line = Line2D.new()
 			lines.add_child(current_line)
@@ -99,7 +98,6 @@ func on_drag():
 		if current_line:
 			var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
-			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = lines.get_local_mouse_position()
 			var point = Vector2i((mouse_position - current_line.position).round())
 			if point != current_point:

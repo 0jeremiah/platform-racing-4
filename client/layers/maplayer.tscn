@@ -1,26 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://du1753xrp5vqy"]
+[gd_scene format=3 uid="uid://du1753xrp5vqy"]
 
-[ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/maplayer.gd" id="1_o0aad"]
-[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_7lxxb"]
+[ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/maplayer.gd" id="1_0xfjn"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_i1n2p"]
 
-[node name="MapLayer" type="Parallax2D"]
+[node name="MapLayer" type="Parallax2D" unique_id=2073402923]
 z_as_relative = false
-script = ExtResource("1_o0aad")
+script = ExtResource("1_0xfjn")
 
-[node name="TileMapLayerContainer" type="Control" parent="."]
+[node name="TileMapLayerContainer" type="Control" parent="." unique_id=1237484113]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayerContainer"]
+[node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayerContainer" unique_id=345368640]
 physics_quadrant_size = 1
-script = ExtResource("2_7lxxb")
+script = ExtResource("2_i1n2p")
 
-[node name="NonStaticTileMapLayers" type="Node2D" parent="TileMapLayerContainer"]
+[node name="NonStaticTileMapLayers" type="Node2D" parent="TileMapLayerContainer" unique_id=654421967]
 
-[node name="Players" type="Node2D" parent="."]
+[node name="Players" type="Node2D" parent="." unique_id=1050340073]
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node2D" parent="." unique_id=1677455158]
 
-[node name="Projectiles" type="Node2D" parent="."]
+[node name="Projectiles" type="Node2D" parent="." unique_id=1764329032]
 
-[node name="Effects" type="Node2D" parent="."]
+[node name="Effects" type="Node2D" parent="." unique_id=1844830561]

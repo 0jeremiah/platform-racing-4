@@ -6,7 +6,7 @@ signal colorbutton_color_changed
 @onready var colorin = $TextureButton/Colorin
 @onready var color_picker_popup = $ColorPickerPopup
 @onready var color_picker = $ColorPickerPopup/ColorPicker
-var color: Color = Color("000000FF")
+var color: Color = Color("000000")
 var enabled: bool = true
 var spawn_x: float = 0
 var spawn_y: float = 0
@@ -32,9 +32,9 @@ func set_color(new_color: Color):
 
 func _maybe_show_popup(_spawn_x: float = spawn_x, _spawn_y: float = spawn_y):
 	if enabled:
-		color_picker.previous_color = color
-		color_picker.set_previous_color_rect()
-		color_picker_popup.popup(Rect2i(global_position.x + _spawn_x, global_position.y + _spawn_y, 430, 452))
+		color_picker.init()
+		color_picker.set_previous_color(color)
+		color_picker_popup.popup(Rect2(global_position.x + _spawn_x, global_position.y + _spawn_y, 430.0, 452.0))
 
 
 func _change_color(new_color: Color):

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://5mtmnjtpkf4q"]
+
+[ext_resource type="Script" uid="uid://75fmn1dqy2xf" path="res://layers/level_layers/levellayers.gd" id="1_aj10o"]
+
+[node name="LevelLayers" type="Node2D" unique_id=87584530]
+script = ExtResource("1_aj10o")
+
+[node name="ArtLayers" type="Node2D" parent="." unique_id=597730600]
+
+[node name="MapLayers" type="Node2D" parent="." unique_id=1087901175]

@@ -60,6 +60,14 @@ func decode_pr2_level(raw_pr2_level_data: String) -> void:
 
 
 func clear() -> void:
+	background_id = "pr2_field"
+	fade_color = "FFFFFF"
+	music = "random"
+	password = ""
+	sfchm_chance = 0
+	wind_chance = 0
+	snow_chance = 0
+	alien_chance = 0
 	level_layers.clear()
 
 

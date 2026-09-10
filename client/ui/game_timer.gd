@@ -1,8 +1,6 @@
 extends Control
 class_name GameTimer
 
-signal increase_time(new_timer: float)
-
 @onready var timer_text = $TimeText
 
 var time: float = 120.0

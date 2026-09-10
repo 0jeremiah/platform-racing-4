@@ -1,0 +1,12 @@
+{
+	"id": "petrifiedtree",
+	"settings": {
+		"title": "Petrified Tree",
+		"comment": "This tree has seen better days.",
+		"category": "general",
+		"pr2_scale": {"x": 0.7604731394775752, "y": 0.7606581899775617}
+	},
+	"image": {
+		"src": "res://stamps/petrifiedtree.svg"
+	}
+}

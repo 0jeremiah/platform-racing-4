@@ -1,21 +1,26 @@
-extends RigidBody2D
+extends RealEffect
 class_name CoinEffect
 
 @onready var coin_graphic = $CoinGraphic
+@onready var coin_area = $CoinArea
 
 var life = 8.333
 var rotate_velocity = 0.0
 
 
 func _ready() -> void:
-	var solid_layer = Helpers.to_bitmask_32((10 * 2) - 1)
-	collision_layer = solid_layer
-	collision_mask = solid_layer
-	linear_velocity.x = randf_range(-200.0, 200.0)
-	linear_velocity.y = randf_range(-200.0, 0.0)
-	rotate_velocity = linear_velocity.x / 10
+	effect = self
+	collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	collision_mask = BlockManager._tile_set.get_physics_layer_collision_mask(BlockManager.solid_layer_id)
+	var character = Game.game.player_manager.get_character() if Game.game else null
+	if character:
+		add_collision_exception_with(character)
+	set_effect_area(coin_area)
+	effect.linear_velocity.x = randf_range(-200.0, 200.0)
+	effect.linear_velocity.y = randf_range(-200.0, 0.0)
+	rotate_velocity = effect.linear_velocity.x / 10
 	coin_graphic.rotation_degrees = randf_range(0.0, 360.0)
-	body_shape_entered.connect(_touch_wall)
+	effect.body_shape_entered.connect(_touch_wall)
 
 
 func _process(delta: float):
@@ -31,10 +36,10 @@ func _process(delta: float):
 		queue_free()
 
 
-func _touch_wall(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int):
-	rotate_velocity = linear_velocity.x / 10
+func _touch_wall(_body_rid: RID, _body: Node, _body_shape_index: int, _local_shape_index: int):
+	rotate_velocity = effect.linear_velocity.x / 10
 
 
-func _is_touching_player(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int):
-	if body is Character:
-		queue_free()
+func touch_local_player(character: Character):
+	#character.movement.award_coin()
+	queue_free()

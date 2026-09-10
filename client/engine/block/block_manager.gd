@@ -10,6 +10,10 @@ static var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas
 static var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
 static var _tile_set: ConfigurableTileSet = ConfigurableTileSet.new()
 static var _block_textures: Dictionary = {}
+static var not_found_block_texture = preload("res://blocks/notfoundblock.png")
+static var loading_block_texture = preload("res://blocks/loadingblock.png")
+static var solid_layer_id: int = 0
+static var non_solid_layer_id: int = 1
 
 
 ## Initialize BlockManager with a ConfigurableTileSet
@@ -17,10 +21,10 @@ static func init() -> void:
 	# Create and assign tileset
 	_tile_set.init()
 	_tile_set.uv_clipping = true
-	_tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((10 * 2) - 1))
-	_tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((10 * 2) - 1))
-	_tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(10 * 2))
-	_tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(10 * 2))
+	_tile_set.set_physics_layer_collision_layer(solid_layer_id, Helpers.to_bitmask_32((10 * 2) - 1))
+	_tile_set.set_physics_layer_collision_mask(solid_layer_id, Helpers.to_bitmask_32((10 * 2) - 1))
+	_tile_set.set_physics_layer_collision_layer(non_solid_layer_id, Helpers.to_bitmask_32(10 * 2))
+	_tile_set.set_physics_layer_collision_mask(non_solid_layer_id, Helpers.to_bitmask_32(10 * 2))
 
 
 ## Adds block configs to BlockManager
@@ -28,21 +32,12 @@ static func add_block_configs(configs: Array) -> void:
 	# Build lookup table: block_id → tile info
 	_build_block_lookup(configs)
 
-	#_tile_set.add_configs(configs)
-
 	# Create block instances
 	_create_blocks(configs)
 
 
 ## Build the block_id → tile location mapping
 static func _build_block_lookup(configs: Array) -> void:
-	#_block_lookup.clear()
-
-	# Group configs by texture to match ConfigurableTileSet's source creation logic
-	#var source_id := _tile_set.get_source_count()
-	#print(_tile_set.sources_map.keys())
-	#var textures_seen: Array = _tile_set.sources_map.keys()
-
 	for config in configs:
 		if not config.has("id") or not (config.has("image") or config.has("custom_image")):
 			continue

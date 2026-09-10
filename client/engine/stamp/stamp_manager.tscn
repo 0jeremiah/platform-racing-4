@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://doux7woyr257n"]
+
+[ext_resource type="Script" uid="uid://cus6tthwwufam" path="res://engine/stamp/stamp_manager.gd" id="1_15ll5"]
+[ext_resource type="PackedScene" uid="uid://vh1t2ve7mge4" path="res://layers/stamp_layers/stamplayers.tscn" id="2_1fmlk"]
+[ext_resource type="PackedScene" uid="uid://bi78je3vct1tm" path="res://engine/stamp/stamp_decoder.tscn" id="3_oeywt"]
+[ext_resource type="PackedScene" uid="uid://d58c0g2omp8i" path="res://engine/stamp/stamp_encoder.tscn" id="4_gqeon"]
+
+[node name="StampManager" type="Node" unique_id=1919471296]
+script = ExtResource("1_15ll5")
+
+[node name="StampLayers" parent="." unique_id=1353320592 instance=ExtResource("2_1fmlk")]
+
+[node name="StampDecoder" parent="." unique_id=841687520 instance=ExtResource("3_oeywt")]
+
+[node name="StampEncoder" parent="." unique_id=1478130529 instance=ExtResource("4_gqeon")]

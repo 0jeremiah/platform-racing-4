@@ -1,0 +1,12 @@
+{
+	"id": "pr2-start4",
+	"settings": {
+		"title": "Start 4 (PR2)",
+		"comment": "In Platform Racing 2, this denotes where the fourth player may start the race.",
+		"category": "hidden",
+		"pr2_scale": {"x": 1.0, "y": 1.0}
+	},
+	"image": {
+		"src": "res://stamps/pr2-start4.png"
+	}
+}

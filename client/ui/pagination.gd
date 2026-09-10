@@ -50,11 +50,11 @@ func update_display():
 	var max_elements: int = max_buttons
 	if max_buttons > total_pages:
 		max_elements = total_pages
-	var min: int = floor(max_elements / 2)
-	var max: int = total_pages - (max_elements - floor(max_elements / 2))
-	if cursor_page >= max:
+	var min_pages: int = floor(max_elements / 2)
+	var max_pages: int = total_pages - (max_elements - floor(max_elements / 2))
+	if cursor_page >= max_pages:
 		increment = (total_pages - max_elements)
-	elif cursor_page <= min:
+	elif cursor_page <= min_pages:
 		increment = 0
 	else:
 		increment = (cursor_page - floor(max_elements / 2))
@@ -76,7 +76,7 @@ func update_display():
 		newbutton.set("theme_override_font_sizes/font_size", 22)
 		newbutton.position.x = (newbutton.size.x + padding) * button
 		numbered_pages_button.size.x += newbutton.size.x + padding
-		if allow_go_to_page and button >= (max_elements - 1) and max_elements > 1 and total_pages > max_elements and cursor_page < max:
+		if allow_go_to_page and button >= (max_elements - 1) and max_elements > 1 and total_pages > max_elements and cursor_page < max_pages:
 			newbutton.text = ". . ."
 			newbutton.pressed.connect(_show_popup.bind(newbutton.position.x, newbutton.size.y + newbutton.position.y))
 		else:

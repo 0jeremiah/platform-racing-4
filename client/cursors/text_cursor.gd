@@ -17,8 +17,9 @@ var active: bool = false
 var current_layers = null
 var cursor_parent = null
 var current_textbox: TextEdit
+var text_font: String = "actionman"
 var text_color: Color = Color("071E6BFF")
-var text_font_size: int = 28
+var text_font_size: int = 56
 var text_rotation: int = 0
 
 
@@ -64,20 +65,18 @@ func on_mouse_down():
 		if layer.get_text_at_position(mouse_position) != null:
 				var selected_text = layer.get_text_at_position(mouse_position)
 				var object_box = get_parent().editor_menu.current_editor.object_box
-				var spawn_position = camera.to_local(selected_text.position)
+				var spawn_position = selected_text.position
 				object_box.set_object_info({"delete": true, "resize": true, "options": false, "text": true},
 				{"type": "text", "node": selected_text, "position": spawn_position,
 				"rotation": selected_text.text_rotation, "offset": Vector2(0, 0),
-				"size": selected_text.text_box.size, "scale": selected_text.text_box.scale,
-				"text": selected_text.text_string, "info": str(layer.name)})
+				"size": selected_text.text_box.size, "scale": selected_text.text_scale,
+				"text": selected_text.text_string, "info": str(layer.name)}, {"font": text_font})
 		else:
-			sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
-			var text_height = sample_text.get_line_height(0) / 2
 			emit_signal("editor_event", {
 				"type": EditorEvents.ADD_TEXT,
 				"layer_name": current_layers.get_target_art_layer(),
 				"text": "Hello World!",
-				"font": "actionman",
+				"font": text_font,
 				"font_size": text_font_size,
 				"scale": {
 					"x": 1,
@@ -85,7 +84,7 @@ func on_mouse_down():
 				},
 				"position": {
 					"x": mouse_position.round().x,
-					"y": mouse_position.round().y - (caret.size.y / 2)
+					"y": mouse_position.round().y - (sample_text.get_line_height(0) / 2)
 				},
 				"rotation": text_rotation,
 				"color": text_color
@@ -112,6 +111,11 @@ func set_text_color(new_color: Color) -> void:
 
 func set_text_rotation(new_rotation: int) -> void:
 	text_rotation = new_rotation
+	update_display()
+
+
+func set_text_font(new_font: String) -> void:
+	text_font = new_font
 	update_display()
 
 
@@ -151,6 +155,7 @@ func _object_text_edited(object_info: Dictionary):
 
 
 func update_display():
+	sample_text.set("theme_override_fonts/normal_font", FontManager.get_font(text_font))
 	sample_text.set("theme_override_font_sizes/normal_font_size", text_font_size)
 	var text_height = sample_text.get_line_height(0) / 2
 	white_caret_middle.size.y = text_height

@@ -1,29 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://j3rijd2nm4ek"]
+[gd_scene format=3 uid="uid://j3rijd2nm4ek"]
 
 [ext_resource type="Script" uid="uid://dwp2jhr5cr8bc" path="res://engine/penciler/penciler_pr_2_test.gd" id="1_j7kml"]
 [ext_resource type="Texture2D" uid="uid://c6qpc8sy5uwcs" path="res://engine/penciler/screenshot 2025-04-11 at 10.51.59 am.png" id="2_sti2m"]
-[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/levellayers.tscn" id="3_my3sq"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/level_layers/levellayers.tscn" id="3_my3sq"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="3_nrp08"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level/level_decoder.tscn" id="4_a3ju5"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="4_d07bh"]
 
-[node name="PencilerPr2Test" type="Node2D"]
+[node name="PencilerPr2Test" type="Node2D" unique_id=1927216285]
 script = ExtResource("1_j7kml")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=981113957]
 
-[node name="LevelLayers" parent="." instance=ExtResource("3_my3sq")]
+[node name="LevelLayers" parent="." unique_id=1413583666 instance=ExtResource("3_my3sq")]
 
-[node name="BG" parent="." instance=ExtResource("4_d07bh")]
+[node name="BG" parent="." unique_id=846921574 instance=ExtResource("4_d07bh")]
 
-[node name="Penciler" parent="." instance=ExtResource("3_nrp08")]
+[node name="Penciler" parent="." unique_id=637920644 instance=ExtResource("3_nrp08")]
 
-[node name="LevelDecoder" parent="." instance=ExtResource("4_a3ju5")]
+[node name="LevelDecoder" parent="." unique_id=1506261728 instance=ExtResource("4_a3ju5")]
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=747697096]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=629910442]
 
-[node name="Screenshot2025-04-11At10_51_59 am" type="Sprite2D" parent="CanvasLayer"]
+[node name="Screenshot2025-04-11At10_51_59 am" type="Sprite2D" parent="CanvasLayer" unique_id=1738130611]
 position = Vector2(232, 244)
 texture = ExtResource("2_sti2m")

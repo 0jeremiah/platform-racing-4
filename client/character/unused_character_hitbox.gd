@@ -113,7 +113,7 @@ func run(character: Character) -> void:
 	#	go_high()
 	
 	# disable collision if we're stuck in a wall
-	#if character.tile_interaction.is_in_solid(character):
+	#if character.tile_interaction.is_in_solid():
 	#	disabled = true
 	#elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
 	#	disabled = true
@@ -157,8 +157,8 @@ func _bump_tile_covering_high_area(character: Character, area: Area2D) -> void:
 
 
 func set_depth(character: Character, depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
-	var vapor_layer = Helpers.to_bitmask_32(depth * 2)
+	var solid_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	var vapor_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
 	character.collision_layer = solid_layer
 	character.collision_mask = solid_layer
 	for area in hitboxes_container.get_children():

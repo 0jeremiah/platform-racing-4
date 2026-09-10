@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://vh1t2ve7mge4"]
+
+[ext_resource type="Script" uid="uid://v7egjiby3cd2" path="res://layers/stamp_layers/stamplayers.gd" id="1_72qdh"]
+
+[node name="StampLayers" type="Node2D" unique_id=1353320592]
+script = ExtResource("1_72qdh")
+
+[node name="ArtLayers" type="Node2D" parent="." unique_id=1678576815]

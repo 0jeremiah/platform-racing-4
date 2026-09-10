@@ -1,0 +1,12 @@
+{
+	"id": "pr2-start1",
+	"settings": {
+		"title": "Start 1 (PR2)",
+		"comment": "In Platform Racing 2, this denotes where the first player may start the race.",
+		"category": "hidden",
+		"pr2_scale": {"x": 1.0, "y": 1.0}
+	},
+	"image": {
+		"src": "res://stamps/pr2-start1.png"
+	}
+}

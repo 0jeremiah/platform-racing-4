@@ -6,3 +6,5 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_rpq48")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=853133652]

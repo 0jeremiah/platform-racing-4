@@ -102,11 +102,12 @@ func get_default_value(from: String, key: String):
 
 
 func get_value(from: String, key: String):
+	var category_key = null
 	if override_values.has(from):
-		var category_key = override_values[from]
+		category_key = override_values[from]
 		if category_key.has(key):
 			return category_key[key]
-	var category_key = default_values[from]
+	category_key = default_values[from]
 	return category_key.get(key)
 
 

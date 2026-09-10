@@ -32,7 +32,7 @@ func run(character: Character) -> void:
 					holder.is_crawling = false
 	
 	# disable collision if we're stuck in a wall
-	if character.tile_interaction.is_in_solid(character):
+	if character.tile_interaction.is_in_solid():
 		hitbox.disabled = true
 	elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
 		hitbox.disabled = true

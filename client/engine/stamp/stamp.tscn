@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnlmftnm1mnis"]
+[gd_scene format=3 uid="uid://cnlmftnm1mnis"]
 
-[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="1_f072b"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://stamps/cactus-graphic.svg" id="1_f072b"]
 [ext_resource type="Script" uid="uid://cl5nf3d0s1k1i" path="res://engine/stamp/stamp.gd" id="1_n2idg"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n2idg"]
 
-[node name="Stamp" type="Sprite2D"]
+[node name="Stamp" type="Sprite2D" unique_id=1330817360]
 material = SubResource("CanvasItemMaterial_n2idg")
 texture = ExtResource("1_f072b")
 centered = false

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c65uwo1rym63j"]
+
+[ext_resource type="Script" uid="uid://cq1tyonyfc8tr" path="res://fonts/font_button.gd" id="1_rbc5h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rlya"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vlewh"]
+bg_color = Color(1, 1, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kacco"]
+bg_color = Color(1, 1, 1, 0.49803922)
+
+[node name="FontButton" type="Control" unique_id=747498303]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 30.0
+script = ExtResource("1_rbc5h")
+
+[node name="FontButton" type="Button" parent="." unique_id=249098162]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_6rlya")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vlewh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kacco")
+text = "Font goes here"
+alignment = 0
+clip_text = true

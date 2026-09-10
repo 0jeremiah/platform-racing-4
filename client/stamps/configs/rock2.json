@@ -1,0 +1,12 @@
+{
+	"id": "rock2",
+	"settings": {
+		"title": "Rock 2",
+		"comment": "It looks like a seashell if you squint.",
+		"category": "general",
+		"pr2_scale": {"x": 1.0, "y": 1.0}
+	},
+	"image": {
+		"src": "res://stamps/rock2.svg"
+	}
+}

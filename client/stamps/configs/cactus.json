@@ -1,0 +1,12 @@
+{
+	"id": "cactus",
+	"settings": {
+		"title": "Cactus",
+		"comment": "A prickly plant that may or may not be Fred the Giant Cactus.",
+		"category": "general",
+		"pr2_scale": {"x": 1.0, "y": 1.0}
+	},
+	"image": {
+		"src": "res://stamps/cactus.svg"
+	}
+}

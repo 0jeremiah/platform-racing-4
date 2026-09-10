@@ -39,7 +39,8 @@ static var default_block_properties: Dictionary = {
 	"teleport_color": "FF7F50",
 	"teleport_throttle_ms": 1000.0,
 	"infinite_time": false,
-	"time_supply": 1
+	"time_supply": 1,
+	"light_color": "FFFFFF"
 }
 
 # only updated once when block settings are imported, so it can be determined whenever it's settings has
@@ -76,6 +77,7 @@ var teleport_color: String = default_block_properties.teleport_color
 var teleport_throttle_ms: float = default_block_properties.teleport_throttle_ms
 var infinite_time = default_block_properties.infinite_time
 var time_supply = default_block_properties.time_supply
+var light_color: String = default_block_properties.light_color
 var can_give_items: bool = item_supply > 0
 var can_give_stats: bool = stat_supply > 0
 var can_finish: bool = true
@@ -178,6 +180,8 @@ func import_settings(new_settings: Dictionary) -> void:
 			infinite_time = new_settings.infinite_time
 		if new_settings.has("time_supply"):
 			time_supply = new_settings.time_supply
+		if new_settings.has("light_color"):
+			light_color = new_settings.light_color
 		
 		var extra_settings = get_settings()
 		if !extra_settings.is_empty():
@@ -229,6 +233,8 @@ func import_edited_settings(edited_settings: Dictionary):
 		infinite_time = edited_settings.infinite_time
 	if edited_settings.has("time_supply"):
 		time_supply = edited_settings.time_supply
+	if edited_settings.has("light_color"):
+		light_color = edited_settings.light_color
 
 
 func get_settings() -> Dictionary:

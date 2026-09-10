@@ -1,0 +1,12 @@
+{
+	"id": "tree3",
+	"settings": {
+		"title": "Tree 3",
+		"comment": "An ordinary fir(?) tree.",
+		"category": "general",
+		"pr2_scale": {"x": 1.577235772357724, "y": 1.577333333333333}
+	},
+	"image": {
+		"src": "res://stamps/tree3.svg"
+	}
+}

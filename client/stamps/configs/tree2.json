@@ -1,0 +1,12 @@
+{
+	"id": "tree2",
+	"settings": {
+		"title": "Tree 2",
+		"comment": "A nice and sublime pine tree.",
+		"category": "general",
+		"pr2_scale": {"x": 1.694945848375451, "y": 1.694926796050392}
+	},
+	"image": {
+		"src": "res://stamps/tree2.svg"
+	}
+}

@@ -2,7 +2,7 @@ class_name LightbreakController
 ## Manages the character's lightbreak ability.
 ## Controls different light types (firefly, sun, moon) and their effects.
 
-const LightLine2D = preload("res://tiles/lights/light_line_2d.tscn")
+const LightLine2D = preload("res://blocks/light/light_line_2d.tscn")
 
 var direction: Vector2 = Vector2(0, 0)
 var windup: float = 0
@@ -72,7 +72,7 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 		player.modulate.a = randf_range(0, 0.66)
 		moon_timer -= delta
 		moon_particles.emitting = true
-		if moon_timer < 0 and !player.tile_interaction.is_in_solid(player):
+		if moon_timer < 0 and !player.tile_interaction.is_in_solid():
 			end_lightbreak()
 			player.modulate.a = 1
 	

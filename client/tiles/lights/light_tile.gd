@@ -5,7 +5,7 @@ const SUN = "sun"
 const MOON = "moon"
 const FIREFLY = "firefly"
 
-var LightDisplay: PackedScene = preload("res://tiles/lights/light_display.tscn")
+var LightDisplay: PackedScene = preload("res://blocks/light/light_display.tscn")
 var display_color: Color = Color("ffffff")
 var light_atlas_coords: Vector2i
 var lightbreak_type: String
@@ -29,7 +29,7 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 		holder.add_child(light)
 
 
-func charge_lightbreak(player: Node2D, tile_map_layer: Node2D, coords: Vector2i)->void:
+func charge_lightbreak(player: Node2D, tile_map_layer: Node2D, coords: Vector2i) -> void:
 	# avoid drawing the player into the same light again too soon
 	if player.lightbreak.src_tile == coords:
 		return

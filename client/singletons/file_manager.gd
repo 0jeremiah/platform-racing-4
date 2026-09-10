@@ -17,7 +17,7 @@ func _ready() -> void:
 	var dir := DirAccess.open(save_dir)
 	if dir and dir.dir_exists(save_dir):
 		if !dir.dir_exists(save_dir + level_folder_dir):
-			filenames = dir.get_files_at(save_dir)
+			filenames = DirAccess.get_files_at(save_dir)
 			if !filenames.is_empty():
 				for file in filenames.size():
 					if filenames[file] == "":
@@ -79,7 +79,7 @@ func list_saved_levels() -> Array:
 	var filenames := []
 	var dir := DirAccess.open(save_dir + level_folder_dir)
 	if dir and dir.dir_exists(save_dir + level_folder_dir):
-		var level_folder_names = dir.get_directories_at(save_dir + level_folder_dir)
+		var level_folder_names = DirAccess.get_directories_at(save_dir + level_folder_dir)
 		for level_folder_name in level_folder_names:
 			var level_folder = save_dir + level_folder_dir + "/" + level_folder_name
 			if not dir.dir_exists(level_folder):
@@ -115,7 +115,7 @@ func find_name_for_level_folder() -> String:
 	var filenames := []
 	var dir := DirAccess.open(level_directory)
 	if dir and dir.dir_exists(level_directory):
-		filenames = dir.get_files_at(level_directory)
+		filenames = DirAccess.get_files_at(level_directory)
 		level_count = filenames.size()
 		if dir.file_exists(level_directory + get_level_file_name(level_name + str(level_count))):
 			while dir.file_exists(level_directory + get_level_file_name(level_name + str(level_count))):
@@ -204,7 +204,7 @@ func update_editor_folder():
 	var filenames := []
 	var dir := DirAccess.open(save_dir)
 	if dir and dir.dir_exists(save_dir):
-		filenames = dir.get_files_at(save_dir)
+		filenames = DirAccess.get_files_at(save_dir)
 		if !filenames.is_empty():
 			if not DirAccess.dir_exists_absolute(save_dir + level_folder_dir):
 				DirAccess.make_dir_absolute(save_dir + level_folder_dir)

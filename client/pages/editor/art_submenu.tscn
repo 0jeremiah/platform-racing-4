@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://kso4los7xx3d"]
+[gd_scene format=3 uid="uid://kso4los7xx3d"]
 
 [ext_resource type="Script" uid="uid://clutforpytf1e" path="res://pages/editor/art_submenu.gd" id="1_6w04l"]
 [ext_resource type="Texture2D" uid="uid://bfvtpgfgtq4o0" path="res://engine/bg/pr2bg1-field.svg" id="2_776et"]
@@ -6,13 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://djbe0fjis31o6" path="res://unused/mega_menu/icons/erase.png" id="4_bvixj"]
 [ext_resource type="Texture2D" uid="uid://nwxvmjjoyfqt" path="res://unused/mega_menu/icons/stamp.png" id="5_xomac"]
 [ext_resource type="PackedScene" uid="uid://bv7hg0hol6uny" path="res://ui/bgpicker.tscn" id="7_feflp"]
-[ext_resource type="PackedScene" uid="uid://coenrjwlg2bck" path="res://ui/stamppicker.tscn" id="8_bvixj"]
-[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="8_le1wt"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://stamps/cactus.svg" id="8_le1wt"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_vii2p"]
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
 [ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://unused/mega_menu/icons/text.png" id="9_mh3pe"]
 [ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/sliderbutton.tscn" id="11_feflp"]
-[ext_resource type="Script" uid="uid://cpc4xr1mf14tr" path="res://engine/stamp/stamp_mode_box.gd" id="12_kfnuy"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
@@ -50,12 +48,12 @@ width = 48
 height = 48
 fill_to = Vector2(0, 1)
 
-[node name="ArtSubmenu" type="Control"]
+[node name="ArtSubmenu" type="Control" unique_id=1190834000]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_6w04l")
 
-[node name="ArtMenu" type="Control" parent="."]
+[node name="ArtMenu" type="Control" parent="." unique_id=1849838648]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 10.0
@@ -63,13 +61,13 @@ offset_top = 10.0
 offset_right = 108.0
 offset_bottom = 380.0
 
-[node name="ArtMenuPanel" type="Panel" parent="ArtMenu"]
+[node name="ArtMenuPanel" type="Panel" parent="ArtMenu" unique_id=1383378505]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 88.0
 offset_bottom = 292.0
 
-[node name="SelectionGlow" type="ColorRect" parent="ArtMenu"]
+[node name="SelectionGlow" type="ColorRect" parent="ArtMenu" unique_id=1087806633]
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 15.0
@@ -78,7 +76,7 @@ offset_right = 73.0
 offset_bottom = 73.0
 color = Color(1, 1, 0, 1)
 
-[node name="BackgroundBox" type="Control" parent="ArtMenu"]
+[node name="BackgroundBox" type="Control" parent="ArtMenu" unique_id=762637078]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -87,14 +85,14 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtMenu/BackgroundBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/BackgroundBox" unique_id=1919121322]
 layout_mode = 1
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_20g40")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="ArtMenu/BackgroundBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/BackgroundBox" unique_id=757832332]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -106,13 +104,13 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="BackgroundTexture" type="Sprite2D" parent="ArtMenu/BackgroundBox"]
+[node name="BackgroundTexture" type="Sprite2D" parent="ArtMenu/BackgroundBox" unique_id=519016577]
 position = Vector2(2, 2)
 scale = Vector2(0.08, 0.11)
 texture = ExtResource("2_776et")
 centered = false
 
-[node name="Button" type="Button" parent="ArtMenu/BackgroundBox"]
+[node name="Button" type="Button" parent="ArtMenu/BackgroundBox" unique_id=1974784801]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 48.0
@@ -122,7 +120,7 @@ Change the level's background."
 focus_mode = 1
 flat = true
 
-[node name="BrushBox" type="Control" parent="ArtMenu"]
+[node name="BrushBox" type="Control" parent="ArtMenu" unique_id=1585444408]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -131,14 +129,14 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtMenu/BrushBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/BrushBox" unique_id=1934969850]
 self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_sxige")
 
-[node name="ColorRect" type="ColorRect" parent="ArtMenu/BrushBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/BrushBox" unique_id=852790528]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -150,7 +148,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="ArtMenu/BrushBox"]
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/BrushBox" unique_id=1679697092]
 self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -162,7 +160,7 @@ texture_normal = ExtResource("3_feflp")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="EraserBox" type="Control" parent="ArtMenu"]
+[node name="EraserBox" type="Control" parent="ArtMenu" unique_id=392315606]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -171,14 +169,14 @@ offset_right = 68.0
 offset_bottom = 136.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtMenu/EraserBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/EraserBox" unique_id=910235571]
 self_modulate = Color(0.921569, 0.541176, 0.623529, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_xvrhh")
 
-[node name="ColorRect" type="ColorRect" parent="ArtMenu/EraserBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/EraserBox" unique_id=1003890146]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -190,7 +188,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="ArtMenu/EraserBox"]
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/EraserBox" unique_id=1107385690]
 self_modulate = Color(0.920218, 0.541366, 0.622343, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -202,7 +200,7 @@ texture_normal = ExtResource("4_bvixj")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="StampBox" type="Control" parent="ArtMenu"]
+[node name="StampBox" type="Control" parent="ArtMenu" unique_id=954479692]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -211,14 +209,14 @@ offset_right = 68.0
 offset_bottom = 204.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtMenu/StampBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/StampBox" unique_id=1491647420]
 self_modulate = Color(0.745098, 0.545098, 0.380392, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_xvrhh")
 
-[node name="ColorRect" type="ColorRect" parent="ArtMenu/StampBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/StampBox" unique_id=2060310512]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -230,7 +228,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="ArtMenu/StampBox"]
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/StampBox" unique_id=1176195868]
 self_modulate = Color(0.744162, 0.54631, 0.381538, 1)
 layout_mode = 0
 offset_right = 48.0
@@ -242,7 +240,7 @@ texture_normal = ExtResource("5_xomac")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TextBox" type="Control" parent="ArtMenu"]
+[node name="TextBox" type="Control" parent="ArtMenu" unique_id=1173641480]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -251,14 +249,14 @@ offset_right = 68.0
 offset_bottom = 272.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtMenu/TextBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/TextBox" unique_id=2063289426]
 self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_xvrhh")
 
-[node name="ColorRect" type="ColorRect" parent="ArtMenu/TextBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/TextBox" unique_id=440674073]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -270,7 +268,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="TextureButton" type="TextureButton" parent="ArtMenu/TextBox"]
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/TextBox" unique_id=1901227466]
 self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
 layout_mode = 0
 offset_left = 2.0
@@ -284,38 +282,29 @@ texture_normal = ExtResource("9_mh3pe")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BGPickerPopup" type="Popup" parent="."]
+[node name="BGPickerPopup" type="Popup" parent="." unique_id=1368687632]
 transparent_bg = true
 oversampling_override = 1.0
 position = Vector2i(108, 30)
 size = Vector2i(380, 174)
 transparent = true
 
-[node name="BGPicker" parent="BGPickerPopup" instance=ExtResource("7_feflp")]
+[node name="BGPicker" parent="BGPickerPopup" unique_id=965428220 instance=ExtResource("7_feflp")]
 
-[node name="StampPickerPopup" type="Popup" parent="."]
-transparent_bg = true
-oversampling_override = 1.0
-position = Vector2i(108, 400)
-size = Vector2i(380, 225)
-transparent = true
-
-[node name="StampPicker" parent="StampPickerPopup" instance=ExtResource("8_bvixj")]
-
-[node name="ArtSettings" type="Control" parent="."]
+[node name="ArtSettings" type="Control" parent="." unique_id=931733333]
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 312.0
 offset_right = 98.0
 offset_bottom = 400.0
 
-[node name="ArtSettingsPanel" type="Panel" parent="ArtSettings"]
+[node name="ArtSettingsPanel" type="Panel" parent="ArtSettings" unique_id=2008194882]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 88.0
 offset_bottom = 88.0
 
-[node name="ColorBox" parent="ArtSettings" instance=ExtResource("9_776et")]
+[node name="ColorBox" parent="ArtSettings" unique_id=1488930780 instance=ExtResource("9_776et")]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
@@ -323,7 +312,7 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="SelectedStampBox" type="Control" parent="ArtSettings"]
+[node name="SelectedStampBox" type="Control" parent="ArtSettings" unique_id=697239541]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
@@ -332,14 +321,14 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="TextureRect" type="TextureRect" parent="ArtSettings/SelectedStampBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/SelectedStampBox" unique_id=461172409]
 layout_mode = 1
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_20g40")
 expand_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="ArtSettings/SelectedStampBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/SelectedStampBox" unique_id=1348440545]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -351,7 +340,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="StampTexture" type="TextureRect" parent="ArtSettings/SelectedStampBox"]
+[node name="StampTexture" type="TextureRect" parent="ArtSettings/SelectedStampBox" unique_id=143370444]
 layout_mode = 1
 offset_left = 2.0
 offset_top = 2.0
@@ -361,14 +350,14 @@ texture = ExtResource("8_le1wt")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Button" type="Button" parent="ArtSettings/SelectedStampBox"]
+[node name="Button" type="Button" parent="ArtSettings/SelectedStampBox" unique_id=1229603252]
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 focus_mode = 1
 flat = true
 
-[node name="SizeBox" parent="ArtSettings" instance=ExtResource("11_feflp")]
+[node name="SizeBox" parent="ArtSettings" unique_id=928164842 instance=ExtResource("11_feflp")]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
@@ -376,7 +365,7 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="AlphaBox" parent="ArtSettings" instance=ExtResource("11_feflp")]
+[node name="AlphaBox" parent="ArtSettings" unique_id=309476013 instance=ExtResource("11_feflp")]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
@@ -384,7 +373,7 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="RotationBox" parent="ArtSettings" instance=ExtResource("11_feflp")]
+[node name="RotationBox" parent="ArtSettings" unique_id=1324668328 instance=ExtResource("11_feflp")]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 20.0
@@ -392,22 +381,21 @@ offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
 
-[node name="StampModeBox" type="Control" parent="ArtSettings"]
+[node name="StampModeBox" type="Control" parent="ArtSettings" unique_id=692273134]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 68.0
 offset_bottom = 68.0
 pivot_offset = Vector2(24, 24)
-script = ExtResource("12_kfnuy")
 
-[node name="TextureRect" type="TextureRect" parent="ArtSettings/StampModeBox"]
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/StampModeBox" unique_id=1421408154]
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_cw66s")
 
-[node name="ColorRect" type="ColorRect" parent="ArtSettings/StampModeBox"]
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/StampModeBox" unique_id=455774043]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.031
@@ -419,7 +407,7 @@ offset_top = 0.512
 offset_right = 44.512
 offset_bottom = 44.512
 
-[node name="LabelText" type="RichTextLabel" parent="ArtSettings/StampModeBox"]
+[node name="LabelText" type="RichTextLabel" parent="ArtSettings/StampModeBox" unique_id=1104142071]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
@@ -430,7 +418,7 @@ text = "Mode"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ModeText" type="RichTextLabel" parent="ArtSettings/StampModeBox"]
+[node name="ModeText" type="RichTextLabel" parent="ArtSettings/StampModeBox" unique_id=1133044672]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 24.0
@@ -441,69 +429,69 @@ text = "Stckr."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StampModeButton" type="Button" parent="ArtSettings/StampModeBox"]
+[node name="StampModeButton" type="Button" parent="ArtSettings/StampModeBox" unique_id=1792410059]
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 focus_mode = 1
 flat = true
 
-[node name="StampModePopup" type="Popup" parent="ArtSettings/StampModeBox"]
-transparent_bg = true
-oversampling_override = 1.0
-position = Vector2i(108, 478)
-size = Vector2i(500, 312)
-transparent = true
-
-[node name="StampMode" type="Control" parent="ArtSettings/StampModeBox/StampModePopup"]
-layout_mode = 3
+[node name="FontBox" type="Control" parent="ArtSettings" unique_id=1562516690]
 anchors_preset = 0
-offset_right = 500.0
-offset_bottom = 300.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+pivot_offset = Vector2(24, 24)
 
-[node name="Panel" type="Panel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/FontBox" unique_id=1595678634]
 layout_mode = 0
-offset_right = 500.0
-offset_bottom = 300.0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_cw66s")
 
-[node name="StampModeLabel" type="RichTextLabel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/FontBox" unique_id=746106121]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="LabelText" type="RichTextLabel" parent="ArtSettings/FontBox" unique_id=125502124]
 layout_mode = 0
-offset_left = 150.0
-offset_top = 10.0
-offset_right = 350.0
-offset_bottom = 50.0
-text = "-- Stamp Mode --"
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Font"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StampDescLabel" type="RichTextLabel" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+[node name="FontText" type="RichTextLabel" parent="ArtSettings/FontBox" unique_id=1741121569]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 60.0
-offset_right = 490.0
-offset_bottom = 240.0
-theme_override_font_sizes/normal_font_size = 17
-text = "Select how stamps should be placed.
-
-Stamps in PR2 act as stickers, where you can click on stamps to do certain things like drag, resize, or delete them.
-
-Stamps in PR3 act like, well, stamps. They cannot be moved and can only be drawn over or erased by the Brush/Erase tool."
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Aa"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="StampModeTab" type="TabBar" parent="ArtSettings/StampModeBox/StampModePopup/StampMode"]
+[node name="FontButton" type="Button" parent="ArtSettings/FontBox" unique_id=1017325683]
 layout_mode = 0
-offset_left = 125.0
-offset_top = 250.0
-offset_right = 375.0
-offset_bottom = 283.0
-theme_override_font_sizes/font_size = 20
-current_tab = 0
-tab_alignment = 1
-tab_count = 2
-tab_0/title = "     Sticker     "
-tab_1/title = "     Stamp     "
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
 
-[node name="LayerPanel" parent="." instance=ExtResource("8_vii2p")]
+[node name="LayerPanel" parent="." unique_id=1544127824 instance=ExtResource("8_vii2p")]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 682.0

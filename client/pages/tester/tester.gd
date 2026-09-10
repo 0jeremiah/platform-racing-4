@@ -55,9 +55,7 @@ func init(data: Dictionary):
 	
 	level_manager.init_level()
 	
-	var start_option = Start.get_next_start_option(level_manager.level_layers)
-	if start_option:
-		var character = player_manager.spawn_player(level_manager.level_layers)
+	player_manager.spawn_local_player(level_manager.level_layers)
 	
 	minimap.init(self)
 	game_timer.init(self)

@@ -1,0 +1,12 @@
+{
+	"id": "tree",
+	"settings": {
+		"title": "Tree 1",
+		"comment": "A big and fluffy oak tree.",
+		"category": "general",
+		"pr2_scale": {"x": 1.330998248686515, "y": 1.330893682588598}
+	},
+	"image": {
+		"src": "res://stamps/tree.svg"
+	}
+}

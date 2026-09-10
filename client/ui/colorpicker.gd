@@ -10,12 +10,12 @@ signal set_new_color
 @onready var previous_selected_rect = $PreviousSelectedRect
 @onready var current_selected_rect = $CurrentSelectedRect
 @onready var color_grid = $ColorGrid
-var samplecolors = PackedColorArray([Color("000000"), Color("333333"), Color("666666"), Color("999999"), Color("CCCCCC"), Color("FFFFFF"), 
-Color("FF0000"), Color("00FF00"), Color("0000FF"), Color("FFFF00"), Color("00FFFF"), Color("FF00FF"),
-Color("000000"), Color("000000"), Color("000000"), Color("000000"), Color("000000"), Color("000000"),
-Color("000000"), Color("000000"), Color("000000"), Color("000000"), Color("000000"), Color("000000")])
-var rows = 18
-var columns = 12
+static var recent_colors = [Color("#888888"), Color("#555555"), Color("#888888"), Color("#555555"), Color("#888888"), Color("#555555"), 
+Color("#888888"), Color("#555555"), Color("#888888"), Color("#555555"), Color("#888888"), Color("#555555")]
+var sample_colors = [Color("000000"), Color("333333"), Color("666666"), Color("999999"), Color("CCCCCC"), Color("FFFFFF"), 
+Color("FF0000"), Color("00FF00"), Color("0000FF"), Color("FFFF00"), Color("00FFFF"), Color("FF00FF")]
+var columns = 18
+var rows = 12
 var chunk = 6
 var previous_color = Color("000000")
 var current_color = Color("000000")
@@ -29,7 +29,7 @@ func _ready() -> void:
 	old_hex_code = hex_code.text
 	hex_code.text_changed.connect(_check_hex_code)
 	ok_button.pressed.connect(_ok_pressed)
-	cancel_button.pressed.connect(_hide)
+	cancel_button.pressed.connect(_cancel_pressed)
 	init()
 
 
@@ -38,10 +38,18 @@ func _process(_delta: float) -> void:
 
 
 func init() -> void:
+	for child in color_grid.get_children():
+		child.queue_free()
+	color_grid.columns = columns + 4
 	var color = Color(0, 0, 0, 1)
-	var counter: int = 0
-	for y in columns:
-		if y < columns / 2:
+	for y in rows:
+		var recent_color = recent_colors[y] if y < recent_colors.size() else Color(0, 0, 0, 1)
+		create_color_button(recent_color, "recent" + str(y))
+		create_color_button(Color(0, 0, 0, 1), "recentblack" + str(y))
+		var sample_color = sample_colors[y] if y < sample_colors.size() else Color(0, 0, 0, 1)
+		create_color_button(sample_color, "sample" + str(y))
+		create_color_button(Color(0, 0, 0, 1), "sampleblack" + str(y))
+		if y < rows / 2:
 			color.r = 0
 		else:
 			color.r = (1 / (float(chunk) - 1)) * (chunk / 2)
@@ -51,65 +59,48 @@ func init() -> void:
 				color.b = 0
 			else:
 				color.b += 1 / (float(chunk) - 1)
-		for x in rows:
+		for x in columns:
 			if x != 0:
 				if color.g >= 1:
 					color.r += 1 / (float(chunk) - 1)
 					color.g = 0
 				else:
 					color.g += 1 / (float(chunk) - 1)
-			var colornode = Control.new()
-			colornode.size = Vector2(20, 20)
-			colornode.position.x = 40 + (20 * x)
-			colornode.position.y = 20 * y
-			counter += 1
-			colornode.name = "ColorButton" + str(counter)
-			var blackoutline = ReferenceRect.new()
-			blackoutline.border_color = Color(0, 0, 0, 1)
-			blackoutline.size = Vector2(20, 20)
-			blackoutline.editor_only = false
-			var gradient = Gradient.new()
-			gradient.set_colors(PackedColorArray([color]))
-			var texture = GradientTexture1D.new()
-			texture.gradient = gradient
-			var colorbutton = TextureButton.new()
-			colorbutton.ignore_texture_size = true
-			colorbutton.stretch_mode = 0
-			colorbutton.texture_normal = texture
-			colorbutton.size = Vector2(20, 20)
-			colorbutton.show_behind_parent = true
-			colorbutton.pressed.connect(_set_new_color.bind(color))
-			color_grid.add_child(colornode)
-			colornode.add_child(blackoutline)
-			colornode.add_child(colorbutton)
-	counter = 0
-	for y in range(12):
-		for x in range(2):
-			var colornode = Control.new()
-			colornode.size = Vector2(20, 20)
-			colornode.position.x = 20 * x
-			colornode.position.y = 20 * y
-			counter += 1
-			colornode.name = "SampleColorButton" + str(counter)
-			var blackoutline = ReferenceRect.new()
-			blackoutline.border_color = Color(0, 0, 0, 1)
-			blackoutline.size = Vector2(20, 20)
-			blackoutline.editor_only = false
-			var samplecolor = samplecolors[(12 * x) + y]
-			var gradient = Gradient.new()
-			gradient.set_colors(PackedColorArray([samplecolor]))
-			var texture = GradientTexture1D.new()
-			texture.gradient = gradient
-			var colorbutton = TextureButton.new()
-			colorbutton.ignore_texture_size = true
-			colorbutton.stretch_mode = 0
-			colorbutton.texture_normal = texture
-			colorbutton.size = Vector2(20, 20)
-			colorbutton.show_behind_parent = true
-			colorbutton.pressed.connect(_set_new_color.bind(samplecolor))
-			color_grid.add_child(colornode)
-			colornode.add_child(blackoutline)
-			colornode.add_child(colorbutton)
+			create_color_button(color, "color" + str((rows * y) + (x + 1)))
+
+
+func create_color_button(button_color: Color, button_name: String = ""):
+	var colornode = Control.new()
+	colornode.size = Vector2(20, 20)
+	colornode.custom_minimum_size = Vector2(20, 20)
+	if button_name:
+		colornode.name = button_name
+	var blackoutline = ReferenceRect.new()
+	blackoutline.border_color = Color(0, 0, 0, 1)
+	blackoutline.size = Vector2(20, 20)
+	blackoutline.editor_only = false
+	var gradient = Gradient.new()
+	gradient.set_colors(PackedColorArray([button_color]))
+	var texture = GradientTexture1D.new()
+	texture.gradient = gradient
+	var colorbutton = TextureButton.new()
+	colorbutton.ignore_texture_size = true
+	colorbutton.stretch_mode = 0
+	colorbutton.texture_normal = texture
+	colorbutton.size = Vector2(20, 20)
+	colorbutton.show_behind_parent = true
+	colorbutton.pressed.connect(_set_new_color.bind(button_color))
+	colornode.add_child(blackoutline)
+	colornode.add_child(colorbutton)
+	color_grid.add_child(colornode)
+
+
+func set_previous_color(new_color: Color):
+	previous_color = new_color
+	if previous_color not in recent_colors:
+		recent_colors.pop_back()
+		recent_colors.push_front(previous_color)
+	set_previous_color_rect()
 
 
 func set_previous_color_rect():
@@ -117,12 +108,15 @@ func set_previous_color_rect():
 	var previous_selected_color = null
 	for child in color_grid.get_children():
 		for node in child.get_children():
-			if node is TextureButton and previous_selected_color == null:
+			if node is TextureButton and previous_selected_color == null and (!node.name.contains("recent") and !node.name.contains("sample")):
 				var node_color = node.texture_normal.gradient.get_colors()
 				if node_color[0] == previous_color:
 					previous_selected_color = node_color[0]
 					previous_selected_rect.visible = true
 					previous_selected_rect.position = color_grid.position + node.get_parent().position
+					break
+		if previous_selected_color != null:
+			break
 
 
 func check_buttons() -> void:
@@ -181,5 +175,5 @@ func _set_new_color(new_color: Color):
 	emit_signal("set_new_color", new_color)
 
 
-func _hide():
+func _cancel_pressed():
 	get_parent().visible = false

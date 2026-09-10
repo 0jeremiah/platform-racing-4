@@ -1,0 +1,12 @@
+{
+	"id": "spire",
+	"settings": {
+		"title": "Spire 1",
+		"comment": "That's one tall and thin rock.",
+		"category": "general",
+		"pr2_scale": {"x": 2.326530612244898, "y": 2.326664241542379}
+	},
+	"image": {
+		"src": "res://stamps/spire.svg"
+	}
+}

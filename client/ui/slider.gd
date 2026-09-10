@@ -26,20 +26,20 @@ func init(current_value: int, min_value: int, max_value: int):
 func _set_size_value(new_size):
 	var compatible_new_size = int(new_size)
 	var new_size_string = str(compatible_new_size)
-	var min = int(slider.min_value)
-	var max = int(slider.max_value)
+	var min_value = int(slider.min_value)
+	var max_value = int(slider.max_value)
 	var cursor_position = slider_line_edit.get_caret_column()
 	if !new_size_string.is_empty() and new_size_string.is_valid_int():
-		if (compatible_new_size >= min and compatible_new_size <= max):
+		if (compatible_new_size >= min_value and compatible_new_size <= max_value):
 			slider_value = compatible_new_size
-		elif compatible_new_size > max:
-			slider_value = max
+		elif compatible_new_size > max_value:
+			slider_value = max_value
 		else:
-			slider_value = min
+			slider_value = min_value
 	elif old_size_box_text:
 		slider_value = int(old_size_box_text)
 	else:
-		slider_value = int(abs(float(min - max) / 2))
+		slider_value = int(abs(float(min_value - max_value) / 2))
 	slider_line_edit.text = str(slider_value)
 	slider.value = slider_value
 	old_size_box_text = str(slider.value)

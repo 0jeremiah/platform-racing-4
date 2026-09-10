@@ -1,0 +1,12 @@
+{
+	"id": "rock",
+	"settings": {
+		"title": "Rock 1",
+		"comment": "A rock with a pointy top.",
+		"category": "general",
+		"pr2_scale": {"x": 0.7124183006535948, "y": 0.7078957604045119}
+	},
+	"image": {
+		"src": "res://stamps/rock.svg"
+	}
+}

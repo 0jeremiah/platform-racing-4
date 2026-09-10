@@ -10,7 +10,7 @@ var jump: int = start_speed
 var speed: int = start_accel
 var accel: int = start_jump
 var skill: int = start_skill
-var force: int = 0
+var force: float = 0.0
 
 
 func get_jump_bonus() -> float:

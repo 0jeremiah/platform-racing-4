@@ -246,13 +246,13 @@ func _forward():
 func _recent_locations():
 	var recent_locations = []
 	if dir_history.size() > 10:
-		var min = 0
-		var max = dir_history.size() - 1
+		var min_locations = 0
+		var max_locations = dir_history.size() - 1
 		if dir_page - 10 > 0:
-			min = dir_page - 10
+			min_locations = dir_page - 10
 		if dir_page + 10 < dir_history.size() - 1:
-			max = dir_page + 10
-		recent_locations = dir_history.slice(min, max)
+			max_locations = dir_page + 10
+		recent_locations = dir_history.slice(min_locations, max_locations)
 	else:
 		recent_locations = dir_history
 	if recent_locations.size() > 0:
