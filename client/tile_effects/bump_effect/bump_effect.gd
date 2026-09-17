@@ -7,7 +7,7 @@ var _coords: Vector2i
 var _atlas_coords: Vector2i
 
 
-func set_tile(tile_map_layer: TileMapLayer, coords: Vector2i, rotation_rad: float) -> void:
+func set_tile(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, rotation_rad: float) -> void:
 	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	var source: TileSetAtlasSource = tile_map_layer.tile_set.get_source(0)
 	var tile_data: TileData = tile_map_layer.get_cell_tile_data(coords)
@@ -23,7 +23,7 @@ func set_tile(tile_map_layer: TileMapLayer, coords: Vector2i, rotation_rad: floa
 
 
 func finish():
-	var tile_map_layer: TileMapLayer = get_parent()
+	var tile_map_layer: ConfigurableTileMapLayer = get_parent()
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(_coords)
 	var alt_id: int = tile_map_layer.get_cell_alternative_tile(_coords)
 	await get_tree().physics_frame

@@ -25,7 +25,7 @@ func set_custom_stats():
 		custom_skill = options.data[3]
 
 
-func set_stats(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func set_stats(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	if is_active(tile_map_layer, coords):
 		player.stats.set_stats(custom_speed, custom_accel, custom_jump, custom_skill)
 		deactivate(tile_map_layer, coords)

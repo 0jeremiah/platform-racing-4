@@ -7,7 +7,7 @@ extends Node2D
 
 var block_id: String = ""
 var coords: Vector2i = Vector2i(0, 0)
-var tile_map_layer: TileMapLayer
+var tile_map_layer: ConfigurableTileMapLayer
 
 
 func _ready():

@@ -1,18 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://doa3poitlnl3j"]
+[gd_scene format=3 uid="uid://doa3poitlnl3j"]
 
 [ext_resource type="Script" uid="uid://b1mbnx74gehy1" path="res://ui/colorbutton.gd" id="1_fxmhq"]
 [ext_resource type="Texture2D" uid="uid://7eu75o4bb8an" path="res://unused/mega_menu/icons/colorpicker.png" id="1_o7ufp"]
 [ext_resource type="Texture2D" uid="uid://cetk16320d7uy" path="res://unused/mega_menu/icons/colorpickercolorin.png" id="2_3lv41"]
-[ext_resource type="PackedScene" uid="uid://cunqbock6101b" path="res://ui/colorpicker.tscn" id="4_7bqrn"]
 
-[node name="ColorButton" type="Control"]
+[node name="ColorButton" type="Control" unique_id=2091517071]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 48.0
 offset_bottom = 48.0
 script = ExtResource("1_fxmhq")
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="TextureButton" type="TextureButton" parent="." unique_id=1942508164]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 48.0
@@ -24,17 +23,10 @@ texture_normal = ExtResource("1_o7ufp")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Colorin" type="TextureRect" parent="TextureButton"]
+[node name="Colorin" type="TextureRect" parent="TextureButton" unique_id=902196834]
 show_behind_parent = true
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = ExtResource("2_3lv41")
 expand_mode = 1
-
-[node name="ColorPickerPopup" type="Popup" parent="."]
-transparent_bg = true
-size = Vector2i(430, 452)
-transparent = true
-
-[node name="ColorPicker" parent="ColorPickerPopup" instance=ExtResource("4_7bqrn")]

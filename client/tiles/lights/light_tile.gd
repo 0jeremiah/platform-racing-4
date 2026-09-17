@@ -16,7 +16,7 @@ func init():
 	area.push_back(charge_lightbreak)
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer) -> void:
 	var coords_list = tile_map_layer.get_used_cells_by_id(0, light_atlas_coords)
 	
 	for coords in coords_list:

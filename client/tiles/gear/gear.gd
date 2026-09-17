@@ -9,7 +9,7 @@ func init():
 	is_safe = false
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer):
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer):
 	var gear_coord_list = tile_map_layer.get_used_cells_by_id(0, gear_atlas_coords)
 	var switch_atlas_coords = Vector2i(5, 3)
 	var holder = tile_map_layer.map_layer.non_static_tile_map_layers

@@ -14,7 +14,7 @@ func init():
 	egg_counter = 0
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer) -> void:
 	# add_timer()
 	
 	# add an egg enemy at the tile position
@@ -30,7 +30,7 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 		data.modulate = Color(1.0, 1.0, 1.0, 0.0)
 
 
-func add_egg_enemy(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func add_egg_enemy(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
 	var spawn = tile_map_layer.map_layer.enemies
 	egg_enemy.position = get_center_position(tile_map_layer, coords)

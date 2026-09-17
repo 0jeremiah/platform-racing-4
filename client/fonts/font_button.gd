@@ -6,7 +6,6 @@ signal font_selected
 @onready var font_button = $FontButton
 var id: String = ""
 var font_button_size: Vector2 = Vector2(300.0, 40.0)
-var send_data: bool = true
 
 
 func _ready() -> void:

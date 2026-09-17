@@ -4,7 +4,7 @@ class_name PortableBlockItem
 @onready var visual_aid = $VisualAid
 @onready var block_icon = $BlockIcon
 var tile_id = ""
-var tile_map_layer: TileMapLayer
+var tile_map_layer: ConfigurableTileMapLayer
 var spawn_position: Vector2
 var tile_map_layer_position: Vector2
 var coords: Vector2i

@@ -9,7 +9,7 @@ func init():
 	area.push_back(presence_switch)
 
 
-func presence_switch(node: Node2D, tile_map_layer: TileMapLayer, _coords: Vector2i)->void:
+func presence_switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, _coords: Vector2i)->void:
 	var gear_list = tile_map_layer.get_used_cells_by_id(0, gear_atlas_coords)
 	if len(gear_list) > 0:
 		var rotation_controller = tile_map_layer.get_parent()

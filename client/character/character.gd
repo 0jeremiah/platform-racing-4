@@ -102,6 +102,9 @@ func _physics_process(delta: float) -> void:
 		lightbreak.end_lightbreak()
 		modulate.a = 1
 	
+	# Prevent getting stuck in a block
+	tile_interaction.inside_solid_blocks_check(self)
+	
 	# Item usage
 	if !movement.finished:
 		_process_items()

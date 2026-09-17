@@ -8,5 +8,5 @@ func init():
 	is_safe = true
 
 
-func freeze(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func freeze(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	player.movement.on_ice = true

@@ -99,6 +99,7 @@ shift={
 [physics]
 
 2d/default_gravity=2250.0
+2d/solver/default_contact_bias=0.0
 
 [rendering]
 

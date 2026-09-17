@@ -117,8 +117,8 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	# Checks if player is rotating
 	var not_rotating: bool = gravity.not_rotating()
 
-	if (!jumped and !character.super_jump.just_sjed) and character.is_on_floor() or character.is_on_ceiling():
-		current_velocity.y = 0.0
+	#if (!jumped and !character.super_jump.just_sjed) and character.is_on_floor() or character.is_on_ceiling():
+		#current_velocity.y = 0.0
 
 	# Handle regular jump
 	if not hurt and can_jump and Input.is_action_pressed("jump"):

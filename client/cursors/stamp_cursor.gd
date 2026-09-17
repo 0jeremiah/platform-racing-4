@@ -56,7 +56,7 @@ func on_mouse_down():
 			else:
 				location = layer.stamps
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = location.get_local_mouse_position() + (camera.get_screen_center_position() * layer.get_layer_scale()) - (camera.get_screen_center_position() * layer.get_layer_scale())
+			var mouse_position = (location.get_local_mouse_position() + (camera.get_screen_center_position() * layer.get_layer_scale()) - (camera.get_screen_center_position() * layer.get_layer_scale())) + layer.anchor
 			if mode == "stamp":
 				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_LINE,

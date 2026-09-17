@@ -8,6 +8,6 @@ func init():
 	is_safe = false
 
 
-func shatter(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func shatter(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	TileEffects.shatter(tile_map_layer, coords, 10)
 	Jukebox.play_sound("shatterblock")

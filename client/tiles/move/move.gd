@@ -21,12 +21,12 @@ func init():
 	is_safe = false
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer) -> void:
 	tile_map_layers.push_back(tile_map_layer)
 	add_timer(tile_map_layer)
 
 
-func move_track(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func move_track(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	connected_objects.push_back({
 		"object": player,
 		"tile_map_layer": tile_map_layer,
@@ -43,7 +43,7 @@ func remove_stale_connected_objects() -> void:
 func do_plan():
 	move_direction_list.clear()
 	move_list_pointer = -1
-	for tile_map_layer: TileMapLayer in tile_map_layers:
+	for tile_map_layer: ConfigurableTileMapLayer in tile_map_layers:
 		var coord_list: Array = tile_map_layer.get_used_cells_by_id(0, move_atlas_coords)
 		for coords: Vector2i in coord_list:
 			var rand = randi_range(0, 3)
@@ -72,7 +72,7 @@ func do_move():
 	move_list_pointer = -1
 	remove_stale_connected_objects()
 	
-	for tile_map_layer: TileMapLayer in tile_map_layers:
+	for tile_map_layer: ConfigurableTileMapLayer in tile_map_layers:
 		var coord_list: Array = tile_map_layer.get_used_cells_by_id(0, move_atlas_coords)
 		for coords: Vector2i in coord_list:
 			move_list_pointer += 1
@@ -99,7 +99,7 @@ func do_move():
 	move_direction_list.clear()
 
 
-func add_timer(tile_map_layer: TileMapLayer) -> void:
+func add_timer(tile_map_layer: ConfigurableTileMapLayer) -> void:
 	if timer:
 		return
 	timer = Timer.new()

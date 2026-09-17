@@ -9,8 +9,9 @@ class_name ConfigurableTileMapLayer
 const EGG_ENEMY = preload("res://effects/egg/egg_enemy.tscn")
 var map_layer: MapLayer = null
 var block_dict = {}
-#var cull_unseen_blocks: bool = true
-#var outside_block_count_before_cull: int = 50
+var cull_unseen_blocks: bool = true
+var outside_block_count_before_cull: int = 5
+var visible_block_rect: Rect2
 
 
 func _process(_delta: float):
@@ -22,7 +23,7 @@ func _process(_delta: float):
 		#var camera = get_viewport().get_camera_2d()
 		#if camera:
 			#var visible_block_viewport_size = Vector2(Vector2(get_viewport().size) / camera.zoom) + Vector2(Settings.tile_size.x * outside_block_count_before_cull, Settings.tile_size.y * outside_block_count_before_cull)
-			#var visible_rect = Rect2(((camera.get_screen_center_position() - (visible_block_viewport_size / 2)) * camera.zoom), visible_block_viewport_size * camera.zoom)
+			#visible_block_rect = Rect2(((camera.get_screen_center_position() - (visible_block_viewport_size / 2)) * camera.zoom), visible_block_viewport_size * camera.zoom)
 			#var used_coords = get_used_cells()
 			#for used_coord in used_coords:
 				#var block_location = Vector2(((Vector2(Settings.tile_size) * Vector2(used_coord)) + Vector2(Settings.tile_size) / 2) * camera.zoom)

@@ -12,7 +12,7 @@ func init() -> void:
 	bump.push_back(finish)
 
 
-func finish(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func finish(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	if !player.movement.finished:
 		player.movement.finished = true
 		Jukebox.play_sound("victory")

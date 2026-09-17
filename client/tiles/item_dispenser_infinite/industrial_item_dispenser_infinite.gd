@@ -2,6 +2,6 @@ extends ItemDispenser
 class_name IndustrialItemDispenserInfinite
 
 
-func dispense_item(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func dispense_item(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	item_id = randi_range(1, 14)
 	player.item_manager.set_item_id(item_id)

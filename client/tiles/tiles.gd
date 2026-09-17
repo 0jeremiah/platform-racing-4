@@ -397,7 +397,7 @@ func get_descriptions() -> Dictionary:
 	return desc
 
 
-func on(event: String, tile_type: int, player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func on(event: String, tile_type: int, player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		tile.on(event, player, tile_map_layer, coords)
@@ -427,7 +427,7 @@ func is_safe(tile_type: int) -> bool:
 
 
 func activate_node(node: Node):
-	if node is TileMapLayer:
+	if node is ConfigurableTileMapLayer:
 		activate_tile_map_layer(node)
 		return
 	elif "tile_map_layer" in node:
@@ -435,13 +435,13 @@ func activate_node(node: Node):
 		return
 		
 	for child in node.get_children():
-		if child is TileMapLayer:
+		if child is ConfigurableTileMapLayer:
 			activate_tile_map_layer(child)
 		elif child is Node2D || child is Parallax2D:
 			activate_node(child)
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer):
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer):
 	for tile_id in map:
 		map[tile_id].activate_tile_map_layer(tile_map_layer)
 

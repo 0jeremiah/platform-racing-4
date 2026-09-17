@@ -8,7 +8,7 @@ class_name VanishEffect
 @onready var animation_player = $AnimationPlayer
 @onready var invisibility_timer = $InvisibilityTimer
 
-var tile_map_layer: TileMapLayer
+var tile_map_layer: ConfigurableTileMapLayer
 var coords: Vector2i
 var block_id: String
 var source_id: int
@@ -21,7 +21,7 @@ func _ready() -> void:
 	invisibility_timer.timeout.connect(_on_timeout)
 
 
-func init(_tile_map_layer: TileMapLayer, _coords: Vector2i, animation_duration: float, cooldown: float) -> void:
+func init(_tile_map_layer: ConfigurableTileMapLayer, _coords: Vector2i, animation_duration: float, cooldown: float) -> void:
 	
 	tile_map_layer = _tile_map_layer
 	coords = _coords

@@ -59,24 +59,24 @@ func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void
 		behavior.call(source, target, coords)
 
 
-func activate_tile_map_layer(_tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(_tile_map_layer: ConfigurableTileMapLayer) -> void:
 	pass
 
 
-func activate_tile_options(_tile_map_layer: TileMapLayer, _coords: Vector2i) -> void:
+func activate_tile_options(_tile_map_layer: ConfigurableTileMapLayer, _coords: Vector2i) -> void:
 	pass
 
 
-func get_center_position(tile_map_layer: TileMapLayer, coords: Vector2i) -> Vector2:
+func get_center_position(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> Vector2:
 	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.rotation)
 
 
-func deactivate(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func deactivate(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	tile_map_layer.set_cell(coords, 0, atlas_coords, Tile.DEACTIVATED_ALT_ID)
 
 
-func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) -> void:
+func set_visible(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, visible: bool) -> void:
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	var alt_id: int
 	if visible:
@@ -92,21 +92,21 @@ func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) 
 	tile_map_layer.set_cell(coords, 0, atlas_coords, alt_id)
 
 
-func is_active(tile_map_layer: TileMapLayer, coords: Vector2i) -> bool:
+func is_active(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> bool:
 	var alt_id := tile_map_layer.get_cell_alternative_tile(coords)
 	return alt_id == Tile.VISIBLE_ALT_ID or alt_id == Tile.INVISIBLE_ALT_ID
 
 
-func is_visible(tile_map_layer: TileMapLayer, coords: Vector2i) -> bool:
+func is_visible(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> bool:
 	var alt_id := tile_map_layer.get_cell_alternative_tile(coords)
 	return alt_id == Tile.DEACTIVATED_ALT_ID or alt_id == Tile.VISIBLE_ALT_ID
 
 
-func get_slug(tile_map_layer: TileMapLayer, coords: Vector2i) -> String:
+func get_slug(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> String:
 	return str(tile_map_layer.get_path()) + "/" + str(coords)
 
 
-func cooldown(tile_map_layer: TileMapLayer, coords: Vector2i, seconds: float) -> bool:
+func cooldown(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, seconds: float) -> bool:
 	var ms: int = int(seconds * 1000)
 	var key: String = get_slug(tile_map_layer, coords)
 	var last: int = cooldown_dict.get(key, 0)

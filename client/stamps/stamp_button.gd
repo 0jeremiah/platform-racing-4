@@ -6,7 +6,6 @@ signal stamp_selected
 @onready var stamp_button = $StampButton
 var id: String = ""
 var stamp_size: float = 48.0
-var send_data: bool = true
 
 
 func _ready() -> void:

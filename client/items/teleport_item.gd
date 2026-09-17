@@ -6,7 +6,7 @@ class_name TeleportItem
 @onready var poof_effect = preload("res://item_effects/poof_effect.tscn")
 
 var teleport_target_area = Vector2(0, 0)
-var tile_map_layer: TileMapLayer
+var tile_map_layer: ConfigurableTileMapLayer
 var tile_map_layer_position: Vector2
 var coords: Vector2i
 var atlas_coords: Vector2i

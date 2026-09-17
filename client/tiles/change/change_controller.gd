@@ -1,7 +1,7 @@
 extends Node2D
 class_name ChangeController
 
-var original_tile_map_layer: TileMapLayer # is there so the game doesn't crash
+var original_tile_map_layer: ConfigurableTileMapLayer # is there so the game doesn't crash
 var change_list: Array = []
 var atlas_coords: Vector2i
 var blocks = {}

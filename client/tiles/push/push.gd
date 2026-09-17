@@ -10,7 +10,7 @@ func init():
 	is_safe = false
 
 
-func push(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func push(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	var tile_position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half).rotated(tile_map_layer.rotation)
 	var direction = tile_position - player.position
 	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)

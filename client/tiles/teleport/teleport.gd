@@ -27,7 +27,7 @@ func clear():
 	recent_teleports = []
 
 
-func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func teleport(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	var layer_name: String = str(tile_map_layer.map_layer.name)
 	var is_throttled = is_teleport_throttled(str(player.name), layer_name, coords)
 	if is_throttled:

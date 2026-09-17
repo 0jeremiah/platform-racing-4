@@ -18,7 +18,7 @@ func init(config: Dictionary) -> void:
 	settings.import_settings(_config.settings)
 
 
-func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
+func on(event: String, body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
 	#print("Block::on " + event)
 	if tile_map_layer.get_block(coords).id == "":
 		return
@@ -33,23 +33,23 @@ func on(event: String, body: PhysicsBody2D, tile_map_layer: TileMapLayer, coords
 		Jukebox.play_sound("bump")
 
 
-func get_center_position(tile_map_layer: TileMapLayer, coords: Vector2i) -> Vector2:
+func get_center_position(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> Vector2:
 	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.rotation)
 
 
-func activate(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func activate(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, ConfigurableBlock.VISIBLE_ALT_ID)
 
 
-func deactivate(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+func deactivate(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
 	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, ConfigurableBlock.DEACTIVATED_ALT_ID)
 
 
-func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) -> void:
+func set_visible(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, visible: bool) -> void:
 	var atlas_source = tile_map_layer.get_cell_source_id(coords)
 	var atlas_coords: Vector2i = tile_map_layer.get_cell_atlas_coords(coords)
 	var alt_id: int
@@ -66,11 +66,11 @@ func set_visible(tile_map_layer: TileMapLayer, coords: Vector2i, visible: bool) 
 	tile_map_layer.set_cell(coords, atlas_source, atlas_coords, alt_id)
 
 
-func is_active(tile_map_layer: TileMapLayer, coords: Vector2i) -> bool:
+func is_active(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> bool:
 	var alt_id := tile_map_layer.get_cell_alternative_tile(coords)
 	return alt_id == ConfigurableBlock.VISIBLE_ALT_ID or alt_id == ConfigurableBlock.INVISIBLE_ALT_ID
 
 
-func is_visible(tile_map_layer: TileMapLayer, coords: Vector2i) -> bool:
+func is_visible(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> bool:
 	var alt_id := tile_map_layer.get_cell_alternative_tile(coords)
 	return alt_id == ConfigurableBlock.DEACTIVATED_ALT_ID or alt_id == ConfigurableBlock.VISIBLE_ALT_ID

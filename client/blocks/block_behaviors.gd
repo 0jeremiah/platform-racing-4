@@ -45,6 +45,15 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 			else:
 				if !node.movement.down_pressed:
 					push_velocity = (rotated_push_dir * push_force) * 15
+					#node.movement.current_velocity.y = 0
+				# remove from last_bumped_block so we can keep bumping this block
+				#var block_info = {
+					#"tile_map_layer": tile_map_layer,
+					#"coords": coords,
+					#"block_id": tile_map_layer.get_block(coords).id
+					#}
+				#if "movement" in node and block_info == node.movement.last_bumped_block:
+					#node.movement.last_bumped_block = {}
 		else:
 			push_velocity = rotated_push_dir * push_force
 	
@@ -383,7 +392,7 @@ func stick(node: Node2D, _tile_map_layer: ConfigurableTileMapLayer, _coords: Vec
 
 
 # Teleports the player to the next teleport block it can find
-func teleport(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+func teleport(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, normal: Vector2 = Vector2.ZERO):
 	if node is not Character:
 		return
 	var block_id = tile_map_layer.get_block(coords).id
@@ -407,10 +416,11 @@ func teleport(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Ve
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tile_map_layer.global_rotation)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tile_map_layer.global_rotation)
 	var dist = (node.position - source_block_position).rotated(next_position.tile_map_layer.global_rotation)
-	
 	tile_map_layer.map_layer.players.remove_child(node)
 	layer.players.add_child(node)
 	node.position = next_block_position + dist
+	if abs(normal.x) < abs(normal.y) and normal.y > 0:
+		node.position -= Vector2(0, Settings.tile_size_half.y).rotated(node.rotation)
 	node.tile_interaction.set_depth(layer.z_axis)
 	#throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	

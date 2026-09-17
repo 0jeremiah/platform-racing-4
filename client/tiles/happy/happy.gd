@@ -19,7 +19,7 @@ func set_stats():
 		increment = options.data[0]
 
 
-func happy(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func happy(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	if is_active(tile_map_layer, coords):
 		player.stats.change_stats(increment)
 		Jukebox.play_sound("bumphappy")

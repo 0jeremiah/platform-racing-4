@@ -9,7 +9,7 @@ func init():
 	bump.push_back(inc_time)
 
 
-func inc_time(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func inc_time(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	if !is_active(tile_map_layer, coords):
 		return
 	

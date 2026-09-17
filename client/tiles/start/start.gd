@@ -11,7 +11,7 @@ func init():
 	Start.i = 0
 
 
-func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer) -> void:
 	var coord_list = tile_map_layer.get_used_cells_by_id(0, start_atlas_coords)
 	for coords in coord_list:
 		var start_option = {

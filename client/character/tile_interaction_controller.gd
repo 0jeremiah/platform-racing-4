@@ -27,13 +27,36 @@ func _init(_character: Character, low_area_node: Area2D, high_area_node: Area2D)
 
 
 func should_crouch(character: Character) -> bool:
+	var crouch = false
 	if !character.is_on_floor():
 		return false
 	var tiles_overlapping: Array = get_tiles_overlapping_area(high_area)
 	for tile_data in tiles_overlapping:
 		if tile_data.tile_map_layer.is_solid(tile_data.coords):
-			return true
-	return false
+			var tile_info = tile_data.tile_map_layer.get_block(tile_data.coords)
+			if !tile_info.node:
+				continue
+			var direction = (character.global_position - tile_info.node.global_position).normalized()
+			var normal := Vector2.ZERO
+			if abs(direction.x) > abs(direction.y):
+				normal = Vector2(sign(direction.x), 0)
+			else:
+				normal = Vector2(0, sign(direction.y))
+			if abs(normal.x) > abs(normal.y):
+				if normal.x > 0:
+					if tile_info.settings.left.type != ConfigurableBlockSideSettings.INACTIVE:
+						crouch = true
+				else:
+					if tile_info.settings.right.type != ConfigurableBlockSideSettings.INACTIVE:
+						crouch = true
+			else:
+				if normal.y > 0:
+					if tile_info.settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE:
+						crouch = true
+				else:
+					if tile_info.settings.top.type != ConfigurableBlockSideSettings.INACTIVE:
+						crouch = true
+	return crouch
 
 
 func interact_with_incoporeal_tiles(character: Character):
@@ -53,8 +76,10 @@ func interact_with_solid_tiles(character: Character, lighting: LightbreakControl
 	last_collision = collision
 	if !collision:
 		return false
-		
-	var parent = collision.get_collider().get_parent()
+	var collider = collision.get_collider()
+	if !collider:
+		return false
+	var parent = collider.get_parent()
 	if not (parent is ConfigurableTileMapLayer):
 		return false
 
@@ -132,6 +157,23 @@ func is_in_solid() -> bool:
 		if tile.tile_map_layer.is_solid(tile.coords):
 			return true
 	return false
+
+
+func inside_solid_blocks_check(character: Character):
+	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
+	var tiles = []
+	for tile in tiles_overlapping:
+		if tile.tile_map_layer.is_solid(tile.coords):
+			var block_scene = tile.tile_map_layer.get_block(tile.coords).node
+			if block_scene:
+				tiles.append(block_scene)
+	var collision_exceptions = character.get_collision_exceptions()
+	for collision_exception in collision_exceptions:
+		if collision_exception not in tiles:
+			character.remove_collision_exception_with(collision_exception)
+	for tile in tiles:
+		if tile not in collision_exceptions:
+			character.add_collision_exception_with(tile)
 
 
 func set_depth(depth: int) -> void:

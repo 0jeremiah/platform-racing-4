@@ -2,6 +2,7 @@ extends Control
 
 signal control_event
 
+@onready var bg_picker_popup = preload("res://ui/bgpickerpopup.gd")
 @onready var stamp_picker_popup = preload("res://ui/stamppickerpopup.gd")
 @onready var stamp_mode_popup = preload("res://pages/editor/setting_popups/stamp_mode_popup.gd")
 @onready var font_picker_popup = preload("res://ui/fontpickerpopup.gd")
@@ -37,9 +38,7 @@ signal control_event
 @onready var font_box = $ArtSettings/FontBox
 @onready var font_text = $ArtSettings/FontBox/FontText
 @onready var font_button = $ArtSettings/FontBox/FontButton
-@onready var bg_picker_popup = $BGPickerPopup
 @onready var bg_picker = $BGPickerPopup/BGPicker
-#@onready var stamp_picker_popup = $StampPickerPopup
 @onready var stamp_picker = $StampPickerPopup/StampPicker
 @onready var layer_panel = $LayerPanel
 
@@ -78,7 +77,6 @@ func _ready() -> void:
 	text_button.pressed.connect(_click_art_menu.bind(text_button))
 	selected_stamp_button.pressed.connect(_show_stamp_picker_popup)
 	stamp_mode_box.connect("stamp_mode_changed", _select_stamp_mode.bind())
-	bg_picker.connect("change_selected_background", _set_bg.bind())
 	stamp_mode_button.pressed.connect(_show_stamp_mode_popup)
 	font_button.pressed.connect(_show_font_picker_popup)
 	
@@ -136,8 +134,6 @@ func _process(_delta: float) -> void:
 		for child in art_settings.get_children():
 			for node in child.get_children():
 				_check_clicked_button(node)
-		bg_picker_popup.size = bg_picker.size
-		#stamp_picker_popup.size = stamp_picker.size
 		if selected_button:
 			set_selection_glow()
 	else:
@@ -146,7 +142,7 @@ func _process(_delta: float) -> void:
 
 func _on_editor_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_BACKGROUND:
-		_set_bg([event.fade_color, event.bg])
+		_select_bg({"id": event.bg, "fade_color": event.fade_color})
 	if event.type == EditorEvents.SELECT_STAMP:
 		_select_stamp(event.stamp)
 
@@ -210,8 +206,7 @@ func _check_clicked_button(node: Node):
 
 
 func _show_bg_picker_popup():
-	bg_picker_popup.position = Vector2(art_menu.global_position.x + art_menu.size.x + 10, background_button.global_position.y)
-	bg_picker_popup.show()
+	PopupManager.add_custom_popup(bg_picker_popup, {"bgpicker_func": Callable(self, "_select_bg_id"), "colorpicker_func": Callable(self, "_select_bg_color"), "bg_color": bg_color, "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, background_button.global_position.y)})
 
 
 func _show_stamp_picker_popup():
@@ -262,7 +257,6 @@ func _click_art_menu(button: TextureButton):
 		})
 		color_box_button.visible = true
 		color_box_button.position = Vector2(20, 20)
-		color_box_button.spawn_x = color_box_button.size.x
 		color_box_button.set_color(draw_color)
 		color_box_button.connect("colorbutton_color_changed", _select_draw_color.bind())
 		size_box.visible = true
@@ -328,7 +322,6 @@ func _click_art_menu(button: TextureButton):
 		})
 		color_box_button.visible = true
 		color_box_button.position = Vector2(20, 20)
-		color_box_button.spawn_x = color_box_button.size.x + 20
 		color_box_button.set_color(text_color)
 		color_box_button.connect("colorbutton_color_changed", _select_text_color.bind())
 		size_box.visible = true
@@ -352,9 +345,9 @@ func set_selection_glow():
 	selection_glow.global_position = selected_button.get_parent().global_position - Vector2(5, 5)
 
 
-func _set_bg(bg_data: Array):
-	bg_color = bg_data[0]
-	bg_id = bg_data[1]
+func _select_bg_color(new_bg_color: Color):
+	bg_id = "blank"
+	bg_color = new_bg_color
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_BACKGROUND,
 		"bg": bg_id,
@@ -365,7 +358,38 @@ func _set_bg(bg_data: Array):
 		background_texture.scale = Vector2(44.0, 44.0) / background_texture.region_rect.size
 	else:
 		background_texture.scale = Vector2(44.0, 44.0) / background_texture.texture.get_size()
-	bg_picker_popup.hide()
+
+
+func _select_bg_id(new_bg_id: String):
+	if new_bg_id in Backgrounds.bg_dictionary:
+		bg_id = new_bg_id
+		bg_color = Color(1.0, 1.0, 1.0)
+		emit_signal("control_event", {
+			"type": EditorEvents.SET_BACKGROUND,
+			"bg": bg_id,
+			"fade_color": bg_color.to_html(false)
+		})
+		Backgrounds.get_bg_no_dots(background_texture, bg_id, bg_color.to_html(false))
+		if background_texture.region_enabled:
+			background_texture.scale = Vector2(44.0, 44.0) / background_texture.region_rect.size
+		else:
+			background_texture.scale = Vector2(44.0, 44.0) / background_texture.texture.get_size()
+
+
+func _select_bg(bg_data: Dictionary):
+	if bg_data.has("id"):
+		bg_id = bg_data.id
+		bg_color = Color(1.0, 1.0, 1.0)
+		emit_signal("control_event", {
+			"type": EditorEvents.SET_BACKGROUND,
+			"bg": bg_id,
+			"fade_color": bg_color.to_html(false)
+		})
+		Backgrounds.get_bg_no_dots(background_texture, bg_id, bg_color.to_html(false))
+		if background_texture.region_enabled:
+			background_texture.scale = Vector2(44.0, 44.0) / background_texture.region_rect.size
+		else:
+			background_texture.scale = Vector2(44.0, 44.0) / background_texture.texture.get_size()
 
 
 func _select_draw_color(new_color: Color):

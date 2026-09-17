@@ -11,7 +11,7 @@ func init():
 	is_safe = false
 
 
-func vanish(_player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func vanish(_player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	
 	if atlas_coords == Vector2i(-1, -1):

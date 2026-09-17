@@ -51,7 +51,7 @@ func _detect_character_body_collisions() -> void:
 	else:
 		var rid := collision.get_collider_rid()
 		coords = parent.get_coords_for_body_rid(rid)
-	_notify_collision(parent, coords, normal)
+	_notify_collision(character_body, parent, coords, normal)
 
 
 func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
@@ -94,10 +94,10 @@ func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, 
 	else:
 		normal = Vector2(0, sign(direction.y))
 
-	_notify_collision(tile_map_layer, coords, normal)
+	_notify_collision(body, tile_map_layer, coords, normal)
 
 
-func _notify_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2) -> void:
+func _notify_collision(body: Node, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2) -> void:
 	# Determine which event(s) to trigger based on collision normal
 	var events: Array[String] = []
 
@@ -112,6 +112,10 @@ func _notify_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2
 	else:
 		if normal.y > 0:
 			events.append("bottom")
+		else:
+			events.append("top")
+	if abs(normal.rotated(-body.rotation).x) < abs(normal.rotated(-body.rotation).y):
+		if normal.rotated(-body.rotation).y > 0:
 			events.append("bump")
 			if "movement" in _parent:
 				_parent.movement.last_bumped_block = {
@@ -126,7 +130,6 @@ func _notify_collision(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2
 				_parent.movement.jumped = false
 				_parent.movement.jump_timer = 0
 		else:
-			events.append("top")
 			events.append("stand")
 			if "movement" in _parent and "tile_interaction" in _parent:
 				_parent.tile_interaction.maybe_mark_safe_block(_parent, tile_map_layer, coords)

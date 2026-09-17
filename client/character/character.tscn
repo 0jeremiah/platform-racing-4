@@ -20,7 +20,6 @@ safe_margin = 0.001
 script = ExtResource("1_phdif")
 
 [node name="CharacterHitbox" parent="." unique_id=913120360 instance=ExtResource("2_qkr1y")]
-one_way_collision = true
 one_way_collision_direction = Vector2(0, -1)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=859147482]

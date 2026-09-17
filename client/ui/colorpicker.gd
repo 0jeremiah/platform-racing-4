@@ -1,6 +1,7 @@
 extends Control
 
 signal set_new_color
+signal cancel_pressed
 
 @onready var hsv_rectangle = $ColorOptions/HSVRectangle
 @onready var rgb_sliders = $ColorOptions/RGBSliders
@@ -19,6 +20,7 @@ var rows = 12
 var chunk = 6
 var previous_color = Color("000000")
 var current_color = Color("000000")
+var color_to_add_to_recent = null
 var old_hex_code: String
 
 
@@ -42,6 +44,7 @@ func init() -> void:
 		child.queue_free()
 	color_grid.columns = columns + 4
 	var color = Color(0, 0, 0, 1)
+	var counter = 0
 	for y in rows:
 		var recent_color = recent_colors[y] if y < recent_colors.size() else Color(0, 0, 0, 1)
 		create_color_button(recent_color, "recent" + str(y))
@@ -60,19 +63,23 @@ func init() -> void:
 			else:
 				color.b += 1 / (float(chunk) - 1)
 		for x in columns:
+			counter += 1
 			if x != 0:
 				if color.g >= 1:
 					color.r += 1 / (float(chunk) - 1)
 					color.g = 0
 				else:
 					color.g += 1 / (float(chunk) - 1)
-			create_color_button(color, "color" + str((rows * y) + (x + 1)))
+			create_color_button(color, "color" + str(counter))
 
 
 func create_color_button(button_color: Color, button_name: String = ""):
 	var colornode = Control.new()
 	colornode.size = Vector2(20, 20)
 	colornode.custom_minimum_size = Vector2(20, 20)
+	var total_columns = columns + 4
+	var coords = Vector2i(color_grid.get_child_count() % total_columns, color_grid.get_child_count() / total_columns)
+	colornode.position = Vector2i(20 * coords.x, 20 * coords.y)
 	if button_name:
 		colornode.name = button_name
 	var blackoutline = ReferenceRect.new()
@@ -97,9 +104,8 @@ func create_color_button(button_color: Color, button_name: String = ""):
 
 func set_previous_color(new_color: Color):
 	previous_color = new_color
-	if previous_color not in recent_colors:
-		recent_colors.pop_back()
-		recent_colors.push_front(previous_color)
+	color_to_add_to_recent = previous_color
+	_set_color(previous_color)
 	set_previous_color_rect()
 
 
@@ -108,15 +114,25 @@ func set_previous_color_rect():
 	var previous_selected_color = null
 	for child in color_grid.get_children():
 		for node in child.get_children():
-			if node is TextureButton and previous_selected_color == null and (!node.name.contains("recent") and !node.name.contains("sample")):
+			var node_parent = node.get_parent()
+			print(node_parent.name)
+			if node is TextureButton and previous_selected_color == null and (!node_parent.name.contains("recent") and !node_parent.name.contains("sample")):
 				var node_color = node.texture_normal.gradient.get_colors()
 				if node_color[0] == previous_color:
 					previous_selected_color = node_color[0]
 					previous_selected_rect.visible = true
-					previous_selected_rect.position = color_grid.position + node.get_parent().position
+					print(color_grid.position)
+					print(node_parent.position)
+					previous_selected_rect.position = color_grid.position + node_parent.position
 					break
 		if previous_selected_color != null:
 			break
+
+
+func add_color_to_recent_colors(new_color: Color):
+	if new_color not in recent_colors:
+		recent_colors.pop_back()
+		recent_colors.push_front(new_color)
 
 
 func check_buttons() -> void:
@@ -156,6 +172,10 @@ func _ok_pressed():
 	_set_new_color(current_color)
 
 
+func _cancel_pressed():
+	emit_signal("cancel_pressed")
+
+
 func _set_color(new_color: Color, show_starting_hex: bool = true, change_hex_code: bool = true):
 	hsv_rectangle.color = new_color
 	rgb_sliders.color = new_color
@@ -172,8 +192,11 @@ func _set_color(new_color: Color, show_starting_hex: bool = true, change_hex_cod
 
 func _set_new_color(new_color: Color):
 	_set_color(new_color, true, true)
+	color_to_add_to_recent = new_color
+	add_color_to_recent_colors(current_color)
 	emit_signal("set_new_color", new_color)
 
 
-func _cancel_pressed():
-	get_parent().visible = false
+func _exit_tree():
+	if color_to_add_to_recent:
+		add_color_to_recent_colors(color_to_add_to_recent)

@@ -19,7 +19,7 @@ func _process(_delta: float) -> void:
 		return
 		
 	var tile_map_layer = collision.get_collider()
-	if not (tile_map_layer is TileMapLayer):
+	if not (tile_map_layer is ConfigurableTileMapLayer):
 		return
 
 	var normal = collision.get_normal().rotated(-rotation)

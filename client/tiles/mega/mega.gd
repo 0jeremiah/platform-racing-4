@@ -8,7 +8,7 @@ func init():
 	is_safe = true
 
 
-func grow(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func grow(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	if player.movement.size < 1:
 		player.movement.size = 1
 	else:

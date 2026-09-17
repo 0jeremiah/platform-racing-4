@@ -8,7 +8,6 @@ signal block_selected
 var id: String = ""
 var settings: Dictionary = {}
 var block_size: float = 48.0
-var send_data: bool = true
 
 
 func _ready() -> void:

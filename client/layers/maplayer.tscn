@@ -12,6 +12,7 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayerContainer" unique_id=345368640]
+rendering_quadrant_size = 32
 physics_quadrant_size = 1
 script = ExtResource("2_i1n2p")
 

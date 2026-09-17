@@ -8,7 +8,7 @@ func init():
 	is_safe = false
 
 
-func hurt(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+func hurt(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	if player.invincibility.is_active():
 		return
 	if !player.movement.hurt:

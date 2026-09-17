@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://b5vip8mr03xki" path="res://unused/mega_menu/icons/draw.png" id="3_feflp"]
 [ext_resource type="Texture2D" uid="uid://djbe0fjis31o6" path="res://unused/mega_menu/icons/erase.png" id="4_bvixj"]
 [ext_resource type="Texture2D" uid="uid://nwxvmjjoyfqt" path="res://unused/mega_menu/icons/stamp.png" id="5_xomac"]
-[ext_resource type="PackedScene" uid="uid://bv7hg0hol6uny" path="res://ui/bgpicker.tscn" id="7_feflp"]
 [ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://stamps/cactus.svg" id="8_le1wt"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_vii2p"]
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
@@ -281,15 +280,6 @@ focus_mode = 1
 texture_normal = ExtResource("9_mh3pe")
 ignore_texture_size = true
 stretch_mode = 0
-
-[node name="BGPickerPopup" type="Popup" parent="." unique_id=1368687632]
-transparent_bg = true
-oversampling_override = 1.0
-position = Vector2i(108, 30)
-size = Vector2i(380, 174)
-transparent = true
-
-[node name="BGPicker" parent="BGPickerPopup" unique_id=965428220 instance=ExtResource("7_feflp")]
 
 [node name="ArtSettings" type="Control" parent="." unique_id=931733333]
 anchors_preset = 0
