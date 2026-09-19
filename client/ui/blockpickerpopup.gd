@@ -14,7 +14,6 @@ func _ready() -> void:
 	blockpicker_node = blockpicker.instantiate()
 	add_node_to_holder(blockpicker_node)
 	blockpicker_node.block_selected.connect(_block_selected)
-	blockpicker_node._change_tab(0)
 
 
 func init(init_params: Dictionary):
@@ -23,7 +22,6 @@ func init(init_params: Dictionary):
 		blockpicker_func = init_params.blockpicker_func
 	if "block_id" in init_params:
 		block_id = init_params.block_id
-		#blockpicker_node.go_to_page_with_block_id(block_id)
 	if "popup_position" in init_params:
 		popup.position = init_params.popup_position
 

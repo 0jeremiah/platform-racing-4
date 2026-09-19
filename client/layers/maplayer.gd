@@ -27,12 +27,9 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Game.game:
-		var character = Game.game.player_manager.get_character()
-		if character.tile_interaction.character_depth == z_axis:
-			tile_map_layer.collision_enabled = true
-		else:
-			tile_map_layer.collision_enabled = false
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		screen_offset = camera.get_screen_center_position() * scroll_scale
 
 
 func set_z_axis(p_z_axis: int) -> void:

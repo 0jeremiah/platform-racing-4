@@ -16,7 +16,6 @@ func _ready() -> void:
 	lister_node.set_script(fontpicker_script)
 	add_node_to_holder(lister_node)
 	lister_node.font_selected.connect(_font_selected)
-	lister_node.show_fonts()
 
 
 func init(init_params: Dictionary):

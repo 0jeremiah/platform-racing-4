@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cprpa8py4lujd" path="res://pages/editor/block_editor/settings/change_settings/change_settings.gd" id="1_vo557"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_4gam5"]
-[ext_resource type="PackedScene" uid="uid://bs4ybsv1i40pe" path="res://ui/blockpicker.tscn" id="3_gdmyv"]
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="4_hk7dw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
@@ -81,13 +80,6 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 6
-
-[node name="BlockPicker" parent="." unique_id=156263760 instance=ExtResource("3_gdmyv")]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 190.0
-offset_right = 608.0
-offset_bottom = 590.0
 
 [node name="SelectedBlockTexture" type="TextureRect" parent="." unique_id=2124128093]
 visible = false

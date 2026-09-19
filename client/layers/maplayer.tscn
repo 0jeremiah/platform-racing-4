@@ -5,6 +5,7 @@
 
 [node name="MapLayer" type="Parallax2D" unique_id=2073402923]
 z_as_relative = false
+ignore_camera_scroll = true
 script = ExtResource("1_0xfjn")
 
 [node name="TileMapLayerContainer" type="Control" parent="." unique_id=1237484113]
@@ -12,7 +13,6 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayerContainer" unique_id=345368640]
-rendering_quadrant_size = 32
 physics_quadrant_size = 1
 script = ExtResource("2_i1n2p")
 

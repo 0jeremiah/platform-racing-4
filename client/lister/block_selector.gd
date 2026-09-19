@@ -4,9 +4,9 @@ class_name BlockSelector
 signal block_clicked
 signal block_selected
 
+var selected_category: String = "pr4"
 var block_button = preload("res://blocks/block_button.tscn")
 var request_array: Array = []
-var selected_category: String = "pr4"
 var custom_list: Array = []
 var block_rows: int = 4
 var block_columns: int = 10
@@ -14,16 +14,14 @@ var block_columns: int = 10
 
 func _ready() -> void:
 	super()
+	results_per_page = block_rows * block_columns
 	cache_slug = "my_blocks"
 	cache_seconds = 60 * 60
-	pagination_slug = "blockselector-" + selected_category
 	set_columns(block_columns)
-	set_results_per_page(block_rows * block_columns)
 	set_lister_width(600)
 	set_lister_height(240)
 	set_lister_h_separation(0)
 	set_lister_v_separation(0)
-	set_page(get_last_remembered_page())
 	pagination.init(1, 0, 6, false)
 	pagination.update_display()
 	# code to check if we are logged in and get custom blocks from there goes here

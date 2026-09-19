@@ -5,18 +5,18 @@ class_name Item
 ## Handles acquisition, use, and disposal of all player items,
 ## including their forces and visual effects.
 
-@onready var angelwings = $AngelWingsItem
-@onready var blackhole = $BlackHoleItem
-@onready var icewave = $IceWaveItem
-@onready var jetpack = $JetpackItem
-@onready var lasergun = $LaserGunItem
+@onready var angel_wings = $AngelWingsItem
+@onready var black_hole = $BlackHoleItem
+@onready var ice_wave = $IceWaveItem
+@onready var jet_pack = $JetpackItem
+@onready var laser_gun = $LaserGunItem
 @onready var lightning = $LightningItem
-@onready var portableblock = $PortableBlockItem
-@onready var portablemine = $PortableMineItem
-@onready var rocketlauncher = $RocketLauncherItem
+@onready var portable_block = $PortableBlockItem
+@onready var portable_mine = $PortableMineItem
+@onready var rocket_launcher = $RocketLauncherItem
 @onready var shield = $ShieldItem
-@onready var speedburst = $SpeedBurstItem
-@onready var superjump = $SuperJumpItem
+@onready var speed_burst = $SpeedBurstItem
+@onready var super_jump = $SuperJumpItem
 @onready var sword = $SwordItem
 @onready var teleport = $TeleportItem
 
@@ -32,8 +32,8 @@ var force := Vector2.ZERO
 
 
 func _ready() -> void:
-	item_pool = [null, angelwings, blackhole, icewave, jetpack, lasergun, lightning, portableblock,
-	portablemine, rocketlauncher, shield, speedburst, superjump, sword, teleport]
+	item_pool = [null, angel_wings, black_hole, ice_wave, jet_pack, laser_gun, lightning, portable_block,
+	portable_mine, rocket_launcher, shield, speed_burst, super_jump, sword, teleport]
 
 
 func init(p_character: Character):
@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 	if item and uses <= 0:
 		remove_item()
 	if character:
-		if item != portableblock and item != portablemine and item != teleport:
+		if item != portable_block and item != portable_mine and item != teleport:
 			position = Vector2(character.item_holder_display.position.x * character.movement.facing, character.item_holder_display.position.y)
 			rotation = character.item_holder_display.rotation * character.movement.facing
 			scale = (character.item_holder_display.scale / character.movement.size) * character.display.scale

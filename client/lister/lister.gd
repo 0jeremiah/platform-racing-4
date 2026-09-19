@@ -144,7 +144,6 @@ func request_results(param1: int, param2: int):
 
 func set_results_per_page(new_results_per_page: int):
 	results_per_page = new_results_per_page
-	update_pages()
 	set_page(page)
 
 

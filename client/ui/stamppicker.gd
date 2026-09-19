@@ -7,20 +7,14 @@ signal change_selected_stamp
 @onready var tab_bar = $TabBar
 @onready var stamp_selector = $StampSelector
 
-var stamp_button = preload("res://stamps/stamp_button.tscn")
-var selected_category: String = "general"
-var stamp_picker_pages: int = 1
-var stamp_picker_page: int = 1
-var current_stamp_list: Array = []
-var stamps_container_width: int = 10
-var stamps_container_height: int = 4
-var stamp_picker_pagination_max_buttons: int = 6
+static var selected_category: String = "general"
 
 
 func _ready() -> void:
 	tab_bar.tab_changed.connect(_change_tab)
 	stamp_selector.stamp_clicked.connect(_click_stamp)
 	stamp_selector.stamp_selected.connect(_select_stamp)
+	match_tab(selected_category)
 
 
 func _process(_delta: float) -> void:
@@ -33,6 +27,17 @@ func _change_tab(new_index: int):
 		1: selected_category = "blocks"
 		2: selected_category = "custom"
 	stamp_selector.change_category(selected_category)
+
+
+func match_tab(new_selected_category: String):
+	var index = -1
+	match new_selected_category:
+		"general": index = 0
+		"blocks": index = 1
+		"custom": index = 2
+	if index >= 0:
+		tab_bar.current_tab = index
+	stamp_selector.change_category(new_selected_category)
 
 
 func _click_stamp(stamp_data: Dictionary) -> void:

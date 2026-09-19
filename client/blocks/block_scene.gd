@@ -4,11 +4,11 @@ class_name BlockScene
 @onready var block_texture = $BlockTexture
 @onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
 @onready var frozen_texture = $BlockTexture/FrozenTexture
-@onready var area_hitbox = $AreaHitbox
 @onready var top_hitbox = $TopHitbox
 @onready var bottom_hitbox = $BottomHitbox
 @onready var left_hitbox = $LeftHitbox
 @onready var right_hitbox = $RightHitbox
+@onready var area_hitbox = $AreaHitbox
 
 var id = ""
 var settings = ConfigurableBlockSettings.new()
@@ -18,6 +18,11 @@ var frozen: bool = false
 var freeze_timer: float = 0.0
 var bump_timer: float = 0.0
 var bump_direction: Vector2 = Vector2(0, -1)
+var top_hitbox_enabled: bool = true
+var bottom_hitbox_enabled: bool = true
+var left_hitbox_enabled: bool = true
+var right_hitbox_enabled: bool = true
+var area_hitbox_enabled: bool = true
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -27,11 +32,11 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 		var which_layer = 0 if new_settings.matter_type == ConfigurableBlockSettings.SOLID else 1
 		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(which_layer)
 		collision_mask = 0 | 1
-		area_hitbox.disabled = false if new_settings.matter_type != ConfigurableBlockSettings.SOLID else true
-		top_hitbox.disabled = false if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.top.type != ConfigurableBlockSideSettings.INACTIVE else true
-		bottom_hitbox.disabled = false if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else true
-		left_hitbox.disabled = false if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.left.type != ConfigurableBlockSideSettings.INACTIVE else true
-		right_hitbox.disabled = false if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.right.type != ConfigurableBlockSideSettings.INACTIVE else true
+		top_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
+		bottom_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else false
+		left_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
+		right_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
+		area_hitbox_enabled = true if new_settings.matter_type != ConfigurableBlockSettings.SOLID else false
 		set_block_texture()
 
 
@@ -52,9 +57,17 @@ func _ready():
 
 
 func _process(delta: float) -> void:
-	#var camera = get_viewport().get_camera_2d()
-	#var block_position = null if !camera else Vector2(((Vector2(Settings.tile_size) * Vector2(get_coords())) + Vector2(Settings.tile_size) / 2) * camera.zoom)
-	#visible = true if camera and block_position and tile_map_layer.visible_block_rect.has_point(block_position) else false
+	if Game.game:
+		if !(top_hitbox_enabled and tile_map_layer.collision_enabled) != top_hitbox.disabled:
+			top_hitbox.disabled = !(top_hitbox_enabled and tile_map_layer.collision_enabled)
+		if !(bottom_hitbox_enabled and tile_map_layer.collision_enabled) != bottom_hitbox.disabled:
+			bottom_hitbox.disabled = !(bottom_hitbox_enabled and tile_map_layer.collision_enabled)
+		if !(left_hitbox_enabled and tile_map_layer.collision_enabled) != left_hitbox.disabled:
+			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled)
+		if !(right_hitbox_enabled and tile_map_layer.collision_enabled) != right_hitbox.disabled:
+			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled)
+		if !(area_hitbox_enabled and tile_map_layer.collision_enabled) != area_hitbox.disabled:
+			area_hitbox.disabled = !(area_hitbox_enabled and tile_map_layer.collision_enabled)
 	if frozen:
 		if freeze_timer - delta > 0:
 			freeze_timer -= delta

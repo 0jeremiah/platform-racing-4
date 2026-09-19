@@ -6,23 +6,23 @@ signal font_selected
 
 var font_button = preload("res://fonts/font_button.tscn")
 var request_array: Array = []
-var stamp_rows: int = 5
-var stamp_columns: int = 1
+var font_rows: int = 5
+var font_columns: int = 1
 
 
 func _ready() -> void:
 	super()
+	results_per_page = font_rows * font_columns
 	cache_seconds = 60 * 60
-	pagination_slug = "fontselector-"
-	set_columns(stamp_columns)
-	set_results_per_page(stamp_rows * stamp_columns)
+	pagination_slug = "fontselector"
+	set_columns(font_columns)
 	set_lister_width(300)
 	set_lister_height(200)
 	set_lister_h_separation(0)
 	set_lister_v_separation(0)
-	set_page(get_last_remembered_page())
 	pagination.init(1, 0, 6, false)
 	pagination.update_display()
+	show_fonts()
 
 
 func display_list(list_array: Array):

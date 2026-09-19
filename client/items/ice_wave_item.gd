@@ -1,7 +1,7 @@
 extends Item
 class_name IceWaveItem
 
-var ice_wave = load("res://item_effects/ice_wave.tscn")
+var wave = load("res://item_effects/ice_wave.tscn")
 var animation_timer = Timer.new()
 var ice_wave_amount: int = 3
 var ice_wave_rotation: float = 0.0
@@ -49,7 +49,7 @@ func shoot(_character: Character):
 		angle = ice_wave_rotation - (45.0 + angle_increment)
 	for current_ice_wave in ice_wave_amount:
 		angle += angle_increment
-		var ice_wave_projectile = ice_wave.instantiate()
+		var ice_wave_projectile = wave.instantiate()
 		ice_wave_projectile.global_position = global_position
 		ice_wave_projectile.rotation_degrees = angle
 		ice_wave_projectile.set_projectile(ice_wave_projectile, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation).rotated(_character.rotation), _character.movement.facing == -1, _character)

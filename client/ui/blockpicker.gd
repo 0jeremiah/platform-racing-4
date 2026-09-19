@@ -7,20 +7,14 @@ signal change_selected_block
 @onready var tab_bar = $TabBar
 @onready var block_selector = $BlockSelector
 
-var block_button = preload("res://blocks/block_button.tscn")
-var selected_category: String = "pr4"
-var block_picker_pages: int = 1
-var block_picker_page: int = 1
-var current_block_list: Array = []
-var blocks_container_width: int = 10
-var blocks_container_height: int = 4
-var block_picker_pagination_max_buttons: int = 6
+static var selected_category: String = "pr4"
 
 
 func _ready() -> void:
 	tab_bar.tab_changed.connect(_change_tab)
 	block_selector.block_clicked.connect(_click_block)
 	block_selector.block_selected.connect(_select_block)
+	match_tab(selected_category)
 
 
 func _process(_delta: float) -> void:
@@ -37,6 +31,22 @@ func _change_tab(new_index: int):
 		5: selected_category = "space"
 		6: selected_category = "pr2"
 		7: selected_category = "custom"
+	block_selector.change_category(selected_category)
+
+
+func match_tab(new_selected_category: String):
+	var index = -1
+	match new_selected_category:
+		"pr4": index = 0
+		"desert": index = 1
+		"industrial": index = 2
+		"jungle": index = 3
+		"underwater": index = 4
+		"space": index = 5
+		"pr2": index = 6
+		"custom": index = 7
+	if index >= 0:
+		tab_bar.current_tab = index
 	block_selector.change_category(selected_category)
 
 

@@ -9,9 +9,6 @@ class_name ConfigurableTileMapLayer
 const EGG_ENEMY = preload("res://effects/egg/egg_enemy.tscn")
 var map_layer: MapLayer = null
 var block_dict = {}
-var cull_unseen_blocks: bool = true
-var outside_block_count_before_cull: int = 5
-var visible_block_rect: Rect2
 
 
 func _process(_delta: float):
@@ -19,24 +16,7 @@ func _process(_delta: float):
 		collision_enabled = true
 	else:
 		collision_enabled = false
-	#if map_layer and cull_unseen_blocks:
-		#var camera = get_viewport().get_camera_2d()
-		#if camera:
-			#var visible_block_viewport_size = Vector2(Vector2(get_viewport().size) / camera.zoom) + Vector2(Settings.tile_size.x * outside_block_count_before_cull, Settings.tile_size.y * outside_block_count_before_cull)
-			#visible_block_rect = Rect2(((camera.get_screen_center_position() - (visible_block_viewport_size / 2)) * camera.zoom), visible_block_viewport_size * camera.zoom)
-			#var used_coords = get_used_cells()
-			#for used_coord in used_coords:
-				#var block_location = Vector2(((Vector2(Settings.tile_size) * Vector2(used_coord)) + Vector2(Settings.tile_size) / 2) * camera.zoom)
-				#if !visible_rect.has_point(block_location.rotated(map_layer.tile_map_rotation)):
-					#erase_cell(used_coord)
-			#for block in block_dict:
-				#var coords = get_coords_from_block_dict_name(block)
-				#if coords == null:
-					#continue
-				#var block_location = Vector2(((Vector2(Settings.tile_size) * Vector2(coords)) + Vector2(Settings.tile_size) / 2) * camera.zoom)
-				#if visible_rect.has_point(block_location.rotated(map_layer.tile_map_rotation)) and coords not in used_coords:
-					#var tile_info: Dictionary = BlockManager._block_lookup.get(block_dict[block].id, {})
-					#set_cell(coords, 0, Vector2i(0, 0), tile_info.alternative_tile)
+
 
 ## Converts coords into a name used for storing them into block_dict
 func get_block_dict_name(coords: Vector2i) -> String:

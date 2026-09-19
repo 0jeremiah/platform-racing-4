@@ -38,7 +38,7 @@ var custom_particle_list = {}
 
 
 func init_particles() -> void:
-	if get_node("Particles"):
+	if get_node_or_null("Particles"):
 		for child in get_node("Particles").get_children():
 			child.free()
 	var particle_holder = Node.new()

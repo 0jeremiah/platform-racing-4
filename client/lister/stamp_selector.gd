@@ -4,9 +4,9 @@ class_name StampSelector
 signal stamp_clicked
 signal stamp_selected
 
+var selected_category: String = "general"
 var stamp_button = preload("res://stamps/stamp_button.tscn")
 var request_array: Array = []
-var selected_category: String = "general"
 var custom_list: Array = []
 var stamp_rows: int = 4
 var stamp_columns: int = 10
@@ -14,16 +14,14 @@ var stamp_columns: int = 10
 
 func _ready() -> void:
 	super()
+	results_per_page = stamp_rows * stamp_columns
 	cache_slug = "my_stamps"
 	cache_seconds = 60 * 60
-	pagination_slug = "stampselector-" + selected_category
 	set_columns(stamp_columns)
-	set_results_per_page(stamp_rows * stamp_columns)
 	set_lister_width(600)
 	set_lister_height(240)
 	set_lister_h_separation(0)
 	set_lister_v_separation(0)
-	set_page(get_last_remembered_page())
 	pagination.init(1, 0, 6, false)
 	pagination.update_display()
 	# code to check if we are logged in and get custom blocks from there goes here

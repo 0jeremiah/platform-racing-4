@@ -3,6 +3,22 @@
 [ext_resource type="Script" uid="uid://br57x0ycn8uf1" path="res://blocks/block_scene.gd" id="1_1f6pq"]
 [ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="2_1f6pq"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7km5"]
+custom_solver_bias = 1.0
+size = Vector2(128, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gc066"]
+custom_solver_bias = 1.0
+size = Vector2(128, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c25u6"]
+custom_solver_bias = 1.0
+size = Vector2(64, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2kj0"]
+custom_solver_bias = 1.0
+size = Vector2(64, 128)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4kmw"]
 custom_solver_bias = 1.0
 size = Vector2(128, 128)
@@ -24,25 +40,29 @@ metadata/_edit_use_anchors_ = true
 visible = false
 texture = ExtResource("2_1f6pq")
 
-[node name="AreaHitbox" type="CollisionShape2D" parent="." unique_id=1381762209]
-visible = false
-shape = SubResource("RectangleShape2D_c4kmw")
-
 [node name="TopHitbox" type="CollisionShape2D" parent="." unique_id=1443379884]
-shape = SubResource("RectangleShape2D_c4kmw")
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_d7km5")
 one_way_collision = true
 
 [node name="BottomHitbox" type="CollisionShape2D" parent="." unique_id=1483684779]
-shape = SubResource("RectangleShape2D_c4kmw")
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_gc066")
 one_way_collision = true
 one_way_collision_direction = Vector2(0, -1)
 
 [node name="LeftHitbox" type="CollisionShape2D" parent="." unique_id=1201335264]
-shape = SubResource("RectangleShape2D_c4kmw")
+position = Vector2(-32, 0)
+shape = SubResource("RectangleShape2D_c25u6")
 one_way_collision = true
 one_way_collision_direction = Vector2(1, 0)
 
 [node name="RightHitbox" type="CollisionShape2D" parent="." unique_id=2042663580]
-shape = SubResource("RectangleShape2D_c4kmw")
+position = Vector2(32, 0)
+shape = SubResource("RectangleShape2D_y2kj0")
 one_way_collision = true
 one_way_collision_direction = Vector2(-1, 0)
+
+[node name="AreaHitbox" type="CollisionShape2D" parent="." unique_id=1381762209]
+shape = SubResource("RectangleShape2D_c4kmw")
+disabled = true

@@ -55,7 +55,7 @@ func _create_minimap_layer(map_layer: MapLayer):
 		if block_id != block_info.id:
 			block_id = block_info.id
 			block_texture = BlockManager.new_get_block_texture(block_id, teleport_color).get_image()
-		var block_size = Vector2i(max(int(Settings.tile_size.x * effective_scale), 1), max(int(Settings.tile_size.y * effective_scale), 1))
+		var block_size = Vector2i(max(int(Settings.tile_size.x * effective_scale), 2), max(int(Settings.tile_size.y * effective_scale), 2))
 		block_texture.resize(block_size.x, block_size.y)
 		var block_image = ImageTexture.create_from_image(block_texture)
 		var block_position = Vector2i(int((used_cell.x + minimap_x_offset) * (Settings.tile_size.x * effective_scale)), int((used_cell.y + minimap_y_offset) * (Settings.tile_size.y * effective_scale)))

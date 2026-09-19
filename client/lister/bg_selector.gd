@@ -15,17 +15,17 @@ var popup_position = Vector2(0.0, 0.0)
 
 func _ready() -> void:
 	super()
+	results_per_page = bg_rows * bg_columns
 	cache_seconds = 60 * 60
-	pagination_slug = "bgselector-"
+	pagination_slug = "bgselector"
 	set_columns(bg_columns)
-	set_results_per_page(bg_rows * bg_columns)
 	set_lister_width(300)
 	set_lister_height(180)
 	set_lister_h_separation(0)
 	set_lister_v_separation(0)
-	set_page(get_last_remembered_page())
 	pagination.init(1, 0, 6, false)
 	pagination.update_display()
+	show_bgs()
 
 
 func display_list(list_array: Array):

@@ -2,7 +2,7 @@ extends Control
 
 @onready var import_pr2_level_button = $ImportPR2LevelButton
 @onready var check_login_panel = $CheckLoginPanel
-@onready var cancel_button = $CheckLogin/CancelButton
+@onready var cancel_button = $CheckLoginPanel/CancelButton
 @onready var menu_panel = $MenuPanel
 @onready var login_panel = $LoginPanel
 var file_picker_popup = preload("res://ui/filepicker/filepicker_popup.gd")

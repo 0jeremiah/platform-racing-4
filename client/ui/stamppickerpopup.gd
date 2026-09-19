@@ -14,7 +14,6 @@ func _ready() -> void:
 	stamppicker_node = stamppicker.instantiate()
 	add_node_to_holder(stamppicker_node)
 	stamppicker_node.stamp_selected.connect(_stamp_selected)
-	stamppicker_node._change_tab(0)
 
 
 func init(init_params: Dictionary):

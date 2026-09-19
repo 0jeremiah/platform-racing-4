@@ -16,7 +16,6 @@ func _ready() -> void:
 	lister_node.set_script(bgpicker_script)
 	add_node_to_holder(lister_node)
 	lister_node.bg_selected.connect(_bg_selected)
-	lister_node.show_bgs()
 
 
 func init(init_params: Dictionary):
