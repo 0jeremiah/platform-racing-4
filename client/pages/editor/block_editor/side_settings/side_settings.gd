@@ -19,7 +19,7 @@ extends Control
 @onready var vanish_side_settings = $VanishSideSettings
 
 @onready var sides_properties: Dictionary = {
-	ConfigurableBlockSideSettings.APPEAR: {"label": "Appear Side Settings", "side_settings": {"animation_duration": 0.3, "cooldown": 2.0}, "node": appear_side_settings},
+	ConfigurableBlockSideSettings.APPEAR: {"label": "Appear Side Settings", "side_settings": {"fade_duration": 0.3, "fade_cooldown": 2.0}, "node": appear_side_settings},
 	ConfigurableBlockSideSettings.ARROW: {"label": "Arrow Side Settings", "side_settings": {"horizontal_force": 125.0, "vertical_force": 110.0, "direction": {"x": 0.0, "y": 1.0}}, "node": arrow_side_settings},
 	ConfigurableBlockSideSettings.BOUNCE: {"label": "Bounce Side Settings", "side_settings": {"bounciness": 0.1, "speed_limit": 12500.0}, "node": bounce_side_settings},
 	ConfigurableBlockSideSettings.CHANGE_SIZE: {"label": "Size Side Settings", "side_settings": {"exact": false, "multiplier": 2.0}, "node": size_side_settings},
@@ -34,5 +34,5 @@ extends Control
 	ConfigurableBlockSideSettings.ROTATE: {"label": "Rotate Side Settings", "side_settings": {"rotations": 1, "rotation_speed": 0.025}, "node": rotate_side_settings},
 	ConfigurableBlockSideSettings.STICKY: {"label": "Sticky Side Settings", "side_settings": {"stickiness": 2.5}, "node": sticky_side_settings},
 	ConfigurableBlockSideSettings.TIME: {"label": "Time Side Settings", "side_settings": {"seconds": 10.0}, "node": time_side_settings},
-	ConfigurableBlockSideSettings.VANISH: {"label": "Vanish Side Settings", "side_settings": {"animation_duration": 0.3, "cooldown": 2.0}, "node": vanish_side_settings}
+	ConfigurableBlockSideSettings.VANISH: {"label": "Vanish Side Settings", "side_settings": {"fade_duration": 0.3, "fade_cooldown": 2.0}, "node": vanish_side_settings}
 }

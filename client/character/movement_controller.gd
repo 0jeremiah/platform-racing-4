@@ -117,9 +117,6 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	# Checks if player is rotating
 	var not_rotating: bool = gravity.not_rotating()
 
-	#if (!jumped and !character.super_jump.just_sjed) and character.is_on_floor() or character.is_on_ceiling():
-		#current_velocity.y = 0.0
-
 	# Handle regular jump
 	if not hurt and can_jump and Input.is_action_pressed("jump"):
 		if is_crouching:
@@ -184,7 +181,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	if not_rotating and jumped:
 		var current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity")
 		if on_sticky_block:
-			current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity") / jump_stickiness
+			current_jump_velocity = current_jump_velocity / jump_stickiness
 		current_velocity += Vector2(0, current_jump_velocity).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_movement", "player_coyote_jump_time"))
 		jump_timer -= 1
 		if jump_timer <= 0:

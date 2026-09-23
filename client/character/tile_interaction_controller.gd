@@ -4,7 +4,6 @@ class_name TileInteractionController
 
 const OUT_OF_BOUNDS_BLOCK_COUNT = 15
 
-var game: Node2D
 var low_area: Area2D
 var high_area: Area2D
 var last_safe_position: Vector2 = Vector2(0, 0)
@@ -109,6 +108,18 @@ func check_out_of_bounds(character: Character) -> void:
 	if not current_layer:
 		return
 	var map_used_rect = Game.game.get_total_used_rect_in_z_axis(character_depth)
+	var rotated_vectors = [Vector2(map_used_rect.position.x, map_used_rect.position.y).rotated(character.rotation),
+	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y).rotated(character.rotation),
+	Vector2(map_used_rect.position.x, map_used_rect.position.y + map_used_rect.size.y).rotated(character.rotation),
+	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y + map_used_rect.size.y).rotated(character.rotation)]
+	var x_points = []
+	var y_points = []
+	for rotated_vector in rotated_vectors:
+		x_points.append(rotated_vector.x)
+		y_points.append(rotated_vector.y)
+	x_points.sort()
+	y_points.sort()
+	#return Rect2i(int(x_points[0]), int(y_points[0]), int(abs(x_points[0] - x_points[3])), int(abs(y_points[0] - y_points[3])))
 	
 	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
 	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT
@@ -118,9 +129,9 @@ func check_out_of_bounds(character: Character) -> void:
 	var player_x_normalised = character.position.x / Settings.tile_size.x
 	var player_y_normalised = character.position.y / Settings.tile_size.y
 
-	if player_x_normalised < min_x or player_x_normalised > max_x or \
-	   player_y_normalised > max_y:
-		if (last_safe_layer != null and (last_safe_layer.players != character.get_parent())):
+	if player_x_normalised < min_x or player_x_normalised > max_x or\
+	(player_y_normalised < min_y and character.rotation != 0) or player_y_normalised > max_y:
+		if (last_safe_layer != null and (self not in last_safe_layer.players.get_children())):
 			character.get_parent().remove_child(character)
 			last_safe_layer.players.add_child(character)
 			set_depth(last_safe_layer.z_axis)
@@ -137,7 +148,11 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 		var parent = body.get_parent()
 		if !(parent is ConfigurableTileMapLayer):
 			continue
-		var coords = parent.local_to_map(parent.to_local(area.to_global(Vector2.ZERO)))
+		var coords: Vector2i
+		if body is BlockScene:
+			coords = body.get_coords()
+		else:
+			coords = parent.local_to_map(parent.to_local(area.to_global(Vector2.ZERO)))
 		var block_id = parent.get_block(coords).id
 		if block_id != "":
 			tiles.push_back({
@@ -170,7 +185,7 @@ func inside_solid_blocks_check(character: Character):
 	for tile in tiles_overlapping:
 		if tile.tile_map_layer.is_solid(tile.coords):
 			var block_scene = tile.tile_map_layer.get_block(tile.coords).node
-			if block_scene:
+			if block_scene and block_scene.active:
 				tiles.append(block_scene)
 	var collision_exceptions = character.get_collision_exceptions()
 	for collision_exception in collision_exceptions:

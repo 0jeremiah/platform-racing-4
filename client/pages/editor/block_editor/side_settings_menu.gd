@@ -1,5 +1,7 @@
 extends Control
 
+signal block_side_settings_changed
+
 @onready var side_settings_dropdown_button = $SideSettingsDropdownButton
 @onready var side_settings_container = $SideSettingsContainer
 @onready var side_settings = $SideSettingsContainer/SideSettings
@@ -23,6 +25,7 @@ var current_category: String = "solids"
 var current_side: String = "top"
 var has_side_settings: bool = false
 var block_settings: ConfigurableBlockSettings = null
+var container_size: Vector2 = Vector2(488.0, 298.0)
 var container_y: float = 298
 
 
@@ -138,7 +141,7 @@ func show_option(options_dictionary: Dictionary):
 	if "setting" in options_dictionary and options_dictionary.setting in side_settings.sides_properties:
 		side_settings.sides_properties[options_dictionary.setting].node.visible = true
 		side_settings.custom_minimum_size = side_settings.sides_properties[options_dictionary.setting].node.size
-		side_settings.size = Vector2(clampf(side_settings.sides_properties[options_dictionary.setting].node.size.x + 12, 0, 488), clampf(side_settings.sides_properties[options_dictionary.setting].node.size.y + 12, 0, container_y - side_settings_container.position.y))
+		side_settings.size = Vector2(clampf(side_settings.sides_properties[options_dictionary.setting].node.size.x + 12, 0, container_size.x), clampf(side_settings.sides_properties[options_dictionary.setting].node.size.y + 12, 0, container_size.y - side_settings_container.position.y))
 		if "side" in options_dictionary and "side_settings" in sides_dictionary[options_dictionary.category][options_dictionary.side] and sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings != null:
 			side_settings.sides_properties[options_dictionary.setting].node.set_side_settings(sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings)
 
@@ -146,3 +149,8 @@ func show_option(options_dictionary: Dictionary):
 func change_container_y(new_container_y: float):
 	container_y = new_container_y
 	side_settings_container.size.y = container_y
+
+
+func change_container_size(new_container_size: Vector2):
+	container_size = new_container_size
+	side_settings_container.size = container_size

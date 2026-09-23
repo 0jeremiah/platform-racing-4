@@ -6,15 +6,15 @@
 [node name="MoveSettings" type="Control" unique_id=308767851]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 500.0
-offset_bottom = 420.0
+offset_right = 488.0
+offset_bottom = 280.0
 script = ExtResource("1_1d4om")
 
 [node name="HSeparator" type="HSeparator" parent="." unique_id=942674008]
 layout_mode = 0
-offset_top = 190.0
-offset_right = 500.0
-offset_bottom = 194.0
+offset_top = 180.0
+offset_right = 488.0
+offset_bottom = 184.0
 
 [node name="TickLabel" type="RichTextLabel" parent="." unique_id=1332597884]
 layout_mode = 0
@@ -56,7 +56,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 80.0
 offset_top = 40.0
-offset_right = 500.0
+offset_right = 488.0
 offset_bottom = 140.0
 theme_override_font_sizes/font_size = 16
 text = "up, right, down, left"
@@ -84,26 +84,18 @@ text = "Loop"
 [node name="ParseResultsLabel" type="RichTextLabel" parent="." unique_id=1583954064]
 layout_mode = 0
 offset_top = 150.0
-offset_right = 500.0
-offset_bottom = 178.0
+offset_right = 488.0
+offset_bottom = 180.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Pattern parsing results goes here."
 vertical_alignment = 1
 
 [node name="SyntaxLabel" type="RichTextLabel" parent="." unique_id=515791240]
 layout_mode = 0
-offset_top = 200.0
-offset_right = 500.0
-offset_bottom = 420.0
+offset_top = 185.0
+offset_right = 488.0
+offset_bottom = 285.0
 theme_override_font_sizes/normal_font_size = 16
-text = "The syntax for move blocks are either:
-\"command, command\", or \"command 5, command 2\".
+text = "Syntax: \"command, command\", or \"command 5, command 2\".
 
-The available commands are:
-\"up\" = Move up.
-\"down\" = Move down.
-\"left\" = Move left.
-\"right\" = Move left.
-\"wait\" = Do nothing.
-\"random\" = Choose a random direction.
-\"return\" = Return to spawn location."
+Commands: \"up\" = Move up. | \"down\" = Move down. | \"left\" = Move left. | \"right\" = Move left. | \"wait\" = Do nothing. | \"random\" = Choose a random direction. | \"return\" = Return to spawn location."

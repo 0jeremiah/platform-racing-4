@@ -23,6 +23,9 @@ size = Vector2(64, 128)
 custom_solver_bias = 1.0
 size = Vector2(128, 128)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rlya"]
+size = Vector2(128, 128)
+
 [node name="BlockScene" type="StaticBody2D" unique_id=1701347136]
 script = ExtResource("1_1f6pq")
 
@@ -66,3 +69,8 @@ one_way_collision_direction = Vector2(-1, 0)
 [node name="AreaHitbox" type="CollisionShape2D" parent="." unique_id=1381762209]
 shape = SubResource("RectangleShape2D_c4kmw")
 disabled = true
+
+[node name="BlockDetectionArea" type="Area2D" parent="." unique_id=622891031]
+
+[node name="BlockDetectionHitbox" type="CollisionShape2D" parent="BlockDetectionArea" unique_id=1195935550]
+shape = SubResource("RectangleShape2D_6rlya")

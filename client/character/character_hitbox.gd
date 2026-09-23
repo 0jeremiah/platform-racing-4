@@ -5,7 +5,7 @@ extends CollisionShape2D
 const HIGH: float = 180.0
 const LOW: float = 32.0
 
-var hitbox_size: Vector2 = Vector2(1, 1)
+var hitbox_size: Vector2 = Vector2(64, 32)
 var mode: String = "high"
 
 
@@ -14,7 +14,6 @@ func _ready():
 
 
 func run(character: Character) -> void:
-	hitbox_size = Vector2(character.movement.size, character.movement.size)
 	if character.is_on_floor():
 		go_low()
 	elif character.lightbreak.is_active():
@@ -36,13 +35,14 @@ func run(character: Character) -> void:
 	
 	# position hitbox
 	position.y = round(-shape.size.y / 2.0)
+	shape.size = hitbox_size
 
 
 func go_high() -> void:
 	mode = "high"
-	shape.size.y = HIGH
+	hitbox_size.y = HIGH
 
 
 func go_low() -> void:
 	mode = "low"
-	shape.size.y = LOW
+	hitbox_size.y = LOW

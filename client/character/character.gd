@@ -5,7 +5,6 @@ extends CharacterBody2D
 ## Handles all character physics, movement, animation, 
 ## item management and interaction with game tiles.
 
-signal position_changed(x: float, y: float)
 signal increase_time(new_timer: float)
 
 @onready var hitbox := $CharacterHitbox

@@ -261,6 +261,28 @@ func spawn_gears():
 								#rotation_controller.tick_ms = 2000
 
 
+func get_map_used_rect() -> Rect2i:
+	var current_rotation: float
+	var parent = get_parent()
+	if parent is RotationController:
+		current_rotation = parent.rotation
+	else:
+		current_rotation = deg_to_rad(map_layer.tile_map_rotation)
+	var used_rect = get_used_rect()
+	var rotated_vectors = [Vector2(float(used_rect.position.x), float(used_rect.position.y)).rotated(current_rotation),
+	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y)).rotated(current_rotation),
+	Vector2(float(used_rect.position.x), float(used_rect.position.y + used_rect.size.y)).rotated(current_rotation),
+	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y + used_rect.size.y)).rotated(current_rotation)]
+	var x_points = []
+	var y_points = []
+	for rotated_vector in rotated_vectors:
+		x_points.append(rotated_vector.x)
+		y_points.append(rotated_vector.y)
+	x_points.sort()
+	y_points.sort()
+	return Rect2i(int(x_points[0]), int(y_points[0]), int(abs(x_points[0] - x_points[3])), int(abs(y_points[0] - y_points[3])))
+
+
 func get_teleport_positions_at_block_id(block_id: String) -> Array:
 	if !block_id in BlockManager._blocks and block_id in BlockManager._block_lookup:
 		return []

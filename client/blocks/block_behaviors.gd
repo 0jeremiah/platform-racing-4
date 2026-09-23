@@ -388,7 +388,7 @@ func stick(node: Node2D, _tile_map_layer: ConfigurableTileMapLayer, _coords: Vec
 		return
 	node.movement.on_sticky_block = true
 	node.movement.speed_stickiness = params.get("speed_stickiness", 2.5)
-	node.movement.jump_stickiness = params.get("jump_stickiness", 8.0)
+	node.movement.jump_stickiness = params.get("jump_stickiness", 10.0)
 
 
 # Teleports the player to the next teleport block it can find
@@ -467,7 +467,6 @@ func time(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector
 
 # Makes the block vanish for a bit, then makes it reappear
 func vanish(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
-	var block_id = tile_map_layer.get_block(coords).id
-	if block_id:
-		#TileEffects.vanish(tile_map_layer, coords, params.get("animation_duration", 0.3), params.get("cooldown", 2.0))
-		pass
+	var block_node = tile_map_layer.get_block(coords).node
+	if block_node:
+		block_node.vanish(params.get("fade_duration", 0.3), params.get("fade_cooldown", 2.0))

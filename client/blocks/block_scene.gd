@@ -9,12 +9,19 @@ class_name BlockScene
 @onready var left_hitbox = $LeftHitbox
 @onready var right_hitbox = $RightHitbox
 @onready var area_hitbox = $AreaHitbox
+@onready var block_detection_area = $BlockDetectionArea
 
+var active: bool = true
 var id = ""
 var settings = ConfigurableBlockSettings.new()
 var location: String = ""
 var tile_map_layer = null
 var frozen: bool = false
+var can_appear: bool = false
+var fade_mode: String = "idle"
+var fade_duration: float = 0.3
+var fade_cooldown: float = 2.0
+var fade_timer: float = 0.0
 var freeze_timer: float = 0.0
 var bump_timer: float = 0.0
 var bump_direction: Vector2 = Vector2(0, -1)
@@ -29,14 +36,18 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 	if new_id in BlockManager._block_lookup:
 		id = new_id
 		settings = new_settings
-		var which_layer = 0 if new_settings.matter_type == ConfigurableBlockSettings.SOLID else 1
+		active = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
+		var which_layer = 0 if settings.matter_type == ConfigurableBlockSettings.SOLID else 1
 		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(which_layer)
 		collision_mask = 0 | 1
-		top_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
-		bottom_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else false
-		left_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
-		right_hitbox_enabled = true if new_settings.matter_type == ConfigurableBlockSettings.SOLID and new_settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
-		area_hitbox_enabled = true if new_settings.matter_type != ConfigurableBlockSettings.SOLID else false
+		block_detection_area.collision_layer = collision_layer
+		block_detection_area.collision_mask = collision_mask
+		top_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
+		bottom_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else false
+		left_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
+		right_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
+		area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
+		can_appear = settings.has_side_type(ConfigurableBlockSideSettings.APPEAR)
 		set_block_texture()
 
 
@@ -58,16 +69,14 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if Game.game:
-		if !(top_hitbox_enabled and tile_map_layer.collision_enabled) != top_hitbox.disabled:
-			top_hitbox.disabled = !(top_hitbox_enabled and tile_map_layer.collision_enabled)
-		if !(bottom_hitbox_enabled and tile_map_layer.collision_enabled) != bottom_hitbox.disabled:
-			bottom_hitbox.disabled = !(bottom_hitbox_enabled and tile_map_layer.collision_enabled)
-		if !(left_hitbox_enabled and tile_map_layer.collision_enabled) != left_hitbox.disabled:
-			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled)
-		if !(right_hitbox_enabled and tile_map_layer.collision_enabled) != right_hitbox.disabled:
-			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled)
-		if !(area_hitbox_enabled and tile_map_layer.collision_enabled) != area_hitbox.disabled:
-			area_hitbox.disabled = !(area_hitbox_enabled and tile_map_layer.collision_enabled)
+		if !(top_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR))) != top_hitbox.disabled:
+			top_hitbox.disabled = !(top_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.bottom.type == ConfigurableBlockSideSettings.APPEAR))) != bottom_hitbox.disabled:
+			bottom_hitbox.disabled = !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(left_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.left.type == ConfigurableBlockSideSettings.APPEAR))) != left_hitbox.disabled:
+			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(right_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.right.type == ConfigurableBlockSideSettings.APPEAR))) != right_hitbox.disabled:
+			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
 	if frozen:
 		if freeze_timer - delta > 0:
 			freeze_timer -= delta
@@ -81,6 +90,39 @@ func _process(delta: float) -> void:
 			bump_timer -= delta
 		else:
 			bump_timer = 0
+	if fade_mode != "idle" or fade_timer > 0:
+		if fade_timer - delta > 0:
+			fade_timer -= delta
+		elif fade_mode == "vanish" or fade_mode == "appear":
+			if fade_mode == "vanish":
+				fade_mode = "vanish_cooldown"
+			elif fade_mode == "appear":
+				fade_mode = "appear_cooldown"
+			fade_timer = fade_cooldown
+			active = false
+		elif fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown":
+			if !player_is_in_block():
+				if fade_mode == "vanish_cooldown":
+					fade_mode = "reverse_vanish"
+				elif fade_mode == "appear_cooldown":
+					fade_mode = "reverse_appear"
+				fade_timer = fade_duration
+				active = true
+			else:
+				fade_timer = 0.0 if fade_cooldown == 0.0 else fade_cooldown / 2
+				active = false
+		elif fade_mode == "reverse_vanish" or fade_mode == "reverse_appear":
+			fade_mode = "idle"
+			fade_timer = 0.0
+			active = true
+	if (fade_mode == "vanish" or fade_mode == "reverse_appear") and fade_duration != 0.0:
+		block_texture.modulate.a = fade_timer / fade_duration
+	elif (fade_mode == "appear" or fade_mode == "reverse_vanish") and fade_duration != 0.0:
+		block_texture.modulate.a = 1.0 - (fade_timer / fade_duration)
+	elif (fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown") and fade_cooldown != 0.0:
+		block_texture.modulate.a = 1.0 if can_appear else 0.0
+	else:
+		block_texture.modulate.a = 0.0 if can_appear else 1.0
 	block_texture.position = block_texture.position.lerp(Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5)), delta * 30.0)
 
 
@@ -103,6 +145,24 @@ func freeze():
 	frozen_texture.visible = true
 
 
+func vanish(new_fade_duration: float, new_fade_cooldown: float):
+	if fade_mode != "vanish":
+		var percentage = 0.0 if fade_duration == 0.0 else 1.0 - (fade_timer / new_fade_duration)
+		fade_mode = "vanish"
+		fade_duration = new_fade_duration
+		fade_cooldown = new_fade_cooldown
+		fade_timer = fade_duration * percentage
+
+
+func appear(new_fade_duration: float, new_fade_cooldown: float):
+	if fade_mode != "appear":
+		var percentage = 0.0 if fade_duration == 0.0 else 1.0 - (fade_timer / new_fade_duration)
+		fade_mode = "appear"
+		fade_duration = new_fade_duration
+		fade_cooldown = new_fade_cooldown
+		fade_timer = fade_duration * percentage
+
+
 func animate_bump(new_bump_direction: Vector2 = Vector2(0.0, -1.0)):
 	bump_timer = 0.5
 	bump_direction = new_bump_direction
@@ -118,3 +178,11 @@ func undull_out():
 	modulate.r = 1.0
 	modulate.g = 1.0
 	modulate.b = 1.0
+
+
+func player_is_in_block() -> bool:
+	var overlapping_bodies = block_detection_area.get_overlapping_bodies()
+	for overlapping_body in overlapping_bodies:
+		if overlapping_body is Character:
+			return true
+	return false

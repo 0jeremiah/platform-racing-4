@@ -4,16 +4,17 @@ signal control_event
 
 @onready var block_settings_panel = $BlockSettingsPanel
 @onready var block_sides_seperator = $BlockSidesSeperator
-@onready var sides_settings_seperator = $SidesSettingsSeperator
-@onready var settings_seperator = $SettingsSeperator
-@onready var block_options_seperator = $BlockOptionsSeperator
+@onready var block_settings_seperator = $BlockSettingsSeperator
+#@onready var settings_seperator = $SettingsSeperator
+#@onready var block_options_seperator = $BlockOptionsSeperator
 @onready var matter_type_setting_button = $MatterTypeSetting/MatterTypeSettingButton
 @onready var block_type_setting_button = $BlockTypeSetting/BlockTypeSettingButton
 @onready var sides_settings = $SidesSettings
-@onready var side_settings_menu = $SideSettingsMenu
-@onready var settings_menu = $SettingsMenu
-@onready var move_settings = $MoveSettings
-@onready var change_settings = $ChangeSettings
+@onready var block_settings_menu = $BlockSettingsMenu
+#@onready var side_settings_menu = $SideSettingsMenu
+#@onready var settings_menu = $SettingsMenu
+#@onready var move_settings = $MoveSettings
+#@onready var change_settings = $ChangeSettings
 @onready var dropdown_popup = $DropdownPopup
 
 static var block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings.new()
@@ -178,11 +179,8 @@ func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
 	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
-	settings_menu.init(block_settings)
-	side_settings_menu.init(block_settings)
-	maybe_enable_settings_menu()
+	block_settings_menu.init(block_settings)
 	update_display()
-	
 
 
 func init() -> void:
@@ -202,19 +200,6 @@ func _process(_delta: float) -> void:
 		visible = true
 	else:
 		visible = false
-
-
-func maybe_enable_settings_menu() -> void:
-	settings_menu._maybe_enable_settings({
-		"block_settings": {
-			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
-			"stat": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and (block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS)), "setting": "stat"},
-			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
-			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
-			ConfigurableBlockSideSettings.TIME: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TIME), "setting": ConfigurableBlockSideSettings.TIME},
-			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
-		}
-	})
 
 
 func _show_matter_types(button: Button):
@@ -256,8 +241,8 @@ func _change_setting(selected_dictionary: Dictionary):
 		block_settings.matter_type = selected_dictionary.setting
 	elif selected_dictionary.button == block_type_setting_button:
 		block_settings.block_type = selected_dictionary.setting
-	side_settings_menu._update_sides(selected_dictionary)
-	maybe_enable_settings_menu()
+	block_settings_menu.update_side_settings(selected_dictionary)
+	block_settings_menu.update_settings_menu()
 	update_display()
 
 
@@ -269,63 +254,62 @@ func _on_editor_event(event: Dictionary) -> void:
 		var side_setting_category = matter_type.side_setting_category
 		for side in sides:
 			var updated_side =  {"category": side_setting_category, "side": side, "setting": sides[side].type, "side_settings": sides[side].params}
-			side_settings_menu._update_sides(updated_side)
+			block_settings_menu.update_side_settings(updated_side)
 		var settings = block_settings.get_settings()
 		if !settings.is_empty():
-			settings_menu._update_settings(settings)
-		maybe_enable_settings_menu()
+			block_settings_menu.update_settings(settings)
+		block_settings_menu.update_settings_menu()
 		update_display()
 
 
 func update_display():
 	var panel_size = Vector2(290, block_type_setting_button.get_parent().position.y + block_type_setting_button.get_parent().size.y + 20)
 	block_sides_seperator.visible = false
-	sides_settings_seperator.visible = false
-	settings_seperator.visible = false
-	block_options_seperator.visible = false
+	block_settings_seperator.visible = false
+	#settings_seperator.visible = false
+	#block_options_seperator.visible = false
 	sides_settings.visible = false
-	settings_menu.visible = false
-	move_settings.visible = false
-	change_settings.visible = false
-	side_settings_menu.visible = false
+	block_settings_menu.visible = false
 	update_buttons()
 	block_sides_seperator.size.x = panel_size.x - 40
-	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.EGG:
-		block_sides_seperator.position.y = panel_size.y - 10
-		block_sides_seperator.visible = true
-		side_settings_menu.size.y = side_settings_menu.size.y + (sides_settings.position.y - side_settings_menu.position.y)
-		side_settings_menu.change_container_y(side_settings_menu.size.y + (sides_settings.position.y - side_settings_menu.position.y))
-		sides_settings.visible = true
-		panel_size.y += (sides_settings.position.y + sides_settings.size.y + 20) - panel_size.y
-	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and settings_menu.has_settings:
-		settings_seperator.position.y = panel_size.y - 10
-		settings_seperator.visible = true
-		settings_menu.position.y = panel_size.y
-		settings_menu.visible = true
-		panel_size.y += (settings_menu.position.y + settings_menu.size.y + 20) - panel_size.y
-	if block_settings.block_type == ConfigurableBlockSettings.MOVE:
-		block_options_seperator.position.y = panel_size.y - 10
-		block_options_seperator.visible = true
-		move_settings.position.y = panel_size.y
-		move_settings.visible = true
-		panel_size.x += (move_settings.position.x + move_settings.size.x + 20) - panel_size.x
-		panel_size.y += (move_settings.position.y + move_settings.size.y + 20) - panel_size.y
-	elif block_settings.block_type == ConfigurableBlockSettings.CHANGE:
-		block_options_seperator.position.y = panel_size.y - 10
-		block_options_seperator.visible = true
-		change_settings.position.y = panel_size.y
-		change_settings.visible = true
-		panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
-		panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
-	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.EGG and side_settings_menu.has_side_settings:
-		sides_settings_seperator.visible = true
-		side_settings_menu.visible = true
-		panel_size.x += (side_settings_menu.position.x + side_settings_menu.size.x + 20) - panel_size.x
-	if block_settings.block_type != "move" and !side_settings_menu.visible:
-		block_sides_seperator.size.x = panel_size.x - 40
+	block_sides_seperator.position.y = panel_size.y - 10
+	block_sides_seperator.visible = true
+	block_settings_seperator.visible = true
+	#block_settings_menu.size.y = block_settings_menu.size.y + (sides_settings.position.y - block_settings_menu.position.y)
+	block_settings_menu.change_container_size(Vector2(488.0, 298.0))
+	block_settings_menu.visible = true
+	sides_settings.visible = true
+	panel_size.x += (block_settings_menu.position.x + block_settings_menu.size.x + 20) - panel_size.x
+	panel_size.y += (block_settings_menu.position.y + block_settings_menu.size.y + 20) - panel_size.y
+	#if block_settings.block_type != ConfigurableBlockSettings.CHANGE and settings_menu.has_settings:
+		#settings_seperator.position.y = panel_size.y - 10
+		#settings_seperator.visible = true
+		#settings_menu.position.y = panel_size.y
+		#settings_menu.visible = true
+		#panel_size.y += (settings_menu.position.y + settings_menu.size.y + 20) - panel_size.y
+	#if block_settings.block_type == ConfigurableBlockSettings.MOVE:
+		#block_options_seperator.position.y = panel_size.y - 10
+		#block_options_seperator.visible = true
+		#move_settings.position.y = panel_size.y
+		#move_settings.visible = true
+		#panel_size.x += (move_settings.position.x + move_settings.size.x + 20) - panel_size.x
+		#panel_size.y += (move_settings.position.y + move_settings.size.y + 20) - panel_size.y
+	#elif block_settings.block_type == ConfigurableBlockSettings.CHANGE:
+		#block_options_seperator.position.y = panel_size.y - 10
+		#block_options_seperator.visible = true
+		#change_settings.position.y = panel_size.y
+		#change_settings.visible = true
+		#panel_size.x += (change_settings.position.x + change_settings.size.x + 20) - panel_size.x
+		#panel_size.y += (change_settings.position.y + change_settings.size.y + 20) - panel_size.y
+	#if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.EGG and side_settings_menu.has_side_settings:
+		#sides_settings_seperator.visible = true
+		#side_settings_menu.visible = true
+		#panel_size.x += (side_settings_menu.position.x + side_settings_menu.size.x + 20) - panel_size.x
+	#if block_settings.block_type != "move" and !side_settings_menu.visible:
+		#block_sides_seperator.size.x = panel_size.x - 40
 	block_settings_panel.size = panel_size
-	settings_seperator.size.x = panel_size.x - 40
-	block_options_seperator.size.x = panel_size.x - 40
+	#settings_seperator.size.x = panel_size.x - 40
+	#block_options_seperator.size.x = panel_size.x - 40
 
 
 func get_side_setting_key(matter_type: String, block_type: String, side_setting: String) -> String:
@@ -358,7 +342,7 @@ func update_buttons():
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.text = block_type.label
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
-	var current_sides = side_settings_menu.sides_dictionary[matter_type.side_setting_category]
+	var current_sides = block_settings_menu.side_settings_menu.sides_dictionary[matter_type.side_setting_category]
 	var current_sides_keys = current_sides.keys()
 	for child in sides_settings.get_children():
 		child.queue_free()
@@ -388,4 +372,4 @@ func update_buttons():
 		sides_settings.add_child(side_control)
 		side_button.pressed.connect(_show_sides_types.bind(current_sides_keys[side], side_button))
 		sides_settings.size = Vector2(250, side_control.position.y + side_control.size.y)
-		sides_settings_seperator.size.y = 130.0 + (side_control.position.y + side_control.size.y)
+		block_settings_seperator.size.y = 130.0 + (side_control.position.y + side_control.size.y)

@@ -12,6 +12,7 @@ var current_setting: String = ""
 var block_properties: Dictionary = {}
 var has_settings: bool = false
 var block_settings: ConfigurableBlockSettings = null
+var container_size: Vector2 = Vector2(488.0, 298.0)
 var container_y: float = 80
 
 
@@ -39,6 +40,7 @@ func _change_properties(new_settings: Dictionary):
 			block_properties[key] = new_settings.settings[key]
 			if block_settings and key in block_settings:
 				block_settings[key] = block_properties[key]
+	emit_signal("block_settings_changed", block_properties)
 
 
 func _show_dropdown():
@@ -61,6 +63,21 @@ func _update_settings(new_settings: Dictionary):
 			block_properties[key] = new_settings[key]
 	for setting in settings.properties:
 		settings.properties[setting].node.set_settings(new_settings)
+
+
+func update_enabled_settings() -> void:
+	_maybe_enable_settings({
+		"block_settings": {
+			"general": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID, "setting": "general"},
+			ConfigurableBlockSettings.MOVE: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.MOVE, "setting": ConfigurableBlockSettings.MOVE},
+			ConfigurableBlockSettings.CHANGE: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.CHANGE, "setting": ConfigurableBlockSettings.CHANGE},
+			"stat": {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and (block_settings.has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) or block_settings.has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS)), "setting": "stat"},
+			ConfigurableBlockSideSettings.ITEM: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.ITEM), "setting": ConfigurableBlockSideSettings.ITEM},
+			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
+			ConfigurableBlockSideSettings.TIME: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TIME), "setting": ConfigurableBlockSideSettings.TIME},
+			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR}
+		}
+	})
 
 
 func _maybe_enable_settings(setting_info: Dictionary):
@@ -106,4 +123,9 @@ func show_option(setting_info: Dictionary):
 	if "setting" in setting_info and setting_info.setting in settings.properties:
 		settings.properties[setting_info.setting].node.visible = true
 		settings.custom_minimum_size = settings.properties[setting_info.setting].node.size
-		settings_container.size = Vector2(clampf(settings.properties[setting_info.setting].node.size.x + 12, 0, 238), clampf(settings.properties[setting_info.setting].node.size.y + 12, 0, container_y))
+		settings_container.size = Vector2(clampf(settings.properties[setting_info.setting].node.size.x + 12, 0, container_size.x), clampf(settings.properties[setting_info.setting].node.size.y + 12, 0, container_size.y))
+
+
+func change_container_size(new_container_size: Vector2):
+	container_size = new_container_size
+	settings_container.size = container_size

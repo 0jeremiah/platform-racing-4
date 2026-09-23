@@ -107,11 +107,11 @@ func get_total_used_rect_in_z_axis(z_axis: int) -> Rect2i:
 	var compat_used_rects = []
 	for layer in map_layers.get_children():
 		if layer.z_axis == z_axis:
-			compat_used_rects.append(layer.tile_map_layer.get_used_rect())
+			compat_used_rects.append(layer.tile_map_layer.get_map_used_rect())
 		for non_static_layer in layer.non_static_tile_map_layers.get_children():
 			if non_static_layer is RotationController:
 				for non_static_tile_map_layer in non_static_layer.get_children():
-					compat_used_rects.append(non_static_tile_map_layer.get_used_rect())
+					compat_used_rects.append(non_static_tile_map_layer.get_map_used_rect())
 	if !compat_used_rects.is_empty():
 		total_used_vector4 = Vector4i(compat_used_rects[0].position.x, compat_used_rects[0].position.y, compat_used_rects[0].position.x + compat_used_rects[0].size.x, compat_used_rects[0].position.y + compat_used_rects[0].size.y)
 		for used_rect in compat_used_rects:

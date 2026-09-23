@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" uid="uid://dpqrkiaafi0k8" path="res://character/character.gd" id="1_phdif"]
+[ext_resource type="Script" uid="uid://b2wps3sqmg8l1" path="res://character/character_hitbox.gd" id="2_dy06j"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://particles/textures/simple_light.png" id="2_kipoy"]
-[ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/character_hitbox.tscn" id="2_qkr1y"]
 [ext_resource type="PackedScene" uid="uid://bxox6butkxpwh" path="res://character/invincibility.tscn" id="6_rt6gv"]
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
 [ext_resource type="Script" uid="uid://dgxkdk2hqflc5" path="res://blocks/tile_collision_detector.gd" id="9_dy06j"]
@@ -10,16 +10,48 @@
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
 [ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]
 
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_dy06j"]
+length = 32.0
+slide_on_slope = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ujkw"]
+size = Vector2(64, 64)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hdlk0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ju3rb"]
 
 [node name="Character" type="CharacterBody2D" unique_id=1541502241]
 slide_on_ceiling = false
-safe_margin = 0.001
 script = ExtResource("1_phdif")
 
-[node name="CharacterHitbox" parent="." unique_id=913120360 instance=ExtResource("2_qkr1y")]
+[node name="BottomSeparatorRay" type="CollisionShape2D" parent="." unique_id=1348973742]
+position = Vector2(0, -32)
+shape = SubResource("SeparationRayShape2D_dy06j")
+disabled = true
+
+[node name="LeftSeparatorRay" type="CollisionShape2D" parent="." unique_id=2060966507]
+position = Vector2(0, -32)
+rotation = 1.5707964
+shape = SubResource("SeparationRayShape2D_dy06j")
+disabled = true
+
+[node name="TopSeparatorRay" type="CollisionShape2D" parent="." unique_id=1637577240]
+position = Vector2(0, -32)
+rotation = -3.1415925
+shape = SubResource("SeparationRayShape2D_dy06j")
+disabled = true
+
+[node name="RightSeparatorRay" type="CollisionShape2D" parent="." unique_id=2055175378]
+position = Vector2(0, -32)
+rotation = -1.5707964
+shape = SubResource("SeparationRayShape2D_dy06j")
+disabled = true
+
+[node name="CharacterHitbox" type="CollisionShape2D" parent="." unique_id=2082247507]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_7ujkw")
+script = ExtResource("2_dy06j")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=859147482]
 position = Vector2(0, -100)

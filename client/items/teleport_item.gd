@@ -33,7 +33,8 @@ func maybe_teleport(_character: Character):
 	tile_map_layer = layer.tile_map_layer
 	var teleport_distance = get_teleport_distance(GameConfig.get_value("items-effects", "teleport_horizontal_distance"), GameConfig.get_value("items-effects", "teleport_vertical_distance"))
 	coords = tile_map_layer.get_block_position_at_local_position(Vector2(_character.position.x + (teleport_distance.x * _character.movement.facing), _character.position.y + teleport_distance.y))
-	if !tile_map_layer.is_solid(coords):
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.id == "" or (block_info.has("node") and !block_info.node.active):
 		can_teleport = true
 
 

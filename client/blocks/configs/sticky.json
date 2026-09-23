@@ -11,7 +11,7 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "stick", "params": {"speed_stickiness": 2.5, "jump_stickiness": 8.0}}
+		"any_side": {"type": "stick", "params": {"speed_stickiness": 2.5, "jump_stickiness": 10.0}}
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

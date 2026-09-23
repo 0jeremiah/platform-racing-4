@@ -38,7 +38,6 @@ visible = false
 layout_mode = 0
 
 [node name="TeleportSettings" parent="." unique_id=1917489511 instance=ExtResource("3_y0t45")]
-visible = false
 layout_mode = 0
 
 [node name="TimeSettings" parent="." unique_id=1142505067 instance=ExtResource("6_388u4")]
