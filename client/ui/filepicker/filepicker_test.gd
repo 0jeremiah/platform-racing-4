@@ -4,4 +4,4 @@ extends Node2D
 
 
 func _ready() -> void:
-	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "extensions_list": ["txt"], "title": "-- Import --"})
+	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "extensions_list": ["txt"], "title": "-- Import --"}, self)

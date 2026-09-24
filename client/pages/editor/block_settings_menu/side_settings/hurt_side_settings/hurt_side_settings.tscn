@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://cf1ess5ufj6m0"]
+
+[ext_resource type="Script" uid="uid://b5uh5a8x7aw0j" path="res://pages/editor/block_settings_menu/side_settings/hurt_side_settings/hurt_side_settings.gd" id="1_u1j3s"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_i0xwg"]
+
+[node name="HurtSideSettings" type="Control" unique_id=1429538435]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 270.0
+offset_bottom = 110.0
+script = ExtResource("1_u1j3s")
+
+[node name="PushStrengthLabel" type="RichTextLabel" parent="." unique_id=1366685279]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Push Strength:"
+vertical_alignment = 1
+
+[node name="HitstunDurationLabel" type="RichTextLabel" parent="." unique_id=1447228205]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 170.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Hitstun Duration:"
+vertical_alignment = 1
+
+[node name="HPSapLabel" type="RichTextLabel" parent="." unique_id=2107992098]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 110.0
+theme_override_font_sizes/normal_font_size = 20
+text = "HP Sap:"
+vertical_alignment = 1
+
+[node name="PushStrengthBox" type="LineEdit" parent="." unique_id=118634462]
+layout_mode = 0
+offset_left = 140.0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "1000.0"
+script = ExtResource("2_i0xwg")
+
+[node name="HitstunDurationBox" type="LineEdit" parent="." unique_id=1774283106]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 40.0
+offset_right = 270.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "2.5"
+script = ExtResource("2_i0xwg")
+
+[node name="HPSapBox" type="LineEdit" parent="." unique_id=434791715]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 180.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 16
+text = "20"
+script = ExtResource("2_i0xwg")

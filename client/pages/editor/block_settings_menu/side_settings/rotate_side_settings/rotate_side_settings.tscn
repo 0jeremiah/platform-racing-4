@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b8dq4mhyuvhuk"]
+
+[ext_resource type="Script" uid="uid://cegy6d424lbtx" path="res://pages/editor/block_settings_menu/side_settings/rotate_side_settings/rotate_side_settings.gd" id="1_b58b7"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_phr24"]
+
+[node name="RotateSideSettings" type="Control" unique_id=2033149791]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 310.0
+offset_bottom = 70.0
+script = ExtResource("1_b58b7")
+
+[node name="RotationsLabel" type="RichTextLabel" parent="." unique_id=1085514193]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "90 Degrees Rotations:"
+vertical_alignment = 1
+
+[node name="RotationsBox" type="LineEdit" parent="." unique_id=451875546]
+layout_mode = 0
+offset_left = 210.0
+offset_right = 310.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "1"
+script = ExtResource("2_phr24")
+
+[node name="RotationSpeedLabel" type="RichTextLabel" parent="." unique_id=1796030986]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 160.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Rotation Speed:"
+vertical_alignment = 1
+
+[node name="RotationSpeedBox" type="LineEdit" parent="." unique_id=758980219]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 40.0
+offset_right = 260.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "0.025"
+script = ExtResource("2_phr24")

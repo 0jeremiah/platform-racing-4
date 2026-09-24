@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cgypo2pe13qk7"]
+
+[ext_resource type="Script" uid="uid://xbrdnvmqlxmk" path="res://pages/editor/block_settings_menu/side_settings/ice_side_settings/ice_side_settings.gd" id="1_yp8a1"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_hqxq1"]
+
+[node name="IceSideSettings" type="Control" unique_id=1976394196]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 210.0
+offset_bottom = 30.0
+script = ExtResource("1_yp8a1")
+
+[node name="IceFrictionLabel" type="RichTextLabel" parent="." unique_id=812166891]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Ice Friction:"
+vertical_alignment = 1
+
+[node name="IceFrictionBox" type="LineEdit" parent="." unique_id=782564102]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "1.0"
+script = ExtResource("2_hqxq1")

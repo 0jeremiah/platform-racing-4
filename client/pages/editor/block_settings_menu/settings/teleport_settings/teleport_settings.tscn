@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cmlxrvie5uemp"]
+
+[ext_resource type="Script" uid="uid://dsdki5e8p1lfp" path="res://pages/editor/block_settings_menu/settings/teleport_settings/teleport_settings.gd" id="1_0d180"]
+[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="2_rwl18"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="3_t8x4y"]
+
+[node name="TeleportSettings" type="Control" unique_id=1277895944]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 70.0
+script = ExtResource("1_0d180")
+
+[node name="TeleportColorLabel" type="RichTextLabel" parent="." unique_id=979466622]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Teleport Color:"
+vertical_alignment = 1
+
+[node name="TeleportThrottleMsLabel" type="RichTextLabel" parent="." unique_id=392298351]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Teleport Throttle ms:"
+vertical_alignment = 1
+
+[node name="TeleportColorButton" parent="." unique_id=1748944706 instance=ExtResource("2_rwl18")]
+layout_mode = 0
+offset_left = 150.00002
+offset_right = 198.00002
+scale = Vector2(0.625, 0.625)
+
+[node name="TeleportThrottleMsBox" type="LineEdit" parent="." unique_id=857365256]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "1000.0"
+script = ExtResource("3_t8x4y")

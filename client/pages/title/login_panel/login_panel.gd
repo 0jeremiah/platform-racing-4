@@ -34,11 +34,11 @@ func _on_login_pressed():
 
 
 func _on_guest_pressed():
-	PopupManager.add_custom_popup(guest_popup)
+	PopupManager.add_custom_popup(guest_popup, self)
 
 
 func _on_create_account_pressed():
-	PopupManager.add_custom_popup(register_popup)
+	PopupManager.add_custom_popup(register_popup, self)
 
 
 func _on_level_editor_pressed():
@@ -50,11 +50,11 @@ func _on_block_editor_pressed():
 
 
 func _on_credits_pressed():
-	PopupManager.add_custom_popup(credits_popup)
+	PopupManager.add_custom_popup(credits_popup, self)
 
 
 func _on_logout_pressed():
-	PopupManager.add_confirm_popup(Callable(self, "_confirm_logout"), "Are you sure you want to log out?")
+	PopupManager.add_confirm_popup(Callable(self, "_confirm_logout"), "Are you sure you want to log out?", self)
 
 
 func _confirm_logout():

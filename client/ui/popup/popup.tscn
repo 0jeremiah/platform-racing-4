@@ -12,8 +12,8 @@ script = ExtResource("2_odohb")
 [node name="IntrusiveBG" type="ColorRect" parent="." unique_id=2108341208]
 show_behind_parent = true
 layout_mode = 0
-offset_right = 1912.0
-offset_bottom = 1072.0
+offset_right = 80.0
+offset_bottom = 120.0
 color = Color(1, 1, 1, 0.49803922)
 
 [node name="Popup" type="Popup" parent="." unique_id=154986207]

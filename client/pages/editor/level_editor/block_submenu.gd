@@ -2,7 +2,7 @@ extends Control
 
 signal control_event
 
-@onready var blockpicker_popup = preload("res://ui/blockpickerpopup.gd")
+@onready var blockpicker_popup = preload("res://pages/editor/setting_popups/block_picker/block_picker_popup.gd")
 @onready var block_menu = $BlockMenu
 @onready var selection_glow = $BlockMenu/SelectionGlow
 @onready var block_mover_button = $BlockMenu/BlockMover/TextureButton
@@ -157,7 +157,7 @@ func _click_block_menu(button: TextureButton):
 
 
 func _show_block_picker():
-	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_func": Callable(self, "_set_current_block"), "popup_position": Vector2(block_draw_panel.global_position.x + (block_draw_panel.size.x + 20), block_draw_panel.global_position.y)})
+	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_func": Callable(self, "_set_current_block"), "popup_position": Vector2(block_draw_panel.global_position.x + (block_draw_panel.size.x + 20), block_draw_panel.global_position.y)}, self)
 
 
 func _show_block_options():

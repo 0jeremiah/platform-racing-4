@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://chw1pdiv6n0xj"]
+
+[ext_resource type="Script" uid="uid://duamjs3is8vrq" path="res://pages/editor/block_settings_menu/side_settings/item_side_settings/item_side_settings.gd" id="1_2y222"]
+
+[node name="ItemSideSettings" type="Control" unique_id=245467900]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 270.0
+script = ExtResource("1_2y222")
+
+[node name="ItemsContainer" type="GridContainer" parent="." unique_id=542054611]
+layout_mode = 0
+offset_right = 370.0
+offset_bottom = 270.0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2

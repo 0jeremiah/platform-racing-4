@@ -174,7 +174,7 @@ func _call_editor_function(id: int):
 
 
 func _on_extra_options_pressed():
-	PopupManager.add_custom_popup(editor_jump_menu_popup, {"current_editor": current_editor, "popup_position": Vector2(extra_options_button.global_position.x - (240.0 - (extra_options_button.size.x / extra_options_button.scale.x)), extra_options_button.global_position.y + (extra_options_button.size.y / extra_options_button.scale.y))})
+	PopupManager.add_custom_popup(editor_jump_menu_popup, {"current_editor": current_editor, "popup_position": Vector2(extra_options_button.global_position.x - (240.0 - (extra_options_button.size.x / extra_options_button.scale.x)), extra_options_button.global_position.y + (extra_options_button.size.y / extra_options_button.scale.y))}, Main.instance.current_scene)
 
 
 func _maybe_clear_level():

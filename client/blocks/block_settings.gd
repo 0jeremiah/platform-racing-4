@@ -108,7 +108,7 @@ func export_settings() -> Dictionary:
 	
 	#var encoded_settings = JSON.stringify(settings)
 	#if encoded_settings.length() > 2000:
-		#PopupManager.add_message_popup("Sorry, but the settings for this block are too large! It will not fit in the database :(.\nPlease lessen or remove any settings or side settings you think might be the offender(s) and try again.")
+		#PopupManager.add_message_popup("Sorry, but the settings for this block are too large! It will not fit in the database :(.\nPlease lessen or remove any settings or side settings you think might be the offender(s) and try again.", Main.instance.current_scene)
 		#return {}
 		
 	return settings

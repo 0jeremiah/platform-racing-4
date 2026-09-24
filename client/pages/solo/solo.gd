@@ -24,4 +24,4 @@ func _play_pressed():
 
 
 func _import_pr2_level_pressed():
-	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "extensions_list": ["txt"], "title": "-- Import PR2 Level --"})
+	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "extensions_list": ["txt"], "title": "-- Import PR2 Level --"}, self)

@@ -93,7 +93,7 @@ func is_pr2_level(pr2_level: String) -> bool:
 
 func decode_pr2_level(pr2_level: String) -> Dictionary:
 	if !is_pr2_level(pr2_level):
-		PopupManager.add_message_popup("Error loading PR2 level. :(\n\nCheck to make sure the file you clicked on is a valid PR2 level in .txt format and try again.")
+		PopupManager.add_message_popup("Error loading PR2 level. :(\n\nCheck to make sure the file you clicked on is a valid PR2 level in .txt format and try again.", Main.instance.current_scene)
 		return {}
 	clear()
 	var decoded_level = {}

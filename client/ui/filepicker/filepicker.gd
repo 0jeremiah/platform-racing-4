@@ -297,8 +297,8 @@ func get_destination_bar_text() -> String:
 
 func error_popup(error_type: int = 0, params: String = ""):
 	match error_type:
-		0: PopupManager.add_message_popup("The following directory is either missing, hidden, or otherwise not available:\n" + params)
-		1: PopupManager.add_message_popup("This directory is either not a valid folder path or just can't be written to:\n" + params)
-		2: PopupManager.add_message_popup("This file either no longer exists or cannot be written to:\n" + params)
-		3: PopupManager.add_message_popup("Page number was indexed out of dir_history's bounds.")
-		_: PopupManager.add_message_popup("Unspecified error:\n" + params)
+		0: PopupManager.add_message_popup("The following directory is either missing, hidden, or otherwise not available:\n" + params, self)
+		1: PopupManager.add_message_popup("This directory is either not a valid folder path or just can't be written to:\n" + params, self)
+		2: PopupManager.add_message_popup("This file either no longer exists or cannot be written to:\n" + params, self)
+		3: PopupManager.add_message_popup("Page number was indexed out of dir_history's bounds.", self)
+		_: PopupManager.add_message_popup("Unspecified error:\n" + params, self)

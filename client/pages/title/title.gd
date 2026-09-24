@@ -26,7 +26,7 @@ func _ready():
 
 
 func _import_pr2_level_pressed():
-	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "load_func": Callable(self, "_load_pr2_level"), "extensions_list": ["txt"], "title": "-- Import PR2 Level --"})
+	PopupManager.add_custom_popup(file_picker_popup, {"mode": "load_file", "load_func": Callable(self, "_load_pr2_level"), "extensions_list": ["txt"], "title": "-- Import PR2 Level --"}, self)
 
 
 func _load_pr2_level(pr2_level_dir: String):

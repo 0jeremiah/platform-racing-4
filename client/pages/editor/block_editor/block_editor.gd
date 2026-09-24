@@ -15,6 +15,7 @@ static var block_editor: Node
 #@onready var game_client = get_node("/root/Main/GameClient")
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var editor_events: EditorEvents = $EditorEvents
+@onready var ui = $UI
 @onready var cursor = $UI/Cursor
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
@@ -122,7 +123,7 @@ func _on_redo_pressed():
 
 
 func _on_clear_pressed():
-	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?", ui)
 
 
 func _on_level_editor_pressed():
@@ -138,7 +139,7 @@ func _on_load_pressed():
 func _on_save_pressed():
 	await RenderingServer.frame_post_draw
 	BlockEditor.current_block = block_manager.encode_block(editor_menu.block_options_menu.block_settings_submenu.block_settings, sub_viewport)
-	PopupManager.add_custom_popup(save_popup, {"mode": "block", "current_data": BlockEditor.current_block})
+	PopupManager.add_custom_popup(save_popup, {"mode": "block", "current_data": BlockEditor.current_block}, ui)
 
 
 func _on_import_pressed():

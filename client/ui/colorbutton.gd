@@ -27,7 +27,7 @@ func set_color(new_color: Color):
 
 func _maybe_show_popup():
 	if enabled:
-		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": Callable(self, "_change_color"), "previous_color": color, "popup_position": Vector2(global_position.x + size.x, global_position.y)})
+		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": Callable(self, "_change_color"), "previous_color": color, "popup_position": Vector2(global_position.x + size.x, global_position.y)}, self)
 
 
 func _change_color(new_color: Color):

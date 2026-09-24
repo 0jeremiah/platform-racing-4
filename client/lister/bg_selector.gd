@@ -75,7 +75,7 @@ func add_bgs(bg_array: Array):
 
 func call_colorpicker_popup(_new_bg_id: String = "blank"):
 	if colorpicker_func:
-		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": colorpicker_func, "previous_color": bg_color, "popup_position": popup_position})
+		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": colorpicker_func, "previous_color": bg_color, "popup_position": popup_position}, self)
 
 
 func select_bg(new_bg_id: String):

@@ -96,11 +96,11 @@ func _maybe_save_file(new_dir: String = ""):
 
 func error_popup(error_type: int = 0):
 	match error_type:
-		0: PopupManager.add_message_popup("Cannot load the folder specified. It's either missing or unreadable.")
-		1: PopupManager.add_message_popup("Cannot save the folder specified. It's either missing or unreadable.")
-		2: PopupManager.add_message_popup("Cannot load the file specified. It's either missing or unreadable.")
-		3: PopupManager.add_message_popup("Cannot save the file specified It's either missing or unreadable.")
-		_: PopupManager.add_message_popup("Unspecified error.")
+		0: PopupManager.add_message_popup("Cannot load the folder specified. It's either missing or unreadable.", self)
+		1: PopupManager.add_message_popup("Cannot save the folder specified. It's either missing or unreadable.", self)
+		2: PopupManager.add_message_popup("Cannot load the file specified. It's either missing or unreadable.", self)
+		3: PopupManager.add_message_popup("Cannot save the file specified It's either missing or unreadable.", self)
+		_: PopupManager.add_message_popup("Unspecified error.", self)
 
 
 func _cancel():

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
 [ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
-[ext_resource type="PackedScene" uid="uid://b63nnd20dbn0s" path="res://pages/editor/block_editor/block_settings_menu/block_settings_menu.tscn" id="7_wvus6"]
+[ext_resource type="PackedScene" uid="uid://b63nnd20dbn0s" path="res://pages/editor/block_settings_menu/block_settings_menu.tscn" id="7_wvus6"]
 
 [node name="BlockSettingsSubmenu" type="Control" unique_id=2133086886]
 layout_mode = 3

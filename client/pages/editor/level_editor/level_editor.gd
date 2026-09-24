@@ -14,7 +14,7 @@ static var level_editor: Node
 @onready var game_client = get_node("/root/Main/GameClient")
 @onready var http_request = $HTTPRequest
 @onready var editor_camera: Camera2D = $EditorCamera
-
+@onready var ui = $UI
 @onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var cursor = $UI/Cursor
 @onready var camera_controls = $UI/CameraControls
@@ -137,16 +137,16 @@ func _on_redo_pressed():
 
 
 func _on_clear_pressed():
-	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?")
+	PopupManager.add_confirm_popup(Callable(self, "_on_confirm_clear"), "WARNING!\n\nDeleting things is like burning paper; once the paper has been burnt, the paper is gone FOREVER.\n\nAre you sure you want to do this?", ui)
 
 
 func _on_load_pressed():
-	PopupManager.add_custom_popup(load_popup, {"mode": "level", "load_func": Callable(self, "_on_level_load")})
+	PopupManager.add_custom_popup(load_popup, {"mode": "level", "load_func": Callable(self, "_on_level_load")}, ui)
 
 
 func _on_save_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	PopupManager.add_custom_popup(save_popup, {"mode": "level", "current_data": LevelEditor.current_level})
+	PopupManager.add_custom_popup(save_popup, {"mode": "level", "current_data": LevelEditor.current_level}, ui)
 
 
 func _on_import_pressed():
