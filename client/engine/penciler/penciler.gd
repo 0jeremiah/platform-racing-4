@@ -273,7 +273,7 @@ func _on_editor_event(event: Dictionary) -> void:
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var tile_map_layer: ConfigurableTileMapLayer = current_layers.map_layers.get_node(event.layer_name).tile_map_layer
 	if event.block_id:
-		tile_map_layer.add_block(coords, str(event.block_id), ConfigurableBlock.VISIBLE_ALT_ID, event.block_settings)
+		tile_map_layer.add_block(coords, str(event.block_id), event.block_settings)
 	else:
 		tile_map_layer.delete_block(coords)
 	

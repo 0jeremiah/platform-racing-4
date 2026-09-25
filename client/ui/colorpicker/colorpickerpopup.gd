@@ -1,6 +1,6 @@
 extends ButtonPopup
 
-var colorpicker = preload("res://ui/colorpicker.tscn")
+var colorpicker = preload("res://ui/colorpicker/colorpicker.tscn")
 
 var colorpicker_node = null
 var colorpicker_func = null

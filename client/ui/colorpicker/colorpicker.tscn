@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cunqbock6101b"]
 
-[ext_resource type="Script" uid="uid://dp6kxi17feahb" path="res://ui/colorpicker.gd" id="1_redu0"]
+[ext_resource type="Script" uid="uid://dp6kxi17feahb" path="res://ui/colorpicker/colorpicker.gd" id="1_redu0"]
 
 [node name="ColorPicker" type="Control" unique_id=500024325]
 layout_mode = 3

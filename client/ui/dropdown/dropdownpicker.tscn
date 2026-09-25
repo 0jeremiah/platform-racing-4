@@ -1,25 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://chdyvwgvcuxgq"]
+[gd_scene format=3 uid="uid://chdyvwgvcuxgq"]
 
 [ext_resource type="Script" uid="uid://dntc0wc00hxm0" path="res://ui/dropdown/dropdownpicker.gd" id="1_davmf"]
 
-[node name="DropdownPicker" type="Control"]
+[node name="DropdownPicker" type="Control" unique_id=1650183041]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 240.0
-offset_bottom = 240.0
+offset_right = 200.0
+offset_bottom = 200.0
 script = ExtResource("1_davmf")
 
-[node name="DropdownPanel" type="Panel" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1561679609]
 layout_mode = 0
-offset_right = 240.0
-offset_bottom = 240.0
+offset_right = 200.0
+offset_bottom = 200.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 220.0
-
-[node name="DropdownContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="DropdownContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=23140035]
 layout_mode = 2

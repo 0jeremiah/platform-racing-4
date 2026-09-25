@@ -12,7 +12,7 @@ signal music_changed
 @onready var wind_box = $WindSetting/WindEdit
 @onready var snow_box = $SnowSetting/SnowEdit
 @onready var alien_box = $EvilAliensSetting/EvilAliensEdit
-@onready var dropdown_popup = $DropdownPopup
+@onready var dropdown_popup = preload("res://ui/dropdown/dropdownpopup.gd")
 
 var music_list = ["none", "random"]
 var music_names = ["None", "Random"]
@@ -33,6 +33,7 @@ var wind_chance: int = 0
 var snow_chance: int = 0
 var alien_chance: int = 0
 var update_which_button
+var dropdown_options: Array = []
 
 
 func _ready() -> void:
@@ -63,32 +64,27 @@ func _ready() -> void:
 	snow_box.return_line.connect(_set_snow_chance.bind())
 	alien_box.init("int", "0", 0, 100)
 	alien_box.return_line.connect(_set_alien_chance.bind())
-	dropdown_popup.return_dropdown_data.connect(_update_button.bind())
 
 
 func _show_music_list():
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(music_button.size.x, 200))
-	dropdown_popup.holder = music_button
+	dropdown_options = []
 	for song in music_list.size():
-		dropdown_popup.add_option(music_names[song], song)
-	dropdown_popup.show_popup(music_button.global_position.x, music_button.global_position.y + music_button.size.y)
+		dropdown_options.append({"label": music_names[song], "data": {"index": song, "holder": music_button}})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(music_button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(music_button.global_position.x, music_button.global_position.y + music_button.size.y)}, self)
 
 
 func _show_level_types_list():
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(level_type_button.size.x, 200))
-	dropdown_popup.holder = level_type_button
+	dropdown_options = []
 	for type in level_type_ids.size():
-		dropdown_popup.add_option(level_type_names[type], type)
-	dropdown_popup.show_popup(level_type_button.global_position.x, level_type_button.global_position.y + level_type_button.size.y)
+		dropdown_options.append({"label": level_type_names[type], "data": {"index": type, "holder": level_type_button}})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(level_type_button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(level_type_button.global_position.x, level_type_button.global_position.y + level_type_button.size.y)}, self)
 
 
-func _update_button(new_index: int):
-	if dropdown_popup.holder == music_button:
-		_set_music(new_index)
-	if dropdown_popup.holder == level_type_button:
-		_set_level_type(new_index)
+func _update_button(dropdown_data: Dictionary):
+	if dropdown_data.holder == music_button:
+		_set_music(dropdown_data.index)
+	if dropdown_data.holder == level_type_button:
+		_set_level_type(dropdown_data.index)
 
 
 func _set_music(new_index: int):

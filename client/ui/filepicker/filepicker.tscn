@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://3gcok706f02h"]
+[gd_scene format=3 uid="uid://3gcok706f02h"]
 
 [ext_resource type="Script" uid="uid://bjj80obx7qbif" path="res://ui/filepicker/filepicker.gd" id="1_8hfrt"]
 [ext_resource type="Texture2D" uid="uid://kkw0myxvkp7v" path="res://ui/filepicker/folder_icon.png" id="2_c0tvp"]
-[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="3_toedw"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_toedw"]
 color = Color(0.7490196, 0.7490196, 0.7490196, 1)
@@ -10,14 +9,14 @@ grow_begin = -5.0
 grow_end = -5.0
 thickness = 2
 
-[node name="Filepicker" type="Control"]
+[node name="Filepicker" type="Control" unique_id=2074866302]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1000.0
 offset_bottom = 550.0
 script = ExtResource("1_8hfrt")
 
-[node name="FilePickerLabel" type="RichTextLabel" parent="."]
+[node name="FilePickerLabel" type="RichTextLabel" parent="." unique_id=104234220]
 layout_mode = 0
 offset_right = 1000.0
 offset_bottom = 40.0
@@ -25,7 +24,7 @@ theme_override_font_sizes/normal_font_size = 32
 text = "-- File Picker --"
 horizontal_alignment = 1
 
-[node name="FolderOrFileName" type="RichTextLabel" parent="."]
+[node name="FolderOrFileName" type="RichTextLabel" parent="." unique_id=674260801]
 layout_mode = 0
 offset_top = 520.0
 offset_right = 100.0
@@ -34,7 +33,7 @@ theme_override_font_sizes/normal_font_size = 18
 text = "File name:"
 vertical_alignment = 1
 
-[node name="BackButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="." unique_id=375216257]
 layout_mode = 0
 offset_top = 50.0
 offset_right = 40.0
@@ -43,7 +42,7 @@ theme_override_font_sizes/font_size = 15
 disabled = true
 text = "◀"
 
-[node name="ForwardButton" type="Button" parent="."]
+[node name="ForwardButton" type="Button" parent="." unique_id=152250293]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 50.0
@@ -52,7 +51,7 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▶"
 
-[node name="RecentLocationsButton" type="Button" parent="."]
+[node name="RecentLocationsButton" type="Button" parent="." unique_id=1194481579]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 50.0
@@ -61,7 +60,7 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▼"
 
-[node name="UpButton" type="Button" parent="."]
+[node name="UpButton" type="Button" parent="." unique_id=1609926946]
 layout_mode = 0
 offset_left = 120.0
 offset_top = 50.0
@@ -70,7 +69,7 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 15
 text = "▲"
 
-[node name="RefreshButton" type="Button" parent="."]
+[node name="RefreshButton" type="Button" parent="." unique_id=539355854]
 layout_mode = 0
 offset_left = 930.0
 offset_top = 50.0
@@ -79,7 +78,7 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 16
 text = "Refresh"
 
-[node name="FileTypeButton" type="Button" parent="."]
+[node name="FileTypeButton" type="Button" parent="." unique_id=828869137]
 visible = false
 layout_mode = 0
 offset_left = 800.0
@@ -91,19 +90,19 @@ disabled = true
 text = "(JSON) .json"
 clip_text = true
 
-[node name="Libraries" type="Control" parent="."]
+[node name="Libraries" type="Control" parent="." unique_id=607107580]
 anchors_preset = 0
 offset_top = 90.0
 offset_right = 160.0
 offset_bottom = 510.0
 
-[node name="ColorRect" type="ColorRect" parent="Libraries"]
+[node name="ColorRect" type="ColorRect" parent="Libraries" unique_id=194973236]
 layout_mode = 0
 offset_right = 160.0
 offset_bottom = 420.0
 color = Color(0.62352943, 0.62352943, 0.62352943, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Libraries"]
+[node name="ColorRect2" type="ColorRect" parent="Libraries" unique_id=548196018]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
@@ -111,24 +110,24 @@ offset_right = 150.0
 offset_bottom = 410.0
 color = Color(0.8745098, 0.8745098, 0.8745098, 1)
 
-[node name="DirectoriesContainer" type="ScrollContainer" parent="Libraries"]
+[node name="DirectoriesContainer" type="ScrollContainer" parent="Libraries" unique_id=1432780464]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 150.0
 offset_bottom = 410.0
 
-[node name="Directories" type="VBoxContainer" parent="Libraries/DirectoriesContainer"]
+[node name="Directories" type="VBoxContainer" parent="Libraries/DirectoriesContainer" unique_id=1569014091]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="NormalDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories"]
+[node name="NormalDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories" unique_id=100585657]
 custom_minimum_size = Vector2(128, 180)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DesktopButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="DesktopButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=251336588]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -139,7 +138,7 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="DocumentsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="DocumentsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=573804288]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -150,7 +149,7 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="DownloadsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="DownloadsButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=1617646405]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -161,7 +160,7 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="MusicButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="MusicButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=1657585715]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -172,7 +171,7 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="PicturesButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="PicturesButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=1184451903]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -183,7 +182,7 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="VideosButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="VideosButton" type="Button" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=182230220]
 custom_minimum_size = Vector2(128, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -194,48 +193,48 @@ alignment = 0
 clip_text = true
 expand_icon = true
 
-[node name="HSeparator" type="HSeparator" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories"]
+[node name="HSeparator" type="HSeparator" parent="Libraries/DirectoriesContainer/Directories/NormalDirectories" unique_id=1517566772]
 custom_minimum_size = Vector2(128, 10)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_toedw")
 
-[node name="DriversDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories"]
+[node name="DriversDirectories" type="VBoxContainer" parent="Libraries/DirectoriesContainer/Directories" unique_id=857416867]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="FilesList" type="Control" parent="."]
+[node name="FilesList" type="Control" parent="." unique_id=931065351]
 anchors_preset = 0
 offset_left = 170.0
 offset_top = 90.0
 offset_right = 1000.0
 offset_bottom = 510.0
 
-[node name="ColorRect" type="ColorRect" parent="FilesList"]
+[node name="ColorRect" type="ColorRect" parent="FilesList" unique_id=1872016991]
 layout_mode = 0
 offset_right = 830.0
 offset_bottom = 420.0
 color = Color(0.7490196, 0.7490196, 0.7490196, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="FilesList"]
+[node name="ColorRect2" type="ColorRect" parent="FilesList" unique_id=1222810027]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 820.0
 offset_bottom = 410.0
 
-[node name="FilesAndFoldersContainer" type="ScrollContainer" parent="FilesList"]
+[node name="FilesAndFoldersContainer" type="ScrollContainer" parent="FilesList" unique_id=499926040]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 820.0
 offset_bottom = 410.0
 
-[node name="FilesAndFolders" type="VBoxContainer" parent="FilesList/FilesAndFoldersContainer"]
+[node name="FilesAndFolders" type="VBoxContainer" parent="FilesList/FilesAndFoldersContainer" unique_id=1914971658]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DirectoryBar" type="LineEdit" parent="."]
+[node name="DirectoryBar" type="LineEdit" parent="." unique_id=356700554]
 layout_mode = 0
 offset_left = 170.0
 offset_top = 50.0
@@ -244,19 +243,10 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 18
 text = "C:/Windows/Users/PR4/Downloads"
 
-[node name="DestinationBar" type="LineEdit" parent="."]
+[node name="DestinationBar" type="LineEdit" parent="." unique_id=1664524051]
 layout_mode = 0
 offset_left = 100.0
 offset_top = 520.0
 offset_right = 1000.0
 offset_bottom = 550.0
 theme_override_font_sizes/font_size = 18
-
-[node name="RecentLocationsPopup" parent="." instance=ExtResource("3_toedw")]
-position = Vector2i(80, 30)
-visible = false
-
-[node name="FileTypesPopup" parent="." instance=ExtResource("3_toedw")]
-transparent_bg = false
-position = Vector2i(800, 230)
-visible = false

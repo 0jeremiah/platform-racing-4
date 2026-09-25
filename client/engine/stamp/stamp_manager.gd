@@ -145,7 +145,7 @@ func clear() -> void:
 
 
 static func get_stamp_texture(stamp_id: String) -> Texture2D:
-	var not_found_stamp_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundstamp.png"))
+	var not_found_stamp_texture = ImageTexture.create_from_image(Image.load_from_file("res://stamps/notfoundstamp.png"))
 	if stamp_id not in _stamp_lookup:
 		return not_found_stamp_texture
 	var texture = null

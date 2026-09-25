@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cxiwhl2uem7uk"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_wrryh"]
-[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://ui/popup/button_popup.gd" id="2_odohb"]
+[ext_resource type="Script" uid="uid://d0pm0crov3g66" path="res://popup/button_popup.gd" id="2_odohb"]
 
 [node name="Popup" type="Control" unique_id=252576712]
 layout_mode = 3

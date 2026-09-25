@@ -189,17 +189,20 @@ func decode(level: Dictionary) -> void:
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:
 		for i:int in chunk.data.size():
+			if chunk.data[i].is_empty() or !chunk.data[i].has("id"):
+				continue
 			# failsafe for chunks with data that isn't in the dictionary format
 			if chunk.data[i] is not Dictionary:
 				chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
 			var tile_id:String = chunk.data[i].id
 			if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 				continue
-			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-			var tile_settings = {}
+			var tile_settings = ConfigurableBlockSettings.new()
+			if tile_id in BlockManager._block_lookup and BlockManager._block_lookup[tile_id].has("settings"):
+				tile_settings.import_settings(BlockManager._block_lookup[tile_id].settings)
 			if chunk.data[i].has("settings") and chunk.data[i].settings != null:
-				tile_settings = chunk.data[i].settings
-			
+				tile_settings.import_edited_settings(chunk.data[i].settings)
+			var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
 			# Emit set tile event
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
@@ -393,9 +396,11 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 					if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 						continue
 					var coords = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-					var tile_settings = {}
+					var tile_settings = ConfigurableBlockSettings.new()
+					if tile_id in BlockManager._block_lookup and BlockManager._block_lookup[tile_id].has("settings"):
+						tile_settings.import_settings(BlockManager._block_lookup[tile_id].settings)
 					if chunk.data[i].has("settings") and chunk.data[i].settings != null:
-						tile_settings = chunk.data[i].settings
+						tile_settings.import_edited_settings(chunk.data[i].settings)
 					
 					# Emit set tile event
 					emit_signal("editor_event", {

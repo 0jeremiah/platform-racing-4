@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://de82uiivhctdk"]
 
 [ext_resource type="Script" uid="uid://kdt31mnft2wp" path="res://pages/editor/block_editor/block_settings_submenu.gd" id="1_ga453"]
-[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_wcm35"]
 [ext_resource type="PackedScene" uid="uid://b63nnd20dbn0s" path="res://pages/editor/block_settings_menu/block_settings_menu.tscn" id="7_wvus6"]
 
 [node name="BlockSettingsSubmenu" type="Control" unique_id=2133086886]
@@ -108,6 +107,3 @@ offset_left = 290.0
 offset_top = 20.0
 offset_right = 790.0
 offset_bottom = 430.0
-
-[node name="DropdownPopup" parent="." unique_id=53189282 instance=ExtResource("2_wcm35")]
-visible = false

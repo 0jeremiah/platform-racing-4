@@ -3,6 +3,7 @@ extends Control
 signal control_event
 
 @onready var blockpicker_popup = preload("res://pages/editor/setting_popups/block_picker/block_picker_popup.gd")
+@onready var blocksettingsmenu_popup = preload("res://pages/editor/block_settings_menu/blocksettingsmenupopup.gd")
 @onready var block_menu = $BlockMenu
 @onready var selection_glow = $BlockMenu/SelectionGlow
 @onready var block_mover_button = $BlockMenu/BlockMover/TextureButton
@@ -14,11 +15,10 @@ signal control_event
 @onready var block_options_panel = $BlockMenu/BlockOptionsPanel
 @onready var block_options_node = $BlockMenu/BlockOptions
 @onready var block_options_button = $BlockMenu/BlockOptions/TextureButton
-@onready var block_options_popup = $BlockMenu/BlockOptions/BlockOptionsPopup
 @onready var layer_panel = $LayerPanel
 
 static var selected_block_id: String
-static var selected_block_settings: Dictionary
+static var selected_block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings.new()
 var active: bool = true
 var current_layers: Node2D
 var editor_events: EditorEvents
@@ -32,7 +32,7 @@ func _ready() -> void:
 	block_dropper_button.pressed.connect(_click_block_menu.bind(block_dropper_button))
 	if !selected_block_id:
 		selected_block_id = "601"
-		selected_block_settings = BlockManager._block_lookup[selected_block_id].settings
+		selected_block_settings.import_settings(BlockManager._block_lookup[selected_block_id].settings)
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_options_button.pressed.connect(_show_block_options)
 	_click_block_menu(block_dropper_button)
@@ -85,12 +85,13 @@ func _process(_delta: float) -> void:
 			set_selection_glow()
 	else:
 		visible = false
+	if selected_block_settings:
+		block_draw_teleport_colorin.self_modulate = selected_block_settings.teleport_color
 
 
-# TODO: change this to accomodate the new side setting properties node
 func _set_current_block(block_data: Dictionary) -> void:
 	selected_block_id = block_data.id
-	selected_block_settings = block_data.get("settings", {})
+	selected_block_settings.import_settings(block_data.get("settings", {}))
 	block_draw_teleport_colorin.visible = false
 	emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK,
@@ -98,11 +99,9 @@ func _set_current_block(block_data: Dictionary) -> void:
 			"block_settings": selected_block_settings
 		})
 	block_draw_button.texture_normal = BlockManager.get_block_texture(selected_block_id)
-	var block_instance = BlockManager._blocks[selected_block_id]
-	if block_instance and block_instance.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		block_draw_teleport_colorin.visible = true
+	if selected_block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		block_draw_teleport_colorin.texture = BlockManager.get_block_teleport_texture(selected_block_id)
-		block_draw_teleport_colorin.self_modulate = block_instance.settings.teleport_color
+		block_draw_teleport_colorin.visible = true
 
 
 func _check_clicked_button(node: Node):
@@ -161,10 +160,11 @@ func _show_block_picker():
 
 
 func _show_block_options():
-	if block_options_popup.get_node("PopupHolder").get_child_count() > 0:
-		block_options_popup.size = block_options_popup.get_node("PopupHolder").get_child(0).size
-		block_options_popup.position = Vector2(block_options_panel.global_position.x + block_options_panel.size.x + 10, block_options_panel.global_position.y)
-		block_options_popup.show()
+	PopupManager.add_custom_popup(blocksettingsmenu_popup, {"block_settings": selected_block_settings, "popup_position": Vector2(block_options_button.global_position.x + (block_options_button.size.x + 20), block_options_button.global_position.y)}, self)
+	#if block_options_popup.get_node("PopupHolder").get_child_count() > 0:
+		#block_options_popup.size = block_options_popup.get_node("PopupHolder").get_child(0).size
+		#block_options_popup.position = Vector2(block_options_panel.global_position.x + block_options_panel.size.x + 10, block_options_panel.global_position.y)
+		#block_options_popup.show()
 
 
 func set_selection_glow():

@@ -24,10 +24,14 @@ var just_lost_focus: bool = true
 
 func _ready() -> void:
 	popup.popup_window = false
-	popup.grab_focus()
+	var viewport = get_viewport()
+	if viewport:
+		var focused_node = viewport.gui_get_focus_owner()
+		if focused_node:
+			focused_node.release_focus()
+	grab_focus()
 	popup_alpha = 0.0
 	screen_size = get_viewport().get_visible_rect().size
-	var viewport = get_viewport()
 	if viewport:
 		viewport.gui_focus_changed.connect(_maybe_die_without_focus)
 
@@ -119,10 +123,9 @@ func _maybe_do_button_func(button_func = null) -> void:
 
 func _maybe_die_without_focus(focused_node: Node) -> void:
 	var parents = []
-	var viewport = get_viewport()
 	var current_node = focused_node
 	while current_node != null:
 		parents.append(current_node)
 		current_node = current_node.get_parent()
-	if die_without_focus and popup != focused_node and !parents.has(popup):
+	if die_without_focus and !parents.has(popup):
 		queue_free()

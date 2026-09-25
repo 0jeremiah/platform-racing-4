@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://b63nnd20dbn0s"]
 
 [ext_resource type="Script" uid="uid://b0dc1t5rl0nsp" path="res://pages/editor/block_settings_menu/block_settings_menu.gd" id="1_86s3p"]
-[ext_resource type="PackedScene" uid="uid://dy3och52t1v7o" path="res://pages/editor/block_editor/settings_menu.tscn" id="2_6n5i3"]
-[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_editor/side_settings_menu.tscn" id="3_imuda"]
+[ext_resource type="PackedScene" uid="uid://dy3och52t1v7o" path="res://pages/editor/block_settings_menu/settings/settings_menu.tscn" id="2_6n5i3"]
+[ext_resource type="PackedScene" uid="uid://emdtyv7dn5i7" path="res://pages/editor/block_settings_menu/side_settings/side_settings_menu.tscn" id="3_imuda"]
 
 [node name="BlockSettingsMenu" type="Control" unique_id=753743006]
 layout_mode = 3

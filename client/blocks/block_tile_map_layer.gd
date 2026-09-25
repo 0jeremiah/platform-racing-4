@@ -54,7 +54,7 @@ func get_all_block_coords_by_id(block_id: String) -> Array:
 
 
 ## Set a cell by block ID instead of atlas coordinates
-func add_block(coords: Vector2i, block_id: String, alt_id: int = ConfigurableBlock.VISIBLE_ALT_ID, settings: Dictionary = {}) -> void:
+func add_block(coords: Vector2i, block_id: String, block_settings: ConfigurableBlockSettings = null) -> void:
 	if block_id == "":
 		push_warning("Block ID cannot be blank")
 		return
@@ -63,19 +63,19 @@ func add_block(coords: Vector2i, block_id: String, alt_id: int = ConfigurableBlo
 		push_warning("Block ID not found: " + block_id)
 		return
 	var block_dict_name = get_block_dict_name(coords)
-	var block_settings = ConfigurableBlockSettings.new()
-	block_settings.import_settings(BlockManager._block_lookup[block_id].settings)
-	if !settings.is_empty():
-		block_settings.import_edited_settings(settings)
+	var settings = ConfigurableBlockSettings.new()
+	if block_settings:
+		settings = block_settings
+	else:
+		settings.import_settings(BlockManager._block_lookup[block_id].settings)
 	var maybe_block = null
 	if block_dict.has(block_dict_name) and block_dict[block_dict_name].node != null:
 		maybe_block = block_dict[block_dict_name].node
 	elif find_child(block_dict_name) != null:
 		maybe_block = find_child(block_dict_name)
-	block_dict[block_dict_name] = {"id": block_id, "settings": block_settings, "node": maybe_block}
-	#if !cull_unseen_blocks:
+	block_dict[block_dict_name] = {"id": block_id, "settings": settings, "node": maybe_block}
 	if maybe_block:
-		maybe_block.init(block_id, block_settings)
+		maybe_block.init(block_id, settings)
 	else:
 		set_cell(coords, 0, Vector2i(0, 0), tile_info.alternative_tile)
 
@@ -92,6 +92,25 @@ func get_block(coords: Vector2i) -> Dictionary:
 			block_node = block_dict[block_dict_name].node
 		return {"id": block_dict[block_dict_name]["id"], "settings": block_settings, "node": block_node}
 	return {"id": "", "settings": null, "node": null}
+
+
+func get_block_settings(coords: Vector2i) -> ConfigurableBlockSettings:
+	var block_settings = ConfigurableBlockSettings.new()
+	var block_settings_info = get_block_settings_info(coords)
+	block_settings.import_settings(block_settings_info.settings)
+	block_settings.import_edited_settings(block_settings_info.edited_settings)
+	return block_settings
+
+
+func get_block_settings_info(coords: Vector2i) -> Dictionary:
+	var settings = {}
+	var edited_settings = {}
+	var block_dict_name = get_block_dict_name(coords)
+	if block_dict.has(block_dict_name) and block_dict[block_dict_name].has("settings") and block_dict[block_dict_name]["settings"] != null:
+		settings = block_dict[block_dict_name].settings.get_settings()
+		edited_settings = block_dict[block_dict_name].settings.get_edited_settings()
+		return {"settings": settings, "edited_settings": edited_settings}
+	return {"settings": {}, "edited_settings": {}}
 
 
 func delete_block(coords: Vector2i) -> void:
@@ -224,6 +243,7 @@ func spawn_gears():
 		var coord_list = get_all_block_coords_by_id(gear)
 		for coords in coord_list:
 			if get_block(coords).id != "":
+				var gear_settings = get_block_settings(coords)
 				delete_block(coords)
 				gear_counter += 1
 				# Create rotation controller
@@ -238,7 +258,7 @@ func spawn_gears():
 				sub_tile_map_layer.tile_set = BlockManager._tile_set
 				sub_tile_map_layer.map_layer = map_layer
 				sub_tile_map_layer.name = "gear_" + str(coords) + "_configurable_tile_map_layer"
-				sub_tile_map_layer.add_block(coords, gear)
+				sub_tile_map_layer.add_block(coords, gear, gear_settings)
 				sub_tile_map_layer.use_kinematic_bodies = true
 				sub_tile_map_layer.physics_quadrant_size = 1
 				rotation_controller.add_child(sub_tile_map_layer)
@@ -247,13 +267,11 @@ func spawn_gears():
 					var queue = [coords + attached_direction]
 					while(len(queue) > 0):
 						var current_coords: Vector2i = queue.pop_back()
-						var block_info = get_block(current_coords)
-						if block_info.id != "":
-							var block_settings = {}
-							if block_info.settings != null:
-								block_settings = block_info.settings.get_edited_settings()
+						var block_id = get_block(current_coords).id
+						if block_id != "":
+							var settings = get_block_settings(current_coords)
 							delete_block(current_coords)
-							sub_tile_map_layer.add_block(current_coords, block_info.id, ConfigurableBlock.VISIBLE_ALT_ID, block_settings)
+							sub_tile_map_layer.add_block(current_coords, block_id, settings)
 							queue.append_array(get_surrounding_cells(current_coords))
 							# If there is a switch, deactivate rotation by default (probably make it an option in block editor)
 							#if (code to check if it can only be moved by presence switch goes here):

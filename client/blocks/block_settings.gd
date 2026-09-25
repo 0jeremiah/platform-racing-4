@@ -43,9 +43,9 @@ static var default_block_properties: Dictionary = {
 	"light_color": "FFFFFF"
 }
 
-# only updated once when block settings are imported, so it can be determined whenever it's settings has
-# been edited through the block cursor in the editor or something like that via get_edited_settings()
-var block_properties: Dictionary = {}
+var block_properties: Dictionary = {} # only updated once when block settings are imported, so it can be determined
+# whenever it's settings has been edited through the block cursor in the editor or something like that via
+# get_edited_settings()
 var title: String = "block"
 var comment: String = ""
 var matter_type := SOLID
@@ -114,7 +114,19 @@ func export_settings() -> Dictionary:
 	return settings
 
 
+func reset_settings():
+	block_properties = {}
+	for maybe_setting in default_block_properties:
+		if maybe_setting in self:
+			set(maybe_setting, default_block_properties[maybe_setting])
+	can_give_items = item_supply > 0
+	can_give_stats = stat_supply > 0
+	can_finish = true
+	can_give_time = time_supply > 0
+
+
 func import_settings(new_settings: Dictionary) -> void:
+	reset_settings()
 	if new_settings.has("title"):
 		title = new_settings.title
 	if new_settings.has("comment"):
@@ -141,51 +153,56 @@ func import_settings(new_settings: Dictionary) -> void:
 			any_side.set_type(new_settings.any_side)
 		if new_settings.matter_type == LIQUID or new_settings.matter_type == GAS:
 			area.set_type(new_settings.area)
-		
-		if new_settings.has("health"):
-			health = new_settings.health
-		if new_settings.has("stat_supply"):
-			stat_supply = new_settings.stat_supply
-		if new_settings.has("item_supply"):
-			item_supply = new_settings.item_supply
-		if new_settings.has("coin_value"):
-			coin_value = new_settings.coin_value
-		if new_settings.has("change_tick"):
-			change_tick = new_settings.change_tick
-		if new_settings.has("change_pattern"):
-			change_pattern = new_settings.change_pattern
-		if new_settings.has("move_tick"):
-			move_tick = new_settings.move_tick
-		if new_settings.has("move_pattern"):
-			move_pattern = new_settings.move_pattern
-		if new_settings.has("infinite_items"):
-			infinite_items = new_settings.infinite_items
-		if new_settings.has("item_supply"):
-			item_supply = new_settings.item_supply
-		if new_settings.has("infinite_stats"):
-			infinite_stats = new_settings.infinite_stats
-		if new_settings.has("stat_supply"):
-			stat_supply = new_settings.stat_supply
-		if new_settings.has("gear_rotation"):
-			gear_rotation = new_settings.gear_rotation
-		if new_settings.has("gear_tick"):
-			gear_tick = new_settings.gear_tick
-		if new_settings.has("gear_tock"):
-			gear_tock = new_settings.gear_tock
-		if new_settings.has("teleport_color"):
-			teleport_color = new_settings.teleport_color
-		if new_settings.has("teleport_throttle_ms"):
-			teleport_throttle_ms = new_settings.teleport_throttle_ms
-		if new_settings.has("infinite_time"):
-			infinite_time = new_settings.infinite_time
-		if new_settings.has("time_supply"):
-			time_supply = new_settings.time_supply
-		if new_settings.has("light_color"):
-			light_color = new_settings.light_color
-		
-		var extra_settings = get_settings()
-		if !extra_settings.is_empty():
-			block_properties = extra_settings
+
+		for maybe_setting in default_block_properties:
+			if maybe_setting in self and maybe_setting in new_settings:
+				set(maybe_setting, new_settings[maybe_setting])
+				block_properties[maybe_setting] = new_settings[maybe_setting]
+
+		can_give_items = item_supply > 0
+		can_give_stats = stat_supply > 0
+		can_finish = true
+		can_give_time = time_supply > 0
+		#if new_settings.has("health"):
+			#health = new_settings.health
+		#if new_settings.has("stat_supply"):
+			#stat_supply = new_settings.stat_supply
+		#if new_settings.has("item_supply"):
+			#item_supply = new_settings.item_supply
+		#if new_settings.has("coin_value"):
+			#coin_value = new_settings.coin_value
+		#if new_settings.has("change_tick"):
+			#change_tick = new_settings.change_tick
+		#if new_settings.has("change_pattern"):
+			#change_pattern = new_settings.change_pattern
+		#if new_settings.has("move_tick"):
+			#move_tick = new_settings.move_tick
+		#if new_settings.has("move_pattern"):
+			#move_pattern = new_settings.move_pattern
+		#if new_settings.has("infinite_items"):
+			#infinite_items = new_settings.infinite_items
+		#if new_settings.has("item_supply"):
+			#item_supply = new_settings.item_supply
+		#if new_settings.has("infinite_stats"):
+			#infinite_stats = new_settings.infinite_stats
+		#if new_settings.has("stat_supply"):
+			#stat_supply = new_settings.stat_supply
+		#if new_settings.has("gear_rotation"):
+			#gear_rotation = new_settings.gear_rotation
+		#if new_settings.has("gear_tick"):
+			#gear_tick = new_settings.gear_tick
+		#if new_settings.has("gear_tock"):
+			#gear_tock = new_settings.gear_tock
+		#if new_settings.has("teleport_color"):
+			#teleport_color = new_settings.teleport_color
+		#if new_settings.has("teleport_throttle_ms"):
+			#teleport_throttle_ms = new_settings.teleport_throttle_ms
+		#if new_settings.has("infinite_time"):
+			#infinite_time = new_settings.infinite_time
+		#if new_settings.has("time_supply"):
+			#time_supply = new_settings.time_supply
+		#if new_settings.has("light_color"):
+			#light_color = new_settings.light_color
 	else:
 		var missing_variables_string = ""
 		for missing_variable in missing_variables:
@@ -195,85 +212,71 @@ func import_settings(new_settings: Dictionary) -> void:
 
 
 func import_edited_settings(edited_settings: Dictionary):
-	if edited_settings.has("health"):
-		health = edited_settings.health
-	if edited_settings.has("stat_supply"):
-		stat_supply = edited_settings.stat_supply
-	if edited_settings.has("item_supply"):
-		item_supply = edited_settings.item_supply
-	if edited_settings.has("coin_value"):
-		coin_value = edited_settings.coin_value
-	if edited_settings.has("change_tick"):
-		change_tick = edited_settings.change_tick
-	if edited_settings.has("change_pattern"):
-		change_pattern = edited_settings.change_pattern
-	if edited_settings.has("move_tick"):
-		move_tick = edited_settings.move_tick
-	if edited_settings.has("move_pattern"):
-		move_pattern = edited_settings.move_pattern
-	if edited_settings.has("infinite_items"):
-		infinite_items = edited_settings.infinite_items
-	if edited_settings.has("item_supply"):
-		item_supply = edited_settings.item_supply
-	if edited_settings.has("infinite_stats"):
-		infinite_stats = edited_settings.infinite_stats
-	if edited_settings.has("stat_supply"):
-		stat_supply = edited_settings.stat_supply
-	if edited_settings.has("gear_rotation"):
-		gear_rotation = edited_settings.gear_rotation
-	if edited_settings.has("gear_tick"):
-		gear_tick = edited_settings.gear_tick
-	if edited_settings.has("gear_tock"):
-		gear_tock = edited_settings.gear_tock
-	if edited_settings.has("teleport_color"):
-		teleport_color = edited_settings.teleport_color
-	if edited_settings.has("teleport_throttle_ms"):
-		teleport_throttle_ms = edited_settings.teleport_throttle_ms
-	if edited_settings.has("infinite_time"):
-		infinite_time = edited_settings.infinite_time
-	if edited_settings.has("time_supply"):
-		time_supply = edited_settings.time_supply
-	if edited_settings.has("light_color"):
-		light_color = edited_settings.light_color
+	for maybe_setting in default_block_properties:
+		if maybe_setting in self and maybe_setting in edited_settings:
+			set(maybe_setting, edited_settings[maybe_setting])
+	can_give_items = item_supply > 0
+	can_give_stats = stat_supply > 0
+	can_finish = true
+	can_give_time = time_supply > 0
+	
+	#if edited_settings.has("health"):
+		#health = edited_settings.health
+	#if edited_settings.has("stat_supply"):
+		#stat_supply = edited_settings.stat_supply
+	#if edited_settings.has("item_supply"):
+		#item_supply = edited_settings.item_supply
+	#if edited_settings.has("coin_value"):
+		#coin_value = edited_settings.coin_value
+	#if edited_settings.has("change_tick"):
+		#change_tick = edited_settings.change_tick
+	#if edited_settings.has("change_pattern"):
+		#change_pattern = edited_settings.change_pattern
+	#if edited_settings.has("move_tick"):
+		#move_tick = edited_settings.move_tick
+	#if edited_settings.has("move_pattern"):
+		#move_pattern = edited_settings.move_pattern
+	#if edited_settings.has("infinite_items"):
+		#infinite_items = edited_settings.infinite_items
+	#if edited_settings.has("item_supply"):
+		#item_supply = edited_settings.item_supply
+	#if edited_settings.has("infinite_stats"):
+		#infinite_stats = edited_settings.infinite_stats
+	#if edited_settings.has("stat_supply"):
+		#stat_supply = edited_settings.stat_supply
+	#if edited_settings.has("gear_rotation"):
+		#gear_rotation = edited_settings.gear_rotation
+	#if edited_settings.has("gear_tick"):
+		#gear_tick = edited_settings.gear_tick
+	#if edited_settings.has("gear_tock"):
+		#gear_tock = edited_settings.gear_tock
+	#if edited_settings.has("teleport_color"):
+		#teleport_color = edited_settings.teleport_color
+	#if edited_settings.has("teleport_throttle_ms"):
+		#teleport_throttle_ms = edited_settings.teleport_throttle_ms
+	#if edited_settings.has("infinite_time"):
+		#infinite_time = edited_settings.infinite_time
+	#if edited_settings.has("time_supply"):
+		#time_supply = edited_settings.time_supply
+	#if edited_settings.has("light_color"):
+		#light_color = edited_settings.light_color
 
 
 func get_settings() -> Dictionary:
 	var settings = {}
-	if health != default_block_properties.health:
-		settings["health"] = health
-	if coin_value != default_block_properties.coin_value:
-		settings["coin_value"] = coin_value
-	if stat_supply != default_block_properties.stat_supply:
-		settings["stat_supply"] = stat_supply
-	if change_tick != default_block_properties.change_tick:
-		settings["change_tick"] = change_tick
-	if change_pattern != default_block_properties.change_pattern:
-		settings["change_pattern"] = change_pattern
-	if move_tick != default_block_properties.move_tick:
-		settings["move_tick"] = move_tick
-	if move_pattern != default_block_properties.move_pattern:
-		settings["move_pattern"] = move_pattern
-	if has_side_type(ConfigurableBlockSideSettings.ITEM):
-		settings["infinite_items"] = infinite_items
-		settings["item_supply"] = item_supply
-	if stat_supply != default_block_properties.stat_supply:
-		settings["stat_supply"] = stat_supply
-	if infinite_stats != default_block_properties.infinite_stats:
-		settings["infinite_stats"] = infinite_stats
-	if gear_rotation != default_block_properties.gear_rotation:
-		settings["gear_rotation"] = gear_rotation
-	if gear_tick != default_block_properties.gear_tick:
-		settings["gear_tick"] = gear_tick
-	if gear_tock != default_block_properties.gear_tock:
-		settings["gear_tock"] = gear_tock
-	if teleport_color != default_block_properties.teleport_color:
-		settings["teleport_color"] = teleport_color
-	if teleport_throttle_ms != default_block_properties.teleport_throttle_ms:
-		settings["teleport_throttle_ms"] = teleport_throttle_ms
-	if infinite_time != default_block_properties.infinite_time:
-		settings["infinite_time"] = infinite_time
-	if time_supply != default_block_properties.time_supply:
-		settings["time_supply"] = time_supply
+	settings["title"] = title
+	settings["comment"] = comment
+	settings["matter_type"] = matter_type
+	settings["block_type"] = block_type
+	var sides = get_sides()
+	for side in sides:
+		settings[side] = sides[side].get_type()
+	for maybe_setting in default_block_properties:
+		if maybe_setting in self and get(maybe_setting) != default_block_properties[maybe_setting]:
+			settings[maybe_setting] = get(maybe_setting)
+	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
+		settings.erase("infinite_items")
+		settings.erase("item_supply")
 	return settings
 
 

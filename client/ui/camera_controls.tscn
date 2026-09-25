@@ -1,22 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://odgk3txmr7dl"]
+[gd_scene format=3 uid="uid://odgk3txmr7dl"]
 
 [ext_resource type="Script" uid="uid://cc87x0ei1fr8c" path="res://ui/camera_controls.gd" id="1_ktgk5"]
-[ext_resource type="PackedScene" uid="uid://4lfh3fs0b4ub" path="res://ui/dropdown/dropdownpopup.tscn" id="2_20a2u"]
 
-[node name="CameraControls" type="Control"]
+[node name="CameraControls" type="Control" unique_id=2136390817]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 250.0
 offset_bottom = 120.0
 script = ExtResource("1_ktgk5")
 
-[node name="VSeparator" type="VSeparator" parent="."]
+[node name="VSeparator" type="VSeparator" parent="." unique_id=1842128599]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 130.0
 offset_bottom = 120.0
 
-[node name="ZoomInButton" type="Button" parent="."]
+[node name="ZoomInButton" type="Button" parent="." unique_id=2104168194]
 layout_mode = 0
 offset_top = 10.0
 offset_right = 40.0
@@ -24,7 +23,7 @@ offset_bottom = 50.0
 focus_mode = 0
 text = "+"
 
-[node name="ZoomOutButton" type="Button" parent="."]
+[node name="ZoomOutButton" type="Button" parent="." unique_id=2038201818]
 layout_mode = 0
 offset_left = 60.0
 offset_top = 10.0
@@ -33,7 +32,7 @@ offset_bottom = 50.0
 focus_mode = 0
 text = "-"
 
-[node name="ZoomDropdownButton" type="Button" parent="."]
+[node name="ZoomDropdownButton" type="Button" parent="." unique_id=1365336840]
 layout_mode = 0
 offset_top = 70.0
 offset_right = 100.0
@@ -41,7 +40,7 @@ offset_bottom = 110.0
 focus_mode = 0
 text = "---%"
 
-[node name="CameraUpButton" type="Button" parent="."]
+[node name="CameraUpButton" type="Button" parent="." unique_id=1815417059]
 layout_mode = 0
 offset_left = 170.0
 offset_right = 210.0
@@ -50,7 +49,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▲"
 
-[node name="CameraLeftButton" type="Button" parent="."]
+[node name="CameraLeftButton" type="Button" parent="." unique_id=691905356]
 layout_mode = 0
 offset_left = 130.0
 offset_top = 40.0
@@ -60,7 +59,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "◀"
 
-[node name="CameraRightButton" type="Button" parent="."]
+[node name="CameraRightButton" type="Button" parent="." unique_id=1732494761]
 layout_mode = 0
 offset_left = 210.0
 offset_top = 40.0
@@ -70,7 +69,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▶"
 
-[node name="CameraDownButton" type="Button" parent="."]
+[node name="CameraDownButton" type="Button" parent="." unique_id=1280331642]
 layout_mode = 0
 offset_left = 170.0
 offset_top = 80.0
@@ -79,7 +78,3 @@ offset_bottom = 120.0
 focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "▼"
-
-[node name="DropdownPopup" parent="." instance=ExtResource("2_20a2u")]
-transparent_bg = false
-visible = false

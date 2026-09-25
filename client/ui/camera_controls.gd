@@ -7,9 +7,10 @@ extends Control
 @onready var camera_left_button = $CameraLeftButton
 @onready var camera_right_button = $CameraRightButton
 @onready var camera_down_button = $CameraDownButton
-@onready var dropdown_popup = $DropdownPopup
+@onready var dropdown_popup = preload("res://ui/dropdown/dropdownpopup.gd")
 
 var camera: Camera2D = null
+var dropdown_options: Array = []
 
 
 func _ready():
@@ -20,11 +21,8 @@ func init(new_camera: Camera2D):
 	camera = new_camera
 	zoom_in_button.pressed.connect(_inc_or_dec_camera_zoom.bind(1))
 	zoom_out_button.pressed.connect(_inc_or_dec_camera_zoom.bind(-1))
-	#for zoom in camera.zoom_array:
-		#zoom_dropdown_button.get_popup().add_item(str(int(zoom * 200)) + "%")
 	zoom_dropdown_button.pressed.connect(_show_zoom_list)
 	zoom_dropdown_button.text = str(int(camera.zoom_array[camera.zoom_index] * 200)) + "%"
-	dropdown_popup.return_dropdown_data.connect(_change_camera_zoom.bind())
 
 
 func _process(_delta: float) -> void:
@@ -41,12 +39,10 @@ func _process(_delta: float) -> void:
 
 
 func _show_zoom_list():
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(zoom_dropdown_button.size.x - dropdown_popup.dropdown_picker.padding_size.x, 200))
-	dropdown_popup.holder = zoom_dropdown_button
+	dropdown_options = []
 	for zoom in camera.zoom_array.size():
-		dropdown_popup.add_option(str(int(camera.zoom_array[zoom] * 200)) + "%", zoom)
-	dropdown_popup.show_popup(zoom_dropdown_button.global_position.x, zoom_dropdown_button.global_position.y - dropdown_popup.size.y)
+		dropdown_options.append({"label": str(int(camera.zoom_array[zoom] * 200)) + "%", "data": zoom})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_camera_zoom"), "dropdown_size": Vector2(zoom_dropdown_button.size.x - 20.0, 200), "options": dropdown_options, "popup_position": Vector2(zoom_dropdown_button.global_position.x, zoom_dropdown_button.global_position.y - 200)}, self)
 
 
 func _input(event: InputEvent):

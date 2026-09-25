@@ -2,7 +2,7 @@ extends Control
 
 signal colorbutton_color_changed
 
-@onready var color_picker_popup = preload("res://ui/colorpickerpopup.gd")
+@onready var color_picker_popup = preload("res://ui/colorpicker/colorpickerpopup.gd")
 @onready var color_button = $TextureButton
 @onready var colorin = $TextureButton/Colorin
 var color: Color = Color("000000")

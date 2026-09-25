@@ -12,7 +12,7 @@ var coin_value: float = ConfigurableBlockSettings.default_block_properties.coin_
 func _ready() -> void:
 	health_box.init("float", str(health), 0.00000001, 99999999.9)
 	health_box.return_line.connect(_change_health)
-	coin_value_box.init("float", str(coin_value), 0.0, 99999999.9)
+	coin_value_box.init("int", str(coin_value), 0, 100)
 	coin_value_box.return_line.connect(_change_coin_value)
 	connect_node(self, "general_settings_changed")
 
@@ -32,5 +32,5 @@ func set_settings(new_settings: Dictionary):
 		health = clamp(new_settings.health, 0.00000001, 99999999.9)
 		health_box._update_text(str(health))
 	if new_settings.has("coin_value"):
-		coin_value = clamp(new_settings.coin_value, 0.0, 99999999.9)
+		coin_value = clamp(new_settings.coin_value, 0, 100)
 		coin_value_box._update_text(str(coin_value))

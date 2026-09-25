@@ -11,9 +11,9 @@ var level_layers: LevelLayers
 var cursor_parent = null
 var mode: String = "draw"
 var block_id: String = "601"
-var block_settings: Dictionary = {}
-var grabbed_block: String = ""
-var grabbed_settings: Dictionary = {}
+var block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings.new()
+var grabbed_block_id: String = ""
+var grabbed_block_settings: ConfigurableBlockSettings = null
 
 
 func _ready():
@@ -38,15 +38,18 @@ func _process(_delta):
 		if touching_gui:
 			if mode == "erase":
 				eraser_icon.visible = true
-			elif mode == "move" and grabbed_block or mode == "draw":
+			elif mode == "move" and grabbed_block_id or mode == "draw":
 				block_icon.visible = true
 				var current_block_id = block_id
+				var current_block_settings = block_settings
 				if mode == "move":
-					current_block_id = grabbed_block
+					current_block_id = grabbed_block_id
+					current_block_settings = grabbed_block_settings
 				block_icon.texture = BlockManager.get_block_texture(current_block_id)
-				if BlockManager._blocks[current_block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-					teleport_colorin.visible = true
+				if current_block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 					teleport_colorin.texture = BlockManager.get_block_teleport_texture(current_block_id)
+					teleport_colorin.self_modulate = current_block_settings.teleport_color
+					teleport_colorin.visible = true
 	else:
 		visible = false
 
@@ -66,11 +69,7 @@ func _on_control_event(event: Dictionary) -> void:
 			mode = event.mode
 		if event.type == EditorEvents.SELECT_BLOCK:
 			block_id = event.block_id
-			if event.has("block_settings"):
-				block_settings = event.block_settings
-			else:
-				block_settings = {}
-			
+			block_settings = event.block_settings
 
 
 func get_mouse_to_tilemap_coords() -> Vector2:
@@ -105,12 +104,12 @@ func on_mouse_down():
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_block(coords).id
 		if tile_id:
-			var tile_settings = tile_map_layer.get_block(coords).settings.get_edited_settings()
+			var tile_settings = tile_map_layer.get_block_settings(coords)
 			if "object_box" in cursor_parent.editor_menu.current_editor:
 				var object_box = cursor_parent.editor_menu.current_editor.object_box
 				object_box.close()
-			grabbed_block = tile_id
-			grabbed_settings = tile_settings
+			grabbed_block_id = tile_id
+			grabbed_block_settings = tile_settings
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -128,15 +127,16 @@ func on_drag():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: String
-		var tile_settings: Dictionary
+		var tile_settings: ConfigurableBlockSettings
 		if mode == "erase":
 			tile_id = ""
-			tile_settings = {}
+			tile_settings = null
 		else:
 			tile_id = block_id
 			tile_settings = block_settings
 		var existing_tile_id = tile_map_layer.get_block(coords).id
-		if tile_id != existing_tile_id:
+		var existing_tile_settings = tile_map_layer.get_block_settings(coords)
+		if tile_id != existing_tile_id or tile_settings != existing_tile_settings:
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -154,7 +154,7 @@ func on_mouse_up():
 		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
-		if grabbed_block:
+		if grabbed_block_id:
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -162,17 +162,17 @@ func on_mouse_up():
 					"x": coords.x,
 					"y": coords.y
 				},
-				"block_id": grabbed_block,
-				"block_settings": grabbed_settings
+				"block_id": grabbed_block_id,
+				"block_settings": grabbed_block_settings
 			})
 			if "object_box" in get_parent().editor_menu.current_editor:
 				var object_box = get_parent().editor_menu.current_editor.object_box
 				var spawn_position = coords * Settings.tile_size
 				var block_texture = Sprite2D.new()
-				block_texture.texture = BlockManager.get_block_texture(grabbed_block)
+				block_texture.texture = BlockManager.get_block_texture(grabbed_block_id)
 				object_box.set_object_info({"delete": true, "resize": false, "options": true, "text": false},
 				{"type": "block", "node": block_texture, "position": spawn_position, "rotation": 0,
 				"offset": Vector2(0, 0), "size": Settings.tile_size, "scale": Vector2(1, 1),
 				"info": level_layers.get_target_map_layer()})
-			grabbed_block = ""
-			grabbed_settings = {}
+			grabbed_block_id = ""
+			grabbed_block_settings = null

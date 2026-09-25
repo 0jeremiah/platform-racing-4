@@ -3,9 +3,9 @@ extends Node
 
 @onready var popups = $Popups
 
-var popup_base = preload("res://ui/popup/popup.tscn")
-var message_popup = preload("res://ui/popup/message_popup.gd")
-var confirm_popup = preload("res://ui/popup/confirm_popup.gd")
+var popup_base = preload("res://popup/popup.tscn")
+var message_popup = preload("res://popup/message_popup.gd")
+var confirm_popup = preload("res://popup/confirm_popup.gd")
 
 
 func add_message_popup(popup_message: String = "", at_node: Node = null):

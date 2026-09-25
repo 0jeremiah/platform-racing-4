@@ -21,7 +21,7 @@ signal file_chosen
 @onready var drivers_directories = $Libraries/DirectoriesContainer/Directories/DriversDirectories
 @onready var directory_bar = $DirectoryBar
 @onready var destination_bar = $DestinationBar
-@onready var recent_locations_popup = $RecentLocationsPopup
+@onready var dropdown_popup = preload("res://ui/dropdown/dropdownpopup.gd")
 
 var folder_icon = preload("res://ui/filepicker/folder_icon.png")
 var file_icon = preload("res://ui/filepicker/file_icon.png")
@@ -38,6 +38,7 @@ var double_click_interval: float = 0.5
 var double_click_timer: float = 0.0
 var double_click: bool = false
 var selected_dir: String = ""
+var dropdown_options: Array = []
 
 
 func _ready() -> void:
@@ -74,8 +75,6 @@ func _ready() -> void:
 	videos_button.pressed.connect(change_directory.bind(OS.get_system_dir(OS.SYSTEM_DIR_MOVIES)))
 	directory_bar.text_submitted.connect(change_directory.bind())
 	destination_bar.text_submitted.connect(_check_destination.bind())
-	recent_locations_popup.set_dropdown_size(Vector2(920.0, 676.0))
-	recent_locations_popup.return_dropdown_data.connect(_set_dir_page.bind())
 
 
 func _process(delta: float) -> void:
@@ -256,10 +255,10 @@ func _recent_locations():
 	else:
 		recent_locations = dir_history
 	if recent_locations.size() > 0:
-		recent_locations_popup.clear()
+		dropdown_options = []
 		for recent_location in recent_locations.size():
-			recent_locations_popup.add_option(recent_locations[recent_location], (dir_history.size() - recent_locations.size()) + recent_location)
-		recent_locations_popup.show_popup(recent_locations_button.global_position.x, recent_locations_button.global_position.y + recent_locations_button.size.y)
+			dropdown_options.append({"label": recent_locations[recent_location], "data": (dir_history.size() - recent_locations.size()) + recent_location})
+		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_set_dir_page"), "dropdown_size": Vector2(920.0, 676.0), "options": dropdown_options, "popup_position": Vector2(recent_locations_button.global_position.x, recent_locations_button.global_position.y + recent_locations_button.size.y)}, self)
 
 
 func _set_dir_page(new_dir_page: int):

@@ -6,13 +6,13 @@ signal stick_side_settings_changed
 @onready var jump_stickiness_box = $JumpStickinessBox
 
 var speed_stickiness: float = 2.5
-var jump_stickiness: float = 8.0
+var jump_stickiness: float = 10.0
 
 
 func _ready() -> void:
 	speed_stickiness_box.init("float", "2.5", 0.0, 99999999.9)
 	speed_stickiness_box.return_line.connect(_change_speed_stickiness)
-	jump_stickiness_box.init("float", "8.0", 0.0, 99999999.9)
+	jump_stickiness_box.init("float", "10.0", 0.0, 99999999.9)
 	jump_stickiness_box.return_line.connect(_change_jump_stickiness)
 	connect_node(self, "stick_side_settings_changed")
 

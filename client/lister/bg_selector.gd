@@ -3,7 +3,7 @@ class_name BGSelector
 
 signal bg_selected
 
-var color_picker_popup = preload("res://ui/colorpickerpopup.gd")
+var color_picker_popup = preload("res://ui/colorpicker/colorpickerpopup.gd")
 var color_box = preload("res://ui/colorbutton.tscn")
 var bg_button = preload("res://engine/bg/bg_button.tscn")
 var bg_rows: int = 3

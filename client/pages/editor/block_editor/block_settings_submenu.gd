@@ -1,6 +1,6 @@
 extends Control
 
-signal control_event
+#signal control_event
 
 @onready var block_settings_panel = $BlockSettingsPanel
 @onready var block_sides_seperator = $BlockSidesSeperator
@@ -9,7 +9,7 @@ signal control_event
 @onready var block_type_setting_button = $BlockTypeSetting/BlockTypeSettingButton
 @onready var sides_settings = $SidesSettings
 @onready var block_settings_menu = $BlockSettingsMenu
-@onready var dropdown_popup = $DropdownPopup
+@onready var dropdown_popup = preload("res://ui/dropdown/dropdownpopup.gd")
 
 static var block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings.new()
 
@@ -167,12 +167,12 @@ var settings_lookup: Dictionary = {
 }
 var active: bool = false
 var editor_events: EditorEvents
+var dropdown_options: Array = []
 
 
 func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
-	dropdown_popup.return_dropdown_data.connect(_change_setting.bind())
 	block_settings_menu.init(block_settings)
 	update_display()
 
@@ -197,37 +197,32 @@ func _process(_delta: float) -> void:
 
 
 func _show_matter_types(button: Button):
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(button.size.x, 200))
-	dropdown_popup.holder = button
+	dropdown_options = []
 	for matter_type in settings_presets.matter_types:
-		dropdown_popup.add_option(settings_presets.matter_types[matter_type].label, {"category": settings_presets.matter_types[matter_type].side_setting_category, "setting": settings_presets.matter_types[matter_type].setting, "button": button})
-	dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
+		dropdown_options.append({"label": settings_presets.matter_types[matter_type].label, "data": {"category": settings_presets.matter_types[matter_type].side_setting_category, "setting": settings_presets.matter_types[matter_type].setting, "button": button}})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _show_block_types(button: Button):
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(button.size.x, 200))
+	dropdown_options = []
 	var matter_type = settings_presets.matter_types.get(block_settings.matter_type, settings_presets.matter_types[settings_presets.matter_types.keys()[0]])
 	var side_setting_category = matter_type.side_setting_category
 	var matter_type_block_types = matter_type.block_types
 	for matter_type_block_type in matter_type_block_types:
-		dropdown_popup.add_option(matter_type_block_types[matter_type_block_type].label, {"category": side_setting_category, "setting": matter_type_block_types[matter_type_block_type].setting, "button": button})
-	dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
+		dropdown_options.append({"label": matter_type_block_types[matter_type_block_type].label, "data": {"category": side_setting_category, "setting": matter_type_block_types[matter_type_block_type].setting, "button": button}})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _show_sides_types(side: String, button: Button):
-	dropdown_popup.clear()
-	dropdown_popup.set_dropdown_size(Vector2(button.size.x, 200))
-	dropdown_popup.holder = button
+	dropdown_options = []
 	var matter_type = settings_presets.matter_types.get(block_settings.matter_type, settings_presets.matter_types[settings_presets.matter_types.keys()[0]])
 	var side_setting_category = matter_type.side_setting_category
 	var matter_type_block_types = matter_type.block_types
 	var block_type = matter_type_block_types.get(block_settings.block_type, matter_type_block_types[matter_type_block_types.keys()[0]])
 	var side_category = matter_type.side_categories.get(block_type.side_category, matter_type.side_categories[matter_type.side_categories.keys()[0]])
 	for side_type in side_category:
-		dropdown_popup.add_option(side_category[side_type].label, {"category": side_setting_category, "side": side, "setting": side_category[side_type].setting, "button": button})
-	dropdown_popup.show_popup(button.global_position.x, button.global_position.y + button.size.y)
+		dropdown_options.append({"label": side_category[side_type].label, "data": {"category": side_setting_category, "side": side, "setting": side_category[side_type].setting, "button": button}})
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _change_setting(selected_dictionary: Dictionary):
@@ -269,7 +264,8 @@ func update_display():
 	block_settings_seperator.visible = true
 	block_settings_menu.change_container_size(Vector2(488.0, 298.0))
 	block_settings_menu.visible = true
-	sides_settings.visible = true
+	if block_settings.block_type != ConfigurableBlockSettings.CHANGE:
+		sides_settings.visible = true
 	panel_size.x += (block_settings_menu.position.x + block_settings_menu.size.x + 20) - panel_size.x
 	panel_size.y += (block_settings_menu.position.y + block_settings_menu.size.y + 20) - panel_size.y
 	block_settings_panel.size = panel_size
