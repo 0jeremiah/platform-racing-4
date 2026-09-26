@@ -28,25 +28,21 @@ script = ExtResource("1_phdif")
 [node name="BottomSeparatorRay" type="CollisionShape2D" parent="." unique_id=1348973742]
 position = Vector2(0, -32)
 shape = SubResource("SeparationRayShape2D_dy06j")
-disabled = true
 
 [node name="LeftSeparatorRay" type="CollisionShape2D" parent="." unique_id=2060966507]
 position = Vector2(0, -32)
 rotation = 1.5707964
 shape = SubResource("SeparationRayShape2D_dy06j")
-disabled = true
 
 [node name="TopSeparatorRay" type="CollisionShape2D" parent="." unique_id=1637577240]
 position = Vector2(0, -32)
 rotation = -3.1415925
 shape = SubResource("SeparationRayShape2D_dy06j")
-disabled = true
 
 [node name="RightSeparatorRay" type="CollisionShape2D" parent="." unique_id=2055175378]
 position = Vector2(0, -32)
 rotation = -1.5707964
 shape = SubResource("SeparationRayShape2D_dy06j")
-disabled = true
 
 [node name="CharacterHitbox" type="CollisionShape2D" parent="." unique_id=2082247507]
 position = Vector2(0, -32)

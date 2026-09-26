@@ -244,7 +244,17 @@ func spawn_gears():
 		var coord_list = get_all_block_coords_by_id(gear)
 		for coords in coord_list:
 			if get_block(coords).id != "":
+				var gear_tick = ConfigurableBlockSettings.default_block_properties.gear_tick
+				var gear_tock = ConfigurableBlockSettings.default_block_properties.gear_tock
 				var gear_settings = get_block_settings_info(coords)
+				if gear_settings.edited_settings.has("gear_tick"):
+					gear_tick = gear_settings.edited_settings.gear_tick
+				elif gear_settings.settings.has("gear_tick"):
+					gear_tick = gear_settings.settings.gear_tick
+				if gear_settings.edited_settings.has("gear_tock"):
+					gear_tick = gear_settings.edited_settings.gear_tock
+				elif gear_settings.settings.has("gear_tick"):
+					gear_tick = gear_settings.settings.gear_tock
 				delete_block(coords)
 				gear_counter += 1
 				# Create rotation controller
@@ -252,6 +262,8 @@ func spawn_gears():
 				rotation_controller.pivot_offset = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
 				rotation_controller.rotation = rotation
 				rotation_controller.target_rotation = rotation
+				rotation_controller.tick_ms = gear_tick
+				rotation_controller.tock_ms = gear_tock
 				rotation_controller.name = "GearTile" + str(gear_counter)
 				non_static_tile_map_layers.add_child(rotation_controller)
 				# Create sub tile_map_layer
