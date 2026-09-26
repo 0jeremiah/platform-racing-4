@@ -20,9 +20,9 @@ func init(config: Dictionary) -> void:
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
 	#print("Block::on " + event)
-	if tile_map_layer.get_block(coords).id == "":
+	if tile_map_layer.get_block(coords).id == "" or tile_map_layer.get_block(coords).settings == null:
 		return
-	var current_sides = settings.get_sides()
+	var current_sides = tile_map_layer.get_block(coords).settings.get_sides()
 	if event not in current_sides:
 		return
 	if BlockBehaviors.has_method(current_sides[event].type):

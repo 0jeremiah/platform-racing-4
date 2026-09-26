@@ -90,19 +90,48 @@ func export_settings() -> Dictionary:
 		"block_type": block_type
 	}
 	
-	if matter_type == SOLID:
-		settings["top"] = top.get_type()
-		settings["bottom"] = bottom.get_type()
-		settings["left"] = left.get_type()
-		settings["right"] = right.get_type()
-		settings["bump"] = bump.get_type()
-		settings["stand"] = stand.get_type()
-		settings["any_side"] = any_side.get_type()
-	elif matter_type == LIQUID or matter_type == GAS:
-		settings["area"] = area.get_type()
-	var extra_settings = get_settings()
-	if !extra_settings.is_empty():
-		settings.merge(extra_settings)
+	#if matter_type == SOLID:
+		#settings["top"] = top.get_type()
+		#settings["bottom"] = bottom.get_type()
+		#settings["left"] = left.get_type()
+		#settings["right"] = right.get_type()
+		#settings["bump"] = bump.get_type()
+		#settings["stand"] = stand.get_type()
+		#settings["any_side"] = any_side.get_type()
+	#elif matter_type == LIQUID or matter_type == GAS:
+		#settings["area"] = area.get_type()
+	var sides = get_sides()
+	for side in sides:
+		settings[side] = sides[side].get_type()
+	for maybe_setting in default_block_properties:
+		if maybe_setting in self and get(maybe_setting) != default_block_properties[maybe_setting]:
+			settings[maybe_setting] = get(maybe_setting)
+	if block_type != ConfigurableBlockSettings.CHANGE:
+		settings.erase("change_tick")
+		settings.erase("change_pattern")
+	if block_type != ConfigurableBlockSettings.MOVE:
+		settings.erase("move_tick")
+		settings.erase("move_pattern")
+		settings.erase("randomize_move_pattern")
+		settings.erase("loop_move_pattern")
+	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
+		settings.erase("infinite_items")
+		settings.erase("item_supply")
+	if !has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS):
+		settings.erase("infinite_stats")
+		settings.erase("stat_supply")
+	if block_type != ConfigurableBlockSettings.GEAR:
+		settings.erase("gear_rotation")
+		settings.erase("gear_tick")
+		settings.erase("gear_tock")
+	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+		settings.erase("teleport_color")
+		settings.erase("teleport_throttle_ms")
+	if !has_side_type(ConfigurableBlockSideSettings.TIME):
+		settings.erase("infinite_time")
+		settings.erase("time_supply")
+	if block_type != ConfigurableBlockSettings.LIGHTBREAKER:
+		settings.erase("light_color")
 	# this was in pr3 to keep block settings from getting too big
 	# dunno if this limitation will be needed, but added this code just in case
 	
@@ -153,6 +182,9 @@ func import_settings(new_settings: Dictionary) -> void:
 			any_side.set_type(new_settings.any_side)
 		if new_settings.matter_type == LIQUID or new_settings.matter_type == GAS:
 			area.set_type(new_settings.area)
+		var sides = get_sides()
+		for side in sides:
+			block_properties[side] = sides[side].get_type()
 
 		for maybe_setting in default_block_properties:
 			if maybe_setting in self and maybe_setting in new_settings:
@@ -163,46 +195,6 @@ func import_settings(new_settings: Dictionary) -> void:
 		can_give_stats = stat_supply > 0
 		can_finish = true
 		can_give_time = time_supply > 0
-		#if new_settings.has("health"):
-			#health = new_settings.health
-		#if new_settings.has("stat_supply"):
-			#stat_supply = new_settings.stat_supply
-		#if new_settings.has("item_supply"):
-			#item_supply = new_settings.item_supply
-		#if new_settings.has("coin_value"):
-			#coin_value = new_settings.coin_value
-		#if new_settings.has("change_tick"):
-			#change_tick = new_settings.change_tick
-		#if new_settings.has("change_pattern"):
-			#change_pattern = new_settings.change_pattern
-		#if new_settings.has("move_tick"):
-			#move_tick = new_settings.move_tick
-		#if new_settings.has("move_pattern"):
-			#move_pattern = new_settings.move_pattern
-		#if new_settings.has("infinite_items"):
-			#infinite_items = new_settings.infinite_items
-		#if new_settings.has("item_supply"):
-			#item_supply = new_settings.item_supply
-		#if new_settings.has("infinite_stats"):
-			#infinite_stats = new_settings.infinite_stats
-		#if new_settings.has("stat_supply"):
-			#stat_supply = new_settings.stat_supply
-		#if new_settings.has("gear_rotation"):
-			#gear_rotation = new_settings.gear_rotation
-		#if new_settings.has("gear_tick"):
-			#gear_tick = new_settings.gear_tick
-		#if new_settings.has("gear_tock"):
-			#gear_tock = new_settings.gear_tock
-		#if new_settings.has("teleport_color"):
-			#teleport_color = new_settings.teleport_color
-		#if new_settings.has("teleport_throttle_ms"):
-			#teleport_throttle_ms = new_settings.teleport_throttle_ms
-		#if new_settings.has("infinite_time"):
-			#infinite_time = new_settings.infinite_time
-		#if new_settings.has("time_supply"):
-			#time_supply = new_settings.time_supply
-		#if new_settings.has("light_color"):
-			#light_color = new_settings.light_color
 	else:
 		var missing_variables_string = ""
 		for missing_variable in missing_variables:
@@ -212,6 +204,10 @@ func import_settings(new_settings: Dictionary) -> void:
 
 
 func import_edited_settings(edited_settings: Dictionary):
+	var sides = get_sides()
+	for side in sides:
+		if side in self and side in edited_settings:
+			get(side).set_type(edited_settings[side])
 	for maybe_setting in default_block_properties:
 		if maybe_setting in self and maybe_setting in edited_settings:
 			set(maybe_setting, edited_settings[maybe_setting])
@@ -219,47 +215,6 @@ func import_edited_settings(edited_settings: Dictionary):
 	can_give_stats = stat_supply > 0
 	can_finish = true
 	can_give_time = time_supply > 0
-	
-	#if edited_settings.has("health"):
-		#health = edited_settings.health
-	#if edited_settings.has("stat_supply"):
-		#stat_supply = edited_settings.stat_supply
-	#if edited_settings.has("item_supply"):
-		#item_supply = edited_settings.item_supply
-	#if edited_settings.has("coin_value"):
-		#coin_value = edited_settings.coin_value
-	#if edited_settings.has("change_tick"):
-		#change_tick = edited_settings.change_tick
-	#if edited_settings.has("change_pattern"):
-		#change_pattern = edited_settings.change_pattern
-	#if edited_settings.has("move_tick"):
-		#move_tick = edited_settings.move_tick
-	#if edited_settings.has("move_pattern"):
-		#move_pattern = edited_settings.move_pattern
-	#if edited_settings.has("infinite_items"):
-		#infinite_items = edited_settings.infinite_items
-	#if edited_settings.has("item_supply"):
-		#item_supply = edited_settings.item_supply
-	#if edited_settings.has("infinite_stats"):
-		#infinite_stats = edited_settings.infinite_stats
-	#if edited_settings.has("stat_supply"):
-		#stat_supply = edited_settings.stat_supply
-	#if edited_settings.has("gear_rotation"):
-		#gear_rotation = edited_settings.gear_rotation
-	#if edited_settings.has("gear_tick"):
-		#gear_tick = edited_settings.gear_tick
-	#if edited_settings.has("gear_tock"):
-		#gear_tock = edited_settings.gear_tock
-	#if edited_settings.has("teleport_color"):
-		#teleport_color = edited_settings.teleport_color
-	#if edited_settings.has("teleport_throttle_ms"):
-		#teleport_throttle_ms = edited_settings.teleport_throttle_ms
-	#if edited_settings.has("infinite_time"):
-		#infinite_time = edited_settings.infinite_time
-	#if edited_settings.has("time_supply"):
-		#time_supply = edited_settings.time_supply
-	#if edited_settings.has("light_color"):
-		#light_color = edited_settings.light_color
 
 
 func get_settings() -> Dictionary:
@@ -270,10 +225,11 @@ func get_settings() -> Dictionary:
 	settings["block_type"] = block_type
 	var sides = get_sides()
 	for side in sides:
-		settings[side] = sides[side].get_type()
+		if side in block_properties:
+			settings[side] = block_properties[side]
 	for maybe_setting in default_block_properties:
-		if maybe_setting in self and get(maybe_setting) != default_block_properties[maybe_setting]:
-			settings[maybe_setting] = get(maybe_setting)
+		if maybe_setting in block_properties:
+			settings[maybe_setting] = block_properties[maybe_setting]
 	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
 		settings.erase("infinite_items")
 		settings.erase("item_supply")
@@ -281,11 +237,14 @@ func get_settings() -> Dictionary:
 
 
 func get_edited_settings() -> Dictionary:
-	var settings = get_settings()
 	var edited_settings = {}
-	for setting in settings:
-		if setting in block_properties and block_properties[setting] != settings[setting]:
-			edited_settings[setting] = settings[setting]
+	var sides = get_sides()
+	for side in sides:
+		if side in self and side in block_properties and sides[side].get_type() != block_properties[side]:
+			edited_settings[side] = sides[side].get_type()
+	for setting in default_block_properties:
+		if setting in self and setting in block_properties and get(setting) != block_properties[setting]:
+			edited_settings[setting] = get(setting)
 	return edited_settings
 
 

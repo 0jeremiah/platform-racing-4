@@ -289,7 +289,7 @@ func push(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	var tile_position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half).rotated(tile_map_layer.rotation)
 	var direction = tile_position - body.position
 	var block_id = tile_map_layer.get_block(coords).id
-	var block_settings = tile_map_layer.get_block_settings(coords)
+	var block_settings = tile_map_layer.get_block_settings_info(coords)
 	
 	# force direction into 1 move
 	if abs(direction.x) > abs(direction.y):

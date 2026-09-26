@@ -21,7 +21,6 @@ func init(new_block_settings: ConfigurableBlockSettings):
 	block_settings = new_block_settings
 	settings_menu.init(block_settings)
 	side_settings_menu.init(block_settings)
-	settings_menu.update_enabled_settings()
 	update_display()
 
 

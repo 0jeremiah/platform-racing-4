@@ -31,6 +31,7 @@ func _ready() -> void:
 
 func init(_block_settings: ConfigurableBlockSettings):
 	block_settings = _block_settings
+	update_enabled_settings()
 
 
 func _change_properties(new_settings: Dictionary):

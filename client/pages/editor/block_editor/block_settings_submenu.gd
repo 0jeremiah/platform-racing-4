@@ -1,3 +1,4 @@
+class_name BlockSettingsSubmenu
 extends Control
 
 #signal control_event
@@ -15,7 +16,7 @@ static var block_settings: ConfigurableBlockSettings = ConfigurableBlockSettings
 
 # all available options the block settings submenu can see
 # its very convoluted but with the upside that you can add new options and it will be added automatically
-var settings_presets: Dictionary = {
+static var settings_presets: Dictionary = {
 	"matter_types": {
 		"solid": {
 			"label": "Solid",
@@ -103,7 +104,7 @@ var settings_presets: Dictionary = {
 }
 
 # needed for the side setting buttons when loading settings
-var settings_lookup: Dictionary = {
+static var settings_lookup: Dictionary = {
 	"matter_types": {
 		ConfigurableBlockSettings.SOLID: {"key": "solid", "next_category": "solid_block_types"},
 		ConfigurableBlockSettings.LIQUID: {"key": "liquid", "next_category": "liquid_block_types"},
@@ -271,7 +272,16 @@ func update_display():
 	block_settings_panel.size = panel_size
 
 
-func get_side_setting_key(matter_type: String, block_type: String, side_setting: String) -> String:
+static func get_side_setting_category(matter_type: String) -> String:
+	var side_setting_category: String
+	if matter_type in settings_presets.matter_types:
+		side_setting_category = settings_presets.matter_types[matter_type].side_setting_category
+	else:
+		side_setting_category = settings_presets[settings_presets.matter_types[settings_presets.matter_types.keys()[0]].side_setting_category]
+	return side_setting_category
+
+
+static func get_side_setting_key(matter_type: String, block_type: String, side_setting: String) -> String:
 	var matter_type_next_category: String
 	if matter_type in settings_lookup.matter_types:
 		matter_type_next_category = settings_lookup.matter_types[matter_type].next_category

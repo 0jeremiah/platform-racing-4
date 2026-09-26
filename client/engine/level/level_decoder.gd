@@ -189,11 +189,11 @@ func decode(level: Dictionary) -> void:
 func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 	for chunk in chunks:
 		for i:int in chunk.data.size():
-			if chunk.data[i].is_empty() or !chunk.data[i].has("id"):
-				continue
 			# failsafe for chunks with data that isn't in the dictionary format
 			if chunk.data[i] is not Dictionary:
 				chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
+			elif chunk.data[i].is_empty() or !chunk.data[i].has("id"):
+				continue
 			var tile_id:String = chunk.data[i].id
 			if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
 				continue
@@ -209,7 +209,7 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
 				"block_id": tile_id,
-				"block_settings": tile_settings
+				"block_settings_info": {"settings": tile_settings.get_settings(), "edited_settings": tile_settings.get_edited_settings()}
 			})
 
 
@@ -390,7 +390,7 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 					# failsafe for chunks with data that isn't in the dictionary format
 					if chunk.data[i] is not Dictionary:
 						chunk.data[i] = {"id": str(int(chunk.data[i])), "settings": null}
-					if "id" not in chunk.data[i]:
+					elif chunk.data[i].is_empty() or !chunk.data[i].has("id"):
 						continue
 					var tile_id:String = chunk.data[i].id
 					if tile_id not in BlockManager._block_lookup or tile_id not in BlockManager._blocks:
@@ -408,5 +408,5 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 						"layer_name": encoded_layer_name,
 						"coords": {"x": coords.x, "y": coords.y},
 						"block_id": tile_id,
-						"block_settings": tile_settings
+						"block_settings_info": {"settings": tile_settings.get_settings(), "edited_settings": tile_settings.get_edited_settings()}
 					})

@@ -32,7 +32,10 @@ func _ready() -> void:
 	block_dropper_button.pressed.connect(_click_block_menu.bind(block_dropper_button))
 	if !selected_block_id:
 		selected_block_id = "601"
-		selected_block_settings.import_settings(BlockManager._block_lookup[selected_block_id].settings)
+		var settings = {}
+		if selected_block_id in BlockManager._block_lookup:
+			settings = BlockManager._block_lookup[selected_block_id].settings
+		selected_block_settings.import_settings(settings)
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_options_button.pressed.connect(_show_block_options)
 	_click_block_menu(block_dropper_button)
@@ -41,7 +44,8 @@ func _ready() -> void:
 func init() -> void:
 	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
-	_set_current_block({"id": selected_block_id})
+	var settings = {}
+	_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
 	if active:
 		layer_panel._render()
 
@@ -85,18 +89,19 @@ func _process(_delta: float) -> void:
 			set_selection_glow()
 	else:
 		visible = false
-	if selected_block_settings:
+	if selected_block_settings and block_draw_teleport_colorin.visible:
 		block_draw_teleport_colorin.self_modulate = selected_block_settings.teleport_color
 
 
 func _set_current_block(block_data: Dictionary) -> void:
 	selected_block_id = block_data.id
-	selected_block_settings.import_settings(block_data.get("settings", {}))
+	selected_block_settings.import_settings(block_data.settings)
 	block_draw_teleport_colorin.visible = false
 	emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK,
 			"block_id": selected_block_id,
-			"block_settings": selected_block_settings
+			"block_settings": selected_block_settings,
+			"block_settings_info": {"settings": selected_block_settings.get_settings(), "edited_settings": selected_block_settings.get_edited_settings()}
 		})
 	block_draw_button.texture_normal = BlockManager.get_block_texture(selected_block_id)
 	if selected_block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):

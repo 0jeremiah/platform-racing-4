@@ -104,12 +104,14 @@ func on_mouse_down():
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_block(coords).id
 		if tile_id:
-			var tile_settings = tile_map_layer.get_block_settings(coords)
+			var tile_settings_info = tile_map_layer.get_block_settings_info(coords)
 			if "object_box" in cursor_parent.editor_menu.current_editor:
 				var object_box = cursor_parent.editor_menu.current_editor.object_box
 				object_box.close()
 			grabbed_block_id = tile_id
-			grabbed_block_settings = tile_settings
+			grabbed_block_settings = ConfigurableBlockSettings.new()
+			grabbed_block_settings.import_settings(tile_settings_info.settings)
+			grabbed_block_settings.import_edited_settings(tile_settings_info.edited_settings)
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -118,7 +120,7 @@ func on_mouse_down():
 					"y": coords.y
 				},
 				"block_id": 0,
-				"block_settings": null
+				"block_settings_info": {"settings": tile_settings_info.settings, "edited_settings": tile_settings_info.edited_settings}
 			})
 
 func on_drag():
@@ -127,16 +129,16 @@ func on_drag():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: String
-		var tile_settings: ConfigurableBlockSettings
+		var tile_settings_info: Dictionary
 		if mode == "erase":
 			tile_id = ""
-			tile_settings = null
+			tile_settings_info = {"settings": {}, "edited_settings": {}}
 		else:
 			tile_id = block_id
-			tile_settings = block_settings
+			tile_settings_info = {"settings": block_settings.get_settings(), "edited_settings": block_settings.get_edited_settings()}
 		var existing_tile_id = tile_map_layer.get_block(coords).id
-		var existing_tile_settings = tile_map_layer.get_block_settings(coords)
-		if tile_id != existing_tile_id or tile_settings != existing_tile_settings:
+		var existing_tile_settings_info = tile_map_layer.get_block_settings_info(coords)
+		if tile_id != existing_tile_id or tile_settings_info != existing_tile_settings_info:
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -145,7 +147,7 @@ func on_drag():
 					"y": coords.y
 				},
 				"block_id": tile_id,
-				"block_settings": tile_settings
+				"block_settings_info": tile_settings_info
 			})
 
 
@@ -155,6 +157,10 @@ func on_mouse_up():
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		if grabbed_block_id:
+			var grabbed_block_settings_info = {"settings": {}, "edited_settings": {}}
+			if grabbed_block_settings:
+				grabbed_block_settings_info.settings = grabbed_block_settings.get_settings()
+				grabbed_block_settings_info.edited_settings = grabbed_block_settings.get_edited_settings()
 			emit_signal("editor_event", {
 				"type": EditorEvents.SET_TILE,
 				"layer_name": level_layers.get_target_map_layer(),
@@ -163,7 +169,7 @@ func on_mouse_up():
 					"y": coords.y
 				},
 				"block_id": grabbed_block_id,
-				"block_settings": grabbed_block_settings
+				"block_settings_info": grabbed_block_settings_info
 			})
 			if "object_box" in get_parent().editor_menu.current_editor:
 				var object_box = get_parent().editor_menu.current_editor.object_box

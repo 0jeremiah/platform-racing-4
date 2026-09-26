@@ -54,7 +54,7 @@ func get_all_block_coords_by_id(block_id: String) -> Array:
 
 
 ## Set a cell by block ID instead of atlas coordinates
-func add_block(coords: Vector2i, block_id: String, block_settings: ConfigurableBlockSettings = null) -> void:
+func add_block(coords: Vector2i, block_id: String, block_settings_info: Dictionary = {}) -> void:
 	if block_id == "":
 		push_warning("Block ID cannot be blank")
 		return
@@ -64,8 +64,9 @@ func add_block(coords: Vector2i, block_id: String, block_settings: ConfigurableB
 		return
 	var block_dict_name = get_block_dict_name(coords)
 	var settings = ConfigurableBlockSettings.new()
-	if block_settings:
-		settings = block_settings
+	if block_settings_info:
+		settings.import_settings(block_settings_info.settings)
+		settings.import_edited_settings(block_settings_info.edited_settings)
 	else:
 		settings.import_settings(BlockManager._block_lookup[block_id].settings)
 	var maybe_block = null
@@ -243,7 +244,7 @@ func spawn_gears():
 		var coord_list = get_all_block_coords_by_id(gear)
 		for coords in coord_list:
 			if get_block(coords).id != "":
-				var gear_settings = get_block_settings(coords)
+				var gear_settings = get_block_settings_info(coords)
 				delete_block(coords)
 				gear_counter += 1
 				# Create rotation controller
@@ -269,7 +270,7 @@ func spawn_gears():
 						var current_coords: Vector2i = queue.pop_back()
 						var block_id = get_block(current_coords).id
 						if block_id != "":
-							var settings = get_block_settings(current_coords)
+							var settings = get_block_settings_info(current_coords)
 							delete_block(current_coords)
 							sub_tile_map_layer.add_block(current_coords, block_id, settings)
 							queue.append_array(get_surrounding_cells(current_coords))
