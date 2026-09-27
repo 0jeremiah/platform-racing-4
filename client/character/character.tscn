@@ -10,10 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
 [ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]
 
-[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_dy06j"]
-length = 32.0
-slide_on_slope = true
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ujkw"]
 size = Vector2(64, 64)
 
@@ -23,26 +19,8 @@ size = Vector2(64, 64)
 
 [node name="Character" type="CharacterBody2D" unique_id=1541502241]
 slide_on_ceiling = false
+safe_margin = 0.001
 script = ExtResource("1_phdif")
-
-[node name="BottomSeparatorRay" type="CollisionShape2D" parent="." unique_id=1348973742]
-position = Vector2(0, -32)
-shape = SubResource("SeparationRayShape2D_dy06j")
-
-[node name="LeftSeparatorRay" type="CollisionShape2D" parent="." unique_id=2060966507]
-position = Vector2(0, -32)
-rotation = 1.5707964
-shape = SubResource("SeparationRayShape2D_dy06j")
-
-[node name="TopSeparatorRay" type="CollisionShape2D" parent="." unique_id=1637577240]
-position = Vector2(0, -32)
-rotation = -3.1415925
-shape = SubResource("SeparationRayShape2D_dy06j")
-
-[node name="RightSeparatorRay" type="CollisionShape2D" parent="." unique_id=2055175378]
-position = Vector2(0, -32)
-rotation = -1.5707964
-shape = SubResource("SeparationRayShape2D_dy06j")
 
 [node name="CharacterHitbox" type="CollisionShape2D" parent="." unique_id=2082247507]
 position = Vector2(0, -32)

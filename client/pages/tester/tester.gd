@@ -1,4 +1,5 @@
 extends Node2D
+class_name Tester
 
 @onready var back = $UI/Container/Back
 @onready var minimap: Minimap = $UI/Container/Minimap
@@ -58,7 +59,6 @@ func init(data: Dictionary):
 	player_manager.spawn_local_player(level_manager.level_layers)
 	
 	minimap.init(self)
-	game_timer.init(self)
 	stats_display.init(self)
 	if level_manager.level_type == level_manager.deathmatch:
 		hp_display.init(self)

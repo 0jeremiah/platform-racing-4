@@ -11,19 +11,16 @@ var game = null
 var player: Character = null
 
 
-func init(game_scene):
-	game = game_scene
-	player = game_scene.get_node("PlayerManager").get_character()
-	player.connect("increase_time", _inc_timer)
-
-
 func _physics_process(delta: float) -> void:
 	if !pause:
 		if time > 0:
 			if timer - delta > 0:
 				timer -= delta
-			elif !player.movement.finished:
-				player.movement.finished = true
+			elif Game.game and Game.game is not Tester:
+				var local_player = Game.game.player_manager.get_character()
+				if local_player and !local_player.movement.finished:
+					local_player.movement.finished = true
+				Jukebox.play_sound("victory")
 		else:
 			stopwatch += delta
 	update_display()
@@ -84,7 +81,7 @@ func set_timer(new_time: float):
 	time = new_time
 
 
-func _inc_timer(increment: float):
+func inc_timer(increment: float):
 	if time > 0:
 		timer += increment
 	else:

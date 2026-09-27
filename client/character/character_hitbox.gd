@@ -34,8 +34,8 @@ func run(character: Character) -> void:
 		disabled = false
 	
 	# position hitbox
-	position.y = round(-shape.size.y / 2.0)
 	shape.size = hitbox_size
+	position.y = round(-shape.size.y / 2.0)
 
 
 func go_high() -> void:

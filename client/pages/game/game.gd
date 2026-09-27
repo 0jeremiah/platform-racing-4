@@ -93,7 +93,6 @@ func _activate_game() -> void:
 	level_manager.init_level()
 	player_manager.spawn_local_player(level_manager.level_layers)
 	minimap.init(self)
-	game_timer.init(self)
 	stats_display.init(self)
 	if level_manager.level_type == level_manager.deathmatch:
 		hp_display.init(self)

@@ -118,7 +118,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	var not_rotating: bool = gravity.not_rotating()
 
 	# Handle regular jump
-	if not hurt and can_jump and Input.is_action_pressed("jump"):
+	if !hurt and can_jump and Input.is_action_pressed("jump"):
 		if is_crouching:
 			character._bump_tile_covering_high_area()
 		elif character.is_on_floor() and current_velocity.rotated(-character.rotation).y > GameConfig.get_value("player_movement", "player_jump_velocity") * GameConfig.get_value("player_movement", "player_jump_velocity_multiplier"):
@@ -135,7 +135,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		wall_slide_friction_timer = GameConfig.get_value("player_movement", "player_wall_slide_friction_decay_time")
 	
 	# Check for wall sliding
-	if not_rotating and not character.is_on_floor() and not swimming and on_sticky_block:
+	if not_rotating and !character.is_on_floor() and !swimming and on_sticky_block:
 		# Check for wall sliding on right walls
 		if character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x < -0.7 and last_wall_jump_dir != 1:
 			if horizontal_axis > 0 or (horizontal_axis == 0 and Input.is_action_pressed("left")) or wall_sliding_dir == 1:  # Pressing against the wall
@@ -162,7 +162,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			wall_sliding_dir = 0
 	
 	# Check for wall jump with opposite direction input
-	if not hurt and can_jump and is_wall_sliding and can_wall_jump:
+	if !hurt and can_jump and is_wall_sliding and can_wall_jump:
 		var opposite_direction_pressed = (wall_sliding_dir > 0 and Input.is_action_pressed("left")) or (wall_sliding_dir < 0 and Input.is_action_pressed("right"))
 		
 		# Wall jump if jump button is pressed OR if opposite direction is pressed
@@ -192,7 +192,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	current_velocity = _cap_velocity(current_velocity)
 			
 	# Airborne behavior
-	if not_rotating and not character.is_on_floor():
+	if not_rotating and !character.is_on_floor():
 		# Apply wall slide friction
 		if is_wall_sliding and current_velocity.rotated(-character.rotation).y > 0:
 			wall_slide_friction_timer -= delta
@@ -201,7 +201,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 				current_velocity.y *= 1 - (GameConfig.get_value("player_movement", "player_wall_slide_friction") * friction_factor)
 			
 		# Cancel jump early by not pressing jump
-		if jumped and not Input.is_action_pressed("jump"):
+		if jumped and !Input.is_action_pressed("jump"):
 			jumped = false
 		# Fastfall; if down pressed while not on floor, fall faster. also cancels wall slide
 		if !hurt and Input.is_action_pressed("down"):
@@ -257,18 +257,19 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	return current_velocity
 
 
-func _cap_velocity(velocity: Vector2) -> Vector2:
-	if abs(velocity.x) > GameConfig.get_value("player_movement", "player_max_horizontal_velocity"):
-		if velocity.x > 0:
-			velocity.x = GameConfig.get_value("player_movement", "player_max_horizontal_velocity")
+func _cap_velocity(velocity: Vector2, player_rotation: float = 0.0) -> Vector2:
+	var compat_velocity = velocity.rotated(-player_rotation)
+	if abs(compat_velocity.x) > GameConfig.get_value("player_movement", "player_max_horizontal_velocity"):
+		if compat_velocity.x > 0:
+			compat_velocity.x = GameConfig.get_value("player_movement", "player_max_horizontal_velocity")
 		else:
-			velocity.x = GameConfig.get_value("player_movement", "player_max_horizontal_velocity") * -1
-	if abs(velocity.y) > GameConfig.get_value("player_movement", "player_max_vertical_velocity"):
-		if velocity.y > 0:
-			velocity.y = GameConfig.get_value("player_movement", "player_max_vertical_velocity")
+			compat_velocity.x = GameConfig.get_value("player_movement", "player_max_horizontal_velocity") * -1
+	if abs(compat_velocity.y) > GameConfig.get_value("player_movement", "player_max_vertical_velocity"):
+		if compat_velocity.y > 0:
+			compat_velocity.y = GameConfig.get_value("player_movement", "player_max_vertical_velocity")
 		else:
-			velocity.y = GameConfig.get_value("player_movement", "player_max_vertical_velocity") * -1
-	return velocity
+			compat_velocity.y = GameConfig.get_value("player_movement", "player_max_vertical_velocity") * -1
+	return compat_velocity.rotated(player_rotation)
 
 
 func maybe_finish(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):

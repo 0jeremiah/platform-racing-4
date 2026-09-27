@@ -45,7 +45,6 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 			else:
 				if !node.movement.down_pressed:
 					push_velocity = (rotated_push_dir * push_force) * 15
-					#node.movement.current_velocity.y = 0
 				# remove from last_bumped_block so we can keep bumping this block
 				#var block_info = {
 					#"tile_map_layer": tile_map_layer,
@@ -452,11 +451,11 @@ func get_next_teleport_position(source_position: Dictionary, positions: Array) -
 
 # Teleports the player to the next teleport block it can find
 func time(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
-	if "increase_time" not in node:
+	if !Game.game or Game.game.player_manager.get_character() != node:
 		return
 	var settings = tile_map_layer.get_block(coords).settings
 	if settings.can_give_time:
-		node.emit_signal("increase_time", params.get("seconds", 10.0))
+		Game.game.game_timer.inc_timer(params.get("seconds", 10.0))
 		if !settings.infinite_time and settings.time_supply - 1 <= 0:
 			settings.time_supply = 0
 			settings.can_give_time = false
