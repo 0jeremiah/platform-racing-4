@@ -17,6 +17,7 @@ func _process(_delta: float) -> void:
 		if character:
 			var player_position = "position: " + str(character.position)
 			var velocity = "velocity: " +  str(character.velocity)
+			var curr_velocity = "current_velocity: " +  str(character.movement.current_velocity)
 			var prev_velocity = "previous_velocity: " +  str(character.movement.previous_velocity)
 			var player_size = "size: " +  str(character.movement.size)
 			var last_bumped_block = "last_bumped_block: " +  str(character.movement.last_bumped_block)
@@ -34,7 +35,7 @@ func _process(_delta: float) -> void:
 			#var touched_tiles = "touched_tiles: " +  str(character.tile_interaction.touched_tiles)
 			for text in debug_text_container.get_children():
 				if text is RichTextLabel:
-					text.text = (player_position + "\n" + velocity + "\n" + prev_velocity + "\n" + player_size +
+					text.text = (player_position + "\n" + velocity + "\n" + curr_velocity + "\n" + prev_velocity + "\n" + player_size +
 					"\n" + last_bumped_block + "\n" + speed + "\n" + accel + "\n" + jump + "\n" + skill + "\n" +
 					hitbox_mode + "\n" + gravity + "\n" + frozen + "\n" + shielded + "\n" + finished + "\n" +
 					hurt + "\n" + current_anim)

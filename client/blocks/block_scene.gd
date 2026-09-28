@@ -30,16 +30,17 @@ var bottom_hitbox_enabled: bool = true
 var left_hitbox_enabled: bool = true
 var right_hitbox_enabled: bool = true
 var area_hitbox_enabled: bool = true
+var block_collision_layer: int = 0
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
 	if new_id in BlockManager._block_lookup:
 		id = new_id
 		settings = new_settings
-		active = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
-		var which_layer = 0 if settings.matter_type == ConfigurableBlockSettings.SOLID else 1
-		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(which_layer)
-		collision_mask = 0 | 1
+		active = true if settings.matter_type == ConfigurableBlockSettings.SOLID else false
+		block_collision_layer = BlockManager.solid_layer_id if settings.matter_type == ConfigurableBlockSettings.SOLID else BlockManager.non_solid_layer_id
+		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
+		collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id) | BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
 		block_detection_area.collision_layer = collision_layer
 		block_detection_area.collision_mask = collision_mask
 		top_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
@@ -99,6 +100,7 @@ func _process(delta: float) -> void:
 			elif fade_mode == "appear":
 				fade_mode = "appear_cooldown"
 			fade_timer = fade_cooldown
+			collision_layer = 0
 			active = false
 		elif fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown":
 			if !player_is_in_block():
@@ -107,13 +109,16 @@ func _process(delta: float) -> void:
 				elif fade_mode == "appear_cooldown":
 					fade_mode = "reverse_appear"
 				fade_timer = fade_duration
+				collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
 				active = true
 			else:
 				fade_timer = 0.0 if fade_cooldown == 0.0 else fade_cooldown / 2
+				collision_layer = 0
 				active = false
 		elif fade_mode == "reverse_vanish" or fade_mode == "reverse_appear":
 			fade_mode = "idle"
 			fade_timer = 0.0
+			collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
 			active = true
 	if (fade_mode == "vanish" or fade_mode == "reverse_appear") and fade_duration != 0.0:
 		block_texture.modulate.a = fade_timer / fade_duration
@@ -123,7 +128,7 @@ func _process(delta: float) -> void:
 		block_texture.modulate.a = 1.0 if can_appear else 0.0
 	else:
 		block_texture.modulate.a = 0.0 if can_appear else 1.0
-	block_texture.position = block_texture.position.lerp(Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5)), delta * 30.0)
+	block_texture.position = Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5))
 
 
 func get_coords() -> Vector2i:

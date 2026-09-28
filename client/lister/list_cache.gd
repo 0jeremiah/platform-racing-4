@@ -5,9 +5,6 @@ var expire_time: int = 0
 var total_results: int = 0
 var list: Array = []
 
-#Time.get_ticks_msec()
-
-
 static func get_from_cache(cache_name: String, start_from: int, total: int) -> Dictionary:
 	var count: int = 0
 	var current_cache = null

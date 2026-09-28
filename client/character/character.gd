@@ -100,7 +100,7 @@ func _physics_process(delta: float) -> void:
 		modulate.a = 1
 	
 	# Prevent getting stuck in a block
-	#tile_interaction.inside_solid_blocks_check(self)
+	tile_interaction.inside_solid_blocks_check(self)
 	
 	# Item usage
 	if !movement.finished:

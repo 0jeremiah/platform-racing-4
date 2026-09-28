@@ -183,7 +183,8 @@ func inside_solid_blocks_check(character: Character):
 	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
 	var tiles = []
 	for tile in tiles_overlapping:
-		if tile.tile_map_layer.is_solid(tile.coords):
+		var block_info = tile.tile_map_layer.get_block(tile.coords)
+		if tile.tile_map_layer.is_solid(tile.coords) and block_info.node != null and block_info.node.active:
 			var block_scene = tile.tile_map_layer.get_block(tile.coords).node
 			if block_scene and block_scene.active:
 				tiles.append(block_scene)

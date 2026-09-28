@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://btetwq0fyumv"]
+[gd_scene format=3 uid="uid://btetwq0fyumv"]
 
 [ext_resource type="Script" uid="uid://cwwwmewm0phss" path="res://pages/tester/tester.gd" id="1_uug6k"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="2_o2o8t"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_vbo6q"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_sy0tr"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor/editor_events.tscn" id="5_4ui7b"]
-[ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/game/stats_panel/stats_panel.tscn" id="7_74ued"]
+[ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/tester/stats_panel/stats_panel.tscn" id="7_74ued"]
 [ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
 [ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_ju48d"]
 [ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_8qmsf"]
@@ -14,23 +14,23 @@
 [ext_resource type="PackedScene" uid="uid://c2bs3b11phh58" path="res://ui/debug_display.tscn" id="10_gtifp"]
 [ext_resource type="PackedScene" uid="uid://cld2kelekhq2w" path="res://ui/hp_display.tscn" id="11_x6nje"]
 
-[node name="Tester" type="Node2D"]
+[node name="Tester" type="Node2D" unique_id=483447876]
 script = ExtResource("1_uug6k")
 
-[node name="Penciler" parent="." instance=ExtResource("2_o2o8t")]
+[node name="Penciler" parent="." unique_id=210473396 instance=ExtResource("2_o2o8t")]
 
-[node name="BG" parent="." instance=ExtResource("2_vbo6q")]
+[node name="BG" parent="." unique_id=508626365 instance=ExtResource("2_vbo6q")]
 
-[node name="LevelManager" parent="." instance=ExtResource("2_qvp0h")]
+[node name="LevelManager" parent="." unique_id=1463536691 instance=ExtResource("2_qvp0h")]
 
-[node name="PlayerManager" parent="." instance=ExtResource("7_abcde")]
+[node name="PlayerManager" parent="." unique_id=1902323548 instance=ExtResource("7_abcde")]
 
-[node name="EditorEvents" parent="." instance=ExtResource("5_4ui7b")]
+[node name="EditorEvents" parent="." unique_id=1171408865 instance=ExtResource("5_4ui7b")]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1415162039]
 layer = 120
 
-[node name="Container" type="Control" parent="UI"]
+[node name="Container" type="Control" parent="UI" unique_id=526882847]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,27 +40,27 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("3_sy0tr")
 
-[node name="Minimap" parent="UI/Container" instance=ExtResource("7_ju48d")]
+[node name="Minimap" parent="UI/Container" unique_id=65992901 instance=ExtResource("7_ju48d")]
 layout_mode = 1
 anchors_preset = -1
 offset_top = 930.0
 offset_bottom = 0.0
 
-[node name="GameTimer" parent="UI/Container" instance=ExtResource("9_8qmsf")]
+[node name="GameTimer" parent="UI/Container" unique_id=1308358420 instance=ExtResource("9_8qmsf")]
 layout_mode = 0
 offset_left = 1640.0
 offset_top = 10.0
 offset_right = 1908.0
 offset_bottom = 90.0
 
-[node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_7uc45")]
+[node name="StatsDisplay" parent="UI/Container" unique_id=896872631 instance=ExtResource("10_7uc45")]
 layout_mode = 0
 offset_left = 1640.0
 offset_top = 100.0
 offset_right = 1908.0
 offset_bottom = 150.0
 
-[node name="HPDisplay" parent="UI/Container" instance=ExtResource("11_x6nje")]
+[node name="HPDisplay" parent="UI/Container" unique_id=969924436 instance=ExtResource("11_x6nje")]
 visible = false
 layout_mode = 0
 offset_left = 1640.0
@@ -68,7 +68,7 @@ offset_top = 160.0
 offset_right = 1908.0
 offset_bottom = 210.0
 
-[node name="StatsPanel" parent="UI/Container" instance=ExtResource("7_74ued")]
+[node name="StatsPanel" parent="UI/Container" unique_id=1010530631 instance=ExtResource("7_74ued")]
 layout_mode = 1
 anchor_top = 0.861
 anchor_bottom = 1.0
@@ -76,14 +76,14 @@ offset_top = 0.119934
 offset_right = 0.400009
 offset_bottom = 0.0
 
-[node name="DebugDisplay" parent="UI/Container" instance=ExtResource("10_gtifp")]
+[node name="DebugDisplay" parent="UI/Container" unique_id=841413147 instance=ExtResource("10_gtifp")]
 layout_mode = 0
 
-[node name="UpdateStatsPanelTimer" type="Timer" parent="UI/Container"]
+[node name="UpdateStatsPanelTimer" type="Timer" parent="UI/Container" unique_id=1004979645]
 process_callback = 0
 wait_time = 0.25
 
-[node name="Back" type="Button" parent="UI/Container"]
+[node name="Back" type="Button" parent="UI/Container" unique_id=1258800023]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.924
