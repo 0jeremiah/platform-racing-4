@@ -252,9 +252,9 @@ func spawn_gears():
 				elif gear_settings.settings.has("gear_tick"):
 					gear_tick = gear_settings.settings.gear_tick
 				if gear_settings.edited_settings.has("gear_tock"):
-					gear_tick = gear_settings.edited_settings.gear_tock
+					gear_tock = gear_settings.edited_settings.gear_tock
 				elif gear_settings.settings.has("gear_tick"):
-					gear_tick = gear_settings.settings.gear_tock
+					gear_tock = gear_settings.settings.gear_tock
 				delete_block(coords)
 				gear_counter += 1
 				# Create rotation controller

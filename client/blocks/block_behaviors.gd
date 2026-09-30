@@ -2,6 +2,13 @@ extends Node
 ## Movement-related tile behaviors (push, freeze, etc.)
 
 
+# Makes the block vanish for a bit, then makes it reappear
+func appear(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	var block_node = tile_map_layer.get_block(coords).node
+	if block_node:
+		block_node.appear(params.get("fade_duration", 0.3), params.get("fade_cooldown", 2.0))
+
+
 ## Push the node in a specified direction
 func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
 	if node is not PhysicsBody2D or "movement" not in node:

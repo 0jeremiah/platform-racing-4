@@ -6,8 +6,8 @@
 [node name="VanishSideSettings" type="Control" unique_id=1294289390]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 350.0
-offset_bottom = 70.0
+offset_right = 370.0
+offset_bottom = 110.0
 script = ExtResource("1_q15b6")
 
 [node name="FadeDurationLabel" type="RichTextLabel" parent="." unique_id=811610962]
@@ -30,17 +30,17 @@ vertical_alignment = 1
 [node name="FadeCooldownLabel" type="RichTextLabel" parent="." unique_id=39469408]
 layout_mode = 0
 offset_top = 40.0
-offset_right = 120.0
+offset_right = 160.0
 offset_bottom = 70.0
 theme_override_font_sizes/normal_font_size = 20
-text = "Revert after:"
+text = "Fade Cooldown:"
 vertical_alignment = 1
 
 [node name="FadeCooldownSecondsLabel" type="RichTextLabel" parent="." unique_id=808519907]
 layout_mode = 0
-offset_left = 230.0
+offset_left = 270.0
 offset_top = 40.0
-offset_right = 330.0
+offset_right = 370.0
 offset_bottom = 70.0
 theme_override_font_sizes/normal_font_size = 20
 text = "second(s)"
@@ -57,10 +57,19 @@ script = ExtResource("2_s8fut")
 
 [node name="FadeCooldownBox" type="LineEdit" parent="." unique_id=1436458480]
 layout_mode = 0
-offset_left = 120.0
+offset_left = 160.0
 offset_top = 40.0
-offset_right = 220.0
+offset_right = 260.0
 offset_bottom = 70.0
 theme_override_font_sizes/font_size = 16
 text = "2.0"
 script = ExtResource("2_s8fut")
+
+[node name="RevertCheckBox" type="CheckBox" parent="." unique_id=1791836345]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 210.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 17
+button_pressed = true
+text = "Revert after cooldown"

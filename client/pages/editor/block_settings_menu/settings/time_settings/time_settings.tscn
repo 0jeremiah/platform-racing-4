@@ -10,18 +10,10 @@ offset_right = 230.0
 offset_bottom = 70.0
 script = ExtResource("1_djn5l")
 
-[node name="InfiniteTimeCheckBox" type="CheckBox" parent="." unique_id=1507004803]
-layout_mode = 0
-offset_right = 131.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 17
-text = "Infinite Time"
-
 [node name="TimeSupplyLabel" type="RichTextLabel" parent="." unique_id=489461661]
 layout_mode = 0
-offset_top = 40.0
 offset_right = 130.0
-offset_bottom = 70.0
+offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Time Supply:"
 vertical_alignment = 1
@@ -29,9 +21,16 @@ vertical_alignment = 1
 [node name="TimeSupplyBox" type="LineEdit" parent="." unique_id=781335267]
 layout_mode = 0
 offset_left = 130.0
-offset_top = 40.0
 offset_right = 230.0
-offset_bottom = 70.0
+offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "1"
 script = ExtResource("2_1g02i")
+
+[node name="InfiniteTimeCheckBox" type="CheckBox" parent="." unique_id=1507004803]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 131.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 17
+text = "Infinite Time"

@@ -10,18 +10,10 @@ offset_right = 220.0
 offset_bottom = 70.0
 script = ExtResource("1_mbgd2")
 
-[node name="InfiniteItemsCheckBox" type="CheckBox" parent="." unique_id=2047226096]
-layout_mode = 0
-offset_right = 131.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 17
-text = "Infinite Items"
-
 [node name="ItemSupplyLabel" type="RichTextLabel" parent="." unique_id=51521567]
 layout_mode = 0
-offset_top = 40.0
 offset_right = 120.0
-offset_bottom = 70.0
+offset_bottom = 30.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Item Supply:"
 vertical_alignment = 1
@@ -29,9 +21,16 @@ vertical_alignment = 1
 [node name="ItemSupplyBox" type="LineEdit" parent="." unique_id=1291480333]
 layout_mode = 0
 offset_left = 120.0
-offset_top = 40.0
 offset_right = 220.0
-offset_bottom = 70.0
+offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "9999999"
 script = ExtResource("2_5qivr")
+
+[node name="InfiniteItemsCheckBox" type="CheckBox" parent="." unique_id=2047226096]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 131.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 17
+text = "Infinite Items"

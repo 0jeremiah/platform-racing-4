@@ -52,11 +52,6 @@ func _ready() -> void:
 	connect_node(self, "custom_stats_side_settings_changed")
 
 
-func _toggle_reset():
-	reset = reset_check_box.button_pressed
-	emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
-
-
 func _change_speed(new_speed: int, inc_or_dec: bool = false):
 	if inc_or_dec and speed + new_speed > 0 and speed + new_speed < 100:
 		speed += new_speed
@@ -123,6 +118,11 @@ func _change_skill(new_skill: int, inc_or_dec: bool = false):
 		if int(skill_box.text) != skill:
 			skill_box._update_text(str(skill))
 		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+
+
+func _toggle_reset():
+	reset = reset_check_box.button_pressed
+	emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
 
 
 func set_side_settings(new_side_settings: Dictionary):

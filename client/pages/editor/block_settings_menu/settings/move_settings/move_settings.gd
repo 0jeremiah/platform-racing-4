@@ -65,7 +65,7 @@ func _parse_pattern():
 					"random": command = "*"
 					_: command = "*"
 				if pattern.remove_chars("0123456789") != pattern:
-					var converted_numeration = pattern.dedent().remove_chars("up^downvleft<righ>am ")
+					var converted_numeration = pattern.dedent().remove_chars("updownleftrighamw ")
 					if converted_numeration.is_valid_int():
 						var amount = int(converted_numeration)
 						for i in range(amount):

@@ -3,6 +3,7 @@ class_name BlockScene
 
 @onready var block_texture = $BlockTexture
 @onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
+@onready var dull_square_graphic = $BlockTexture/TeleportColorinTexture/DullSquareGraphic
 @onready var frozen_texture = $BlockTexture/FrozenTexture
 @onready var top_hitbox = $TopHitbox
 @onready var bottom_hitbox = $BottomHitbox
@@ -17,12 +18,12 @@ var settings = ConfigurableBlockSettings.new()
 var location: String = ""
 var tile_map_layer = null
 var frozen: bool = false
-var can_appear: bool = false
 var fade_mode: String = "idle"
 var fade_duration: float = 0.3
 var fade_cooldown: float = 2.0
 var fade_timer: float = 0.0
 var freeze_timer: float = 0.0
+var teleport_throttle_timer: float = 0.0
 var bump_timer: float = 0.0
 var bump_direction: Vector2 = Vector2(0, -1)
 var top_hitbox_enabled: bool = true
@@ -31,6 +32,8 @@ var left_hitbox_enabled: bool = true
 var right_hitbox_enabled: bool = true
 var area_hitbox_enabled: bool = true
 var block_collision_layer: int = 0
+var just_hidden: bool = false
+var random_move_pattern: String  = ""
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -48,7 +51,7 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 		left_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
 		right_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
 		area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
-		can_appear = settings.has_side_type(ConfigurableBlockSideSettings.APPEAR)
+		fade_mode = "hidden" if settings.has_side_type(ConfigurableBlockSideSettings.APPEAR) else "idle"
 		set_block_texture()
 
 
@@ -70,14 +73,14 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if Game.game:
-		if !(top_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR))) != top_hitbox.disabled:
-			top_hitbox.disabled = !(top_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
-		if !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.bottom.type == ConfigurableBlockSideSettings.APPEAR))) != bottom_hitbox.disabled:
-			bottom_hitbox.disabled = !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
-		if !(left_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.left.type == ConfigurableBlockSideSettings.APPEAR))) != left_hitbox.disabled:
-			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
-		if !(right_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.right.type == ConfigurableBlockSideSettings.APPEAR))) != right_hitbox.disabled:
-			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled and (fade_mode != "vanish_cooldown" or (fade_mode == "vanish_cooldown" and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(top_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR))) != top_hitbox.disabled:
+			top_hitbox.disabled = !(top_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.bottom.type == ConfigurableBlockSideSettings.APPEAR))) != bottom_hitbox.disabled:
+			bottom_hitbox.disabled = !(bottom_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(left_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.left.type == ConfigurableBlockSideSettings.APPEAR))) != left_hitbox.disabled:
+			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(right_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.right.type == ConfigurableBlockSideSettings.APPEAR))) != right_hitbox.disabled:
+			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
 	if frozen:
 		if freeze_timer - delta > 0:
 			freeze_timer -= delta
@@ -86,48 +89,74 @@ func _process(delta: float) -> void:
 			freeze_timer = 0
 			frozen = false
 			frozen_texture.visible = false
+	if teleport_throttle_timer > 0:
+		if teleport_throttle_timer - delta > 0:
+			teleport_throttle_timer -= delta
+			dull_square_graphic.size = Settings.tile_size.y * (teleport_throttle_timer / settings.teleport_throttle_ms)
+		else:
+			teleport_throttle_timer = 0.0
+			dull_square_graphic.visible = false
 	if bump_timer > 0:
 		if bump_timer - delta > 0:
 			bump_timer -= delta
 		else:
 			bump_timer = 0
-	if fade_mode != "idle" or fade_timer > 0:
-		if fade_timer - delta > 0:
-			fade_timer -= delta
-		elif fade_mode == "vanish" or fade_mode == "appear":
-			if fade_mode == "vanish":
-				fade_mode = "vanish_cooldown"
-			elif fade_mode == "appear":
-				fade_mode = "appear_cooldown"
-			fade_timer = fade_cooldown
-			collision_layer = 0
-			active = false
-		elif fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown":
-			if !player_is_in_block():
-				if fade_mode == "vanish_cooldown":
-					fade_mode = "reverse_vanish"
-				elif fade_mode == "appear_cooldown":
-					fade_mode = "reverse_appear"
-				fade_timer = fade_duration
-				collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
-				active = true
-			else:
-				fade_timer = 0.0 if fade_cooldown == 0.0 else fade_cooldown / 2
-				collision_layer = 0
-				active = false
-		elif fade_mode == "reverse_vanish" or fade_mode == "reverse_appear":
-			fade_mode = "idle"
-			fade_timer = 0.0
-			collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
-			active = true
-	if (fade_mode == "vanish" or fade_mode == "reverse_appear") and fade_duration != 0.0:
-		block_texture.modulate.a = fade_timer / fade_duration
-	elif (fade_mode == "appear" or fade_mode == "reverse_vanish") and fade_duration != 0.0:
-		block_texture.modulate.a = 1.0 - (fade_timer / fade_duration)
-	elif (fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown") and fade_cooldown != 0.0:
-		block_texture.modulate.a = 1.0 if can_appear else 0.0
+	if just_hidden:
+		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
+		just_hidden = false
+	if Game.game:
+		if !(fade_mode == "idle" or fade_mode == "hidden") or fade_timer > 0:
+			if fade_timer - delta > 0:
+				fade_timer -= delta
+			elif (fade_mode == "vanish" or fade_mode == "vanish_no_revert") or (fade_mode == "appear" or fade_mode == "appear_no_revert"):
+				if fade_mode == "vanish" or fade_mode == "vanish_no_revert":
+					collision_layer = 0
+					just_hidden = true
+					active = false
+					if fade_mode == "vanish_no_revert":
+						fade_mode = "idle"
+					elif fade_mode == "vanish":
+						fade_mode = "vanish_cooldown"
+						fade_timer = fade_cooldown
+				elif fade_mode == "appear" or fade_mode == "appear_no_revert":
+					if fade_mode == "appear_no_revert":
+						fade_mode = "idle"
+					elif fade_mode == "appear":
+						fade_mode = "appear_cooldown"
+						fade_timer = fade_cooldown
+			elif fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown":
+				if !player_is_in_block():
+					if fade_mode == "vanish_cooldown":
+						fade_mode = "reverse_vanish"
+						collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
+						active = true
+					elif fade_mode == "appear_cooldown":
+						fade_mode = "reverse_appear"
+					fade_timer = fade_duration
+				else:
+					fade_timer = 0.0 if fade_cooldown == 0.0 else fade_cooldown / 2
+					if fade_mode == "vanish" or fade_mode == "vanish_no_revert":
+						collision_layer = 0
+						just_hidden = true
+						active = false
+						if fade_mode == "vanish_no_revert":
+							fade_mode = "idle"
+						elif fade_mode == "vanish":
+							fade_mode = "vanish_cooldown"
+							fade_timer = 0.0 if fade_cooldown == 0.0 else fade_cooldown / 2
+			elif fade_mode == "reverse_vanish" or fade_mode == "reverse_appear":
+				fade_mode = "hidden" if fade_mode == "reverse_appear" else "idle"
+				fade_timer = 0.0
+		if (fade_mode == "vanish" or fade_mode == "reverse_appear") and fade_duration != 0.0:
+			block_texture.modulate.a = fade_timer / fade_duration
+		elif (fade_mode == "appear" or fade_mode == "reverse_vanish") and fade_duration != 0.0:
+			block_texture.modulate.a = 1.0 - (fade_timer / fade_duration)
+		elif (fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown") and fade_cooldown != 0.0:
+			block_texture.modulate.a = 1.0 if fade_mode == "appear_cooldown" else 0.0
+		else:
+			block_texture.modulate.a = 0.0 if fade_mode == "hidden" else 1.0
 	else:
-		block_texture.modulate.a = 0.0 if can_appear else 1.0
+		block_texture.modulate.a = 1.0
 	block_texture.position = Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5))
 
 
@@ -150,19 +179,25 @@ func freeze():
 	frozen_texture.visible = true
 
 
-func vanish(new_fade_duration: float, new_fade_cooldown: float):
-	if fade_mode != "vanish":
+func vanish(new_fade_duration: float, new_fade_cooldown: float, revert: bool = true):
+	if fade_mode == "idle" or fade_mode == "reverse_vanish":
 		var percentage = 0.0 if fade_duration == 0.0 else 1.0 - (fade_timer / new_fade_duration)
-		fade_mode = "vanish"
+		if !revert:
+			fade_mode = "vanish_no_revert"
+		else:
+			fade_mode = "vanish"
 		fade_duration = new_fade_duration
 		fade_cooldown = new_fade_cooldown
 		fade_timer = fade_duration * percentage
 
 
-func appear(new_fade_duration: float, new_fade_cooldown: float):
-	if fade_mode != "appear":
+func appear(new_fade_duration: float, new_fade_cooldown: float, revert: bool = true):
+	if fade_mode == "idle" or fade_mode == "hidden" or fade_mode == "reverse_appear":
 		var percentage = 0.0 if fade_duration == 0.0 else 1.0 - (fade_timer / new_fade_duration)
-		fade_mode = "appear"
+		if !revert:
+			fade_mode = "appear_no_revert"
+		else:
+			fade_mode = "appear"
 		fade_duration = new_fade_duration
 		fade_cooldown = new_fade_cooldown
 		fade_timer = fade_duration * percentage
@@ -185,9 +220,20 @@ func undull_out():
 	modulate.b = 1.0
 
 
+func throttle_teleport():
+	teleport_throttle_timer = settings.teleport_throttle_ms
+	dull_square_graphic.size = Vector2(float(Settings.tile_size.x), float(Settings.tile_size.y))
+	dull_square_graphic.visible = true
+
+
 func player_is_in_block() -> bool:
-	var overlapping_bodies = block_detection_area.get_overlapping_bodies()
-	for overlapping_body in overlapping_bodies:
-		if overlapping_body is Character:
+	if fade_mode == "appear_cooldown":
+		var collision = move_and_collide(Vector2(0.0, 0.0), true)
+		if collision and collision.get_collider() is Character:
 			return true
+	else:
+		var overlapping_bodies = block_detection_area.get_overlapping_bodies()
+		for overlapping_body in overlapping_bodies:
+			if overlapping_body is Character:
+				return true
 	return false
