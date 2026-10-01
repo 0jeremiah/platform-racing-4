@@ -58,6 +58,7 @@ var bump: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var stand: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var any_side: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
 var area: ConfigurableBlockSideSettings = ConfigurableBlockSideSettings.new()
+var temporary: bool = false
 var health = default_block_properties.health
 var coin_value = default_block_properties.coin_value
 var change_tick = default_block_properties.change_tick

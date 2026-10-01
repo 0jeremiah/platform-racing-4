@@ -26,9 +26,9 @@ func _ready() -> void:
 	#var loc_5: BlockFreqGroup = loc_4.get(freq_tick)
 	#if loc_5 == null and param_3:
 		#if group_type == TYPE_MOVE:
-			#loc_5 = MoveBlockFreqGroup.new()
+			#loc_5 = MoveBlockFreqGroup.new(freq_tick)
 		#elif group_type == TYPE_CHANGE:
-			#loc_5 = ChangeBlockFreqGroup.new()
+			#loc_5 = ChangeBlockFreqGroup.new(freq_tick)
 		#loc_4[freq_tick] = loc_5
 	#return loc_5
 
