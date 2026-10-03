@@ -197,7 +197,7 @@ func finish(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 		return
 	var settings = tile_map_layer.get_block(coords).settings
 	var acceptable_level_types = [LevelManager.race, LevelManager.objective, LevelManager.roguelike]
-	if LevelManager.level_type in acceptable_level_types and settings.can_finish and !node.movement.finished:
+	if Game.game.level_manager.level_type in acceptable_level_types and settings.can_finish and !node.movement.finished:
 		settings.can_finish = false
 		node.movement.maybe_finish(tile_map_layer, coords)
 		Jukebox.play_sound("victory")
@@ -253,7 +253,7 @@ func item(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector
 		var item_array = params.get("item_array", Items.get_default_item_ids())
 		var item_pool = []
 		for item_id in item_array:
-			if int(item_id) in LevelManager.items:
+			if int(item_id) in Game.game.level_manager.items:
 				item_pool.append(int(item_id))
 		if !item_pool.is_empty():
 			var item_id = item_pool[randi_range(0, item_pool.size() - 1)]

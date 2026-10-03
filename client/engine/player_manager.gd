@@ -28,6 +28,6 @@ func spawn_local_player(level_layers: LevelLayers) -> CharacterBody2D:
 	character.active = true
 	player_holder.add_child(character)
 	character.tile_interaction.set_depth(layer.z_axis)
-	character.movement.toggle_health(character, LevelManager.level_type == LevelManager.deathmatch)
+	character.movement.toggle_health(character, Game.game.level_manager.level_type == LevelManager.deathmatch)
 	player_array.append(character)
 	return character

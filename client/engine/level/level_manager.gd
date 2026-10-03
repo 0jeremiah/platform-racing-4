@@ -14,12 +14,15 @@ static var objective = "objective"
 static var alien_eggs = "alienEggs"
 static var roguelike = "roguelike"
 
-static var level_type: String = "race"
-static var time: int = 120
-static var gravity: float = 1.0
-static var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-static var finish_blocks = []
-static var reached_finish_blocks: int = 0
+var block_interval_manager: BlockIntervalManager = BlockIntervalManager.new()
+var level_type: String = "race"
+var time: int = 120
+var gravity: float = 1.0
+var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+var start_position_blocks = []
+var finish_blocks = []
+var reached_finish_blocks = []
+var teleport_blocks = {}
 var background_id = "pr2_field"
 var fade_color = "FFFFFF"
 var music: String = "random"
@@ -75,17 +78,70 @@ func calc_used_rect() -> void:
 	level_layers.calc_used_rect()
 
 
-func update_finish_blocks(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	var level_manager = Game.game.level_manager
-	level_manager.level_layers.get_all_finish_blocks()
-	finish_blocks = level_manager.level_layers.all_finish_blocks
-	for finish_block in finish_blocks:
-			if finish_block.tile_map_layer == tile_map_layer and finish_block.coords == coords and !finish_block.reached:
-				reached_finish_blocks += 1
-				finish_block.reached = true
-				var settings = tile_map_layer.get_block(coords).settings
-				settings.can_finish = false
-				break
+func register_start_block(block: BlockScene):
+	start_position_blocks.append({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)})
+
+
+func remove_start_block(block: BlockScene):
+	var block_to_remove = {"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)}
+	start_position_blocks.filter(func(start_position): return start_position != block_to_remove)
+
+
+func register_move_block(block: BlockScene):
+	block_interval_manager.add_block(block, BlockIntervalManager.TYPE_MOVE)
+
+
+func remove_move_block(block: BlockScene):
+	block_interval_manager.remove_block(block, BlockIntervalManager.TYPE_MOVE)
+
+
+func register_change_block(block: BlockScene):
+	block_interval_manager.add_block(block, BlockIntervalManager.TYPE_CHANGE)
+
+
+func remove_change_block(block: BlockScene):
+	block_interval_manager.remove_block(block, BlockIntervalManager.TYPE_CHANGE)
+
+
+func register_finish_block(block: BlockScene):
+	finish_blocks.append({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)})
+
+
+func remove_finish_block(block: BlockScene):
+	var block_to_remove = {"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)}
+	finish_blocks.filter(func(finish_position): return finish_position != block_to_remove)
+	reached_finish_blocks.filter(func(finish_position): return finish_position != block_to_remove)
+
+
+func register_teleport_block(block: BlockScene):
+	if !teleport_blocks.has(block.id):
+		teleport_blocks[block.id] = []
+	teleport_blocks[block.id].append({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name), "color": block.settings.teleport_color})
+
+
+func remove_teleport_block(block: BlockScene):
+	if teleport_blocks.has(block.id):
+		var block_index = teleport_blocks[block.id].find({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name), "color": block.settings.teleport_color})
+		if block_index > -1:
+			teleport_blocks[block.id].remove_at(block_index)
+		if teleport_blocks[block.id].size() == 0:
+			teleport_blocks.erase(block.id)
+
+
+func update_finish_blocks(block: BlockScene):
+	var block_to_add = {"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)}
+	#var level_manager = Game.game.level_manager
+	if block_to_add in finish_blocks and block_to_add not in reached_finish_blocks:
+		reached_finish_blocks.append(block_to_add)
+	#level_manager.level_layers.get_all_finish_blocks()
+	#finish_blocks = level_manager.level_layers.all_finish_blocks
+	#for finish_block in finish_blocks:
+		#if finish_block.tile_map_layer == tile_map_layer and finish_block.coords == coords and !finish_block.reached:
+			#reached_finish_blocks += 1
+			#finish_block.reached = true
+			#var settings = tile_map_layer.get_block(coords).settings
+			#settings.can_finish = false
+			#break
 
 
 func init_level():

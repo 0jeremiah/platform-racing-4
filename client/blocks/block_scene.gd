@@ -15,8 +15,8 @@ class_name BlockScene
 var active: bool = true
 var id = ""
 var settings = ConfigurableBlockSettings.new()
-var location: String = ""
 var tile_map_layer = null
+var initialized: bool = false
 var frozen: bool = false
 var fade_mode: String = "idle"
 var fade_duration: float = 0.3
@@ -34,6 +34,13 @@ var area_hitbox_enabled: bool = true
 var block_collision_layer: int = 0
 var just_hidden: bool = false
 var random_move_pattern: String  = ""
+var is_change_block: bool = false
+var change_block_id: String = ""
+var move_block_active_mode: bool = false
+var move_block_move_command: String = ""
+var can_move = false
+var move_cooldown_timer: float = 0
+var origin_coords: Vector2i = Vector2i(0, 0)
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -52,22 +59,55 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 		right_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
 		area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
 		fade_mode = "hidden" if settings.has_side_type(ConfigurableBlockSideSettings.APPEAR) else "idle"
+		initialized = true
+		register_block_type()
 		set_block_texture()
+
+
+func register_block_type():
+	if Game.game:
+		if settings.block_type == ConfigurableBlockSettings.START_POSITION:
+			Game.game.level_manager.register_start_block(self)
+		if settings.block_type == ConfigurableBlockSettings.MOVE:
+			Game.game.level_manager.register_move_block(self)
+		if settings.block_type == ConfigurableBlockSettings.CHANGE and !is_change_block:
+			Game.game.level_manager.register_change_block(self)
+			is_change_block = true
+			change_block_id = id
+		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
+			Game.game.level_manager.register_finish_block(self)
+		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+			Game.game.level_manager.register_teleport_block(self)
+
+
+func unregister_block_type():
+	if initialized and Game.game:
+		if settings.block_type == ConfigurableBlockSettings.MOVE:
+			Game.game.level_manager.remove_move_block(self)
+		if settings.block_type == ConfigurableBlockSettings.START_POSITION:
+			Game.game.level_manager.remove_start_block(self)
+		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
+			Game.game.level_manager.remove_finish_block(self)
+		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+			Game.game.level_manager.remove_teleport_block(self)
+		if settings.block_type == ConfigurableBlockSettings.CHANGE and !is_change_block:
+			id = change_block_id
+			Game.game.level_manager.remove_change_block(self)
 
 
 func _ready():
 	var parent = get_parent()
 	if parent and parent is ConfigurableTileMapLayer:
 		var is_valid: bool = false
-		location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+		var location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
 		if location in parent.block_dict:
+			tile_map_layer = parent
 			parent.block_dict[location].node = self
 			init(parent.block_dict[location].id, parent.block_dict[location].settings)
 			name = location
 			is_valid = true
 		if !is_valid:
 			queue_free()
-		tile_map_layer = parent
 		frozen_texture.texture = BlockManager.get_block_texture("16")
 
 
@@ -89,6 +129,11 @@ func _process(delta: float) -> void:
 			freeze_timer = 0
 			frozen = false
 			frozen_texture.visible = false
+	if move_cooldown_timer > 0:
+		if move_cooldown_timer - delta > 0:
+			move_cooldown_timer -= delta
+		else:
+			can_move = true
 	if teleport_throttle_timer > 0:
 		if teleport_throttle_timer - delta > 0:
 			teleport_throttle_timer -= delta
@@ -173,6 +218,11 @@ func set_block_texture():
 		teleport_colorin_texture.visible = true
 
 
+func morph_block_type(new_id: String, new_settings: ConfigurableBlockSettings):
+	unregister_block_type()
+	init(new_id, new_settings)
+
+
 func freeze():
 	freeze_timer = 1.666
 	frozen = true
@@ -224,6 +274,81 @@ func throttle_teleport():
 	teleport_throttle_timer = settings.teleport_throttle_ms
 	dull_square_graphic.size = Vector2(float(Settings.tile_size.x), float(Settings.tile_size.y))
 	dull_square_graphic.visible = true
+
+
+func assign_move_block_command(param_1: String):
+	move_block_active_mode = true
+	move_block_move_command = param_1
+
+
+func execute_move_block_command() -> bool:
+	var move_command: String = ""
+	var moved: bool = false
+	if move_block_active_mode:
+		move_block_active_mode = false
+		can_move = true
+		move_command = move_block_move_command
+		if move_command == "u":
+			moved == move("up", false)
+		elif move_command == "d":
+			moved == move("down", false)
+		elif move_command == "r":
+			moved == move("right", false)
+		elif move_command == "l":
+			moved == move("left", false)
+		elif move_command == "@":
+			var current_coords = get_coords()
+			if current_coords != origin_coords:
+				var block_at_origin_coords_info = tile_map_layer.get_block(origin_coords)
+				if block_at_origin_coords_info.id != "" and block_at_origin_coords_info.node != null and block_at_origin_coords_info.node.move_block_active_mode:
+					block_at_origin_coords_info.execute_move_block_command()
+				tile_map_layer.move_block(current_coords, origin_coords)
+				moved = true
+	return moved
+
+
+func move(direction: String, param_2: bool = true) -> bool:
+	var move_direction = Vector2i(0, 0)
+	var side_name: String = ""
+	var moved: bool = false
+	if can_move:
+		if direction == "up":
+			move_direction = Vector2i.UP
+			side_name = "bottom"
+		elif direction == "bottom":
+			move_direction = Vector2i.DOWN
+			side_name = "top"
+		elif direction == "left":
+			move_direction = Vector2i.LEFT
+			side_name = "right"
+		elif direction == "right":
+			move_direction = Vector2i.RIGHT
+			side_name = "left"
+		if move_direction != Vector2i(0, 0) and side_name != "":
+			var my_coords = get_coords()
+			var adjacent_coords = my_coords + move_direction
+			if adjacent_coords != my_coords:
+				var block_info = tile_map_layer.get_block(adjacent_coords)
+				if block_info.id == "":
+					tile_map_layer.move_block(my_coords, adjacent_coords)
+					moved = true
+				else:
+					var moved_adjacent_block: bool = false
+					var block_settings = block_info.settings
+					var block_node = block_info.node
+					if block_node and block_info.node.move_block_active_mode:
+						moved_adjacent_block = block_info.node.execute_move_block_command()
+					else:
+						var block_side_settings = block_info.settings.get(side_name)
+						if block_side_settings and block_side_settings.type == ConfigurableBlockSideSettings.PUSH:
+							moved_adjacent_block = block_node.move(direction)
+					if moved_adjacent_block:
+						tile_map_layer.move_block(my_coords, adjacent_coords)
+						moved = true
+	if moved and param_2:
+		can_move = false
+		move_cooldown_timer = 0.033
+	return moved
 
 
 func player_is_in_block() -> bool:

@@ -20,9 +20,13 @@ var composer_names = ["", ""]
 var allowed_song_groups = []
 var full_music_list: Dictionary = {}
 var music: String = "random"
-var level_type_names = ["Race", "Deathmatch", "Hat Attack", "Coin Fiend", "Objective", "Alien Eggs"]
-var level_type_ids = ["race", "deathmatch", "hatAttack", "coinFiend", "objective", "alienEggs"]
-var level_type_failsafe = ["r", "dm", "d", "h", "obj", "o", "eggs", "e"]
+var level_type_names = ["Race", "Deathmatch", "Hat Attack", "Coin Fiend", "Objective", "Alien Eggs", "Roguelike"]
+var level_type_ids = [LevelManager.race, LevelManager.deathmatch, LevelManager.hat_attack, LevelManager.coin_fiend,
+LevelManager.objective, LevelManager.alien_eggs, LevelManager.roguelike]
+var level_type_failsafe = {"r": LevelManager.race, "dm": LevelManager.deathmatch, "d": LevelManager.deathmatch,
+"h": LevelManager.hat_attack, "obj": LevelManager.objective, "o": LevelManager.objective,
+"eggs": LevelManager.alien_eggs, "e": LevelManager.alien_eggs, "rl": LevelManager.roguelike,
+"l": LevelManager.roguelike}
 var level_type: String = ""
 # should alien eggs be its own game mode or should eggs just be breakable on coin field?
 var time: int = 120
@@ -180,24 +184,18 @@ func set_settings(new_settings: Dictionary):
 		else:
 			music = music_list[1]
 			music_button.text = music_names[1]
+	level_type = level_type_ids[0]
+	level_type_button.text = level_type_names[0]
 	if new_settings.has("level_type"):
 		if level_type_ids.has(new_settings.level_type):
 			var index = level_type_ids.find(new_settings.level_type)
 			level_type = level_type_ids[index]
 			level_type_button.text = level_type_names[index]
 		elif level_type_failsafe.has(new_settings.level_type):
-			var index: int = 0
-			match new_settings.level_type:
-				"r": index = level_type_ids.find("race")
-				"d": index = level_type_ids.find("deathmatch")
-				"h": index = level_type_ids.find("hatAttack")
-				"obj", "o": index = level_type_ids.find("objective")
-				"eggs", "e": index = level_type_ids.find("alienEggs")
-			level_type = level_type_ids[index]
-			level_type_button.text = level_type_names[index]
-		else:
-			level_type = level_type_ids[0]
-			level_type_button.text = level_type_names[0]
+			var index: int = level_type_ids.find(level_type_failsafe[new_settings.level_type])
+			if index > -1:
+				level_type = level_type_ids[index]
+				level_type_button.text = level_type_names[index]
 	if new_settings.has("time"):
 		time = new_settings.time
 		time_box._update_text(str(time))

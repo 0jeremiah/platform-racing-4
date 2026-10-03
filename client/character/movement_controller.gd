@@ -56,6 +56,13 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		last_bumped_block = {}
 	attempting_bump = false
 	
+	# check if we bumped all the blocks on objective mode
+	if Game.game and !finished:
+		var level_manager = Game.game.level_manager
+		if level_manager.level_type == LevelManager.objective and level_manager.reached_finish_blocks == level_manager.finish_blocks:
+			finished = true
+	
+	
 	# Process freezing effect
 	var traction = GameConfig.get_value("player_movement", "player_traction")
 	if frozen and frozen_timer >= 0:
@@ -273,14 +280,16 @@ func _cap_velocity(velocity: Vector2, player_rotation: float = 0.0) -> Vector2:
 
 
 func maybe_finish(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	if LevelManager.level_type == LevelManager.race:
+	if Game.game.level_manger.level_type == LevelManager.race:
 		finished = true
 		Jukebox.play_sound("victory")
-	elif LevelManager.level_type == LevelManager.objective:
+	elif Game.game.level_manager.level_type == LevelManager.objective:
 		var level_manager = Game.game.level_manager
-		level_manager.update_finish_blocks(tile_map_layer, coords)
-		if level_manager.reached_finish_blocks >= level_manager.finish_blocks.size():
-			finished = true
+		var block_node = tile_map_layer.get_block(coords)
+		level_manager.add_to_reached_finish_blocks(block_node)
+		#level_manager.update_finish_blocks(tile_map_layer, coords)
+		#if level_manager.reached_finish_blocks.size() >= level_manager.finish_blocks.size():
+			#finished = true
 		Jukebox.play_sound("victory")
 
 

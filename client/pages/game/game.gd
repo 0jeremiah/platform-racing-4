@@ -91,6 +91,7 @@ func _activate_game() -> void:
 	
 	bg.set_bg(level_manager.background_id, level_manager.fade_color)
 	level_manager.init_level()
+	level_manager.block_interval_manager.start()
 	player_manager.spawn_local_player(level_manager.level_layers)
 	minimap.init(self)
 	stats_display.init(self)

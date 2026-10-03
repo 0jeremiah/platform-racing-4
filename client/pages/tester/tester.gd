@@ -55,7 +55,7 @@ func init(data: Dictionary):
 	Jukebox.play_song(level.properties.get("music", ""))
 	
 	level_manager.init_level()
-	
+	level_manager.block_interval_manager.start()
 	player_manager.spawn_local_player(level_manager.level_layers)
 	
 	minimap.init(self)
