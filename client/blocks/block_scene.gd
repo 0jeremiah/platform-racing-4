@@ -17,6 +17,7 @@ var id = ""
 var settings = ConfigurableBlockSettings.new()
 var tile_map_layer = null
 var initialized: bool = false
+var location: String = ""
 var frozen: bool = false
 var fade_mode: String = "idle"
 var fade_duration: float = 0.3
@@ -35,33 +36,40 @@ var block_collision_layer: int = 0
 var just_hidden: bool = false
 var random_move_pattern: String  = ""
 var is_change_block: bool = false
-var change_block_id: String = ""
 var move_block_active_mode: bool = false
 var move_block_move_command: String = ""
-var can_move = false
+var can_move = true
 var move_cooldown_timer: float = 0
 var origin_coords: Vector2i = Vector2i(0, 0)
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
-	if new_id in BlockManager._block_lookup:
-		id = new_id
-		settings = new_settings
-		active = true if settings.matter_type == ConfigurableBlockSettings.SOLID else false
-		block_collision_layer = BlockManager.solid_layer_id if settings.matter_type == ConfigurableBlockSettings.SOLID else BlockManager.non_solid_layer_id
-		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
-		collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id) | BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
-		block_detection_area.collision_layer = collision_layer
-		block_detection_area.collision_mask = collision_mask
-		top_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
-		bottom_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else false
-		left_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
-		right_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
-		area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
-		fade_mode = "hidden" if settings.has_side_type(ConfigurableBlockSideSettings.APPEAR) else "idle"
-		initialized = true
-		register_block_type()
-		set_block_texture()
+	location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+	if location in tile_map_layer.block_dict:
+		if new_id in BlockManager._block_lookup:
+			id = new_id
+			settings = new_settings
+			location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+			tile_map_layer.block_dict[location].id = id
+			tile_map_layer.block_dict[location].settings = settings
+			tile_map_layer.block_dict[location].node = self
+			active = true if settings.matter_type == ConfigurableBlockSettings.SOLID else false
+			block_collision_layer = BlockManager.solid_layer_id if settings.matter_type == ConfigurableBlockSettings.SOLID else BlockManager.non_solid_layer_id
+			collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
+			collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id) | BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
+			block_detection_area.collision_layer = collision_layer
+			block_detection_area.collision_mask = collision_mask
+			top_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.top.type != ConfigurableBlockSideSettings.INACTIVE else false
+			bottom_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.bottom.type != ConfigurableBlockSideSettings.INACTIVE else false
+			left_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.left.type != ConfigurableBlockSideSettings.INACTIVE else false
+			right_hitbox_enabled = true if settings.matter_type == ConfigurableBlockSettings.SOLID and settings.right.type != ConfigurableBlockSideSettings.INACTIVE else false
+			area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
+			fade_mode = "hidden" if settings.has_side_type(ConfigurableBlockSideSettings.APPEAR) else "idle"
+			initialized = true
+			register_block_type()
+			set_block_texture()
+	else:
+		queue_free()
 
 
 func register_block_type():
@@ -70,10 +78,9 @@ func register_block_type():
 			Game.game.level_manager.register_start_block(self)
 		if settings.block_type == ConfigurableBlockSettings.MOVE:
 			Game.game.level_manager.register_move_block(self)
-		if settings.block_type == ConfigurableBlockSettings.CHANGE and !is_change_block:
-			Game.game.level_manager.register_change_block(self)
+		if settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block:
 			is_change_block = true
-			change_block_id = id
+			Game.game.level_manager.register_change_block(self)
 		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
 			Game.game.level_manager.register_finish_block(self)
 		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
@@ -90,8 +97,7 @@ func unregister_block_type():
 			Game.game.level_manager.remove_finish_block(self)
 		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 			Game.game.level_manager.remove_teleport_block(self)
-		if settings.block_type == ConfigurableBlockSettings.CHANGE and !is_change_block:
-			id = change_block_id
+		if is_change_block:
 			Game.game.level_manager.remove_change_block(self)
 
 
@@ -99,10 +105,9 @@ func _ready():
 	var parent = get_parent()
 	if parent and parent is ConfigurableTileMapLayer:
 		var is_valid: bool = false
-		var location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+		location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
 		if location in parent.block_dict:
 			tile_map_layer = parent
-			parent.block_dict[location].node = self
 			init(parent.block_dict[location].id, parent.block_dict[location].settings)
 			name = location
 			is_valid = true
@@ -289,13 +294,13 @@ func execute_move_block_command() -> bool:
 		can_move = true
 		move_command = move_block_move_command
 		if move_command == "u":
-			moved == move("up", false)
+			moved = move("top", false)
 		elif move_command == "d":
-			moved == move("down", false)
+			moved = move("bottom", false)
 		elif move_command == "r":
-			moved == move("right", false)
+			moved = move("right", false)
 		elif move_command == "l":
-			moved == move("left", false)
+			moved = move("left", false)
 		elif move_command == "@":
 			var current_coords = get_coords()
 			if current_coords != origin_coords:
@@ -312,7 +317,7 @@ func move(direction: String, param_2: bool = true) -> bool:
 	var side_name: String = ""
 	var moved: bool = false
 	if can_move:
-		if direction == "up":
+		if direction == "top":
 			move_direction = Vector2i.UP
 			side_name = "bottom"
 		elif direction == "bottom":
@@ -334,7 +339,6 @@ func move(direction: String, param_2: bool = true) -> bool:
 					moved = true
 				else:
 					var moved_adjacent_block: bool = false
-					var block_settings = block_info.settings
 					var block_node = block_info.node
 					if block_node and block_info.node.move_block_active_mode:
 						moved_adjacent_block = block_info.node.execute_move_block_command()

@@ -13,7 +13,7 @@
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
 		"move_tick": 2.5,
-		"move_pattern": "up, down, left, right"
+		"move_pattern": "random"
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

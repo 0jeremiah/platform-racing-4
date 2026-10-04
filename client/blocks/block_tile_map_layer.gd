@@ -130,14 +130,14 @@ func move_block(from_coords: Vector2i, to_coords: Vector2i):
 	var to_block_dict = block_dict.get(to_block_dict_name)
 	if from_block_dict != null:
 		from_block_dict["node"].unregister_block_type()
-		from_block_dict["node"].position = to_coords * Settings.tile_size
+		from_block_dict["node"].position = (to_coords * Settings.tile_size) + Settings.tile_size_half
 		from_block_dict["node"].register_block_type()
 		block_dict[to_block_dict_name] = from_block_dict
 	elif block_dict.has(to_block_dict_name):
 		block_dict.erase(to_block_dict_name)
 	if to_block_dict != null:
 		to_block_dict["node"].unregister_block_type()
-		to_block_dict["node"].position = from_coords * Settings.tile_size
+		to_block_dict["node"].position = (from_coords * Settings.tile_size) + Settings.tile_size_half
 		to_block_dict["node"].register_block_type()
 		block_dict[from_block_dict_name] = to_block_dict
 	elif block_dict.has(from_block_dict_name):

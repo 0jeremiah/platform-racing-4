@@ -291,46 +291,18 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 
 
 # Pushes the block depending on where the body pushed it
-func push(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
-	var tile_position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half).rotated(tile_map_layer.rotation)
-	var direction = tile_position - body.position
-	var block_id = tile_map_layer.get_block(coords).id
-	var block_settings = tile_map_layer.get_block_settings_info(coords)
-	
-	# force direction into 1 move
-	if abs(direction.x) > abs(direction.y):
-		if direction.x > 0:
-			direction.x = 1
-			direction.y = 0
-		else:
-			direction.x = -1
-			direction.y = 0
-	else:
-		if direction.y > 0:
-			direction.x = 0
-			direction.y = 1
-		else:
-			direction.x = 0
-			direction.y = -1
-	
-	# move over other move blocks, creates the illusion that they all move over one
-	var target_coords = coords + Vector2i(direction)
-	var existing_block_id = ""
-	while true:
-		existing_block_id = tile_map_layer.get_block(target_coords).id
-		if existing_block_id == block_id:
-			target_coords = target_coords + Vector2i(direction)
-		else:
-			break
-	
-	# prevent moving through other blocks
-	existing_block_id = tile_map_layer.get_block(target_coords).id
-	if existing_block_id != "":
+func push(_body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, normal: Vector2 = Vector2.ZERO) -> void:
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.id == "" or block_info.node == null:
 		return
-	
-	# move!
-	tile_map_layer.delete_block(coords)
-	tile_map_layer.add_block(target_coords, block_id, block_settings)
+	if normal == Vector2.DOWN:
+		block_info.node.move("top", false)
+	elif normal == Vector2.UP:
+		block_info.node.move("bottom", false)
+	elif normal == Vector2.LEFT:
+		block_info.node.move("right", false)
+	elif normal == Vector2.RIGHT:
+		block_info.node.move("left", false)
 
 
 # Rotates the node
