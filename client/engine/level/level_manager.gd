@@ -5,6 +5,7 @@ class_name LevelManager
 @onready var level_decoder: LevelDecoder = $LevelDecoder
 @onready var level_encoder: LevelEncoder = $LevelEncoder
 @onready var pr2_level_decoder: PR2LevelDecoder = $PR2LevelDecoder
+@onready var block_interval_manager: BlockIntervalManager = $BlockIntervalManager
 
 static var race = "race"
 static var deathmatch = "deathmatch"
@@ -14,7 +15,6 @@ static var objective = "objective"
 static var alien_eggs = "alienEggs"
 static var roguelike = "roguelike"
 
-var block_interval_manager: BlockIntervalManager = BlockIntervalManager.new()
 var level_type: String = "race"
 var time: int = 120
 var gravity: float = 1.0

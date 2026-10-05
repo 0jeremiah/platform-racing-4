@@ -1,11 +1,11 @@
 class_name BlockFreqGroup
 
-var elasped_ms: int = 0
+var elasped_time: float = 0.0
 var block_lists: Dictionary = {}
-var freq: int = 0
+var freq: float = 0.0
 
 
-func _init(new_freq: int) -> void:
+func _init(new_freq: float) -> void:
 	freq = new_freq
 
 
@@ -14,10 +14,10 @@ func remove_block(block: BlockScene) -> void:
 	loc_2.remove_block(block)
 
 
-func step(param_1: int) -> void:
-	elasped_ms += param_1
-	if elasped_ms >= param_1:
-		elasped_ms -= param_1
+func step(param_1: float) -> void:
+	elasped_time += param_1
+	if elasped_time >= freq:
+		elasped_time -= freq
 		trigger_interval()
 
 

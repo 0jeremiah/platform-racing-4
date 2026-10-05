@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://csugl4xlyvmta"]
+
+[ext_resource type="Script" uid="uid://bxkh3tw62sxue" path="res://pages/game/block_interval/block_interval_manager.gd" id="1_1vnfx"]
+
+[node name="BlockIntervalManager" type="Node2D" unique_id=79619179]
+script = ExtResource("1_1vnfx")

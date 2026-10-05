@@ -129,17 +129,17 @@ func move_block(from_coords: Vector2i, to_coords: Vector2i):
 	var to_block_dict_name = get_block_dict_name(to_coords)
 	var to_block_dict = block_dict.get(to_block_dict_name)
 	if from_block_dict != null:
-		from_block_dict["node"].unregister_block_type()
-		from_block_dict["node"].position = (to_coords * Settings.tile_size) + Settings.tile_size_half
-		from_block_dict["node"].register_block_type()
+		from_block_dict.node.unregister_block_type()
+		from_block_dict.node.position = (to_coords * Settings.tile_size) + Settings.tile_size_half
 		block_dict[to_block_dict_name] = from_block_dict
+		from_block_dict.node.init(from_block_dict.id, from_block_dict.settings)
 	elif block_dict.has(to_block_dict_name):
 		block_dict.erase(to_block_dict_name)
 	if to_block_dict != null:
-		to_block_dict["node"].unregister_block_type()
-		to_block_dict["node"].position = (from_coords * Settings.tile_size) + Settings.tile_size_half
-		to_block_dict["node"].register_block_type()
+		to_block_dict.node.unregister_block_type()
+		to_block_dict.node.position = (from_coords * Settings.tile_size) + Settings.tile_size_half
 		block_dict[from_block_dict_name] = to_block_dict
+		to_block_dict.node.init(to_block_dict.id, to_block_dict.settings)
 	elif block_dict.has(from_block_dict_name):
 		block_dict.erase(from_block_dict_name)
 

@@ -36,6 +36,7 @@ var block_collision_layer: int = 0
 var just_hidden: bool = false
 var random_move_pattern: String  = ""
 var is_change_block: bool = false
+var register_change_block: bool = true
 var move_block_active_mode: bool = false
 var move_block_move_command: String = ""
 var can_move = true
@@ -78,7 +79,7 @@ func register_block_type():
 			Game.game.level_manager.register_start_block(self)
 		if settings.block_type == ConfigurableBlockSettings.MOVE:
 			Game.game.level_manager.register_move_block(self)
-		if settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block:
+		if (settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block) and register_change_block:
 			is_change_block = true
 			Game.game.level_manager.register_change_block(self)
 		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
@@ -87,7 +88,7 @@ func register_block_type():
 			Game.game.level_manager.register_teleport_block(self)
 
 
-func unregister_block_type():
+func unregister_block_type(unregister_change: bool = true):
 	if initialized and Game.game:
 		if settings.block_type == ConfigurableBlockSettings.MOVE:
 			Game.game.level_manager.remove_move_block(self)
@@ -97,7 +98,8 @@ func unregister_block_type():
 			Game.game.level_manager.remove_finish_block(self)
 		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 			Game.game.level_manager.remove_teleport_block(self)
-		if is_change_block:
+		register_change_block = unregister_change
+		if is_change_block and unregister_change:
 			Game.game.level_manager.remove_change_block(self)
 
 
@@ -224,7 +226,7 @@ func set_block_texture():
 
 
 func morph_block_type(new_id: String, new_settings: ConfigurableBlockSettings):
-	unregister_block_type()
+	unregister_block_type(false)
 	init(new_id, new_settings)
 
 

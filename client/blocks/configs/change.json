@@ -13,7 +13,7 @@
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
 		"change_tick": 2.5,
-		"change_pattern": ["101", "121", "124", "113"]
+		"change_pattern": ["1", "5", "18", "27", "16", "26", "11", "10", "23", "22", "28", "25", "19", "21", "33", "13", "7", "6", "8", "9"]
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

@@ -2,7 +2,7 @@ extends BlockFreqGroup
 class_name MoveBlockFreqGroup
 
 
-func _init(new_freq: int):
+func _init(new_freq: float):
 	super(new_freq)
 
 

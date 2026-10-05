@@ -2,9 +2,9 @@ extends BlockFreqGroup
 class_name ChangeBlockFreqGroup
 
 
-func _init(new_freq: int):
+func _init(new_freq: float):
 	super(new_freq)
-	elasped_ms = new_freq
+	elasped_time = new_freq
 
 
 func get_needed_blocks() -> Array:

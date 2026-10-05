@@ -1,15 +1,25 @@
+extends Node
 class_name BlockIntervalManager
 
 static var TYPE_MOVE: int = 0
 static var TYPE_CHANGE: int = 1
-var last_ms: int
-var step_freq: int = 100
-var step_scene_timer: SceneTreeTimer = null
+var step_timer: float = 0.0
+var step_freq: float = 0.0
 var categories: Array = []
+var do_intervals: bool = false
 
 
 func _init() -> void:
 	create_categories()
+
+
+func _process(delta: float):
+	if do_intervals:
+		if step_timer + delta >= step_freq:
+			step(step_timer + delta)
+			step_timer = 0.0
+		else:
+			step_timer += delta
 
 
 func get_needed_blocks() -> Array:
@@ -21,7 +31,7 @@ func get_needed_blocks() -> Array:
 	return loc_1
 
 
-func get_group(freq_tick: int, group_type: int, param_3: bool = false) -> BlockFreqGroup:
+func get_group(freq_tick: float, group_type: int, param_3: bool = false) -> BlockFreqGroup:
 	var loc_4: Dictionary = categories[group_type]
 	var loc_5: BlockFreqGroup = loc_4.get(freq_tick)
 	if loc_5 == null and param_3:
@@ -34,13 +44,15 @@ func get_group(freq_tick: int, group_type: int, param_3: bool = false) -> BlockF
 
 
 func start():
-	last_ms = Time.get_ticks_msec()
-	step_scene_timer = Main.instance.get_tree().create_timer(float(step_freq) / 100, false)
-	step_scene_timer.timeout.connect(step)
+	do_intervals = true
 
 
-func add_block(param_1: BlockScene, param_2: int):
-	var loc_3: int = 1000
+func stop():
+	do_intervals = false
+
+
+func add_block(param_1: BlockScene, param_2: float):
+	var loc_3: float = 1.0
 	if param_2 == TYPE_MOVE:
 		param_1.random_move_pattern = create_rand_pattern()
 		loc_3 = param_1.settings.move_tick
@@ -77,11 +89,11 @@ func remove_block(param_1: BlockScene, param_2: int):
 	var loc_3: int = 1000
 	if param_2 == TYPE_MOVE:
 		param_1.random_move_pattern = create_rand_pattern()
-		loc_3 = param_1.settings.move_tick
+		loc_3 = param_1.settings.move_tick * 1000
 	else:
 		if param_2 != TYPE_CHANGE:
 			push_warning("BlockIntervalManager::remove_block() - unknown value for type")
-		loc_3 = param_1.settings.change_tick
+		loc_3 = param_1.settings.change_tick * 1000
 	var loc_4: BlockFreqGroup = get_group(loc_3, param_2, true)
 	if loc_4:
 		loc_4.remove_block(param_1)
@@ -97,12 +109,7 @@ func create_categories():
 	categories[TYPE_CHANGE] = {}
 
 
-func step():
-	var loc_1: int = Time.get_ticks_msec()
-	var loc_2: int = loc_1 - last_ms
-	last_ms = loc_1
+func step(elapsed_time: float):
 	for category in categories:
 		for block_freq_group in category:
-			category[block_freq_group].step(loc_2)
-	step_scene_timer = Main.instance.get_tree().create_timer(float(step_freq) / 100, false)
-	step_scene_timer.timeout.connect(step)
+			category[block_freq_group].step(elapsed_time)
