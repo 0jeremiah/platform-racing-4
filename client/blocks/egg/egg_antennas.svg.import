@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8htaupqlayja"
-path="res://.godot/imported/egg_outline.svg-9a68edba2b6e52c11fc3f87ab3085ca5.ctex"
+uid="uid://dpgs5fbdpujdg"
+path="res://.godot/imported/egg_antennas.svg-7041d7f6439616dbc71f96af4e33c948.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/egg/egg_outline.svg"
-dest_files=["res://.godot/imported/egg_outline.svg-9a68edba2b6e52c11fc3f87ab3085ca5.ctex"]
+source_file="res://blocks/egg/egg_antennas.svg"
+dest_files=["res://.godot/imported/egg_antennas.svg-7041d7f6439616dbc71f96af4e33c948.ctex"]
 
 [params]
 

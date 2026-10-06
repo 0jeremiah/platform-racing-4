@@ -35,6 +35,8 @@ func _detect_character_body_collisions() -> void:
 	if not collision:
 		return
 	var collider := collision.get_collider()
+	if !collider:
+		return
 	var parent = collider.get_parent()
 	if not ((parent is ConfigurableTileMapLayer) or collider is Character):
 		return
@@ -57,14 +59,15 @@ func set_projectile_area(projectile_area: Area2D) -> void:
 	projectile_area.body_shape_entered.connect(_on_body_shape_entered)
 
 
-func set_projectile(projectile_node: PhysicsBody2D, p_collision_layer: int, p_collision_mask: int, p_life: float, p_velocity: Vector2, face_left: bool = false, p_from = null):
+func set_projectile(projectile_node: PhysicsBody2D, p_life: float, p_velocity: Vector2, face_left: bool = false, p_from: PhysicsBody2D = null):
 	projectile = projectile_node
+	rotation = projectile_node.rotation
 	if projectile is RigidBody2D:
 		_setup_rigidbody_signals()
-	collision_layer = 0
-	collision_mask = p_collision_mask
+	collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id) | BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
 	life = p_life
-	var projectile_velocity = p_velocity
+	var projectile_velocity = p_velocity.rotated(rotation)
 	if face_left:
 		projectile_velocity *= Vector2(-1, -1)
 		projectile.scale.x = -1
@@ -74,12 +77,14 @@ func set_projectile(projectile_node: PhysicsBody2D, p_collision_layer: int, p_co
 		projectile.velocity = projectile_velocity
 	if p_from:
 		from = p_from
+		add_collision_exception_with(p_from)
 
 
 func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	# For RigidBody2D, detect collisions using body_shape_entered signal
 	var parent = body.get_parent()
-	if not (parent is ConfigurableTileMapLayer or body is Character):
+	var collision_exceptions = get_collision_exceptions()
+	if body in collision_exceptions or not (parent is ConfigurableTileMapLayer or body is Character):
 		return
 
 	if parent is ConfigurableTileMapLayer:

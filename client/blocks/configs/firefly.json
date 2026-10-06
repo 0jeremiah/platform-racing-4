@@ -4,8 +4,9 @@
 		"title": "Firefly Lightbreaker",
 		"comment": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
 		"matter_type": "gas",
-		"block_type": "lightbreak",
-		"area": {"type": "firefly", "params": {}}
+		"block_type": "lightbreaker",
+		"area": {"type": "lightbreaker", "params": {"lightbreak_type": "firefly"}},
+		"light_color": "00d163"
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

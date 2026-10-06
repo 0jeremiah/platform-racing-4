@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://2abefujwdjsl"]
 
-[ext_resource type="Script" uid="uid://cqfrq1tys8r7w" path="res://effects/egg/egg_enemy.gd" id="1_l1sxf"]
-[ext_resource type="PackedScene" uid="uid://cgv8m108fvfpo" path="res://effects/egg/egg_display.tscn" id="2_ms8qg"]
+[ext_resource type="Script" uid="uid://cqfrq1tys8r7w" path="res://blocks/egg/egg_enemy.gd" id="1_l1sxf"]
+[ext_resource type="PackedScene" uid="uid://cgv8m108fvfpo" path="res://blocks/egg/egg_display.tscn" id="2_ms8qg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3b3k0"]
 size = Vector2(50, 100)

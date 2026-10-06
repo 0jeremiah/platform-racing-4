@@ -60,15 +60,27 @@ func should_crouch(character: Character) -> bool:
 
 
 func interact_with_incoporeal_tiles(character: Character):
-	character.movement.swimming = false
-	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
+	#character.movement.swimming = false
+	var tile_map_layer = null
+	var bodies: Array = low_area.get_overlapping_bodies()
+	for body in bodies:
+		var parent = body.get_parent()
+		if parent is ConfigurableTileMapLayer:
+			tile_map_layer = parent
+			break
+	if tile_map_layer:
+		var coords = tile_map_layer.get_block_position_at_local_position(Vector2(low_area.global_position.x, low_area.global_position.y))
+		if tile_map_layer.get_block(coords).id != "" and !tile_map_layer.is_solid(coords):
+			var event_array: Array[String]
+			event_array.append("area")
+			tile_map_layer.trigger_tile_behaviors(character, coords, event_array)
 	
-	if tiles_overlapping.size() == 0:
-		return
-	
-	var overlapping_tile = tiles_overlapping[0]
-	if overlapping_tile.tile_map_layer.is_liquid(overlapping_tile.coords):
-		character.movement.swimming = true
+	#if tiles_overlapping.size() == 0:
+		#return
+	#
+	#var overlapping_tile = tiles_overlapping[0]
+	#if overlapping_tile.tile_map_layer.is_liquid(overlapping_tile.coords):
+		#character.movement.swimming = true
 
 
 func interact_with_solid_tiles(character: Character, lighting: LightbreakController) -> bool:
@@ -146,7 +158,7 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 	var bodies: Array = area.get_overlapping_bodies()
 	for body in bodies:
 		var parent = body.get_parent()
-		if !(parent is ConfigurableTileMapLayer):
+		if parent is not ConfigurableTileMapLayer:
 			continue
 		var coords: Vector2i
 		if body is BlockScene:

@@ -44,6 +44,7 @@ func _ready() -> void:
 func init(_block_settings: ConfigurableBlockSettings):
 	block_settings = _block_settings
 	var side_settings_category = BlockSettingsSubmenu.get_side_setting_category(block_settings.matter_type)
+	current_category = side_settings_category
 	var sides = sides_dictionary.get(side_settings_category, {})
 	if !sides.is_empty():
 		for side in sides:

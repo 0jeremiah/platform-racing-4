@@ -32,9 +32,13 @@ static var VANISH = "vanish"
 static var WATER = "water"
 
 static var START_POSITION = "start_position"
-static var SUN = "sun"
-static var MOON = "moon"
-static var FIREFLY = "firefly"
+static var LIGHTBREAKER = "lightbreaker"
+
+static var lightbreaker_types = {
+	"sun": {"label": "Sun", "setting": "sun"},
+	"moon": {"label": "Moon", "setting": "moon"},
+	"firefly": {"label": "Firefly", "setting": "firefly"}
+	}
 
 var params: Dictionary = {}
 var type = ACTIVE

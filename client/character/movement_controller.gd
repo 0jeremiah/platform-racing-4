@@ -245,6 +245,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			accel *= ice_friction
 		on_ice = false
 		ice_friction = 0.0
+		swimming = false
 		
 		if horizontal_axis != 0:
 			if target_velocity.length() > current_velocity.length():

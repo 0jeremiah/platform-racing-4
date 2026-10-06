@@ -20,16 +20,19 @@ func init(config: Dictionary) -> void:
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
 	#print("Block::on " + event)
-	if tile_map_layer.get_block(coords).id == "" or tile_map_layer.get_block(coords).settings == null:
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.id == "" or block_info.settings == null:
 		return
-	var current_sides = tile_map_layer.get_block(coords).settings.get_sides()
+	var current_sides = block_info.settings.get_sides()
 	if event not in current_sides:
 		return
-	if BlockBehaviors.has_method(current_sides[event].type):
-		BlockBehaviors.call(current_sides[event].type, body, tile_map_layer, coords, current_sides[event].params, normal)
+	if tile_map_layer.is_solid(coords):
+		BlockBehaviors.call_solid_block_behaviour(current_sides[event].type, body, tile_map_layer, coords, current_sides[event].params, normal)
+	else:
+		BlockBehaviors.call_non_solid_block_behaviour(current_sides[event].type, body, tile_map_layer, coords, current_sides[event].params, normal)
 	if event == "bump":
-		if tile_map_layer.get_block(coords).id != "" and tile_map_layer.get_block(coords).node != null:
-			tile_map_layer.get_block(coords).node.animate_bump(Vector2(normal).rotated(PI))
+		if block_info.id != "" and block_info.node != null:
+			block_info.node.animate_bump(Vector2(normal).rotated(PI))
 		Jukebox.play_sound("bump")
 
 

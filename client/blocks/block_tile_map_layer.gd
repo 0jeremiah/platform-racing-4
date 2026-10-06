@@ -6,7 +6,8 @@ class_name ConfigurableTileMapLayer
 ## knowledge of source IDs and atlas coordinates.
 
 
-const EGG_ENEMY = preload("res://effects/egg/egg_enemy.tscn")
+const EGG_ENEMY = preload("res://blocks/egg/egg_enemy.tscn")
+const LASER_BULLET = preload("res://item_effects/laser_bullet.tscn")
 var map_layer: MapLayer = null
 var block_dict = {}
 
@@ -117,7 +118,7 @@ func get_block_settings_info(coords: Vector2i) -> Dictionary:
 func delete_block(coords: Vector2i) -> void:
 	var block_dict_name = get_block_dict_name(coords)
 	if block_dict.has(block_dict_name):
-		if block_dict[block_dict_name].has("node"):
+		if block_dict[block_dict_name].has("node") and block_dict[block_dict_name].node != null:
 			block_dict[block_dict_name].node.unregister_block_type()
 		block_dict.erase(block_dict_name)
 		erase_cell(coords)
@@ -355,6 +356,16 @@ func get_teleport_positions_at_block_id(block_id: String) -> Array:
 		}
 		teleport_positions.push_back(teleport_position)
 	return teleport_positions
+
+
+func shoot_laser(laser_position: Vector2, laser_rotation: float, facing_left: bool = false, from: PhysicsBody2D = null):
+	var bullet = LASER_BULLET.instantiate()
+	bullet.position = laser_position
+	bullet.rotation = laser_rotation
+	bullet.set_projectile(bullet, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0), facing_left, from)
+	map_layer.projectiles.add_child(bullet)
+	Jukebox.play_sound("laser")
+
 
 ## Trigger block behaviors for a tile collision
 func trigger_tile_behaviors(body: PhysicsBody2D, coords: Vector2i, events: Array[String], normal: Vector2 = Vector2.ZERO) -> void:

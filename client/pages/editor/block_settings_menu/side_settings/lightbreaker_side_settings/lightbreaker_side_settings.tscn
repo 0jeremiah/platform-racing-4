@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cu1eobfm2mq2h"]
+
+[ext_resource type="Script" uid="uid://bcgduea86u7rm" path="res://pages/editor/block_settings_menu/side_settings/lightbreaker_side_settings/lightbreaker_side_settings.gd" id="1_rypoi"]
+
+[node name="LightbreakerSideSettings" type="Control" unique_id=1830858322]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 30.0
+script = ExtResource("1_rypoi")
+
+[node name="LightbreakerTypeLabel" type="RichTextLabel" parent="." unique_id=602461792]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Lightbreak Type:"
+vertical_alignment = 1
+
+[node name="LightbreakerTypeButton" type="Button" parent="." unique_id=1551593475]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 320.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Sun"

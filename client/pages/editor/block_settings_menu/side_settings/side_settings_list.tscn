@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://blt75002qubqu" path="res://pages/editor/block_settings_menu/side_settings/heart_side_settings/heart_side_settings.tscn" id="8_mqgux"]
 [ext_resource type="PackedScene" uid="uid://cgypo2pe13qk7" path="res://pages/editor/block_settings_menu/side_settings/ice_side_settings/ice_side_settings.tscn" id="9_fhsnh"]
 [ext_resource type="PackedScene" uid="uid://chw1pdiv6n0xj" path="res://pages/editor/block_settings_menu/side_settings/item_side_settings/item_side_settings.tscn" id="10_g42vo"]
+[ext_resource type="PackedScene" uid="uid://cu1eobfm2mq2h" path="res://pages/editor/block_settings_menu/side_settings/lightbreaker_side_settings/lightbreaker_side_settings.tscn" id="11_jwoj5"]
 [ext_resource type="PackedScene" uid="uid://b8dq4mhyuvhuk" path="res://pages/editor/block_settings_menu/side_settings/rotate_side_settings/rotate_side_settings.tscn" id="11_ydus6"]
 [ext_resource type="PackedScene" uid="uid://dgvmjjc72treu" path="res://pages/editor/block_settings_menu/side_settings/size_side_settings/size_side_settings.tscn" id="12_o1xlm"]
 [ext_resource type="PackedScene" uid="uid://cpikgl2pwlyam" path="res://pages/editor/block_settings_menu/side_settings/stat_side_settings/stat_side_settings.tscn" id="13_a67gt"]
@@ -61,6 +62,10 @@ visible = false
 layout_mode = 0
 
 [node name="ItemSideSettings" parent="." unique_id=135443901 instance=ExtResource("10_g42vo")]
+visible = false
+layout_mode = 0
+
+[node name="LightbreakerSideSettings" parent="." unique_id=1830858322 instance=ExtResource("11_jwoj5")]
 visible = false
 layout_mode = 0
 

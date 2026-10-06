@@ -4,8 +4,9 @@
 		"title": "Moon Lightbreaker",
 		"comment": "A lightbreaker that lets you phase into a wall, and ends when you come out of said wall.",
 		"matter_type": "gas",
-		"block_type": "lightbreak",
-		"area": {"type": "moon", "params": {}}
+		"block_type": "lightbreaker",
+		"area": {"type": "lightbreaker", "params": {"lightbreak_type": "moon"}},
+		"light_color": "5488ff"
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

@@ -15,7 +15,7 @@ static func shatter(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, 
 	var spawn_location = BlockManager._blocks[block_id].get_center_position(tile_map_layer, coords)
 	crumble(tile_map_layer, coords, pieces)
 	tile_map_layer.delete_block(coords)
-	if Game.game and Game.game.level_manger.level_type == LevelManager.coin_fiend and coins > 0:
+	if Game.game and Game.game.level_manager.level_type == LevelManager.coin_fiend and coins > 0:
 		for coin in coins:
 			var coin_effect = COIN_EFFECT.instantiate()
 			coin_effect.global_position = spawn_location

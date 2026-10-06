@@ -41,9 +41,7 @@ func swing(_character: Character):
 	var spawn = layer.projectiles
 	var slash = sword_slash.instantiate()
 	slash.global_position = global_position
-	slash.collision_layer = _character.collision_layer
-	slash.collision_mask = _character.collision_mask
-	slash.set_projectile(slash, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "sword_slash_lifetime"), Vector2(GameConfig.get_value("items-effects", "sword_slash_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
+	slash.set_projectile(slash, GameConfig.get_value("items-effects", "sword_slash_lifetime"), Vector2(GameConfig.get_value("items-effects", "sword_slash_speed"), 0.0), _character.movement.facing == -1, _character)
 	spawn.add_child(slash)
 	Jukebox.play_sound("swish")
 

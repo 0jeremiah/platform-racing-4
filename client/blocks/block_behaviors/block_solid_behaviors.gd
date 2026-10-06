@@ -1,4 +1,5 @@
 extends Node
+class_name SolidBlockBehaviors
 ## Movement-related tile behaviors (push, freeze, etc.)
 
 

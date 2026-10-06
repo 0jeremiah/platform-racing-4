@@ -12,6 +12,7 @@ class_name BlockScene
 @onready var area_hitbox = $AreaHitbox
 @onready var block_detection_area = $BlockDetectionArea
 
+var laser_bullet = preload("res://item_effects/laser_bullet.tscn")
 var active: bool = true
 var id = ""
 var settings = ConfigurableBlockSettings.new()
@@ -42,6 +43,8 @@ var move_block_move_command: String = ""
 var can_move = true
 var move_cooldown_timer: float = 0
 var origin_coords: Vector2i = Vector2i(0, 0)
+var sniper_cooldown: float = 1.0
+var sniper_timer: float = sniper_cooldown
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -128,6 +131,8 @@ func _process(delta: float) -> void:
 			left_hitbox.disabled = !(left_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
 		if !(right_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.right.type == ConfigurableBlockSideSettings.APPEAR))) != right_hitbox.disabled:
 			right_hitbox.disabled = !(right_hitbox_enabled and tile_map_layer.collision_enabled and (active or (!active and settings.top.type == ConfigurableBlockSideSettings.APPEAR)))
+		if !(area_hitbox_enabled and tile_map_layer.collision_enabled and settings.matter_type != ConfigurableBlockSettings.SOLID) != area_hitbox.disabled:
+			area_hitbox.disabled = !(area_hitbox_enabled and tile_map_layer.collision_enabled and settings.matter_type != ConfigurableBlockSettings.SOLID)
 	if frozen:
 		if freeze_timer - delta > 0:
 			freeze_timer -= delta
@@ -157,6 +162,11 @@ func _process(delta: float) -> void:
 		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
 		just_hidden = false
 	if Game.game:
+		if sniper_timer - delta > 0:
+			sniper_timer -= delta
+		else:
+			snipe()
+			sniper_timer = sniper_cooldown
 		if !(fade_mode == "idle" or fade_mode == "hidden") or fade_timer > 0:
 			if fade_timer - delta > 0:
 				fade_timer -= delta
@@ -177,7 +187,7 @@ func _process(delta: float) -> void:
 						fade_mode = "appear_cooldown"
 						fade_timer = fade_cooldown
 			elif fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown":
-				if !player_is_in_block():
+				if !player_is_in_block(true):
 					if fade_mode == "vanish_cooldown":
 						fade_mode = "reverse_vanish"
 						collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
@@ -357,14 +367,28 @@ func move(direction: String, param_2: bool = true) -> bool:
 	return moved
 
 
-func player_is_in_block() -> bool:
-	if fade_mode == "appear_cooldown":
+func snipe():
+	if settings.top.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(270.0), false, self)
+		Jukebox.play_sound("laser")
+	if settings.bottom.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(90.0), false, self)
+		Jukebox.play_sound("laser")
+	if settings.left.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(180.0), false, self)
+		Jukebox.play_sound("laser")
+	if settings.right.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, 0.0, false, self)
+		Jukebox.play_sound("laser")
+
+
+func player_is_in_block(check_collision: bool = false) -> bool:
+	if check_collision:
 		var collision = move_and_collide(Vector2(0.0, 0.0), true)
 		if collision and collision.get_collider() is Character:
 			return true
-	else:
-		var overlapping_bodies = block_detection_area.get_overlapping_bodies()
-		for overlapping_body in overlapping_bodies:
-			if overlapping_body is Character:
-				return true
+	var overlapping_bodies = block_detection_area.get_overlapping_bodies()
+	for overlapping_body in overlapping_bodies:
+		if overlapping_body is Character:
+			return true
 	return false

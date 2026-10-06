@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cmlxrvie5uemp" path="res://pages/editor/block_settings_menu/settings/teleport_settings/teleport_settings.tscn" id="7_ap7k2"]
 [ext_resource type="PackedScene" uid="uid://758n7f1dd2ji" path="res://pages/editor/block_settings_menu/settings/time_settings/time_settings.tscn" id="8_nhcr3"]
 [ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_settings_menu/settings/gear_settings/gear_settings.tscn" id="9_05djl"]
+[ext_resource type="PackedScene" uid="uid://8fbldp7hpap7" path="res://pages/editor/block_settings_menu/settings/lightbreaker_settings/lightbreaker_settings.tscn" id="10_fogr4"]
 
 [node name="SettingsList" type="Control" unique_id=765255440]
 layout_mode = 3
@@ -46,5 +47,9 @@ visible = false
 layout_mode = 0
 
 [node name="GearSettings" parent="." unique_id=740880774 instance=ExtResource("9_05djl")]
+visible = false
+layout_mode = 0
+
+[node name="LightbreakerSettings" parent="." unique_id=1971615916 instance=ExtResource("10_fogr4")]
 visible = false
 layout_mode = 0

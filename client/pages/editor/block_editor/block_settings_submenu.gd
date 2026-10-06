@@ -94,9 +94,7 @@ static var settings_presets: Dictionary = {
 					"presence_switch": {"label": "Presence Switch", "setting": ConfigurableBlockSideSettings.PRESENCE_SWITCH}
 				},
 				"lightbreakers": {
-					"sun": {"label": "Sun", "setting": ConfigurableBlockSideSettings.SUN},
-					"moon": {"label": "Moon", "setting": ConfigurableBlockSideSettings.MOON},
-					"firefly": {"label": "Firefly", "setting": ConfigurableBlockSideSettings.FIREFLY}
+					"lightbreaker": {"label": "Lightbreaker", "setting": ConfigurableBlockSideSettings.LIGHTBREAKER}
 				}
 			}
 		}
@@ -161,9 +159,7 @@ static var settings_lookup: Dictionary = {
 		ConfigurableBlockSideSettings.INACTIVE: {"key": "inactive"},
 		ConfigurableBlockSideSettings.START_POSITION: {"key": "start_position"},
 		ConfigurableBlockSideSettings.PRESENCE_SWITCH: {"key": "presence_switch"},
-		ConfigurableBlockSideSettings.SUN: {"key": "sun"},
-		ConfigurableBlockSideSettings.MOON: {"key": "moon"},
-		ConfigurableBlockSideSettings.FIREFLY: {"key": "firefly"}
+		ConfigurableBlockSideSettings.LIGHTBREAKER: {"key": "lightbreaker"}
 	}
 }
 var active: bool = false

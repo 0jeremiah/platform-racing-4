@@ -37,14 +37,7 @@ func activate_item(_character: Character):
 
 func shoot(_character: Character):
 	var layer = Game.get_target_map_layer_node()
-	var spawn = layer.projectiles
-	var bullet = projectile.instantiate()
-	bullet.global_position = global_position
-	bullet.collision_layer = _character.collision_layer
-	bullet.collision_mask = _character.collision_mask
-	bullet.set_projectile(bullet, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
-	spawn.add_child(bullet)
-	Jukebox.play_sound("laser")
+	layer.shoot_laser(position, _character.rotation, _character.movement.facing == -1, _character)
 
 
 func _remove_item(_character: Character):

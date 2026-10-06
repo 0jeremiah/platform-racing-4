@@ -115,14 +115,11 @@ func set_previous_color_rect():
 	for child in color_grid.get_children():
 		for node in child.get_children():
 			var node_parent = node.get_parent()
-			print(node_parent.name)
 			if node is TextureButton and previous_selected_color == null and (!node_parent.name.contains("recent") and !node_parent.name.contains("sample")):
 				var node_color = node.texture_normal.gradient.get_colors()
 				if node_color[0] == previous_color:
 					previous_selected_color = node_color[0]
 					previous_selected_rect.visible = true
-					print(color_grid.position)
-					print(node_parent.position)
 					previous_selected_rect.position = color_grid.position + node_parent.position
 					break
 		if previous_selected_color != null:

@@ -41,9 +41,7 @@ func launch(_character: Character):
 	var spawn = layer.projectiles
 	var missle = rocket.instantiate()
 	missle.global_position = global_position
-	missle.collision_layer = _character.collision_layer
-	missle.collision_mask = _character.collision_mask
-	missle.set_projectile(missle, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "rocket_lifetime"), Vector2(GameConfig.get_value("items-effects", "rocket_speed"), 0.0).rotated(_character.rotation), _character.movement.facing == -1, _character)
+	missle.set_projectile(missle, GameConfig.get_value("items-effects", "rocket_lifetime"), Vector2(GameConfig.get_value("items-effects", "rocket_speed"), 0.0), _character.movement.facing == -1, _character)
 	spawn.add_child(missle)
 	Jukebox.play_sound("misslelauncher")
 

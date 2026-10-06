@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://cgv8m108fvfpo"]
 
-[ext_resource type="Script" uid="uid://co4vaip1jqdl" path="res://effects/egg/egg_display.gd" id="1_nmsct"]
+[ext_resource type="Script" uid="uid://co4vaip1jqdl" path="res://blocks/egg/egg_display.gd" id="1_nmsct"]
 [ext_resource type="Texture2D" uid="uid://ctsoswrm7jau1" path="res://character_display/parts/classic/classic_foot_back_color.png" id="2_n441m"]
 [ext_resource type="Texture2D" uid="uid://damd8r8qtxful" path="res://character_display/parts/classic/classic_foot_back_lines.png" id="3_4wt1b"]
 [ext_resource type="Texture2D" uid="uid://yfou0088dbe" path="res://character_display/parts/classic/classic_foot_back_epic_color.png" id="4_wrqeo"]
 [ext_resource type="Texture2D" uid="uid://bxbjatsqn8771" path="res://character_display/parts/classic/classic_foot_back_misc1.png" id="5_j04si"]
-[ext_resource type="Texture2D" uid="uid://5q3hv5k8v60n" path="res://effects/egg/egg_color.svg" id="6_03cmx"]
-[ext_resource type="Texture2D" uid="uid://b8htaupqlayja" path="res://effects/egg/egg_outline.svg" id="7_dd0fi"]
-[ext_resource type="Texture2D" uid="uid://d2t1qqip08oqx" path="res://effects/egg/egg_spots.svg" id="8_tp8um"]
-[ext_resource type="Texture2D" uid="uid://dpgs5fbdpujdg" path="res://effects/egg/egg_antennas.svg" id="9_6t4bk"]
+[ext_resource type="Texture2D" uid="uid://5q3hv5k8v60n" path="res://blocks/egg/egg_color.svg" id="6_03cmx"]
+[ext_resource type="Texture2D" uid="uid://b8htaupqlayja" path="res://blocks/egg/egg_outline.svg" id="7_dd0fi"]
+[ext_resource type="Texture2D" uid="uid://d2t1qqip08oqx" path="res://blocks/egg/egg_spots.svg" id="8_tp8um"]
+[ext_resource type="Texture2D" uid="uid://dpgs5fbdpujdg" path="res://blocks/egg/egg_antennas.svg" id="9_6t4bk"]
 [ext_resource type="Texture2D" uid="uid://cy8l8tvqgu06v" path="res://character_display/parts/classic/classic_foot_front_color.png" id="10_tdj2w"]
 [ext_resource type="Texture2D" uid="uid://x1fnqrmy58b8" path="res://character_display/parts/classic/classic_foot_front_lines.png" id="11_qbuof"]
 [ext_resource type="Texture2D" uid="uid://dlw5vcxwe1pal" path="res://character_display/parts/classic/classic_foot_front_epic_color.png" id="12_wjr5n"]
@@ -874,7 +874,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.629),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0, -10.430087609918115]
+"values": [0.0, -10.430087609918116]
 }
 tracks/2/type = "value"
 tracks/2/imported = false

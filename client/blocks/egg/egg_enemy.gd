@@ -44,7 +44,6 @@ func detect_players():
 	var collision: Array = sight_area.get_overlapping_bodies()
 	for body in collision:
 		if body is Character:
-			#print("we touched a player!")
 			attack_timer = attack_cooldown
 			attack()
 
@@ -55,20 +54,12 @@ func attack():
 		var attack_id = randi_range(1, 3)
 		if attack_id == 1:
 			var spawn = tile_map_layer.map_layer.projectiles
-			var bullet = laser_bullet.instantiate()
-			bullet.global_position = spawn_position
-			bullet.collision_layer = collision_layer
-			bullet.collision_mask = collision_mask
-			bullet.set_projectile(bullet, collision_layer, collision_mask, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0).rotated(rotation), egg_display.scale.x == -1, self)
-			spawn.add_child(bullet)
-			Jukebox.play_sound("laser")
+			tile_map_layer.shoot_laser(spawn_position, rotation, egg_display.scale.x == -1, self)
 		elif attack_id == 2:
 			var spawn = tile_map_layer.map_layer.projectiles
 			var slash = sword_slash.instantiate()
 			slash.global_position = spawn_position
-			slash.collision_layer = collision_layer
-			slash.collision_mask = collision_mask
-			slash.set_projectile(slash, collision_layer, collision_mask, GameConfig.get_value("items-effects", "sword_slash_lifetime"), Vector2(GameConfig.get_value("items-effects", "sword_slash_speed"), 0.0).rotated(rotation), egg_display.scale.x == -1, self)
+			slash.set_projectile(slash, GameConfig.get_value("items-effects", "sword_slash_lifetime"), Vector2(GameConfig.get_value("items-effects", "sword_slash_speed"), 0.0), egg_display.scale.x == -1, self)
 			spawn.add_child(slash)
 			Jukebox.play_sound("swish")
 		elif attack_id == 3:
@@ -85,6 +76,6 @@ func attack():
 				var ice_wave_projectile = ice_wave.instantiate()
 				ice_wave_projectile.global_position = spawn_position
 				ice_wave_projectile.rotation_degrees = angle
-				ice_wave_projectile.set_projectile(ice_wave_projectile, collision_layer, collision_mask, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation).rotated(rotation), egg_display.scale.x == -1, self)
+				ice_wave_projectile.set_projectile(ice_wave_projectile, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0), egg_display.scale.x == -1, self)
 				spawn.add_child(ice_wave_projectile)
 			Jukebox.play_sound("icewave")

@@ -52,7 +52,7 @@ func shoot(_character: Character):
 		var ice_wave_projectile = wave.instantiate()
 		ice_wave_projectile.global_position = global_position
 		ice_wave_projectile.rotation_degrees = angle
-		ice_wave_projectile.set_projectile(ice_wave_projectile, _character.collision_layer, _character.collision_mask, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation).rotated(_character.rotation), _character.movement.facing == -1, _character)
+		ice_wave_projectile.set_projectile(ice_wave_projectile, GameConfig.get_value("items-effects", "ice_wave_lifetime"), Vector2(GameConfig.get_value("items-effects", "ice_wave_speed"), 0.0).rotated(ice_wave_projectile.rotation), _character.movement.facing == -1, _character)
 		spawn.add_child(ice_wave_projectile)
 	Jukebox.play_sound("icewave")
 

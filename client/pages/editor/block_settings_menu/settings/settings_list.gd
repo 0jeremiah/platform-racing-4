@@ -8,6 +8,7 @@ extends Control
 @onready var teleport_settings = $TeleportSettings
 @onready var gear_settings = $GearSettings
 @onready var time_settings = $TimeSettings
+@onready var lightbreaker_settings = $LightbreakerSettings
 
 @onready var properties: Dictionary = {
 	"general": {"label": "General Settings", "settings": {"health": ConfigurableBlockSettings.default_block_properties.health, "coin_value": ConfigurableBlockSettings.default_block_properties.coin_value}, "node": general_settings},
@@ -17,5 +18,6 @@ extends Control
 	ConfigurableBlockSideSettings.ITEM: {"label": "Item Settings", "settings": {"infinite_items": ConfigurableBlockSettings.default_block_properties.infinite_items, "item_supply": ConfigurableBlockSettings.default_block_properties.item_supply}, "node": item_settings},
 	ConfigurableBlockSideSettings.TELEPORT: {"label": "Teleport Settings", "settings": {"teleport_color": ConfigurableBlockSettings.default_block_properties.teleport_color, "teleport_throttle_ms": ConfigurableBlockSettings.default_block_properties.teleport_throttle_ms}, "node": teleport_settings},
 	ConfigurableBlockSideSettings.TIME: {"label": "Time Settings", "settings": {"infinite_time": ConfigurableBlockSettings.default_block_properties.infinite_time, "time_supply": ConfigurableBlockSettings.default_block_properties.time_supply}, "node": time_settings},
-	ConfigurableBlockSettings.GEAR: {"label": "Gear Settings", "settings": {"gear_rotation": ConfigurableBlockSettings.default_block_properties.gear_rotation, "gear_tick": ConfigurableBlockSettings.default_block_properties.gear_tick, "gear_tock": ConfigurableBlockSettings.default_block_properties.gear_tock}, "node": gear_settings}
+	ConfigurableBlockSettings.GEAR: {"label": "Gear Settings", "settings": {"gear_rotation": ConfigurableBlockSettings.default_block_properties.gear_rotation, "gear_tick": ConfigurableBlockSettings.default_block_properties.gear_tick, "gear_tock": ConfigurableBlockSettings.default_block_properties.gear_tock}, "node": gear_settings},
+	ConfigurableBlockSettings.LIGHTBREAKER: {"label": "Lightbreaker Settings", "settings": {"light_color": ConfigurableBlockSettings.default_block_properties.light_color}, "node": lightbreaker_settings}
 }
