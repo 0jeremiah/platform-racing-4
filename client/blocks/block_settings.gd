@@ -37,7 +37,7 @@ static var default_block_properties: Dictionary = {
 	"gear_tick": 4000.0,
 	"gear_tock": 500.0,
 	"teleport_color": "FF7F50",
-	"teleport_throttle_ms": 1000.0,
+	"teleport_throttle": 3.0,
 	"infinite_time": false,
 	"time_supply": 1,
 	"light_color": "FFFFFF"
@@ -75,7 +75,7 @@ var gear_rotation = default_block_properties.gear_rotation
 var gear_tick = default_block_properties.gear_tick
 var gear_tock = default_block_properties.gear_tock
 var teleport_color: String = default_block_properties.teleport_color
-var teleport_throttle_ms: float = default_block_properties.teleport_throttle_ms
+var teleport_throttle: float = default_block_properties.teleport_throttle
 var infinite_time = default_block_properties.infinite_time
 var time_supply = default_block_properties.time_supply
 var light_color: String = default_block_properties.light_color
@@ -127,7 +127,7 @@ func export_settings() -> Dictionary:
 		settings.erase("gear_tock")
 	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		settings.erase("teleport_color")
-		settings.erase("teleport_throttle_ms")
+		settings.erase("teleport_throttle")
 	if !has_side_type(ConfigurableBlockSideSettings.TIME):
 		settings.erase("infinite_time")
 		settings.erase("time_supply")
@@ -181,7 +181,7 @@ func import_settings(new_settings: Dictionary) -> void:
 			bump.set_type(new_settings.bump)
 			stand.set_type(new_settings.stand)
 			any_side.set_type(new_settings.any_side)
-		if new_settings.matter_type == LIQUID or new_settings.matter_type == GAS:
+		elif new_settings.matter_type == LIQUID or new_settings.matter_type == GAS:
 			area.set_type(new_settings.area)
 		var sides = get_sides()
 		for side in sides:

@@ -45,14 +45,19 @@ func init(_block_settings: ConfigurableBlockSettings):
 	block_settings = _block_settings
 	var side_settings_category = BlockSettingsSubmenu.get_side_setting_category(block_settings.matter_type)
 	current_category = side_settings_category
+	for side_setting in side_settings_list.sides_properties:
+		side_settings_list.sides_properties[side_setting].node.set_category(current_category)
 	var sides = sides_dictionary.get(side_settings_category, {})
 	if !sides.is_empty():
+		var current_sides_dictionary_keys = sides_dictionary[current_category].keys()
+		current_side = current_sides_dictionary_keys[0]
 		for side in sides:
 			if side in block_settings and block_settings.get(side) is ConfigurableBlockSideSettings:
 				var side_info = block_settings.get(side).get_type()
 				sides_dictionary[side_settings_category][side].setting = side_info.type
 				sides_dictionary[side_settings_category][side].side_settings = side_info.params
 	populate_options()
+	_select_options({"category": current_category, "side": current_side, "setting": sides_dictionary[current_category][current_side].setting, "side_settings": sides_dictionary[current_category][current_side].side_settings})
 
 
 func _change_sides_properties(new_sides_properties: Dictionary):

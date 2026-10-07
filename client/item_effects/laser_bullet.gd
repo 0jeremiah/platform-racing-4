@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func hit_player(_character: Character) -> void:
 	_character.movement.current_velocity += Vector2(-2500, 0.1)
-	_character.movement.hitstun(2.5, 20)
+	_character.movement.hitstun(_character, 2.5, 20)
 	Jukebox.play_sound("laserhit")
 	queue_free()
 

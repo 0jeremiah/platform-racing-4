@@ -15,7 +15,7 @@ static var objective = "objective"
 static var alien_eggs = "alienEggs"
 static var roguelike = "roguelike"
 
-var level_type: String = "race"
+var level_type: String = race
 var time: int = 120
 var gravity: float = 1.0
 var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -114,21 +114,24 @@ func remove_finish_block(block: BlockScene):
 
 
 func register_teleport_block(block: BlockScene):
-	if !teleport_blocks.has(block.id):
-		teleport_blocks[block.id] = []
-	teleport_blocks[block.id].append({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name), "color": block.settings.teleport_color})
+	if !teleport_blocks.has(block.id) or !teleport_blocks[block.id].has(block.settings.teleport_color):
+		teleport_blocks[block.id] = {}
+		teleport_blocks[block.id][block.settings.teleport_color] = []
+	teleport_blocks[block.id][block.settings.teleport_color].append({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)})
 
 
 func remove_teleport_block(block: BlockScene):
-	if teleport_blocks.has(block.id):
-		var block_index = teleport_blocks[block.id].find({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name), "color": block.settings.teleport_color})
+	if teleport_blocks.has(block.id) and teleport_blocks[block.id].has(block.settings.teleport_color):
+		var block_index = teleport_blocks[block.id][block.settings.teleport_color] .find({"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)})
 		if block_index > -1:
-			teleport_blocks[block.id].remove_at(block_index)
+			teleport_blocks[block.id][block.settings.teleport_color].remove_at(block_index)
+		if teleport_blocks[block.id][block.settings.teleport_color].size() == 0:
+			teleport_blocks[block.id].erase(block.settings.teleport_color)
 		if teleport_blocks[block.id].size() == 0:
 			teleport_blocks.erase(block.id)
 
 
-func update_finish_blocks(block: BlockScene):
+func add_to_reached_finish_blocks(block: BlockScene):
 	var block_to_add = {"tile_map_layer": block.tile_map_layer, "coords": block.get_coords(), "map_layer_name": str(block.tile_map_layer.map_layer.name)}
 	#var level_manager = Game.game.level_manager
 	if block_to_add in finish_blocks and block_to_add not in reached_finish_blocks:
@@ -148,7 +151,7 @@ func init_level():
 	calc_used_rect()
 	level_layers.spawn_gears()
 	level_layers.get_all_start_options()
-	reached_finish_blocks = 0
+	reached_finish_blocks = []
 	level_layers.get_all_finish_blocks()
 	level_layers.spawn_eggs()
 

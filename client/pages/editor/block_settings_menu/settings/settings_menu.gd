@@ -31,6 +31,12 @@ func _ready() -> void:
 
 func init(_block_settings: ConfigurableBlockSettings):
 	block_settings = _block_settings
+	var current_block_settings = block_settings.get_settings()
+	var current_block_edited_settings = block_settings.get_edited_settings()
+	for current_block_edited_setting in current_block_edited_settings:
+		if current_block_edited_setting in current_block_settings:
+			current_block_settings[current_block_edited_setting] = current_block_edited_settings[current_block_edited_setting]
+	_update_settings(current_block_settings)
 	update_enabled_settings()
 
 

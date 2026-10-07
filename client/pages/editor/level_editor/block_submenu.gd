@@ -36,6 +36,7 @@ func _ready() -> void:
 		if selected_block_id in BlockManager._block_lookup:
 			settings = BlockManager._block_lookup[selected_block_id].settings
 		selected_block_settings.import_settings(settings)
+	_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_options_button.pressed.connect(_show_block_options)
 	_click_block_menu(block_dropper_button)
@@ -44,8 +45,7 @@ func _ready() -> void:
 func init() -> void:
 	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
-	var settings = {}
-	_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
+	#_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
 	if active:
 		layer_panel._render()
 

@@ -102,8 +102,6 @@ func _physics_process(_delta):
 		visible = false
 
 
-# block_id = event.block_id
-
 func _on_control_event(event: Dictionary) -> void:
 	if active:
 		if event.type == EditorEvents.SELECT_BLOCK:

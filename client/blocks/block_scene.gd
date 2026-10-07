@@ -149,7 +149,7 @@ func _process(delta: float) -> void:
 	if teleport_throttle_timer > 0:
 		if teleport_throttle_timer - delta > 0:
 			teleport_throttle_timer -= delta
-			dull_square_graphic.size = Settings.tile_size.y * (teleport_throttle_timer / settings.teleport_throttle_ms)
+			dull_square_graphic.size.y = Settings.tile_size.y * (teleport_throttle_timer / settings.teleport_throttle)
 		else:
 			teleport_throttle_timer = 0.0
 			dull_square_graphic.visible = false
@@ -176,7 +176,7 @@ func _process(delta: float) -> void:
 					just_hidden = true
 					active = false
 					if fade_mode == "vanish_no_revert":
-						fade_mode = "idle"
+						fade_mode = "hidden"
 					elif fade_mode == "vanish":
 						fade_mode = "vanish_cooldown"
 						fade_timer = fade_cooldown
@@ -209,9 +209,9 @@ func _process(delta: float) -> void:
 			elif fade_mode == "reverse_vanish" or fade_mode == "reverse_appear":
 				fade_mode = "hidden" if fade_mode == "reverse_appear" else "idle"
 				fade_timer = 0.0
-		if (fade_mode == "vanish" or fade_mode == "reverse_appear") and fade_duration != 0.0:
+		if ((fade_mode == "vanish" or fade_mode == "vanish_no_revert") or fade_mode == "reverse_appear") and fade_duration != 0.0:
 			block_texture.modulate.a = fade_timer / fade_duration
-		elif (fade_mode == "appear" or fade_mode == "reverse_vanish") and fade_duration != 0.0:
+		elif ((fade_mode == "appear" or fade_mode == "appear_no_revert") or fade_mode == "reverse_vanish") and fade_duration != 0.0:
 			block_texture.modulate.a = 1.0 - (fade_timer / fade_duration)
 		elif (fade_mode == "vanish_cooldown" or fade_mode == "appear_cooldown") and fade_cooldown != 0.0:
 			block_texture.modulate.a = 1.0 if fade_mode == "appear_cooldown" else 0.0
@@ -238,6 +238,7 @@ func set_block_texture():
 func morph_block_type(new_id: String, new_settings: ConfigurableBlockSettings):
 	unregister_block_type(false)
 	init(new_id, new_settings)
+	undull_out()
 
 
 func freeze():
@@ -288,7 +289,7 @@ func undull_out():
 
 
 func throttle_teleport():
-	teleport_throttle_timer = settings.teleport_throttle_ms
+	teleport_throttle_timer = settings.teleport_throttle
 	dull_square_graphic.size = Vector2(float(Settings.tile_size.x), float(Settings.tile_size.y))
 	dull_square_graphic.visible = true
 

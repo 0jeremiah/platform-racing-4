@@ -13,7 +13,7 @@
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "teleport", "params": {}},
 		"teleport_color": "FF7F50",
-		"teleport_throttle_ms": 1000.0
+		"teleport_throttle": 3.0
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

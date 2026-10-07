@@ -22,7 +22,6 @@ extends CharacterBody2D
 var active := false
 var item: Node2D
 var game: Node2D
-var tiles: Tiles
 var sun_particles = null
 var moon_particles = null
 var speed_particles = null
@@ -119,15 +118,34 @@ func _physics_process(delta: float) -> void:
 
 func _bump_tile_covering_high_area() -> void:
 	var tiles: Array = tile_interaction.get_tiles_overlapping_area(high_area)
-	
 	if tiles.size() != 0:
 		var tile = tiles[0]
-	
 		movement.attempting_bump = true
 		if tile != movement.last_bumped_block:
-			BlockManager._blocks[tile.block_id].on("bottom", self, tile.tile_map_layer, tile.coords)
-			BlockManager._blocks[tile.block_id].on("any_side", self, tile.tile_map_layer, tile.coords)
-			BlockManager._blocks[tile.block_id].on("bump", self, tile.tile_map_layer, tile.coords)
+			var tile_info = tile.tile_map_layer.get_block(tile.coords)
+			if !tile_info.node:
+				return
+			var direction = (global_position - tile_info.node.global_position).normalized()
+			var normal := Vector2.ZERO
+			if abs(direction.x) > abs(direction.y):
+				normal = Vector2(sign(direction.x), 0)
+			else:
+				normal = Vector2(0, sign(direction.y))
+			normal = normal.rotated(-rotation).normalized()
+			var events: Array[String]
+			if abs(normal.x) > abs(normal.y):
+				if normal.x > 0:
+					events.append("left")
+				else:
+					events.append("right")
+			else:
+				if normal.y > 0:
+					events.append("bottom")
+				else:
+					events.append("top")
+			events.append("bump")
+			events.append("any_side")
+			tile.tile_map_layer.trigger_tile_behaviors(self, tile.coords, events, normal)
 			movement.last_bumped_block = tile
 	else:
 		push_error("Character::bump_tile_covering_high_area - No tile covering high area")

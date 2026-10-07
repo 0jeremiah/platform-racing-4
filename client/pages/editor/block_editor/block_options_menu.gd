@@ -79,6 +79,7 @@ func _ready() -> void:
 func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
 	layers = new_layers
 	editor_events = new_editor_events
+	emit_signal("cursor_is_enabled", true)
 	for child in submenus.get_children():
 		if "control_event" in child:
 			child.control_event.connect(_on_control_event)

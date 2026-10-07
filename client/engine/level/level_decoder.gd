@@ -34,6 +34,11 @@ func decode(level: Dictionary) -> void:
 		"type": EditorEvents.SET_MUSIC,
 		"music": properties.get("music", "random")
 	})
+	# Emit level type change event
+	emit_signal("control_event", {
+		"type": EditorEvents.SET_LEVEL_TYPE,
+		"level_type": properties.get("level_type", LevelManager.race)
+	})
 	# Emit time change event
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_TIME,

@@ -46,6 +46,10 @@ func start_lightbreak(node: Node2D, coords: Vector2i, lightbreak_type: String) -
 	node.lightbreak.input_primed = false
 	node.lightbreak.windup = 0.1
 	node.lightbreak.type = lightbreak_type
+	if node.lightbreak.type == "sun":
+		node.lightbreak.fire_power += 1
+	elif node.lightbreak.type == "moon":
+		node.lightbreak.moon_timer = 0.05
 
 
 # Makes the node swim

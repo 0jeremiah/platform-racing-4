@@ -123,9 +123,6 @@ func _notify_collision(body: Node, tile_map_layer: ConfigurableTileMapLayer, coo
 					"coords": coords,
 					"block_id": tile_map_layer.get_block(coords).id
 					}
-				#var oriented_velocity = _parent.movement.current_velocity.rotated(-_parent.rotation)
-				#oriented_velocity.y = 0
-				#_parent.movement.current_velocity = oriented_velocity.rotated(_parent.rotation)
 				_parent.movement.attempting_bump = true
 				_parent.movement.jumped = false
 				_parent.movement.jump_timer = 0

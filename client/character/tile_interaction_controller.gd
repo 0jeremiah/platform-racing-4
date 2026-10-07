@@ -41,7 +41,7 @@ func should_crouch(character: Character) -> bool:
 				normal = Vector2(sign(direction.x), 0)
 			else:
 				normal = Vector2(0, sign(direction.y))
-			normal.rotated(-character.rotation).normalized()
+			normal = normal.rotated(-character.rotation).normalized()
 			if abs(normal.x) > abs(normal.y):
 				if normal.x > 0:
 					if tile_info.settings.left.type != ConfigurableBlockSideSettings.INACTIVE:
@@ -98,7 +98,7 @@ func interact_with_solid_tiles(character: Character, lighting: LightbreakControl
 	var normal = collision.get_normal().rotated(-character.rotation)
 	var coords: Vector2i
 	if collider is BlockScene:
-		collider.get_coords()
+		coords = collider.get_coords()
 	else:
 		var rid = collision.get_collider_rid()
 		coords = parent.get_coords_for_body_rid(rid)
