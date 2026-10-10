@@ -14,8 +14,10 @@
 size = Vector2(64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hdlk0"]
+size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ju3rb"]
+size = Vector2(1, 1)
 
 [node name="Character" type="CharacterBody2D" unique_id=1541502241]
 slide_on_ceiling = false
@@ -33,7 +35,7 @@ ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
 
 [node name="Light" type="PointLight2D" parent="." unique_id=580974972]
-position = Vector2(0, -66)
+position = Vector2(0, -96)
 enabled = false
 energy = 0.5
 shadow_enabled = true
@@ -53,7 +55,7 @@ collision_mask = 3
 shape = SubResource("RectangleShape2D_hdlk0")
 
 [node name="HighArea" type="Area2D" parent="." unique_id=390545606]
-position = Vector2(0, -180)
+position = Vector2(0, -128)
 collision_layer = 2
 collision_mask = 3
 

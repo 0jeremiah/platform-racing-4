@@ -93,6 +93,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		else:
 			invincibility_timer = 0
 			invincible = false
+			character.invincibility_particles.emitting = false
 	
 	# Handle input for movement
 	up_pressed = false
@@ -341,6 +342,7 @@ func grant_invincibility(character: Character):
 	var bonus = character.stats.get_skill_bonus()
 	invincibility_timer = GameConfig.get_value("other_player_stats", "invincibility_duration") * bonus
 	invincible = true
+	character.invincibility_particles.emitting = true
 
 
 func toggle_health(character: Character, toggle: bool):

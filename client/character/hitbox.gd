@@ -32,7 +32,7 @@ func run(character: Character) -> void:
 					holder.is_crawling = false
 	
 	# disable collision if we're stuck in a wall
-	if character.tile_interaction.is_in_solid():
+	if character.tile_interaction.is_in_solid(character):
 		hitbox.disabled = true
 	elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
 		hitbox.disabled = true
@@ -45,7 +45,7 @@ func run(character: Character) -> void:
 func should_crouch(character: Character, area: Area2D) -> bool:
 	if !character.is_on_floor():
 		return false
-	var tiles_overlapping: Array = character.get_tiles_overlapping_area(area)
+	var tiles_overlapping: Array = character.get_tiles_overlapping_area(self, area)
 	for tile_data in tiles_overlapping:
 		if tile_data.tile_map_layer.is_solid(tile_data.block_id):
 			return true

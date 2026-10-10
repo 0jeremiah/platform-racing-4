@@ -113,7 +113,7 @@ func run(character: Character) -> void:
 	#	go_high()
 	
 	# disable collision if we're stuck in a wall
-	#if character.tile_interaction.is_in_solid():
+	#if character.tile_interaction.is_in_solid(character):
 	#	disabled = true
 	#elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
 	#	disabled = true
@@ -127,7 +127,7 @@ func run(character: Character) -> void:
 #func should_crouch(character: Character, area: Area2D) -> bool:
 	#if !character.is_on_floor():
 	#	return false
-	#var tiles_overlapping: Array = character.get_tiles_overlapping_area(area)
+	#var tiles_overlapping: Array = character.get_tiles_overlapping_area(character, area)
 	#for tile_data in tiles_overlapping:
 	#	if _tiles.is_solid(tile_data.block_id):
 	#		return true
@@ -137,7 +137,7 @@ func run(character: Character) -> void:
 func _bump_tile_covering_high_area(character: Character, area: Area2D) -> void:
 	if !crawl_hitbox_list.is_empty():
 		for crawl_hitbox in crawl_hitbox_list:
-			var tiles: Array = character.tile_interaction.get_tiles_overlapping_area(crawl_hitbox)
+			var tiles: Array = character.tile_interaction.get_tiles_overlapping_area(character, crawl_hitbox)
 	
 			if tiles.size() != 0:
 				var tile = tiles[0]

@@ -29,7 +29,7 @@ func should_crouch(character: Character) -> bool:
 	var crouch = false
 	if !character.is_on_floor():
 		return false
-	var tiles_overlapping: Array = get_tiles_overlapping_area(high_area)
+	var tiles_overlapping: Array = get_tiles_overlapping_area(character, high_area, true)
 	for tile_data in tiles_overlapping:
 		if tile_data.tile_map_layer.is_solid(tile_data.coords):
 			var tile_info = tile_data.tile_map_layer.get_block(tile_data.coords)
@@ -153,10 +153,13 @@ func check_out_of_bounds(character: Character) -> void:
 		character.movement.current_velocity = Vector2(0, 0)
 
 
-func get_tiles_overlapping_area(area: Area2D) -> Array:
+func get_tiles_overlapping_area(character: Character, area: Area2D, ignore_collision_exceptions: bool = false) -> Array:
 	var tiles = []
 	var bodies: Array = area.get_overlapping_bodies()
+	var collision_exceptions = character.get_collision_exceptions()
 	for body in bodies:
+		if ignore_collision_exceptions and body in collision_exceptions:
+			continue
 		var parent = body.get_parent()
 		if parent is not ConfigurableTileMapLayer:
 			continue
@@ -183,8 +186,8 @@ func maybe_mark_safe_block(character: Character, tile_map_layer: ConfigurableTil
 		last_safe_layer = tile_map_layer.map_layer
 
 
-func is_in_solid() -> bool:
-	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
+func is_in_solid(character: Character) -> bool:
+	var tiles_overlapping: Array = get_tiles_overlapping_area(character, low_area)
 	for tile in tiles_overlapping:
 		if tile.tile_map_layer.is_solid(tile.coords):
 			return true
@@ -192,7 +195,7 @@ func is_in_solid() -> bool:
 
 
 func inside_solid_blocks_check(character: Character):
-	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
+	var tiles_overlapping: Array = get_tiles_overlapping_area(character, low_area)
 	var tiles = []
 	for tile in tiles_overlapping:
 		var block_info = tile.tile_map_layer.get_block(tile.coords)

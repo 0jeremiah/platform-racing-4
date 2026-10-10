@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b47rv6533uhoi"]
+[gd_scene format=3 uid="uid://b47rv6533uhoi"]
 
 [ext_resource type="Texture2D" uid="uid://bi8oq3hpy1y68" path="res://item_effects/speed_particle.png" id="1_6hou1"]
 [ext_resource type="Material" uid="uid://daldlvmdt48du" path="res://particles/invincibilityparticles.tres" id="2_63ygb"]
 
-[node name="Invincibilityparticles" type="GPUParticles2D"]
+[node name="Invincibilityparticles" type="GPUParticles2D" unique_id=770301821]
 emitting = false
 amount = 15
 texture = ExtResource("1_6hou1")

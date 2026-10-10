@@ -14,6 +14,10 @@ var rotation_sync: bool = true
 
 func run(character: Character, delta: float) -> void:
 	# Rotate
+	var current_gravity = gravity
+	if character.movement.swimming:
+		current_gravity = current_gravity / 2
+	var current_gravity_rotated = current_gravity.rotated(rotation)
 	rotation_sync = true
 	if rotation != target_rotation:
 		rotation_sync = false
@@ -29,10 +33,7 @@ func run(character: Character, delta: float) -> void:
 	character.rotation = rotation
 	character.up_direction = base_up_direction.rotated(rotation)
 	if rotation_sync:
-		if character.movement.swimming:
-			character.movement.current_velocity += (gravity_rotated / 2) * delta
-		else:
-			character.movement.current_velocity += gravity_rotated * delta
+		character.movement.current_velocity += current_gravity_rotated * delta
 
 
 func not_rotating() -> bool:

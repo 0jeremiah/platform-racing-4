@@ -17,7 +17,7 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 	# Face left or right
 	var control_vector = Input.get_vector("left", "right", "up", "down")
 	if !movement.hurt:
-		display.scale.x = movement.facing
+		display.scale.x = movement.facing * character.movement.size
 	else:
 		if (movement.hitstun_duration - movement.hitstun_timer) < 0.4:
 			display.play(CharacterDisplay.HURT_START)
@@ -62,7 +62,7 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 	shake = super_jump.charge_precentage() / 8
 	sjanim = randf_range(1 - shake, 1 + shake)
 	if super_jump.is_locking():
-		display.scale.y = sjanim
+		display.scale.y = sjanim * character.movement.size
 		if !movement.frozen:
 			display.modulate.b = 1.0 - super_jump.charge_precentage()
 		sjaura.modulate.a = super_jump.charge_precentage() / 2
@@ -74,7 +74,7 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 			sjaura.visible = false
 		if !movement.frozen:
 			display.modulate = Color(1.0, 1.0, 1.0)
-		display.scale.y = 1
+		display.scale.y = 1 * character.movement.size
 		if !movement.is_wall_sliding:
-			display.scale.x = movement.facing
+			display.scale.x = movement.facing * character.movement.size
 		shake = 0

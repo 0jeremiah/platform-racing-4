@@ -72,7 +72,7 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 		player.modulate.a = randf_range(0, 0.66)
 		moon_timer -= delta
 		moon_particles.emitting = true
-		if moon_timer < 0 and !player.tile_interaction.is_in_solid():
+		if moon_timer < 0 and !player.tile_interaction.is_in_solid(player):
 			end_lightbreak()
 			player.modulate.a = 1
 	

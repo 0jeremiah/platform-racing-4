@@ -13,7 +13,6 @@ extends CharacterBody2D
 @onready var high_area := $HighArea
 @onready var item_manager := $ItemManager
 @onready var ice := $Ice
-@onready var invincibility := $Invincibility
 @onready var display := $Display
 @onready var item_holder_display := $Display/ItemHolder
 @onready var sjaura := $SuperJumpAura
@@ -59,8 +58,12 @@ func _physics_process(delta: float) -> void:
 	if gravity.not_rotating:
 		movement.is_crouching = tile_interaction.should_crouch(self)
 		hitbox.run(self)
-		low_area.scale = Vector2(movement.size, movement.size)
-		high_area.scale = Vector2(movement.size, movement.size)
+		low_area.position = hitbox.position
+		low_area.get_child(0).shape.size = hitbox.shape.size
+		low_area.get_child(0).position = Vector2(0.0, 0.0)
+		high_area.position = Vector2(0.0, (-float(Settings.tile_size.y) * movement.size))
+		high_area.get_child(0).shape.size = Vector2(1.0, 1.0)
+		high_area.get_child(0).position = Vector2(0.0, 0.0)
 	
 	# Process gravity
 	gravity.run(self, delta)
@@ -109,7 +112,6 @@ func _physics_process(delta: float) -> void:
 	camera_controller.process(delta, position, rotation, lightbreak.is_active())
 	
 	# Update animations
-	scale = Vector2(movement.size, movement.size)
 	animation.process(self, movement, super_jump)
 	
 	# Check boundaries
@@ -117,7 +119,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _bump_tile_covering_high_area() -> void:
-	var tiles: Array = tile_interaction.get_tiles_overlapping_area(high_area)
+	var tiles: Array = tile_interaction.get_tiles_overlapping_area(self, high_area)
 	if tiles.size() != 0:
 		var tile = tiles[0]
 		movement.attempting_bump = true

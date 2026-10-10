@@ -227,6 +227,10 @@ func heart(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 		var block_info = tile_map_layer.get_block(coords)
 		if block_info.node != null:
 			block_info.node.dull_out()
+		if hp > 0:
+			Jukebox.play_sound("bumphappy")
+		else:
+			Jukebox.play_sound("bumpsad")
 
 
 # Explode the block and push away the body
