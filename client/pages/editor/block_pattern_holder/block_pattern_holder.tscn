@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bsxp5if3mrxb5"]
+
+[ext_resource type="Script" uid="uid://dh42nqblv06si" path="res://pages/editor/block_pattern_holder/block_pattern_holder.gd" id="1_mp4vf"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_u57v3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
+atlas = ExtResource("2_u57v3")
+region = Rect2(0, 0, 128, 128)
+
+[node name="BlockPatternHolder" type="Control" unique_id=914833375]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 430.0
+offset_bottom = 248.0
+script = ExtResource("1_mp4vf")
+
+[node name="LightColorRect" type="ColorRect" parent="." unique_id=581999329]
+layout_mode = 0
+offset_right = 430.0
+offset_bottom = 248.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="DarkColorRect" type="ColorRect" parent="." unique_id=1424915744]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 425.0
+offset_bottom = 243.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=89222306]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 425.0
+offset_bottom = 243.0
+
+[node name="BlocksContainer" type="GridContainer" parent="ScrollContainer" unique_id=773164170]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="SelectedBlockTexture" type="TextureRect" parent="." unique_id=2124128093]
+visible = false
+self_modulate = Color(1, 1, 1, 0.7490196)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = SubResource("AtlasTexture_xmsay")
+expand_mode = 1
+
+[node name="TeleportColorinTexture" type="TextureRect" parent="SelectedBlockTexture" unique_id=1811243988]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0

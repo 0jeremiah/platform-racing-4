@@ -401,8 +401,6 @@ func on(event: String, tile_type: int, player: Node2D, tile_map_layer: Configura
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		tile.on(event, player, tile_map_layer, coords)
-		if event == "bump":
-			TileEffects.bump(player, tile_map_layer, coords)
 
 
 func is_solid(tile_type: int) -> bool:
@@ -427,17 +425,17 @@ func is_safe(tile_type: int) -> bool:
 
 
 func activate_node(node: Node):
-	if node is ConfigurableTileMapLayer:
+	if node is ConfigurableTileMapLayer and node.has_method("activate_tile_map_layer"):
 		activate_tile_map_layer(node)
 		return
-	elif "tile_map_layer" in node:
+	elif "tile_map_layer" in node and node.has_method("activate_tile_map_layer"):
 		activate_tile_map_layer(node.tile_map_layer)
 		return
 		
 	for child in node.get_children():
-		if child is ConfigurableTileMapLayer:
+		if child is ConfigurableTileMapLayer and child.has_method("activate_tile_map_layer"):
 			activate_tile_map_layer(child)
-		elif child is Node2D || child is Parallax2D:
+		elif child is Node2D and child.has_method("activate_node"):
 			activate_node(child)
 
 

@@ -11,19 +11,13 @@ func appear(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vec
 
 
 ## Push the node in a specified direction
-func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
+func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, normal: Vector2 = Vector2.ZERO) -> void:
 	if node is not PhysicsBody2D or "movement" not in node:
 		return
 
 	var direction := Vector2(params.get("direction", {"x": 0.0, "y": 0.0}).x, params.get("direction", {"x": 0.0, "y": 0.0}).y)
 	var horizontal_force: float = params.get("horizontal_force", 1250.0)
 	var vertical_force: float = params.get("vertical_force", 1100.0)
-	#var push_force_stand_pressed: float = params.get("push_force_stand_pressed", 3200.0)
-	#var push_force_stand_idle: float = params.get("push_force_stand_idle", 1250.0)
-	#var push_force_bump: float = params.get("push_force_bump", 1250.0)
-	#var phantom_push_force_bump: float = params.get("phantom_push_force_bump", 400.0)
-	#var phantom_push_force_bump_decay: float = params.get("phantom_push_force_bump_decay", 0.85)
-
 	var rotated_push_dir := direction.rotated(tile_map_layer.global_rotation)
 	var target_global_position := tile_map_layer.to_global((coords * 128) + Vector2i(64, 64))
 	var player_global_position := node.to_global(Vector2(0, -100))
@@ -32,7 +26,7 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 
 	var push_force: float
 	# changes "push_force" depending on whether player is on the horizontal or vertical side
-	if abs(node.rotation - rotated_push_dir.rotated(PI/2).angle()) < 0:
+	if abs(normal.x) > abs(normal.y):
 		push_force = vertical_force
 	else:
 		push_force = horizontal_force
@@ -44,7 +38,7 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 
 	# player is standing or bumping on the block
 	else:
-		if abs(node.rotation - rotated_push_dir.rotated(PI/2).angle()) < 0.1:
+		if abs(normal.rotated(-node.rotation).x) < abs(normal.rotated(-node.rotation).y):
 			if node is CharacterBody2D and node.is_on_floor():
 				if node.movement.up_pressed:
 					push_velocity = (rotated_push_dir * push_force) * 25
@@ -53,14 +47,6 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 			else:
 				if !node.movement.down_pressed:
 					push_velocity = (rotated_push_dir * push_force) * 15
-				# remove from last_bumped_block so we can keep bumping this block
-				#var block_info = {
-					#"tile_map_layer": tile_map_layer,
-					#"coords": coords,
-					#"block_id": tile_map_layer.get_block(coords).id
-					#}
-				#if "movement" in node and block_info == node.movement.last_bumped_block:
-					#node.movement.last_bumped_block = {}
 		else:
 			push_velocity = rotated_push_dir * push_force
 	

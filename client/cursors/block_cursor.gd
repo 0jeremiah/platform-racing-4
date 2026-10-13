@@ -74,32 +74,23 @@ func _on_control_event(event: Dictionary) -> void:
 
 func get_mouse_to_tilemap_coords() -> Vector2:
 	if level_layers:
-		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var tile_map_layer = layer.tile_map_layer
 		var camera: Camera2D = get_viewport().get_camera_2d()
-		var rotated_pos: Vector2
 
 		# Get screen position of mouse
 		var viewport_mouse_pos = get_viewport().get_mouse_position()
 
 		# Convert to world position taking into account camera position, zoom, and layer scale
-		var world_pos = layer.to_local(((viewport_mouse_pos - (get_viewport_rect().size / 2)) / camera.zoom) + camera.get_screen_center_position())
+		var world_pos = tile_map_layer.to_local(((viewport_mouse_pos - (get_viewport_rect().size / 2)) / camera.zoom) + camera.get_screen_center_position())
 
-		# Account for tilemap rotation
-		rotated_pos = world_pos
-		if layer.tile_map_rotation != 0:
-			# Inverse rotate the point to get the correct position in rotated space
-			var rotation_radians = -deg_to_rad(layer.tile_map_rotation)
-			rotated_pos = Vector2(
-				world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
-				world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
-			)
-		return rotated_pos
+		return world_pos
 	return Vector2(-1, -1)
 
 
 func on_mouse_down():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
-		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_block(coords).id
@@ -125,7 +116,7 @@ func on_mouse_down():
 
 func on_drag():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and (mode == "draw" or mode == "erase"):
-		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: String
@@ -153,7 +144,7 @@ func on_drag():
 
 func on_mouse_up():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
-		var layer: Parallax2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		if grabbed_block_id:

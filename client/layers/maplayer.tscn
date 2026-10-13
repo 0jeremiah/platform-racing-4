@@ -3,9 +3,8 @@
 [ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/maplayer.gd" id="1_0xfjn"]
 [ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_i1n2p"]
 
-[node name="MapLayer" type="Parallax2D" unique_id=2073402923]
+[node name="MapLayer" type="Node2D" unique_id=1090300076]
 z_as_relative = false
-ignore_camera_scroll = true
 script = ExtResource("1_0xfjn")
 
 [node name="TileMapLayerContainer" type="Control" parent="." unique_id=1237484113]

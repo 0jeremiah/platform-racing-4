@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		movement.is_crouching = tile_interaction.should_crouch(self)
 		hitbox.run(self)
 		low_area.position = hitbox.position
-		low_area.get_child(0).shape.size = hitbox.shape.size
+		low_area.get_child(0).shape.size = Vector2(hitbox.shape.size.x * 0.5, 1.0)
 		low_area.get_child(0).position = Vector2(0.0, 0.0)
 		high_area.position = Vector2(0.0, (-float(Settings.tile_size.y) * movement.size))
 		high_area.get_child(0).shape.size = Vector2(1.0, 1.0)
@@ -125,7 +125,7 @@ func _bump_tile_covering_high_area() -> void:
 		movement.attempting_bump = true
 		if tile != movement.last_bumped_block:
 			var tile_info = tile.tile_map_layer.get_block(tile.coords)
-			if !tile_info.node:
+			if tile_info.node == null:
 				return
 			var direction = (global_position - tile_info.node.global_position).normalized()
 			var normal := Vector2.ZERO
@@ -148,7 +148,7 @@ func _bump_tile_covering_high_area() -> void:
 			events.append("bump")
 			events.append("any_side")
 			tile.tile_map_layer.trigger_tile_behaviors(self, tile.coords, events, normal)
-			movement.last_bumped_block = tile
+			tile_interaction.maybe_update_last_bumped_block(self, tile.tile_map_layer, tile.coords)
 	else:
 		push_error("Character::bump_tile_covering_high_area - No tile covering high area")
 

@@ -1,4 +1,4 @@
-extends Parallax2D
+extends Node2D
 class_name MapLayer
 
 @onready var tile_map_layer_container = $TileMapLayerContainer
@@ -29,16 +29,16 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var camera = get_viewport().get_camera_2d()
 	if camera:
-		screen_offset = camera.get_screen_center_position() * scroll_scale
+		position = camera.get_screen_center_position() - (camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
 
 
 func set_z_axis(p_z_axis: int) -> void:
 	z_axis = p_z_axis
-	scroll_scale = Vector2(get_layer_scale(), get_layer_scale())
+	#scroll_scale = Vector2(get_layer_scale(), get_layer_scale())
 	scale = Vector2(get_layer_scale(), get_layer_scale())
 	var camera = get_viewport().get_camera_2d()
 	if camera:
-		screen_offset = (get_viewport().get_visible_rect().size / 2) * scroll_scale
+		position = camera.get_screen_center_position() - (camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
 
 
 func get_layer_scale() -> float:

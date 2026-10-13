@@ -369,17 +369,20 @@ func move(direction: String, param_2: bool = true) -> bool:
 
 
 func snipe():
+	var play_laser_sound = false
 	if settings.top.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
 		tile_map_layer.shoot_laser(position, deg_to_rad(270.0), false, self)
-		Jukebox.play_sound("laser")
+		play_laser_sound = true
 	if settings.bottom.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
 		tile_map_layer.shoot_laser(position, deg_to_rad(90.0), false, self)
-		Jukebox.play_sound("laser")
+		play_laser_sound = true
 	if settings.left.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
 		tile_map_layer.shoot_laser(position, deg_to_rad(180.0), false, self)
-		Jukebox.play_sound("laser")
+		play_laser_sound = true
 	if settings.right.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
 		tile_map_layer.shoot_laser(position, 0.0, false, self)
+		play_laser_sound = true
+	if play_laser_sound:
 		Jukebox.play_sound("laser")
 
 

@@ -58,7 +58,7 @@ func _on_control_event(event: Dictionary) -> void:
 
 func on_mouse_down():
 	if active and cursor_parent.editor_menu.can_edit and cursor_parent.editor_menu.can_edit:
-		var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		var layer: Node2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 		var texts: Node2D = layer.texts
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var mouse_position = texts.get_local_mouse_position() + (camera.get_screen_center_position() * layer.get_layer_scale()) - (camera.get_screen_center_position() * layer.get_layer_scale())
@@ -167,7 +167,7 @@ func update_display():
 	caret.size.y = white_caret.position.y + white_caret.size.y
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var layer_scale = 1.0
-	var layer: Parallax2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+	var layer: Node2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		layer_scale = layer.get_layer_scale()
 	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)

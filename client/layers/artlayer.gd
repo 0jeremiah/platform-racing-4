@@ -1,4 +1,4 @@
-extends Parallax2D
+extends Node2D
 class_name ArtLayer
 
 @onready var lines_viewpoint_container = $LinesViewpointContainer
@@ -28,6 +28,7 @@ func _ready() -> void:
 func _process(_delta):
 	main_camera = get_viewport().get_camera_2d()
 	if main_camera:
+		var screen_offset = main_camera.get_screen_center_position() - main_camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale())
 		var window_size = get_viewport().get_visible_rect().size
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
@@ -61,7 +62,6 @@ func set_anchor(p_anchor: Vector2) -> void:
 
 
 func set_viewport_scale():
-	scroll_scale = Vector2(get_layer_depth(), get_layer_depth())
 	scale = Vector2(get_layer_scale(), get_layer_scale())
 	lines_container.pivot_offset = anchor
 	stamps_container.pivot_offset = anchor

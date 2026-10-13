@@ -33,7 +33,7 @@ func should_crouch(character: Character) -> bool:
 	for tile_data in tiles_overlapping:
 		if tile_data.tile_map_layer.is_solid(tile_data.coords):
 			var tile_info = tile_data.tile_map_layer.get_block(tile_data.coords)
-			if !tile_info.node:
+			if tile_info.node == null:
 				continue
 			var direction = (character.global_position - tile_info.node.global_position).normalized()
 			var normal := Vector2.ZERO
@@ -184,6 +184,40 @@ func maybe_mark_safe_block(character: Character, tile_map_layer: ConfigurableTil
 		coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tile_map_layer.global_rotation)
 		last_safe_position = centre_safe_block - (Vector2(0, (float(Settings.tile_size.y) / 2))).rotated(tile_map_layer.global_rotation + character.rotation)
 		last_safe_layer = tile_map_layer.map_layer
+
+
+func maybe_update_last_bumped_block(character: Character, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var update_last_bumped_block = true
+	var tile_info = tile_map_layer.get_block(coords)
+	if tile_info.id == "" or tile_info.node == null:
+		return
+	var direction = (character.global_position - tile_info.node.global_position).normalized()
+	var normal := Vector2.ZERO
+	if abs(direction.x) > abs(direction.y):
+		normal = Vector2(sign(direction.x), 0)
+	else:
+		normal = Vector2(0, sign(direction.y))
+	normal = normal.rotated(-character.rotation).normalized()
+	if tile_info.settings.any_side.type == ConfigurableBlockSideSettings.ARROW:
+		update_last_bumped_block = false
+	elif abs(normal.rotated(-character.rotation).x) < abs(normal.rotated(-character.rotation).y) and tile_info.settings.bump.type == ConfigurableBlockSideSettings.ARROW:
+		update_last_bumped_block = false
+	elif abs(normal.x) > abs(normal.y):
+		if normal.x > 0:
+			if tile_info.settings.left.type == ConfigurableBlockSideSettings.ARROW:
+				update_last_bumped_block = false
+		else:
+			if tile_info.settings.right.type == ConfigurableBlockSideSettings.ARROW:
+				update_last_bumped_block = false
+	else:
+		if normal.y > 0:
+			if tile_info.settings.bottom.type == ConfigurableBlockSideSettings.ARROW:
+				update_last_bumped_block = false
+		else:
+			if tile_info.settings.top.type == ConfigurableBlockSideSettings.ARROW:
+				update_last_bumped_block = false
+	if update_last_bumped_block:
+		character.movement.last_bumped_block = {"tile_map_layer": tile_map_layer, "coords": coords, "block_id": tile_info.id}
 
 
 func is_in_solid(character: Character) -> bool:

@@ -1,35 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://da03wwpyecgcp"]
+[gd_scene format=3 uid="uid://da03wwpyecgcp"]
 
 [ext_resource type="Script" uid="uid://w7q2goyqm4rl" path="res://layers/artlayer.gd" id="1_ichmj"]
 
-[node name="ArtLayer" type="Parallax2D"]
+[node name="ArtLayer" type="Node2D" unique_id=1913796291]
 z_as_relative = false
 script = ExtResource("1_ichmj")
 
-[node name="LinesViewpointContainer" type="SubViewportContainer" parent="."]
+[node name="LinesViewpointContainer" type="SubViewportContainer" parent="." unique_id=685576319]
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="LinesViewport" type="SubViewport" parent="LinesViewpointContainer"]
+[node name="LinesViewport" type="SubViewport" parent="LinesViewpointContainer" unique_id=888522443]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="LinesContainer" type="Control" parent="LinesViewpointContainer/LinesViewport"]
+[node name="LinesContainer" type="Control" parent="LinesViewpointContainer/LinesViewport" unique_id=1207253757]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="LinesHolder" type="Node2D" parent="LinesViewpointContainer/LinesViewport/LinesContainer"]
+[node name="LinesHolder" type="Node2D" parent="LinesViewpointContainer/LinesViewport/LinesContainer" unique_id=471571880]
 
-[node name="StampsContainer" type="Control" parent="."]
+[node name="StampsContainer" type="Control" parent="." unique_id=1906271399]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Stamps" type="Node2D" parent="StampsContainer"]
+[node name="Stamps" type="Node2D" parent="StampsContainer" unique_id=353124072]
 
-[node name="TextsContainer" type="Control" parent="."]
+[node name="TextsContainer" type="Control" parent="." unique_id=606070480]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Texts" type="Node2D" parent="TextsContainer"]
+[node name="Texts" type="Node2D" parent="TextsContainer" unique_id=887767443]

@@ -117,12 +117,9 @@ func _notify_collision(body: Node, tile_map_layer: ConfigurableTileMapLayer, coo
 	if abs(normal.rotated(-_parent.rotation).x) < abs(normal.rotated(-_parent.rotation).y):
 		if _parent is CharacterBody2D and !_parent.is_on_floor() and normal.rotated(-body.rotation).y > 0:
 			events.append("bump")
+			if "tile_interaction" in _parent:
+				_parent.tile_interaction.maybe_update_last_bumped_block(_parent, tile_map_layer, coords)
 			if "movement" in _parent:
-				_parent.movement.last_bumped_block = {
-					"tile_map_layer": tile_map_layer,
-					"coords": coords,
-					"block_id": tile_map_layer.get_block(coords).id
-					}
 				_parent.movement.attempting_bump = true
 				_parent.movement.jumped = false
 				_parent.movement.jump_timer = 0

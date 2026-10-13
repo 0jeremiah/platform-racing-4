@@ -32,7 +32,7 @@ func on(event: String, body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapL
 		BlockBehaviors.call_non_solid_block_behaviour(current_sides[event].type, body, tile_map_layer, coords, current_sides[event].params, normal)
 	if event == "bump":
 		if block_info.id != "" and block_info.node != null:
-			block_info.node.animate_bump(Vector2(normal).rotated(PI))
+			block_info.node.animate_bump(Vector2(normal).rotated(PI).rotated(body.rotation))
 		Jukebox.play_sound("bump")
 
 
