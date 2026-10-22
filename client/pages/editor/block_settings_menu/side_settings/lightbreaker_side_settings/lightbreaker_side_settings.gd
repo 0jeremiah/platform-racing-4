@@ -17,7 +17,7 @@ func _show_lightbreaker_types():
 	var dropdown_options = []
 	for type in ConfigurableBlockSideSettings.lightbreaker_types:
 		dropdown_options.append({"label": ConfigurableBlockSideSettings.lightbreaker_types[type].label, "data": ConfigurableBlockSideSettings.lightbreaker_types[type]})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_lightbreaker_type"), "dropdown_size": Vector2(lightbreaker_type_button.size.x, 240), "options": dropdown_options, "popup_position": Vector2(lightbreaker_type_button.global_position.x, lightbreaker_type_button.global_position.y + lightbreaker_type_button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_lightbreaker_type"), "dropdown_size": Vector2(lightbreaker_type_button.size.x, 240), "options": dropdown_options, "popup_global_position": Vector2(lightbreaker_type_button.global_position.x, lightbreaker_type_button.global_position.y + lightbreaker_type_button.size.y)}, self)
 
 
 func _change_lightbreaker_type(selected_lightbreaker_type: Dictionary):

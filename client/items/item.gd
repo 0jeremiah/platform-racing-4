@@ -40,22 +40,18 @@ func init(p_character: Character):
 	character = p_character
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if using and reload_timer > 0:
 		if (reload_timer - delta) > 0:
 			reload_timer -= delta
 		elif using:
 			using = false
-	
-	if item and item.has_method("process_item"):
-		item.process_item(character)
-
-
-func _process(_delta: float) -> void:
-	if item and uses <= 0:
-		remove_item()
-	if character:
-		if item != portable_block and item != portable_mine and item != teleport:
+	if item:
+		if item.has_method("process_item"):
+			item.process_item(character)
+		if uses <= 0:
+			remove_item()
+		if character and item != portable_block and item != portable_mine and item != teleport:
 			position = Vector2(character.item_holder_display.position.x * character.movement.facing, character.item_holder_display.position.y)
 			rotation = character.item_holder_display.rotation * character.movement.facing
 			scale = (character.item_holder_display.scale / character.movement.size) * character.display.scale

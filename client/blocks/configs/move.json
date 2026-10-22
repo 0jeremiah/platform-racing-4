@@ -12,6 +12,8 @@
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3,
 		"move_tick": 2.5,
 		"move_pattern": "random"
 	},

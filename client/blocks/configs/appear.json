@@ -11,7 +11,9 @@
 		"bottom": {"type": "appear", "params": {"fade_duration": 0.3, "fade_cooldown": 2.0, "revert": true}},
 		"bump": {"type": "appear", "params": {"fade_duration": 0.3, "fade_cooldown": 2.0, "revert": true}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "active", "params": {}}
+		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

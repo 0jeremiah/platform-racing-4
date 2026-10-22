@@ -1,7 +1,5 @@
 extends Control
 
-signal block_settings_changed
-
 @onready var settings_dropdown_button = $SettingsDropdownButton
 @onready var settings_container = $SettingsContainer
 @onready var settings_list = $SettingsContainer/SettingsList
@@ -12,8 +10,7 @@ var current_setting: String = ""
 var block_properties: Dictionary = {}
 var has_settings: bool = false
 var block_settings: ConfigurableBlockSettings = null
-var container_size: Vector2 = Vector2(488.0, 298.0)
-var container_y: float = 80
+var container_size: Vector2 = Vector2(500.0, 310.0)
 var dropdown_options: Array = []
 
 
@@ -46,12 +43,11 @@ func _change_properties(new_settings: Dictionary):
 			block_properties[key] = new_settings.settings[key]
 			if block_settings and key in block_settings:
 				block_settings[key] = block_properties[key]
-	emit_signal("block_settings_changed", block_properties)
 
 
 func _show_dropdown():
 	if has_settings:
-		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_select_options"), "dropdown_size": Vector2(settings_dropdown_button.size.x, 240), "options": dropdown_options, "popup_position": Vector2(settings_dropdown_button.global_position.x, settings_dropdown_button.global_position.y + settings_dropdown_button.size.y)}, self)
+		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_select_options"), "dropdown_size": Vector2(settings_dropdown_button.size.x, 240), "options": dropdown_options, "popup_global_position": Vector2(settings_dropdown_button.global_position.x, settings_dropdown_button.global_position.y + settings_dropdown_button.size.y)}, self)
 
 
 func populate_options():
@@ -130,7 +126,7 @@ func show_option(setting_info: Dictionary):
 	if "setting" in setting_info and setting_info.setting in settings_list.properties:
 		settings_list.properties[setting_info.setting].node.visible = true
 		settings_list.custom_minimum_size = settings_list.properties[setting_info.setting].node.size
-		settings_container.size = Vector2(clampf(settings_list.properties[setting_info.setting].node.size.x + 12, 0, container_size.x), clampf(settings_list.properties[setting_info.setting].node.size.y + 12, 0, container_size.y))
+		settings_container.size = Vector2(clampf(settings_list.properties[setting_info.setting].node.size.x, 0.0, container_size.x), clampf(settings_list.properties[setting_info.setting].node.size.y, 0.0, container_size.y))
 
 
 func change_container_size(new_container_size: Vector2):

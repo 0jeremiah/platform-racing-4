@@ -51,7 +51,7 @@ func stop():
 	do_intervals = false
 
 
-func add_block(param_1: BlockScene, param_2: float):
+func add_block(param_1: BlockScene, param_2: int):
 	var loc_3: float = 1.0
 	if param_2 == TYPE_MOVE:
 		param_1.random_move_pattern = create_rand_pattern()

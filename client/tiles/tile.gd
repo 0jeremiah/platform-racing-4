@@ -68,7 +68,7 @@ func activate_tile_options(_tile_map_layer: ConfigurableTileMapLayer, _coords: V
 
 
 func get_center_position(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> Vector2:
-	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.rotation)
+	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.get_map_rotation())
 
 
 func deactivate(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:

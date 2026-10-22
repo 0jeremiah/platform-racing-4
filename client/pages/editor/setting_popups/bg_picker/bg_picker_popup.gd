@@ -25,9 +25,9 @@ func init(init_params: Dictionary):
 		lister_node.colorpicker_func = init_params.colorpicker_func
 	if "bg_color" in init_params:
 		lister_node.set_bg_color(init_params.bg_color)
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
-		lister_node.popup_position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
+		lister_node.popup_global_position = init_params.popup_global_position
 
 
 func _bg_selected(bg_id: String):

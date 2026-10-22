@@ -20,5 +20,5 @@ func init(init_params: Dictionary):
 		blocksettingsmenu_func = init_params.blocksettingsmenu_func
 	if "block_settings" in init_params:
 		blocksettingsmenu_node.init(init_params.block_settings)
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)

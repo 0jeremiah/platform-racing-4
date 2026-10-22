@@ -20,28 +20,26 @@ color = Color(1, 1, 1, 0.49803922)
 transparent_bg = true
 oversampling_override = 1.0
 size = Vector2i(40, 60)
-visible = true
 transparent = true
 
-[node name="PopupContainer" type="Control" parent="Popup" unique_id=2050140194]
-layout_mode = 3
+[node name="PopupContainer" type="Control" parent="." unique_id=2050140194]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 60.0
 
-[node name="DefaultPanel" type="Panel" parent="Popup/PopupContainer" unique_id=1512992143]
+[node name="DefaultPanel" type="Panel" parent="PopupContainer" unique_id=1512992143]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 60.0
 
-[node name="Holder" type="Control" parent="Popup/PopupContainer" unique_id=492027952]
+[node name="Holder" type="Control" parent="PopupContainer" unique_id=492027952]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 20.0
 offset_bottom = 20.0
 
-[node name="ButtonsHolder" type="Control" parent="Popup/PopupContainer" unique_id=1427546921]
+[node name="ButtonsHolder" type="Control" parent="PopupContainer" unique_id=1427546921]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 40.0

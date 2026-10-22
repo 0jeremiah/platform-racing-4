@@ -1,7 +1,5 @@
 extends Control
 
-signal block_side_settings_changed
-
 @onready var side_settings_dropdown_button = $SideSettingsDropdownButton
 @onready var side_settings_container = $SideSettingsContainer
 @onready var side_settings_list = $SideSettingsContainer/SideSettingsList
@@ -25,8 +23,7 @@ var current_category: String = "solids"
 var current_side: String = "top"
 var has_side_settings: bool = false
 var block_settings: ConfigurableBlockSettings = null
-var container_size: Vector2 = Vector2(488.0, 298.0)
-var container_y: float = 298
+var container_size: Vector2 = Vector2(500.0, 310.0)
 var dropdown_options: Array = []
 
 
@@ -74,7 +71,7 @@ func _change_sides_properties(new_sides_properties: Dictionary):
 
 func _show_dropdown():
 	if has_side_settings:
-		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_side"), "dropdown_size": Vector2(side_settings_dropdown_button.size.x, 240), "options": dropdown_options, "popup_position": Vector2(side_settings_dropdown_button.global_position.x, side_settings_dropdown_button.global_position.y + side_settings_dropdown_button.size.y)}, self)
+		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_side"), "dropdown_size": Vector2(side_settings_dropdown_button.size.x, 240), "options": dropdown_options, "popup_global_position": Vector2(side_settings_dropdown_button.global_position.x, side_settings_dropdown_button.global_position.y + side_settings_dropdown_button.size.y)}, self)
 
 
 func populate_options():
@@ -155,14 +152,9 @@ func show_option(options_dictionary: Dictionary):
 	if "setting" in options_dictionary and options_dictionary.setting in side_settings_list.sides_properties:
 		side_settings_list.sides_properties[options_dictionary.setting].node.visible = true
 		side_settings_list.custom_minimum_size = side_settings_list.sides_properties[options_dictionary.setting].node.size
-		side_settings_list.size = Vector2(clampf(side_settings_list.sides_properties[options_dictionary.setting].node.size.x + 12, 0, container_size.x), clampf(side_settings_list.sides_properties[options_dictionary.setting].node.size.y + 12, 0, container_size.y - side_settings_container.position.y))
+		side_settings_list.size = Vector2(clampf(side_settings_list.sides_properties[options_dictionary.setting].node.size.x, 0.0, container_size.x), clampf(side_settings_list.sides_properties[options_dictionary.setting].node.size.y, 0.0, container_size.y - side_settings_container.position.y))
 		if "side" in options_dictionary and "side_settings" in sides_dictionary[options_dictionary.category][options_dictionary.side] and sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings != null:
 			side_settings_list.sides_properties[options_dictionary.setting].node.set_side_settings(sides_dictionary[options_dictionary.category][options_dictionary.side].side_settings)
-
-
-func change_container_y(new_container_y: float):
-	container_y = new_container_y
-	side_settings_container.size.y = container_y
 
 
 func change_container_size(new_container_size: Vector2):

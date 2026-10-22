@@ -74,7 +74,7 @@ func _on_control_event(event: Dictionary) -> void:
 
 func get_mouse_to_tilemap_coords() -> Vector2:
 	if level_layers:
-		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer = layer.tile_map_layer
 		var camera: Camera2D = get_viewport().get_camera_2d()
 
@@ -90,7 +90,7 @@ func get_mouse_to_tilemap_coords() -> Vector2:
 
 func on_mouse_down():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
-		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id = tile_map_layer.get_block(coords).id
@@ -116,7 +116,7 @@ func on_mouse_down():
 
 func on_drag():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and (mode == "draw" or mode == "erase"):
-		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		var tile_id: String
@@ -144,7 +144,7 @@ func on_drag():
 
 func on_mouse_up():
 	if active and cursor_parent.editor_menu.can_edit and level_layers and mode == "move":
-		var layer: Node2D = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
 		var tile_map_layer: TileMapLayer = layer.tile_map_layer
 		var coords = tile_map_layer.local_to_map(get_mouse_to_tilemap_coords())
 		if grabbed_block_id:

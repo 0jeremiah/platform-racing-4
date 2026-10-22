@@ -161,7 +161,7 @@ func is_liquid(coords: Vector2i) -> bool:
 
 func is_safe(coords: Vector2i) -> bool:
 	var unsafe_matter_types = [ConfigurableBlockSettings.GAS]
-	var unsafe_block_types = [ConfigurableBlockSettings.MOVE]
+	var unsafe_block_types = [ConfigurableBlockSettings.MOVE, ConfigurableBlockSettings.GEAR]
 	var unsafe_block_sides = [ConfigurableBlockSideSettings.MINE, ConfigurableBlockSideSettings.VANISH,
 	ConfigurableBlockSideSettings.PUSH, ConfigurableBlockSideSettings.CRUMBLE,
 	ConfigurableBlockSideSettings.SAFETY, ConfigurableBlockSideSettings.SHATTER]
@@ -316,18 +316,23 @@ func spawn_gears():
 								#rotation_controller.tick_ms = 2000
 
 
-func get_map_used_rect() -> Rect2i:
+func get_map_rotation() -> float:
 	var current_rotation: float
 	var parent = get_parent()
 	if parent is RotationController:
 		current_rotation = parent.rotation
 	else:
 		current_rotation = deg_to_rad(map_layer.tile_map_rotation)
+	return current_rotation
+
+
+func get_map_used_rect() -> Rect2i:
+	var tile_map_layer_rotation = get_map_rotation()
 	var used_rect = get_used_rect()
-	var rotated_vectors = [Vector2(float(used_rect.position.x), float(used_rect.position.y)).rotated(current_rotation),
-	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y)).rotated(current_rotation),
-	Vector2(float(used_rect.position.x), float(used_rect.position.y + used_rect.size.y)).rotated(current_rotation),
-	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y + used_rect.size.y)).rotated(current_rotation)]
+	var rotated_vectors = [Vector2(float(used_rect.position.x), float(used_rect.position.y)).rotated(tile_map_layer_rotation),
+	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y)).rotated(tile_map_layer_rotation),
+	Vector2(float(used_rect.position.x), float(used_rect.position.y + used_rect.size.y)).rotated(tile_map_layer_rotation),
+	Vector2(float(used_rect.position.x + used_rect.size.x), float(used_rect.position.y + used_rect.size.y)).rotated(tile_map_layer_rotation)]
 	var x_points = []
 	var y_points = []
 	for rotated_vector in rotated_vectors:
@@ -364,7 +369,6 @@ func shoot_laser(laser_position: Vector2, laser_rotation: float, facing_left: bo
 	bullet.rotation = laser_rotation
 	bullet.set_projectile(bullet, GameConfig.get_value("items-effects", "laser_bullet_lifetime"), Vector2(GameConfig.get_value("items-effects", "laser_bullet_speed"), 0.0), facing_left, from)
 	map_layer.projectiles.add_child(bullet)
-	Jukebox.play_sound("laser")
 
 
 ## Trigger block behaviors for a tile collision

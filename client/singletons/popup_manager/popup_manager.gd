@@ -20,7 +20,7 @@ func add_message_popup(popup_message: String = "", at_node: Node = null):
 		at_node.add_child(popup)
 	else:
 		popups.add_child(popup)
-	popup.popup.grab_focus()
+	popup.grab_focus()
 
 
 func add_confirm_popup(confirm_func = null, popup_message: String = "", at_node: Node = null):
@@ -37,7 +37,7 @@ func add_confirm_popup(confirm_func = null, popup_message: String = "", at_node:
 		at_node.add_child(popup)
 	else:
 		popups.add_child(popup)
-	popup.popup.grab_focus()
+	popup.grab_focus()
 
 
 func add_custom_popup(custom_popup_code: Script, init_params = null, at_node: Node = null):
@@ -52,7 +52,7 @@ func add_custom_popup(custom_popup_code: Script, init_params = null, at_node: No
 		popups.add_child(popup)
 	if popup.has_method("init") and init_params != null:
 		popup.init(init_params)
-	popup.popup.grab_focus()
+	popup.grab_focus()
 
 
 func delete_all_popups():

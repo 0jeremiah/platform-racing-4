@@ -1,9 +1,9 @@
-extends Node2D
+extends Control
 class_name MapLayer
 
-@onready var tile_map_layer_container = $TileMapLayerContainer
-@onready var tile_map_layer = $TileMapLayerContainer/TileMapLayer
-@onready var non_static_tile_map_layers = $TileMapLayerContainer/NonStaticTileMapLayers
+@onready var tile_map_layers_container = $TileMapLayersContainer
+@onready var tile_map_layer = $TileMapLayersContainer/TileMapLayer
+@onready var non_static_tile_map_layers = $TileMapLayersContainer/NonStaticTileMapLayers
 @onready var players = $Players
 @onready var enemies = $Enemies
 @onready var projectiles = $Projectiles
@@ -20,25 +20,24 @@ func _ready() -> void:
 	tile_map_layer.tile_set = BlockManager._tile_set
 	tile_map_layer.map_layer = self
 	z_as_relative = false
+	offset_transform_enabled = true
+	offset_transform_visual_only = false
+	tile_map_layers_container.offset_transform_enabled = true
+	tile_map_layers_container.offset_transform_visual_only = false
 	set_z_axis(z_axis)
 	set_map_layer_rotation(tile_map_rotation)
-	set_anchor(anchor)
+	set_map_anchor(anchor)
 	set_layer_z_index(layer_z_index)
 
 
-func _process(_delta: float) -> void:
-	var camera = get_viewport().get_camera_2d()
-	if camera:
-		position = camera.get_screen_center_position() - (camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
+#func _process(_delta: float) -> void:
+	#update_map_layer_display()
 
 
 func set_z_axis(p_z_axis: int) -> void:
 	z_axis = p_z_axis
-	#scroll_scale = Vector2(get_layer_scale(), get_layer_scale())
-	scale = Vector2(get_layer_scale(), get_layer_scale())
-	var camera = get_viewport().get_camera_2d()
-	if camera:
-		position = camera.get_screen_center_position() - (camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
+	offset_transform_scale = Vector2(get_layer_scale(), get_layer_scale())
+	#update_map_layer_display()
 
 
 func get_layer_scale() -> float:
@@ -47,12 +46,14 @@ func get_layer_scale() -> float:
 
 func set_map_layer_rotation(p_rotation: int) -> void:
 	tile_map_rotation = p_rotation
-	tile_map_layer_container.rotation_degrees = tile_map_rotation
+	tile_map_layers_container.offset_transform_rotation = deg_to_rad(tile_map_rotation)
+	#update_map_layer_display()
 
 
-func set_anchor(p_anchor: Vector2) -> void:
+func set_map_anchor(p_anchor: Vector2) -> void:
 	anchor = p_anchor
-	tile_map_layer_container.pivot_offset = anchor
+	tile_map_layers_container.offset_transform_pivot = anchor
+	#update_map_layer_display()
 
 
 func set_layer_name(new_layer_name: String) -> void:
@@ -62,3 +63,9 @@ func set_layer_name(new_layer_name: String) -> void:
 func set_layer_z_index(p_z_index: int) -> void:
 	layer_z_index = p_z_index
 	z_index = layer_z_index
+
+
+func update_map_layer_display():
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		offset_transform_position = camera.get_screen_center_position() - (camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))

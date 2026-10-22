@@ -32,11 +32,13 @@ offset_bottom = 30.0
 theme_override_font_sizes/font_size = 17
 text = "None"
 
-[node name="SideSettingsContainer" type="ScrollContainer" parent="." unique_id=778214151]
-layout_mode = 0
+[node name="SideSettingsContainer" type="Control" parent="." unique_id=1673089736]
+anchors_preset = 0
 offset_top = 50.0
-offset_right = 488.0
-offset_bottom = 348.0
+offset_right = 500.0
+offset_bottom = 360.0
 
 [node name="SideSettingsList" parent="SideSettingsContainer" unique_id=312537140 instance=ExtResource("2_ajtoq")]
-layout_mode = 2
+layout_mode = 0
+offset_right = 0.0
+offset_bottom = 0.0

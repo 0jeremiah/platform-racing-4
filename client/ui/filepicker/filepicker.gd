@@ -258,7 +258,7 @@ func _recent_locations():
 		dropdown_options = []
 		for recent_location in recent_locations.size():
 			dropdown_options.append({"label": recent_locations[recent_location], "data": (dir_history.size() - recent_locations.size()) + recent_location})
-		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_set_dir_page"), "dropdown_size": Vector2(920.0, 676.0), "options": dropdown_options, "popup_position": Vector2(recent_locations_button.global_position.x, recent_locations_button.global_position.y + recent_locations_button.size.y)}, self)
+		PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_set_dir_page"), "dropdown_size": Vector2(920.0, 676.0), "options": dropdown_options, "popup_global_position": Vector2(recent_locations_button.global_position.x, recent_locations_button.global_position.y + recent_locations_button.size.y)}, self)
 
 
 func _set_dir_page(new_dir_page: int):

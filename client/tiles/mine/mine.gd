@@ -14,7 +14,7 @@ func explode(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: V
 	if player.movement.invincible:
 		return
 	TileEffects.shatter(tile_map_layer, coords, 10)
-	var direction = player.position - (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.rotation)
+	var direction = player.position - (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.get_map_rotation())
 	var push_velocity = direction.normalized() * 5000
 	player.velocity += push_velocity
 	var effect = EXPLODE_EFFECT.instantiate()

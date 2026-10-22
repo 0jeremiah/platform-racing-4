@@ -102,7 +102,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		var layer = current_layers.add_map_layer(event.name)
 		layer.set_map_layer_rotation(event.get("tile_map_rotation", 0))
 		layer.set_z_axis(event.get("z_axis", 10))
-		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
+		layer.set_map_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		layer.set_layer_z_index(event.get("z_index", 10))
 		layer.layer_name = event.name
 	
@@ -112,7 +112,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		layer.set_depth(event.get("depth", 10))
 		layer.set_z_axis(event.get("z_axis", 10))
 		layer.set_art_alpha(event.get("alpha", 100))
-		layer.set_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
+		layer.set_art_anchor(Vector2(event.get("anchor", {"x": 0, "y": 0}).x, event.get("anchor", {"x": 0, "y": 0}).y))
 		layer.set_layer_z_index(event.get("z_index", 10))
 		current_layers.set_target_art_layer(event.name)
 		layer.layer_name = event.name
@@ -251,11 +251,11 @@ func _on_editor_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.SET_MAP_LAYER_ANCHOR:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
-		layer.set_anchor(Vector2(event.anchor.x, event.anchor.y))
+		layer.set_map_anchor(Vector2(event.anchor.x, event.anchor.y))
 	
 	if event.type == EditorEvents.SET_ART_LAYER_ANCHOR:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
-		layer.set_anchor(Vector2(event.anchor.x, event.anchor.y))
+		layer.set_art_anchor(Vector2(event.anchor.x, event.anchor.y))
 	
 	if event.type == EditorEvents.SET_ART_LAYER_BLOCK_EFFECTS:
 		var layer = current_layers.art_layers.get_node(event.layer_name)

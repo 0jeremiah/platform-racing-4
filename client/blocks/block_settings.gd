@@ -36,6 +36,8 @@ static var default_block_properties: Dictionary = {
 	"gear_rotation": 90.0,
 	"gear_tick": 4000.0,
 	"gear_tock": 500.0,
+	"limit_activate_range": false,
+	"activate_range": {"x": 10, "y": 10},
 	"teleport_color": "FF7F50",
 	"teleport_throttle": 3.0,
 	"infinite_time": false,
@@ -74,6 +76,8 @@ var stat_supply = default_block_properties.stat_supply
 var gear_rotation = default_block_properties.gear_rotation
 var gear_tick = default_block_properties.gear_tick
 var gear_tock = default_block_properties.gear_tock
+var limit_activate_range = default_block_properties.limit_activate_range
+var activate_range = default_block_properties.activate_range
 var teleport_color: String = default_block_properties.teleport_color
 var teleport_throttle: float = default_block_properties.teleport_throttle
 var infinite_time = default_block_properties.infinite_time
@@ -107,32 +111,7 @@ func export_settings() -> Dictionary:
 	for maybe_setting in default_block_properties:
 		if maybe_setting in self and get(maybe_setting) != default_block_properties[maybe_setting]:
 			settings[maybe_setting] = get(maybe_setting)
-	if block_type != ConfigurableBlockSettings.CHANGE:
-		settings.erase("change_tick")
-		settings.erase("change_pattern")
-	if block_type != ConfigurableBlockSettings.MOVE:
-		settings.erase("move_tick")
-		settings.erase("move_pattern")
-		settings.erase("randomize_move_pattern")
-		settings.erase("loop_move_pattern")
-	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
-		settings.erase("infinite_items")
-		settings.erase("item_supply")
-	if !has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS):
-		settings.erase("infinite_stats")
-		settings.erase("stat_supply")
-	if block_type != ConfigurableBlockSettings.GEAR:
-		settings.erase("gear_rotation")
-		settings.erase("gear_tick")
-		settings.erase("gear_tock")
-	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		settings.erase("teleport_color")
-		settings.erase("teleport_throttle")
-	if !has_side_type(ConfigurableBlockSideSettings.TIME):
-		settings.erase("infinite_time")
-		settings.erase("time_supply")
-	if block_type != ConfigurableBlockSettings.LIGHTBREAKER:
-		settings.erase("light_color")
+	settings = remove_unused_settings(settings)
 	# this was in pr3 to keep block settings from getting too big
 	# dunno if this limitation will be needed, but added this code just in case
 	
@@ -279,3 +258,83 @@ func get_sides() -> Dictionary:
 			"area": area
 		}
 	return {}
+
+
+func remove_unused_settings(current_settings: Dictionary) -> Dictionary:
+	if matter_type != ConfigurableBlockSettings.SOLID:
+		current_settings.erase("health")
+		current_settings.erase("coin_value")
+	if block_type != ConfigurableBlockSettings.CHANGE:
+		current_settings.erase("change_tick")
+		current_settings.erase("change_pattern")
+	if block_type != ConfigurableBlockSettings.MOVE:
+		current_settings.erase("move_tick")
+		current_settings.erase("move_pattern")
+		current_settings.erase("randomize_move_pattern")
+		current_settings.erase("loop_move_pattern")
+	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
+		current_settings.erase("infinite_items")
+		current_settings.erase("item_supply")
+	if !has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS):
+		current_settings.erase("infinite_stats")
+		current_settings.erase("stat_supply")
+	if block_type != ConfigurableBlockSettings.GEAR:
+		current_settings.erase("gear_rotation")
+		current_settings.erase("gear_tick")
+		current_settings.erase("gear_tock")
+	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+		current_settings.erase("teleport_color")
+		current_settings.erase("teleport_throttle")
+	if !has_side_type(ConfigurableBlockSideSettings.TIME):
+		current_settings.erase("infinite_time")
+		current_settings.erase("time_supply")
+	if block_type != ConfigurableBlockSettings.LIGHTBREAKER:
+		current_settings.erase("light_color")
+	return current_settings
+
+
+static func parse_move_pattern(maybe_move_pattern: String) -> Dictionary:
+	var valid_move_pattern = ""
+	var valid_compressed_move_pattern = ""
+	var converted_move_pattern = ""
+	var allowed_commands: Array = ["up", "down", "left", "right", "wait", "random", "return"]
+	var success: bool = true
+	var message: String = ""
+	if !maybe_move_pattern.is_empty():
+		var pattern_array = maybe_move_pattern.split(",", false, 0)
+		for pattern in pattern_array:
+			var converted_command = pattern.dedent().remove_chars("0123456789 ").to_lower()
+			if converted_command in allowed_commands:
+				var command = ""
+				match converted_command:
+					"up": command = "u"
+					"down": command = "d"
+					"left": command = "l"
+					"right": command = "r"
+					"wait": command = "-"
+					"return": command = "@"
+					"random": command = "*"
+					_: command = "*"
+				if pattern.remove_chars("0123456789") != pattern:
+					var converted_numeration = pattern.dedent().to_lower().remove_chars("updownleftrighamw ")
+					if converted_numeration.is_valid_int():
+						var amount = int(converted_numeration)
+						for i in range(amount):
+							converted_move_pattern = converted_move_pattern + command
+					else:
+						success = false
+						message = "ERROR: One or more invalid numerations."
+				else:
+					converted_move_pattern = converted_move_pattern + command
+			else:
+				success = false
+				message = "ERROR: One or more invalid commands."
+				break
+	else:
+		success = false
+		message = "ERROR: No pattern exists."
+	if success:
+		valid_move_pattern = maybe_move_pattern
+		valid_compressed_move_pattern = converted_move_pattern
+		message = "PASS: All patterns are valid."
+	return {"move_pattern": valid_move_pattern, "compressed_move_pattern": valid_compressed_move_pattern, "success": success, "message": message}

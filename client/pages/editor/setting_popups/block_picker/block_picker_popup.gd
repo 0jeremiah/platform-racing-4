@@ -26,10 +26,10 @@ func init(init_params: Dictionary):
 		blockpicker_clicked_func = init_params.blockpicker_clicked_func
 	if "close_after_select" in init_params:
 		close_after_select = init_params.close_after_select
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 	if "send_block_picker_size_and_position_func" in init_params:
-		init_params.send_block_picker_size_and_position_func.call({"position": Vector2(popup.position) + holder.position + blockpicker_node.block_selector.list_container.position, "size": blockpicker_node.size})
+		init_params.send_block_picker_size_and_position_func.call({"position": blockpicker_node.block_selector.list_container.global_position, "size": blockpicker_node.size})
 
 
 func _block_clicked(block_data: Dictionary):

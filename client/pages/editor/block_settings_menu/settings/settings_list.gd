@@ -9,7 +9,6 @@ extends Control
 @onready var gear_settings = $GearSettings
 @onready var time_settings = $TimeSettings
 @onready var lightbreaker_settings = $LightbreakerSettings
-
 @onready var properties: Dictionary = {
 	"general": {"label": "General Settings", "settings": {"health": ConfigurableBlockSettings.default_block_properties.health, "coin_value": ConfigurableBlockSettings.default_block_properties.coin_value}, "node": general_settings},
 	ConfigurableBlockSettings.MOVE: {"label": "Move Settings", "settings": {"move_tick": ConfigurableBlockSettings.default_block_properties.move_tick, "move_pattern": ConfigurableBlockSettings.default_block_properties.move_pattern, "randomize_move_pattern": ConfigurableBlockSettings.default_block_properties.randomize_move_pattern, "loop_move_pattern": ConfigurableBlockSettings.default_block_properties.loop_move_pattern}, "node": move_settings},

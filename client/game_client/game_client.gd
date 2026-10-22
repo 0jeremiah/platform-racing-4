@@ -105,7 +105,7 @@ func _send_chat_message(message: String) -> void:
 
 func _send_cursor_update() -> void:
 	if is_live_editing && layers && is_instance_valid(layers):
-		var layer: Node2D = layers.map_layers.get_node(layers.get_target_map_layer())
+		var layer: MapLayer = layers.map_layers.get_node(layers.get_target_map_layer())
 		if !layer:
 			return
 			
@@ -171,8 +171,8 @@ func _retry_connect() -> void:
 func _process(_delta: float) -> void:
 	if layers && is_instance_valid(layers):
 		var layer_node = layers.map_layers.get_node(layers.get_target_map_layer())
-		if layer_node is Node2D:
-			var layer: Node2D = layer_node
+		if layer_node is MapLayer:
+			var layer: MapLayer = layer_node
 			var tile_map_layer: ConfigurableTileMapLayer = layer.tile_map_layer
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tile_map_layer.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.get_layer_scale()))

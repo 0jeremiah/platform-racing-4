@@ -45,50 +45,13 @@ func _toggle_loop():
 
 
 func _parse_pattern():
-	move_pattern = ""
-	var success: bool = true
-	parse_results_label.text = ""
-	var pattern_string = pattern_box.text
-	if !pattern_string.is_empty():
-		var pattern_array = pattern_string.split(",", false, 0)
-		for pattern in pattern_array:
-			var converted_command = pattern.dedent().remove_chars("0123456789 ").to_lower()
-			if converted_command in allowed_commands:
-				var command = ""
-				match converted_command:
-					"up": command = "u"
-					"down": command = "d"
-					"left": command = "l"
-					"right": command = "r"
-					"wait": command = "-"
-					"return": command = "@"
-					"random": command = "*"
-					_: command = "*"
-				if pattern.remove_chars("0123456789") != pattern:
-					var converted_numeration = pattern.dedent().to_lower().remove_chars("updownleftrighamw ")
-					if converted_numeration.is_valid_int():
-						var amount = int(converted_numeration)
-						for i in range(amount):
-							move_pattern = move_pattern + command
-					else:
-						success = false
-						parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
-						parse_results_label.text = "ERROR: One or more invalid numerations."
-				else:
-					move_pattern = move_pattern + command
-			else:
-				success = false
-				parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
-				parse_results_label.text = "ERROR: One or more invalid commands."
-				break
-	else:
-		success = false
-		parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
-		parse_results_label.text = "ERROR: No pattern exists."
-	if success:
+	var move_pattern_info = ConfigurableBlockSettings.parse_move_pattern(pattern_box.text)
+	move_pattern = old_move_pattern
+	parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
+	parse_results_label.text = move_pattern_info.message
+	if move_pattern_info.success:
+		move_pattern = move_pattern_info.move_pattern
 		parse_results_label.set("theme_override_colors/default_color", Color("007f00"))
-		parse_results_label.text = "PASS: All patterns are valid."
-		old_move_pattern = move_pattern
 		emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
 		"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
 

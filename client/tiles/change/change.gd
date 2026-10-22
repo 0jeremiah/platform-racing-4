@@ -25,7 +25,7 @@ func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer):
 		change_counter += 1
 		var change_controller = ChangeController.new()
 		change_controller.position = Vector2(change_coords * Settings.tile_size)
-		change_controller.rotation = tile_map_layer.rotation
+		change_controller.rotation = tile_map_layer.get_map_rotation()
 		if pr3_compatibility:
 			change_controller.change_list = default_change_list.slice(0, 21)
 		else:

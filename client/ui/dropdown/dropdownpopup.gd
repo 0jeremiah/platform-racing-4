@@ -26,8 +26,8 @@ func init(init_params: Dictionary):
 			dropdownpicker_node.add_options_from_dictionary(init_params.options)
 		elif init_params.options is Array:
 			dropdownpicker_node.add_options_from_array(init_params.options)
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 
 
 func _dropdown_selected(dropdown_data: Dictionary):

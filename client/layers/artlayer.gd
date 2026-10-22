@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name ArtLayer
 
 @onready var lines_viewpoint_container = $LinesViewpointContainer
@@ -23,19 +23,23 @@ var main_camera = null
 
 func _ready() -> void:
 	z_as_relative = false
+	offset_transform_enabled = true
+	offset_transform_visual_only = false
+	lines_viewpoint_container.offset_transform_enabled = true
+	lines_viewpoint_container.offset_transform_visual_only = false
 
 
-func _process(_delta):
-	main_camera = get_viewport().get_camera_2d()
-	if main_camera:
-		var screen_offset = main_camera.get_screen_center_position() - main_camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale())
-		var window_size = get_viewport().get_visible_rect().size
-		lines_viewpoint_container.size = window_size
-		lines_viewport.size = window_size
-		lines_viewpoint_container.scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
-		lines_viewpoint_container.global_position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
-		lines_container.global_position = -(lines_viewpoint_container.global_position + (screen_offset * (get_layer_depth() - 1))) * main_camera.zoom
-		lines_container.scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
+#func _process(_delta):
+	#main_camera = get_viewport().get_camera_2d()
+	#if main_camera:
+		#var current_screen_offset = main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
+		#var window_size = get_viewport().get_visible_rect().size
+		#lines_viewpoint_container.size = window_size
+		#lines_viewport.size = window_size
+		#lines_viewpoint_container.offset_transform_scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
+		#lines_viewpoint_container.offset_transform_position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
+		#lines_container.offset_transform_position = -(lines_viewpoint_container.global_position + (current_screen_offset * (get_layer_depth() - 1))) * main_camera.zoom
+		#lines_container.scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
 
 
 func set_z_axis(p_z_axis: float) -> void:
@@ -56,16 +60,14 @@ func get_layer_depth() -> float:
 	return depth / 10.0
 
 
-func set_anchor(p_anchor: Vector2) -> void:
+func set_art_anchor(p_anchor: Vector2) -> void:
 	anchor = p_anchor
+	offset_transform_pivot = anchor
 	set_viewport_scale()
 
 
 func set_viewport_scale():
 	scale = Vector2(get_layer_scale(), get_layer_scale())
-	lines_container.pivot_offset = anchor
-	stamps_container.pivot_offset = anchor
-	texts_container.pivot_offset = anchor
 	z_index = layer_z_index
 
 

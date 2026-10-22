@@ -42,7 +42,7 @@ func _show_zoom_list():
 	dropdown_options = []
 	for zoom in camera.zoom_array.size():
 		dropdown_options.append({"label": str(int(camera.zoom_array[zoom] * 200)) + "%", "data": zoom})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_camera_zoom"), "dropdown_size": Vector2(zoom_dropdown_button.size.x - 20.0, 200), "options": dropdown_options, "popup_position": Vector2(zoom_dropdown_button.global_position.x, zoom_dropdown_button.global_position.y - 200)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_camera_zoom"), "dropdown_size": Vector2(zoom_dropdown_button.size.x - 20.0, 200), "options": dropdown_options, "popup_global_position": Vector2(zoom_dropdown_button.global_position.x, zoom_dropdown_button.global_position.y - 200)}, self)
 
 
 func _input(event: InputEvent):

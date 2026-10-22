@@ -6,7 +6,7 @@ signal general_settings_changed
 @onready var coin_value_box = $CoinValueBox
 
 var health: float = ConfigurableBlockSettings.default_block_properties.health
-var coin_value: float = ConfigurableBlockSettings.default_block_properties.coin_value
+var coin_value: int = ConfigurableBlockSettings.default_block_properties.coin_value
 
 
 func _ready() -> void:
@@ -22,7 +22,7 @@ func _change_health(new_health: float):
 	emit_signal("general_settings_changed", {"health": health, "coin_value": coin_value})
 
 
-func _change_coin_value(new_coin_value: float):
+func _change_coin_value(new_coin_value: int):
 	coin_value = new_coin_value
 	emit_signal("general_settings_changed", {"health": health, "coin_value": coin_value})
 

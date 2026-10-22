@@ -10,8 +10,8 @@ static var _block_lookup: Dictionary = {}  # block_id → {source_id: int, atlas
 static var _blocks: Dictionary = {}  # block_id → ConfigurableBlock instance
 static var _tile_set: ConfigurableTileSet = ConfigurableTileSet.new()
 static var _block_textures: Dictionary = {}
-static var not_found_block_texture = preload("res://blocks/notfoundblock.png")
-static var loading_block_texture = preload("res://blocks/loadingblock.png")
+static var not_found_block_texture = null
+static var loading_block_texture = null
 static var solid_layer_id: int = 0
 static var non_solid_layer_id: int = 1
 
@@ -25,6 +25,15 @@ static func init() -> void:
 	_tile_set.set_physics_layer_collision_mask(solid_layer_id, Helpers.to_bitmask_32((10 * 2) - 1))
 	_tile_set.set_physics_layer_collision_layer(non_solid_layer_id, Helpers.to_bitmask_32(10 * 2))
 	_tile_set.set_physics_layer_collision_mask(non_solid_layer_id, Helpers.to_bitmask_32(10 * 2))
+	not_found_block_texture = load_block_texture("res://blocks/notfoundblock.png")
+	loading_block_texture = load_block_texture("res://blocks/loadingblock.png")
+
+
+## Load block from path without godot throwing a warning
+static func load_block_texture(path: String) -> ImageTexture:
+	var image = Image.new()
+	image.load(ProjectSettings.globalize_path(path))
+	return ImageTexture.create_from_image(image)
 
 
 ## Adds block configs to BlockManager
@@ -62,7 +71,7 @@ static func _build_block_lookup(configs: Array) -> void:
 
 			if texture_path and FileAccess.file_exists(texture_path):
 				if texture_path not in _block_textures:
-					_block_textures[texture_path] = ImageTexture.create_from_image(Image.load_from_file(texture_path))
+					_block_textures[texture_path] = load_block_texture(texture_path)
 			else:
 				continue
 
@@ -75,7 +84,7 @@ static func _build_block_lookup(configs: Array) -> void:
 				#texture_source_id = textures_seen.find(texture_path)
 
 			var texture2d = AtlasTexture.new()
-			var image_texture = ImageTexture.create_from_image(Image.load_from_file(texture_path))
+			var image_texture = load_block_texture(texture_path)
 			texture2d.atlas = image_texture
 			texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.atlas_coords.get("x", 0), config.image.atlas_coords.get("y", 0))), Settings.tile_size)
 			texture2d.filter_clip = true
@@ -215,7 +224,6 @@ static func load_default_block_configs():
 
 
 static func get_block_texture(block_id: String) -> Texture2D:
-	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	if block_id not in _block_lookup:
 		return not_found_block_texture
 	var texture = null
@@ -230,7 +238,6 @@ static func get_block_texture(block_id: String) -> Texture2D:
 
 
 static func get_block_teleport_texture(block_id: String) -> Texture2D:
-	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		return not_found_block_texture
 	var texture = null
@@ -248,7 +255,6 @@ static func new_get_block_texture(block_id: String, teleport_color: String = "")
 	var block_texture = DrawableTexture2D.new()
 	block_texture.setup(128, 128, DrawableTexture2D.DRAWABLE_FORMAT_RGBA8, Color(1.0, 1.0, 1.0, 0.0), false)
 	# get block texture
-	var not_found_block_texture = ImageTexture.create_from_image(Image.load_from_file("res://blocks/notfoundblock.png"))
 	if block_id not in _block_lookup:
 		return not_found_block_texture
 	var texture = null

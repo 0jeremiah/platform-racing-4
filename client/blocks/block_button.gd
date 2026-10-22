@@ -8,6 +8,7 @@ signal block_selected
 var id: String = ""
 var settings: Dictionary = {}
 var block_size: float = 48.0
+var send_data: bool = true
 
 
 func _ready() -> void:
@@ -30,12 +31,18 @@ func init(block_id: String, block_settings: Dictionary):
 
 func click_block():
 	if id:
-		emit_signal("block_clicked", {"id": id, "settings": settings})
+		if send_data:
+			emit_signal("block_clicked", {"id": id, "settings": settings})
+		else:
+			emit_signal("block_clicked")
 
 
 func select_block():
 	if id:
-		emit_signal("block_selected", {"id": id, "settings": settings})
+		if send_data:
+			emit_signal("block_selected", {"id": id, "settings": settings})
+		else:
+			emit_signal("block_selected")
 
 
 func _process(_delta: float) -> void:

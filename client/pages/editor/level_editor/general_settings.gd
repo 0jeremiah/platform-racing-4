@@ -74,14 +74,14 @@ func _show_music_list():
 	dropdown_options = []
 	for song in music_list.size():
 		dropdown_options.append({"label": music_names[song], "data": {"index": song, "holder": music_button}})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(music_button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(music_button.global_position.x, music_button.global_position.y + music_button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(music_button.size.x, 200), "options": dropdown_options, "popup_global_position": Vector2(music_button.global_position.x, music_button.global_position.y + music_button.size.y)}, self)
 
 
 func _show_level_types_list():
 	dropdown_options = []
 	for type in level_type_ids.size():
 		dropdown_options.append({"label": level_type_names[type], "data": {"index": type, "holder": level_type_button}})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(level_type_button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(level_type_button.global_position.x, level_type_button.global_position.y + level_type_button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_update_button"), "dropdown_size": Vector2(level_type_button.size.x, 200), "options": dropdown_options, "popup_global_position": Vector2(level_type_button.global_position.x, level_type_button.global_position.y + level_type_button.size.y)}, self)
 
 
 func _update_button(dropdown_data: Dictionary):

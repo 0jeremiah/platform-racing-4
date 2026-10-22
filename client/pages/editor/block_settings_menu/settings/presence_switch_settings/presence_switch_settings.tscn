@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://bwqhylw0o2weu"]
+
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="1_q5csa"]
+[ext_resource type="Script" uid="uid://dobd5pvou47ba" path="res://pages/editor/block_settings_menu/settings/presence_switch_settings/presence_switch_settings.gd" id="1_t1wv0"]
+[ext_resource type="PackedScene" uid="uid://bsxp5if3mrxb5" path="res://pages/editor/setting_popups/block_list_holder/block_list_holder.tscn" id="2_t1wv0"]
+[ext_resource type="PackedScene" uid="uid://dg6fo82jygd81" path="res://pages/editor/block_settings_menu/settings/presence_switch_settings/activatable_settings.tscn" id="4_muvaa"]
+
+[node name="PresenceSwitchSettings" type="Control" unique_id=85125181]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 310.0
+script = ExtResource("1_t1wv0")
+
+[node name="TabBar" type="TabBar" parent="." unique_id=956564663]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 480.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 17
+current_tab = 0
+tab_alignment = 1
+tab_count = 2
+tab_0/title = "Activated Settings"
+tab_1/title = "Activated Blocks"
+
+[node name="LimitActivateRangeCheckBox" type="CheckBox" parent="." unique_id=292354811]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Limit Activate Range"
+
+[node name="ActivateRangeLabel1" type="RichTextLabel" parent="." unique_id=1177158632]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 180.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Activate Range: {x:"
+vertical_alignment = 1
+
+[node name="ActivateRangeLabel2" type="RichTextLabel" parent="." unique_id=1107648744]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = ", y:"
+vertical_alignment = 1
+
+[node name="ActivateRangeLabel3" type="RichTextLabel" parent="." unique_id=1417476254]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 40.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "}"
+vertical_alignment = 1
+
+[node name="ActivateRangeXBox" type="LineEdit" parent="." unique_id=1547388016]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 40.0
+offset_right = 270.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "10"
+script = ExtResource("1_q5csa")
+
+[node name="ActivateRangeYBox" type="LineEdit" parent="." unique_id=1123106779]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 40.0
+offset_right = 390.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "10"
+script = ExtResource("1_q5csa")
+
+[node name="ActivatableSettingsContainer" type="ScrollContainer" parent="." unique_id=1912424861]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 480.0
+offset_bottom = 310.0
+
+[node name="ActivatableSettings" parent="ActivatableSettingsContainer" unique_id=65155797 instance=ExtResource("4_muvaa")]
+layout_mode = 2
+
+[node name="ActivatableBlocksContainer" type="Control" parent="." unique_id=1292024057]
+visible = false
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 480.0
+offset_bottom = 310.0
+
+[node name="HSeparator" type="HSeparator" parent="ActivatableBlocksContainer" unique_id=146659107]
+layout_mode = 0
+offset_top = 135.0
+offset_right = 480.0
+offset_bottom = 145.0
+
+[node name="LightColorRect" type="ColorRect" parent="ActivatableBlocksContainer" unique_id=727911459]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 480.0
+offset_bottom = 130.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="ActivatableBlockListLabel" type="RichTextLabel" parent="ActivatableBlocksContainer" unique_id=775491694]
+layout_mode = 0
+offset_right = 90.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Activate:"
+vertical_alignment = 1
+
+[node name="ActivatableBlockListHolder" parent="ActivatableBlocksContainer" unique_id=914833375 instance=ExtResource("2_t1wv0")]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 5.0
+offset_right = 475.0
+offset_bottom = 125.0
+
+[node name="ShowBlockPickerButton" type="Button" parent="ActivatableBlocksContainer" unique_id=62869015]
+layout_mode = 0
+offset_top = 150.0
+offset_right = 480.0
+offset_bottom = 190.0
+text = "Show Block Picker"

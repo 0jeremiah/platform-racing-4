@@ -12,6 +12,8 @@
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3,
 		"gear_rotation": 90.0,
 		"gear_tick": 4000.0,
 		"gear_tock": 500.0

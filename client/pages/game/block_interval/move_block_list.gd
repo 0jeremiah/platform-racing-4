@@ -103,34 +103,8 @@ func execute_move_commands() -> void:
 
 func init_list(block: BlockScene) -> void:
 	super(block)
-	var converted_move_pattern = ""
-	var split_move_pattern = Array(block.settings.move_pattern.split(",", false))
-	for current_move_pattern in split_move_pattern:
-		var code = ""
-		var number = ""
-		for char in current_move_pattern.length():
-			var current_char = current_move_pattern[char].to_lower()
-			if current_char != "" and current_char != " ":
-				if current_char.is_valid_int():
-					number = number + current_char
-				else:
-					code = code + current_char
-		match code:
-			"up": code = "u"
-			"down": code = "d"
-			"right": code = "r"
-			"left": code = "l"
-			"wait": code = "-"
-			"return": code = "@"
-			"random": code = "*"
-			_: code = ""
-		if code != "":
-			if number != "" and int(number) > 0:
-				for i in range(int(number)):
-					converted_move_pattern = converted_move_pattern + code
-			else:
-				converted_move_pattern = converted_move_pattern + code
-	move_pattern = converted_move_pattern
+	var move_pattern_info = ConfigurableBlockSettings.parse_move_pattern(block.settings.move_pattern)
+	move_pattern = move_pattern_info.compressed_move_pattern
 	if move_pattern == "":
 		move_pattern = "*"
 	max_pattern_index = move_pattern.length() - 1
@@ -138,6 +112,6 @@ func init_list(block: BlockScene) -> void:
 	
 
 
-func char_is_numeric(char: String) -> bool:
+func char_is_numeric(chr: String) -> bool:
 	var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-	return char in numbers
+	return chr in numbers

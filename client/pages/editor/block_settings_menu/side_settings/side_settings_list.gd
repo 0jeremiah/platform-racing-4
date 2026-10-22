@@ -18,7 +18,6 @@ extends Control
 @onready var sticky_side_settings = $StickySideSettings
 @onready var time_side_settings = $TimeSideSettings
 @onready var vanish_side_settings = $VanishSideSettings
-
 @onready var sides_properties: Dictionary = {
 	ConfigurableBlockSideSettings.APPEAR: {"label": "Appear Side Settings", "side_settings": {"fade_duration": 0.3, "fade_cooldown": 2.0}, "node": appear_side_settings},
 	ConfigurableBlockSideSettings.ARROW: {"label": "Arrow Side Settings", "side_settings": {"horizontal_force": 125.0, "vertical_force": 110.0, "direction": {"x": 0.0, "y": 1.0}}, "node": arrow_side_settings},

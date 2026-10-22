@@ -38,6 +38,7 @@ func activate_item(_character: Character):
 func shoot(_character: Character):
 	var layer = Game.get_target_map_layer_node()
 	layer.tile_map_layer.shoot_laser(position, _character.rotation, _character.movement.facing == -1, _character)
+	Jukebox.play_sound("laser")
 
 
 func _remove_item(_character: Character):

@@ -22,8 +22,8 @@ func init(init_params: Dictionary):
 		stamppicker_func = init_params.stamppicker_func
 	if "stamp_id" in init_params:
 		stamp_id = init_params.stamp_id
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 
 
 func _stamp_selected(stamp_data: Dictionary):

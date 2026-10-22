@@ -72,7 +72,7 @@ func on_mouse_down():
 	if active and cursor_parent.editor_menu.can_edit and cursor_parent.editor_menu.can_edit:
 		if !current_line:
 			print("DrawCursor::on_mouse_down")
-			var layer: Node2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+			var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var mouse_position = lines.get_local_mouse_position() + layer.anchor
 			current_line = Line2D.new()
@@ -96,7 +96,7 @@ func on_mouse_down():
 func on_drag():
 	if active and cursor_parent.editor_menu.can_edit:
 		if current_line:
-			var layer: Node2D = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+			var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 			var lines: Node2D = layer.lines
 			var mouse_position = lines.get_local_mouse_position() + layer.anchor
 			var point = Vector2i((mouse_position - current_line.position).round())

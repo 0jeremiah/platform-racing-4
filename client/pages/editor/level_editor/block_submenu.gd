@@ -161,11 +161,11 @@ func _click_block_menu(button: TextureButton):
 
 
 func _show_block_picker():
-	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_func": Callable(self, "_set_current_block"), "popup_position": Vector2(block_draw_panel.global_position.x + (block_draw_panel.size.x + 20), block_draw_panel.global_position.y)}, self)
+	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_func": Callable(self, "_set_current_block"), "popup_global_position": Vector2(block_draw_panel.global_position.x + (block_draw_panel.size.x + 20), block_draw_panel.global_position.y)}, self)
 
 
 func _show_block_options():
-	PopupManager.add_custom_popup(blocksettingsmenu_popup, {"block_settings": selected_block_settings, "popup_position": Vector2(block_options_button.global_position.x + (block_options_button.size.x + 20), block_options_button.global_position.y)}, self)
+	PopupManager.add_custom_popup(blocksettingsmenu_popup, {"block_settings": selected_block_settings, "popup_global_position": Vector2(block_options_button.global_position.x + (block_options_button.size.x + 20), block_options_button.global_position.y)}, self)
 	#if block_options_popup.get_node("PopupHolder").get_child_count() > 0:
 		#block_options_popup.size = block_options_popup.get_node("PopupHolder").get_child(0).size
 		#block_options_popup.position = Vector2(block_options_panel.global_position.x + block_options_panel.size.x + 10, block_options_panel.global_position.y)

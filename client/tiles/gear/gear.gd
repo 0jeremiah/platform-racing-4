@@ -24,8 +24,8 @@ func activate_tile_map_layer(tile_map_layer: ConfigurableTileMapLayer):
 		gear_counter += 1
 		var rotation_controller = RotationController.new()
 		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-		rotation_controller.rotation = tile_map_layer.rotation
-		rotation_controller.target_rotation = tile_map_layer.rotation
+		rotation_controller.rotation = tile_map_layer.get_map_rotation()
+		rotation_controller.target_rotation = tile_map_layer.get_map_rotation()
 		rotation_controller.name = "GearTile" + str(gear_counter)
 		if spawn:
 			spawn.add_child(rotation_controller)

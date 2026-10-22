@@ -197,7 +197,7 @@ func _show_matter_types(button: Button):
 	dropdown_options = []
 	for matter_type in settings_presets.matter_types:
 		dropdown_options.append({"label": settings_presets.matter_types[matter_type].label, "data": {"category": settings_presets.matter_types[matter_type].side_setting_category, "setting": settings_presets.matter_types[matter_type].setting, "button": button}})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_global_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _show_block_types(button: Button):
@@ -207,7 +207,7 @@ func _show_block_types(button: Button):
 	var matter_type_block_types = matter_type.block_types
 	for matter_type_block_type in matter_type_block_types:
 		dropdown_options.append({"label": matter_type_block_types[matter_type_block_type].label, "data": {"category": side_setting_category, "setting": matter_type_block_types[matter_type_block_type].setting, "button": button}})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_global_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _show_sides_types(side: String, button: Button):
@@ -219,7 +219,7 @@ func _show_sides_types(side: String, button: Button):
 	var side_category = matter_type.side_categories.get(block_type.side_category, matter_type.side_categories[matter_type.side_categories.keys()[0]])
 	for side_type in side_category:
 		dropdown_options.append({"label": side_category[side_type].label, "data": {"category": side_setting_category, "side": side, "setting": side_category[side_type].setting, "button": button}})
-	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
+	PopupManager.add_custom_popup(dropdown_popup, {"dropdownpicker_func": Callable(self, "_change_setting"), "dropdown_size": Vector2(button.size.x, 200), "options": dropdown_options, "popup_global_position": Vector2(button.global_position.x, button.global_position.y + button.size.y)}, self)
 
 
 func _change_setting(selected_dictionary: Dictionary):

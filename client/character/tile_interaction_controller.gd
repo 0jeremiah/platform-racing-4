@@ -143,7 +143,7 @@ func check_out_of_bounds(character: Character) -> void:
 
 	if player_x_normalised < min_x or player_x_normalised > max_x or\
 	(player_y_normalised < min_y and character.rotation != 0) or player_y_normalised > max_y:
-		if (last_safe_layer != null and (self not in last_safe_layer.players.get_children())):
+		if (last_safe_layer != null and (character not in last_safe_layer.players.get_children())):
 			character.get_parent().remove_child(character)
 			last_safe_layer.players.add_child(character)
 			set_depth(last_safe_layer.z_axis)

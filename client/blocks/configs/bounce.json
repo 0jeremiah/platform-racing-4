@@ -11,7 +11,9 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "bounce", "params": {"bounciness": 0.1, "speed_limit": 12500.0}}
+		"any_side": {"type": "bounce", "params": {"bounciness": 0.1, "speed_limit": 12500.0}},
+		"health": 100.0,
+		"coin_value": 3
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

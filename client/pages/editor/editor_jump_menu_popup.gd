@@ -46,8 +46,8 @@ func init(init_params: Dictionary):
 			if Session.is_logged_in():
 				page_text = "Lobby"
 			jump_menu_node.create_button("Goto " + page_text, Callable(current_editor, "_on_back_pressed"))
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 
 
 func _call_jump_menu_func(jump_menu_func = null):

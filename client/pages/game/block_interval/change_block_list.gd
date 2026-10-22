@@ -22,8 +22,6 @@ func get_needed_blocks() -> Array:
 
 func execute_change() -> void:
 	var loc_1: String = ""
-	var loc_2: BlockScene = null
-	var loc_3: BlockScene = null
 	if initialized:
 		loc_1 = pattern[index]
 		# if pr3's BlockManager.requestBlock is needed we will add it

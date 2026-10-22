@@ -12,7 +12,7 @@ func hurt(player: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 	if player.movement.invincible:
 		return
 	if !player.movement.hurt:
-		var direction = player.position - (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.rotation)
+		var direction = player.position - (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map_layer.get_map_rotation())
 		var push_velocity = direction.normalized() * 1000
 		player.velocity += push_velocity
 		player.movement.hitstun(player, 2.5, 20)

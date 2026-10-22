@@ -12,6 +12,8 @@
 		"bump": {"type": "item", "params": {"item_array": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3,
 		"infinite_items": true,
 		"item_supply": 9999999
 	},

@@ -56,6 +56,7 @@ func _ready():
 
 	BlockManager.init()
 	BlockManager.load_default_block_configs()
+	StampManager.init()
 	StampManager.load_default_stamps_configs()
 	StampManager.add_block_stamps()
 

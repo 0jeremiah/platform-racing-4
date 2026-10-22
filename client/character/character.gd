@@ -108,14 +108,14 @@ func _physics_process(delta: float) -> void:
 	if !movement.finished:
 		_process_items()
 	
-	# Update camera
-	camera_controller.process(delta, position, rotation, lightbreak.is_active())
-	
 	# Update animations
 	animation.process(self, movement, super_jump)
 	
 	# Check boundaries
 	tile_interaction.check_out_of_bounds(self)
+	
+	# Update camera
+	camera_controller.process(delta, position, rotation, lightbreak.is_active())
 
 
 func _bump_tile_covering_high_area() -> void:

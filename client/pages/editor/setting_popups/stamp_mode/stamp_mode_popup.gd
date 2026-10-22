@@ -17,8 +17,8 @@ func _ready() -> void:
 
 
 func init(init_params: Dictionary):
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 	if "stamp_mode_func" in init_params:
 		stamp_mode_func = init_params.stamp_mode_func
 	if "stamp_mode" in init_params:

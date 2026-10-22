@@ -12,6 +12,8 @@
 		"bump": {"type": "custom_stats", "params": {"reset": false, "speed": 50, "accel": 50, "jump": 50, "skill": 50}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3,
 		"stat_supply": 1
 	},
 	"image": {

@@ -2,11 +2,11 @@ extends Control
 class_name ButtonPopup
 
 @onready var intrusive_bg = $IntrusiveBG
-@onready var popup = $Popup
-@onready var popup_container = $Popup/PopupContainer
-@onready var default_panel = $Popup/PopupContainer/DefaultPanel
-@onready var holder = $Popup/PopupContainer/Holder
-@onready var buttons_holder = $Popup/PopupContainer/ButtonsHolder
+#@onready var popup = $Popup
+@onready var popup_container = $PopupContainer
+@onready var default_panel = $PopupContainer/DefaultPanel
+@onready var holder = $PopupContainer/Holder
+@onready var buttons_holder = $PopupContainer/ButtonsHolder
 
 var intrusive: bool = true
 var fade_in_speed: float = 0.12
@@ -16,14 +16,15 @@ var minimum_size: Vector2 = Vector2(90, 90)
 var available_size: Vector2 = Vector2(screen_size.x, screen_size.y)
 var padding: Vector2 = Vector2(20.0, 20.0)
 var auto_position: bool = true
+var fencing: bool = true
 var die_without_focus = false
 var holder_size = Vector2(0.0, 0.0)
 var popup_alpha: float = 0.0
 var just_lost_focus: bool = true
+var popup_global_position: Vector2 = Vector2(0.0, 0.0)
 
 
 func _ready() -> void:
-	popup.popup_window = false
 	var viewport = get_viewport()
 	if viewport:
 		var focused_node = viewport.gui_get_focus_owner()
@@ -31,13 +32,13 @@ func _ready() -> void:
 			focused_node.release_focus()
 	grab_focus()
 	popup_alpha = 0.0
-	screen_size = get_viewport().get_visible_rect().size
 	if viewport:
 		viewport.gui_focus_changed.connect(_maybe_die_without_focus)
 
 
 func _process(_delta: float) -> void:
 	screen_size = get_viewport().get_visible_rect().size
+	available_size = screen_size
 	position = Vector2(0.0, 0.0)
 	if popup_alpha < target_alpha:
 		if popup_alpha + fade_in_speed > target_alpha:
@@ -54,12 +55,14 @@ func _process(_delta: float) -> void:
 	buttons_holder.position = Vector2(((holder.position.x + holder.size.x) - buttons_holder.size.x), holder.position.y + holder.size.y + 10.0)
 	default_panel.position = Vector2(0.0, 0.0)
 	default_panel.size = Vector2(holder.size.x + (padding.x * 2), (buttons_holder.size.y + buttons_holder.position.y) + padding.y)
-	popup.size = default_panel.size
+	popup_container.size = default_panel.size
 	if auto_position:
-		popup.position = Vector2((available_size.x / 2) - (default_panel.size.x / 2), (available_size.y / 2) - (default_panel.size.y / 2))
+		popup_container.position = Vector2((available_size.x / 2) - (default_panel.size.x / 2), (available_size.y / 2) - (default_panel.size.y / 2))
+	elif fencing and !Rect2(Vector2.ZERO, available_size - popup_container.size).has_point(popup_container.global_position):
+		popup_container.global_position = Vector2(clampf(popup_container.global_position.x, 0.0, available_size.x - popup_container.size.x), clampf(popup_container.global_position.y, 0.0, available_size.y - popup_container.size.y))
 	if intrusive:
 		intrusive_bg.size = available_size
-		intrusive_bg.position = Vector2((-(intrusive_bg.size.x - popup.size.x) / 2) + popup.position.x, (-(intrusive_bg.size.y - popup.size.y) / 2) + popup.position.y)
+		intrusive_bg.position = Vector2((-(intrusive_bg.size.x - popup_container.size.x) / 2) + popup_container.position.x, (-(intrusive_bg.size.y - popup_container.size.y) / 2) + popup_container.position.y)
 		intrusive_bg.visible = true
 	else:
 		intrusive_bg.visible = false
@@ -88,6 +91,10 @@ func set_auto_position(new_auto_position: bool):
 
 func set_die_without_focus(new_die_without_focus: bool):
 	die_without_focus = new_die_without_focus
+
+
+func set_popup_global_position(new_popup_global_position: Vector2):
+	popup_container.global_position = new_popup_global_position
 
 
 func position_buttons() -> void:
@@ -127,5 +134,5 @@ func _maybe_die_without_focus(focused_node: Node) -> void:
 	while current_node != null:
 		parents.append(current_node)
 		current_node = current_node.get_parent()
-	if die_without_focus and !parents.has(popup):
+	if die_without_focus and !parents.has(self):
 		queue_free()

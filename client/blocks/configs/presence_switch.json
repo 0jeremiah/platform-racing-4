@@ -5,7 +5,7 @@
 		"comment": "Just walk into this block, and any gear in the level will move automatically! Wow!",
 		"matter_type": "gas",
 		"block_type": "switch",
-		"area": {"type": "presence_switch", "params": {"activate_list": [35], "limit_range": false, "width": 10, "height": 10}}
+		"area": {"type": "switch", "params": {"limit_activate_range": false, "activate_range": {"x": 10, "y": 10}, "activate_list": {"settings": ["gear"], "side_settings": [], "blocks": []}}}
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

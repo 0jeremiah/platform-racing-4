@@ -10,7 +10,7 @@ var bg_rows: int = 3
 var bg_columns: int = 5
 var bg_color: Color = Color(1.0, 1.0, 1.0)
 var colorpicker_func = null
-var popup_position = Vector2(0.0, 0.0)
+var popup_global_position = Vector2(0.0, 0.0)
 
 
 func _ready() -> void:
@@ -75,7 +75,7 @@ func add_bgs(bg_array: Array):
 
 func call_colorpicker_popup(_new_bg_id: String = "blank"):
 	if colorpicker_func:
-		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": colorpicker_func, "previous_color": bg_color, "popup_position": popup_position}, self)
+		PopupManager.add_custom_popup(color_picker_popup, {"colorpicker_func": colorpicker_func, "previous_color": bg_color, "popup_global_position": Vector2(global_position.x + size.x + 30, global_position.y - 10)}, self)
 
 
 func select_bg(new_bg_id: String):

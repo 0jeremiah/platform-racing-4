@@ -45,7 +45,7 @@ func set_visuals(_character: Character):
 	_character.item_manager.modulate = _character.display.modulate
 	_character.item_manager.z_index = _character.item_holder_display.z_index
 	visual_aid.global_position = tile_map_layer.get_block_center_position(coords)
-	visual_aid.global_rotation = tile_map_layer.rotation
+	visual_aid.global_rotation = tile_map_layer.get_map_rotation()
 	visual_aid.scale.x = 2.222
 	visual_aid.scale.y = 2.222
 	if can_place:

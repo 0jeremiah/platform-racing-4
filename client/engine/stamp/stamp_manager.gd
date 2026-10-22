@@ -8,8 +8,21 @@ class_name StampManager
 static var _stamp_categories: Dictionary = {}  # contains stamp categories with their stamp ids
 static var _stamp_lookup: Dictionary = {}  # stamp_id → {id: String, comment: String, category: String}
 static var _stamp_textures: Dictionary = {}
-static var not_found_stamp_texture = preload("res://stamps/notfoundstamp.png")
-static var loading_stamp_texture = preload("res://stamps/loadingstamp.png")
+static var not_found_stamp_texture = null
+static var loading_stamp_texture = null
+
+
+## Initialize StampManager. Right now all it does is initalize getting the "not_found" and "loading" stamps.
+static func init() -> void:
+	not_found_stamp_texture = load_stamp_texture("res://stamps/notfoundstamp.png")
+	loading_stamp_texture = load_stamp_texture("res://stamps/loadingstamp.png")
+
+
+## Load stamp from path without godot throwing a warning
+static func load_stamp_texture(path: String) -> ImageTexture:
+	var image = Image.new()
+	image.load(ProjectSettings.globalize_path(path))
+	return ImageTexture.create_from_image(image)
 
 
 ## Adds stamp configs to StampManager
@@ -54,7 +67,7 @@ static func _build_stamp_lookup(configs: Array) -> void:
 			var texture_path: String = config.image.get("src", "")
 			if texture_path and FileAccess.file_exists(texture_path):
 				if texture_path not in _stamp_textures:
-					_stamp_textures[texture_path] = ImageTexture.create_from_image(Image.load_from_file(texture_path))
+					_stamp_textures[texture_path] = load_stamp_texture(texture_path)
 			else:
 				continue
 
@@ -145,7 +158,6 @@ func clear() -> void:
 
 
 static func get_stamp_texture(stamp_id: String) -> Texture2D:
-	var not_found_stamp_texture = ImageTexture.create_from_image(Image.load_from_file("res://stamps/notfoundstamp.png"))
 	if stamp_id not in _stamp_lookup:
 		return not_found_stamp_texture
 	var texture = null

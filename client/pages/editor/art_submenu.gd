@@ -210,19 +210,19 @@ func _check_clicked_button(node: Node):
 
 
 func _show_bg_picker_popup():
-	PopupManager.add_custom_popup(bg_picker_popup, {"bgpicker_func": Callable(self, "_select_bg_id"), "colorpicker_func": Callable(self, "_select_bg_color"), "bg_color": bg_color, "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, background_button.global_position.y)}, self)
+	PopupManager.add_custom_popup(bg_picker_popup, {"bgpicker_func": Callable(self, "_select_bg_id"), "colorpicker_func": Callable(self, "_select_bg_color"), "bg_color": bg_color, "popup_global_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, background_button.global_position.y)}, self)
 
 
 func _show_stamp_picker_popup():
-	PopupManager.add_custom_popup(stamp_picker_popup, {"stamppicker_func": Callable(self, "_select_stamp"), "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
+	PopupManager.add_custom_popup(stamp_picker_popup, {"stamppicker_func": Callable(self, "_select_stamp"), "popup_global_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
 
 
 func _show_stamp_mode_popup():
-	PopupManager.add_custom_popup(stamp_mode_popup, {"stamp_mode_func": Callable(self, "_select_stamp_mode"), "stamp_mode": stamp_mode, "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
+	PopupManager.add_custom_popup(stamp_mode_popup, {"stamp_mode_func": Callable(self, "_select_stamp_mode"), "stamp_mode": stamp_mode, "popup_global_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
 
 
 func _show_font_picker_popup():
-	PopupManager.add_custom_popup(font_picker_popup, {"fontpicker_func": Callable(self, "_select_text_font"), "popup_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
+	PopupManager.add_custom_popup(font_picker_popup, {"fontpicker_func": Callable(self, "_select_text_font"), "popup_global_position": Vector2(art_menu.global_position.x + art_menu.size.x + 10, art_settings.global_position.y)}, self)
 
 
 func _click_art_menu(button: TextureButton):

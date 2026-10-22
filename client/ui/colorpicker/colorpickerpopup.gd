@@ -22,8 +22,8 @@ func init(init_params: Dictionary):
 		colorpicker_func = init_params.colorpicker_func
 	if "previous_color" in init_params:
 		colorpicker_node.set_previous_color(init_params.previous_color)
-	if "popup_position" in init_params:
-		popup.position = init_params.popup_position
+	if "popup_global_position" in init_params:
+		set_popup_global_position(init_params.popup_global_position)
 
 
 func _color_picked(new_color: Color):
