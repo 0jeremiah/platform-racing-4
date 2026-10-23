@@ -127,60 +127,6 @@ func get_total_used_rect_in_z_axis(z_axis: int) -> Rect2i:
 	return Rect2i(total_used_vector4.x, total_used_vector4.y, abs(total_used_vector4.x - total_used_vector4.z), abs(total_used_vector4.y - total_used_vector4.w))
 
 
-func get_all_start_options():
-	all_start_options = []
-	for level_layer in map_layers.get_children():
-		var layer_start_options = level_layer.tile_map_layer.get_start_positions()
-		all_start_options.append_array(layer_start_options)
-		for non_static_layer in level_layer.non_static_tile_map_layers.get_children():
-			if non_static_layer is RotationController:
-				for non_static_tile_map_layer in non_static_layer.get_children():
-					var non_static_layer_start_options = non_static_tile_map_layer.get_start_positions()
-					all_start_options.append_array(non_static_layer_start_options)
-
-
-func get_all_finish_blocks():
-	all_finish_blocks = []
-	for level_layer in map_layers.get_children():
-		var layer_finish_options = level_layer.tile_map_layer.get_finish_blocks()
-		all_finish_blocks.append_array(layer_finish_options)
-		for non_static_layer in level_layer.non_static_tile_map_layers.get_children():
-			if non_static_layer is RotationController:
-				for non_static_tile_map_layer in non_static_layer.get_children():
-					var non_static_layer_finish_options = non_static_tile_map_layer.get_finish_blocks()
-					all_finish_blocks.append_array(non_static_layer_finish_options)
-
-
-func get_all_teleport_positions_at_block_id(block_id: String):
-	var all_teleport_positions = []
-	for level_layer in map_layers.get_children():
-		var teleport_positions = level_layer.tile_map_layer.get_teleport_positions_at_block_id(block_id)
-		all_teleport_positions.append_array(teleport_positions)
-		for non_static_layer in level_layer.non_static_tile_map_layers.get_children():
-			if non_static_layer is RotationController:
-				for non_static_tile_map_layer in non_static_layer.get_children():
-					var non_static_teleport_positions = non_static_tile_map_layer.get_teleport_positions_at_block_id(block_id)
-					all_teleport_positions.append_array(non_static_teleport_positions)
-	return all_teleport_positions
-
-
-func get_next_start_option() -> Dictionary:
-	all_start_options.reverse()
-	print(all_start_options)
-	if len(all_start_options) > 0:
-		var start_option = all_start_options[start_i]
-		start_i += 1
-		if start_i >= len(all_start_options):
-			start_i = 0
-		return start_option
-	else:
-		return {
-			"map_layer_name": get_target_map_layer(),
-			"coords": Vector2i(0, 0),
-			"tile_map_layer": null,
-		}
-
-
 func spawn_eggs():
 	for level_layer in map_layers.get_children():
 		level_layer.tile_map_layer.spawn_eggs()

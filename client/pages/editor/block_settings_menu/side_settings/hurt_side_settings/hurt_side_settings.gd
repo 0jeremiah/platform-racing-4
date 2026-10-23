@@ -21,19 +21,23 @@ func _ready() -> void:
 	connect_node(self, "hurt_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("hurt_side_settings_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration, "hp_sap": hp_sap})
+
+
 func _change_push_strength(new_push_strength: float):
 	push_strength = new_push_strength
-	emit_signal("hurt_side_settings_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration, "hp_sap": hp_sap})
+	send_signal()
 
 
 func _change_hitstun_duration(new_hitstun_duration: float):
 	hitstun_duration = new_hitstun_duration
-	emit_signal("hurt_side_settings_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration, "hp_sap": hp_sap})
+	send_signal()
 
 
 func _change_hp_sap(new_hp_sap: int):
 	hp_sap = new_hp_sap
-	emit_signal("hurt_side_settings_changed", {"push_strength": push_strength, "hitstun_duration": hitstun_duration, "hp_sap": hp_sap})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

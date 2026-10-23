@@ -16,14 +16,18 @@ func _ready() -> void:
 	connect_node(self, "item_settings_changed")
 
 
+func send_signal():
+	emit_signal("item_settings_changed", {"infinite_items": infinite_items, "item_supply": item_supply})
+
+
 func _change_item_supply(new_item_supply: int):
 	item_supply = new_item_supply
-	emit_signal("item_settings_changed", {"infinite_items": infinite_items, "item_supply": item_supply})
+	send_signal()
 
 
 func _toggle_infinite_items():
 	infinite_items = infinite_items_check_box.button_pressed
-	emit_signal("item_settings_changed", {"infinite_items": infinite_items, "item_supply": item_supply})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

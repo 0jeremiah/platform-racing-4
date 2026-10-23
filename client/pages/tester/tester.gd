@@ -56,7 +56,7 @@ func init(data: Dictionary):
 	
 	level_manager.init_level()
 	level_manager.block_interval_manager.start()
-	player_manager.spawn_local_player(level_manager.level_layers)
+	player_manager.spawn_local_player()
 	
 	minimap.init(self)
 	stats_display.init(self)

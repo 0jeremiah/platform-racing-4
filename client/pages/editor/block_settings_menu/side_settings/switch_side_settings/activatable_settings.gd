@@ -20,7 +20,7 @@ var activatable_settings_buttons: Dictionary = {}
 var activatable_side_settings_buttons: Dictionary = {}
 var activatable_settings_array: Array = []
 var activatable_side_settings_array: Array = []
-var button_size: Vector2 = Vector2(200.0, 30.0)
+var button_size: Vector2 = Vector2(468.0, 30.0)
 
 
 func _ready() -> void:

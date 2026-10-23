@@ -21,19 +21,23 @@ func _ready() -> void:
 	connect_node(self, "gear_settings_changed")
 
 
+func send_signal():
+	emit_signal("gear_settings_changed", {"gear_rotation": gear_rotation, "gear_tick": gear_tick, "gear_tock": gear_tock})
+
+
 func _change_gear_rotation(new_gear_rotation: float):
 	gear_rotation = new_gear_rotation
-	emit_signal("gear_settings_changed", {"gear_rotation": gear_rotation, "gear_tick": gear_tick, "gear_tock": gear_tock})
+	send_signal()
 
 
 func _change_gear_tick(new_gear_tick: float):
 	gear_tick = new_gear_tick
-	emit_signal("gear_settings_changed", {"gear_rotation": gear_rotation, "gear_tick": gear_tick, "gear_tock": gear_tock})
+	send_signal()
 
 
 func _change_gear_tock(new_gear_tock: float):
 	gear_tock = new_gear_tock
-	emit_signal("gear_settings_changed", {"gear_rotation": gear_rotation, "gear_tick": gear_tick, "gear_tock": gear_tock})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

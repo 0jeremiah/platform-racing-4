@@ -54,6 +54,48 @@ func get_all_block_coords_by_id(block_id: String) -> Array:
 	return used_coords
 
 
+## Gets all coords containing a block with the block type specified
+func get_all_block_coords_containing_matter_type(matter_type: String) -> Array:
+	var used_coords = []
+	var found_blocks = []
+	for block in BlockManager._blocks:
+		var block_instance = BlockManager._blocks[block]
+		if block_instance.settings.matter_type == matter_type:
+			found_blocks.append(block)
+	for found_block in found_blocks:
+		var coord_list = get_all_block_coords_by_id(found_block)
+		used_coords.append_array(coord_list)
+	return used_coords
+
+
+## Gets all coords containing a block with the block type specified
+func get_all_block_coords_containing_block_type(block_type: String) -> Array:
+	var used_coords = []
+	var found_blocks = []
+	for block in BlockManager._blocks:
+		var block_instance = BlockManager._blocks[block]
+		if block_instance.settings.block_type == block_type:
+			found_blocks.append(block)
+	for found_block in found_blocks:
+		var coord_list = get_all_block_coords_by_id(found_block)
+		used_coords.append_array(coord_list)
+	return used_coords
+
+
+## Gets all coords containing a block having the side_type
+func get_all_block_coords_containing_side_type(side_type: String) -> Array:
+	var used_coords = []
+	var found_blocks = []
+	for block in BlockManager._blocks:
+		var block_instance = BlockManager._blocks[block]
+		if block_instance.settings.has_side_type(side_type):
+			found_blocks.append(block)
+	for found_block in found_blocks:
+		var coord_list = get_all_block_coords_by_id(found_block)
+		used_coords.append_array(coord_list)
+	return used_coords
+
+
 ## Set a cell by block ID instead of atlas coordinates
 func add_block(coords: Vector2i, block_id: String, block_settings_info: Dictionary = {}) -> void:
 	if block_id == "":
@@ -341,26 +383,6 @@ func get_map_used_rect() -> Rect2i:
 	x_points.sort()
 	y_points.sort()
 	return Rect2i(int(x_points[0]), int(y_points[0]), int(abs(x_points[0] - x_points[3])), int(abs(y_points[0] - y_points[3])))
-
-
-func get_teleport_positions_at_block_id(block_id: String) -> Array:
-	if !block_id in BlockManager._blocks and block_id in BlockManager._block_lookup:
-		return []
-	var teleport_block = BlockManager._blocks[block_id]
-	if !teleport_block.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		return []
-	var teleport_positions = []
-	var coord_list = get_all_block_coords_by_id(block_id)
-	for coords in coord_list:
-		var block = get_block(coords)
-		var teleport_position = {
-			"color": block.settings.teleport_color,
-			"tile_map_layer": self,
-			"coords": coords,
-			"map_layer_name": str(map_layer.name),
-		}
-		teleport_positions.push_back(teleport_position)
-	return teleport_positions
 
 
 func shoot_laser(laser_position: Vector2, laser_rotation: float, facing_left: bool = false, from: PhysicsBody2D = null):

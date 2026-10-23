@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "stick_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("stick_side_settings_changed", {"speed_stickiness": speed_stickiness, "jump_stickiness": jump_stickiness})
+
+
 func _change_speed_stickiness(new_speed_stickiness: float):
 	speed_stickiness = new_speed_stickiness
-	emit_signal("stick_side_settings_changed", {"speed_stickiness": speed_stickiness, "jump_stickiness": jump_stickiness})
+	send_signal()
 
 
 func _change_jump_stickiness(new_jump_stickiness: float):
 	jump_stickiness = new_jump_stickiness
-	emit_signal("stick_side_settings_changed", {"speed_stickiness": speed_stickiness, "jump_stickiness": jump_stickiness})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

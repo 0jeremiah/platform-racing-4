@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cpikgl2pwlyam" path="res://pages/editor/block_settings_menu/side_settings/stat_side_settings/stat_side_settings.tscn" id="13_a67gt"]
 [ext_resource type="PackedScene" uid="uid://b47d7ej33ul63" path="res://pages/editor/block_settings_menu/side_settings/sticky_side_settings/sticky_side_settings.tscn" id="14_42o5n"]
 [ext_resource type="PackedScene" uid="uid://tpiqbb0lnjp5" path="res://pages/editor/block_settings_menu/side_settings/time_side_settings/time_side_settings.tscn" id="15_x3l4o"]
+[ext_resource type="PackedScene" uid="uid://bwqhylw0o2weu" path="res://pages/editor/block_settings_menu/side_settings/switch_side_settings/switch_side_settings.tscn" id="16_y6jhf"]
 
 [node name="SideSettingsList" type="Control" unique_id=1917044081]
 layout_mode = 3
@@ -82,6 +83,10 @@ visible = false
 layout_mode = 0
 
 [node name="StickySideSettings" parent="." unique_id=1778624622 instance=ExtResource("14_42o5n")]
+visible = false
+layout_mode = 0
+
+[node name="SwitchSideSettings" parent="." unique_id=85125181 instance=ExtResource("16_y6jhf")]
 visible = false
 layout_mode = 0
 

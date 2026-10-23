@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "bounce_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("bounce_side_settings_changed", {"bounciness": bounciness, "speed_limit": speed_limit})
+
+
 func _change_bounciness(new_bounciness: float):
 	bounciness = new_bounciness
-	emit_signal("bounce_side_settings_changed", {"bounciness": bounciness, "speed_limit": speed_limit})
+	send_signal()
 
 
 func _change_speed_limit(new_speed_limit: float):
 	speed_limit = new_speed_limit
-	emit_signal("bounce_side_settings_changed", {"bounciness": bounciness, "speed_limit": speed_limit})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

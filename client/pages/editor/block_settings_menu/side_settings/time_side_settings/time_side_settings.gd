@@ -13,9 +13,13 @@ func _ready() -> void:
 	connect_node(self, "time_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("time_side_settings_changed", {"seconds": seconds})
+
+
 func _change_seconds(new_seconds: float):
 	seconds = new_seconds
-	emit_signal("time_side_settings_changed", {"seconds": seconds})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

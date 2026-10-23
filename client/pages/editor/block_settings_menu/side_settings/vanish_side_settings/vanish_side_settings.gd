@@ -20,19 +20,23 @@ func _ready() -> void:
 	connect_node(self, "vanish_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("vanish_side_settings_changed", {"fade_duration": fade_duration, "fade_cooldown": fade_cooldown, "revert": revert})
+
+
 func _change_fade_duration(new_fade_duration: float):
 	fade_duration = new_fade_duration
-	emit_signal("vanish_side_settings_changed", {"fade_duration": fade_duration, "fade_cooldown": fade_cooldown, "revert": revert})
+	send_signal()
 
 
 func _change_fade_cooldown(new_fade_cooldown: float):
 	fade_cooldown = new_fade_cooldown
-	emit_signal("vanish_side_settings_changed", {"fade_duration": fade_duration, "fade_cooldown": fade_cooldown, "revert": revert})
+	send_signal()
 
 
 func _toggle_revert():
 	revert = revert_check_box.button_pressed
-	emit_signal("vanish_side_settings_changed", {"fade_duration": fade_duration, "fade_cooldown": fade_cooldown, "revert": revert})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

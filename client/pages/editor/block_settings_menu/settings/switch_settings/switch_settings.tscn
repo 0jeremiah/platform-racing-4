@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://qwfke5mmk6il"]
+
+[ext_resource type="Script" uid="uid://dc8fg306846p4" path="res://pages/editor/block_settings_menu/settings/switch_settings/switch_settings.gd" id="1_fmir7"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_r272n"]
+
+[node name="SwitchSettings" type="Control" unique_id=85125181]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 70.0
+script = ExtResource("1_fmir7")
+
+[node name="LimitActivateRangeCheckBox" type="CheckBox" parent="." unique_id=292354811]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "Limit Activate Range"
+
+[node name="ActivateRangeLabel1" type="RichTextLabel" parent="." unique_id=1177158632]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 180.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Activate Range: {x:"
+vertical_alignment = 1
+
+[node name="ActivateRangeLabel2" type="RichTextLabel" parent="." unique_id=1107648744]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = ", y:"
+vertical_alignment = 1
+
+[node name="ActivateRangeLabel3" type="RichTextLabel" parent="." unique_id=1417476254]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 40.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "}"
+vertical_alignment = 1
+
+[node name="ActivateRangeXBox" type="LineEdit" parent="." unique_id=1547388016]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 40.0
+offset_right = 270.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "10"
+script = ExtResource("2_r272n")
+
+[node name="ActivateRangeYBox" type="LineEdit" parent="." unique_id=1123106779]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 40.0
+offset_right = 390.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "10"
+script = ExtResource("2_r272n")

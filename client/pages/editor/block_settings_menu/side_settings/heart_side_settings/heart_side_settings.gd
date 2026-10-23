@@ -19,19 +19,23 @@ func _ready() -> void:
 	connect_node(self, "heart_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("heart_side_settings_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
+
+
 func _change_hp(new_hp: float):
 	hp = new_hp
-	emit_signal("heart_side_settings_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
+	send_signal()
 
 
 func _toggle_exact():
 	exact = exact_check_box.button_pressed
-	emit_signal("heart_side_settings_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
+	send_signal()
 
 
 func _toggle_invincibility():
 	invincibility = invincibility_check_box.button_pressed
-	emit_signal("heart_side_settings_changed", {"hp": hp, "exact": exact, "invincibility": invincibility})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

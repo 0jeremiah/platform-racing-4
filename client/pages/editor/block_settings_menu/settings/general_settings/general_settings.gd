@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "general_settings_changed")
 
 
+func send_signal():
+	emit_signal("general_settings_changed", {"health": health, "coin_value": coin_value})
+
+
 func _change_health(new_health: float):
 	health = new_health
-	emit_signal("general_settings_changed", {"health": health, "coin_value": coin_value})
+	send_signal()
 
 
 func _change_coin_value(new_coin_value: int):
 	coin_value = new_coin_value
-	emit_signal("general_settings_changed", {"health": health, "coin_value": coin_value})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

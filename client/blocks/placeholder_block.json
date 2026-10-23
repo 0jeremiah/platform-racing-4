@@ -1,0 +1,21 @@
+{
+	"id": "placeholder_block",
+	"settings": {
+		"title": "Placeholder Block",
+		"comment": "Used by BlockManager whenever it needs to make an loading or error block.",
+		"matter_type": "solid",
+		"block_type": "active",
+		"left": {"type": "active", "params": {}},
+		"right": {"type": "active", "params": {}},
+		"top": {"type": "active", "params": {}},
+		"bottom": {"type": "active", "params": {}},
+		"bump": {"type": "active", "params": {}},
+		"stand": {"type": "active", "params": {}},
+		"any_side": {"type": "active", "params": {}},
+		"health": 100.0,
+		"coin_value": 3
+	},
+	"image": {
+		"src": "res://blocks/loadingblock.png"
+	}
+}

@@ -20,6 +20,7 @@ var time: int = 120
 var gravity: float = 1.0
 var items: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 var start_position_blocks = []
+var start_position_index: int = 0
 var finish_blocks = []
 var reached_finish_blocks = []
 var teleport_blocks = {}
@@ -76,6 +77,23 @@ func clear() -> void:
 
 func calc_used_rect() -> void:
 	level_layers.calc_used_rect()
+
+
+func get_next_start_position():
+	if start_position_blocks.size() > 0:
+		var start_position = start_position_blocks[start_position_index]
+		if start_position_index + 1 >= start_position_blocks.size():
+			start_position_index = 0
+		else:
+			start_position_index += 1
+		return start_position
+	else:
+		var target_map_layer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		return {
+			"tile_map_layer": target_map_layer.tile_map_layer,
+			"coords": Vector2i(0, 0),
+			"map_layer_name": str(target_map_layer.name)
+		}
 
 
 func register_start_block(block: BlockScene):
@@ -136,7 +154,6 @@ func add_to_reached_finish_blocks(block: BlockScene):
 	#var level_manager = Game.game.level_manager
 	if block_to_add in finish_blocks and block_to_add not in reached_finish_blocks:
 		reached_finish_blocks.append(block_to_add)
-	#level_manager.level_layers.get_all_finish_blocks()
 	#finish_blocks = level_manager.level_layers.all_finish_blocks
 	#for finish_block in finish_blocks:
 		#if finish_block.tile_map_layer == tile_map_layer and finish_block.coords == coords and !finish_block.reached:
@@ -150,9 +167,7 @@ func add_to_reached_finish_blocks(block: BlockScene):
 func init_level():
 	calc_used_rect()
 	level_layers.spawn_gears()
-	level_layers.get_all_start_options()
 	reached_finish_blocks = []
-	level_layers.get_all_finish_blocks()
 	level_layers.spawn_eggs()
 
 

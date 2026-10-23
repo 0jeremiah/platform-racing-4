@@ -75,14 +75,13 @@ func _update_block_list():
 
 
 func _select_block(block_data: Dictionary):
-	if allow_duplicate_blocks or (!allow_duplicate_blocks and !block_list.has(block_data.id)):
-		block_list.remove_at(block_data.index)
-		_update_block_list()
-		block_data.erase("index")
-		quick_click = true
-		old_mouse_position = blocks_container.get_local_mouse_position()
-		_drag_block(block_data, false)
-		check_if_not_clicking = true
+	block_list.remove_at(block_data.index)
+	_update_block_list()
+	block_data.erase("index")
+	quick_click = true
+	old_mouse_position = blocks_container.get_local_mouse_position()
+	_drag_block(block_data, false)
+	check_if_not_clicking = true
 
 
 func _drag_block(block_data: Dictionary, _from_block_picker: bool = true) -> void:

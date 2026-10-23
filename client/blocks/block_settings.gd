@@ -16,7 +16,7 @@ static var WATER := "water"
 
 static var INACTIVE := "inactive"
 static var START_POSITION := "start_position"
-static var PRESENCE_SWITCH := "presence_switch"
+static var SWITCH := "switch"
 static var LIGHTBREAKER := "lightbreaker"
 
 # default block settings that can be accessed through ConfigurableBlockSettings

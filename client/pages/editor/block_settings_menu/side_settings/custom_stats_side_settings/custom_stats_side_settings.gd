@@ -52,6 +52,10 @@ func _ready() -> void:
 	connect_node(self, "custom_stats_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+
+
 func _change_speed(new_speed: int, inc_or_dec: bool = false):
 	if inc_or_dec and speed + new_speed > 0 and speed + new_speed < 100:
 		speed += new_speed
@@ -59,14 +63,14 @@ func _change_speed(new_speed: int, inc_or_dec: bool = false):
 			speed_slider.set_value_no_signal(speed)
 		if int(speed_box.text) != speed:
 			speed_box._update_text(str(speed))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 	elif new_speed > 0 and new_speed < 100:
 		speed = new_speed
 		if speed_slider.value != speed:
 			speed_slider.set_value_no_signal(speed)
 		if int(speed_box.text) != speed:
 			speed_box._update_text(str(speed))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 
 
 func _change_accel(new_accel: int, inc_or_dec: bool = false):
@@ -76,14 +80,14 @@ func _change_accel(new_accel: int, inc_or_dec: bool = false):
 			accel_slider.set_value_no_signal(accel)
 		if int(accel_box.text) != accel:
 			accel_box._update_text(str(accel))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 	elif new_accel > 0 and new_accel < 100:
 		accel = new_accel
 		if accel_slider.value != accel:
 			accel_slider.set_value_no_signal(accel)
 		if int(accel_box.text) != accel:
 			accel_box._update_text(str(accel))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 
 
 func _change_jump(new_jump: int, inc_or_dec: bool = false):
@@ -93,14 +97,14 @@ func _change_jump(new_jump: int, inc_or_dec: bool = false):
 			jump_slider.set_value_no_signal(jump)
 		if int(jump_box.text) != jump:
 			jump_box._update_text(str(jump))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 	elif new_jump > 0 and new_jump < 100:
 		jump = new_jump
 		if jump_slider.value != jump:
 			jump_slider.set_value_no_signal(jump)
 		if int(jump_box.text) != jump:
 			jump_box._update_text(str(jump))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 
 
 func _change_skill(new_skill: int, inc_or_dec: bool = false):
@@ -110,19 +114,19 @@ func _change_skill(new_skill: int, inc_or_dec: bool = false):
 			skill_slider.set_value_no_signal(skill)
 		if int(skill_box.text) != skill:
 			skill_box._update_text(str(skill))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 	elif new_skill > 0 and new_skill < 100:
 		skill = new_skill
 		if skill_slider.value != skill:
 			skill_slider.set_value_no_signal(skill)
 		if int(skill_box.text) != skill:
 			skill_box._update_text(str(skill))
-		emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+		send_signal()
 
 
 func _toggle_reset():
 	reset = reset_check_box.button_pressed
-	emit_signal("custom_stats_side_settings_changed", {"reset": reset, "speed": speed, "accel": accel, "jump": jump, "skill": skill})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

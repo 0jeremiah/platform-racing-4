@@ -16,14 +16,18 @@ func _ready() -> void:
 	connect_node(self, "size_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("size_side_settings_changed", {"exact": exact, "multiplier": multiplier})
+
+
 func _change_multiplier(new_multiplier: float):
 	multiplier = new_multiplier
-	emit_signal("size_side_settings_changed", {"exact": exact, "multiplier": multiplier})
+	send_signal()
 
 
 func _toggle_exact():
 	exact = exact_check_box.button_pressed
-	emit_signal("size_side_settings_changed", {"exact": exact, "multiplier": multiplier})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

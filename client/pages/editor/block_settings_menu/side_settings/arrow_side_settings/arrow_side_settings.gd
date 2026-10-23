@@ -24,24 +24,28 @@ func _ready() -> void:
 	connect_node(self, "arrow_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("arrow_side_settings_changed", {"horizontal_force": horizontal_force, "vertical_force": vertical_force, "direction": {"x": direction.x, "y": direction.y}})
+
+
 func _change_horizontal_force(new_horizontal_force: float):
 	horizontal_force = new_horizontal_force
-	emit_signal("arrow_side_settings_changed", {"horizontal_force": horizontal_force, "vertical_force": vertical_force, "direction": {"x": direction.x, "y": direction.y}})
+	send_signal()
 
 
 func _change_vertical_force(new_vertical_force: float):
 	vertical_force = new_vertical_force
-	emit_signal("arrow_side_settings_changed", {"horizontal_force": horizontal_force, "vertical_force": vertical_force, "direction": {"x": direction.x, "y": direction.y}})
+	send_signal()
 
 
 func _change_direction_x(new_direction_x: float):
 	direction = Vector2(new_direction_x, direction.y)
-	emit_signal("arrow_side_settings_changed", {"horizontal_force": horizontal_force, "vertical_force": vertical_force, "direction": {"x": direction.x, "y": direction.y}})
+	send_signal()
 
 
 func _change_direction_y(new_direction_y: float):
 	direction = Vector2(direction.x, new_direction_y)
-	emit_signal("arrow_side_settings_changed", {"horizontal_force": horizontal_force, "vertical_force": vertical_force, "direction": {"x": direction.x, "y": direction.y}})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

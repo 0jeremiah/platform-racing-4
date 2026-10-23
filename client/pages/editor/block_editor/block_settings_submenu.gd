@@ -80,7 +80,7 @@ static var settings_presets: Dictionary = {
 			"block_types": {
 				"inactive": {"label": "Inactive", "setting": ConfigurableBlockSettings.INACTIVE, "side_category": "inactive"},
 				"start_position": {"label": "Start Position", "setting": ConfigurableBlockSettings.START_POSITION, "side_category": "start_position"},
-				"presence_switch": {"label": "Presence Switch", "setting": ConfigurableBlockSettings.PRESENCE_SWITCH, "side_category": "presence_switch"},
+				"switch": {"label": "Switch", "setting": ConfigurableBlockSettings.SWITCH, "side_category": "switch"},
 				"lightbreaker": {"label": "Lightbreaker", "setting": ConfigurableBlockSettings.LIGHTBREAKER, "side_category": "lightbreakers"},
 			},
 			"side_categories": {
@@ -90,8 +90,8 @@ static var settings_presets: Dictionary = {
 				"start_position": {
 					"start_position": {"label": "Start Position", "setting": ConfigurableBlockSideSettings.START_POSITION}
 				},
-				"presence_switch": {
-					"presence_switch": {"label": "Presence Switch", "setting": ConfigurableBlockSideSettings.PRESENCE_SWITCH}
+				"switch": {
+					"switch": {"label": "Switch", "setting": ConfigurableBlockSideSettings.SWITCH}
 				},
 				"lightbreakers": {
 					"lightbreaker": {"label": "Lightbreaker", "setting": ConfigurableBlockSideSettings.LIGHTBREAKER}
@@ -152,13 +152,13 @@ static var settings_lookup: Dictionary = {
 	"gas_block_types": {
 		ConfigurableBlockSettings.INACTIVE: {"key": "inactive", "next_category": "gas_side_types"},
 		ConfigurableBlockSettings.START_POSITION: {"key": "start_position", "next_category": "gas_side_types"},
-		ConfigurableBlockSettings.PRESENCE_SWITCH: {"key": "presence_switch", "next_category": "gas_side_types"},
+		ConfigurableBlockSettings.SWITCH: {"key": "switch", "next_category": "gas_side_types"},
 		ConfigurableBlockSettings.LIGHTBREAKER: {"key": "lightbreaker", "next_category": "gas_side_types"}
 		},
 	"gas_side_types": {
 		ConfigurableBlockSideSettings.INACTIVE: {"key": "inactive"},
 		ConfigurableBlockSideSettings.START_POSITION: {"key": "start_position"},
-		ConfigurableBlockSideSettings.PRESENCE_SWITCH: {"key": "presence_switch"},
+		ConfigurableBlockSideSettings.SWITCH: {"key": "switch"},
 		ConfigurableBlockSideSettings.LIGHTBREAKER: {"key": "lightbreaker"}
 	}
 }

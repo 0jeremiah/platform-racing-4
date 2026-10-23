@@ -19,6 +19,10 @@ func _ready() -> void:
 	connect_node(self, "stat_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("stat_side_settings_changed", {"amount": amount})
+
+
 func _change_amount(new_amount: int, inc_or_dec: bool = false):
 	if inc_or_dec and amount + new_amount > -100 and amount + new_amount < 100:
 		amount += new_amount
@@ -26,14 +30,14 @@ func _change_amount(new_amount: int, inc_or_dec: bool = false):
 			amount_slider.set_value_no_signal(amount)
 		if int(amount_box.text) != amount:
 			amount_box._update_text(str(amount))
-		emit_signal("stat_side_settings_changed", {"amount": amount})
+		send_signal()
 	elif new_amount > -100 and new_amount < 100:
 		amount = new_amount
 		if amount_slider.value != amount:
 			amount_slider.set_value_no_signal(amount)
 		if int(amount_box.text) != amount:
 			amount_box._update_text(str(amount))
-		emit_signal("stat_side_settings_changed", {"amount": amount})
+		send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "teleport_settings_changed")
 
 
+func send_signal():
+	emit_signal("teleport_settings_changed", {"teleport_color": teleport_color.to_html(false), "teleport_throttle": teleport_throttle})
+
+
 func _change_teleport_color(new_teleport_color: Color):
 	teleport_color = new_teleport_color
-	emit_signal("teleport_settings_changed", {"teleport_color": teleport_color.to_html(false), "teleport_throttle": teleport_throttle})
+	send_signal()
 
 
 func _change_teleport_throttle(new_teleport_throttle: float):
 	teleport_throttle = new_teleport_throttle
-	emit_signal("teleport_settings_changed", {"teleport_color": teleport_color.to_html(false), "teleport_throttle": teleport_throttle})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

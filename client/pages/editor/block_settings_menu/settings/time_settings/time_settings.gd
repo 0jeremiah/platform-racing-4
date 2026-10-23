@@ -16,14 +16,18 @@ func _ready() -> void:
 	connect_node(self, "time_settings_changed")
 
 
+func send_signal():
+	emit_signal("time_settings_changed", {"infinite_time": infinite_time, "time_supply": time_supply})
+
+
 func _change_time_supply(new_time_supply: int):
 	time_supply = new_time_supply
-	emit_signal("time_settings_changed", {"infinite_time": infinite_time, "time_supply": time_supply})
+	send_signal()
 
 
 func _toggle_infinite_time():
 	infinite_time = infinite_time_check_box.button_pressed
-	emit_signal("time_settings_changed", {"infinite_time": infinite_time, "time_supply": time_supply})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

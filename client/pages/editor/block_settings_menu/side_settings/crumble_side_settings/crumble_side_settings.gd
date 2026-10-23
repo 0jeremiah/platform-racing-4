@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "crumble_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("crumble_side_settings_changed", {"armor": armor, "damage_ratio": damage_ratio})
+
+
 func _change_armor(new_armor: float):
 	armor = new_armor
-	emit_signal("crumble_side_settings_changed", {"armor": armor, "damage_ratio": damage_ratio})
+	send_signal()
 
 
 func _change_damage_ratio(new_damage_ratio: float):
 	damage_ratio = new_damage_ratio
-	emit_signal("crumble_side_settings_changed", {"armor": armor, "damage_ratio": damage_ratio})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

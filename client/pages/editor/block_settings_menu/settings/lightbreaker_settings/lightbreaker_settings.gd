@@ -13,9 +13,13 @@ func _ready() -> void:
 	connect_node(self, "lightbreaker_settings_changed")
 
 
+func send_signal():
+	emit_signal("lightbreaker_settings_changed", {"light_color": light_color.to_html(false)})
+
+
 func _change_light_color(new_light_color: Color):
 	light_color = new_light_color
-	emit_signal("lightbreaker_settings_changed", {"light_color": light_color.to_html(false)})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

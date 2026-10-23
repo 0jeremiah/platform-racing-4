@@ -14,6 +14,7 @@ static var not_found_block_texture = null
 static var loading_block_texture = null
 static var solid_layer_id: int = 0
 static var non_solid_layer_id: int = 1
+static var placeholder_block: Dictionary = {}
 
 
 ## Initialize BlockManager with a ConfigurableTileSet
@@ -27,9 +28,10 @@ static func init() -> void:
 	_tile_set.set_physics_layer_collision_mask(non_solid_layer_id, Helpers.to_bitmask_32(10 * 2))
 	not_found_block_texture = load_block_texture("res://blocks/notfoundblock.png")
 	loading_block_texture = load_block_texture("res://blocks/loadingblock.png")
+	placeholder_block = BlockTestUtils.load_config("res://blocks/placeholder_block.json")
 
 
-## Load block from path without godot throwing a warning
+## Load block from path without Godot throwing a warning
 static func load_block_texture(path: String) -> ImageTexture:
 	var image = Image.new()
 	image.load(ProjectSettings.globalize_path(path))
@@ -68,7 +70,7 @@ static func _build_block_lookup(configs: Array) -> void:
 		else:
 			# Load from the game's default blockset. (this is for default blocks)
 			var texture_path: String = config.image.get("src", "")
-
+			var teleport_texture_path: String = config.image.get("teleport_src", "")
 			if texture_path and FileAccess.file_exists(texture_path):
 				if texture_path not in _block_textures:
 					_block_textures[texture_path] = load_block_texture(texture_path)
@@ -83,11 +85,15 @@ static func _build_block_lookup(configs: Array) -> void:
 			#else:
 				#texture_source_id = textures_seen.find(texture_path)
 
-			var texture2d = AtlasTexture.new()
+			var texture2d = null
 			var image_texture = load_block_texture(texture_path)
-			texture2d.atlas = image_texture
-			texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.atlas_coords.get("x", 0), config.image.atlas_coords.get("y", 0))), Settings.tile_size)
-			texture2d.filter_clip = true
+			if config.image.has("atlas_coords"):
+				texture2d = AtlasTexture.new()
+				texture2d.atlas = image_texture
+				texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.atlas_coords.get("x", 0), config.image.atlas_coords.get("y", 0))), Settings.tile_size)
+				texture2d.filter_clip = true
+			else:
+				texture2d = image_texture
 			var exported_image_texture = texture2d.get_image()
 
 			# Store the mapping
@@ -96,21 +102,28 @@ static func _build_block_lookup(configs: Array) -> void:
 				"source_id": 0,
 				"alternative_tile": 0, # right now there's only one scene in our TileSetScenesCollectionSource
 				# but if we ever make more we must account for that
-				"atlas_coords": Vector2i(
-					config.image.atlas_coords.get("x", 0),
-					config.image.atlas_coords.get("y", 0)
-				),
 				"image_texture": exported_image_texture
 			}
-			
-			if config.image.has("teleport_atlas_coords"):
-				texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.teleport_atlas_coords.get("x", 0), config.image.teleport_atlas_coords.get("y", 0))), Settings.tile_size)
-				var exported_teleport_image_texture = texture2d.get_image()
-				_block_lookup[block_id]["teleport_atlas_coords"] = Vector2i(
-					config.image.teleport_atlas_coords.get("x", 0),
-					config.image.teleport_atlas_coords.get("y", 0)
+			if config.image.has("atlas_coords"):
+				_block_lookup[block_id]["atlas_coords"] = Vector2i(
+					config.image.atlas_coords.get("x", 0),
+					config.image.atlas_coords.get("y", 0)
 				)
-				_block_lookup[block_id]["teleport_image_texture"] = exported_teleport_image_texture
+				if config.image.has("teleport_atlas_coords"):
+					texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.teleport_atlas_coords.get("x", 0), config.image.teleport_atlas_coords.get("y", 0))), Settings.tile_size)
+					var exported_teleport_image_texture = texture2d.get_image()
+					_block_lookup[block_id]["teleport_atlas_coords"] = Vector2i(
+						config.image.teleport_atlas_coords.get("x", 0),
+						config.image.teleport_atlas_coords.get("y", 0)
+					)
+					_block_lookup[block_id]["teleport_image_texture"] = exported_teleport_image_texture
+			elif teleport_texture_path and FileAccess.file_exists(teleport_texture_path):
+				if teleport_texture_path not in _block_textures:
+					_block_textures[teleport_texture_path] = load_block_texture(teleport_texture_path)
+				var teleport_texture2d = null
+				var teleport_image_texture = load_block_texture(teleport_texture_path)
+				teleport_texture2d = teleport_image_texture
+				_block_lookup[block_id]["teleport_image_texture"] = teleport_texture2d
 
 		var title = "Block"
 		var comment = ""
@@ -171,6 +184,23 @@ func decode_block(block_data: Dictionary) -> void:
 	block_decoder.decode(block_data)
 
 
+func get_block_info(block_id: String) -> Dictionary:
+	if _block_lookup.has(block_id):
+		return _block_lookup[block_id]
+	else:
+		return {}
+
+
+func get_error_block() -> Dictionary:
+	var error_block = placeholder_block.duplicate(true)
+	error_block["id"] = "error"
+	if error_block.has("settings"):
+		error_block.settings["title"] = "Not Found"
+		error_block.settings["comment"] = "If you're seeing this, we couldn't find the block you were looking for. :("
+	error_block["image"] = {"scr": "res://blocks/notfoundblock.png"}
+	return error_block
+
+
 func clear() -> void:
 	block_layers.clear()
 
@@ -229,11 +259,13 @@ static func get_block_texture(block_id: String) -> Texture2D:
 	var texture = null
 	if _block_lookup[block_id].has("custom_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_texture"])
-	else:
+	elif _block_lookup[block_id].has("atlas_coords"):
 		texture = AtlasTexture.new()
 		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
+	else:
+		texture = _block_textures[_block_lookup[block_id]["texture_path"]]
 	return texture
 
 
@@ -243,11 +275,13 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 	var texture = null
 	if _block_lookup[block_id].has("custom_teleport_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
-	else:
+	elif _block_lookup[block_id].has("teleport_atlas_coords"):
 		texture = AtlasTexture.new()
 		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
+	else:
+		texture = _block_textures[_block_lookup[block_id]["teleport_texture_path"]]
 	return texture
 
 
@@ -260,11 +294,13 @@ static func new_get_block_texture(block_id: String, teleport_color: String = "")
 	var texture = null
 	if _block_lookup[block_id].has("custom_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_texture"])
-	else:
+	elif _block_lookup[block_id].has("atlas_coords"):
 		texture = AtlasTexture.new()
 		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
+	else:
+		texture = _block_textures[_block_lookup[block_id]["texture_path"]]
 	# if block is a teleport block, get teleport colorin
 	if _blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		if teleport_color == "" or !teleport_color.is_valid_html_color():
@@ -272,11 +308,13 @@ static func new_get_block_texture(block_id: String, teleport_color: String = "")
 		var teleport_color_texture = null
 		if _block_lookup[block_id].has("custom_teleport_texture"):
 			teleport_color_texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
-		else:
+		elif _block_lookup[block_id].has("teleport_atlas_coords"):
 			teleport_color_texture = AtlasTexture.new()
 			teleport_color_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
 			teleport_color_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].teleport_atlas_coords), Settings.tile_size)
 			teleport_color_texture.filter_clip = true
+		else:
+			texture = _block_textures[_block_lookup[block_id]["teleport_texture_path"]]
 		block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].teleport_image_texture), Color(teleport_color))
 	block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].image_texture), Color(1.0, 1.0, 1.0, 1.0))
 	return block_texture

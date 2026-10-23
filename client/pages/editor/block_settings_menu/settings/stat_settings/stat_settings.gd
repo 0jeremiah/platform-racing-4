@@ -16,14 +16,18 @@ func _ready() -> void:
 	connect_node(self, "stat_settings_changed")
 
 
+func send_signal():
+	emit_signal("stat_settings_changed", {"infinite_stats": infinite_stats, "stat_supply": stat_supply})
+
+
 func _change_item_supply(new_stat_supply: int):
 	stat_supply = new_stat_supply
-	emit_signal("stat_settings_changed", {"infinite_stats": infinite_stats, "stat_supply": stat_supply})
+	send_signal()
 
 
 func _toggle_infinite_stats():
 	infinite_stats = infinite_stats_check_box.button_pressed
-	emit_signal("stat_settings_changed", {"infinite_stats": infinite_stats, "stat_supply": stat_supply})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

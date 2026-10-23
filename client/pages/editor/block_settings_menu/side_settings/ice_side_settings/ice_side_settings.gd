@@ -13,9 +13,13 @@ func _ready() -> void:
 	connect_node(self, "ice_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("ice_side_settings_changed", {"ice_friction": ice_friction})
+
+
 func _change_ice_friction(new_ice_friction: float):
 	ice_friction = new_ice_friction
-	emit_signal("ice_side_settings_changed", {"ice_friction": ice_friction})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

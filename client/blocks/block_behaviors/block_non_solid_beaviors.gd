@@ -52,6 +52,11 @@ func start_lightbreak(node: Node2D, coords: Vector2i, lightbreak_type: String) -
 		node.lightbreak.moon_timer = 0.05
 
 
+# activates the node's lightbreak if they have it
+#func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO) -> void:
+	#if block_info.settings.limit_activate_range:
+
+
 # Makes the node swim
 func water(node: Node2D, _tile_map_layer: ConfigurableTileMapLayer, _coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	if "movement" in node:

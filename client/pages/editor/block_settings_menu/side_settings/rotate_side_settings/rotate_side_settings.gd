@@ -17,14 +17,18 @@ func _ready() -> void:
 	connect_node(self, "rotate_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("rotate_side_settings_changed", {"rotations": rotations, "rotation_speed": rotation_speed})
+
+
 func _change_rotations(new_rotations: int):
 	rotations = new_rotations
-	emit_signal("rotate_side_settings_changed", {"rotations": rotations, "rotation_speed": rotation_speed})
+	send_signal()
 
 
 func _change_rotation_speed(new_rotation_speed: float):
 	rotation_speed = new_rotation_speed
-	emit_signal("rotate_side_settings_changed", {"rotations": rotations, "rotation_speed": rotation_speed})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

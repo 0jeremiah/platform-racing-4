@@ -26,6 +26,10 @@ func _ready() -> void:
 	connect_node(self, "item_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("item_side_settings_changed", {"item_array": item_array})
+
+
 func _change_size() -> void:
 	size = items_container.size
 	items_container.resized.disconnect(_change_size)
@@ -40,7 +44,7 @@ func maybe_add_item(item_name: String) -> void:
 			while item_array.has(item_buttons[item_name].id):
 				item_array.erase(item_buttons[item_name].id)
 		item_array.sort()
-		emit_signal("item_side_settings_changed", {"item_array": item_array})
+		send_signal()
 
 
 func update_item_list() -> void:

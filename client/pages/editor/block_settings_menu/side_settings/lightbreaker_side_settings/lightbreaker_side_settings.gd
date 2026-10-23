@@ -13,6 +13,10 @@ func _ready() -> void:
 	connect_node(self, "lightbreaker_side_settings_changed")
 
 
+func send_signal():
+	emit_signal("lightbreaker_side_settings_changed", {"lightbreaker_type": lightbreaker_type})
+
+
 func _show_lightbreaker_types():
 	var dropdown_options = []
 	for type in ConfigurableBlockSideSettings.lightbreaker_types:
@@ -23,7 +27,7 @@ func _show_lightbreaker_types():
 func _change_lightbreaker_type(selected_lightbreaker_type: Dictionary):
 	lightbreaker_type = selected_lightbreaker_type.setting
 	lightbreaker_type_button.text = selected_lightbreaker_type.label
-	emit_signal("lightbreaker_side_settings_changed", {"lightbreaker_type": lightbreaker_type})
+	send_signal()
 
 
 func set_side_settings(new_side_settings: Dictionary):

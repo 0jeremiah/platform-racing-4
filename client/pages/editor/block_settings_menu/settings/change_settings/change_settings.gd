@@ -21,18 +21,22 @@ func _ready() -> void:
 	connect_node(self, "change_settings_changed")
 
 
+func send_signal():
+	emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})
+
+
 func _show_block_picker():
 	PopupManager.add_custom_popup(blockpicker_popup, {"blockpicker_clicked_func": Callable(change_pattern_holder, "_drag_block"), "close_after_select": false, "popup_global_position": Vector2(show_block_picker_button.global_position.x + show_block_picker_button.size.x + 20, show_block_picker_button.global_position.y), "send_block_picker_size_and_position_func": Callable(change_pattern_holder, "set_block_picker_rect")}, self)
 
 
 func _update_change_tick(new_change_tick: float) -> void:
 	change_tick = new_change_tick
-	emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})
+	send_signal()
 
 
 func _update_change_pattern(new_change_pattern: Array) -> void:
 	change_pattern = new_change_pattern
-	emit_signal("change_settings_changed", {"change_tick": change_tick, "change_pattern": change_pattern})
+	send_signal()
 
 
 func set_settings(new_settings: Dictionary):

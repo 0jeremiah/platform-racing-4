@@ -78,6 +78,7 @@ func update_enabled_settings() -> void:
 			ConfigurableBlockSideSettings.TELEPORT: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT), "setting": ConfigurableBlockSideSettings.TELEPORT},
 			ConfigurableBlockSideSettings.TIME: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.TIME), "setting": ConfigurableBlockSideSettings.TIME},
 			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR},
+			ConfigurableBlockSettings.SWITCH: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.SWITCH), "setting": ConfigurableBlockSettings.SWITCH},
 			ConfigurableBlockSettings.LIGHTBREAKER: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.GAS and block_settings.block_type == ConfigurableBlockSettings.LIGHTBREAKER, "setting": ConfigurableBlockSettings.LIGHTBREAKER}
 		}
 	})

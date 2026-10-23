@@ -26,22 +26,24 @@ func _ready() -> void:
 	connect_node(self, "move_settings_changed")
 
 
-func _update_tick(new_move_tick: float):
-	move_tick = new_move_tick
+func send_signal():
 	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
 	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
+
+
+func _update_tick(new_move_tick: float):
+	move_tick = new_move_tick
+	send_signal()
 
 
 func _toggle_random():
 	randomize_move_pattern = random_button.button_pressed
-	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
-	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
+	send_signal()
 
 
 func _toggle_loop():
 	loop_move_pattern = loop_button.button_pressed
-	emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
-	"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
+	send_signal()
 
 
 func _parse_pattern():
@@ -52,8 +54,7 @@ func _parse_pattern():
 	if move_pattern_info.success:
 		move_pattern = move_pattern_info.move_pattern
 		parse_results_label.set("theme_override_colors/default_color", Color("007f00"))
-		emit_signal("move_settings_changed", {"move_tick": move_tick, "move_pattern": move_pattern,
-		"randomize_move_pattern": randomize_move_pattern, "loop_move_pattern": loop_move_pattern})
+		send_signal()
 
 
 func set_settings(new_settings: Dictionary):
