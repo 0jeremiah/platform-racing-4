@@ -19,6 +19,6 @@ func trigger_interval() -> void:
 		block_lists[block_list].execute_change()
 
 
-func create_block_list(block: BlockScene) -> BlockList:
-	var block_list = ChangeBlockList.new(block)
+func create_block_list(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> BlockList:
+	var block_list = ChangeBlockList.new(tile_map_layer, coords)
 	return block_list

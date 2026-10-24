@@ -6,8 +6,8 @@ var index: int = 0
 var max_index: int = pattern.size() - 1
 
 
-func _init(block: BlockScene) -> void:
-	super(block)
+func _init(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
+	super(tile_map_layer, coords)
 
 
 func get_needed_blocks() -> Array:
@@ -37,8 +37,9 @@ func execute_change() -> void:
 			index = 0
 
 
-func init_list(block: BlockScene) -> void:
-	super(block)
-	if block.settings.change_pattern.size() > 0:
-		pattern = block.settings.change_pattern
-	max_index = block.settings.change_pattern.size() - 1
+func init_list(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
+	super(tile_map_layer, coords)
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.settings.change_pattern.size() > 0:
+		pattern = block_info.settings.change_pattern
+	max_index = block_info.settings.change_pattern.size() - 1

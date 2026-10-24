@@ -19,6 +19,7 @@ var settings = ConfigurableBlockSettings.new()
 var tile_map_layer = null
 var initialized: bool = false
 var location: String = ""
+var coords: Vector2i = Vector2i(0, 0)
 var frozen: bool = false
 var fade_mode: String = "idle"
 var fade_duration: float = 0.3
@@ -70,47 +71,19 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 			area_hitbox_enabled = true if settings.matter_type != ConfigurableBlockSettings.SOLID else false
 			fade_mode = "hidden" if settings.has_side_type(ConfigurableBlockSideSettings.APPEAR) else "idle"
 			initialized = true
-			register_block_type()
 			set_block_texture()
+			if (settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block) and register_change_block:
+				is_change_block = true
 	else:
 		queue_free()
-
-
-func register_block_type():
-	if Game.game:
-		if settings.block_type == ConfigurableBlockSettings.START_POSITION:
-			Game.game.level_manager.register_start_block(self)
-		if settings.block_type == ConfigurableBlockSettings.MOVE:
-			Game.game.level_manager.register_move_block(self)
-		if (settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block) and register_change_block:
-			is_change_block = true
-			Game.game.level_manager.register_change_block(self)
-		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
-			Game.game.level_manager.register_finish_block(self)
-		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-			Game.game.level_manager.register_teleport_block(self)
-
-
-func unregister_block_type(unregister_change: bool = true):
-	if initialized and Game.game:
-		if settings.block_type == ConfigurableBlockSettings.MOVE:
-			Game.game.level_manager.remove_move_block(self)
-		if settings.block_type == ConfigurableBlockSettings.START_POSITION:
-			Game.game.level_manager.remove_start_block(self)
-		if settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
-			Game.game.level_manager.remove_finish_block(self)
-		if settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-			Game.game.level_manager.remove_teleport_block(self)
-		register_change_block = unregister_change
-		if is_change_block and unregister_change:
-			Game.game.level_manager.remove_change_block(self)
 
 
 func _ready():
 	var parent = get_parent()
 	if parent and parent is ConfigurableTileMapLayer:
 		var is_valid: bool = false
-		location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+		coords = Vector2i(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x), int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+		location = str(coords.x) + "," + str(coords.y)
 		if location in parent.block_dict:
 			tile_map_layer = parent
 			init(parent.block_dict[location].id, parent.block_dict[location].settings)
@@ -119,6 +92,7 @@ func _ready():
 		if !is_valid:
 			queue_free()
 		frozen_texture.texture = BlockManager.get_block_texture("16")
+		random_move_pattern = create_rand_pattern()
 
 
 func _process(delta: float) -> void:
@@ -236,8 +210,9 @@ func set_block_texture():
 
 
 func morph_block_type(new_id: String, new_settings: ConfigurableBlockSettings):
-	unregister_block_type(false)
+	tile_map_layer.unregister_block_type(coords, false)
 	init(new_id, new_settings)
+	tile_map_layer.register_block_type(coords)
 	undull_out()
 
 
@@ -396,3 +371,18 @@ func player_is_in_block(check_collision: bool = false) -> bool:
 		if overlapping_body is Character:
 			return true
 	return false
+
+
+func create_rand_pattern(param_1: int = 10) -> String:
+	var loc_4: int = 0
+	var loc_2 = ""
+	var loc_3: int = 0
+	while loc_3 < param_1:
+		loc_4 = randi_range(1, 4)
+		match loc_4:
+			1: loc_2 = loc_2 + "u"
+			2: loc_2 = loc_2 + "d"
+			3: loc_2 = loc_2 + "l"
+			4: loc_2 = loc_2 + "r"
+		loc_3 += 1
+	return loc_2

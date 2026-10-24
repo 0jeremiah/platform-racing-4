@@ -122,6 +122,39 @@ func add_block(coords: Vector2i, block_id: String, block_settings_info: Dictiona
 		maybe_block.init(block_id, settings)
 	else:
 		set_cell(coords, 0, Vector2i(0, 0), tile_info.alternative_tile)
+	register_block_type(coords)
+
+
+func register_block_type(coords: Vector2i):
+	var block_info = get_block(coords)
+	if Game.game and block_info.settings != null:
+		if block_info.settings.block_type == ConfigurableBlockSettings.START_POSITION:
+			Game.game.level_manager.register_start_block(self, coords)
+		if block_info.settings.block_type == ConfigurableBlockSettings.MOVE:
+			Game.game.level_manager.register_move_block(self, coords)
+		if block_info.settings.block_type == ConfigurableBlockSettings.CHANGE or (block_info.node != null and block_info.node.is_change_block and block_info.node.register_change_block):
+			Game.game.level_manager.register_change_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
+			Game.game.level_manager.register_finish_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+			Game.game.level_manager.register_teleport_block(self, coords)
+
+
+func unregister_block_type(coords: Vector2i, unregister_change: bool = true):
+	var block_info = get_block(coords)
+	if Game.game:
+		if block_info.settings.block_type == ConfigurableBlockSettings.MOVE:
+			Game.game.level_manager.remove_move_block(self, coords)
+		if block_info.settings.block_type == ConfigurableBlockSettings.START_POSITION:
+			Game.game.level_manager.remove_start_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
+			Game.game.level_manager.remove_finish_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+			Game.game.level_manager.remove_teleport_block(self, coords)
+		if block_info.node != null:
+			block_info.node.register_change_block = unregister_change
+			if block_info.node.is_change_block and unregister_change:
+				Game.game.level_manager.remove_change_block(self, coords)
 
 
 ## Get cell block ID from coordinates (reverse lookup)
@@ -160,8 +193,7 @@ func get_block_settings_info(coords: Vector2i) -> Dictionary:
 func delete_block(coords: Vector2i) -> void:
 	var block_dict_name = get_block_dict_name(coords)
 	if block_dict.has(block_dict_name):
-		if block_dict[block_dict_name].has("node") and block_dict[block_dict_name].node != null:
-			block_dict[block_dict_name].node.unregister_block_type()
+		unregister_block_type(coords)
 		block_dict.erase(block_dict_name)
 		erase_cell(coords)
 
@@ -172,17 +204,19 @@ func move_block(from_coords: Vector2i, to_coords: Vector2i):
 	var to_block_dict_name = get_block_dict_name(to_coords)
 	var to_block_dict = block_dict.get(to_block_dict_name)
 	if from_block_dict != null:
-		from_block_dict.node.unregister_block_type()
+		unregister_block_type(from_coords)
 		from_block_dict.node.position = (to_coords * Settings.tile_size) + Settings.tile_size_half
 		block_dict[to_block_dict_name] = from_block_dict
 		from_block_dict.node.init(from_block_dict.id, from_block_dict.settings)
+		register_block_type(to_coords)
 	elif block_dict.has(to_block_dict_name):
 		block_dict.erase(to_block_dict_name)
 	if to_block_dict != null:
-		to_block_dict.node.unregister_block_type()
+		unregister_block_type(to_coords)
 		to_block_dict.node.position = (from_coords * Settings.tile_size) + Settings.tile_size_half
 		block_dict[from_block_dict_name] = to_block_dict
 		to_block_dict.node.init(to_block_dict.id, to_block_dict.settings)
+		register_block_type(from_coords)
 	elif block_dict.has(from_block_dict_name):
 		block_dict.erase(from_block_dict_name)
 

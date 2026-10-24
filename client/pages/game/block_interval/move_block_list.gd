@@ -9,8 +9,8 @@ var repeat_counters: Dictionary = {}
 var move_pattern: String = ""
 
 
-func _init(block: BlockScene) -> void:
-	super(block)
+func _init(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
+	super(tile_map_layer, coords)
 
 
 func assign_move_commands() -> void:
@@ -101,15 +101,18 @@ func execute_move_commands() -> void:
 				block_info.node.execute_move_block_command()
 
 
-func init_list(block: BlockScene) -> void:
-	super(block)
-	var move_pattern_info = ConfigurableBlockSettings.parse_move_pattern(block.settings.move_pattern)
+func init_list(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> void:
+	super(tile_map_layer, coords)
+	var block_info = tile_map_layer.get_block(coords)
+	var move_pattern_info = ConfigurableBlockSettings.parse_move_pattern(block_info.settings.move_pattern)
 	move_pattern = move_pattern_info.compressed_move_pattern
 	if move_pattern == "":
 		move_pattern = "*"
 	max_pattern_index = move_pattern.length() - 1
-	max_rand_index = block.random_move_pattern.length() - 1
-	
+	if block_info.node and block_info.node != null:
+		max_rand_index = block_info.node.random_move_pattern.length() - 1
+	else:
+		max_rand_index = -1
 
 
 func char_is_numeric(chr: String) -> bool:

@@ -51,17 +51,17 @@ func stop():
 	do_intervals = false
 
 
-func add_block(param_1: BlockScene, param_2: int):
+func add_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, param_2: int):
+	var block_info = tile_map_layer.get_block(coords)
 	var loc_3: float = 1.0
 	if param_2 == TYPE_MOVE:
-		param_1.random_move_pattern = create_rand_pattern()
-		loc_3 = param_1.settings.move_tick
+		loc_3 = block_info.settings.move_tick
 	else:
 		if param_2 != TYPE_CHANGE:
 			push_warning("BlockIntervalManager::add_block() - unknown value for type")
-		loc_3 = param_1.settings.change_tick
+		loc_3 = block_info.settings.change_tick
 	var loc_4: BlockFreqGroup = get_group(loc_3, param_2, true)
-	loc_4.add_block(param_1)
+	loc_4.add_block(tile_map_layer, coords)
 
 
 func clear():
@@ -85,18 +85,18 @@ func create_rand_pattern(param_1: int = 10) -> String:
 	return loc_2
 
 
-func remove_block(param_1: BlockScene, param_2: int):
+func remove_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, param_2: int):
+	var block_info = tile_map_layer.get_block(coords)
 	var loc_3: int = 1000
 	if param_2 == TYPE_MOVE:
-		param_1.random_move_pattern = create_rand_pattern()
-		loc_3 = param_1.settings.move_tick * 1000
+		loc_3 = block_info.settings.move_tick * 1000
 	else:
 		if param_2 != TYPE_CHANGE:
 			push_warning("BlockIntervalManager::remove_block() - unknown value for type")
-		loc_3 = param_1.settings.change_tick * 1000
+		loc_3 = block_info.settings.change_tick * 1000
 	var loc_4: BlockFreqGroup = get_group(loc_3, param_2, true)
 	if loc_4:
-		loc_4.remove_block(param_1)
+		loc_4.remove_block(tile_map_layer, coords)
 
 
 func create_categories():
