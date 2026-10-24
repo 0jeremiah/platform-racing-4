@@ -1,16 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cauj7mmhr7tdc"]
+[gd_scene format=3 uid="uid://cauj7mmhr7tdc"]
 
 [ext_resource type="Script" uid="uid://bfdgkn6h6s07p" path="res://cursors/draw_cursor.gd" id="1_llq50"]
 [ext_resource type="Script" uid="uid://dw0cea3ur5d7i" path="res://cursors/brush_circle.gd" id="2_bvlhb"]
 
-[node name="DrawCursor" type="Node2D"]
+[node name="DrawCursor" type="Node2D" unique_id=755605587]
 script = ExtResource("1_llq50")
 
-[node name="Haircross" type="Node2D" parent="."]
+[node name="Haircross" type="Node2D" parent="." unique_id=75409368]
 
-[node name="Hair1" type="Node2D" parent="Haircross"]
+[node name="Hair1" type="Node2D" parent="Haircross" unique_id=1398664784]
 
-[node name="ColorRect" type="ColorRect" parent="Haircross/Hair1"]
+[node name="ColorRect" type="ColorRect" parent="Haircross/Hair1" unique_id=938093914]
 offset_left = -1.0
 offset_top = -17.0
 offset_right = 1.0
@@ -18,7 +18,7 @@ offset_bottom = -13.0
 mouse_filter = 2
 color = Color(0.877616, 0.877616, 0.877616, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair1"]
+[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair1" unique_id=519359334]
 offset_left = -1.0
 offset_top = -28.0
 offset_right = 1.0
@@ -26,9 +26,9 @@ offset_bottom = -23.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Hair2" type="Node2D" parent="Haircross"]
+[node name="Hair2" type="Node2D" parent="Haircross" unique_id=1038909705]
 
-[node name="ColorRect" type="ColorRect" parent="Haircross/Hair2"]
+[node name="ColorRect" type="ColorRect" parent="Haircross/Hair2" unique_id=91982785]
 offset_left = -17.0
 offset_top = -1.0
 offset_right = -13.0
@@ -36,7 +36,7 @@ offset_bottom = 1.0
 mouse_filter = 2
 color = Color(0.877616, 0.877616, 0.877616, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair2"]
+[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair2" unique_id=1070122961]
 offset_left = -28.0
 offset_top = -1.0
 offset_right = -23.0
@@ -44,9 +44,9 @@ offset_bottom = 1.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Hair3" type="Node2D" parent="Haircross"]
+[node name="Hair3" type="Node2D" parent="Haircross" unique_id=1266916581]
 
-[node name="ColorRect" type="ColorRect" parent="Haircross/Hair3"]
+[node name="ColorRect" type="ColorRect" parent="Haircross/Hair3" unique_id=2067800006]
 offset_left = 13.0
 offset_top = -1.0
 offset_right = 17.0
@@ -54,7 +54,7 @@ offset_bottom = 1.0
 mouse_filter = 2
 color = Color(0.877616, 0.877616, 0.877616, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair3"]
+[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair3" unique_id=1572058501]
 offset_left = 23.0
 offset_top = -1.0
 offset_right = 28.0
@@ -62,9 +62,9 @@ offset_bottom = 1.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Hair4" type="Node2D" parent="Haircross"]
+[node name="Hair4" type="Node2D" parent="Haircross" unique_id=870331954]
 
-[node name="ColorRect" type="ColorRect" parent="Haircross/Hair4"]
+[node name="ColorRect" type="ColorRect" parent="Haircross/Hair4" unique_id=165885555]
 offset_left = -1.0
 offset_top = 13.0
 offset_right = 1.0
@@ -72,7 +72,7 @@ offset_bottom = 17.0
 mouse_filter = 2
 color = Color(0.877616, 0.877616, 0.877616, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair4"]
+[node name="ColorRect2" type="ColorRect" parent="Haircross/Hair4" unique_id=1368786243]
 offset_left = -1.0
 offset_top = 23.0
 offset_right = 1.0
@@ -80,5 +80,6 @@ offset_bottom = 28.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BrushCircle" type="Node2D" parent="."]
+[node name="BrushCircle" type="Node2D" parent="." unique_id=1458279507]
+position = Vector2(-1, 1)
 script = ExtResource("2_bvlhb")

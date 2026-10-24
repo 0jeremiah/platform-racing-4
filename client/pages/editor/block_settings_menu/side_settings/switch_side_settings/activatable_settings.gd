@@ -11,7 +11,7 @@ var activatable_options_presets: Dictionary = {
 	"side_settings": {
 		"brick": {"setting": ConfigurableBlockSideSettings.SHATTER, "name": "Break Brick Blocks"},
 		"mine": {"setting": ConfigurableBlockSideSettings.MINE, "name": "Explode Mine Blocks"},
-		"crumble": {"setting": ConfigurableBlockSideSettings.CRUMBLE, "name": "Explode Mine Blocks"},
+		"crumble": {"setting": ConfigurableBlockSideSettings.CRUMBLE, "name": "Hit Crumble Blocks"},
 		"vanish": {"setting": ConfigurableBlockSideSettings.VANISH, "name": "Touch Vanish Blocks"},
 		"appear": {"setting": ConfigurableBlockSideSettings.APPEAR, "name": "Touch Appear Blocks"}
 		}
@@ -25,10 +25,10 @@ var button_size: Vector2 = Vector2(468.0, 30.0)
 
 func _ready() -> void:
 	for activatable_options_preset in activatable_options_presets.settings:
-		add_activatable_option_to_array(activatable_options_preset, activatable_options_presets.settings[activatable_options_preset], activatable_settings_buttons, activatable_settings_array)
+		add_activatable_option_to_array(activatable_options_preset, activatable_options_presets.settings[activatable_options_preset], activatable_settings_buttons, "activatable_settings_array")
 	create_separator()
 	for activatable_options_preset in activatable_options_presets.side_settings:
-		add_activatable_option_to_array(activatable_options_preset, activatable_options_presets.side_settings[activatable_options_preset], activatable_side_settings_buttons, activatable_side_settings_array)
+		add_activatable_option_to_array(activatable_options_preset, activatable_options_presets.side_settings[activatable_options_preset], activatable_side_settings_buttons, "activatable_side_settings_array")
 	activatable_settings_container.resized.connect(_change_size)
 
 
@@ -41,11 +41,14 @@ func init(new_side_settings: Dictionary) -> void:
 		update_activatable_side_settings()
 
 
-func add_activatable_option_to_array(activatable_option_name: String, activatable_dictionary: Dictionary, button_array: Dictionary, activatable_array: Array):
-	button_array[activatable_option_name] = activatable_dictionary
-	button_array[activatable_option_name]["button"] = create_button(activatable_dictionary.name)
-	button_array[activatable_option_name]["button"].pressed.connect(maybe_add_activatable_setting.bind(activatable_option_name, button_array, activatable_array))
-	activatable_array.append(button_array[activatable_option_name].setting)
+func add_activatable_option_to_array(activatable_option_name: String, activatable_dictionary: Dictionary, button_array: Dictionary, activatable_array_name: String):
+	var activatable_array = get(activatable_array_name)
+	if activatable_array != null:
+		button_array[activatable_option_name] = activatable_dictionary
+		button_array[activatable_option_name]["button"] = create_button(activatable_dictionary.name)
+		button_array[activatable_option_name]["button"].pressed.connect(maybe_add_activatable_setting.bind(activatable_option_name, button_array, activatable_array_name))
+		activatable_array.append(button_array[activatable_option_name].setting)
+		set(activatable_array_name, activatable_array)
 
 
 func create_button(button_text: String) -> CheckBox:
@@ -73,14 +76,16 @@ func _change_size() -> void:
 	activatable_settings_container.resized.disconnect(_change_size)
 
 
-func maybe_add_activatable_setting(activatable_option_name: String, button_array: Dictionary, activatable_array: Array) -> void:
-	if activatable_option_name in button_array:
+func maybe_add_activatable_setting(activatable_option_name: String, button_array: Dictionary, activatable_array_name: String) -> void:
+	var activatable_array = get(activatable_array_name)
+	if activatable_array != null and activatable_option_name in button_array:
 		if button_array[activatable_option_name].button.button_pressed:
 			if !activatable_array.has(button_array[activatable_option_name].setting):
 				activatable_array.append(button_array[activatable_option_name].setting)
 		else:
 			while activatable_array.has(button_array[activatable_option_name].setting):
 				activatable_array.erase(button_array[activatable_option_name].setting)
+		set(activatable_array_name, activatable_array)
 		emit_signal("activatable_settings_changed", {"settings": activatable_settings_array, "side_settings": activatable_side_settings_array})
 
 

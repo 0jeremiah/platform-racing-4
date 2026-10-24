@@ -48,6 +48,8 @@ func init(_block_settings: ConfigurableBlockSettings):
 	if !sides.is_empty():
 		var current_sides_dictionary_keys = sides_dictionary[current_category].keys()
 		current_side = current_sides_dictionary_keys[0]
+		for side_setting in side_settings_list.sides_properties:
+			side_settings_list.sides_properties[side_setting].node.set_side(current_side)
 		for side in sides:
 			if side in block_settings and block_settings.get(side) is ConfigurableBlockSideSettings:
 				var side_info = block_settings.get(side).get_type()

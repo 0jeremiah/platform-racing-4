@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	draw_arc(Vector2(0.0, 0.0), brush_size / size_multiplier, 0.0, 360.0, 50, Color("FFFFFFFF"), 0.5, true)
+	draw_arc(Vector2(1.0, -1.0), brush_size / size_multiplier, 0.0, 360.0, 50, Color("FFFFFFFF"), 0.5, true)
 
 
 func set_brush_circle(new_brush_size: float, new_size_multiplier: float) -> void:

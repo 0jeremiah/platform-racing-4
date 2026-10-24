@@ -132,12 +132,24 @@ func register_block_type(coords: Vector2i):
 			Game.game.level_manager.register_start_block(self, coords)
 		if block_info.settings.block_type == ConfigurableBlockSettings.MOVE:
 			Game.game.level_manager.register_move_block(self, coords)
+		if block_info.settings.block_type == ConfigurableBlockSettings.GEAR:
+			Game.game.level_manager.register_gear_block(self, coords)
 		if block_info.settings.block_type == ConfigurableBlockSettings.CHANGE or (block_info.node != null and block_info.node.is_change_block and block_info.node.register_change_block):
 			Game.game.level_manager.register_change_block(self, coords)
 		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
 			Game.game.level_manager.register_finish_block(self, coords)
 		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 			Game.game.level_manager.register_teleport_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SHATTER):
+			Game.game.level_manager.register_brick_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.MINE):
+			Game.game.level_manager.register_mine_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.CRUMBLE):
+			Game.game.level_manager.register_crumble_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.VANISH):
+			Game.game.level_manager.register_vanish_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.APPEAR):
+			Game.game.level_manager.register_appear_block(self, coords)
 
 
 func unregister_block_type(coords: Vector2i, unregister_change: bool = true):
@@ -147,8 +159,12 @@ func unregister_block_type(coords: Vector2i, unregister_change: bool = true):
 			Game.game.level_manager.remove_move_block(self, coords)
 		if block_info.settings.block_type == ConfigurableBlockSettings.START_POSITION:
 			Game.game.level_manager.remove_start_block(self, coords)
+		if block_info.settings.block_type == ConfigurableBlockSettings.GEAR:
+			Game.game.level_manager.remove_gear_block(self, coords)
 		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
 			Game.game.level_manager.remove_finish_block(self, coords)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SHATTER):
+			Game.game.level_manager.remove_brick_block(self, coords)
 		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 			Game.game.level_manager.remove_teleport_block(self, coords)
 		if block_info.node != null:
@@ -236,6 +252,8 @@ func is_liquid(coords: Vector2i) -> bool:
 
 
 func is_safe(coords: Vector2i) -> bool:
+	if get_parent() is RotationController:
+		return false
 	var unsafe_matter_types = [ConfigurableBlockSettings.GAS]
 	var unsafe_block_types = [ConfigurableBlockSettings.MOVE, ConfigurableBlockSettings.GEAR]
 	var unsafe_block_sides = [ConfigurableBlockSideSettings.MINE, ConfigurableBlockSideSettings.VANISH,

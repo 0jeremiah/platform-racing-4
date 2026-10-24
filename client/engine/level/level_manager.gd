@@ -24,6 +24,12 @@ var start_position_index: int = 0
 var finish_blocks = []
 var reached_finish_blocks = []
 var teleport_blocks = {}
+var gear_blocks = []
+var brick_blocks = []
+var mine_blocks = []
+var crumble_blocks = []
+var vanish_blocks = []
+var appear_blocks = []
 var background_id = "pr2_field"
 var fade_color = "FFFFFF"
 var music: String = "random"
@@ -96,13 +102,67 @@ func get_next_start_position():
 		}
 
 
+func register_gear_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	gear_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_gear_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	gear_blocks.filter(func(block): return block != block_to_remove)
+
+
+func register_brick_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	brick_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_brick_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	brick_blocks.filter(func(block): return block != block_to_remove)
+
+
+func register_mine_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	mine_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_mine_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	mine_blocks.filter(func(block): return block != block_to_remove)
+
+
+func register_crumble_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	crumble_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_crumble_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	crumble_blocks.filter(func(block): return block != block_to_remove)
+
+
+func register_vanish_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	vanish_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_vanish_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	vanish_blocks.filter(func(block): return block != block_to_remove)
+
+
+func register_appear_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	appear_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
+
+
+func remove_appear_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
+	appear_blocks.filter(func(block): return block != block_to_remove)
+
+
 func register_start_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	start_position_blocks.append({"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)})
 
 
 func remove_start_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
-	start_position_blocks.filter(func(start_position): return start_position != block_to_remove)
+	start_position_blocks.filter(func(block): return block != block_to_remove)
 
 
 func register_move_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
@@ -127,8 +187,8 @@ func register_finish_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vec
 
 func remove_finish_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	var block_to_remove = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
-	finish_blocks.filter(func(finish_position): return finish_position != block_to_remove)
-	reached_finish_blocks.filter(func(finish_position): return finish_position != block_to_remove)
+	finish_blocks.filter(func(block): return block != block_to_remove)
+	reached_finish_blocks.filter(func(block): return block != block_to_remove)
 
 
 func register_teleport_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):

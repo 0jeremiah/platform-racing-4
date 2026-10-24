@@ -23,7 +23,7 @@ func _ready() -> void:
 	activatable_block_list_holder.set_allow_duplicate_blocks(false)
 	activatable_block_list_holder.init(activate_list.blocks)
 	show_block_picker_button.pressed.connect(_show_block_picker)
-	connect_node(self, "switch_settings_changed")
+	connect_node(self, "switch_side_settings_changed")
 	_update_display(tab_bar.current_tab)
 
 
