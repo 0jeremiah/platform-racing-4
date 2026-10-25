@@ -5,7 +5,7 @@
 		"comment": "A lightbreaker that grants you the power to fly like, well, a firefly. At least until you bump into something.",
 		"matter_type": "gas",
 		"block_type": "lightbreaker",
-		"area": {"type": "lightbreaker", "params": {"lightbreak_type": "sun"}},
+		"area": {"type": "lightbreaker", "params": {"lightbreaker_type": "sun"}},
 		"light_color": "da1500"
 	},
 	"image": {

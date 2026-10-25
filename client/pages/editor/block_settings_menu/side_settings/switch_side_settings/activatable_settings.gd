@@ -32,12 +32,12 @@ func _ready() -> void:
 	activatable_settings_container.resized.connect(_change_size)
 
 
-func init(new_side_settings: Dictionary) -> void:
-	if new_side_settings.has("settings"):
-		activatable_settings_array = new_side_settings.settings
+func init(new_activatable_settings: Dictionary) -> void:
+	if new_activatable_settings.has("settings"):
+		activatable_settings_array = new_activatable_settings.settings
 		update_activatable_settings()
-	if new_side_settings.has("side_settings"):
-		activatable_side_settings_array = new_side_settings.side_settings
+	if new_activatable_settings.has("side_settings"):
+		activatable_side_settings_array = new_activatable_settings.side_settings
 		update_activatable_side_settings()
 
 

@@ -69,11 +69,21 @@ func interact_with_incoporeal_tiles(character: Character):
 			tile_map_layer = parent
 			break
 	if tile_map_layer:
-		var coords = tile_map_layer.get_block_position_at_local_position(Vector2(low_area.global_position.x, low_area.global_position.y))
-		if tile_map_layer.get_block(coords).id != "" and !tile_map_layer.is_solid(coords):
+		var coords = Vector2i(tile_map_layer.get_block_position_at_local_position(Vector2(low_area.global_position.x, low_area.global_position.y)))
+		var block_info = tile_map_layer.get_block(coords)
+		var normal := Vector2.ZERO
+		if block_info.node != null:
+			var direction = (character.global_position - block_info.node.global_position).normalized()
+			if abs(direction.x) > abs(direction.y):
+				normal = Vector2(sign(direction.x), 0)
+			else:
+				normal = Vector2(0, sign(direction.y))
+		if block_info.id != "" and !tile_map_layer.is_solid(coords):
+			character.movement.touching_incoporeal_block = true
 			var event_array: Array[String]
 			event_array.append("area")
-			tile_map_layer.trigger_tile_behaviors(character, coords, event_array)
+			tile_map_layer.trigger_tile_behaviors(character, coords, event_array, normal)
+			character.movement.last_touched_incoporeal_block = {"tile_map_layer": tile_map_layer, "coords": coords, "block_id": block_info.id}
 	
 	#if tiles_overlapping.size() == 0:
 		#return

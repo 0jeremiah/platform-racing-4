@@ -49,7 +49,7 @@ var sniper_timer: float = sniper_cooldown
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
-	location = str(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x)) + "," + str(int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+	determine_coords()
 	if location in tile_map_layer.block_dict:
 		if new_id in BlockManager._block_lookup:
 			id = new_id
@@ -82,11 +82,11 @@ func _ready():
 	var parent = get_parent()
 	if parent and parent is ConfigurableTileMapLayer:
 		var is_valid: bool = false
-		coords = Vector2i(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x), int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
-		location = str(coords.x) + "," + str(coords.y)
+		determine_coords()
 		if location in parent.block_dict:
 			tile_map_layer = parent
 			init(parent.block_dict[location].id, parent.block_dict[location].settings)
+			origin_coords = coords
 			name = location
 			is_valid = true
 		if !is_valid:
@@ -194,6 +194,11 @@ func _process(delta: float) -> void:
 	else:
 		block_texture.modulate.a = 1.0
 	block_texture.position = Vector2(((float(Settings.tile_size.x) / 2) * bump_direction.x) * (bump_timer / 0.5), ((float(Settings.tile_size.y) / 2) * bump_direction.y) * (bump_timer / 0.5))
+
+
+func determine_coords():
+	coords = Vector2i(int((position.x - Settings.tile_size_half.x) / Settings.tile_size.x), int((position.y - Settings.tile_size_half.y) / Settings.tile_size.y))
+	location = str(coords.x) + "," + str(coords.y)
 
 
 func get_coords() -> Vector2i:

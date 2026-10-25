@@ -55,6 +55,9 @@ func start_lightbreak(node: Node2D, coords: Vector2i, lightbreak_type: String) -
 # activates a block when touched
 func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, normal: Vector2 = Vector2.ZERO) -> void:
 	var block_info = tile_map_layer.get_block(coords)
+	var current_incoporeal_block = {"tile_map_layer": tile_map_layer, "coords": coords, "block_id": block_info.id}
+	if "movement" not in node or node.movement.last_touched_incoporeal_block == current_incoporeal_block:
+		return
 	var limit_activate_range = params.get("limit_activate_range", false)
 	var activate_range = params.get("activate_range", Vector2i(10, 10))
 	var activate_list = params.get("activate_list", {"settings": [], "side_settings": [], "blocks": []})
@@ -116,7 +119,7 @@ func find_sides(settings: ConfigurableBlockSettings, side_setting: String) -> Ar
 	return found_sides
 
 
-func activate_blocks(block_array: Array, side_setting: String, node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, normal: Vector2 = Vector2.ZERO):
+func activate_blocks(block_array: Array, side_setting: String, node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	var current_block_array = block_array
 	var block_info = tile_map_layer.get_block(coords)
 	if block_info.settings != null:
@@ -126,9 +129,15 @@ func activate_blocks(block_array: Array, side_setting: String, node: Node2D, til
 			current_block_array = block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i(coords - activate_range, (activate_range * 2) + Vector2i(1, 1)).has_point(block.coords))
 		for block in current_block_array:
 			var activatable_block_info = block.tile_map_layer.get_block(block.coords)
-			if activatable_block_info.settings != null:
+			if activatable_block_info.settings != null and activatable_block_info.node != null:
 				var sides = find_sides(activatable_block_info.settings, side_setting)
 				if !sides.is_empty():
+					var normal = Vector2.ZERO
+					var direction = (node.global_position - activatable_block_info.node.global_position).normalized()
+					if abs(direction.x) > abs(direction.y):
+						normal = Vector2(sign(direction.x), 0)
+					else:
+						normal = Vector2(0, sign(direction.y))
 					block.tile_map_layer.trigger_tile_behaviors(node, block.coords, sides, normal)
 
 

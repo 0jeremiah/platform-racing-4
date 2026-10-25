@@ -19,6 +19,8 @@ var size: float = 1
 var last_collision_normal: Vector2 = Vector2(0, 0)
 var attempting_bump: bool = false
 var last_bumped_block: Dictionary = {}
+var touching_incoporeal_block: bool = false
+var last_touched_incoporeal_block: Dictionary = {}
 var swimming: bool = false
 var accel: float = 0.0
 var speedburst_boost: float = 1.0
@@ -54,7 +56,10 @@ func _init(ice_node = null):
 func process(delta: float, character: Character, stats: Stats, gravity: Gravity, super_jump: SuperJump) -> Vector2:
 	if !attempting_bump:
 		last_bumped_block = {}
+	if !touching_incoporeal_block:
+		last_touched_incoporeal_block = {}
 	attempting_bump = false
+	touching_incoporeal_block = false
 	
 	# check if we bumped all the blocks on objective mode
 	if Game.game and !finished:

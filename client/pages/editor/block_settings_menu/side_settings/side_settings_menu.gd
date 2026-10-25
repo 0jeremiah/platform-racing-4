@@ -28,6 +28,8 @@ var dropdown_options: Array = []
 
 
 func _ready() -> void:
+	current_category = sides_dictionary.keys()[0]
+	current_side = sides_dictionary[current_category].keys()[0]
 	for side_setting in side_settings_list.sides_properties:
 		side_settings_list.sides_properties[side_setting].node.set_category(current_category)
 		side_settings_list.sides_properties[side_setting].node.set_side(current_side)
@@ -52,7 +54,7 @@ func init(_block_settings: ConfigurableBlockSettings):
 			side_settings_list.sides_properties[side_setting].node.set_side(current_side)
 		for side in sides:
 			if side in block_settings and block_settings.get(side) is ConfigurableBlockSideSettings:
-				var side_info = block_settings.get(side).get_type()
+				var side_info = block_settings.get(side).get_type().duplicate(true)
 				sides_dictionary[side_settings_category][side].setting = side_info.type
 				sides_dictionary[side_settings_category][side].side_settings = side_info.params
 	populate_options()

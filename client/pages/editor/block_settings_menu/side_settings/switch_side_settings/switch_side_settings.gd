@@ -18,7 +18,7 @@ func _ready() -> void:
 	activatable_settings.activatable_settings_changed.connect(_update_activate_list_settings_and_side_settings)
 	activatable_settings.init({"settings": activate_list.settings, "side_settings": activate_list.side_settings})
 	activatable_block_list_holder.block_list_changed.connect(_update_activate_list_blocks)
-	activatable_block_list_holder.set_block_pattern_size(Vector2(380.0, 120.0))
+	activatable_block_list_holder.set_block_pattern_size(Vector2(380.0, 210.0))
 	activatable_block_list_holder.set_max_blocks(12)
 	activatable_block_list_holder.set_allow_duplicate_blocks(false)
 	activatable_block_list_holder.init(activate_list.blocks)
