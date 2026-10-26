@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://br57x0ycn8uf1" path="res://blocks/block_scene.gd" id="1_1f6pq"]
 [ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="2_1f6pq"]
+[ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://particles/textures/simple_light.png" id="2_aqaxj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d7km5"]
 size = Vector2(128, 64)
@@ -23,6 +24,11 @@ size = Vector2(128, 128)
 
 [node name="BlockScene" type="StaticBody2D" unique_id=1701347136]
 script = ExtResource("1_1f6pq")
+
+[node name="BlockLight" type="PointLight2D" parent="." unique_id=1661714211]
+enabled = false
+energy = 0.5
+texture = ExtResource("2_aqaxj")
 
 [node name="BlockTexture" type="Sprite2D" parent="." unique_id=838241233]
 texture = ExtResource("2_1f6pq")

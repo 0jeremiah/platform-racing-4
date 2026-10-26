@@ -25,7 +25,7 @@ static var TIME = "time"
 static var SAFETY = "safety"
 static var SHATTER = "shatter"
 static var SNIPER = "sniper"
-static var STICKY = "sticky"
+static var STICKY = "stick"
 static var TELEPORT = "teleport"
 static var VANISH = "vanish"
 

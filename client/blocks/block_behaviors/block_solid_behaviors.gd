@@ -281,22 +281,26 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	var push_strength: float = params.get("push_strength", 5000.0)
 	var hitstun_duration: float = params.get("hitstun_duration", 2.5)
 	var hp_sap: int = params.get("hp_sap", 20)
+	var block_info = tile_map_layer.get_block(coords)
+	var touching_mine: bool = false
+	if block_info.node != null and block_info.node.player_is_in_block(true):
+		touching_mine = true
+		# Push the body away
+		var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
+		var direction: Vector2 = body.position - block_position
+		var push_velocity: Vector2 = direction.normalized() * push_strength
+		# Apply velocity based on body type
+		if body is RigidBody2D:
+			var rigid_body := body as RigidBody2D
+			rigid_body.linear_velocity += push_velocity
+		elif "movement" in body and "current_velocity" in body.movement:
+			body.movement.current_velocity += push_velocity
+	# Apply hitstun
+	if "movement" in body and body.movement.has_method("hitstun") and touching_mine:
+		body.movement.hitstun(body, hitstun_duration, hp_sap)
 	# Shatter the tile if it's not impervious
 	TileEffects.explode(tile_map_layer, coords, 10)
 	Jukebox.play_sound("explosion")
-	# Push the body away
-	var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-	var direction: Vector2 = body.position - block_position
-	var push_velocity: Vector2 = direction.normalized() * push_strength
-	# Apply velocity based on body type
-	if body is RigidBody2D:
-		var rigid_body := body as RigidBody2D
-		rigid_body.linear_velocity += push_velocity
-	elif "movement" in body and "current_velocity" in body.movement:
-		body.movement.current_velocity += push_velocity
-	# Apply hitstun
-	if "movement" in body and body.movement.has_method("hitstun"):
-		body.movement.hitstun(body, hitstun_duration, hp_sap)
 
 
 # Pushes the block depending on where the body pushed it

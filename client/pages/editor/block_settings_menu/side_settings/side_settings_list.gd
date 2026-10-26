@@ -33,7 +33,7 @@ extends Control
 	ConfigurableBlockSideSettings.ITEM: {"label": "Item Side Settings", "side_settings": {"item_supply": 1, "infinite": false, "item_list": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}, "node": item_side_settings},
 	ConfigurableBlockSideSettings.LIGHTBREAKER: {"label": "Lightbreaker Side Settings", "side_settings": {"lightbreaker_type": "sun"}, "node": lightbreaker_side_settings},
 	ConfigurableBlockSideSettings.ROTATE: {"label": "Rotate Side Settings", "side_settings": {"rotations": 1, "rotation_speed": 0.025}, "node": rotate_side_settings},
-	ConfigurableBlockSideSettings.STICKY: {"label": "Sticky Side Settings", "side_settings": {"stickiness": 2.5}, "node": sticky_side_settings},
+	ConfigurableBlockSideSettings.STICKY: {"label": "Sticky Side Settings", "side_settings": {"speed_stickiness": 2.5, "jump_stickiness": 10.0}, "node": sticky_side_settings},
 	ConfigurableBlockSideSettings.SWITCH: {"label": "Switch Side Settings", "side_settings": {"activate_list": {"settings": ["gear"], "side_settings": [], "blocks": []}}, "node": switch_side_settings},
 	ConfigurableBlockSideSettings.TIME: {"label": "Time Side Settings", "side_settings": {"seconds": 10.0}, "node": time_side_settings},
 	ConfigurableBlockSideSettings.VANISH: {"label": "Vanish Side Settings", "side_settings": {"fade_duration": 0.3, "fade_cooldown": 2.0}, "node": vanish_side_settings}

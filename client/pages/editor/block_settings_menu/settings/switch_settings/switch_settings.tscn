@@ -6,22 +6,78 @@
 [node name="SwitchSettings" type="Control" unique_id=85125181]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 400.0
-offset_bottom = 70.0
+offset_right = 410.0
+offset_bottom = 320.0
 script = ExtResource("1_fmir7")
+
+[node name="SwitchHelpInformation" type="RichTextLabel" parent="." unique_id=414396371]
+layout_mode = 0
+offset_top = 140.0
+offset_right = 400.0
+offset_bottom = 320.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Activate Offset sets where the activate range will occur, with (0, 0) being where the block is.
+Do note that negative values offsets the activate range up instead of down.
+
+Activate Range determines how far the switch block will look for if \"Limit Activate Range\" is on. (0, 0) will have the switch block only check the exact place the location of the block, offsetted by Activate Offset is."
+
+[node name="ActivateOffsetLabel1" type="RichTextLabel" parent="." unique_id=1470627949]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Activate Offset: {x:"
+vertical_alignment = 1
+
+[node name="ActivateOffsetLabel2" type="RichTextLabel" parent="." unique_id=1042296034]
+layout_mode = 0
+offset_left = 270.0
+offset_right = 300.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = ", y:"
+vertical_alignment = 1
+
+[node name="ActivateOffsetLabel3" type="RichTextLabel" parent="." unique_id=1235114759]
+layout_mode = 0
+offset_left = 390.0
+offset_right = 400.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "}"
+vertical_alignment = 1
+
+[node name="ActivateOffsetXBox" type="LineEdit" parent="." unique_id=1215524281]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 270.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "0"
+script = ExtResource("2_r272n")
+
+[node name="ActivateOffsetYBox" type="LineEdit" parent="." unique_id=821776920]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 390.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "0"
+script = ExtResource("2_r272n")
 
 [node name="LimitActivateRangeCheckBox" type="CheckBox" parent="." unique_id=292354811]
 layout_mode = 0
+offset_top = 40.0
 offset_right = 200.0
-offset_bottom = 30.0
+offset_bottom = 70.0
 theme_override_font_sizes/font_size = 17
 text = "Limit Activate Range"
 
 [node name="ActivateRangeLabel1" type="RichTextLabel" parent="." unique_id=1177158632]
 layout_mode = 0
-offset_top = 40.0
+offset_top = 80.0
 offset_right = 180.0
-offset_bottom = 70.0
+offset_bottom = 110.0
 theme_override_font_sizes/normal_font_size = 20
 text = "Activate Range: {x:"
 vertical_alignment = 1
@@ -29,9 +85,9 @@ vertical_alignment = 1
 [node name="ActivateRangeLabel2" type="RichTextLabel" parent="." unique_id=1107648744]
 layout_mode = 0
 offset_left = 270.0
-offset_top = 40.0
+offset_top = 80.0
 offset_right = 300.0
-offset_bottom = 70.0
+offset_bottom = 110.0
 theme_override_font_sizes/normal_font_size = 20
 text = ", y:"
 vertical_alignment = 1
@@ -39,9 +95,9 @@ vertical_alignment = 1
 [node name="ActivateRangeLabel3" type="RichTextLabel" parent="." unique_id=1417476254]
 layout_mode = 0
 offset_left = 390.0
-offset_top = 40.0
+offset_top = 80.0
 offset_right = 400.0
-offset_bottom = 70.0
+offset_bottom = 110.0
 theme_override_font_sizes/normal_font_size = 20
 text = "}"
 vertical_alignment = 1
@@ -49,9 +105,9 @@ vertical_alignment = 1
 [node name="ActivateRangeXBox" type="LineEdit" parent="." unique_id=1547388016]
 layout_mode = 0
 offset_left = 180.0
-offset_top = 40.0
+offset_top = 80.0
 offset_right = 270.0
-offset_bottom = 70.0
+offset_bottom = 110.0
 theme_override_font_sizes/font_size = 16
 text = "10"
 script = ExtResource("2_r272n")
@@ -59,9 +115,9 @@ script = ExtResource("2_r272n")
 [node name="ActivateRangeYBox" type="LineEdit" parent="." unique_id=1123106779]
 layout_mode = 0
 offset_left = 300.0
-offset_top = 40.0
+offset_top = 80.0
 offset_right = 390.0
-offset_bottom = 70.0
+offset_bottom = 110.0
 theme_override_font_sizes/font_size = 16
 text = "10"
 script = ExtResource("2_r272n")

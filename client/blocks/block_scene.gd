@@ -1,6 +1,7 @@
 extends StaticBody2D
 class_name BlockScene
 
+@onready var block_light = $BlockLight
 @onready var block_texture = $BlockTexture
 @onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
 @onready var dull_square_graphic = $BlockTexture/TeleportColorinTexture/DullSquareGraphic
@@ -74,6 +75,8 @@ func init(new_id: String, new_settings: ConfigurableBlockSettings):
 			set_block_texture()
 			if (settings.block_type == ConfigurableBlockSettings.CHANGE or is_change_block) and register_change_block:
 				is_change_block = true
+			block_light.color = settings.light_color
+			block_light.enabled = settings.block_type == ConfigurableBlockSettings.LIGHTBREAKER
 	else:
 		queue_free()
 
@@ -368,9 +371,11 @@ func snipe():
 
 func player_is_in_block(check_collision: bool = false) -> bool:
 	if check_collision:
-		var collision = move_and_collide(Vector2(0.0, 0.0), true)
-		if collision and collision.get_collider() is Character:
-			return true
+		var character = Game.game.player_manager.get_character()
+		if character:
+			var collision = character.get_last_slide_collision()
+			if collision and collision.get_collider() == self:
+				return true
 	var overlapping_bodies = block_detection_area.get_overlapping_bodies()
 	for overlapping_body in overlapping_bodies:
 		if overlapping_body is Character:

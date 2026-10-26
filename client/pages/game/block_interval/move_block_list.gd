@@ -79,6 +79,8 @@ func assign_move_commands() -> void:
 		for block_info in block_array:
 			var block_node = block_info.tile_map_layer.get_block(block_info.coords).node
 			if block_node:
+				if max_rand_index <= -1 and block_node.random_move_pattern.length() > 0:
+					max_rand_index = block_node.random_move_pattern.length() - 1
 				if loc_1 == "*":
 					loc_14 = block_node.random_move_pattern[rand_index]
 					block_node.assign_move_block_command(loc_14)

@@ -36,6 +36,7 @@ static var default_block_properties: Dictionary = {
 	"gear_rotation": 90.0,
 	"gear_tick": 4000.0,
 	"gear_tock": 500.0,
+	"activate_offset": {"x": 0, "y": 0},
 	"limit_activate_range": false,
 	"activate_range": {"x": 10, "y": 10},
 	"teleport_color": "FF7F50",
@@ -76,6 +77,7 @@ var stat_supply = default_block_properties.stat_supply
 var gear_rotation = default_block_properties.gear_rotation
 var gear_tick = default_block_properties.gear_tick
 var gear_tock = default_block_properties.gear_tock
+var activate_offset = default_block_properties.activate_offset
 var limit_activate_range = default_block_properties.limit_activate_range
 var activate_range = default_block_properties.activate_range
 var teleport_color: String = default_block_properties.teleport_color
