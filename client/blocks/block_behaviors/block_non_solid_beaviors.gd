@@ -28,13 +28,13 @@ func lightbreaker(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords
 	if node.control_vector.length() == 0:
 		node.lightbreak.input_primed = true
 	if node.control_vector.length() != 0 and node.lightbreak.input_primed:
-		start_lightbreak(node, coords, params.get("lightbreak_type", "firefly"))
+		start_lightbreak(node, coords, params.get("lightbreaker_type", "firefly"))
 		return
 	
 	# at the light timeout, either go in the direction that is being pressed or drop out
 	if node.lightbreak.windup >= 1:
 		if node.control_vector.length() != 0:
-			start_lightbreak(node, coords, params.get("lightbreak_type", "firefly"))
+			start_lightbreak(node, coords, params.get("lightbreaker_type", "firefly"))
 		else:
 			node.lightbreak.end_lightbreak()
 			node.lightbreak.src_tile = coords
@@ -111,7 +111,7 @@ func activate_gears(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coo
 	for gear_block in gear_blocks:
 		var activatable_block_info = tile_map_layer.get_block(gear_block.coords)
 		if activatable_block_info.settings != null and activatable_block_info.settings.block_type == ConfigurableBlockSettings.GEAR and tile_map_layer.get_parent() is RotationController:
-			tile_map_layer.get_parent().enabled = true
+			tile_map_layer.get_parent().enabled_temp = true
 
 
 func find_sides(settings: ConfigurableBlockSettings, side_setting: String) -> Array[String]:

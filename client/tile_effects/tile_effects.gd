@@ -9,17 +9,20 @@ const VANISH_EFFECT = preload("res://tile_effects/vanish_effect/vanish_effect.ts
 const COIN_EFFECT = preload("res://effects/coin/coin_effect.tscn")
 
 
-static func shatter(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int):
+static func shatter(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int, ignore_impervious: bool = false):
 	#var block_id = tile_map_layer.get_block(coords).id
-	var coins = tile_map_layer.get_block(coords).settings.coin_value
-	var spawn_location = Vector2(Vector2i(coords * Settings.tile_size)).rotated(deg_to_rad(tile_map_layer.get_map_rotation()))
-	crumble(tile_map_layer, coords, pieces)
-	tile_map_layer.delete_block(coords)
-	if Game.game and Game.game.level_manager.level_type == LevelManager.coin_fiend and coins > 0:
-		for coin in coins:
-			var coin_effect = COIN_EFFECT.instantiate()
-			coin_effect.global_position = tile_map_layer.map_to_local(coords) + tile_map_layer.map_layer.position
-			tile_map_layer.map_layer.effects.add_child(coin_effect)
+	var block_info = tile_map_layer.get_block(coords)
+	if !block_info.settings:
+		return
+	if block_info.settings.block_type != ConfigurableBlockSettings.IMPERVIOUS or ignore_impervious:
+		#var spawn_location = Vector2(Vector2i(coords * Settings.tile_size)).rotated(deg_to_rad(tile_map_layer.get_map_rotation()))
+		crumble(tile_map_layer, coords, pieces)
+		tile_map_layer.delete_block(coords)
+		if Game.game and Game.game.level_manager.level_type == LevelManager.coin_fiend and block_info.settings.coin_value > 0:
+			for coin in block_info.settings.coin_value:
+				var coin_effect = COIN_EFFECT.instantiate()
+				coin_effect.global_position = tile_map_layer.map_to_local(coords) + tile_map_layer.map_layer.position
+				tile_map_layer.map_layer.effects.add_child(coin_effect)
 
 
 static func crumble(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int):
@@ -34,7 +37,6 @@ static func crumble(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, 
 
 
 static func explode(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pieces: int):
-	var coins = tile_map_layer.get_block(coords).settings.coin_value
 	var block_settings = tile_map_layer.get_block(coords).settings
 	if !block_settings:
 		return
@@ -44,11 +46,6 @@ static func explode(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, 
 	explode_effect.position = Vector2(Vector2i(coords * Settings.tile_size)).rotated(deg_to_rad(tile_map_layer.get_map_rotation()))
 	explode_effect.rotation = tile_map_layer.map_layer.rotation
 	tile_map_layer.map_layer.effects.add_child(explode_effect)
-	if Game.game and Game.game.level_manager.level_type == LevelManager.coin_fiend and coins > 0:
-		for coin in coins:
-			var coin_effect = COIN_EFFECT.instantiate()
-			coin_effect.global_position = tile_map_layer.map_to_local(coords) + tile_map_layer.map_layer.position
-			tile_map_layer.map_layer.effects.add_child(coin_effect)
 
 
 static func spawn(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, block_id: String):

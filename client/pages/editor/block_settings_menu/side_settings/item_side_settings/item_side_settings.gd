@@ -58,5 +58,7 @@ func update_item_list() -> void:
 func set_side_settings(new_side_settings: Dictionary) -> void:
 	if new_side_settings.has("item_array"):
 		item_array = new_side_settings.item_array
+		for item in item_array.size():
+			item_array[item] = int(item_array[item])
 		update_item_list()
 	side_settings = {"item_array": item_array}

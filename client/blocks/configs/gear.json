@@ -15,8 +15,10 @@
 		"health": 100.0,
 		"coin_value": 3,
 		"gear_rotation": 90.0,
-		"gear_tick": 4000.0,
-		"gear_tock": 500.0
+		"gear_tick_seconds": 4.0,
+		"gear_tock_seconds": 0.5,
+		"gear_inertia": 0.93,
+		"gear_auto_rotation": true
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

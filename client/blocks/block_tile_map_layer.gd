@@ -362,26 +362,25 @@ func spawn_gears():
 		var coord_list = get_all_block_coords_by_id(gear)
 		for coords in coord_list:
 			if get_block(coords).id != "":
-				var gear_tick = ConfigurableBlockSettings.default_block_properties.gear_tick
-				var gear_tock = ConfigurableBlockSettings.default_block_properties.gear_tock
-				var gear_settings = get_block_settings_info(coords)
-				if gear_settings.edited_settings.has("gear_tick"):
-					gear_tick = gear_settings.edited_settings.gear_tick
-				elif gear_settings.settings.has("gear_tick"):
-					gear_tick = gear_settings.settings.gear_tick
-				if gear_settings.edited_settings.has("gear_tock"):
-					gear_tock = gear_settings.edited_settings.gear_tock
-				elif gear_settings.settings.has("gear_tick"):
-					gear_tock = gear_settings.settings.gear_tock
+				var gear_info = get_block(coords)
+				var gear_settings_info = {"settings": gear_info.settings.get_settings(), "edited_settings": gear_info.settings.get_edited_settings()}
+				var gear_rotation = gear_info.settings.gear_rotation
+				var gear_tick_seconds = gear_info.settings.gear_tick_seconds
+				var gear_tock_seconds = gear_info.settings.gear_tock_seconds
+				var gear_inertia = gear_info.settings.gear_inertia
+				var gear_auto_rotation = gear_info.settings.gear_auto_rotation
 				delete_block(coords)
 				gear_counter += 1
 				# Create rotation controller
 				var rotation_controller = RotationController.new()
 				rotation_controller.pivot_offset = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-				rotation_controller.rotation = rotation
-				rotation_controller.target_rotation = rotation
-				rotation_controller.tick_ms = gear_tick
-				rotation_controller.tock_ms = gear_tock
+				rotation_controller.rotation_degrees = rotation_degrees
+				rotation_controller.target_rotation_degrees = rotation_degrees
+				rotation_controller.per_rotation = gear_rotation
+				rotation_controller.tick_seconds = gear_tick_seconds
+				rotation_controller.tock_seconds = gear_tock_seconds
+				rotation_controller.inertia = gear_inertia
+				rotation_controller.enabled = gear_auto_rotation
 				rotation_controller.name = "GearTile" + str(gear_counter)
 				non_static_tile_map_layers.add_child(rotation_controller)
 				# Create sub tile_map_layer
@@ -389,7 +388,7 @@ func spawn_gears():
 				sub_tile_map_layer.tile_set = BlockManager._tile_set
 				sub_tile_map_layer.map_layer = map_layer
 				sub_tile_map_layer.name = "gear_" + str(coords) + "_configurable_tile_map_layer"
-				sub_tile_map_layer.add_block(coords, gear, gear_settings)
+				sub_tile_map_layer.add_block(coords, gear, gear_settings_info)
 				sub_tile_map_layer.use_kinematic_bodies = true
 				sub_tile_map_layer.physics_quadrant_size = 1
 				rotation_controller.add_child(sub_tile_map_layer)

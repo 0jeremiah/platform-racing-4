@@ -2,10 +2,12 @@ extends Control
 class_name RotationController
 
 var rotation_velocity: float = 0.0
-var tick_ms: float = 4000.0 # rotate 90 degrees every 4.5 seconds
-var tock_ms: float = 500.0
-var elapsed_ms: float = 0.0
-var target_rotation: float = 0.0
+var tick_seconds: float = 4.0
+var tock_seconds: float = 0.5
+var elapsed_time: float = 0.0
+var per_rotation: float = 90.0
+var inertia: float = 0.93
+var target_rotation_degrees: float = 0.0
 var tick = 'tock'
 var enabled = true
 var enabled_temp = false # set to true to kick off only one rotation
@@ -14,24 +16,24 @@ var init_timer: float = 0.2
 
 func _physics_process(delta: float):
 	# rotate!
-	elapsed_ms += delta * 1000
+	elapsed_time += delta
 	
 	if (enabled || enabled_temp):
-		if tick == 'tick' && elapsed_ms > tock_ms:
-			elapsed_ms = 0
-			target_rotation += (PI / 2) + (PI / 20)
+		if tick == 'tick' && elapsed_time > tock_seconds:
+			elapsed_time = 0.0
+			target_rotation_degrees += per_rotation + inertia
 			tick = 'tock'
-		if tick == 'tock' && elapsed_ms > tick_ms:
-			elapsed_ms = 0
+		if tick == 'tock' && elapsed_time > tick_seconds:
+			elapsed_time = 0.0
 			tick = 'tick'
-			target_rotation -= PI / 20
+			target_rotation_degrees -= inertia
 	
-	if enabled_temp && elapsed_ms >= tick_ms * 0.75:
+	if enabled_temp && elapsed_time >= tick_seconds * 0.75:
 		enabled_temp = false
 		
-	rotation_velocity += (target_rotation - rotation) / 5
-	rotation_velocity = rotation_velocity * 0.93
-	rotation += rotation_velocity * delta
+	rotation_velocity += (target_rotation_degrees - rotation_degrees) / 5
+	rotation_velocity = rotation_velocity * inertia
+	rotation_degrees += rotation_velocity * delta
 	
 	# this is needed to let the tile_map_layer know something has changed and it needs to update
 	#for child in get_children():

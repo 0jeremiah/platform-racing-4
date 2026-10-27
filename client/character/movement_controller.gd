@@ -194,7 +194,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	if not_rotating and jumped:
 		var current_jump_velocity = GameConfig.get_value("player_movement", "player_jump_velocity")
 		if on_sticky_block:
-			current_jump_velocity = current_jump_velocity / jump_stickiness
+			current_jump_velocity = current_jump_velocity if jump_stickiness == 0.0 else current_jump_velocity / jump_stickiness
 		current_velocity += Vector2(0, current_jump_velocity).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_movement", "player_coyote_jump_time"))
 		jump_timer -= 1
 		if jump_timer <= 0:
@@ -240,7 +240,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		
 		var current_speed = GameConfig.get_value("player_movement", "player_speed")
 		if on_sticky_block:
-			current_speed = GameConfig.get_value("player_movement", "player_speed") / speed_stickiness
+			current_speed = current_speed if speed_stickiness == 0.0 else GameConfig.get_value("player_movement", "player_speed") / speed_stickiness
 		on_sticky_block = false
 		
 		var target_velocity = Vector2(horizontal_axis * (current_speed * speedburst_boost) * stats.get_speed_bonus(), 

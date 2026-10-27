@@ -34,8 +34,10 @@ static var default_block_properties: Dictionary = {
 	"infinite_stats": false,
 	"stat_supply": 1,
 	"gear_rotation": 90.0,
-	"gear_tick": 4000.0,
-	"gear_tock": 500.0,
+	"gear_tick_seconds": 4.0,
+	"gear_tock_seconds": 0.5,
+	"gear_inertia": 9.0,
+	"gear_auto_rotation": true,
 	"activate_offset": {"x": 0, "y": 0},
 	"limit_activate_range": false,
 	"activate_range": {"x": 10, "y": 10},
@@ -75,8 +77,10 @@ var item_supply = default_block_properties.item_supply
 var infinite_stats = default_block_properties.infinite_stats
 var stat_supply = default_block_properties.stat_supply
 var gear_rotation = default_block_properties.gear_rotation
-var gear_tick = default_block_properties.gear_tick
-var gear_tock = default_block_properties.gear_tock
+var gear_tick_seconds = default_block_properties.gear_tick_seconds
+var gear_tock_seconds = default_block_properties.gear_tock_seconds
+var gear_inertia = default_block_properties.gear_inertia
+var gear_auto_rotation = default_block_properties.gear_auto_rotation
 var activate_offset = default_block_properties.activate_offset
 var limit_activate_range = default_block_properties.limit_activate_range
 var activate_range = default_block_properties.activate_range
@@ -282,8 +286,10 @@ func remove_unused_settings(current_settings: Dictionary) -> Dictionary:
 		current_settings.erase("stat_supply")
 	if block_type != ConfigurableBlockSettings.GEAR:
 		current_settings.erase("gear_rotation")
-		current_settings.erase("gear_tick")
-		current_settings.erase("gear_tock")
+		current_settings.erase("gear_tick_seconds")
+		current_settings.erase("gear_tock_seconds")
+		current_settings.erase("gear_inertia")
+		current_settings.erase("gear_auto_rotation")
 	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		current_settings.erase("teleport_color")
 		current_settings.erase("teleport_throttle")

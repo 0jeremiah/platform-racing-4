@@ -178,7 +178,7 @@ func crumble(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vec
 		block_info.settings.health -= damage
 		if block_info.settings.health - damage <= 0:
 			block_info.settings.health = 0
-			TileEffects.shatter(tile_map_layer, coords, 10)
+			TileEffects.shatter(tile_map_layer, coords, 10, true)
 			Jukebox.play_sound("shatterblock")
 		else:
 			block_info.settings.health -= damage

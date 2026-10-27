@@ -2,12 +2,12 @@
 	"id": "35",
 	"settings": {
 		"title": "Presence Switch",
-		"comment": "Just walk into this block, and any gear in the level will move automatically! Wow!",
+		"comment": "Walking into this magical block will hit every brick, crumble, and mine blocks within a 10 block radius.",
 		"matter_type": "gas",
 		"block_type": "switch",
-		"area": {"type": "switch", "params": {"activate_list": {"settings": ["gear"], "side_settings": [], "blocks": []}}},
+		"area": {"type": "switch", "params": {"activate_list": {"settings": [], "side_settings": ["shatter", "crumble", "mine"], "blocks": []}}},
 		"activate_offset": {"x": 0, "y": 0},
-		"limit_activate_range": false,
+		"limit_activate_range": true,
 		"activate_range": {"x": 10, "y": 10}
 	},
 	"image": {

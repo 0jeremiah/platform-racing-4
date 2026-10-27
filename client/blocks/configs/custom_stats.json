@@ -14,6 +14,7 @@
 		"any_side": {"type": "active", "params": {}},
 		"health": 100.0,
 		"coin_value": 3,
+		"infinite_stats": false,
 		"stat_supply": 1
 	},
 	"image": {
