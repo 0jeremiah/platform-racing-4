@@ -21,17 +21,17 @@ func _physics_process(delta: float):
 	if (enabled || enabled_temp):
 		if tick == 'tick' && elapsed_time > tock_seconds:
 			elapsed_time = 0.0
-			target_rotation_degrees += per_rotation + inertia
+			target_rotation_degrees += 0.0 if per_rotation == 0.0 else per_rotation + ((per_rotation / 20) * inertia)
 			tick = 'tock'
 		if tick == 'tock' && elapsed_time > tick_seconds:
 			elapsed_time = 0.0
 			tick = 'tick'
-			target_rotation_degrees -= inertia
+			target_rotation_degrees -= 0.0 if per_rotation == 0.0 else ((per_rotation / 20) * inertia)
 	
 	if enabled_temp && elapsed_time >= tick_seconds * 0.75:
 		enabled_temp = false
 		
-	rotation_velocity += (target_rotation_degrees - rotation_degrees) / 5
+	rotation_velocity += (target_rotation_degrees - rotation_degrees)
 	rotation_velocity = rotation_velocity * inertia
 	rotation_degrees += rotation_velocity * delta
 	

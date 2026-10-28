@@ -22,7 +22,7 @@ func _ready() -> void:
 	gear_tick_seconds_box.return_line.connect(_change_gear_tick_seconds)
 	gear_tock_seconds_box.init("float", str(gear_tock_seconds), 0.0, 99999999.9)
 	gear_tock_seconds_box.return_line.connect(_change_gear_tock_seconds)
-	gear_inertia_box.init("float", str(gear_inertia), 0.0, 99999999.9)
+	gear_inertia_box.init("float", str(gear_inertia), 0.0, 1.0)
 	gear_inertia_box.return_line.connect(_change_gear_inertia)
 	gear_auto_rotation_check_box.pressed.connect(_toggle_gear_auto_rotation)
 	connect_node(self, "gear_settings_changed")

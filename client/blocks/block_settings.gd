@@ -36,7 +36,7 @@ static var default_block_properties: Dictionary = {
 	"gear_rotation": 90.0,
 	"gear_tick_seconds": 4.0,
 	"gear_tock_seconds": 0.5,
-	"gear_inertia": 9.0,
+	"gear_inertia": 0.93,
 	"gear_auto_rotation": true,
 	"activate_offset": {"x": 0, "y": 0},
 	"limit_activate_range": false,
