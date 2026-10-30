@@ -113,12 +113,7 @@ func _set_level_type(new_index: int):
 
 
 func _set_time(new_time: int):
-	if time != 0 and time >= 3:
-		time = new_time
-	elif time == 0:
-		time = 0
-	else:
-		time = 3
+	time = new_time
 	emit_signal("control_event", {
 		"type": EditorEvents.SET_TIME,
 		"time": time

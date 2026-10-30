@@ -29,6 +29,7 @@ var mode : String = "idle"
 var old_position : Vector2
 var old_scale : Vector2
 var old_mouse_position : Vector2
+var current_layer = null
 
 
 #set_object_info({"delete": true, "resize": false, "options": true, "text": false}, {"type": "block",
@@ -53,6 +54,24 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	var layer_scale = 1.0
+	var layer_rotation = 0.0
+	var layer_pivot = Vector2(0.0, 0.0)
+	var layer_depth = 1.0
+	if current_layer and (current_layer is MapLayer or current_layer is ArtLayer):
+		if current_layer is MapLayer:
+			layer_scale = current_layer.get_layer_scale()
+			layer_rotation = current_layer.tile_map_rotation
+			layer_pivot = current_layer.anchor
+		elif current_layer is ArtLayer:
+			layer_scale = current_layer.get_layer_scale()
+			layer_rotation = current_layer.art_rotation
+			layer_pivot = current_layer.anchor
+			layer_depth = current_layer.get_layer_depth()
+	offset_transform_position = Vector2(position.x - (position.x * layer_depth), position.y - (position.y * layer_depth))
+	offset_transform_scale = Vector2(layer_scale, layer_scale)
+	offset_transform_rotation = object_info.rotation + layer_rotation
+	offset_transform_pivot = layer_pivot
 	var camera = get_viewport().get_camera_2d()
 	if camera:
 		gui_touchbox.size = get_viewport().get_visible_rect().size / camera.zoom
@@ -90,33 +109,7 @@ func _physics_process(_delta: float) -> void:
 		elif mode == "text" and edit_text.has_focus():
 			edit_text.size = Vector2(0, 0)
 		else:
-			if mode == "move":
-				emit_signal("object_moved", object_info)
-			elif mode == "resize":
-				emit_signal("object_resized", object_info)
-			elif mode == "text":
-				if edit_text.text == null or edit_text.text == "":
-					delete_object()
-				else:
-					_change_object_text(edit_text.text)
-			mode = "idle"
-			edit_text.visible = false
-			edit_text_color_rect.visible = false
-			edit_text_rect.visible = false
-			select_rect.visible = true
-			buttons.visible = true
-			position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
-			move_button.position = Vector2.ZERO
-			rotation_degrees = object_info.rotation
-			if object_info.node:
-				object_info.node.visible = true
-				object_info.node.self_modulate.a = 1
-			if object_info.type == "stamp" or object_info.type == "text":
-				move_button.visible = true
-			else:
-				move_button.visible = false
-			if !check_focus():
-				close()
+			update_object_box()
 		update_display()
 		process_buttons()
 		visible = true
@@ -307,8 +300,47 @@ func edit_object_text():
 func _change_object_text(new_text: String):
 	if object_info.node != null and object_info.type == "text" and object_info.text != null and "text_box" in object_info.node:
 		object_info.text = new_text
-		object_info.node.set_text_string(object_info.text)
 		emit_signal("object_text_edited", object_info)
+		object_info.node.visible = true
+		object_info = {"type": "", "node": null, "position": Vector2(0, 0), "rotation": 0, "offset": Vector2(0, 0),
+		"size": Vector2(0, 0), "scale": Vector2(0, 0), "text": null, "info": null}
+		extra_object_info = {}
+		mode = "idle"
+
+
+func maybe_update_object_text():
+	if object_info.node != null and object_info.type == "text" and object_info.text != null and "text_box" in object_info.node:
+		if edit_text.text == null or edit_text.text == "":
+			delete_object()
+		else:
+			_change_object_text(edit_text.text)
+
+
+func update_object_box():
+	if mode == "move":
+		emit_signal("object_moved", object_info)
+	elif mode == "resize":
+		emit_signal("object_resized", object_info)
+	elif mode == "text":
+		maybe_update_object_text()
+	mode = "idle"
+	edit_text.visible = false
+	edit_text_color_rect.visible = false
+	edit_text_rect.visible = false
+	select_rect.visible = true
+	buttons.visible = true
+	position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
+	move_button.position = Vector2.ZERO
+	rotation_degrees = object_info.rotation
+	if object_info.node:
+		object_info.node.visible = true
+		object_info.node.self_modulate.a = 1
+	if object_info.type == "stamp" or object_info.type == "text":
+		move_button.visible = true
+	else:
+		move_button.visible = false
+	if !check_focus():
+		close()
 
 
 func close():

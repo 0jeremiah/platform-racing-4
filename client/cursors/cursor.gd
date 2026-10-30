@@ -104,6 +104,10 @@ func _physics_process(_delta):
 
 func _on_control_event(event: Dictionary) -> void:
 	if active:
+		var object_box = editor_menu.current_editor.object_box
+		if object_box:
+			object_box.update_object_box()
+			object_box.close()
 		if event.type == EditorEvents.SELECT_BLOCK:
 			if current_cursor:
 				current_cursor.deactivate()

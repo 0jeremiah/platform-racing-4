@@ -45,3 +45,9 @@ func is_enabled(switch: bool):
 	else:
 		color_button.self_modulate = Color(0.5, 0.5, 0.5, 0.75)
 		colorin.self_modulate = Color(color.r / 2, color.b / 2, color.g / 2, 0.75)
+
+
+func set_color_button_scale(new_color_button_scale: Vector2):
+	color_button.scale = new_color_button_scale
+	size = color_button.size * color_button.scale
+	

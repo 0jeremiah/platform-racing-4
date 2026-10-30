@@ -8,6 +8,7 @@ var light_color: Color = Color(ConfigurableBlockSettings.default_block_propertie
 
 
 func _ready() -> void:
+	light_color_button.set_color_button_scale(Vector2(0.625, 0.625))
 	light_color_button.set_color(light_color)
 	light_color_button.colorbutton_color_changed.connect(_change_light_color)
 	connect_node(self, "lightbreaker_settings_changed")

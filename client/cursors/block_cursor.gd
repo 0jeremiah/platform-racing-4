@@ -50,8 +50,10 @@ func _process(_delta):
 					teleport_colorin.texture = BlockManager.get_block_teleport_texture(current_block_id)
 					teleport_colorin.self_modulate = current_block_settings.teleport_color
 					teleport_colorin.visible = true
+			update_display()
 	else:
 		visible = false
+	update_display()
 
 
 func init(_level_layers, _cursor_parent) -> void:
@@ -173,3 +175,20 @@ func on_mouse_up():
 				"info": level_layers.get_target_map_layer()})
 			grabbed_block_id = ""
 			grabbed_block_settings = null
+
+
+func update_display():
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	var camera_zoom = camera.zoom.x
+	if "camera_zoom" in camera:
+		camera_zoom = camera.camera_zoom
+	var layer_scale = 1.0
+	var layer_rotation = 0.0
+	var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+	if layer:
+		layer_scale = layer.get_layer_scale()
+		layer_rotation = layer.tile_map_rotation
+	eraser_icon.rotation_degrees = layer_rotation
+	eraser_icon.scale = Vector2(layer_scale * camera_zoom, layer_scale * camera_zoom)
+	block_icon.rotation_degrees = layer_rotation
+	block_icon.scale = Vector2(layer_scale * camera_zoom, layer_scale * camera_zoom)

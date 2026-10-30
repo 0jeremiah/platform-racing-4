@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cquvlgbewa40m"]
+[gd_scene format=3 uid="uid://cquvlgbewa40m"]
 
 [ext_resource type="Texture2D" uid="uid://bt4xcg0kmdd1r" path="res://engine/objectbox/small_delete_button.png" id="1_14r6m"]
 [ext_resource type="Script" uid="uid://dffvlg4vvbhgr" path="res://engine/objectbox/objectbox.gd" id="1_ky0a1"]
@@ -13,20 +13,22 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bw2f"]
 bg_color = Color(1, 1, 1, 0)
 
-[node name="ObjectBox" type="Control"]
+[node name="ObjectBox" type="Control" unique_id=1633979911]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
 offset_bottom = 64.0
+offset_transform_enabled = true
+offset_transform_visual_only = false
 focus_mode = 1
 script = ExtResource("1_ky0a1")
 
-[node name="GUITouchbox" type="Control" parent="."]
+[node name="GUITouchbox" type="Control" parent="." unique_id=1597934404]
 anchors_preset = 0
 offset_right = 3.0
 offset_bottom = 3.0
 
-[node name="SelectRect" type="ReferenceRect" parent="."]
+[node name="SelectRect" type="ReferenceRect" parent="." unique_id=1584531536]
 z_as_relative = false
 layout_mode = 0
 offset_right = 64.0
@@ -36,7 +38,7 @@ border_color = Color(1, 1, 1, 1)
 border_width = 3.0
 editor_only = false
 
-[node name="MoveButton" type="Button" parent="."]
+[node name="MoveButton" type="Button" parent="." unique_id=622388927]
 modulate = Color(1, 1, 1, 0)
 z_as_relative = false
 layout_mode = 0
@@ -45,13 +47,13 @@ offset_bottom = 64.0
 focus_mode = 1
 flat = true
 
-[node name="EditTextColorRect" type="ColorRect" parent="."]
+[node name="EditTextColorRect" type="ColorRect" parent="." unique_id=912428108]
 visible = false
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 
-[node name="EditTextRect" type="ReferenceRect" parent="."]
+[node name="EditTextRect" type="ReferenceRect" parent="." unique_id=279669502]
 visible = false
 layout_mode = 0
 offset_right = 64.0
@@ -59,7 +61,7 @@ offset_bottom = 64.0
 border_color = Color(0, 0, 0, 1)
 editor_only = false
 
-[node name="EditText" type="TextEdit" parent="."]
+[node name="EditText" type="TextEdit" parent="." unique_id=1314257979]
 visible = false
 layout_mode = 0
 offset_right = 76.0
@@ -70,10 +72,10 @@ text = "Example"
 scroll_fit_content_height = true
 scroll_fit_content_width = true
 
-[node name="Buttons" type="Control" parent="."]
+[node name="Buttons" type="Control" parent="." unique_id=1304718940]
 anchors_preset = 0
 
-[node name="DeleteButton" type="Control" parent="Buttons"]
+[node name="DeleteButton" type="Control" parent="Buttons" unique_id=83326457]
 anchors_preset = 0
 offset_left = -12.0
 offset_top = 52.0
@@ -81,14 +83,14 @@ offset_right = 12.0
 offset_bottom = 76.0
 pivot_offset = Vector2(12, 12)
 
-[node name="LargeColorRect" type="ColorRect" parent="Buttons/DeleteButton"]
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/DeleteButton" unique_id=863402584]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 pivot_offset = Vector2(12, 12)
 color = Color(0.49747366, 0.49747366, 0.49747366, 1)
 
-[node name="SmallColorRect" type="ColorRect" parent="Buttons/DeleteButton"]
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/DeleteButton" unique_id=1340617740]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -96,7 +98,7 @@ offset_right = 23.0
 offset_bottom = 23.0
 pivot_offset = Vector2(12, 12)
 
-[node name="SmallTexture" type="TextureRect" parent="Buttons/DeleteButton"]
+[node name="SmallTexture" type="TextureRect" parent="Buttons/DeleteButton" unique_id=1663489039]
 self_modulate = Color(1, 0.29411766, 0, 1)
 layout_mode = 0
 offset_right = 24.0
@@ -105,7 +107,7 @@ texture = ExtResource("1_14r6m")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="LargeTexture" type="TextureRect" parent="Buttons/DeleteButton"]
+[node name="LargeTexture" type="TextureRect" parent="Buttons/DeleteButton" unique_id=694115594]
 visible = false
 self_modulate = Color(1, 0.29411766, 0, 1)
 layout_mode = 0
@@ -115,7 +117,7 @@ texture = ExtResource("4_e8620")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="Button" type="Button" parent="Buttons/DeleteButton"]
+[node name="Button" type="Button" parent="Buttons/DeleteButton" unique_id=1770723231]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
@@ -124,7 +126,7 @@ tooltip_text = "Remove this object from existence."
 focus_mode = 1
 flat = true
 
-[node name="ResizeButton" type="Control" parent="Buttons"]
+[node name="ResizeButton" type="Control" parent="Buttons" unique_id=1051910545]
 anchors_preset = 0
 offset_left = 52.0
 offset_top = 52.0
@@ -132,14 +134,14 @@ offset_right = 76.0
 offset_bottom = 76.0
 pivot_offset = Vector2(12, 12)
 
-[node name="LargeColorRect" type="ColorRect" parent="Buttons/ResizeButton"]
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/ResizeButton" unique_id=1259137158]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 pivot_offset = Vector2(12, 12)
 color = Color(0.49747366, 0.49747366, 0.49747366, 1)
 
-[node name="SmallColorRect" type="ColorRect" parent="Buttons/ResizeButton"]
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/ResizeButton" unique_id=558525903]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -147,7 +149,7 @@ offset_right = 23.0
 offset_bottom = 23.0
 pivot_offset = Vector2(12, 12)
 
-[node name="SmallTexture" type="TextureRect" parent="Buttons/ResizeButton"]
+[node name="SmallTexture" type="TextureRect" parent="Buttons/ResizeButton" unique_id=1454320402]
 self_modulate = Color(0.12156863, 0.8117647, 0.12156863, 1)
 layout_mode = 0
 offset_right = 24.0
@@ -156,7 +158,7 @@ texture = ExtResource("4_2axcb")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="LargeTexture" type="TextureRect" parent="Buttons/ResizeButton"]
+[node name="LargeTexture" type="TextureRect" parent="Buttons/ResizeButton" unique_id=752254015]
 visible = false
 self_modulate = Color(0.12156863, 0.8117647, 0.12156863, 1)
 layout_mode = 0
@@ -166,7 +168,7 @@ texture = ExtResource("6_pcg64")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="Button" type="Button" parent="Buttons/ResizeButton"]
+[node name="Button" type="Button" parent="Buttons/ResizeButton" unique_id=2032548986]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
@@ -175,7 +177,7 @@ tooltip_text = "Resize the object to your desired size."
 focus_mode = 1
 flat = true
 
-[node name="OptionsButton" type="Control" parent="Buttons"]
+[node name="OptionsButton" type="Control" parent="Buttons" unique_id=1514450743]
 anchors_preset = 0
 offset_left = 52.0
 offset_top = -12.0
@@ -183,14 +185,14 @@ offset_right = 76.0
 offset_bottom = 12.0
 pivot_offset = Vector2(12, 12)
 
-[node name="LargeColorRect" type="ColorRect" parent="Buttons/OptionsButton"]
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/OptionsButton" unique_id=848723713]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 pivot_offset = Vector2(12, 12)
 color = Color(0.49747366, 0.49747366, 0.49747366, 1)
 
-[node name="SmallColorRect" type="ColorRect" parent="Buttons/OptionsButton"]
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/OptionsButton" unique_id=748815224]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -198,7 +200,7 @@ offset_right = 23.0
 offset_bottom = 23.0
 pivot_offset = Vector2(12, 12)
 
-[node name="SmallTexture" type="TextureRect" parent="Buttons/OptionsButton"]
+[node name="SmallTexture" type="TextureRect" parent="Buttons/OptionsButton" unique_id=1444626323]
 self_modulate = Color(1, 0.5411765, 0.12941177, 1)
 layout_mode = 0
 offset_right = 24.0
@@ -207,7 +209,7 @@ texture = ExtResource("6_r88si")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="LargeTexture" type="TextureRect" parent="Buttons/OptionsButton"]
+[node name="LargeTexture" type="TextureRect" parent="Buttons/OptionsButton" unique_id=395363355]
 visible = false
 self_modulate = Color(1, 0.5411765, 0.12941177, 1)
 layout_mode = 0
@@ -217,7 +219,7 @@ texture = ExtResource("8_dhujf")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="Button" type="Button" parent="Buttons/OptionsButton"]
+[node name="Button" type="Button" parent="Buttons/OptionsButton" unique_id=1412576552]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
@@ -226,7 +228,7 @@ tooltip_text = "Tweak some variables here."
 focus_mode = 1
 flat = true
 
-[node name="EditButton" type="Control" parent="Buttons"]
+[node name="EditButton" type="Control" parent="Buttons" unique_id=1847769079]
 anchors_preset = 0
 offset_left = -12.0
 offset_top = -12.0
@@ -234,14 +236,14 @@ offset_right = 12.0
 offset_bottom = 12.0
 pivot_offset = Vector2(12, 12)
 
-[node name="LargeColorRect" type="ColorRect" parent="Buttons/EditButton"]
+[node name="LargeColorRect" type="ColorRect" parent="Buttons/EditButton" unique_id=1901562911]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 pivot_offset = Vector2(12, 12)
 color = Color(0.49747366, 0.49747366, 0.49747366, 1)
 
-[node name="SmallColorRect" type="ColorRect" parent="Buttons/EditButton"]
+[node name="SmallColorRect" type="ColorRect" parent="Buttons/EditButton" unique_id=739969651]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -249,7 +251,7 @@ offset_right = 23.0
 offset_bottom = 23.0
 pivot_offset = Vector2(12, 12)
 
-[node name="SmallTexture" type="TextureRect" parent="Buttons/EditButton"]
+[node name="SmallTexture" type="TextureRect" parent="Buttons/EditButton" unique_id=1700394459]
 self_modulate = Color(0.48235294, 0.19215687, 0.9764706, 1)
 layout_mode = 0
 offset_right = 24.0
@@ -258,7 +260,7 @@ texture = ExtResource("10_wtxo7")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="LargeTexture" type="TextureRect" parent="Buttons/EditButton"]
+[node name="LargeTexture" type="TextureRect" parent="Buttons/EditButton" unique_id=581005535]
 visible = false
 self_modulate = Color(0.48235294, 0.19215687, 0.9764706, 1)
 layout_mode = 0
@@ -268,7 +270,7 @@ texture = ExtResource("12_ujxgq")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="Button" type="Button" parent="Buttons/EditButton"]
+[node name="Button" type="Button" parent="Buttons/EditButton" unique_id=392769951]
 layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0

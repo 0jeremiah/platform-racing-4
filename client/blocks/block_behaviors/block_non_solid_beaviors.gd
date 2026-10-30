@@ -98,20 +98,18 @@ func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 					#tile_map_layer.trigger_tile_behaviors(node, coords, [side], normal)
 
 
-func activate_gears(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+func activate_gears(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
 	var block_info = tile_map_layer.get_block(coords)
 	if block_info.settings != null:
-		return
-	var activate_offset = Vector2i(block_info.settings.activate_offset.x, block_info.settings.activate_offset.y)
-	var limit_activate_range = params.get("limit_activate_range", false)
-	var activate_range = params.get("activate_range", Vector2i(10, 10))
-	var gear_blocks = Game.game.level_manager.gear_blocks
-	if limit_activate_range:
-		gear_blocks.filter(func(gear_block): return Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(gear_block.coords))
-	for gear_block in gear_blocks:
-		var activatable_block_info = tile_map_layer.get_block(gear_block.coords)
-		if activatable_block_info.settings != null and activatable_block_info.settings.block_type == ConfigurableBlockSettings.GEAR and tile_map_layer.get_parent() is RotationController:
-			tile_map_layer.get_parent().enabled_temp = true
+		var activate_offset = Vector2i(block_info.settings.activate_offset.x, block_info.settings.activate_offset.y)
+		var limit_activate_range = block_info.settings.limit_activate_range
+		var activate_range = Vector2i(block_info.settings.activate_range.x, block_info.settings.activate_range.y)
+		var gear_blocks = Game.game.level_manager.gear_blocks
+		if limit_activate_range:
+			gear_blocks.filter(func(gear_block): return Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(gear_block.coords))
+		for gear_block in gear_blocks:
+			if gear_block.tile_map_layer.get_parent() is RotationController:
+				gear_block.tile_map_layer.get_parent().enabled_temp = true
 
 
 func find_sides(settings: ConfigurableBlockSettings, side_setting: String) -> Array[String]:

@@ -32,13 +32,13 @@ func _ready() -> void:
 func _process(_delta):
 	main_camera = get_viewport().get_camera_2d()
 	if main_camera:
-		var current_screen_offset = main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * Vector2(get_layer_scale(), get_layer_scale()))
+		var current_screen_offset = (main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * get_layer_scale())) * main_camera.zoom
 		var window_size = get_viewport().get_visible_rect().size
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
 		lines_viewpoint_container.scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
 		lines_viewpoint_container.position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
-		lines_container.offset_transform_position = -(lines_viewpoint_container.global_position + (current_screen_offset * (get_layer_depth() - 1))) * main_camera.zoom
+		lines_container.offset_transform_position = -lines_viewpoint_container.global_position + (current_screen_offset * get_layer_depth())
 		lines_container.offset_transform_scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
 
 

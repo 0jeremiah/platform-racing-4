@@ -10,6 +10,7 @@ var teleport_throttle: float = ConfigurableBlockSettings.default_block_propertie
 
 
 func _ready() -> void:
+	teleport_color_button.set_color_button_scale(Vector2(0.625, 0.625))
 	teleport_color_button.set_color(teleport_color)
 	teleport_color_button.colorbutton_color_changed.connect(_change_teleport_color)
 	teleport_throttle_box.init("float", str(teleport_throttle), 0.0, 99999999.9)

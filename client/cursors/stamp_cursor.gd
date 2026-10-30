@@ -28,9 +28,9 @@ func _process(_delta):
 		var touching_gui: bool = get_parent().touching_gui
 		if touching_gui:
 			stamp_icon.visible = true
+			update_display()
 	else:
 		visible = false
-	update_display()
 
 
 func init(_current_layers, _cursor_parent) -> void:
@@ -160,9 +160,11 @@ func update_display():
 	if "camera_zoom" in camera:
 		camera_zoom = camera.camera_zoom
 	var layer_scale = 1.0
+	var layer_rotation = 0.0
 	var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		layer_scale = layer.get_layer_scale()
+		layer_rotation = layer.art_rotation
 	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)))
-	stamp_icon.rotation_degrees = stamp_rotation
+	stamp_icon.rotation_degrees = stamp_rotation + layer_rotation
 	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera_zoom), ((0.01 * stamp_size) * layer_scale) * (camera_zoom))

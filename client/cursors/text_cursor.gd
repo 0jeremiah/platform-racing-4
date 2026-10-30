@@ -66,29 +66,36 @@ func on_mouse_down():
 				var selected_text = layer.get_text_at_position(mouse_position)
 				var object_box = get_parent().editor_menu.current_editor.object_box
 				var spawn_position = selected_text.position
-				object_box.set_object_info({"delete": true, "resize": true, "options": false, "text": true},
-				{"type": "text", "node": selected_text, "position": spawn_position,
-				"rotation": selected_text.text_rotation, "offset": Vector2(0, 0),
-				"size": selected_text.text_box.size, "scale": selected_text.text_scale,
-				"text": selected_text.text_string, "info": str(layer.name)}, {"font": text_font})
+				if object_box:
+					object_box.set_object_info({"delete": true, "resize": true, "options": false, "text": true},
+					{"type": "text", "node": selected_text, "position": spawn_position,
+					"rotation": selected_text.text_rotation, "offset": Vector2(0, 0),
+					"size": selected_text.text_box.size, "scale": selected_text.text_scale,
+					"text": selected_text.text_string, "info": str(layer.name)}, {"font": text_font})
 		else:
-			emit_signal("editor_event", {
-				"type": EditorEvents.ADD_TEXT,
-				"layer_name": current_layers.get_target_art_layer(),
-				"text": "Hello World!",
-				"font": text_font,
-				"font_size": text_font_size,
-				"scale": {
-					"x": 1,
-					"y": 1
-				},
-				"position": {
-					"x": mouse_position.round().x,
-					"y": mouse_position.round().y - (sample_text.get_line_height(0) / 2)
-				},
-				"rotation": text_rotation,
-				"color": text_color
-			})
+			var object_box = get_parent().editor_menu.current_editor.object_box
+			if object_box and object_box.mode == "text":
+				object_box.update_object_box()
+				object_box.close()
+			else:
+				object_box.close()
+				emit_signal("editor_event", {
+					"type": EditorEvents.ADD_TEXT,
+					"layer_name": current_layers.get_target_art_layer(),
+					"text": "Hello World!",
+					"font": text_font,
+					"font_size": text_font_size,
+					"scale": {
+						"x": 1,
+						"y": 1
+					},
+					"position": {
+						"x": mouse_position.round().x,
+						"y": mouse_position.round().y - (sample_text.get_line_height(0) / 2)
+					},
+					"rotation": text_rotation,
+					"color": text_color
+				})
 
 
 func on_drag():
@@ -167,9 +174,11 @@ func update_display():
 	caret.size.y = white_caret.position.y + white_caret.size.y
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var layer_scale = 1.0
+	var layer_rotation = 0.0
 	var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
 	if layer:
 		layer_scale = layer.get_layer_scale()
+		layer_rotation = layer.art_rotation
 	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)
 	caret.scale = Vector2(layer_scale, layer_scale) * camera.zoom
-	caret.rotation_degrees = text_rotation
+	caret.rotation_degrees = text_rotation + layer_rotation

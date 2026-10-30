@@ -21,5 +21,5 @@ vertical_alignment = 1
 [node name="LightColorButton" parent="." unique_id=2091517071 instance=ExtResource("2_xgdqy")]
 layout_mode = 0
 offset_left = 110.0
-offset_right = 158.0
-scale = Vector2(0.625, 0.625)
+offset_right = 140.0
+offset_bottom = 30.0
