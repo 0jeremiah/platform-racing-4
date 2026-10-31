@@ -25,21 +25,28 @@ func _ready() -> void:
 	z_as_relative = false
 	offset_transform_enabled = true
 	offset_transform_visual_only = false
+	offset_transform_pivot_ratio = Vector2(0.0, 0.0)
 	lines_viewpoint_container.offset_transform_enabled = true
 	lines_viewpoint_container.offset_transform_visual_only = false
+	lines_viewpoint_container.offset_transform_pivot_ratio = Vector2(0.0, 0.0)
+	lines_container.offset_transform_enabled = true
+	lines_container.offset_transform_visual_only = false
+	lines_container.offset_transform_pivot_ratio = Vector2(0.0, 0.0)
+
 
 
 func _process(_delta):
 	main_camera = get_viewport().get_camera_2d()
 	if main_camera:
-		var current_screen_offset = (main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * get_layer_scale())) * main_camera.zoom
+		var current_screen_offset = main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * get_layer_depth())
 		var window_size = get_viewport().get_visible_rect().size
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
 		lines_viewpoint_container.scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
-		lines_viewpoint_container.position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2))
-		lines_container.offset_transform_position = -lines_viewpoint_container.global_position + (current_screen_offset * get_layer_depth())
+		lines_viewpoint_container.position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2)) / get_layer_scale()
+		lines_container.offset_transform_position = -lines_viewpoint_container.global_position * main_camera.zoom
 		lines_container.offset_transform_scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
+		lines_container.offset_transform_pivot_ratio = Vector2(0.0, 0.0)
 
 
 func set_z_axis(p_z_axis: float) -> void:
