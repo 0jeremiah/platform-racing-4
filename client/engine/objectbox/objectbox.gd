@@ -30,6 +30,10 @@ var old_position : Vector2
 var old_scale : Vector2
 var old_mouse_position : Vector2
 var current_layer = null
+var layer_scale = 1.0
+var layer_rotation = 0.0
+var layer_pivot = Vector2(0.0, 0.0)
+var layer_offset_transform_position = Vector2(0.0, 0.0)
 
 
 #set_object_info({"delete": true, "resize": false, "options": true, "text": false}, {"type": "block",
@@ -39,6 +43,9 @@ var current_layer = null
 
 
 func _ready() -> void:
+	offset_transform_enabled = true
+	offset_transform_pivot_ratio = Vector2(0.0, 0.0)
+	offset_transform_visual_only = false
 	for button_node in buttons.get_child_count():
 		for button in buttons.get_child(button_node).get_children():
 			if button is Button:
@@ -54,10 +61,10 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	var layer_scale = 1.0
-	var layer_rotation = 0.0
-	var layer_pivot = Vector2(0.0, 0.0)
-	var layer_depth = 1.0
+	layer_scale = 1.0
+	layer_rotation = 0.0
+	layer_pivot = Vector2(0.0, 0.0)
+	layer_offset_transform_position = Vector2(0.0, 0.0)
 	if current_layer and (current_layer is MapLayer or current_layer is ArtLayer):
 		if current_layer is MapLayer:
 			layer_scale = current_layer.get_layer_scale()
@@ -67,11 +74,11 @@ func _physics_process(_delta: float) -> void:
 			layer_scale = current_layer.get_layer_scale()
 			layer_rotation = current_layer.art_rotation
 			layer_pivot = current_layer.anchor
-			layer_depth = current_layer.get_layer_depth()
-	offset_transform_position = Vector2(position.x - (position.x * layer_depth), position.y - (position.y * layer_depth))
-	offset_transform_scale = Vector2(layer_scale, layer_scale)
-	offset_transform_rotation = object_info.rotation + layer_rotation
-	offset_transform_pivot = layer_pivot
+			layer_offset_transform_position = current_layer.offset_transform_position
+	#offset_transform_position = layer_offset_transform_position
+	#offset_transform_scale = Vector2(layer_scale, layer_scale)
+	#offset_transform_rotation = layer_rotation
+	#offset_transform_pivot = layer_pivot
 	var camera = get_viewport().get_camera_2d()
 	if camera:
 		gui_touchbox.size = get_viewport().get_visible_rect().size / camera.zoom

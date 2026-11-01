@@ -38,15 +38,18 @@ func _ready() -> void:
 func _process(_delta):
 	main_camera = get_viewport().get_camera_2d()
 	if main_camera:
-		var current_screen_offset = main_camera.get_screen_center_position() - (main_camera.get_screen_center_position() * get_layer_depth())
 		var window_size = get_viewport().get_visible_rect().size
+		var screen_center_position = main_camera.get_screen_center_position()
+		var safe_depth_x = 0.0 if screen_center_position.x == 0.0 else (screen_center_position.x * get_layer_depth()) / screen_center_position.x
+		var safe_depth_y = 0.0 if screen_center_position.y == 0.0 else (screen_center_position.y * get_layer_depth()) / screen_center_position.y
+		var safe_depth_position = Vector2(screen_center_position.x - (screen_center_position.x * safe_depth_x), screen_center_position.y - (screen_center_position.y * safe_depth_y))
+		offset_transform_position = Vector2(safe_depth_position.x / get_layer_scale(), safe_depth_position.y / get_layer_scale())
 		lines_viewpoint_container.size = window_size
 		lines_viewport.size = window_size
 		lines_viewpoint_container.scale = (Vector2(1, 1) / get_layer_scale()) / main_camera.zoom
-		lines_viewpoint_container.position = (main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2)) / get_layer_scale()
-		lines_container.offset_transform_position = -lines_viewpoint_container.global_position * main_camera.zoom
+		lines_viewpoint_container.position = ((main_camera.get_screen_center_position() - ((window_size / main_camera.zoom) / 2)) / get_layer_scale()) - offset_transform_position
+		lines_container.offset_transform_position = ((-lines_viewpoint_container.global_position + safe_depth_position) * main_camera.zoom)
 		lines_container.offset_transform_scale = (Vector2(1, 1) * get_layer_scale()) * main_camera.zoom
-		lines_container.offset_transform_pivot_ratio = Vector2(0.0, 0.0)
 
 
 func set_z_axis(p_z_axis: float) -> void:
@@ -106,22 +109,24 @@ func set_layer_z_index(p_z_index: int) -> void:
 
 
 func get_stamp_at_position(mouse_position: Vector2) -> Sprite2D:
+	var converted_mouse_position = (mouse_position + offset_transform_position) * get_layer_scale()
 	var stamps_array = stamps.get_children()
 	stamps_array.reverse()
 	for child in stamps_array:
-		if Rect2(Vector2.ZERO, child.texture.get_size()).has_point(child.to_local(mouse_position)):
+		if Rect2(Vector2.ZERO, child.texture.get_size()).has_point(child.to_local(converted_mouse_position)):
 			var image = child.texture.get_image()
-			if image and image.get_pixelv(child.to_local(mouse_position)).a > 0.0:
+			if image and image.get_pixelv(child.to_local(converted_mouse_position)).a > 0.0:
 				return child
 			return null
 	return null
 
 
 func get_text_at_position(mouse_position: Vector2) -> Node2D:
+	var converted_mouse_position = (mouse_position + offset_transform_position) * get_layer_scale()
 	var texts_array = texts.get_children()
 	texts_array.reverse()
 	for child in texts_array:
-		if Rect2(Vector2.ZERO, child.text_box.size).has_point(child.to_local(mouse_position)):
+		if Rect2(Vector2.ZERO, child.text_box.size).has_point(child.to_local(converted_mouse_position)):
 			return child
 	return null
 

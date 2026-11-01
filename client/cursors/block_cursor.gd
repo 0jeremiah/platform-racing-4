@@ -173,6 +173,7 @@ func on_mouse_up():
 				{"type": "block", "node": block_texture, "position": spawn_position, "rotation": 0,
 				"offset": Vector2(0, 0), "size": Settings.tile_size, "scale": Vector2(1, 1),
 				"info": level_layers.get_target_map_layer()})
+				object_box.current_layer = layer
 			grabbed_block_id = ""
 			grabbed_block_settings = null
 
@@ -184,10 +185,11 @@ func update_display():
 		camera_zoom = camera.camera_zoom
 	var layer_scale = 1.0
 	var layer_rotation = 0.0
-	var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
-	if layer:
-		layer_scale = layer.get_layer_scale()
-		layer_rotation = layer.tile_map_rotation
+	if level_layers:
+		var layer: MapLayer = level_layers.map_layers.get_node(level_layers.get_target_map_layer())
+		if layer:
+			layer_scale = layer.get_layer_scale()
+			layer_rotation = layer.tile_map_rotation
 	eraser_icon.rotation_degrees = layer_rotation
 	eraser_icon.scale = Vector2(layer_scale * camera_zoom, layer_scale * camera_zoom)
 	block_icon.rotation_degrees = layer_rotation

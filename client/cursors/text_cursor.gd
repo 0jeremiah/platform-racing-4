@@ -72,6 +72,7 @@ func on_mouse_down():
 					"rotation": selected_text.text_rotation, "offset": Vector2(0, 0),
 					"size": selected_text.text_box.size, "scale": selected_text.text_scale,
 					"text": selected_text.text_string, "info": str(layer.name)}, {"font": text_font})
+				object_box.current_layer = layer
 		else:
 			var object_box = get_parent().editor_menu.current_editor.object_box
 			if object_box and object_box.mode == "text":
@@ -175,10 +176,11 @@ func update_display():
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var layer_scale = 1.0
 	var layer_rotation = 0.0
-	var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-	if layer:
-		layer_scale = layer.get_layer_scale()
-		layer_rotation = layer.art_rotation
+	if current_layers:
+		var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		if layer:
+			layer_scale = layer.get_layer_scale()
+			layer_rotation = layer.art_rotation
 	caret.position = Vector2((-caret.size.x * camera.zoom.x) / 2, (-caret.size.y * camera.zoom.y) / 2)
 	caret.scale = Vector2(layer_scale, layer_scale) * camera.zoom
 	caret.rotation_degrees = text_rotation + layer_rotation

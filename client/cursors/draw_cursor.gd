@@ -43,12 +43,17 @@ func _process(_delta):
 			var camera_zoom = camera.zoom.x
 			if "camera_zoom" in camera:
 				camera_zoom = camera.camera_zoom
+			var layer_scale = 1.0
+			if current_layers:
+				var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+				if layer:
+					layer_scale = layer.get_layer_scale()
 			haircross.visible = true
 			brush_circle.visible = true
 			if mode == "erase":
-				brush_circle.set_brush_circle(erase_size * (camera_zoom * 2), size_multiplier)
+				brush_circle.set_brush_circle((erase_size * layer_scale) * (camera_zoom * 2), size_multiplier)
 			else:
-				brush_circle.set_brush_circle(draw_size * (camera_zoom * 2), size_multiplier)
+				brush_circle.set_brush_circle((draw_size * layer_scale) * (camera_zoom * 2), size_multiplier)
 	else:
 		visible = false
 

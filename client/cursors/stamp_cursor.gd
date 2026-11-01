@@ -82,6 +82,7 @@ func on_mouse_down():
 					{"type": "stamp", "node": selected_stamp, "position": spawn_position,
 					"rotation": selected_stamp.rotation_degrees, "offset": selected_stamp.offset,
 					"size": selected_stamp.texture.get_size(), "scale": selected_stamp.scale, "info": str(layer.name)})
+					object_box.current_layer = layer
 			else:
 				emit_signal("editor_event", {
 					"type": EditorEvents.ADD_STAMP,
@@ -161,10 +162,11 @@ func update_display():
 		camera_zoom = camera.camera_zoom
 	var layer_scale = 1.0
 	var layer_rotation = 0.0
-	var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-	if layer:
-		layer_scale = layer.get_layer_scale()
-		layer_rotation = layer.art_rotation
+	if current_layers:
+		var layer: ArtLayer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
+		if layer:
+			layer_scale = layer.get_layer_scale()
+			layer_rotation = layer.art_rotation
 	stamp_icon.position = Vector2(round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).x / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)), round((-stamp_icon.texture.get_size().rotated(deg_to_rad(stamp_rotation)).y / 2) * ((0.01 * stamp_size) * layer_scale) * (camera_zoom)))
 	stamp_icon.rotation_degrees = stamp_rotation + layer_rotation
 	stamp_icon.scale = Vector2(((0.01 * stamp_size) * layer_scale) * (camera_zoom), ((0.01 * stamp_size) * layer_scale) * (camera_zoom))
