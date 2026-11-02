@@ -66,7 +66,10 @@ func _physics_process(delta: float) -> void:
 		high_area.get_child(0).position = Vector2(0.0, 0.0)
 	
 	# Process gravity
-	gravity.run(self, delta)
+	var gravity_value = 1.0
+	if Game.game:
+		gravity_value = Game.game.level_manager.gravity
+	gravity.run(self, delta, gravity_value)
 	
 	# Update velocity from super jump
 	if not movement.hurt and gravity.not_rotating():

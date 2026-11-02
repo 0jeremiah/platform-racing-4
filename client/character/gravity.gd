@@ -12,11 +12,13 @@ var rotation_speed: float = 0.025
 var rotation_sync: bool = true
 
 
-func run(character: Character, delta: float) -> void:
+func run(character: Character, delta: float, gravity_multiplier: float = 1.0) -> void:
 	# Rotate
-	var current_gravity = gravity
+	var current_gravity = gravity * gravity_multiplier
 	if character.movement.swimming:
-		current_gravity = current_gravity / 2
+		var safe_gravity_x = 0.0 if gravity_multiplier == 0.0 else current_gravity.x / 2
+		var safe_gravity_y = 0.0 if gravity_multiplier == 0.0 else current_gravity.y / 2
+		current_gravity = Vector2(safe_gravity_x, safe_gravity_y)
 	var current_gravity_rotated = current_gravity.rotated(rotation)
 	rotation_sync = true
 	if rotation != target_rotation:
@@ -27,7 +29,6 @@ func run(character: Character, delta: float) -> void:
 			target_rotation = rotation # deal with rotation switching from negative to positive
 		else:
 			rotation -= rotation_dist
-		gravity_rotated = gravity.rotated(rotation)
 	
 	# Apply to character
 	character.rotation = rotation

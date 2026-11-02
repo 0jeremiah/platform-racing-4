@@ -128,49 +128,12 @@ func add_block(coords: Vector2i, block_id: String, block_settings_info: Dictiona
 func register_block_type(coords: Vector2i):
 	var block_info = get_block(coords)
 	if Game.game and block_info.settings != null:
-		if block_info.settings.block_type == ConfigurableBlockSettings.START_POSITION:
-			Game.game.level_manager.register_start_block(self, coords)
-		if block_info.settings.block_type == ConfigurableBlockSettings.MOVE:
-			Game.game.level_manager.register_move_block(self, coords)
-		if block_info.settings.block_type == ConfigurableBlockSettings.GEAR:
-			Game.game.level_manager.register_gear_block(self, coords)
-		if block_info.settings.block_type == ConfigurableBlockSettings.CHANGE or (block_info.node != null and block_info.node.is_change_block and block_info.node.register_change_block):
-			Game.game.level_manager.register_change_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
-			Game.game.level_manager.register_finish_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-			Game.game.level_manager.register_teleport_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SHATTER):
-			Game.game.level_manager.register_brick_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.MINE):
-			Game.game.level_manager.register_mine_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.CRUMBLE):
-			Game.game.level_manager.register_crumble_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.VANISH):
-			Game.game.level_manager.register_vanish_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.APPEAR):
-			Game.game.level_manager.register_appear_block(self, coords)
+		Game.game.level_manager.register_block(self, coords)
 
 
 func unregister_block_type(coords: Vector2i, unregister_change: bool = true):
-	var block_info = get_block(coords)
 	if Game.game:
-		if block_info.settings.block_type == ConfigurableBlockSettings.MOVE:
-			Game.game.level_manager.remove_move_block(self, coords)
-		if block_info.settings.block_type == ConfigurableBlockSettings.START_POSITION:
-			Game.game.level_manager.remove_start_block(self, coords)
-		if block_info.settings.block_type == ConfigurableBlockSettings.GEAR:
-			Game.game.level_manager.remove_gear_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
-			Game.game.level_manager.remove_finish_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SHATTER):
-			Game.game.level_manager.remove_brick_block(self, coords)
-		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-			Game.game.level_manager.remove_teleport_block(self, coords)
-		if block_info.node != null:
-			block_info.node.register_change_block = unregister_change
-			if block_info.node.is_change_block and unregister_change:
-				Game.game.level_manager.remove_change_block(self, coords)
+		Game.game.level_manager.unregister_block(self, coords, unregister_change)
 
 
 ## Get cell block ID from coordinates (reverse lookup)
@@ -277,46 +240,6 @@ func get_block_position_at_local_position(local_position: Vector2):
 
 func get_block_center_position(coords: Vector2i):
 	return Vector2(Vector2i(coords * Settings.tile_size) + Vector2i(Settings.tile_size_half)).rotated(rotation)
-
-
-func get_start_positions() -> Array:
-	var start_blocks = []
-	for block in BlockManager._blocks:
-		var block_instance = BlockManager._blocks[block]
-		if block_instance.settings.block_type == ConfigurableBlockSettings.START_POSITION:
-			start_blocks.append(block)
-	var start_options = []
-	for start_block in start_blocks:
-		var coord_list = get_all_block_coords_by_id(start_block)
-		for coords in coord_list:
-			var start_option = {
-				"tile_map_layer": self,
-				"coords": coords,
-				"map_layer_name": str(map_layer.name)
-			}
-			start_options.push_back(start_option)
-	return start_options
-
-
-func get_finish_blocks() -> Array:
-	var finish_blocks = []
-	for block in BlockManager._blocks:
-		var block_instance = BlockManager._blocks[block]
-		if block_instance.settings.has_side_type(ConfigurableBlockSideSettings.FINISH):
-			finish_blocks.append(block)
-	var finish_options = []
-	for finish_block in finish_blocks:
-		var coord_list = get_all_block_coords_by_id(finish_block)
-		for coords in coord_list:
-			var block = get_block(coords)
-			var reached = true if block and block.settings.can_finish else false
-			var start_option = {
-				"tile_map_layer": self,
-				"coords": coords,
-				"reached": reached
-			}
-			finish_options.push_back(start_option)
-	return finish_options
 
 
 func spawn_eggs():

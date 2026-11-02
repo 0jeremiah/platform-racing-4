@@ -67,15 +67,15 @@ func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 		if activate_list.settings.has(ConfigurableBlockSettings.GEAR):
 			activate_gears(node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.SHATTER):
-			activate_blocks(Game.game.level_manager.brick_blocks, ConfigurableBlockSideSettings.SHATTER, node, tile_map_layer, coords, params, normal)
+			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.SHATTER, node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.MINE):
-			activate_blocks(Game.game.level_manager.mine_blocks, ConfigurableBlockSideSettings.MINE, node, tile_map_layer, coords, params, normal)
+			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.MINE, node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.CRUMBLE):
-			activate_blocks(Game.game.level_manager.crumble_blocks, ConfigurableBlockSideSettings.CRUMBLE, node, tile_map_layer, coords, params, normal)
+			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.CRUMBLE, node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.VANISH):
-			activate_blocks(Game.game.level_manager.vanish_blocks, ConfigurableBlockSideSettings.VANISH, node, tile_map_layer, coords, params, normal)
+			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.VANISH, node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.APPEAR):
-			activate_blocks(Game.game.level_manager.appear_blocks, ConfigurableBlockSideSettings.APPEAR, node, tile_map_layer, coords, params, normal)
+			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.APPEAR, node, tile_map_layer, coords, params, normal)
 		#for setting in activate_list.settings:
 			#var setting_coords = tile_map_layer.get_all_block_coords_containing_block_type(setting)
 			#if limit_activate_range:
@@ -104,9 +104,9 @@ func activate_gears(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coo
 		var activate_offset = Vector2i(block_info.settings.activate_offset.x, block_info.settings.activate_offset.y)
 		var limit_activate_range = block_info.settings.limit_activate_range
 		var activate_range = Vector2i(block_info.settings.activate_range.x, block_info.settings.activate_range.y)
-		var gear_blocks = Game.game.level_manager.gear_blocks
+		var gear_blocks = Game.game.level_manager.block_list.block_type_list.get(ConfigurableBlockSettings.GEAR, [])
 		if limit_activate_range:
-			gear_blocks.filter(func(gear_block): return Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(gear_block.coords))
+			gear_blocks = gear_blocks.filter(func(gear_block): return Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(gear_block.coords))
 		for gear_block in gear_blocks:
 			if gear_block.tile_map_layer.get_parent() is RotationController:
 				gear_block.tile_map_layer.get_parent().enabled_temp = true
@@ -121,15 +121,15 @@ func find_sides(settings: ConfigurableBlockSettings, side_setting: String) -> Ar
 	return found_sides
 
 
-func activate_blocks(block_array: Array, side_setting: String, node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
-	var current_block_array = block_array
+func activate_blocks_with_side_setting(side_setting: String, node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
+	var current_block_array = Game.game.level_manager.block_list.side_setting_list.get(side_setting, [])
 	var block_info = tile_map_layer.get_block(coords)
 	if block_info.settings != null:
 		var activate_offset = Vector2i(block_info.settings.activate_offset.x, block_info.settings.activate_offset.y)
 		var limit_activate_range = block_info.settings.limit_activate_range
 		var activate_range = Vector2i(block_info.settings.activate_range.x, block_info.settings.activate_range.y)
 		if limit_activate_range:
-			current_block_array = block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(block.coords))
+			current_block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(block.coords))
 		for block in current_block_array:
 			var activatable_block_info = block.tile_map_layer.get_block(block.coords)
 			if activatable_block_info.settings != null and activatable_block_info.node != null:

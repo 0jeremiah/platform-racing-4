@@ -390,35 +390,37 @@ func teleport(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Ve
 	if !Game.game or block_info.id == "" or block_info.settings == null or block_info.node == null or block_info.node.teleport_throttle_timer > 0.0:
 		return
 	var level_manager = Game.game.level_manager
-	var current_teleport_block = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}
 	var current_block_id = block_info.id
 	var current_block_teleport_color = block_info.settings.teleport_color
+	var current_teleport_block = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name), "teleport_color": current_block_teleport_color}
 	var next_teleport_block = {}
 	var next_teleport_block_info = {"id": "", "settings": null, "node": null}
 	var teleport_position = Vector2(current_teleport_block.coords * Settings.tile_size + Settings.tile_size_half) * (Vector2(Settings.tile_size) * normal)
 	var target_tile_map_layer = tile_map_layer
-	if level_manager.teleport_blocks.has(current_block_id) and level_manager.teleport_blocks[current_block_id].has(current_block_teleport_color):
-		var current_teleport_block_index = level_manager.teleport_blocks[current_block_id][current_block_teleport_color].find(current_teleport_block)
+	var teleport_blocks = Game.game.level_manager.block_list.side_setting_list.get(ConfigurableBlockSideSettings.TELEPORT, []).duplicate(true)
+	if !teleport_blocks.is_empty():
+		teleport_blocks = teleport_blocks.filter(func(available_teleport): return available_teleport.tile_map_layer.get_block(available_teleport.coords).id == current_block_id and available_teleport.has("teleport_color") and available_teleport.teleport_color == current_block_teleport_color)
+		var current_teleport_block_index = teleport_blocks.find(current_teleport_block)
 		if current_teleport_block_index > -1:
-			if current_teleport_block_index < level_manager.teleport_blocks[current_block_id][current_block_teleport_color].size() - 1:
-				next_teleport_block = level_manager.teleport_blocks[current_block_id][current_block_teleport_color][current_teleport_block_index + 1]
+			if current_teleport_block_index < teleport_blocks.size() - 1:
+				next_teleport_block = teleport_blocks[current_teleport_block_index + 1]
 			else:
-				next_teleport_block = level_manager.teleport_blocks[current_block_id][current_block_teleport_color][0]
-	if !next_teleport_block.is_empty():
-		next_teleport_block_info = next_teleport_block.tile_map_layer.get_block(next_teleport_block.coords)
-		target_tile_map_layer = next_teleport_block.tile_map_layer
-	block_info.node.throttle_teleport()
-	if next_teleport_block_info.node != null:
-		next_teleport_block_info.node.throttle_teleport()
-	if next_teleport_block:
-		var next_block_position = Vector2(next_teleport_block.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_teleport_block.tile_map_layer.global_rotation)
-		teleport_position = next_block_position + (Vector2(Settings.tile_size) * normal)
-	tile_map_layer.map_layer.players.remove_child(node)
-	target_tile_map_layer.map_layer.players.add_child(node)
-	node.position = teleport_position
-	node.movement.current_velocity = Vector2(0.0, 0.0)
-	node.tile_interaction.set_depth(target_tile_map_layer.map_layer.z_axis)
-	Game.game.set_current_player_layer(target_tile_map_layer.map_layer.name)
+				next_teleport_block = teleport_blocks[0]
+		if !next_teleport_block.is_empty():
+			next_teleport_block_info = next_teleport_block.tile_map_layer.get_block(next_teleport_block.coords)
+			target_tile_map_layer = next_teleport_block.tile_map_layer
+		block_info.node.throttle_teleport()
+		if next_teleport_block_info.node != null:
+			next_teleport_block_info.node.throttle_teleport()
+		if next_teleport_block:
+			var next_block_position = Vector2(next_teleport_block.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_teleport_block.tile_map_layer.global_rotation)
+			teleport_position = next_block_position + (Vector2(Settings.tile_size) * normal)
+		tile_map_layer.map_layer.players.remove_child(node)
+		target_tile_map_layer.map_layer.players.add_child(node)
+		node.position = teleport_position
+		node.movement.current_velocity = Vector2(0.0, 0.0)
+		node.tile_interaction.set_depth(target_tile_map_layer.map_layer.z_axis)
+		Game.game.set_current_player_layer(target_tile_map_layer.map_layer.name)
 
 
 # Gives the node extra seconds in the level

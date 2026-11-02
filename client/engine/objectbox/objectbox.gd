@@ -336,7 +336,9 @@ func update_object_box():
 	edit_text_rect.visible = false
 	select_rect.visible = true
 	buttons.visible = true
-	position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
+	var calculated_position = Vector2(object_info.position.x + (object_info.offset.x * object_info.scale.x), object_info.position.y + (object_info.offset.y * object_info.scale.y))
+	position = calculated_position
+	offset_transform_scale = Vector2(layer_scale, layer_scale)
 	move_button.position = Vector2.ZERO
 	rotation_degrees = object_info.rotation
 	if object_info.node:

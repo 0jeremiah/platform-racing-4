@@ -64,7 +64,8 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	# check if we bumped all the blocks on objective mode
 	if Game.game and !finished:
 		var level_manager = Game.game.level_manager
-		if level_manager.level_type == LevelManager.objective and level_manager.reached_finish_blocks == level_manager.finish_blocks:
+		var finish_blocks = Game.game.level_manager.block_list.side_setting_list.get(ConfigurableBlockSideSettings.FINISH, [])
+		if level_manager.level_type == LevelManager.objective and finish_blocks.all(func(finish_block): return level_manager.reached_finish_blocks.has(finish_block)):
 			finished = true
 	
 	
@@ -261,10 +262,10 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			current_velocity = current_velocity.move_toward(target_velocity, delta * traction * accel)
 	
 	# Add friction
-	var friction = GameConfig.get_value("player_movement", "player_friction")
-	if swimming:
-		friction = GameConfig.get_value("player_movement", "player_swimming_friction")
-	current_velocity = current_velocity * (1 - (friction * delta))
+	#var friction = GameConfig.get_value("player_movement", "player_friction")
+	#if swimming:
+		#friction = GameConfig.get_value("player_movement", "player_swimming_friction")
+	#current_velocity = current_velocity * (1 - (friction * delta))
 	
 	# Save for next frame
 	previous_velocity = current_velocity
@@ -293,7 +294,7 @@ func maybe_finish(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 	elif Game.game.level_manager.level_type == LevelManager.objective:
 		var block_node = tile_map_layer.get_block(coords).node
 		if block_node != null:
-			Game.game.level_manager.add_to_reached_finish_blocks(block_node)
+			Game.game.level_manager.add_to_reached_finish_blocks(tile_map_layer, coords)
 			#level_manager.update_finish_blocks(tile_map_layer, coords)
 			#if level_manager.reached_finish_blocks.size() >= level_manager.finish_blocks.size():
 				#finished = true
