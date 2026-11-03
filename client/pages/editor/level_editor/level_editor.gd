@@ -15,8 +15,8 @@ static var level_editor: Node
 @onready var http_request = $HTTPRequest
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var ui = $UI
-@onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var cursor = $UI/Cursor
+@onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
 @onready var bg: Node2D = $BG

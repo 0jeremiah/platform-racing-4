@@ -2,7 +2,7 @@
 	"id": "8",
 	"settings": {
 		"title": "Left Arrow Block",
-		"comment": "Lessens your jump if you hop off it, and pushes you down if you ride on its sides or bottom.",
+		"comment": "Run left really fast! (or right really slowly.) It's kind of like a conveyer belt, except cooler.",
 		"matter_type": "solid",
 		"block_type": "active",
 		"left": {"type": "active", "params": {}},

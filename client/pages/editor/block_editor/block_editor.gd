@@ -17,6 +17,7 @@ static var block_editor: Node
 @onready var editor_events: EditorEvents = $EditorEvents
 @onready var ui = $UI
 @onready var cursor = $UI/Cursor
+@onready var object_box = $UI/ObjectBoxUI/ObjectBox
 @onready var camera_controls = $UI/CameraControls
 @onready var penciler: Node2D = $Penciler
 @onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport

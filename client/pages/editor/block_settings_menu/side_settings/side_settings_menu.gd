@@ -113,6 +113,8 @@ func _update_sides(side_info: Dictionary):
 	if (side_info.has("side") and current_side == side_info.side) or !has_side_settings:
 		_change_side(side_info)
 	populate_options()
+	if side_info.has("side"):
+		_select_options(side_info)
 
 
 func _change_category(side_info: Dictionary):

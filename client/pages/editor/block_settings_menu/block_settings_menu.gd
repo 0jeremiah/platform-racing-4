@@ -53,17 +53,22 @@ func update_display():
 
 
 func update_settings(new_settings: Dictionary):
-	settings_menu._update_settings(new_settings)
+	if settings_menu.block_settings != null:
+		settings_menu._update_settings(new_settings)
 	update_display()
 
 
 func update_settings_menu():
-	settings_menu.update_enabled_settings()
+	if settings_menu.block_settings != null:
+		settings_menu.update_enabled_settings()
 	update_display()
 
 
 func update_side_settings(updated_side_settings: Dictionary):
-	side_settings_menu._update_sides(updated_side_settings)
+	if side_settings_menu.block_settings != null:
+		side_settings_menu._update_sides(updated_side_settings)
+	if settings_menu.block_settings != null:
+		settings_menu.update_enabled_settings()
 	update_display()
 
 

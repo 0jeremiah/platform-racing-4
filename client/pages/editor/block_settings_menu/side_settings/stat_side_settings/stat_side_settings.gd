@@ -24,14 +24,14 @@ func send_signal():
 
 
 func _change_amount(new_amount: int, inc_or_dec: bool = false):
-	if inc_or_dec and amount + new_amount > -100 and amount + new_amount < 100:
+	if inc_or_dec and amount + new_amount >= -100 and amount + new_amount <= 100:
 		amount += new_amount
 		if amount_slider.value != amount:
 			amount_slider.set_value_no_signal(amount)
 		if int(amount_box.text) != amount:
 			amount_box._update_text(str(amount))
 		send_signal()
-	elif new_amount > -100 and new_amount < 100:
+	elif !inc_or_dec and new_amount >= -100 and new_amount <= 100:
 		amount = new_amount
 		if amount_slider.value != amount:
 			amount_slider.set_value_no_signal(amount)

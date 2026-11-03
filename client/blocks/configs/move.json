@@ -15,7 +15,9 @@
 		"health": 100.0,
 		"coin_value": 3,
 		"move_tick": 2.5,
-		"move_pattern": "random"
+		"move_pattern": "random",
+		"randomize_move_pattern": false,
+		"loop_move_pattern": true
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

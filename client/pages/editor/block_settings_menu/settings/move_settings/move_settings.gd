@@ -22,7 +22,7 @@ func _ready() -> void:
 	pattern_box.text_changed.connect(_parse_pattern)
 	random_button.pressed.connect(_toggle_random)
 	loop_button.pressed.connect(_toggle_loop)
-	_parse_pattern()
+	_parse_pattern(false)
 	connect_node(self, "move_settings_changed")
 
 
@@ -46,7 +46,7 @@ func _toggle_loop():
 	send_signal()
 
 
-func _parse_pattern():
+func _parse_pattern(send_signal_on_success: bool = true):
 	var move_pattern_info = ConfigurableBlockSettings.parse_move_pattern(pattern_box.text)
 	move_pattern = old_move_pattern
 	parse_results_label.set("theme_override_colors/default_color", Color("7F0000"))
@@ -54,16 +54,20 @@ func _parse_pattern():
 	if move_pattern_info.success:
 		move_pattern = move_pattern_info.move_pattern
 		parse_results_label.set("theme_override_colors/default_color", Color("007f00"))
-		send_signal()
+		if send_signal_on_success:
+			send_signal()
 
 
 func set_settings(new_settings: Dictionary):
 	if new_settings.has("move_tick"):
 		move_tick = new_settings.move_tick
+		tick_box._update_text(str(move_tick))
 	if new_settings.has("move_pattern"):
 		pattern_box.text = new_settings.move_pattern
-		_parse_pattern()
+		_parse_pattern(false)
 	if new_settings.has("randomize_move_pattern"):
 		randomize_move_pattern = new_settings.randomize_move_pattern
+		random_button.set_pressed_no_signal(randomize_move_pattern)
 	if new_settings.has("loop_move_pattern"):
 		loop_move_pattern = new_settings.loop_move_pattern
+		loop_button.set_pressed_no_signal(loop_move_pattern)

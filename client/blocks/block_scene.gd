@@ -43,6 +43,7 @@ var register_change_block: bool = true
 var move_block_active_mode: bool = false
 var move_block_move_command: String = ""
 var can_move = true
+var move_pattern_end_reached: bool = false
 var move_cooldown_timer: float = 0
 var origin_coords: Vector2i = Vector2i(0, 0)
 var sniper_cooldown: float = 1.0

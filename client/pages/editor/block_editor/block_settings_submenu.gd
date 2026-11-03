@@ -101,67 +101,6 @@ static var settings_presets: Dictionary = {
 	}
 }
 
-# needed for the side setting buttons when loading settings
-static var settings_lookup: Dictionary = {
-	"matter_types": {
-		ConfigurableBlockSettings.SOLID: {"key": "solid", "next_category": "solid_block_types"},
-		ConfigurableBlockSettings.LIQUID: {"key": "liquid", "next_category": "liquid_block_types"},
-		ConfigurableBlockSettings.GAS: {"key": "gas", "next_category": "gas_block_types"}
-		},
-	"solid_block_types": {
-		ConfigurableBlockSettings.ACTIVE: {"key": "active", "next_category": "solid_side_types"},
-		ConfigurableBlockSettings.IMPERVIOUS: {"key": "impervious", "next_category": "solid_side_types"},
-		ConfigurableBlockSettings.MOVE: {"key": "move", "next_category": "solid_side_types"},
-		ConfigurableBlockSettings.CHANGE: {"key": "change", "next_category": "solid_side_types"},
-		ConfigurableBlockSettings.GEAR: {"key": "gear", "next_category": "solid_side_types"},
-		ConfigurableBlockSettings.EGG: {"key": "egg", "next_category": "solid_side_types"}
-		},
-	"solid_side_types": {
-		ConfigurableBlockSideSettings.ACTIVE: {"key": "active"},
-		ConfigurableBlockSideSettings.INACTIVE: {"key": "inactive"},
-		ConfigurableBlockSideSettings.APPEAR: {"key": "appear"},
-		ConfigurableBlockSideSettings.ARROW: {"key": "arrow"},
-		ConfigurableBlockSideSettings.ATTACH: {"key": "attach"},
-		ConfigurableBlockSideSettings.BOUNCE: {"key": "bounce"},
-		ConfigurableBlockSideSettings.CHANGE_SIZE: {"key": "change_size"},
-		ConfigurableBlockSideSettings.CHANGE_STATS: {"key": "change_stats"},
-		ConfigurableBlockSideSettings.CRUMBLE: {"key": "crumble"},
-		ConfigurableBlockSideSettings.CUSTOM_STATS: {"key": "custom_stats"},
-		ConfigurableBlockSideSettings.MINE: {"key": "mine"},
-		ConfigurableBlockSideSettings.FINISH: {"key": "finish"},
-		ConfigurableBlockSideSettings.HEART: {"key": "heart"},
-		ConfigurableBlockSideSettings.ITEM: {"key": "item"},
-		ConfigurableBlockSideSettings.TIME: {"key": "time"},
-		ConfigurableBlockSideSettings.HURT: {"key": "hurt"},
-		ConfigurableBlockSideSettings.ICE: {"key": "ice"},
-		ConfigurableBlockSideSettings.PUSH: {"key": "push"},
-		ConfigurableBlockSideSettings.ROTATE: {"key": "rotate"},
-		ConfigurableBlockSideSettings.SAFETY: {"key": "safety"},
-		ConfigurableBlockSideSettings.SHATTER: {"key": "shatter"},
-		ConfigurableBlockSideSettings.SNIPER: {"key": "sniper"},
-		ConfigurableBlockSideSettings.STICKY: {"key": "sticky"},
-		ConfigurableBlockSideSettings.TELEPORT: {"key": "teleport"},
-		ConfigurableBlockSideSettings.VANISH: {"key": "vanish"}
-		},
-	"liquid_block_types": {
-		ConfigurableBlockSettings.WATER: {"key": "water", "next_category": "liquid_side_types"}
-		},
-	"liquid_side_types": {
-		ConfigurableBlockSideSettings.WATER: {"key": "water"}
-		},
-	"gas_block_types": {
-		ConfigurableBlockSettings.INACTIVE: {"key": "inactive", "next_category": "gas_side_types"},
-		ConfigurableBlockSettings.START_POSITION: {"key": "start_position", "next_category": "gas_side_types"},
-		ConfigurableBlockSettings.SWITCH: {"key": "switch", "next_category": "gas_side_types"},
-		ConfigurableBlockSettings.LIGHTBREAKER: {"key": "lightbreaker", "next_category": "gas_side_types"}
-		},
-	"gas_side_types": {
-		ConfigurableBlockSideSettings.INACTIVE: {"key": "inactive"},
-		ConfigurableBlockSideSettings.START_POSITION: {"key": "start_position"},
-		ConfigurableBlockSideSettings.SWITCH: {"key": "switch"},
-		ConfigurableBlockSideSettings.LIGHTBREAKER: {"key": "lightbreaker"}
-	}
-}
 var active: bool = false
 var editor_events: EditorEvents
 var dropdown_options: Array = []
@@ -170,11 +109,11 @@ var dropdown_options: Array = []
 func _ready() -> void:
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
-	block_settings_menu.init(block_settings)
 	update_display()
 
 
 func init() -> void:
+	block_settings_menu.init(block_settings)
 	editor_events.editor_event.connect(_on_editor_event)
 
 
@@ -261,7 +200,7 @@ func update_display():
 	block_settings_seperator.visible = true
 	block_settings_menu.change_container_size(Vector2(488.0, 298.0))
 	block_settings_menu.visible = true
-	if block_settings.block_type != ConfigurableBlockSettings.CHANGE:
+	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.EGG:
 		sides_settings.visible = true
 	panel_size.x += (block_settings_menu.position.x + block_settings_menu.size.x + 20) - panel_size.x
 	panel_size.y += (block_settings_menu.position.y + block_settings_menu.size.y + 20) - panel_size.y
@@ -278,21 +217,38 @@ static func get_side_setting_category(matter_type: String) -> String:
 
 
 static func get_side_setting_key(matter_type: String, block_type: String, side_setting: String) -> String:
-	var matter_type_next_category: String
-	if matter_type in settings_lookup.matter_types:
-		matter_type_next_category = settings_lookup.matter_types[matter_type].next_category
+	var current_matter_type: String
+	var matter_type_keys = settings_presets.matter_types.keys()
+	var matter_type_list = []
+	for matter_type_string in matter_type_keys:
+		matter_type_list.append(settings_presets.matter_types[matter_type_string].setting)
+	var matter_type_index = matter_type_list.find(matter_type)
+	if matter_type_index > -1:
+		current_matter_type = matter_type_keys[matter_type_index]
 	else:
-		matter_type_next_category = settings_lookup[settings_lookup.matter_types[settings_lookup.matter_types.keys()[0]].next_category]
-	var block_type_next_category: String
-	if block_type in settings_lookup[matter_type_next_category]:
-		block_type_next_category = settings_lookup[matter_type_next_category][block_type].next_category
+		current_matter_type = matter_type_keys[0]
+	var current_block_type: String
+	var block_type_side_category: String
+	var block_type_keys = settings_presets.matter_types[current_matter_type].block_types.keys()
+	var block_type_list = []
+	for block_type_string in block_type_keys:
+		block_type_list.append(settings_presets.matter_types[current_matter_type].block_types[block_type_string].setting)
+	var block_type_index = block_type_list.find(block_type)
+	if block_type_index > -1:
+		current_block_type = block_type_keys[block_type_index]
 	else:
-		block_type_next_category = settings_lookup[matter_type_next_category][settings_lookup[matter_type_next_category].keys()[0]].next_category
+		current_block_type = block_type_keys[0]
+	block_type_side_category = settings_presets.matter_types[current_matter_type].block_types[current_block_type].side_category
 	var side_setting_key: String
-	if side_setting in settings_lookup[block_type_next_category]:
-		side_setting_key = settings_lookup[block_type_next_category][side_setting].key
+	var side_category_keys = settings_presets.matter_types[current_matter_type].side_categories[block_type_side_category].keys()
+	var side_category_list = []
+	for side_category_string in side_category_keys:
+		side_category_list.append(settings_presets.matter_types[current_matter_type].side_categories[block_type_side_category][side_category_string].setting)
+	var side_category_index = side_category_list.find(side_setting)
+	if side_category_index > -1:
+		side_setting_key = side_category_keys[side_category_index]
 	else:
-		side_setting_key = settings_lookup[block_type_next_category][settings_lookup[block_type_next_category].keys()[0]].key
+		side_setting_key = side_category_keys[0]
 	return side_setting_key
 
 
@@ -307,6 +263,7 @@ func update_buttons():
 	matter_type_setting_button.pressed.connect(_show_matter_types.bind(matter_type_setting_button))
 	block_type_setting_button.text = block_type.label
 	block_type_setting_button.pressed.connect(_show_block_types.bind(block_type_setting_button))
+	block_settings_menu.update_settings_menu()
 	var current_sides = block_settings_menu.side_settings_menu.sides_dictionary[matter_type.side_setting_category]
 	var current_sides_keys = current_sides.keys()
 	for child in sides_settings.get_children():
@@ -314,8 +271,25 @@ func update_buttons():
 	for side in current_sides.size():
 		var side_category = block_type.side_category
 		var current_side_category = matter_type.side_categories.get(side_category, matter_type.side_categories[matter_type.side_categories.keys()[0]])
-		if current_sides[current_sides_keys[side]].setting not in current_side_category:
-			current_sides[current_sides_keys[side]].setting = current_side_category[current_side_category.keys()[0]].setting
+		var side_setting_key = get_side_setting_key(block_settings.matter_type, block_settings.block_type, current_sides[current_sides_keys[side]].setting)
+		if side_setting_key not in current_side_category:
+			side_setting_key = current_side_category.keys()[0]
+			current_sides[current_sides_keys[side]].setting = current_side_category[side_setting_key].setting
+		var side_instance = block_settings.get(current_sides_keys[side])
+		if side_instance != null:
+			var side_type = ""
+			var side_params = {}
+			var side_info = side_instance.get_type().duplicate(true)
+			if side_info.type == current_side_category[side_setting_key].setting:
+				side_type = side_info.type
+				side_params = side_info.params
+			else:
+				side_type = current_side_category[side_setting_key].setting
+				var sides_property = block_settings_menu.side_settings_menu.side_settings_list.sides_properties.get(current_side_category[side_setting_key].setting, {})
+				if sides_property.has("side_settings"):
+					side_params = sides_property.side_settings
+			var updated_side =  {"category": matter_type.side_setting_category, "side": current_sides_keys[side], "setting": side_type, "side_settings": side_params}
+			block_settings_menu.update_side_settings(updated_side)
 		var side_control = Control.new()
 		side_control.size = Vector2(250.0, 30.0)
 		side_control.position = Vector2(0, 40 * side)
