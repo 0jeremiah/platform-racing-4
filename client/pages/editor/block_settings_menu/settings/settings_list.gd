@@ -7,6 +7,7 @@ extends Control
 @onready var item_settings = $ItemSettings
 @onready var teleport_settings = $TeleportSettings
 @onready var time_settings = $TimeSettings
+@onready var egg_settings = $EggSettings
 @onready var gear_settings = $GearSettings
 @onready var switch_settings = $SwitchSettings
 @onready var lightbreaker_settings = $LightbreakerSettings
@@ -18,6 +19,7 @@ extends Control
 	ConfigurableBlockSideSettings.ITEM: {"label": "Item Settings", "settings": {"infinite_items": ConfigurableBlockSettings.default_block_properties.infinite_items, "item_supply": ConfigurableBlockSettings.default_block_properties.item_supply}, "node": item_settings},
 	ConfigurableBlockSideSettings.TELEPORT: {"label": "Teleport Settings", "settings": {"teleport_color": ConfigurableBlockSettings.default_block_properties.teleport_color, "teleport_throttle": ConfigurableBlockSettings.default_block_properties.teleport_throttle}, "node": teleport_settings},
 	ConfigurableBlockSideSettings.TIME: {"label": "Time Settings", "settings": {"infinite_time": ConfigurableBlockSettings.default_block_properties.infinite_time, "time_supply": ConfigurableBlockSettings.default_block_properties.time_supply}, "node": time_settings},
+	ConfigurableBlockSettings.EGG: {"label": "Egg Settings", "settings": {"egg_walk_velocity": 200.0, "egg_run_velocity": 1200.0, "egg_jump_velocity": -150.0, "egg_gravity": {"x": 0.0, "y": 2250.0}, "egg_can_run": false, "egg_can_jump": false, "egg_can_disguise": false}, "node": egg_settings},
 	ConfigurableBlockSettings.GEAR: {"label": "Gear Settings", "settings": {"gear_rotation": ConfigurableBlockSettings.default_block_properties.gear_rotation, "gear_tick_seconds": ConfigurableBlockSettings.default_block_properties.gear_tick_seconds, "gear_tock_seconds": ConfigurableBlockSettings.default_block_properties.gear_tock_seconds, "gear_inertia": ConfigurableBlockSettings.default_block_properties.gear_inertia, "gear_auto_rotation": ConfigurableBlockSettings.default_block_properties.gear_auto_rotation}, "node": gear_settings},
 	ConfigurableBlockSettings.SWITCH: {"label": "Switch Settings", "settings": {"limit_activate_range": false, "activate_range": {"x": 10, "y": 10}}, "node": switch_settings},
 	ConfigurableBlockSettings.LIGHTBREAKER: {"label": "Lightbreaker Settings", "settings": {"light_color": ConfigurableBlockSettings.default_block_properties.light_color}, "node": lightbreaker_settings}

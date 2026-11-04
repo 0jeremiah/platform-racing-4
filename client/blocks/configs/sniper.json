@@ -17,6 +17,6 @@
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",
-		"atlas_coords": {"x": 3, "y": 4}
+		"atlas_coords": {"x": 5, "y": 4}
 	}
 }

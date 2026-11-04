@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2t1qqip08oqx"
-path="res://.godot/imported/egg_spots.svg-837af76cbd9e2f4a339e600ac5ee60e0.ctex"
+uid="uid://dpm1eyphilv3j"
+path="res://.godot/imported/egg_outline.png-e881f557161417b726c6f86064ad13ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://blocks/egg/egg_spots.svg"
-dest_files=["res://.godot/imported/egg_spots.svg-837af76cbd9e2f4a339e600ac5ee60e0.ctex"]
+source_file="res://blocks/egg/egg_outline.png"
+dest_files=["res://.godot/imported/egg_outline.png-e881f557161417b726c6f86064ad13ef.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

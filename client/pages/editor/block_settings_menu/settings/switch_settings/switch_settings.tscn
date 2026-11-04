@@ -47,32 +47,6 @@ theme_override_font_sizes/normal_font_size = 20
 text = "}"
 vertical_alignment = 1
 
-[node name="ActivateOffsetXBox" type="LineEdit" parent="." unique_id=1215524281]
-layout_mode = 0
-offset_left = 180.0
-offset_right = 270.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 16
-text = "0"
-script = ExtResource("2_r272n")
-
-[node name="ActivateOffsetYBox" type="LineEdit" parent="." unique_id=821776920]
-layout_mode = 0
-offset_left = 300.0
-offset_right = 390.0
-offset_bottom = 30.0
-theme_override_font_sizes/font_size = 16
-text = "0"
-script = ExtResource("2_r272n")
-
-[node name="LimitActivateRangeCheckBox" type="CheckBox" parent="." unique_id=292354811]
-layout_mode = 0
-offset_top = 40.0
-offset_right = 200.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 17
-text = "Limit Activate Range"
-
 [node name="ActivateRangeLabel1" type="RichTextLabel" parent="." unique_id=1177158632]
 layout_mode = 0
 offset_top = 80.0
@@ -101,6 +75,32 @@ offset_bottom = 110.0
 theme_override_font_sizes/normal_font_size = 20
 text = "}"
 vertical_alignment = 1
+
+[node name="LimitActivateRangeCheckBox" type="CheckBox" parent="." unique_id=292354811]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 17
+text = "Limit Activate Range"
+
+[node name="ActivateOffsetXBox" type="LineEdit" parent="." unique_id=1215524281]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 270.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "0"
+script = ExtResource("2_r272n")
+
+[node name="ActivateOffsetYBox" type="LineEdit" parent="." unique_id=821776920]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 390.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "0"
+script = ExtResource("2_r272n")
 
 [node name="ActivateRangeXBox" type="LineEdit" parent="." unique_id=1547388016]
 layout_mode = 0

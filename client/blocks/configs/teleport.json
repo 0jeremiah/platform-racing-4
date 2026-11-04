@@ -19,7 +19,7 @@
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",
-		"atlas_coords": {"x": 2, "y": 3},
-		"teleport_atlas_coords": {"x": 3, "y": 3}
+		"atlas_coords": {"x": 4, "y": 3},
+		"teleport_atlas_coords": {"x": 5, "y": 3}
 	}
 }

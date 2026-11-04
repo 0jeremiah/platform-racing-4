@@ -3,9 +3,9 @@ extends BlockSetting
 signal switch_settings_changed
 
 @onready var blockpicker_popup = preload("res://pages/editor/setting_popups/block_picker/block_picker_popup.gd")
+@onready var limit_activate_range_check_box = $LimitActivateRangeCheckBox
 @onready var activate_offset_x_box = $ActivateOffsetXBox
 @onready var activate_offset_y_box = $ActivateOffsetYBox
-@onready var limit_activate_range_check_box = $LimitActivateRangeCheckBox
 @onready var activate_range_x_box = $ActivateRangeXBox
 @onready var activate_range_y_box = $ActivateRangeYBox
 

@@ -11,10 +11,19 @@
 		"bottom": {"type": "active", "params": {}},
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
-		"any_side": {"type": "active", "params": {}}
+		"any_side": {"type": "active", "params": {}},
+		"egg_walk_velocity": 200.0,
+		"egg_run_velocity": 1200.0,
+		"egg_jump_velocity": -150.0,
+		"egg_gravity": {"x": 0.0, "y": 2250.0},
+		"egg_can_run": false,
+		"egg_can_jump": false,
+		"egg_can_disguise": false,
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",
-		"atlas_coords": {"x": 0, "y": 3}
+		"atlas_coords": {"x": 0, "y": 3},
+		"egg_color_atlas_coords": {"x": 1, "y": 3},
+		"egg_spots_atlas_coords": {"x": 2, "y": 3}
 	}
 }

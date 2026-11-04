@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://dkj5eabi0kv6q"]
+
+[ext_resource type="Script" uid="uid://c6u6que1yt1sy" path="res://pages/editor/block_settings_menu/settings/egg_settings/egg_settings.gd" id="1_vckh6"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_7lh71"]
+
+[node name="EggSettings" type="Control" unique_id=1405008222]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 390.0
+offset_bottom = 270.0
+script = ExtResource("1_vckh6")
+
+[node name="EggWalkSpeedLabel" type="RichTextLabel" parent="." unique_id=1765462001]
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg walk velocity:"
+vertical_alignment = 1
+
+[node name="EggRunSpeedLabel" type="RichTextLabel" parent="." unique_id=347374860]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 160.0
+offset_bottom = 70.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg run velocity:"
+vertical_alignment = 1
+
+[node name="EggJumpVelocityLabel" type="RichTextLabel" parent="." unique_id=196979998]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 180.0
+offset_bottom = 110.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg jump velocity:"
+vertical_alignment = 1
+
+[node name="EggGravityLabel1" type="RichTextLabel" parent="." unique_id=1364124101]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 150.0
+offset_bottom = 150.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg gravity: {x:"
+vertical_alignment = 1
+
+[node name="EggGravityLabel2" type="RichTextLabel" parent="." unique_id=788123798]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 120.0
+offset_right = 280.0
+offset_bottom = 150.0
+theme_override_font_sizes/normal_font_size = 20
+text = ", y:"
+vertical_alignment = 1
+
+[node name="EggGravityLabel3" type="RichTextLabel" parent="." unique_id=1412076500]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 120.0
+offset_right = 390.0
+offset_bottom = 150.0
+theme_override_font_sizes/normal_font_size = 20
+text = "}"
+vertical_alignment = 1
+
+[node name="EggCanRunCheckBox" type="CheckBox" parent="." unique_id=1293543947]
+layout_mode = 0
+offset_top = 160.0
+offset_right = 100.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 17
+text = "Can run"
+
+[node name="EggCanJumpCheckBox" type="CheckBox" parent="." unique_id=1463227936]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 110.0
+offset_bottom = 230.0
+theme_override_font_sizes/font_size = 17
+text = "Can jump"
+
+[node name="EggCanDisguiseCheckBox" type="CheckBox" parent="." unique_id=867976136]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 180.0
+offset_bottom = 270.0
+theme_override_font_sizes/font_size = 17
+text = "Can disguise itself"
+
+[node name="EggWalkVelocityBox" type="LineEdit" parent="." unique_id=450471385]
+layout_mode = 0
+offset_left = 170.0
+offset_right = 270.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "200.0"
+script = ExtResource("2_7lh71")
+
+[node name="EggRunVelocityBox" type="LineEdit" parent="." unique_id=1391737872]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 40.0
+offset_right = 260.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 16
+text = "1200.0"
+script = ExtResource("2_7lh71")
+
+[node name="EggJumpVelocityBox" type="LineEdit" parent="." unique_id=1351337795]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 80.0
+offset_right = 280.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 16
+text = "-150.0"
+script = ExtResource("2_7lh71")
+
+[node name="EggGravityXBox" type="LineEdit" parent="." unique_id=2112756879]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 120.0
+offset_right = 250.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 16
+text = "0.0"
+script = ExtResource("2_7lh71")
+
+[node name="EggGravityYBox" type="LineEdit" parent="." unique_id=1542466765]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 120.0
+offset_right = 380.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 16
+text = "2250.0"
+script = ExtResource("2_7lh71")
