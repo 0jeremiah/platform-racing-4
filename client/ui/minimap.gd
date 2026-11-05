@@ -47,14 +47,19 @@ func _create_minimap_layer(map_layer: MapLayer):
 	var block_texture = null
 	for used_cell in used_cells:
 		var block_info = map_layer.tile_map_layer.get_block(used_cell)
-		if block_info.id == "":
+		if block_info.id == "" or block_info.settings.has_side_type(ConfigurableBlockSideSettings.APPEAR):
 			continue
-		var teleport_color = ConfigurableBlockSettings.default_block_properties.teleport_color
+		var color_1 = "FFFFFF"
+		var color_2 = "FFFFFF"
 		if block_info.settings != null:
-			teleport_color = block_info.settings.teleport_color
+			if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+				color_1 = block_info.settings.teleport_color
+			if block_info.settings.block_type == ConfigurableBlockSettings.EGG:
+				color_1 = block_info.settings.egg_color
+				color_2 = block_info.settings.egg_spots_color
 		if block_id != block_info.id:
 			block_id = block_info.id
-			block_texture = BlockManager.new_get_block_texture(block_id, teleport_color).get_image()
+			block_texture = BlockManager.new_get_block_texture(block_id, color_1, color_2).get_image()
 		var block_size = Vector2i(max(int(Settings.tile_size.x * effective_scale), 2), max(int(Settings.tile_size.y * effective_scale), 2))
 		block_texture.resize(block_size.x, block_size.y)
 		var block_image = ImageTexture.create_from_image(block_texture)

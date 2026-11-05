@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://c6u6que1yt1sy" path="res://pages/editor/block_settings_menu/settings/egg_settings/egg_settings.gd" id="1_vckh6"]
 [ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_7lh71"]
+[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="3_7lh71"]
 
 [node name="EggSettings" type="Control" unique_id=1405008222]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 390.0
-offset_bottom = 270.0
+offset_right = 480.0
+offset_bottom = 310.0
 script = ExtResource("1_vckh6")
 
 [node name="EggWalkSpeedLabel" type="RichTextLabel" parent="." unique_id=1765462001]
@@ -65,6 +66,24 @@ theme_override_font_sizes/normal_font_size = 20
 text = "}"
 vertical_alignment = 1
 
+[node name="EggColorLabel" type="RichTextLabel" parent="." unique_id=2113833155]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 100.0
+offset_bottom = 230.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg Color:"
+vertical_alignment = 1
+
+[node name="EggSpotsColorLabel" type="RichTextLabel" parent="." unique_id=1205481732]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 160.0
+offset_bottom = 270.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Egg Spots Color:"
+vertical_alignment = 1
+
 [node name="EggCanRunCheckBox" type="CheckBox" parent="." unique_id=1293543947]
 layout_mode = 0
 offset_top = 160.0
@@ -75,19 +94,38 @@ text = "Can run"
 
 [node name="EggCanJumpCheckBox" type="CheckBox" parent="." unique_id=1463227936]
 layout_mode = 0
-offset_top = 200.0
-offset_right = 110.0
-offset_bottom = 230.0
+offset_left = 110.0
+offset_top = 160.0
+offset_right = 220.0
+offset_bottom = 190.0
 theme_override_font_sizes/font_size = 17
 text = "Can jump"
 
 [node name="EggCanDisguiseCheckBox" type="CheckBox" parent="." unique_id=867976136]
 layout_mode = 0
-offset_top = 240.0
-offset_right = 180.0
-offset_bottom = 270.0
+offset_left = 230.0
+offset_top = 160.0
+offset_right = 410.0
+offset_bottom = 190.0
 theme_override_font_sizes/font_size = 17
 text = "Can disguise itself"
+
+[node name="EggRandomizeColorCheckBox" type="CheckBox" parent="." unique_id=1239304877]
+layout_mode = 0
+offset_top = 280.0
+offset_right = 210.0
+offset_bottom = 310.0
+theme_override_font_sizes/font_size = 17
+text = "Randomize Egg Color"
+
+[node name="EggRandomizeSpotsColorCheckBox" type="CheckBox" parent="." unique_id=685125884]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 280.0
+offset_right = 480.0
+offset_bottom = 310.0
+theme_override_font_sizes/font_size = 17
+text = "Randomize Egg Spots Color"
 
 [node name="EggWalkVelocityBox" type="LineEdit" parent="." unique_id=450471385]
 layout_mode = 0
@@ -137,3 +175,17 @@ offset_bottom = 150.0
 theme_override_font_sizes/font_size = 16
 text = "2250.0"
 script = ExtResource("2_7lh71")
+
+[node name="EggColorButton" parent="." unique_id=2091517071 instance=ExtResource("3_7lh71")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 200.0
+offset_right = 148.0
+offset_bottom = 248.0
+
+[node name="EggSpotsColorButton" parent="." unique_id=1780641015 instance=ExtResource("3_7lh71")]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 240.0
+offset_right = 208.0
+offset_bottom = 288.0

@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://doc0mtssd4xfp"]
+[gd_scene format=3 uid="uid://doc0mtssd4xfp"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_1wisd"]
-[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="2_vfkgv"]
+[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/layer_name_panel.gd" id="2_vfkgv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wisd"]
 bg_color = Color(0.7137255, 0.90588236, 0.92156863, 1)
@@ -27,21 +27,22 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.5137255, 0.7137255, 0.95686275, 1)
 
-[node name="RenameLayerPanel" type="Popup"]
-transparent_bg = true
-oversampling_override = 1.0
-size = Vector2i(288, 40)
-visible = true
-min_size = Vector2i(288, 40)
+[node name="LayerNamePanel" type="Control" unique_id=1321814945]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 288.0
+offset_bottom = 40.0
 theme = ExtResource("1_1wisd")
 script = ExtResource("2_vfkgv")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500450403]
+layout_mode = 0
 offset_right = 288.0
 offset_bottom = 40.0
 color = Color(0, 0, 0, 0.24705882)
 
-[node name="NewLayerName" type="LineEdit" parent="."]
+[node name="LayerNameBox" type="LineEdit" parent="." unique_id=718107148]
+layout_mode = 0
 offset_right = 228.0
 offset_bottom = 40.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_1wisd")
@@ -49,7 +50,8 @@ theme_override_styles/read_only = SubResource("StyleBoxFlat_vfkgv")
 theme_override_styles/focus = SubResource("StyleBoxFlat_i6agt")
 text = "Layer Name"
 
-[node name="OKButton" type="Button" parent="."]
+[node name="OKButton" type="Button" parent="." unique_id=920207582]
+layout_mode = 0
 offset_left = 238.0
 offset_right = 288.0
 offset_bottom = 40.0

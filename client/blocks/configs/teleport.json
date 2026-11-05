@@ -14,7 +14,7 @@
 		"any_side": {"type": "teleport", "params": {}},
 		"health": 100.0,
 		"coin_value": 3,
-		"teleport_color": "FF7F50",
+		"teleport_color": "ff7f50",
 		"teleport_throttle": 3.0
 	},
 	"image": {

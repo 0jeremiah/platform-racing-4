@@ -5,9 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://damd8r8qtxful" path="res://character_display/parts/classic/classic_foot_back_lines.png" id="3_4wt1b"]
 [ext_resource type="Texture2D" uid="uid://yfou0088dbe" path="res://character_display/parts/classic/classic_foot_back_epic_color.png" id="4_wrqeo"]
 [ext_resource type="Texture2D" uid="uid://bxbjatsqn8771" path="res://character_display/parts/classic/classic_foot_back_misc1.png" id="5_j04si"]
-[ext_resource type="Texture2D" uid="uid://dqlomqcdufntv" path="res://blocks/egg/egg_color.png" id="6_68tga"]
-[ext_resource type="Texture2D" uid="uid://b1urn8iwkbvqo" path="res://blocks/egg/egg_spots.png" id="7_76bgp"]
-[ext_resource type="Texture2D" uid="uid://dpm1eyphilv3j" path="res://blocks/egg/egg_outline.png" id="8_bm2so"]
+[ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="6_8uqg7"]
 [ext_resource type="Texture2D" uid="uid://cy8l8tvqgu06v" path="res://character_display/parts/classic/classic_foot_front_color.png" id="10_tdj2w"]
 [ext_resource type="Texture2D" uid="uid://x1fnqrmy58b8" path="res://character_display/parts/classic/classic_foot_front_lines.png" id="11_qbuof"]
 [ext_resource type="Texture2D" uid="uid://dlw5vcxwe1pal" path="res://character_display/parts/classic/classic_foot_front_epic_color.png" id="12_wjr5n"]
@@ -1942,21 +1940,21 @@ position = Vector2(0, -58)
 scale = Vector2(0.5, 0.5)
 
 [node name="EggColor" type="Sprite2D" parent="Egg" unique_id=696012050]
-self_modulate = Color(0.7490196, 0.101960786, 0.101960786, 1)
+visible = false
 position = Vector2(0, -38)
 scale = Vector2(2, 2)
-texture = ExtResource("6_68tga")
+texture = ExtResource("6_8uqg7")
 
 [node name="EggSpots" type="Sprite2D" parent="Egg" unique_id=659326471]
-self_modulate = Color(0, 1, 0.6, 1)
+visible = false
 position = Vector2(0, -38)
 scale = Vector2(2, 2)
-texture = ExtResource("7_76bgp")
+texture = ExtResource("6_8uqg7")
 
 [node name="EggTexture" type="Sprite2D" parent="Egg" unique_id=1156797732]
 position = Vector2(0, -38)
 scale = Vector2(2, 2)
-texture = ExtResource("8_bm2so")
+texture = ExtResource("6_8uqg7")
 
 [node name="FootFront" type="Node2D" parent="." unique_id=1154183850]
 position = Vector2(-16, -64)

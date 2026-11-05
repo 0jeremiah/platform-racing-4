@@ -129,30 +129,7 @@ func check_out_of_bounds(character: Character) -> void:
 	var current_layer = Game.game.get_current_player_layer()
 	if not current_layer:
 		return
-	var map_used_rect = Game.game.get_total_used_rect_in_z_axis(character_depth)
-	var rotated_vectors = [Vector2(map_used_rect.position.x, map_used_rect.position.y).rotated(character.rotation),
-	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y).rotated(character.rotation),
-	Vector2(map_used_rect.position.x, map_used_rect.position.y + map_used_rect.size.y).rotated(character.rotation),
-	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y + map_used_rect.size.y).rotated(character.rotation)]
-	var x_points = []
-	var y_points = []
-	for rotated_vector in rotated_vectors:
-		x_points.append(rotated_vector.x)
-		y_points.append(rotated_vector.y)
-	x_points.sort()
-	y_points.sort()
-	#return Rect2i(int(x_points[0]), int(y_points[0]), int(abs(x_points[0] - x_points[3])), int(abs(y_points[0] - y_points[3])))
-	
-	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
-	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT
-	var min_y = map_used_rect.position.y - OUT_OF_BOUNDS_BLOCK_COUNT
-	var max_y = map_used_rect.position.y + map_used_rect.size.y + OUT_OF_BOUNDS_BLOCK_COUNT
-	
-	var player_x_normalised = character.position.x / Settings.tile_size.x
-	var player_y_normalised = character.position.y / Settings.tile_size.y
-
-	if player_x_normalised < min_x or player_x_normalised > max_x or\
-	(player_y_normalised < min_y and character.rotation != 0) or player_y_normalised > max_y:
+	if Game.game.level_manager.level_layers.is_out_of_bounds(character, Vector2(OUT_OF_BOUNDS_BLOCK_COUNT, OUT_OF_BOUNDS_BLOCK_COUNT)):
 		if (last_safe_layer != null and (character not in last_safe_layer.players.get_children())):
 			character.get_parent().remove_child(character)
 			last_safe_layer.players.add_child(character)

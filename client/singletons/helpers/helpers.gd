@@ -12,7 +12,13 @@ func to_bitmask_32(num: int) -> int:
 func get_depth(node: Node) -> int:
 	if node is MapLayer:
 		return node.z_axis
-	return get_depth(node.get_parent())
+	elif node is Character:
+		return node.tile_interaction.character_depth
+	elif node is EggEnemy:
+		return node.egg_depth
+	if node.get_parent() != null:
+		return get_depth(node.get_parent())
+	return 10
 
 
 func gzip_encode(text: String) -> PackedByteArray:

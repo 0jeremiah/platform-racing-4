@@ -57,15 +57,15 @@ offset_bottom = 234.0
 layout_mode = 1
 anchors_preset = -1
 offset_right = 88.0
-offset_bottom = 224.0
+offset_bottom = 204.0
 
 [node name="SelectionGlow" type="ColorRect" parent="BlockMenu" unique_id=345802218]
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 0
 offset_left = 15.0
-offset_top = 151.0
+offset_top = 131.0
 offset_right = 73.0
-offset_bottom = 209.0
+offset_bottom = 189.0
 color = Color(1, 1, 0, 1)
 
 [node name="BlockMover" type="Control" parent="BlockMenu" unique_id=1363438370]
@@ -112,9 +112,9 @@ stretch_mode = 0
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 88.0
+offset_top = 78.0
 offset_right = 68.0
-offset_bottom = 136.0
+offset_bottom = 126.0
 pivot_offset = Vector2(24, 24)
 tooltip_text = "This ruthless eraser destroys any block on contact."
 
@@ -151,9 +151,9 @@ stretch_mode = 0
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 156.0
+offset_top = 136.0
 offset_right = 68.0
-offset_bottom = 204.0
+offset_bottom = 184.0
 pivot_offset = Vector2(24, 24)
 tooltip_text = "Draw blocks!"
 
@@ -189,17 +189,17 @@ stretch_mode = 0
 [node name="BlockDrawPanel" type="Panel" parent="BlockMenu" unique_id=1391180326]
 layout_mode = 1
 anchors_preset = -1
-offset_top = 234.0
+offset_top = 214.0
 offset_right = 88.0
-offset_bottom = 322.0
+offset_bottom = 302.0
 
 [node name="BlockDraw" type="Control" parent="BlockMenu" unique_id=242870151]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 254.0
+offset_top = 234.0
 offset_right = 68.0
-offset_bottom = 302.0
+offset_bottom = 282.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw" unique_id=1304536806]
@@ -223,16 +223,16 @@ offset_bottom = 128.0
 [node name="BlockOptionsPanel" type="Panel" parent="BlockMenu" unique_id=724867035]
 layout_mode = 1
 anchors_preset = -1
-offset_top = 332.0
+offset_top = 312.0
 offset_right = 88.0
-offset_bottom = 420.0
+offset_bottom = 400.0
 
 [node name="BlockOptions" type="Control" parent="BlockMenu" unique_id=1927428050]
 anchors_preset = 0
 offset_left = 20.0
-offset_top = 352.0
+offset_top = 332.0
 offset_right = 68.0
-offset_bottom = 400.0
+offset_bottom = 380.0
 pivot_offset = Vector2(24, 24)
 
 [node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockOptions" unique_id=281597370]
@@ -265,20 +265,9 @@ texture_normal = ExtResource("6_sxige")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BlockOptionsPopup" type="Popup" parent="BlockMenu/BlockOptions" unique_id=91153705]
-transparent_bg = true
-oversampling_override = 1.0
-visible = true
-
-[node name="PopupHolder" type="Control" parent="BlockMenu/BlockOptions/BlockOptionsPopup" unique_id=421492184]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="LayerPanel" parent="." unique_id=268501718 instance=ExtResource("8_xpnty")]
 layout_mode = 0
 offset_left = 10.0
-offset_top = 682.0
+offset_top = 610.0
 offset_right = 340.0
-offset_bottom = 1070.0
+offset_bottom = 1060.0

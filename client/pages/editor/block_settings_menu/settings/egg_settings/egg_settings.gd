@@ -5,11 +5,15 @@ signal egg_settings_changed
 @onready var egg_can_run_check_box = $EggCanRunCheckBox
 @onready var egg_can_jump_check_box = $EggCanJumpCheckBox
 @onready var egg_can_disguise_check_box = $EggCanDisguiseCheckBox
+@onready var egg_randomize_color_check_box = $EggRandomizeColorCheckBox
+@onready var egg_randomize_spots_color_check_box = $EggRandomizeSpotsColorCheckBox
 @onready var egg_walk_velocity_box = $EggWalkVelocityBox
 @onready var egg_run_velocity_box = $EggRunVelocityBox
 @onready var egg_jump_velocity_box = $EggJumpVelocityBox
 @onready var egg_gravity_x_box = $EggGravityXBox
 @onready var egg_gravity_y_box = $EggGravityYBox
+@onready var egg_color_button = $EggColorButton
+@onready var egg_spots_color_button = $EggSpotsColorButton
 
 var egg_walk_velocity: float = ConfigurableBlockSettings.default_block_properties.egg_walk_velocity
 var egg_run_velocity: float = ConfigurableBlockSettings.default_block_properties.egg_run_velocity
@@ -18,6 +22,10 @@ var egg_gravity: Vector2 = Vector2(ConfigurableBlockSettings.default_block_prope
 var egg_can_run: bool = ConfigurableBlockSettings.default_block_properties.egg_can_run
 var egg_can_jump: bool = ConfigurableBlockSettings.default_block_properties.egg_can_jump
 var egg_can_disguise: bool = ConfigurableBlockSettings.default_block_properties.egg_can_disguise
+var egg_color: Color = Color(ConfigurableBlockSettings.default_block_properties.egg_color)
+var egg_spots_color: Color = Color(ConfigurableBlockSettings.default_block_properties.egg_spots_color)
+var egg_randomize_color: bool = ConfigurableBlockSettings.default_block_properties.egg_randomize_color
+var egg_randomize_spots_color: bool = ConfigurableBlockSettings.default_block_properties.egg_randomize_spots_color
 
 
 func _ready() -> void:
@@ -34,13 +42,23 @@ func _ready() -> void:
 	egg_can_run_check_box.pressed.connect(_toggle_egg_can_run)
 	egg_can_jump_check_box.pressed.connect(_toggle_egg_can_jump)
 	egg_can_disguise_check_box.pressed.connect(_toggle_egg_can_disguise)
+	egg_color_button.set_color_button_scale(Vector2(0.625, 0.625))
+	egg_color_button.set_color(egg_color)
+	egg_color_button.colorbutton_color_changed.connect(_change_egg_color)
+	egg_spots_color_button.set_color_button_scale(Vector2(0.625, 0.625))
+	egg_spots_color_button.set_color(egg_spots_color)
+	egg_spots_color_button.colorbutton_color_changed.connect(_change_egg_spots_color)
+	egg_randomize_color_check_box.pressed.connect(_toggle_egg_randomize_color)
+	egg_randomize_spots_color_check_box.pressed.connect(_toggle_egg_randomize_spots_color)
 	connect_node(self, "egg_settings_changed")
 
 
 func send_signal():
 	emit_signal("egg_settings_changed", {"egg_walk_velocity": egg_walk_velocity, "egg_run_velocity": egg_run_velocity,
 	"egg_jump_velocity": egg_jump_velocity, "egg_gravity": {"x": egg_gravity.x, "y": egg_gravity.y},
-	"egg_can_run": egg_can_run, "egg_can_jump": egg_can_jump, "egg_can_disguise": egg_can_disguise})
+	"egg_can_run": egg_can_run, "egg_can_jump": egg_can_jump, "egg_can_disguise": egg_can_disguise,
+	"egg_color": egg_color.to_html(false), "egg_spots_color": egg_spots_color.to_html(false),
+	"egg_randomize_color": egg_randomize_color, "egg_randomize_spots_color": egg_randomize_spots_color})
 
 
 func _update_egg_walk_velocity(new_egg_walk_velocity: float):
@@ -83,6 +101,26 @@ func _toggle_egg_can_disguise():
 	send_signal()
 
 
+func _change_egg_color(new_egg_color: Color):
+	egg_color = new_egg_color
+	send_signal()
+
+
+func _change_egg_spots_color(new_egg_spots_color: Color):
+	egg_spots_color = new_egg_spots_color
+	send_signal()
+
+
+func _toggle_egg_randomize_color():
+	egg_randomize_color = egg_randomize_color_check_box.button_pressed
+	send_signal()
+
+
+func _toggle_egg_randomize_spots_color():
+	egg_randomize_spots_color = egg_randomize_spots_color_check_box.button_pressed
+	send_signal()
+
+
 func set_settings(new_settings: Dictionary):
 	if new_settings.has("egg_walk_velocity"):
 		egg_walk_velocity = clamp(new_settings.egg_walk_velocity, -9999999.9, 99999999.9)
@@ -106,3 +144,15 @@ func set_settings(new_settings: Dictionary):
 	if new_settings.has("egg_can_disguise"):
 		egg_can_disguise = new_settings.egg_can_disguise
 		egg_can_disguise_check_box.set_pressed_no_signal(egg_can_disguise)
+	if new_settings.has("egg_color"):
+		egg_color = Color(new_settings.egg_color)
+		egg_color_button.set_color(egg_color)
+	if new_settings.has("egg_spots_color"):
+		egg_spots_color = Color(new_settings.egg_spots_color)
+		egg_spots_color_button.set_color(egg_spots_color)
+	if new_settings.has("egg_randomize_color"):
+		egg_randomize_color = new_settings.egg_randomize_color
+		egg_randomize_color_check_box.set_pressed_no_signal(egg_randomize_color)
+	if new_settings.has("egg_randomize_spots_color"):
+		egg_randomize_spots_color = new_settings.egg_randomize_spots_color
+		egg_randomize_spots_color_check_box.set_pressed_no_signal(egg_randomize_spots_color)

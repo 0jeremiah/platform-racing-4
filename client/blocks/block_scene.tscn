@@ -50,6 +50,20 @@ offset_right = 64.0
 offset_bottom = 64.0
 color = Color(0, 0, 0, 1)
 
+[node name="EggColorTexture" type="Sprite2D" parent="BlockTexture" unique_id=962728400]
+visible = false
+show_behind_parent = true
+clip_children = 2
+texture = ExtResource("2_1f6pq")
+metadata/_edit_use_anchors_ = true
+
+[node name="EggSpotsTexture" type="Sprite2D" parent="BlockTexture" unique_id=353327286]
+visible = false
+show_behind_parent = true
+clip_children = 2
+texture = ExtResource("2_1f6pq")
+metadata/_edit_use_anchors_ = true
+
 [node name="FrozenTexture" type="Sprite2D" parent="BlockTexture" unique_id=859472906]
 visible = false
 texture = ExtResource("2_1f6pq")

@@ -1,8 +1,14 @@
 extends CharacterBody2D
+class_name EggEnemy
+
+@onready var egg_display = $EggDisplay
+@onready var attack_area = $AttackArea
+@onready var reveal_area = $RevealArea
+@onready var sense_jump_area = $SenseJumpArea
 
 var walk_velocity = 200.0
 var run_velocity = 1200.0
-var jump_velocity = -150.0
+var jump_velocity = -1000.0
 var gravity: Vector2 = Vector2(0.0, 2250.0)
 var attack_cooldown: float = 4.444
 var attack_timer: float = 0.0
@@ -15,34 +21,43 @@ var can_jump: bool = false
 var can_disguise: bool = false
 var state: String = "walk"
 var animation_timer: float = 0.0
-@onready var egg_display = $EggDisplay
-@onready var attack_area = $AttackArea
-@onready var reveal_area = $RevealArea
-@onready var sense_jump_area = $SenseJumpArea
+var egg_depth: int = 10
 
 
-func _ready():
+func _ready() -> void:
 	egg_display.scale.x = 1 - (2 * randi_range(0, 1))
 	velocity.x = walk_velocity * egg_display.scale.x
 	attack_area.scale.x = egg_display.scale.x
-	collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
-	collision_mask = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
-	attack_area.collision_layer = collision_layer
-	attack_area.collision_mask = collision_mask
+	var solid_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
+	var vapor_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.non_solid_layer_id)
+	collision_layer = solid_layer
+	collision_mask = solid_layer
+	var areas = [attack_area, reveal_area, sense_jump_area]
+	for area in areas:
+		area.collision_layer = solid_layer
+		area.collision_mask = solid_layer | vapor_layer
+	egg_display.animations.animation_changed.connect(_on_animation_changed)
 	if can_disguise:
 		state = "disguise"
 		animation_timer = randf_range(5.0, 20.0)
 	else:
-		state = "walk"
+		if can_run:
+			state = "run"
+		else:
+			state = "walk"
 
 
 func _process(delta: float):
+	check_out_of_bounds()
 	if state == "walk":
 		velocity.x = walk_velocity
 	maybe_run_animations()
-	attack_area.monitoring = false
-	reveal_area.monitoring = false
-	sense_jump_area.monitoring = false
+	if state != "walk" and state != "run" and state != "jump":
+		attack_area.monitoring = false
+	if state != "disguise":
+		reveal_area.monitoring = false
+	if state != "walk" and state != "run":
+		sense_jump_area.monitoring = false
 	if state == "disguise":
 		reveal_area.monitoring = true
 		if animation_timer > 0:
@@ -52,30 +67,20 @@ func _process(delta: float):
 				egg_display.animations.clear_queue()
 				egg_display.play("disguise_look")
 				egg_display.animations.queue("disguise")
-				egg_display.animations.animation_changed.connect(_on_animation_changed)
+				animation_timer = 0
 		detect_players()
 	if state == "walk" or state == "run" or state == "jump":
 		attack_area.monitoring = true
 		if state != "jump":
 			sense_jump_area.monitoring = true
-		if state == "walk":
-			velocity.x = walk_velocity * egg_display.scale.x
-		elif state == "run":
-			velocity.x = run_velocity * egg_display.scale.x
 		if state == "jump" and is_on_floor():
 			if can_run:
 				state = "run"
 			else:
 				state = "walk"
-		if (state == "walk" or state == "run") and need_to_jump():
-			velocity.y = jump_velocity
+		if is_on_floor() and (state == "walk" or state == "run") and sense_jump_area.monitoring and need_to_jump():
 			state = "jump"
-		move_and_slide()
-		if is_on_wall():
-			egg_display.scale.x *= -1
-			velocity.x *= egg_display.scale.x
-			attack_area.scale.x = egg_display.scale.x
-		velocity += gravity * delta
+			velocity.y = jump_velocity
 		if attack_timer > 0:
 			if attack_timer - delta > 0:
 				attack_timer -= delta
@@ -83,28 +88,46 @@ func _process(delta: float):
 				attack_timer = 0
 		else:
 			detect_players()
+	if state == "walk":
+		velocity.x = walk_velocity * egg_display.scale.x
+	elif state == "run":
+		velocity.x = run_velocity * egg_display.scale.x
+	elif state == "disguise":
+		velocity.x = 0
+	move_and_slide()
+	if is_on_wall():
+		egg_display.scale.x *= -1
+		velocity.x *= egg_display.scale.x
+		attack_area.scale.x = egg_display.scale.x
+	velocity += gravity * delta
 
 
 func detect_players():
-	var collisions: Array = attack_area.get_overlapping_bodies()
-	for body in collisions:
-		if body == Game.game.player_manager.character:
-			if state == "disguise":
-				state = "reveal"
-			elif state == "run" or state == "walk" or state == "jump":
+	if attack_area.monitoring:
+		var attack_collisions: Array = attack_area.get_overlapping_bodies()
+		for body in attack_collisions:
+			if body == Game.game.player_manager.character:
 				attack_timer = attack_cooldown
 				attack()
-			break
+				break
+	if reveal_area.monitoring:
+		var reveal_collisions: Array = reveal_area.get_overlapping_bodies()
+		for body in reveal_collisions:
+			if body == Game.game.player_manager.character:
+				state = "reveal"
+				break
 
 
 func need_to_jump() -> bool:
 	if !is_on_floor():
 		return false
-	var collisions = sense_jump_area.get_overlapping_bodies()
-	for body in collisions:
-		if body is BlockScene:
-			return true
-	return false
+	var bodies = sense_jump_area.get_overlapping_bodies()
+	var should_jump: bool = true
+	for body in bodies:
+		if body is BlockScene and body.settings.matter_type != ConfigurableBlockSettings.GAS:
+			should_jump = false
+			break
+	return should_jump
 
 
 func attack():
@@ -141,21 +164,23 @@ func attack():
 
 
 func maybe_run_animations():
-	var current_animation = egg_display.animations.get_current_animation()
+	var current_animation = str(egg_display.animations.get_current_animation())
 	if state == "walk" and current_animation != "walk":
 		egg_display.animations.clear_queue()
 		egg_display.play("walk")
 	elif state == "run" and current_animation != "run":
 		egg_display.animations.clear_queue()
 		egg_display.play("walk")
-	elif state == "disguise" and current_animation != "disguise" or current_animation != "disguise_look":
+	elif state == "disguise" and (current_animation != "disguise" and current_animation != "disguise_look"):
 		egg_display.animations.clear_queue()
 		egg_display.animations.play("disguise")
 	elif state == "reveal" and current_animation != "reveal":
 		egg_display.animations.clear_queue()
 		egg_display.play("reveal")
-		egg_display.animations.queue("walk")
-		egg_display.animations.animation_changed.connect(_on_animation_changed)
+		if can_run:
+			egg_display.animations.queue("run")
+		else:
+			egg_display.animations.queue("walk")
 	elif state == "jump" and current_animation != "jump":
 		egg_display.animations.clear_queue()
 		egg_display.play("jump")
@@ -164,17 +189,28 @@ func maybe_run_animations():
 		egg_display.animations.clear_queue()
 		egg_display.play("squash")
 		egg_display.animations.queue("squash")
-		egg_display.animations.animation_changed.connect(_on_animation_changed)
 
 
-func _on_animation_changed():
-	egg_display.animations.animation_changed.disconnect(_on_animation_changed)
-	if state == "reveal" or egg_display.animations.get_current_animation() == "walk":
-		if can_run:
+func _on_animation_changed(old_name: String, new_name: String):
+	var previous_animation_name = str(old_name)
+	var queued_animation_name = str(new_name)
+	if state == "reveal":
+		if can_run or queued_animation_name == "run":
 			state = "run"
 		else:
 			state = "walk"
-	if state == "disguise":
+	if state == "disguise" or previous_animation_name == "disguise_look":
 		animation_timer = randf_range(5.0, 20.0)
 	elif state == "squashed":
+		queue_free()
+
+
+func set_egg_texture(block_id: String, color_1: String, color_2: String):
+	egg_display.set_egg_texture(block_id, color_1, color_2)
+
+
+func check_out_of_bounds() -> void:
+	if not Game.game:
+		return
+	if Game.game.level_manager.level_layers.is_out_of_bounds(self):
 		queue_free()

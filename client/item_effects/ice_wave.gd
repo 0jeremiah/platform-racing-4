@@ -25,5 +25,6 @@ func hit_player(_character: Character) -> void:
 
 
 func hit_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _events: Array, _normal: Vector2 = Vector2.ZERO) -> void:
-	if tile_map_layer.block_dict.has(tile_map_layer.get_block_dict_name(coords)) and !tile_map_layer.block_dict[tile_map_layer.get_block_dict_name(coords)].node.frozen:
-		tile_map_layer.block_dict[tile_map_layer.get_block_dict_name(coords)].node.freeze()
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.settings != null and block_info.node != null and block_info.settings.matter_type != ConfigurableBlockSettings.GAS and !block_info.node.frozen:
+		block_info.node.freeze()

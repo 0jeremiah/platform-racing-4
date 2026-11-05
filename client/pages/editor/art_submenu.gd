@@ -91,7 +91,7 @@ func init() -> void:
 	var visible_boxes_list: Array = [brush_box, eraser_box, stamp_box, text_box]
 	if current_layers is LevelLayers:
 		visible_boxes_list.push_front(background_box)
-	show_boxes(visible_boxes_list)
+	show_art_menu_boxes(visible_boxes_list)
 	layer_panel.init(current_editor, current_layers, "art")
 	editor_events.connect_to([layer_panel])
 	editor_events.editor_event.connect(_on_editor_event)
@@ -151,7 +151,7 @@ func _on_editor_event(event: Dictionary) -> void:
 		_select_stamp(event.stamp)
 
 
-func show_boxes(boxes_list: Array):
+func show_art_menu_boxes(boxes_list: Array):
 	art_menu.visible = false
 	background_box.visible = false
 	brush_box.visible = false
@@ -162,12 +162,32 @@ func show_boxes(boxes_list: Array):
 	var y_offset: float = 0.0
 	if !boxes_list.is_empty():
 		for box in boxes_list.size():
-			art_menu_panel.size.y = 88 + (68 * box)
-			boxes_list[box].position.y = 20 + (68 * box)
+			art_menu_panel.size.y = 88 + (58 * box)
+			boxes_list[box].position.y = 20 + (58 * box)
 			boxes_list[box].visible = true
 		art_menu.visible = true
 		y_offset = art_menu_panel.size.y + 20
+	art_menu.size = art_menu_panel.size + Vector2(10.0, 10.0)
 	art_settings.position.y = y_offset
+
+
+func show_art_settings_boxes(boxes_list: Array):
+	art_settings.visible = false
+	color_box_button.visible = false
+	selected_stamp_box.visible = false
+	size_box.visible = false
+	alpha_box.visible = false
+	rotation_box.visible = false
+	stamp_mode_box.visible = false
+	font_box.visible = false
+	art_settings_panel.size = Vector2(88, 88)
+	if !boxes_list.is_empty():
+		for box in boxes_list.size():
+			art_settings_panel.size.y = 88 + (58 * box)
+			boxes_list[box].position.y = 20 + (58 * box)
+			boxes_list[box].visible = true
+		art_settings.visible = true
+	art_settings.size = art_menu_panel.size + Vector2(10.0, 10.0)
 
 
 func _check_clicked_button(node: Node):
@@ -243,19 +263,10 @@ func _click_art_menu(button: TextureButton):
 			"type": EditorEvents.SELECT_BRUSH_MODE,
 			"mode": "draw"
 		})
-		color_box_button.visible = true
-		color_box_button.position = Vector2(20, 20)
+		show_art_settings_boxes([color_box_button, size_box, alpha_box])
 		color_box_button.set_color(draw_color)
-		size_box.visible = true
-		size_box.position = Vector2(20, 88)
-		size_box.spawn_x = size_box.size.x + 20
 		size_box.set_button("Size", draw_size, 1, 200)
-		alpha_box.visible = true
-		alpha_box.position = Vector2(20, 156)
-		alpha_box.spawn_x = alpha_box.size.x + 20
 		alpha_box.set_button("Alpha", draw_alpha, 1, 100)
-		art_settings_panel.size = Vector2(88, 224)
-		art_settings.size = Vector2(98, 234)
 	elif selected_button == eraser_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
@@ -265,55 +276,26 @@ func _click_art_menu(button: TextureButton):
 			"type": EditorEvents.SELECT_BRUSH_MODE,
 			"mode": "erase"
 		})
-		size_box.visible = true
-		size_box.position = Vector2(20, 20)
-		size_box.spawn_x = size_box.size.x + 20
+		show_art_settings_boxes([size_box, alpha_box])
 		size_box.set_button("Size", erase_size, 1, 200)
-		alpha_box.visible = true
-		alpha_box.position = Vector2(20, 88)
-		alpha_box.spawn_x = alpha_box.size.x + 20
 		alpha_box.set_button("Alpha", erase_alpha, 1, 100)
-		art_settings_panel.size = Vector2(88, 156)
-		art_settings.size = Vector2(98, 166)
 	elif selected_button == stamp_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
 			"tool": "stamp"
 		})
-		selected_stamp_box.visible = true
-		selected_stamp_box.position = Vector2(20, 20)
-		size_box.visible = true
-		size_box.position = Vector2(20, 88)
-		size_box.spawn_x = alpha_box.size.x + 20
+		show_art_settings_boxes([selected_stamp_box, size_box, rotation_box, stamp_mode_box])
 		size_box.set_button("Size", stamp_size, 1, 500)
-		rotation_box.visible = true
-		rotation_box.position = Vector2(20, 156)
-		rotation_box.spawn_x = rotation_box.size.x + 20
 		rotation_box.set_button("Rot", stamp_rotation, 0, 359)
-		stamp_mode_box.visible = true
-		stamp_mode_box.position = Vector2(20, 224)
-		art_settings_panel.size = Vector2(88, 292)
-		art_settings.size = Vector2(98, 302)
 	elif selected_button == text_button:
 		emit_signal("control_event", {
 			"type": EditorEvents.SELECT_TOOL,
 			"tool": "text"
 		})
-		color_box_button.visible = true
-		color_box_button.position = Vector2(20, 20)
+		show_art_settings_boxes([color_box_button, size_box, rotation_box, font_box])
 		color_box_button.set_color(text_color)
-		size_box.visible = true
-		size_box.position = Vector2(20, 88)
-		size_box.spawn_x = size_box.size.x + 20
 		size_box.set_button("Size", text_size, 1, 2000)
-		rotation_box.visible = true
-		rotation_box.position = Vector2(20, 156)
-		rotation_box.spawn_x = rotation_box.size.x + 10
 		rotation_box.set_button("Rot", text_rotation, 0, 359)
-		font_box.visible = true
-		font_box.position = Vector2(20, 224)
-		art_settings_panel.size = Vector2(88, 292)
-		art_settings.size = Vector2(98, 302)
 
 
 func _change_color(new_color: Color):

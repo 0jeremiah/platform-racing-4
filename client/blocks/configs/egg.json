@@ -14,11 +14,15 @@
 		"any_side": {"type": "active", "params": {}},
 		"egg_walk_velocity": 200.0,
 		"egg_run_velocity": 1200.0,
-		"egg_jump_velocity": -150.0,
+		"egg_jump_velocity": -1000.0,
 		"egg_gravity": {"x": 0.0, "y": 2250.0},
 		"egg_can_run": false,
 		"egg_can_jump": false,
 		"egg_can_disguise": false,
+		"egg_color": "bf1a1a",
+		"egg_spots_color": "00ff99",
+		"egg_randomize_color": true,
+		"egg_randomize_spots_color": true
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

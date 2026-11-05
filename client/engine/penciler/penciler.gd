@@ -153,13 +153,19 @@ func _on_editor_event(event: Dictionary) -> void:
 	
 	if event.type == EditorEvents.RENAME_MAP_LAYER:
 		var layer = current_layers.map_layers.get_node(event.layer_name)
-		layer.name = event.new_layer_name
+		if event.new_layer_name != "":
+			layer.name = event.new_layer_name
+		else:
+			layer.name = "Layer " + str(layer.get_index() + 1)
 		current_layers.set_target_map_layer(layer.name)
 		layer.set_layer_name(event.new_layer_name)
 	
 	if event.type == EditorEvents.RENAME_ART_LAYER:
 		var layer = current_layers.art_layers.get_node(event.layer_name)
-		layer.name = event.new_layer_name
+		if event.new_layer_name != "":
+			layer.name = event.new_layer_name
+		else:
+			layer.name = "Layer " + str(layer.get_index() + 1)
 		current_layers.set_target_art_layer(layer.name)
 		layer.set_layer_name(event.new_layer_name)
 

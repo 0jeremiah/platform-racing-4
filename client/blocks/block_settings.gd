@@ -23,23 +23,31 @@ static var LIGHTBREAKER := "lightbreaker"
 static var default_block_properties: Dictionary = {
 	"health": 100.0,
 	"coin_value": 3,
-	"change_tick": 2.5,
-	"change_pattern": ["101", "121", "124", "113"],
 	"move_tick": 2.5,
 	"move_pattern": "up, down, left, right",
 	"randomize_move_pattern": false,
 	"loop_move_pattern": true,
-	"infinite_items": false,
-	"item_supply": 1,
-	"infinite_stats": false,
+	"change_tick": 2.5,
+	"change_pattern": ["101", "121", "124", "113"],
 	"stat_supply": 1,
+	"infinite_stats": false,
+	"item_supply": 1,
+	"infinite_items": false,
+	"teleport_color": "ff7f50",
+	"teleport_throttle": 3.0,
+	"time_supply": 1,
+	"infinite_time": false,
 	"egg_walk_velocity": 200.0,
 	"egg_run_velocity": 1200.0,
-	"egg_jump_velocity": -150.0,
+	"egg_jump_velocity": -1000.0,
 	"egg_gravity": {"x": 0.0, "y": 2250.0},
 	"egg_can_run": false,
 	"egg_can_jump": false,
 	"egg_can_disguise": false,
+	"egg_color": "bf1a1a",
+	"egg_spots_color": "00ff99",
+	"egg_randomize_color": true,
+	"egg_randomize_spots_color": true,
 	"gear_rotation": 90.0,
 	"gear_tick_seconds": 4.0,
 	"gear_tock_seconds": 0.5,
@@ -48,11 +56,7 @@ static var default_block_properties: Dictionary = {
 	"activate_offset": {"x": 0, "y": 0},
 	"limit_activate_range": false,
 	"activate_range": {"x": 10, "y": 10},
-	"teleport_color": "FF7F50",
-	"teleport_throttle": 3.0,
-	"infinite_time": false,
-	"time_supply": 1,
-	"light_color": "FFFFFF"
+	"light_color": "ffffff"
 }
 
 var block_properties: Dictionary = {} # only updated once when block settings are imported, so it can be determined
@@ -83,6 +87,17 @@ var infinite_items = default_block_properties.infinite_items
 var item_supply = default_block_properties.item_supply
 var infinite_stats = default_block_properties.infinite_stats
 var stat_supply = default_block_properties.stat_supply
+var egg_walk_velocity = default_block_properties.egg_walk_velocity
+var egg_run_velocity = default_block_properties.egg_run_velocity
+var egg_jump_velocity = default_block_properties.egg_jump_velocity
+var egg_gravity = default_block_properties.egg_gravity
+var egg_can_run = default_block_properties.egg_can_run
+var egg_can_jump = default_block_properties.egg_can_jump
+var egg_can_disguise = default_block_properties.egg_can_disguise
+var egg_color: String = default_block_properties.egg_color
+var egg_spots_color: String = default_block_properties.egg_spots_color
+var egg_randomize_color = default_block_properties.egg_randomize_color
+var egg_randomize_spots_color = default_block_properties.egg_randomize_spots_color
 var gear_rotation = default_block_properties.gear_rotation
 var gear_tick_seconds = default_block_properties.gear_tick_seconds
 var gear_tock_seconds = default_block_properties.gear_tock_seconds
@@ -277,32 +292,48 @@ func remove_unused_settings(current_settings: Dictionary) -> Dictionary:
 	if matter_type != ConfigurableBlockSettings.SOLID:
 		current_settings.erase("health")
 		current_settings.erase("coin_value")
-	if block_type != ConfigurableBlockSettings.CHANGE:
-		current_settings.erase("change_tick")
-		current_settings.erase("change_pattern")
 	if block_type != ConfigurableBlockSettings.MOVE:
 		current_settings.erase("move_tick")
 		current_settings.erase("move_pattern")
 		current_settings.erase("randomize_move_pattern")
 		current_settings.erase("loop_move_pattern")
+	if block_type != ConfigurableBlockSettings.CHANGE:
+		current_settings.erase("change_tick")
+		current_settings.erase("change_pattern")
+	if !has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS) and !has_side_type(ConfigurableBlockSideSettings.CUSTOM_STATS):
+		current_settings.erase("infinite_stats")
+		current_settings.erase("stat_supply")
 	if !has_side_type(ConfigurableBlockSideSettings.ITEM):
 		current_settings.erase("infinite_items")
 		current_settings.erase("item_supply")
-	if !has_side_type(ConfigurableBlockSideSettings.CHANGE_STATS):
-		current_settings.erase("infinite_stats")
-		current_settings.erase("stat_supply")
-	if block_type != ConfigurableBlockSettings.GEAR:
-		current_settings.erase("gear_rotation")
-		current_settings.erase("gear_tick_seconds")
-		current_settings.erase("gear_tock_seconds")
-		current_settings.erase("gear_inertia")
-		current_settings.erase("gear_auto_rotation")
 	if !has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		current_settings.erase("teleport_color")
 		current_settings.erase("teleport_throttle")
 	if !has_side_type(ConfigurableBlockSideSettings.TIME):
 		current_settings.erase("infinite_time")
 		current_settings.erase("time_supply")
+	if block_type != ConfigurableBlockSettings.EGG:
+		current_settings.erase("egg_walk_velocity")
+		current_settings.erase("egg_run_velocity")
+		current_settings.erase("egg_jump_velocity")
+		current_settings.erase("egg_gravity")
+		current_settings.erase("egg_can_run")
+		current_settings.erase("egg_can_jump")
+		current_settings.erase("egg_can_disguise")
+		current_settings.erase("egg_color")
+		current_settings.erase("egg_spots_color")
+		current_settings.erase("egg_randomize_color")
+		current_settings.erase("egg_randomize_spots_color")
+	if block_type != ConfigurableBlockSettings.GEAR:
+		current_settings.erase("gear_rotation")
+		current_settings.erase("gear_tick_seconds")
+		current_settings.erase("gear_tock_seconds")
+		current_settings.erase("gear_inertia")
+		current_settings.erase("gear_auto_rotation")
+	if block_type != ConfigurableBlockSettings.SWITCH:
+		current_settings.erase("activate_offset")
+		current_settings.erase("limit_activate_range")
+		current_settings.erase("activate_range")
 	if block_type != ConfigurableBlockSettings.LIGHTBREAKER:
 		current_settings.erase("light_color")
 	return current_settings

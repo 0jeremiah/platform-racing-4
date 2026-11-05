@@ -141,5 +141,38 @@ func spawn_gears():
 		level_layer.tile_map_layer.spawn_gears()
 
 
+func is_out_of_bounds(body: Node, oob_block_count: Vector2i = Vector2i(15, 15)) -> bool:
+	var safe_oob_block_count = Vector2i(maxi(oob_block_count.x, 0), maxi(oob_block_count.y, 0))
+	if not Game.game:
+		return false
+	var current_layer = Game.game.get_current_player_layer()
+	if not current_layer:
+		return false
+	var body_depth = Helpers.get_depth(body)
+	var map_used_rect = Game.game.get_total_used_rect_in_z_axis(body_depth)
+	var rotated_vectors = [Vector2(map_used_rect.position.x, map_used_rect.position.y).rotated(body.rotation),
+	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y).rotated(body.rotation),
+	Vector2(map_used_rect.position.x, map_used_rect.position.y + map_used_rect.size.y).rotated(body.rotation),
+	Vector2(map_used_rect.position.x + map_used_rect.size.x, map_used_rect.position.y + map_used_rect.size.y).rotated(body.rotation)]
+	var x_points = []
+	var y_points = []
+	for rotated_vector in rotated_vectors:
+		x_points.append(rotated_vector.x)
+		y_points.append(rotated_vector.y)
+	x_points.sort()
+	y_points.sort()
+	#return Rect2i(int(x_points[0]), int(y_points[0]), int(abs(x_points[0] - x_points[3])), int(abs(y_points[0] - y_points[3])))
+	
+	var min_x = map_used_rect.position.x - safe_oob_block_count.x
+	var max_x = map_used_rect.position.x + map_used_rect.size.x + safe_oob_block_count.x
+	var min_y = map_used_rect.position.y - safe_oob_block_count.y
+	var max_y = map_used_rect.position.y + map_used_rect.size.y + safe_oob_block_count.y
+	
+	var body_x_normalised = body.position.x / Settings.tile_size.x
+	var body_y_normalised = body.position.y / Settings.tile_size.y
+
+	return body_x_normalised < min_x or body_x_normalised > max_x or (body_y_normalised < min_y and body.rotation != 0) or body_y_normalised > max_y
+
+
 func _layers_loaded():
 	emit_signal("layers_changed")

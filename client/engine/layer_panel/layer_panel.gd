@@ -5,6 +5,7 @@ signal control_event
 
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
+@onready var layer_name_panel_popup = preload("res://engine/layer_panel/layer_name_panel_popup.gd")
 @onready var new_button = $NewButton
 @onready var move_up_button = $MoveUpButton
 @onready var move_down_button = $MoveDownButton
@@ -24,14 +25,13 @@ const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 @onready var z_index_box = $LayerSettingsScrollContainer/LayerSettings/ZIndexContainer/ZIndexBox
 @onready var block_effect_settings_container = $BlockEffectSettingsContainer
 @onready var block_effect_settings = $BlockEffectSettingsContainer/BlockEffectSettings
-@onready var rename_layer_popup = $RenameLayerPopup
 
 var active: bool = false
 var current_layers: Node2D
 var current_editor = null
 var show_layer_type: String = "blocks"
-var block_effects = {"teleport_color": false, "up_arrow": false, "left_arrow": false, "down_arrow": false,
-"right_arrow": false, "move_up": false, "move_left": false, "move_right": false, "move_down": false}
+var block_effects = {"teleport_color": false, "arrow_graphic": false, "move_arrow_graphic": false, "egg_color": false,
+"egg_spots_color": false}
 
 
 func _ready():
@@ -42,9 +42,8 @@ func _ready():
 	settings_tab.tab_changed.connect(_change_tab)
 	var block_effects_keys = block_effects.keys()
 	for child in block_effect_settings.get_child_count():
-		if block_effect_settings.get_child(child) is CheckBox:
+		if child < block_effects_keys.size() and block_effect_settings.get_child(child) is CheckBox:
 			block_effect_settings.get_child(child).pressed.connect(_maybe_enable_block_effect.bind(child, block_effects_keys[child]))
-	rename_layer_popup.name_change.connect(_set_layer_name)
 
 
 func init(new_current_editor, new_layers: Node2D, new_show_layer_type: String) -> void:
@@ -180,7 +179,7 @@ func update_boxes() -> void:
 	for child in block_effect_settings.get_child_count():
 		if block_effect_settings.get_child(child) is CheckBox:
 			block_effect_settings.get_child(child).disabled = true
-	light_settings_color_rect.size.y = 125.0
+	light_settings_color_rect.size.y = 205.0
 	light_settings_color_rect.position.y = settings_tab.position.y
 	if current_editor.editor_menu.can_edit:
 		if show_layer_type == "blocks":
@@ -252,6 +251,10 @@ func _change_tab(new_index: int):
 func clear() -> void:
 	for child in row_holder.get_children():
 		child.free()
+
+
+func _show_layer_name_panel_popup(layer_name: String, layer_button: Button):
+	PopupManager.add_custom_popup(layer_name_panel_popup, {"layer_name_panel_func": Callable(self, "_set_layer_name"), "layer_name": layer_name, "popup_global_position": Vector2(layer_button.global_position.x, layer_button.global_position.y), "layer_name_panel_size": layer_button.size}, self)
 
 
 func _new_pressed():
@@ -326,8 +329,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 	if show_layer_type == "blocks":
 		if current_layers.get_target_map_layer() == layer_name:
 			var layer = current_layers.map_layers.get_node(current_layers.get_target_map_layer())
-			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2(layer_button.global_position.x, layer_button.global_position.y, 288.0, 40.0))
+			_show_layer_name_panel_popup(layer.layer_name, layer_button)
 		else:
 			current_layers.set_target_map_layer(layer_name)
 			emit_signal("control_event", {
@@ -338,8 +340,7 @@ func _row_pressed(layer_name: String, layer_button: Button):
 	elif show_layer_type == "art":
 		if current_layers.get_target_art_layer() == layer_name:
 			var layer = current_layers.art_layers.get_node(current_layers.get_target_art_layer())
-			rename_layer_popup.new_layer_name.text = layer.layer_name
-			rename_layer_popup.popup(Rect2(layer_button.global_position.x, layer_button.global_position.y, 288.0, 40.0))
+			_show_layer_name_panel_popup(layer.layer_name, layer_button)
 		else:
 			current_layers.set_target_art_layer(layer_name)
 			emit_signal("control_event", {
@@ -427,7 +428,6 @@ func _set_layer_name(new_layer_name: String):
 			"layer_name": current_layers.get_target_map_layer(),
 			"new_layer_name": new_layer_name
 		})
-		rename_layer_popup.hide()
 		_render()
 	elif show_layer_type == "art" and current_layers.art_layers.get_node(current_layers.get_target_art_layer()).layer_name != new_layer_name:
 		emit_signal("editor_event", {
@@ -435,7 +435,6 @@ func _set_layer_name(new_layer_name: String):
 			"layer_name": current_layers.get_target_art_layer(),
 			"new_layer_name": new_layer_name
 		})
-		rename_layer_popup.hide()
 		_render()
 
 
@@ -463,7 +462,6 @@ func _z_index_change(new_z_index: int):
 			"layer_name": current_layers.get_target_map_layer(),
 			"z_index": new_z_index
 		})
-		rename_layer_popup.hide()
 		_render()
 	elif current_editor is LevelEditor and show_layer_type == "art" and current_layers.art_layers.get_node(current_layers.get_target_art_layer()).z_index != new_z_index:
 		emit_signal("editor_event", {
@@ -471,5 +469,4 @@ func _z_index_change(new_z_index: int):
 			"layer_name": current_layers.get_target_art_layer(),
 			"z_index": new_z_index
 		})
-		rename_layer_popup.hide()
 		_render()

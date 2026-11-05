@@ -252,12 +252,24 @@ func spawn_eggs():
 		var egg_counter = 0
 		var coord_list = get_all_block_coords_by_id(egg)
 		for coords in coord_list:
+			var block_info = get_block(coords)
 			egg_counter += 1
 			var egg_enemy = EGG_ENEMY.instantiate()
+			var egg_color_1 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.egg_randomize_color else block_info.settings.egg_color
+			var egg_color_2 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.egg_randomize_spots_color else block_info.settings.egg_spots_color
 			egg_enemy.tile_map_layer = self
+			egg_enemy.walk_velocity = block_info.settings.egg_walk_velocity
+			egg_enemy.run_velocity = block_info.settings.egg_run_velocity
+			egg_enemy.jump_velocity = block_info.settings.egg_jump_velocity
+			egg_enemy.gravity = Vector2(block_info.settings.egg_gravity.x, block_info.settings.egg_gravity.y)
+			egg_enemy.can_run = block_info.settings.egg_can_run
+			egg_enemy.can_jump = block_info.settings.egg_can_jump
+			egg_enemy.can_disguise = block_info.settings.egg_can_disguise
+			egg_enemy.egg_depth = map_layer.z_axis
 			egg_enemy.position = BlockManager._blocks[egg].get_center_position(self, coords)
 			egg_enemy.name = "EggEnemy" + str(egg_counter)
 			map_layer.enemies.add_child(egg_enemy)
+			egg_enemy.set_egg_texture(block_info.id, egg_color_1, egg_color_2)
 			#BlockManager._blocks[egg].deactivate(self, coords)
 			#BlockManager._blocks[egg].set_visible(self, coords, false)
 			delete_block(coords)

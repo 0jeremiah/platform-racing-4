@@ -13,7 +13,7 @@ size = Vector2(320, 100)
 size = Vector2(640, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6rlya"]
-size = Vector2(1, 1)
+size = Vector2(1, 128)
 
 [node name="EggEnemy" type="CharacterBody2D" unique_id=210491933]
 script = ExtResource("1_l1sxf")
@@ -27,7 +27,6 @@ shape = SubResource("RectangleShape2D_3b3k0")
 [node name="AttackArea" type="Area2D" parent="." unique_id=1504606908]
 light_mask = 2
 visibility_layer = 3
-monitorable = false
 
 [node name="AttackHitbox" type="CollisionShape2D" parent="AttackArea" unique_id=1101727724]
 position = Vector2(135, -50)
@@ -36,15 +35,14 @@ shape = SubResource("RectangleShape2D_6efyl")
 [node name="RevealArea" type="Area2D" parent="." unique_id=849819629]
 light_mask = 2
 visibility_layer = 3
-monitoring = false
-monitorable = false
 
 [node name="RevealHitbox" type="CollisionShape2D" parent="RevealArea" unique_id=1291586762]
 position = Vector2(0, -50)
 shape = SubResource("RectangleShape2D_pp1bc")
 
 [node name="SenseJumpArea" type="Area2D" parent="." unique_id=1254250154]
-position = Vector2(64, 0)
+position = Vector2(32, 0)
 
 [node name="SenseJumpHitbox" type="CollisionShape2D" parent="SenseJumpArea" unique_id=814430983]
+position = Vector2(0, 64)
 shape = SubResource("RectangleShape2D_6rlya")

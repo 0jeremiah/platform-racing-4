@@ -22,6 +22,7 @@ var holder_size = Vector2(0.0, 0.0)
 var popup_alpha: float = 0.0
 var just_lost_focus: bool = true
 var popup_global_position: Vector2 = Vector2(0.0, 0.0)
+var panel_is_visible: bool = true
 
 
 func _ready() -> void:
@@ -53,6 +54,7 @@ func _process(_delta: float) -> void:
 		holder.size = holder_size
 	holder.position = padding
 	buttons_holder.position = Vector2(((holder.position.x + holder.size.x) - buttons_holder.size.x), holder.position.y + holder.size.y + 10.0)
+	default_panel.visible = panel_is_visible
 	default_panel.position = Vector2(0.0, 0.0)
 	default_panel.size = Vector2(holder.size.x + (padding.x * 2), (buttons_holder.size.y + buttons_holder.position.y) + padding.y)
 	popup_container.size = default_panel.size
@@ -81,6 +83,10 @@ func set_dimensions(new_dimensions: Vector2) -> void:
 	available_size = Vector2(max(new_dimensions.x, minimum_size.x), max(new_dimensions.y, minimum_size.y))
 
 
+func set_padding(new_padding: Vector2) -> void:
+	padding = Vector2(max(new_padding.x, 0.0), max(new_padding.y, 0.0))
+
+
 func set_intrusive(new_intrusive: bool):
 	intrusive = new_intrusive
 
@@ -95,6 +101,10 @@ func set_die_without_focus(new_die_without_focus: bool):
 
 func set_popup_global_position(new_popup_global_position: Vector2):
 	popup_container.global_position = new_popup_global_position
+
+
+func set_panel_is_visible(new_panel_is_visible: bool):
+	panel_is_visible = new_panel_is_visible
 
 
 func position_buttons() -> void:
