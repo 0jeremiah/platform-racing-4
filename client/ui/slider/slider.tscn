@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bkn6pehivmaka"]
+
+[ext_resource type="Script" uid="uid://0mli4c5x7y74" path="res://ui/slider/slider.gd" id="1_nljcs"]
+
+[node name="Slider" type="Control" unique_id=264795872]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 60.0
+script = ExtResource("1_nljcs")
+
+[node name="SliderLineEdit" type="LineEdit" parent="." unique_id=104455105]
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 20
+text = "0"
+max_length = 10
+
+[node name="Slider" type="HSlider" parent="." unique_id=1287079796]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 60.0
+
+[node name="OKButton" type="Button" parent="." unique_id=221379972]
+layout_mode = 0
+offset_left = 200.0
+offset_right = 250.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 17
+text = "OK"

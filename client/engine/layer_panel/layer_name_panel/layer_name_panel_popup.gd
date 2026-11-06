@@ -1,6 +1,6 @@
 extends ButtonPopup
 
-@onready var layer_name_panel_scene = preload("res://engine/layer_panel/layer_name_panel.tscn")
+@onready var layer_name_panel_scene = preload("res://engine/layer_panel/layer_name_panel/layer_name_panel.tscn")
 
 var layer_name_panel_node = null
 var layer_name_panel_func = null

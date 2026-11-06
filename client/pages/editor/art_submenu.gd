@@ -205,7 +205,7 @@ func _check_clicked_button(node: Node):
 	elif node.get_parent().name == "TextBox":
 		color1 = Color("071e6b")
 		color2 = Color("ffffff")
-	if node.get_parent().name != "ColorBox" and (node is TextureButton or node is Button):
+	if node.get_parent().name != "ColorBox" and node is not SliderButton and (node is TextureButton or node is Button):
 		if node.visible and node.is_hovered() and !node.is_pressed():
 			if node.get_parent().name != "BGButtonContainer":
 				node.get_parent().scale = Vector2(1.25, 1.25)

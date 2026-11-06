@@ -1,0 +1,54 @@
+{
+    "id": "classic",
+    "head": {
+        "settings": {
+            "name": "Classic",
+            "default_color": "6479ce",
+            "epic_upgrade": true,
+            "default_epic_color": "000000",
+            "comment": "Rock it old-school."
+        },
+        "head_image": {
+            "color_src": "classic_head_color.png",
+            "lines_src": "classic_head_lines.png",
+            "epic_color_src": "classic_head_epic_color.png",
+            "misc1_src": "classic_head_misc1.png"
+        }
+    },
+    "body": {
+        "settings": {
+            "name": "Classic",
+            "default_color": "6479ce",
+            "epic_upgrade": true,
+            "default_epic_color": "000000",
+            "comment": "Rock it old-school."
+        },
+        "body_image": {
+            "color_src": "classic_body_color.png",
+            "lines_src": "classic_body_lines.png",
+            "epic_color_src": "classic_body_epic_color.png",
+            "misc1_src": "classic_body_misc1.png"
+        }
+    },
+    "feet": {
+        "settings": {
+            "name": "Classic",
+            "default_color": "6479ce",
+            "epic_upgrade": true,
+            "default_epic_color": "000000",
+            "comment": "Rock it old-school."
+        },
+        "foot_front_image": {
+            "color_src": "classic_foot_front_color.png",
+            "lines_src": "classic_foot_front_lines.png",
+            "epic_color_src": "classic_foot_front_epic_color.png",
+            "misc1_src": "classic_foot_front_misc1.png"
+        },
+        "foot_back_image": {
+            "color_src": "classic_foot_back_color.png",
+            "lines_src": "classic_foot_back_lines.png",
+            "epic_color_src": "classic_foot_back_epic_color.png",
+            "misc1_src": "classic_foot_back_misc1.png"
+        }
+    }
+}

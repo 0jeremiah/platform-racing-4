@@ -21,6 +21,7 @@ extends CharacterBody2D
 var active := false
 var item: Node2D
 var game: Node2D
+var hat_array = []
 var sun_particles = null
 var moon_particles = null
 var speed_particles = null

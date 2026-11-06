@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddorp4msr7dho"]
+[gd_scene format=3 uid="uid://ddorp4msr7dho"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_gv8tc"]
 
@@ -10,7 +10,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 0)
 
-[node name="LayerRow" type="Control"]
+[node name="LayerRow" type="Control" unique_id=70268986]
 custom_minimum_size = Vector2(260, 40)
 layout_mode = 3
 anchors_preset = 0
@@ -18,7 +18,7 @@ offset_right = 288.0
 offset_bottom = 40.0
 theme = ExtResource("1_gv8tc")
 
-[node name="LayerNameButton" type="Button" parent="."]
+[node name="LayerNameButton" type="Button" parent="." unique_id=140747951]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 288.0

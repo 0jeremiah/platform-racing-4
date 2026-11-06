@@ -5,7 +5,7 @@ signal control_event
 
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
-@onready var layer_name_panel_popup = preload("res://engine/layer_panel/layer_name_panel_popup.gd")
+@onready var layer_name_panel_popup = preload("res://engine/layer_panel/layer_name_panel/layer_name_panel_popup.gd")
 @onready var new_button = $NewButton
 @onready var move_up_button = $MoveUpButton
 @onready var move_down_button = $MoveDownButton
