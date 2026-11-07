@@ -1,0 +1,18 @@
+{
+    "id": "tired",
+    "head": {
+        "settings": {
+            "name": "Tired",
+            "default_color": "63a665",
+            "epic_upgrade": true,
+            "default_epic_color": "FFFFFF",
+            "comment": "Did you stay up late playing PR4?"
+        },
+        "head_image": {
+            "color_src": "tired_head_color.png",
+            "lines_src": "tired_head_lines.png",
+            "epic_color_src": "tired_head_epic_color.png",
+            "misc1_src": "tired_head_misc1.png"
+        }
+    }
+}

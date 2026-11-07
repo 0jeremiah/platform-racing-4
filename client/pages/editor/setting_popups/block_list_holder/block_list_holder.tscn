@@ -1,11 +1,6 @@
 [gd_scene format=3 uid="uid://bsxp5if3mrxb5"]
 
 [ext_resource type="Script" uid="uid://dh42nqblv06si" path="res://pages/editor/setting_popups/block_list_holder/block_list_holder.gd" id="1_55wmn"]
-[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_7mw4l"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xmsay"]
-atlas = ExtResource("2_7mw4l")
-region = Rect2(0, 0, 128, 128)
 
 [node name="BlockPatternHolder" type="Control" unique_id=914833375]
 layout_mode = 3
@@ -38,7 +33,6 @@ z_index = 10
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-texture = SubResource("AtlasTexture_xmsay")
 expand_mode = 1
 
 [node name="TeleportColorinTexture" type="TextureRect" parent="SelectedBlockTexture" unique_id=1811243988]

@@ -1,0 +1,18 @@
+{
+    "id": "exp",
+    "hat": {
+        "settings": {
+            "name": "Baseball Cap",
+            "default_color": "af831d",
+            "epic_upgrade": true,
+            "default_epic_color": "ffffff",
+            "comment": "Keep the sun out of your eyes! Increases exp gain by 100%."
+        },
+        "hat_image": {
+            "color_src": "exp_hat_color.png",
+            "lines_src": "exp_hat_lines.png",
+            "epic_color_src": "exp_hat_epic_color.png",
+            "misc1_src": "exp_hat_misc1.png"
+        }
+    }
+}

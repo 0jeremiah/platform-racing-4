@@ -80,15 +80,16 @@ static func _run_editor_test(main_instance: Main):
 	await main_instance.get_tree().create_timer(1.0).timeout
 
 	var block_cursor = level_editor.cursor.get_node("BlockCursor")
-	var tiles = Tiles.new()
-	tiles.init_defaults()
-	var tile_ids = tiles.map.keys()
+	BlockManager.init()
+	var tile_ids = []
+	for block in BlockManager._blocks_categories["classic"]:
+		tile_ids.append(block.id)
 
 	var rng = RandomNumberGenerator.new()
 	var viewport_rect = main_instance.get_viewport_rect()
 
 	for tile_id in tile_ids:
-		block_cursor.block_id = int(tile_id)
+		block_cursor.block_id = tile_id
 		var x = rng.randf_range(0, viewport_rect.size.x)
 		var y = rng.randf_range(0, viewport_rect.size.y)
 		block_cursor.global_position = Vector2(x, y)

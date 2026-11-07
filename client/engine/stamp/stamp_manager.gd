@@ -16,6 +16,7 @@ static var loading_stamp_texture = null
 static func init() -> void:
 	not_found_stamp_texture = load_stamp_texture("res://stamps/notfoundstamp.png")
 	loading_stamp_texture = load_stamp_texture("res://stamps/loadingstamp.png")
+	load_default_stamps_configs()
 
 
 ## Load stamp from path without godot throwing a warning

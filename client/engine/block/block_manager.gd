@@ -29,6 +29,7 @@ static func init() -> void:
 	not_found_block_texture = load_block_texture("res://blocks/notfoundblock.png")
 	loading_block_texture = load_block_texture("res://blocks/loadingblock.png")
 	placeholder_block = BlockTestUtils.load_config("res://blocks/placeholder_block.json")
+	load_default_block_configs()
 
 
 ## Load block from path without Godot throwing a warning
@@ -267,30 +268,32 @@ static func load_default_block_configs():
 			if not dir.current_is_dir() and file_name.ends_with(".json"):
 				var file_path := "res://blocks/configs/" + file_name
 				var config := BlockTestUtils.load_config(file_path)
-				if not config.is_empty():
-					if config.has("id"):
-						if !config.id.contains("portable_block") and !config.id.contains("portable_mine"):
-							if config.id.is_valid_int():
-								config.id = str(int(config.id) + id_gap)
-							else:
-								config.id = config.id + category
-							config["category"] = category
-							var src = "res://blocks/tileatlas" + category + ".png"
-							if config.has("image") and config.image.has("src") and src.is_absolute_path():
-								config.image.src = src
-							if !config.id.contains("portable_block") and !config.id.contains("portable_mine"):
-								_blocks_categories[category].append({"id": config.id})
-							configs.append(config)
-							#print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
-						else: # special cases for portable block / portable mine
-							config["category"] = "hidden"
-							configs.append(config)
+				var src = "res://blocks/tileatlas" + category + ".png"
+				if not config.is_empty() and config.has("id") and config.has("image"):
+					if config.id.is_valid_int():
+						config.id = str(int(config.id) + id_gap)
+					else:
+						config.id = config.id + "_" + category
+					config["category"] = category
+					if config.image.has("src") and src.is_absolute_path():
+						config.image.src = src
+					_blocks_categories[category].append({"id": config.id})
+					configs.append(config)
+					#print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
 			file_name = dir.get_next()
-
 		dir.list_dir_end()
 		_blocks_categories[category].sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
 		id_gap += 100
-	
+	# special cases (portable block/mine)
+	var special_case_configs = [BlockTestUtils.load_config("res://blocks/portable_block.json"),
+	BlockTestUtils.load_config("res://blocks/portable_mine.json")]
+	for special_case_config in special_case_configs:
+		if not special_case_config.is_empty() and special_case_config.has("id") and special_case_config.has("image"):
+			if !_blocks_categories.has("hidden"):
+				_blocks_categories["hidden"] = []
+			special_case_config["category"] = "hidden"
+			_blocks_categories["hidden"].append({"id": special_case_config.id})
+			configs.append(special_case_config)
 	if configs:
 		configs.sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
 		add_block_configs(configs)
@@ -430,3 +433,20 @@ static func block_has_textures(block_id: String) -> Dictionary:
 		"has_egg_color_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_egg_color_texture") or BlockManager._block_lookup[block_id].has("egg_color_atlas_coords") or BlockManager._block_lookup[block_id].has("egg_color_texture_path")),
 		"has_egg_spots_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_egg_spots_texture") or BlockManager._block_lookup[block_id].has("egg_spots_atlas_coords") or BlockManager._block_lookup[block_id].has("egg_spots_texture_path"))
 	}
+
+# brough from Tiles, which is deprecated
+# PR3 non-custom block data goes like this: block: b(X + (100 * Y)),
+# where X is the block ID and Y is the block category
+
+# For X, the block id list goes like this:
+# (0 = start, 1-4 = basics (2-4 (white, x, and waffle) are unused in pr3.), 5 = brick, 6 = crumble, 7 = finish,
+# 8 = happy, 9 = ice, 10 = infinite, 11 = item, 12 = mine, 13 = move, 14 = push, 15 = rotateleft,
+# 16 = rotateright, 17 = sad, 18 = safetynet, 19 = vanish, 20 = water, 21 = redteleport, 22 = blueteleport,
+# 23 = yellowteleport, 24 = bounce, 25 = change, 26 = up, 27 = down, 28 = left, 29 = right)
+
+# For Y, the block category goes like this:
+# (0 = classic, 1 = desert, 2 = industrial, 3 = jungle, 4 = space, 5 = underwater).
+
+# Therefore, the formula should give numbers like this:
+# (b1-99 = classic, b100-199 = desert, b200-299 = industrial, b300-399 = jungle,
+# b400-499 = space, b500-599 = underwater.)

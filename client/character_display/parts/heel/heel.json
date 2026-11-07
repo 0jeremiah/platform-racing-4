@@ -1,0 +1,24 @@
+{
+    "id": "heel",
+    "feet": {
+        "settings": {
+            "name": "Heel",
+            "default_color": "6479ce",
+            "epic_upgrade": true,
+            "default_epic_color": "6479ce",
+            "comment": "Very dressy."
+        },
+        "foot_front_image": {
+            "color_src": "heel_foot_front_color.png",
+            "lines_src": "heel_foot_front_lines.png",
+            "epic_color_src": "heel_foot_front_epic_color.png",
+            "misc1_src": "heel_foot_front_misc1.png"
+        },
+        "foot_back_image": {
+            "color_src": "heel_foot_back_color.png",
+            "lines_src": "heel_foot_back_lines.png",
+            "epic_color_src": "heel_foot_back_epic_color.png",
+            "misc1_src": "heel_foot_back_misc1.png"
+        }
+    }
+}

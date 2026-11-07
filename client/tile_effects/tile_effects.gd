@@ -2,10 +2,8 @@ extends Node
 class_name TileEffects
 
 const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/shatter_effect.tscn")
-const BUMP_EFFECT = preload("res://tile_effects/bump_effect/bump_effect.tscn")
 const EXPLODE_EFFECT = preload("res://tile_effects/explode_effect/explode_effect.tscn")
 const SPAWN_EFFECT = preload("res://tile_effects/spawn_effect/spawn_effect.tscn")
-const VANISH_EFFECT = preload("res://tile_effects/vanish_effect/vanish_effect.tscn")
 const COIN_EFFECT = preload("res://effects/coin/coin_effect.tscn")
 
 

@@ -1,0 +1,18 @@
+{
+    "id": "strap",
+    "body": {
+        "settings": {
+            "name": "Strap",
+            "default_color": "6479ce",
+            "epic_upgrade": true,
+            "default_epic_color": "000000",
+            "comment": "Strapping!"
+        },
+        "body_image": {
+            "color_src": "strap_body_color.png",
+            "lines_src": "strap_body_lines.png",
+            "epic_color_src": "strap_body_epic_color.png",
+            "misc1_src": "strap_body_misc1.png"
+        }
+    }
+}

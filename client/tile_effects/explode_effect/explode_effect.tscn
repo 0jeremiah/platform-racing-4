@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cpea801ovi7ub"]
 
-[ext_resource type="Texture2D" uid="uid://dwoosahvdwjrb" path="res://tiles/mine/circle_01.png" id="1_26qna"]
+[ext_resource type="Texture2D" uid="uid://dwoosahvdwjrb" path="res://unused/tiles/mine/circle_01.png" id="1_26qna"]
 [ext_resource type="Script" uid="uid://6kar2q1rec5i" path="res://tile_effects/explode_effect/explode_effect.gd" id="1_m8a4e"]
-[ext_resource type="Texture2D" uid="uid://cr23mu52c1tto" path="res://tiles/mine/star_01.png" id="2_t63xr"]
+[ext_resource type="Texture2D" uid="uid://cr23mu52c1tto" path="res://unused/tiles/mine/star_01.png" id="2_t63xr"]
 
 [sub_resource type="Animation" id="Animation_d1axp"]
 length = 0.001

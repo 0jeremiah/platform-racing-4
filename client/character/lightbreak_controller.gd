@@ -52,7 +52,7 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 			player.modulate.a = 1
 	
 	# Firefly type handling
-	if type == LightTile.FIREFLY:
+	if type == ConfigurableBlockSideSettings.lightbreaker_types["firefly"].setting:
 		if direction.length() > 0:
 			if !line:
 				line = LightLine2D.instantiate()
@@ -63,12 +63,12 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 				direction = control_vector
 	
 	# Sun type handling
-	if type == LightTile.SUN:
+	if type == ConfigurableBlockSideSettings.lightbreaker_types["sun"].setting:
 		if direction.length() > 0:
 			sun_particles.emitting = true
 	
 	# Moon type handling
-	if type == LightTile.MOON and direction.length() > 0:
+	if type == ConfigurableBlockSideSettings.lightbreaker_types["moon"].setting and direction.length() > 0:
 		player.modulate.a = randf_range(0, 0.66)
 		moon_timer -= delta
 		moon_particles.emitting = true

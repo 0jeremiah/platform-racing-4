@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" format=3 uid="uid://dg3po8j6ulajq"]
 
-[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="1_bruia"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://unused/tiles/tileatlas.png" id="1_bruia"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hm5x3"]
 resource_name = "Tileset"
