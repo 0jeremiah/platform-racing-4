@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://pages/editor/icons/art.png" id="2_n2mkv"]
 [ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/editor/art_submenu.tscn" id="3_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://pages/editor/icons/settings.png" id="3_reton"]
-[ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://unused/mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
 [ext_resource type="PackedScene" uid="uid://uba1cak73d35" path="res://pages/editor/level_editor/level_settings_submenu.tscn" id="4_nlf1n"]
 [ext_resource type="PackedScene" uid="uid://ce64835fhs5ds" path="res://pages/editor/level_editor/collab_submenu.tscn" id="5_46rbo"]
 [ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://pages/editor/icons/extraoptions.png" id="5_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://di2od85jc5nwr" path="res://pages/editor/icons/test.png" id="6_gk4yk"]
+[ext_resource type="Texture2D" uid="uid://1t1fetxnarjx" path="res://pages/editor/icons/collab.png" id="9_46rbo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj84r"]
 bg_color = Color(1, 1, 1, 0.87451)
@@ -241,7 +241,7 @@ offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Invite your guild, your friends, or random people to start editing your level in real-time!"
 focus_mode = 1
-texture_normal = ExtResource("4_k63ob")
+texture_normal = ExtResource("9_46rbo")
 ignore_texture_size = true
 stretch_mode = 0
 
