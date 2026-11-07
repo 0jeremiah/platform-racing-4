@@ -1,5 +1,5 @@
-extends ArrowUp
-class_name UnderwaterArrowUp
-
-func init():
-	super()
+#extends ArrowUp
+#class_name UnderwaterArrowUp
+#
+#func init():
+	#super()

@@ -77,7 +77,7 @@ func calc_used_rect() -> void:
 	level_layers.calc_used_rect()
 
 
-func get_next_start_position():
+func get_next_start_position() -> Dictionary:
 	var start_position_blocks = block_list.block_type_list.get(ConfigurableBlockSettings.START_POSITION, [])
 	if start_position_blocks.size() > 0:
 		if start_position_index >= start_position_blocks.size():

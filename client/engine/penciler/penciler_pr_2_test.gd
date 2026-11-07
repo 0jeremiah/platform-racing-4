@@ -21,7 +21,3 @@ func _http_request_completed(_result, _response_code, _headers, body):
 	json.parse(body.get_string_from_utf8())
 	var level_data = json.get_data()
 	level_decoder.decode(level_data)
-	
-	var start_option = Start.get_next_start_option(level_layers)
-	camera_2d.position = start_option.coords * Settings.tile_size
-	camera_2d.position += Vector2(-350, 300)

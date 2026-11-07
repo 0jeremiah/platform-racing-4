@@ -1,7 +1,7 @@
-extends CustomStats
-class_name UnderwaterCustomStats
-
-
-func init(new_custom_stats: Array = [50, 50, 50, 50]):
-	custom_stats_atlas_coords = Vector2i(1, 28)
-	super()
+#extends CustomStats
+#class_name UnderwaterCustomStats
+#
+#
+#func init(new_custom_stats: Array = [50, 50, 50, 50]):
+	#custom_stats_atlas_coords = Vector2i(1, 28)
+	#super()

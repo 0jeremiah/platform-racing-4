@@ -115,7 +115,7 @@
 	# disable collision if we're stuck in a wall
 	#if character.tile_interaction.is_in_solid(character):
 	#	disabled = true
-	#elif character.lightbreak.type == LightTile.MOON and character.lightbreak.is_active():
+	#elif character.lightbreak.type == ConfigurableBlockSideSettings.lightbreaker_types["moon"].setting and character.lightbreak.is_active():
 	#	disabled = true
 	#else:
 	#	disabled = false
