@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://bdk52mwb30la5"]
 
 [ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/character_hitbox.tscn" id="1_bq4nn"]
+[ext_resource type="Script" uid="uid://c6m135cwej8ok" path="res://character/hitbox.gd" id="2_ohgwb"]
 
 [node name="NewCharacterHitbox" type="Node2D" unique_id=1349945184]
 
 [node name="CharacterHitbox" parent="." unique_id=439121499 instance=ExtResource("1_bq4nn")]
+script = ExtResource("2_ohgwb")

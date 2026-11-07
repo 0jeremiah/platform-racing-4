@@ -25,7 +25,7 @@ var scenes = {
 	CREDITS: preload("res://pages/credits/credits.tscn"),
 	
 	SOLO: preload("res://pages/solo/solo.tscn"),
-	LOBBY: preload("res://pages/level_lists/lobby.tscn"),
+	LOBBY: preload("res://pages/lobby/lobby.tscn"),
 	
 	GAME: preload("res://pages/game/game.tscn"),
 	TESTER: preload("res://pages/tester/tester.tscn"),

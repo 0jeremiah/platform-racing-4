@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dns831c4ggmtw"]
+[gd_scene format=3 uid="uid://dns831c4ggmtw"]
 
 [ext_resource type="Script" uid="uid://c4teiebaanbgb" path="res://item_effects/black_hole.gd" id="1_1ej34"]
-[ext_resource type="Texture2D" uid="uid://cth35wxod0y4f" path="res://item_effects/black_hole_1.png" id="1_kwytd"]
-[ext_resource type="Texture2D" uid="uid://bm5bvoom8myje" path="res://item_effects/black_hole_2.png" id="2_7p2ie"]
-[ext_resource type="Texture2D" uid="uid://cs7txbdwvdm6o" path="res://item_effects/black_hole_3.png" id="3_ysk3y"]
+[ext_resource type="Texture2D" uid="uid://cth35wxod0y4f" path="res://item_effects/black_hole_graphic/black_hole_1.png" id="1_kwytd"]
+[ext_resource type="Texture2D" uid="uid://bm5bvoom8myje" path="res://item_effects/black_hole_graphic/black_hole_2.png" id="2_7p2ie"]
+[ext_resource type="Texture2D" uid="uid://cs7txbdwvdm6o" path="res://item_effects/black_hole_graphic/black_hole_3.png" id="3_ysk3y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g7jpm"]
 radius = 200.0
@@ -70,34 +70,32 @@ _data = {
 &"swirl": SubResource("Animation_7iq6q")
 }
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=179758021]
 script = ExtResource("1_1ej34")
 
-[node name="BlackHole" type="Node2D" parent="."]
+[node name="BlackHole" type="Node2D" parent="." unique_id=912797402]
 
-[node name="BlackHole1" type="Sprite2D" parent="BlackHole"]
+[node name="BlackHole1" type="Sprite2D" parent="BlackHole" unique_id=915835829]
 scale = Vector2(3, 3)
 texture = ExtResource("1_kwytd")
 
-[node name="BlackHole2" type="Sprite2D" parent="BlackHole"]
+[node name="BlackHole2" type="Sprite2D" parent="BlackHole" unique_id=753414967]
 scale = Vector2(4.2, 4.2)
 texture = ExtResource("2_7p2ie")
 
-[node name="BlackHole3" type="Sprite2D" parent="BlackHole"]
+[node name="BlackHole3" type="Sprite2D" parent="BlackHole" unique_id=713295004]
 scale = Vector2(4.2, 4.2)
 texture = ExtResource("3_ysk3y")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1612759523]
 visible = false
 shape = SubResource("CircleShape2D_g7jpm")
 
-[node name="AttractZone" type="Area2D" parent="."]
+[node name="AttractZone" type="Area2D" parent="." unique_id=482476121]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttractZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttractZone" unique_id=1858531796]
 visible = false
 shape = SubResource("CircleShape2D_g7jpm")
 
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_wqj24")
-}
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=200860568]
+libraries/ = SubResource("AnimationLibrary_wqj24")

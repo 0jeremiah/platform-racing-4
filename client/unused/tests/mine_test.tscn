@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bk8j3q4r5s6t7"]
+
+[ext_resource type="Script" uid="uid://7lb2ylg16k76" path="res://unused/tests/mine_test.gd" id="1_mine_test"]
+[ext_resource type="Script" uid="uid://ck3lbenu5bt67" path="res://blocks/block_tile_map_layer.gd" id="2_tilemap"]
+[ext_resource type="PackedScene" uid="uid://dx0rkxfnt7mlj" path="res://unused/tests/test_ball.tscn" id="3_test_ball"]
+
+[node name="MineTest" type="Node2D" unique_id=1014429940]
+script = ExtResource("1_mine_test")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=808233549]
+script = ExtResource("2_tilemap")
+
+[node name="Ball" parent="." unique_id=1216518016 instance=ExtResource("3_test_ball")]
+position = Vector2(512, 256)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2146967937]
+position = Vector2(640, 360)

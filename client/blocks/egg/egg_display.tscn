@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://x1fnqrmy58b8" path="res://character_display/parts/classic/classic_foot_front_lines.png" id="11_qbuof"]
 [ext_resource type="Texture2D" uid="uid://dlw5vcxwe1pal" path="res://character_display/parts/classic/classic_foot_front_epic_color.png" id="12_wjr5n"]
 [ext_resource type="Texture2D" uid="uid://bwmsm35fm7flh" path="res://character_display/parts/classic/classic_foot_front_misc1.png" id="13_u5iaj"]
-[ext_resource type="Texture2D" uid="uid://b3ox2mgbwoyu1" path="res://item_effects/teleport_poof.svg" id="14_n441m"]
+[ext_resource type="Texture2D" uid="uid://b3ox2mgbwoyu1" path="res://item_effects/poof_graphic/poof.svg" id="14_n441m"]
 
 [sub_resource type="Animation" id="Animation_itr6u"]
 length = 0.001

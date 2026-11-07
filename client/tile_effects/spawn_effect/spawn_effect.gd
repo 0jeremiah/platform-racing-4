@@ -11,8 +11,8 @@ var tile_map_layer: ConfigurableTileMapLayer
 
 
 func _ready():
-	block_icon.texture = BlockManager.get_block_texture(block_id)
-	block_light_mask.texture = BlockManager.get_block_texture(block_id)
+	block_icon.texture = BlockManager.new_get_block_texture(block_id)
+	block_light_mask.texture = BlockManager.new_get_block_texture(block_id)
 	animtimer.connect("timeout", _place_block)
 	animtimer.start()
 	animations.play("spawn")

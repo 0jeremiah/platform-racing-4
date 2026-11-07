@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bhesowg0amb2t"]
+
+[ext_resource type="Script" uid="uid://dsdr1pcfs57du" path="res://unused/voter/voter_test.gd" id="1_g1uhd"]
+[ext_resource type="PackedScene" uid="uid://d64ctr6phhc6" path="res://unused/voter/voter.tscn" id="1_u7pbu"]
+
+[node name="VoterTest" type="Node2D" unique_id=647941816]
+script = ExtResource("1_g1uhd")
+
+[node name="Voter" parent="." unique_id=1269461538 instance=ExtResource("1_u7pbu")]
+position = Vector2(216, 167)

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bidcyv6gvflqo"]
+
+[ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="1_ibm5u"]
+
+[node name="PortableMineLightMask" type="Node2D" unique_id=52169820]
+
+[node name="PortableMineLightMask" type="Sprite2D" parent="." unique_id=487290398]
+texture = ExtResource("1_ibm5u")

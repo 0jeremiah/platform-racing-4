@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://id0mse18nrh"]
+
+[ext_resource type="Script" uid="uid://b6yxklqhhbdq8" path="res://unused/rastertest.gd" id="1_wyrq0"]
+[ext_resource type="Script" uid="uid://cl0s3e33yfc2k" path="res://unused/drawer.gd" id="2_jf5fk"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1ilse"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ljmwf"]
+blend_mode = 2
+
+[node name="ArtTest" type="Node2D" unique_id=2093916338]
+script = ExtResource("1_wyrq0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=576093589]
+offset_left = 264.0
+offset_top = 131.0
+offset_right = 1158.0
+offset_bottom = 731.0
+color = Color(0.39921114, 0.000118834825, 0.4037817, 1)
+
+[node name="ArtContainer" type="SubViewportContainer" parent="." unique_id=2089171419]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ArtViewport" type="SubViewport" parent="ArtContainer" unique_id=2099043272]
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Lines" type="Node2D" parent="ArtContainer/ArtViewport" unique_id=1370729267]
+
+[node name="Line2D" type="Line2D" parent="ArtContainer/ArtViewport/Lines" unique_id=1526181117]
+material = SubResource("CanvasItemMaterial_1ilse")
+points = PackedVector2Array(325, 393, 970, 348)
+
+[node name="Line2D2" type="Line2D" parent="ArtContainer/ArtViewport/Lines" unique_id=54225364]
+material = SubResource("CanvasItemMaterial_ljmwf")
+points = PackedVector2Array(616, 278, 720, 632)
+
+[node name="Drawer" type="Node2D" parent="." unique_id=1599190233]
+script = ExtResource("2_jf5fk")

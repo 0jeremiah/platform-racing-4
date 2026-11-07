@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://6p2krplxma5i"]
+[gd_scene format=3 uid="uid://6p2krplxma5i"]
 
-[ext_resource type="Script" uid="uid://do8d0t21s0wxu" path="res://item_effects/poof_effect.gd" id="1_k8evn"]
-[ext_resource type="Texture2D" uid="uid://b3ox2mgbwoyu1" path="res://item_effects/teleport_poof.svg" id="1_n0oek"]
-[ext_resource type="Texture2D" uid="uid://c7ivf7f721oqc" path="res://item_effects/teleport_circle.svg" id="2_pp6f1"]
+[ext_resource type="Script" path="res://item_effects/poof_effect.gd" id="1_k8evn"]
+[ext_resource type="Texture2D" uid="uid://b3ox2mgbwoyu1" path="res://item_effects/poof_graphic/poof.svg" id="1_n0oek"]
+[ext_resource type="Texture2D" uid="uid://c7ivf7f721oqc" path="res://item_effects/poof_graphic/poof_circle.svg" id="2_pp6f1"]
 
 [sub_resource type="Animation" id="Animation_y1mka"]
 length = 0.001
@@ -210,24 +210,22 @@ _data = {
 &"poof": SubResource("Animation_mauuj")
 }
 
-[node name="PoofEffect" type="Node2D"]
+[node name="PoofEffect" type="Node2D" unique_id=488598890]
 script = ExtResource("1_k8evn")
 
-[node name="AnimationTimer" type="Timer" parent="."]
+[node name="AnimationTimer" type="Timer" parent="." unique_id=2066433666]
 
-[node name="TeleportPoof" type="Sprite2D" parent="."]
+[node name="TeleportPoof" type="Sprite2D" parent="." unique_id=1397176945]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_n0oek")
 
-[node name="TeleportCircle1" type="Sprite2D" parent="."]
+[node name="TeleportCircle1" type="Sprite2D" parent="." unique_id=1232879894]
 scale = Vector2(2, 3)
 texture = ExtResource("2_pp6f1")
 
-[node name="TeleportCircle2" type="Sprite2D" parent="."]
+[node name="TeleportCircle2" type="Sprite2D" parent="." unique_id=709310373]
 scale = Vector2(5, 5)
 texture = ExtResource("2_pp6f1")
 
-[node name="Animations" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_0qbq0")
-}
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1421329767]
+libraries/ = SubResource("AnimationLibrary_0qbq0")

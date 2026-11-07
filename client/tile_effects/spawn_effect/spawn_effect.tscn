@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bod2suey75awd"]
 
 [ext_resource type="Script" uid="uid://8bxr83p8nn0f" path="res://tile_effects/spawn_effect/spawn_effect.gd" id="1_cvdam"]
-[ext_resource type="Texture2D" uid="uid://co5i0jeihdtnd" path="res://items/portable_block_item.png" id="2_30btl"]
+[ext_resource type="Texture2D" uid="uid://df6ptrhbp2ix8" path="res://blocks/loadingblock.png" id="2_wocyk"]
 
 [sub_resource type="Animation" id="Animation_ggu70"]
 length = 0.001
@@ -166,12 +166,12 @@ script = ExtResource("1_cvdam")
 
 [node name="BlockIcon" type="Sprite2D" parent="." unique_id=1847263952]
 position = Vector2(0, 3.57628e-06)
-texture = ExtResource("2_30btl")
+texture = ExtResource("2_wocyk")
 
 [node name="BlockLightMask" type="Sprite2D" parent="." unique_id=841645428]
 visible = false
 self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
-texture = ExtResource("2_30btl")
+texture = ExtResource("2_wocyk")
 
 [node name="AnimationTimer" type="Timer" parent="." unique_id=1471212365]
 wait_time = 1.5

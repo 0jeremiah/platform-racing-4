@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://bidcyv6gvflqo"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_at6wu"]
-
-[node name="PortableMineLightMask" type="Node2D" unique_id=52169820]
-
-[node name="PortableMineLightMask" type="Sprite2D" parent="." unique_id=487290398]
-texture = SubResource("CompressedTexture2D_at6wu")

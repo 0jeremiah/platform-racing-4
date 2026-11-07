@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://clutforpytf1e" path="res://pages/editor/art_submenu.gd" id="1_6w04l"]
 [ext_resource type="Texture2D" uid="uid://bfvtpgfgtq4o0" path="res://engine/bg/pr2bg1-field.svg" id="2_776et"]
-[ext_resource type="Texture2D" uid="uid://b5vip8mr03xki" path="res://unused/mega_menu/icons/draw.png" id="3_feflp"]
-[ext_resource type="Texture2D" uid="uid://djbe0fjis31o6" path="res://unused/mega_menu/icons/erase.png" id="4_bvixj"]
-[ext_resource type="Texture2D" uid="uid://nwxvmjjoyfqt" path="res://unused/mega_menu/icons/stamp.png" id="5_xomac"]
+[ext_resource type="Texture2D" uid="uid://b5vip8mr03xki" path="res://pages/editor/icons/draw.png" id="3_feflp"]
+[ext_resource type="Texture2D" uid="uid://djbe0fjis31o6" path="res://pages/editor/icons/erase.png" id="4_bvixj"]
+[ext_resource type="Texture2D" uid="uid://nwxvmjjoyfqt" path="res://pages/editor/icons/stamp.png" id="5_xomac"]
 [ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://stamps/cactus.svg" id="8_le1wt"]
 [ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/layer_panel.tscn" id="8_vii2p"]
 [ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
-[ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://unused/mega_menu/icons/text.png" id="9_mh3pe"]
+[ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://pages/editor/icons/text.png" id="9_mh3pe"]
 [ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/slider/sliderbutton.tscn" id="11_feflp"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
