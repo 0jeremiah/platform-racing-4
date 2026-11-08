@@ -5,8 +5,8 @@ class_name BlockScene
 @onready var block_texture = $BlockTexture
 @onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
 @onready var dull_square_graphic = $BlockTexture/TeleportColorinTexture/DullSquareGraphic
-@onready var egg_color_texture = $BlockTexture/EggColorTexture
-@onready var egg_spots_texture = $BlockTexture/EggSpotsTexture
+@onready var mimic_color1_texture = $BlockTexture/MimicColor1Texture
+@onready var mimic_color2_texture = $BlockTexture/MimicColor2Texture
 @onready var frozen_texture = $BlockTexture/FrozenTexture
 @onready var top_hitbox = $TopHitbox
 @onready var bottom_hitbox = $BottomHitbox
@@ -214,17 +214,17 @@ func get_coords() -> Vector2i:
 func set_block_texture():
 	teleport_colorin_texture.visible = false
 	block_texture.texture = BlockManager.get_block_texture(id)
-	if settings.block_type != ConfigurableBlockSettings.EGG and settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
+	if settings.block_type != ConfigurableBlockSettings.MIMIC and settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		teleport_colorin_texture.texture = BlockManager.get_block_teleport_texture(id)
 		teleport_colorin_texture.self_modulate = Color(settings.teleport_color)
 		teleport_colorin_texture.visible = true
-	elif settings.block_type == ConfigurableBlockSettings.EGG:
-		egg_color_texture.texture = BlockManager.get_block_egg_color_texture(id)
-		egg_color_texture.self_modulate = Color(settings.egg_color)
-		egg_color_texture.visible = true
-		egg_spots_texture.texture = BlockManager.get_block_egg_spots_texture(id)
-		egg_spots_texture.self_modulate = Color(settings.egg_spots_color)
-		egg_spots_texture.visible = true
+	elif settings.block_type == ConfigurableBlockSettings.MIMIC:
+		mimic_color1_texture.texture = BlockManager.get_block_mimic_color1_texture(id)
+		mimic_color1_texture.self_modulate = Color(settings.mimic_color1)
+		mimic_color1_texture.visible = true
+		mimic_color2_texture.texture = BlockManager.get_block_mimic_color2_texture(id)
+		mimic_color2_texture.self_modulate = Color(settings.mimic_color2)
+		mimic_color2_texture.visible = true
 
 
 func morph_block_type(new_id: String, new_settings: ConfigurableBlockSettings):

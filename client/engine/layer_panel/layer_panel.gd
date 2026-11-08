@@ -30,8 +30,8 @@ var active: bool = false
 var current_layers: Node2D
 var current_editor = null
 var show_layer_type: String = "blocks"
-var block_effects = {"teleport_color": false, "arrow_graphic": false, "move_arrow_graphic": false, "egg_color": false,
-"egg_spots_color": false}
+var block_effects = {"teleport_color": false, "arrow_graphic": false, "move_arrow_graphic": false, "mimic_color1": false,
+"mimic_color2": false}
 
 
 func _ready():

@@ -48,7 +48,7 @@ layout_mode = 0
 visible = false
 layout_mode = 0
 
-[node name="EggSettings" parent="." unique_id=1405008222 instance=ExtResource("9_078ga")]
+[node name="MimicSettings" parent="." unique_id=1405008222 instance=ExtResource("9_078ga")]
 visible = false
 layout_mode = 0
 

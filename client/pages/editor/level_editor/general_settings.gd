@@ -20,15 +20,16 @@ var composer_names = ["", ""]
 var allowed_song_groups = []
 var full_music_list: Dictionary = {}
 var music: String = "random"
-var level_type_names = ["Race", "Deathmatch", "Hat Attack", "Coin Fiend", "Objective", "Alien Eggs", "Roguelike"]
+var level_type_names = ["Race", "Deathmatch", "Hat Attack", "Coin Fiend", "Objective", "Mimic Attack", "Roguelike"]
 var level_type_ids = [LevelManager.race, LevelManager.deathmatch, LevelManager.hat_attack, LevelManager.coin_fiend,
-LevelManager.objective, LevelManager.alien_eggs, LevelManager.roguelike]
+LevelManager.objective, LevelManager.mimic_attack, LevelManager.roguelike]
 var level_type_failsafe = {"r": LevelManager.race, "dm": LevelManager.deathmatch, "d": LevelManager.deathmatch,
 "h": LevelManager.hat_attack, "obj": LevelManager.objective, "o": LevelManager.objective,
-"eggs": LevelManager.alien_eggs, "e": LevelManager.alien_eggs, "rl": LevelManager.roguelike,
+"eggs": LevelManager.mimic_attack, "e": LevelManager.mimic_attack, "rl": LevelManager.roguelike,
 "l": LevelManager.roguelike}
 var level_type: String = ""
 # should alien eggs be its own game mode or should eggs just be breakable on coin field?
+# probably it's own game mode, as eggs are now mimics with egg skin and can do a little more now
 var time: int = 120
 var gravity: float = 1.0
 var password: String = ""

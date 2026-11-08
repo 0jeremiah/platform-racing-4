@@ -54,9 +54,9 @@ func _create_minimap_layer(map_layer: MapLayer):
 		if block_info.settings != null:
 			if block_info.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 				color_1 = block_info.settings.teleport_color
-			if block_info.settings.block_type == ConfigurableBlockSettings.EGG:
-				color_1 = block_info.settings.egg_color
-				color_2 = block_info.settings.egg_spots_color
+			if block_info.settings.block_type == ConfigurableBlockSettings.MIMIC:
+				color_1 = block_info.settings.mimic_color1
+				color_2 = block_info.settings.mimic_color2
 		if block_id != block_info.id:
 			block_id = block_info.id
 			block_texture = BlockManager.new_get_block_texture(block_id, color_1, color_2).get_image()

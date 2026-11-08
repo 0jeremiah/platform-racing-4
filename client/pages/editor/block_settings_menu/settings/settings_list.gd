@@ -7,7 +7,7 @@ extends Control
 @onready var item_settings = $ItemSettings
 @onready var teleport_settings = $TeleportSettings
 @onready var time_settings = $TimeSettings
-@onready var egg_settings = $EggSettings
+@onready var mimic_settings = $MimicSettings
 @onready var gear_settings = $GearSettings
 @onready var switch_settings = $SwitchSettings
 @onready var lightbreaker_settings = $LightbreakerSettings
@@ -19,7 +19,7 @@ extends Control
 	ConfigurableBlockSideSettings.ITEM: {"label": "Item Settings", "settings": {"infinite_items": ConfigurableBlockSettings.default_block_properties.infinite_items, "item_supply": ConfigurableBlockSettings.default_block_properties.item_supply}, "node": item_settings},
 	ConfigurableBlockSideSettings.TELEPORT: {"label": "Teleport Settings", "settings": {"teleport_color": ConfigurableBlockSettings.default_block_properties.teleport_color, "teleport_throttle": ConfigurableBlockSettings.default_block_properties.teleport_throttle}, "node": teleport_settings},
 	ConfigurableBlockSideSettings.TIME: {"label": "Time Settings", "settings": {"infinite_time": ConfigurableBlockSettings.default_block_properties.infinite_time, "time_supply": ConfigurableBlockSettings.default_block_properties.time_supply}, "node": time_settings},
-	ConfigurableBlockSettings.EGG: {"label": "Egg Settings", "settings": {"egg_walk_velocity": 200.0, "egg_run_velocity": 1200.0, "egg_jump_velocity": -150.0, "egg_gravity": {"x": 0.0, "y": 2250.0}, "egg_can_run": false, "egg_can_jump": false, "egg_can_disguise": false, "egg_color": "bf1a1a", "egg_spots_color": "00ff99", "egg_randomize_color": true, "egg_randomize_spots_color": true}, "node": egg_settings},
+	ConfigurableBlockSettings.MIMIC: {"label": "Mimic Settings", "settings": {"mimic_walk_velocity": 200.0, "mimic_run_velocity": 1200.0, "mimic_jump_velocity": -150.0, "mimic_gravity": {"x": 0.0, "y": 2250.0}, "mimic_can_run": false, "mimic_can_jump": false, "mimic_can_disguise": false, "mimic_color1": "bf1a1a", "mimic_color2": "00ff99", "mimic_randomize_color1": true, "mimic_randomize_color2": true}, "node": mimic_settings},
 	ConfigurableBlockSettings.GEAR: {"label": "Gear Settings", "settings": {"gear_rotation": ConfigurableBlockSettings.default_block_properties.gear_rotation, "gear_tick_seconds": ConfigurableBlockSettings.default_block_properties.gear_tick_seconds, "gear_tock_seconds": ConfigurableBlockSettings.default_block_properties.gear_tock_seconds, "gear_inertia": ConfigurableBlockSettings.default_block_properties.gear_inertia, "gear_auto_rotation": ConfigurableBlockSettings.default_block_properties.gear_auto_rotation}, "node": gear_settings},
 	ConfigurableBlockSettings.SWITCH: {"label": "Switch Settings", "settings": {"limit_activate_range": false, "activate_range": {"x": 10, "y": 10}}, "node": switch_settings},
 	ConfigurableBlockSettings.LIGHTBREAKER: {"label": "Lightbreaker Settings", "settings": {"light_color": ConfigurableBlockSettings.default_block_properties.light_color}, "node": lightbreaker_settings}

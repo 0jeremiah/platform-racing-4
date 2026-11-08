@@ -68,22 +68,22 @@ static func _build_block_lookup(configs: Array) -> void:
 				var custom_teleport_block_texture = null
 				custom_teleport_block_texture = ImageTexture.create_from_image(custom_teleport_block_image)
 				_block_lookup[block_id]["custom_teleport_texture"] = custom_teleport_block_texture
-			if config.has("custom_egg_color_image"):
-				var custom_egg_color_image = _load_custom_block_image(config.custom_egg_color_image)
-				var custom_egg_color_texture = null
-				custom_egg_color_texture = ImageTexture.create_from_image(custom_egg_color_image)
-				_block_lookup[block_id]["custom_egg_color_texture"] = custom_egg_color_texture
-			if config.has("custom_egg_spots_image"):
-				var custom_egg_spots_image = _load_custom_block_image(config.custom_egg_spots_image)
-				var custom_egg_spots_texture = null
-				custom_egg_spots_texture = ImageTexture.create_from_image(custom_egg_spots_image)
-				_block_lookup[block_id]["custom_egg_spots_texture"] = custom_egg_spots_texture
+			if config.has("custom_mimic_color1_image"):
+				var custom_mimic_color1_image = _load_custom_block_image(config.custom_mimic_color1_image)
+				var custom_mimic_color1_texture = null
+				custom_mimic_color1_texture = ImageTexture.create_from_image(custom_mimic_color1_image)
+				_block_lookup[block_id]["custom_mimic_color1_texture"] = custom_mimic_color1_texture
+			if config.has("custom_mimic_color2_image"):
+				var custom_mimic_color2_image = _load_custom_block_image(config.custom_mimic_color2_image)
+				var custom_mimic_color2_texture = null
+				custom_mimic_color2_texture = ImageTexture.create_from_image(custom_mimic_color2_image)
+				_block_lookup[block_id]["custom_mimic_color2_texture"] = custom_mimic_color2_texture
 		else:
 			# Load from the game's default blockset. (this is for default blocks)
 			var texture_path: String = config.image.get("src", "")
 			var teleport_texture_path: String = config.image.get("teleport_src", "")
-			var egg_color_texture_path: String = config.image.get("egg_color_src", "")
-			var egg_spots_texture_path: String = config.image.get("egg_spots_src", "")
+			var mimic_color1_texture_path: String = config.image.get("mimic_color1_src", "")
+			var mimic_color2_texture_path: String = config.image.get("mimic_color2_src", "")
 			if texture_path and FileAccess.file_exists(texture_path):
 				if texture_path not in _block_textures:
 					_block_textures[texture_path] = load_block_texture(texture_path)
@@ -130,22 +130,22 @@ static func _build_block_lookup(configs: Array) -> void:
 						config.image.teleport_atlas_coords.get("y", 0)
 					)
 					_block_lookup[block_id]["teleport_image_texture"] = exported_teleport_image_texture
-				if config.image.has("egg_color_atlas_coords"):
-					texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.egg_color_atlas_coords.get("x", 0), config.image.egg_color_atlas_coords.get("y", 0))), Settings.tile_size)
-					var exported_egg_color_image_texture = texture2d.get_image()
-					_block_lookup[block_id]["egg_color_atlas_coords"] = Vector2i(
-						config.image.egg_color_atlas_coords.get("x", 0),
-						config.image.egg_color_atlas_coords.get("y", 0)
+				if config.image.has("mimic_color1_atlas_coords"):
+					texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.mimic_color1_atlas_coords.get("x", 0), config.image.mimic_color1_atlas_coords.get("y", 0))), Settings.tile_size)
+					var exported_mimic_color1_image_texture = texture2d.get_image()
+					_block_lookup[block_id]["mimic_color1_atlas_coords"] = Vector2i(
+						config.image.mimic_color1_atlas_coords.get("x", 0),
+						config.image.mimic_color1_atlas_coords.get("y", 0)
 					)
-					_block_lookup[block_id]["egg_color_image_texture"] = exported_egg_color_image_texture
-				if config.image.has("egg_spots_atlas_coords"):
-					texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.egg_spots_atlas_coords.get("x", 0), config.image.egg_spots_atlas_coords.get("y", 0))), Settings.tile_size)
-					var exported_egg_spots_image_texture = texture2d.get_image()
-					_block_lookup[block_id]["egg_spots_atlas_coords"] = Vector2i(
-						config.image.egg_spots_atlas_coords.get("x", 0),
-						config.image.egg_spots_atlas_coords.get("y", 0)
+					_block_lookup[block_id]["mimic_color1_image_texture"] = exported_mimic_color1_image_texture
+				if config.image.has("mimic_color2_atlas_coords"):
+					texture2d.region = Rect2i((Settings.tile_size * Vector2i(config.image.mimic_color2_atlas_coords.get("x", 0), config.image.mimic_color2_atlas_coords.get("y", 0))), Settings.tile_size)
+					var exported_mimic_color2_image_texture = texture2d.get_image()
+					_block_lookup[block_id]["mimic_color2_atlas_coords"] = Vector2i(
+						config.image.mimic_color2_atlas_coords.get("x", 0),
+						config.image.mimic_color2_atlas_coords.get("y", 0)
 					)
-					_block_lookup[block_id]["egg_spots_image_texture"] = exported_egg_spots_image_texture
+					_block_lookup[block_id]["mimic_color2_image_texture"] = exported_mimic_color2_image_texture
 			else:
 				if teleport_texture_path and FileAccess.file_exists(teleport_texture_path):
 					if teleport_texture_path not in _block_textures:
@@ -154,20 +154,20 @@ static func _build_block_lookup(configs: Array) -> void:
 					var teleport_image_texture = load_block_texture(teleport_texture_path)
 					teleport_texture2d = teleport_image_texture
 					_block_lookup[block_id]["teleport_image_texture"] = teleport_texture2d
-				if egg_color_texture_path and FileAccess.file_exists(egg_color_texture_path):
-					if egg_color_texture_path not in _block_textures:
-						_block_textures[egg_color_texture_path] = load_block_texture(egg_color_texture_path)
-					var egg_color_texture2d = null
-					var egg_color_image_texture = load_block_texture(egg_color_texture_path)
-					egg_color_texture2d = egg_color_image_texture
-					_block_lookup[block_id]["egg_color_image_texture"] = egg_color_texture2d
-				if egg_spots_texture_path and FileAccess.file_exists(egg_spots_texture_path):
-					if egg_spots_texture_path not in _block_textures:
-						_block_textures[egg_spots_texture_path] = load_block_texture(egg_spots_texture_path)
-					var egg_spots_texture2d = null
-					var egg_spots_image_texture = load_block_texture(egg_spots_texture_path)
-					egg_spots_texture2d = egg_spots_image_texture
-					_block_lookup[block_id]["egg_spots_image_texture"] = egg_spots_texture2d
+				if mimic_color1_texture_path and FileAccess.file_exists(mimic_color1_texture_path):
+					if mimic_color1_texture_path not in _block_textures:
+						_block_textures[mimic_color1_texture_path] = load_block_texture(mimic_color1_texture_path)
+					var mimic_color1_texture2d = null
+					var mimic_color1_image_texture = load_block_texture(mimic_color1_texture_path)
+					mimic_color1_texture2d = mimic_color1_image_texture
+					_block_lookup[block_id]["mimic_color1_image_texture"] = mimic_color1_texture2d
+				if mimic_color2_texture_path and FileAccess.file_exists(mimic_color2_texture_path):
+					if mimic_color2_texture_path not in _block_textures:
+						_block_textures[mimic_color2_texture_path] = load_block_texture(mimic_color2_texture_path)
+					var mimic_color2_texture2d = null
+					var mimic_color2_image_texture = load_block_texture(mimic_color2_texture_path)
+					mimic_color2_texture2d = mimic_color2_image_texture
+					_block_lookup[block_id]["mimic_color2_image_texture"] = mimic_color2_texture2d
 
 		var title = "Block"
 		var comment = ""
@@ -331,35 +331,35 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 	return texture
 
 
-static func get_block_egg_color_texture(block_id: String) -> Texture2D:
-	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.EGG:
+static func get_block_mimic_color1_texture(block_id: String) -> Texture2D:
+	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.MIMIC:
 		return not_found_block_texture
 	var texture = null
-	if _block_lookup[block_id].has("custom_egg_color_texture"):
-		texture = _load_custom_block_image(_block_lookup[block_id]["custom_egg_color_texture"])
-	elif _block_lookup[block_id].has("egg_color_atlas_coords"):
+	if _block_lookup[block_id].has("custom_mimic_color1_texture"):
+		texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color1_texture"])
+	elif _block_lookup[block_id].has("mimic_color1_atlas_coords"):
 		texture = AtlasTexture.new()
 		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
-		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].egg_color_atlas_coords), Settings.tile_size)
+		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].mimic_color1_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	else:
-		texture = _block_textures[_block_lookup[block_id]["egg_color_texture_path"]]
+		texture = _block_textures[_block_lookup[block_id]["mimic_color1_texture_path"]]
 	return texture
 
 
-static func get_block_egg_spots_texture(block_id: String) -> Texture2D:
-	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.EGG:
+static func get_block_mimic_color2_texture(block_id: String) -> Texture2D:
+	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.MIMIC:
 		return not_found_block_texture
 	var texture = null
-	if _block_lookup[block_id].has("custom_egg_spots_texture"):
-		texture = _load_custom_block_image(_block_lookup[block_id]["custom_egg_spots_texture"])
-	elif _block_lookup[block_id].has("egg_spots_atlas_coords"):
+	if _block_lookup[block_id].has("custom_mimic_color2_texture"):
+		texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color2_texture"])
+	elif _block_lookup[block_id].has("mimic_color2_atlas_coords"):
 		texture = AtlasTexture.new()
 		texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
-		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].egg_spots_atlas_coords), Settings.tile_size)
+		texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].mimic_color2_atlas_coords), Settings.tile_size)
 		texture.filter_clip = true
 	else:
-		texture = _block_textures[_block_lookup[block_id]["egg_spots_texture_path"]]
+		texture = _block_textures[_block_lookup[block_id]["mimic_color2_texture_path"]]
 	return texture
 
 
@@ -379,34 +379,34 @@ static func new_get_block_texture(block_id: String, color_1: String = "", color_
 		texture.filter_clip = true
 	else:
 		texture = _block_textures[_block_lookup[block_id]["texture_path"]]
-	# if block is an egg block, get egg color and egg spots
-	if _blocks[block_id].settings.block_type == ConfigurableBlockSettings.EGG:
+	# if block is an mimic block, get mimic color1 and mimic color2
+	if _blocks[block_id].settings.block_type == ConfigurableBlockSettings.MIMIC:
 		if color_1 == "" or !color_1.is_valid_html_color():
-			color_1 = _blocks[block_id].settings.egg_color
+			color_1 = _blocks[block_id].settings.mimic_color1
 		if color_2 == "" or !color_2.is_valid_html_color():
-			color_2 = _blocks[block_id].settings.egg_spots_color
-		#var egg_color_texture = null
-		#if _block_lookup[block_id].has("custom_egg_color_texture"):
-			#egg_color_texture = _load_custom_block_image(_block_lookup[block_id]["custom_egg_color_texture"])
-		#elif _block_lookup[block_id].has("egg_color_atlas_coords"):
-			#egg_color_texture = AtlasTexture.new()
-			#egg_color_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
-			#egg_color_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].egg_color_atlas_coords), Settings.tile_size)
-			#egg_color_texture.filter_clip = true
+			color_2 = _blocks[block_id].settings.mimic_color2
+		#var mimic_color1_texture = null
+		#if _block_lookup[block_id].has("custom_mimic_color1_texture"):
+			#mimic_color1_texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color1_texture"])
+		#elif _block_lookup[block_id].has("mimic_color1_atlas_coords"):
+			#mimic_color1_texture = AtlasTexture.new()
+			#mimic_color1_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
+			#mimic_color1_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].mimic_color1_atlas_coords), Settings.tile_size)
+			#mimic_color1_texture.filter_clip = true
 		#else:
-			#texture = _block_textures[_block_lookup[block_id]["egg_color_texture_path"]]
-		block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].egg_color_image_texture), Color(color_1))
-		#var egg_spots_texture = null
-		#if _block_lookup[block_id].has("custom_egg_spots_texture"):
-			#egg_spots_texture = _load_custom_block_image(_block_lookup[block_id]["custom_egg_spots_texture"])
-		#elif _block_lookup[block_id].has("egg_spots_atlas_coords"):
-			#egg_spots_texture = AtlasTexture.new()
-			#egg_spots_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
-			#egg_spots_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].egg_spots_atlas_coords), Settings.tile_size)
-			#egg_spots_texture.filter_clip = true
+			#texture = _block_textures[_block_lookup[block_id]["mimic_color1_texture_path"]]
+		block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].mimic_color1_image_texture), Color(color_1))
+		#var mimic_color2_texture = null
+		#if _block_lookup[block_id].has("custom_mimic_color2_texture"):
+			#mimic_color2_texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color2_texture"])
+		#elif _block_lookup[block_id].has("mimic_color2_atlas_coords"):
+			#mimic_color2_texture = AtlasTexture.new()
+			#mimic_color2_texture.atlas = _block_textures[_block_lookup[block_id]["texture_path"]]
+			#mimic_color2_texture.region = Rect2i((Settings.tile_size * _block_lookup[block_id].mimic_color2_atlas_coords), Settings.tile_size)
+			#mimic_color2_texture.filter_clip = true
 		#else:
-			#texture = _block_textures[_block_lookup[block_id]["egg_spots_texture_path"]]
-		block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].egg_spots_image_texture), Color(color_2))
+			#texture = _block_textures[_block_lookup[block_id]["mimic_color2_texture_path"]]
+		block_texture.blit_rect(Rect2i(0, 0, 128, 128), ImageTexture.create_from_image(_block_lookup[block_id].mimic_color2_image_texture), Color(color_2))
 	# if block is a teleport block, get teleport colorin
 	elif _blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
 		if color_1 == "" or !color_1.is_valid_html_color():
@@ -430,8 +430,8 @@ static func block_has_textures(block_id: String) -> Dictionary:
 	return {
 		"has_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_texture") or BlockManager._block_lookup[block_id].has("atlas_coords") or BlockManager._block_lookup[block_id].has("texture_path")),
 		"has_teleport_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_teleport_texture") or BlockManager._block_lookup[block_id].has("teleport_atlas_coords") or BlockManager._block_lookup[block_id].has("teleport_texture_path")),
-		"has_egg_color_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_egg_color_texture") or BlockManager._block_lookup[block_id].has("egg_color_atlas_coords") or BlockManager._block_lookup[block_id].has("egg_color_texture_path")),
-		"has_egg_spots_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_egg_spots_texture") or BlockManager._block_lookup[block_id].has("egg_spots_atlas_coords") or BlockManager._block_lookup[block_id].has("egg_spots_texture_path"))
+		"has_mimic_color1_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_mimic_color1_texture") or BlockManager._block_lookup[block_id].has("mimic_color1_atlas_coords") or BlockManager._block_lookup[block_id].has("mimic_color1_texture_path")),
+		"has_mimic_color2_texture": BlockManager._block_lookup.has(block_id) and (BlockManager._block_lookup[block_id].has("custom_mimic_color2_texture") or BlockManager._block_lookup[block_id].has("mimic_color2_atlas_coords") or BlockManager._block_lookup[block_id].has("mimic_color2_texture_path"))
 	}
 
 # brough from Tiles, which is deprecated

@@ -28,7 +28,7 @@ static var settings_presets: Dictionary = {
 				"move": {"label": "Move", "setting": ConfigurableBlockSettings.MOVE, "side_category": "block_sides"},
 				"change": {"label": "Change", "setting": ConfigurableBlockSettings.CHANGE, "side_category": "block_sides"},
 				"gear": {"label": "Gear", "setting": ConfigurableBlockSettings.GEAR, "side_category": "block_sides"},
-				"egg": {"label": "Egg", "setting": ConfigurableBlockSettings.EGG, "side_category": "block_sides"}
+				"mimic": {"label": "Mimic", "setting": ConfigurableBlockSettings.MIMIC, "side_category": "block_sides"}
 				},
 			"side_categories": {
 				"block_sides": {
@@ -200,7 +200,7 @@ func update_display():
 	block_settings_seperator.visible = true
 	block_settings_menu.change_container_size(Vector2(488.0, 298.0))
 	block_settings_menu.visible = true
-	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.EGG:
+	if block_settings.block_type != ConfigurableBlockSettings.CHANGE and block_settings.block_type != ConfigurableBlockSettings.MIMIC:
 		sides_settings.visible = true
 	panel_size.x += (block_settings_menu.position.x + block_settings_menu.size.x + 20) - panel_size.x
 	panel_size.y += (block_settings_menu.position.y + block_settings_menu.size.y + 20) - panel_size.y

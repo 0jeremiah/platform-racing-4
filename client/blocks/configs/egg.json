@@ -4,7 +4,7 @@
 		"title": "Alien Egg",
 		"comment": "This mischevious creature attacks anyone that gets in its way.",
 		"matter_type": "solid",
-		"block_type": "egg",
+		"block_type": "mimic",
 		"left": {"type": "active", "params": {}},
 		"right": {"type": "active", "params": {}},
 		"top": {"type": "active", "params": {}},
@@ -12,22 +12,22 @@
 		"bump": {"type": "active", "params": {}},
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "active", "params": {}},
-		"egg_walk_velocity": 200.0,
-		"egg_run_velocity": 1200.0,
-		"egg_jump_velocity": -1000.0,
-		"egg_gravity": {"x": 0.0, "y": 2250.0},
-		"egg_can_run": false,
-		"egg_can_jump": false,
-		"egg_can_disguise": false,
-		"egg_color": "bf1a1a",
-		"egg_spots_color": "00ff99",
-		"egg_randomize_color": true,
-		"egg_randomize_spots_color": true
+		"mimic_walk_velocity": 200.0,
+		"mimic_run_velocity": 1200.0,
+		"mimic_jump_velocity": -1000.0,
+		"mimic_gravity": {"x": 0.0, "y": 2250.0},
+		"mimic_can_run": false,
+		"mimic_can_jump": false,
+		"mimic_can_disguise": false,
+		"mimic_color1": "bf1a1a",
+		"mimic_color2": "00ff99",
+		"mimic_randomize_color1": true,
+		"mimic_randomize_color2": true
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",
 		"atlas_coords": {"x": 0, "y": 3},
-		"egg_color_atlas_coords": {"x": 1, "y": 3},
-		"egg_spots_atlas_coords": {"x": 2, "y": 3}
+		"mimic_color1_atlas_coords": {"x": 1, "y": 3},
+		"mimic_color2_atlas_coords": {"x": 2, "y": 3}
 	}
 }

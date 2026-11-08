@@ -6,7 +6,7 @@ class_name ConfigurableTileMapLayer
 ## knowledge of source IDs and atlas coordinates.
 
 
-const EGG_ENEMY = preload("res://blocks/egg/egg_enemy.tscn")
+const MIMIC_ENEMY = preload("res://blocks/mimic/mimic_enemy.tscn")
 const LASER_BULLET = preload("res://item_effects/laser_bullet.tscn")
 var map_layer: MapLayer = null
 var block_dict = {}
@@ -242,36 +242,36 @@ func get_block_center_position(coords: Vector2i):
 	return Vector2(Vector2i(coords * Settings.tile_size) + Vector2i(Settings.tile_size_half)).rotated(rotation)
 
 
-func spawn_eggs():
-	var egg_blocks = []
+func spawn_mimics():
+	var mimic_blocks = []
 	for block in BlockManager._blocks:
 		var block_instance = BlockManager._blocks[block]
-		if block_instance.settings.block_type == ConfigurableBlockSettings.EGG:
-			egg_blocks.append(block)
-	for egg in egg_blocks:
-		var egg_counter = 0
-		var coord_list = get_all_block_coords_by_id(egg)
+		if block_instance.settings.block_type == ConfigurableBlockSettings.MIMIC:
+			mimic_blocks.append(block)
+	for mimic in mimic_blocks:
+		var mimic_counter = 0
+		var coord_list = get_all_block_coords_by_id(mimic)
 		for coords in coord_list:
 			var block_info = get_block(coords)
-			egg_counter += 1
-			var egg_enemy = EGG_ENEMY.instantiate()
-			var egg_color_1 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.egg_randomize_color else block_info.settings.egg_color
-			var egg_color_2 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.egg_randomize_spots_color else block_info.settings.egg_spots_color
-			egg_enemy.tile_map_layer = self
-			egg_enemy.walk_velocity = block_info.settings.egg_walk_velocity
-			egg_enemy.run_velocity = block_info.settings.egg_run_velocity
-			egg_enemy.jump_velocity = block_info.settings.egg_jump_velocity
-			egg_enemy.gravity = Vector2(block_info.settings.egg_gravity.x, block_info.settings.egg_gravity.y)
-			egg_enemy.can_run = block_info.settings.egg_can_run
-			egg_enemy.can_jump = block_info.settings.egg_can_jump
-			egg_enemy.can_disguise = block_info.settings.egg_can_disguise
-			egg_enemy.egg_depth = map_layer.z_axis
-			egg_enemy.position = BlockManager._blocks[egg].get_center_position(self, coords)
-			egg_enemy.name = "EggEnemy" + str(egg_counter)
-			map_layer.enemies.add_child(egg_enemy)
-			egg_enemy.set_egg_texture(block_info.id, egg_color_1, egg_color_2)
-			#BlockManager._blocks[egg].deactivate(self, coords)
-			#BlockManager._blocks[egg].set_visible(self, coords, false)
+			mimic_counter += 1
+			var mimic_enemy = MIMIC_ENEMY.instantiate()
+			var mimic_color_1 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_color else block_info.settings.mimic_color
+			var mimic_color_2 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_spots_color else block_info.settings.mimic_spots_color
+			mimic_enemy.tile_map_layer = self
+			mimic_enemy.walk_velocity = block_info.settings.mimic_walk_velocity
+			mimic_enemy.run_velocity = block_info.settings.mimic_run_velocity
+			mimic_enemy.jump_velocity = block_info.settings.mimic_jump_velocity
+			mimic_enemy.gravity = Vector2(block_info.settings.mimic_gravity.x, block_info.settings.mimic_gravity.y)
+			mimic_enemy.can_run = block_info.settings.mimic_can_run
+			mimic_enemy.can_jump = block_info.settings.mimic_can_jump
+			mimic_enemy.can_disguise = block_info.settings.mimic_can_disguise
+			mimic_enemy.mimic_depth = map_layer.z_axis
+			mimic_enemy.position = BlockManager._blocks[mimic].get_center_position(self, coords)
+			mimic_enemy.name = "MimicEnemy" + str(mimic_counter)
+			map_layer.enemies.add_child(mimic_enemy)
+			mimic_enemy.set_mimic_texture(block_info.id, mimic_color_1, mimic_color_2)
+			#BlockManager._blocks[mimic].deactivate(self, coords)
+			#BlockManager._blocks[mimic].set_visible(self, coords, false)
 			delete_block(coords)
 
 

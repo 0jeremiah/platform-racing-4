@@ -12,7 +12,7 @@ static var deathmatch = "deathmatch"
 static var hat_attack = "hatAttack"
 static var coin_fiend = "coinFiend"
 static var objective = "objective"
-static var alien_eggs = "alienEggs"
+static var mimic_attack = "mimicAttack"
 static var roguelike = "roguelike"
 
 var level_type: String = race
@@ -189,7 +189,7 @@ func init_level():
 	calc_used_rect()
 	level_layers.spawn_gears()
 	reached_finish_blocks = []
-	level_layers.spawn_eggs()
+	level_layers.spawn_mimics()
 
 
 func _on_control_event(event: Dictionary):

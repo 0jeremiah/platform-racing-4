@@ -14,8 +14,8 @@ func get_depth(node: Node) -> int:
 		return node.z_axis
 	elif node is Character:
 		return node.tile_interaction.character_depth
-	elif node is EggEnemy:
-		return node.egg_depth
+	elif node is MimicEnemy:
+		return node.mimic_depth
 	if node.get_parent() != null:
 		return get_depth(node.get_parent())
 	return 10

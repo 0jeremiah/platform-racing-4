@@ -10,7 +10,7 @@ static var IMPERVIOUS := "impervious"
 static var MOVE := "move"
 static var CHANGE := "change"
 static var GEAR := "gear"
-static var EGG := "egg"
+static var MIMIC := "mimic"
 
 static var WATER := "water"
 
@@ -37,17 +37,17 @@ static var default_block_properties: Dictionary = {
 	"teleport_throttle": 3.0,
 	"time_supply": 1,
 	"infinite_time": false,
-	"egg_walk_velocity": 200.0,
-	"egg_run_velocity": 1200.0,
-	"egg_jump_velocity": -1000.0,
-	"egg_gravity": {"x": 0.0, "y": 2250.0},
-	"egg_can_run": false,
-	"egg_can_jump": false,
-	"egg_can_disguise": false,
-	"egg_color": "bf1a1a",
-	"egg_spots_color": "00ff99",
-	"egg_randomize_color": true,
-	"egg_randomize_spots_color": true,
+	"mimic_walk_velocity": 200.0,
+	"mimic_run_velocity": 1200.0,
+	"mimic_jump_velocity": -1000.0,
+	"mimic_gravity": {"x": 0.0, "y": 2250.0},
+	"mimic_can_run": false,
+	"mimic_can_jump": false,
+	"mimic_can_disguise": false,
+	"mimic_color1": "bf1a1a",
+	"mimic_color2": "00ff99",
+	"mimic_randomize_color1": true,
+	"mimic_randomize_color2": true,
 	"gear_rotation": 90.0,
 	"gear_tick_seconds": 4.0,
 	"gear_tock_seconds": 0.5,
@@ -87,17 +87,17 @@ var infinite_items = default_block_properties.infinite_items
 var item_supply = default_block_properties.item_supply
 var infinite_stats = default_block_properties.infinite_stats
 var stat_supply = default_block_properties.stat_supply
-var egg_walk_velocity = default_block_properties.egg_walk_velocity
-var egg_run_velocity = default_block_properties.egg_run_velocity
-var egg_jump_velocity = default_block_properties.egg_jump_velocity
-var egg_gravity = default_block_properties.egg_gravity
-var egg_can_run = default_block_properties.egg_can_run
-var egg_can_jump = default_block_properties.egg_can_jump
-var egg_can_disguise = default_block_properties.egg_can_disguise
-var egg_color: String = default_block_properties.egg_color
-var egg_spots_color: String = default_block_properties.egg_spots_color
-var egg_randomize_color = default_block_properties.egg_randomize_color
-var egg_randomize_spots_color = default_block_properties.egg_randomize_spots_color
+var mimic_walk_velocity = default_block_properties.mimic_walk_velocity
+var mimic_run_velocity = default_block_properties.mimic_run_velocity
+var mimic_jump_velocity = default_block_properties.mimic_jump_velocity
+var mimic_gravity = default_block_properties.mimic_gravity
+var mimic_can_run = default_block_properties.mimic_can_run
+var mimic_can_jump = default_block_properties.mimic_can_jump
+var mimic_can_disguise = default_block_properties.mimic_can_disguise
+var mimic_color1: String = default_block_properties.mimic_color1
+var mimic_color2: String = default_block_properties.mimic_color2
+var mimic_randomize_color1 = default_block_properties.mimic_randomize_color1
+var mimic_randomize_color2 = default_block_properties.mimic_randomize_color2
 var gear_rotation = default_block_properties.gear_rotation
 var gear_tick_seconds = default_block_properties.gear_tick_seconds
 var gear_tock_seconds = default_block_properties.gear_tock_seconds
@@ -312,18 +312,18 @@ func remove_unused_settings(current_settings: Dictionary) -> Dictionary:
 	if !has_side_type(ConfigurableBlockSideSettings.TIME):
 		current_settings.erase("infinite_time")
 		current_settings.erase("time_supply")
-	if block_type != ConfigurableBlockSettings.EGG:
-		current_settings.erase("egg_walk_velocity")
-		current_settings.erase("egg_run_velocity")
-		current_settings.erase("egg_jump_velocity")
-		current_settings.erase("egg_gravity")
-		current_settings.erase("egg_can_run")
-		current_settings.erase("egg_can_jump")
-		current_settings.erase("egg_can_disguise")
-		current_settings.erase("egg_color")
-		current_settings.erase("egg_spots_color")
-		current_settings.erase("egg_randomize_color")
-		current_settings.erase("egg_randomize_spots_color")
+	if block_type != ConfigurableBlockSettings.MIMIC:
+		current_settings.erase("mimic_walk_velocity")
+		current_settings.erase("mimic_run_velocity")
+		current_settings.erase("mimic_jump_velocity")
+		current_settings.erase("mimic_gravity")
+		current_settings.erase("mimic_can_run")
+		current_settings.erase("mimic_can_jump")
+		current_settings.erase("mimic_can_disguise")
+		current_settings.erase("mimic_color1")
+		current_settings.erase("mimic_color2")
+		current_settings.erase("mimic_randomize_color1")
+		current_settings.erase("mimic_randomize_color2")
 	if block_type != ConfigurableBlockSettings.GEAR:
 		current_settings.erase("gear_rotation")
 		current_settings.erase("gear_tick_seconds")

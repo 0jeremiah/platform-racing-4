@@ -127,13 +127,13 @@ func get_total_used_rect_in_z_axis(z_axis: int) -> Rect2i:
 	return Rect2i(total_used_vector4.x, total_used_vector4.y, abs(total_used_vector4.x - total_used_vector4.z), abs(total_used_vector4.y - total_used_vector4.w))
 
 
-func spawn_eggs():
+func spawn_mimics():
 	for level_layer in map_layers.get_children():
-		level_layer.tile_map_layer.spawn_eggs()
+		level_layer.tile_map_layer.spawn_mimics()
 		for non_static_layer in level_layer.non_static_tile_map_layers.get_children():
 			if non_static_layer is RotationController:
 				for non_static_tile_map_layer in non_static_layer.get_children():
-					non_static_tile_map_layer.spawn_eggs()
+					non_static_tile_map_layer.spawn_mimics()
 
 
 func spawn_gears():

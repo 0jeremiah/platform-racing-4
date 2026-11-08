@@ -380,14 +380,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 17
 text = "Move Arrow Graphic"
 
-[node name="EggColorCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings" unique_id=1053691137]
+[node name="MimicColor1Checkbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings" unique_id=1053691137]
 custom_minimum_size = Vector2(278, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "Egg Color Graphic"
+text = "Mimic Color 1 Graphic"
 
-[node name="EggSpotsColorCheckbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings" unique_id=493897596]
+[node name="MimicColor2Checkbox" type="CheckBox" parent="BlockEffectSettingsContainer/BlockEffectSettings" unique_id=493897596]
 custom_minimum_size = Vector2(278, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 17
-text = "Egg Spots Color Graphic"
+text = "Mimic Color 2 Graphic"
