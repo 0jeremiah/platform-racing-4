@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dquly0bma5m8c"]
+
+[ext_resource type="Script" uid="uid://bu0osvnorh3dt" path="res://engine/character/character_manager.gd" id="1_18g8h"]
+[ext_resource type="PackedScene" uid="uid://dr3l4e0dmyf6y" path="res://layers/character_layers/characterlayers.tscn" id="2_jaymk"]
+[ext_resource type="Script" uid="uid://3ej5735xdsma" path="res://layers/character_layers/characterlayers.gd" id="3_q31v5"]
+[ext_resource type="PackedScene" uid="uid://blo2jcvdgxdc4" path="res://engine/character/character_decoder.tscn" id="4_yuvps"]
+[ext_resource type="Script" uid="uid://b1pr1lfs4tuyu" path="res://engine/character/character_decoder.gd" id="5_2ccem"]
+[ext_resource type="PackedScene" uid="uid://ckq0ds4mw8rww" path="res://engine/character/character_encoder.tscn" id="6_toqnv"]
+[ext_resource type="Script" uid="uid://bpwc8t6ktfv5y" path="res://engine/character/character_encoder.gd" id="7_xoav6"]
+
+[node name="CharacterManager" type="Node" unique_id=1979811201]
+script = ExtResource("1_18g8h")
+
+[node name="CharacterLayers" parent="." unique_id=284167683 instance=ExtResource("2_jaymk")]
+script = ExtResource("3_q31v5")
+
+[node name="CharacterDecoder" parent="." unique_id=1830084910 instance=ExtResource("4_yuvps")]
+script = ExtResource("5_2ccem")
+
+[node name="CharacterEncoder" parent="." unique_id=2126224226 instance=ExtResource("6_toqnv")]
+script = ExtResource("7_xoav6")

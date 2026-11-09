@@ -3,6 +3,7 @@ class_name BlockIntervalManager
 
 static var TYPE_MOVE: int = 0
 static var TYPE_CHANGE: int = 1
+static var TYPE_SNIPER: int = 2
 var step_timer: float = 0.0
 var step_freq: float = 0.0
 var categories: Array = []
@@ -39,6 +40,8 @@ func get_group(freq_tick: float, group_type: int, param_3: bool = false) -> Bloc
 			loc_5 = MoveBlockFreqGroup.new(freq_tick)
 		elif group_type == TYPE_CHANGE:
 			loc_5 = ChangeBlockFreqGroup.new(freq_tick)
+		elif group_type == TYPE_SNIPER:
+			loc_5 = SniperBlockFreqGroup.new(freq_tick)
 		loc_4[freq_tick] = loc_5
 	return loc_5
 
@@ -56,10 +59,12 @@ func add_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, param
 	var loc_3: float = 1.0
 	if param_2 == TYPE_MOVE:
 		loc_3 = block_info.settings.move_tick
-	else:
-		if param_2 != TYPE_CHANGE:
-			push_warning("BlockIntervalManager::add_block() - unknown value for type")
+	elif param_2 == TYPE_CHANGE:
 		loc_3 = block_info.settings.change_tick
+	else:
+		if param_2 != TYPE_SNIPER:
+			push_warning("BlockIntervalManager::add_block() - unknown value for type")
+		loc_3 = block_info.settings.sniper_tick
 	var loc_4: BlockFreqGroup = get_group(loc_3, param_2, true)
 	loc_4.add_block(tile_map_layer, coords)
 
@@ -100,13 +105,18 @@ func remove_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, pa
 
 
 func create_categories():
+	var category_list = [TYPE_MOVE, TYPE_CHANGE, TYPE_SNIPER]
 	categories = []
-	if categories.size() < TYPE_MOVE + 1:
-		categories.resize(TYPE_MOVE + 1)
-	categories[TYPE_MOVE] = {}
-	if categories.size() < TYPE_CHANGE + 1:
-		categories.resize(TYPE_CHANGE + 1)
-	categories[TYPE_CHANGE] = {}
+	for category in category_list:
+		if categories.size() < category + 1:
+			categories.resize(category + 1)
+		categories[category] = {}
+	#if categories.size() < TYPE_MOVE + 1:
+		#categories.resize(TYPE_MOVE + 1)
+	#categories[TYPE_MOVE] = {}
+	#if categories.size() < TYPE_CHANGE + 1:
+		#categories.resize(TYPE_CHANGE + 1)
+	#categories[TYPE_CHANGE] = {}
 
 
 func step(elapsed_time: float):

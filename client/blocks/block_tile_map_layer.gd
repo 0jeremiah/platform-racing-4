@@ -255,8 +255,8 @@ func spawn_mimics():
 			var block_info = get_block(coords)
 			mimic_counter += 1
 			var mimic_enemy = MIMIC_ENEMY.instantiate()
-			var mimic_color_1 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_color else block_info.settings.mimic_color
-			var mimic_color_2 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_spots_color else block_info.settings.mimic_spots_color
+			var mimic_color_1 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_color1 else block_info.settings.mimic_color1
+			var mimic_color_2 = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0)).to_html(false) if block_info.settings.mimic_randomize_color2 else block_info.settings.mimic_color2
 			mimic_enemy.tile_map_layer = self
 			mimic_enemy.walk_velocity = block_info.settings.mimic_walk_velocity
 			mimic_enemy.run_velocity = block_info.settings.mimic_run_velocity

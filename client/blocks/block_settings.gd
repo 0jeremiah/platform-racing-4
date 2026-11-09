@@ -56,7 +56,8 @@ static var default_block_properties: Dictionary = {
 	"activate_offset": {"x": 0, "y": 0},
 	"limit_activate_range": false,
 	"activate_range": {"x": 10, "y": 10},
-	"light_color": "ffffff"
+	"light_color": "ffffff",
+	"sniper_tick": 2.5
 }
 
 var block_properties: Dictionary = {} # only updated once when block settings are imported, so it can be determined
@@ -111,6 +112,7 @@ var teleport_throttle: float = default_block_properties.teleport_throttle
 var infinite_time = default_block_properties.infinite_time
 var time_supply = default_block_properties.time_supply
 var light_color: String = default_block_properties.light_color
+var sniper_tick = default_block_properties.sniper_tick
 var can_give_items: bool = item_supply > 0
 var can_give_stats: bool = stat_supply > 0
 var can_finish: bool = true

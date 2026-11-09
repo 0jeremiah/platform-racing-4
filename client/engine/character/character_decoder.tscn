@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://blo2jcvdgxdc4"]
+
+[ext_resource type="Script" uid="uid://b1pr1lfs4tuyu" path="res://engine/character/character_decoder.gd" id="1_sxdmn"]
+
+[node name="CharacterDecoder" type="Node2D" unique_id=1830084910]
+script = ExtResource("1_sxdmn")

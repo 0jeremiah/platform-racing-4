@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dr3l4e0dmyf6y"]
+
+[ext_resource type="Script" uid="uid://3ej5735xdsma" path="res://layers/character_layers/characterlayers.gd" id="1_5f2f6"]
+
+[node name="CharacterLayers" type="Node2D" unique_id=284167683]
+script = ExtResource("1_5f2f6")
+
+[node name="ArtLayers" type="Node2D" parent="." unique_id=27965657]

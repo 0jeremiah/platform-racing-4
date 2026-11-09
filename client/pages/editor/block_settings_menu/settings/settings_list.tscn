@@ -9,9 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://cmlxrvie5uemp" path="res://pages/editor/block_settings_menu/settings/teleport_settings/teleport_settings.tscn" id="7_ap7k2"]
 [ext_resource type="PackedScene" uid="uid://758n7f1dd2ji" path="res://pages/editor/block_settings_menu/settings/time_settings/time_settings.tscn" id="8_nhcr3"]
 [ext_resource type="PackedScene" uid="uid://bi363t32k35m4" path="res://pages/editor/block_settings_menu/settings/gear_settings/gear_settings.tscn" id="9_05djl"]
-[ext_resource type="PackedScene" uid="uid://dkj5eabi0kv6q" path="res://pages/editor/block_settings_menu/settings/egg_settings/egg_settings.tscn" id="9_078ga"]
+[ext_resource type="PackedScene" uid="uid://dkj5eabi0kv6q" path="res://pages/editor/block_settings_menu/settings/mimic_settings/mimic_settings.tscn" id="9_078ga"]
 [ext_resource type="PackedScene" uid="uid://8fbldp7hpap7" path="res://pages/editor/block_settings_menu/settings/lightbreaker_settings/lightbreaker_settings.tscn" id="10_fogr4"]
 [ext_resource type="PackedScene" uid="uid://qwfke5mmk6il" path="res://pages/editor/block_settings_menu/settings/switch_settings/switch_settings.tscn" id="10_jfnma"]
+[ext_resource type="PackedScene" uid="uid://cnyk1pcvn1q81" path="res://pages/editor/block_settings_menu/settings/sniper_settings/sniper_settings.tscn" id="13_73jmi"]
 
 [node name="SettingsList" type="Control" unique_id=765255440]
 layout_mode = 3
@@ -61,5 +62,9 @@ visible = false
 layout_mode = 0
 
 [node name="LightbreakerSettings" parent="." unique_id=1971615916 instance=ExtResource("10_fogr4")]
+visible = false
+layout_mode = 0
+
+[node name="SniperSettings" parent="." unique_id=108414688 instance=ExtResource("13_73jmi")]
 visible = false
 layout_mode = 0

@@ -41,8 +41,7 @@ position = Vector2(0, -50)
 shape = SubResource("RectangleShape2D_pp1bc")
 
 [node name="SenseJumpArea" type="Area2D" parent="." unique_id=1254250154]
-position = Vector2(32, 0)
+position = Vector2(32, 64)
 
 [node name="SenseJumpHitbox" type="CollisionShape2D" parent="SenseJumpArea" unique_id=814430983]
-position = Vector2(0, 64)
 shape = SubResource("RectangleShape2D_6rlya")

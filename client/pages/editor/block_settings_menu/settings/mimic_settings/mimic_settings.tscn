@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://dkj5eabi0kv6q"]
 
-[ext_resource type="Script" uid="uid://c6u6que1yt1sy" path="res://pages/editor/block_settings_menu/settings/egg_settings/egg_settings.gd" id="1_vckh6"]
-[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_7lh71"]
-[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="3_7lh71"]
+[ext_resource type="Script" uid="uid://c6u6que1yt1sy" path="res://pages/editor/block_settings_menu/settings/mimic_settings/mimic_settings.gd" id="1_lllsj"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_5tbr2"]
+[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="3_4sfj6"]
 
 [node name="MimicSettings" type="Control" unique_id=1405008222]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 470.0
 offset_bottom = 310.0
-script = ExtResource("1_vckh6")
+script = ExtResource("1_lllsj")
 
 [node name="MimicWalkSpeedLabel" type="RichTextLabel" parent="." unique_id=1765462001]
 layout_mode = 0
@@ -134,7 +134,7 @@ offset_right = 290.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 16
 text = "200.0"
-script = ExtResource("2_7lh71")
+script = ExtResource("2_5tbr2")
 
 [node name="MimicRunVelocityBox" type="LineEdit" parent="." unique_id=1391737872]
 layout_mode = 0
@@ -144,7 +144,7 @@ offset_right = 280.0
 offset_bottom = 70.0
 theme_override_font_sizes/font_size = 16
 text = "1200.0"
-script = ExtResource("2_7lh71")
+script = ExtResource("2_5tbr2")
 
 [node name="MimicJumpVelocityBox" type="LineEdit" parent="." unique_id=1351337795]
 layout_mode = 0
@@ -154,7 +154,7 @@ offset_right = 290.0
 offset_bottom = 110.0
 theme_override_font_sizes/font_size = 16
 text = "-150.0"
-script = ExtResource("2_7lh71")
+script = ExtResource("2_5tbr2")
 
 [node name="MimicGravityXBox" type="LineEdit" parent="." unique_id=2112756879]
 layout_mode = 0
@@ -164,7 +164,7 @@ offset_right = 260.0
 offset_bottom = 150.0
 theme_override_font_sizes/font_size = 16
 text = "0.0"
-script = ExtResource("2_7lh71")
+script = ExtResource("2_5tbr2")
 
 [node name="MimicGravityYBox" type="LineEdit" parent="." unique_id=1542466765]
 layout_mode = 0
@@ -174,16 +174,16 @@ offset_right = 390.0
 offset_bottom = 150.0
 theme_override_font_sizes/font_size = 16
 text = "2250.0"
-script = ExtResource("2_7lh71")
+script = ExtResource("2_5tbr2")
 
-[node name="MimicColor1Button" parent="." unique_id=2091517071 instance=ExtResource("3_7lh71")]
+[node name="MimicColor1Button" parent="." unique_id=2091517071 instance=ExtResource("3_4sfj6")]
 layout_mode = 0
 offset_left = 130.0
 offset_top = 200.0
 offset_right = 178.0
 offset_bottom = 248.0
 
-[node name="MimicColor2Button" parent="." unique_id=1780641015 instance=ExtResource("3_7lh71")]
+[node name="MimicColor2Button" parent="." unique_id=1780641015 instance=ExtResource("3_4sfj6")]
 layout_mode = 0
 offset_left = 140.0
 offset_top = 240.0

@@ -112,6 +112,8 @@ func register_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
 				block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_MOVE)
 			if block_info.settings.block_type == ConfigurableBlockSettings.CHANGE:
 				block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
+			if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SNIPER):
+				block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_SNIPER)
 		var block_sides = block_info.settings.get_side_types()
 		for block_side in block_sides:
 			#if block_side not in do_not_include_side_settings:
@@ -140,6 +142,8 @@ func unregister_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i
 			block_info.node.register_change_block = unregister_change
 			if block_info.node.is_change_block and unregister_change:
 				block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
+		if block_info.settings.has_side_type(ConfigurableBlockSideSettings.SNIPER):
+				block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_SNIPER)
 		var block_sides = block_info.settings.get_side_types()
 		for block_side in block_sides:
 			var block = {"tile_map_layer": tile_map_layer, "coords": coords, "map_layer_name": str(tile_map_layer.map_layer.name)}

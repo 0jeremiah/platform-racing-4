@@ -1,12 +1,12 @@
 {
-    "id": "heel",
     "feet": {
         "settings": {
-            "name": "Heel",
+            "id": "2",
+            "title": "Heel",
+            "comment": "Very dressy.",
             "default_color": "6479ce",
             "epic_upgrade": true,
-            "default_epic_color": "6479ce",
-            "comment": "Very dressy."
+            "default_epic_color": "6479ce"
         },
         "foot_front_image": {
             "color_src": "heel_foot_front_color.png",

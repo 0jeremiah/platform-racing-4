@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cnyk1pcvn1q81"]
+
+[ext_resource type="Script" uid="uid://bvvjfepsu23ct" path="res://pages/editor/block_settings_menu/settings/sniper_settings/sniper_settings.gd" id="1_svjll"]
+[ext_resource type="Script" uid="uid://b4topjx0jxapw" path="res://ui/editbox.gd" id="2_0alvo"]
+
+[node name="SniperSettings" type="Control" unique_id=108414688]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 210.0
+offset_bottom = 30.0
+script = ExtResource("1_svjll")
+
+[node name="SniperTickLabel" type="RichTextLabel" parent="." unique_id=1903599835]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Sniper Tick:"
+vertical_alignment = 1
+
+[node name="SniperTickBox" type="LineEdit" parent="." unique_id=1174938052]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 210.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 16
+text = "2.5"
+script = ExtResource("2_0alvo")

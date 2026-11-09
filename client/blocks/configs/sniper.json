@@ -13,7 +13,8 @@
 		"stand": {"type": "active", "params": {}},
 		"any_side": {"type": "sniper", "params": {}},
 		"health": 100.0,
-		"coin_value": 3
+		"coin_value": 3,
+		"sniper_tick": 2.5
 	},
 	"image": {
 		"src": "res://blocks/tileatlaspr4.png",

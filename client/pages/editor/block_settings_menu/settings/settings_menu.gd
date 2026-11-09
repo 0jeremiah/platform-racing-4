@@ -80,7 +80,8 @@ func update_enabled_settings() -> void:
 			ConfigurableBlockSettings.MIMIC: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.MIMIC, "setting": ConfigurableBlockSettings.MIMIC},
 			ConfigurableBlockSettings.GEAR: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.block_type == ConfigurableBlockSettings.GEAR, "setting": ConfigurableBlockSettings.GEAR},
 			ConfigurableBlockSettings.SWITCH: {"enabled": block_settings.has_side_type(ConfigurableBlockSideSettings.SWITCH), "setting": ConfigurableBlockSettings.SWITCH},
-			ConfigurableBlockSettings.LIGHTBREAKER: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.GAS and block_settings.block_type == ConfigurableBlockSettings.LIGHTBREAKER, "setting": ConfigurableBlockSettings.LIGHTBREAKER}
+			ConfigurableBlockSettings.LIGHTBREAKER: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.GAS and block_settings.block_type == ConfigurableBlockSettings.LIGHTBREAKER, "setting": ConfigurableBlockSettings.LIGHTBREAKER},
+			ConfigurableBlockSideSettings.SNIPER: {"enabled": block_settings.matter_type == ConfigurableBlockSettings.SOLID and block_settings.has_side_type(ConfigurableBlockSideSettings.SNIPER), "setting": ConfigurableBlockSideSettings.SNIPER}
 		}
 	})
 

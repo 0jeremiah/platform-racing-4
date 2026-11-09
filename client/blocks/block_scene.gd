@@ -48,8 +48,6 @@ var can_move = true
 var move_pattern_end_reached: bool = false
 var move_cooldown_timer: float = 0
 var origin_coords: Vector2i = Vector2i(0, 0)
-var sniper_cooldown: float = 1.0
-var sniper_timer: float = sniper_cooldown
 
 
 func init(new_id: String, new_settings: ConfigurableBlockSettings):
@@ -142,11 +140,6 @@ func _process(delta: float) -> void:
 		collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(block_collision_layer)
 		just_hidden = false
 	if Game.game:
-		if sniper_timer - delta > 0:
-			sniper_timer -= delta
-		else:
-			snipe()
-			sniper_timer = sniper_cooldown
 		if !(fade_mode == "idle" or fade_mode == "hidden") or fade_timer > 0:
 			if fade_timer - delta > 0:
 				fade_timer -= delta
@@ -359,24 +352,6 @@ func move(direction: String, param_2: bool = true) -> bool:
 		can_move = false
 		move_cooldown_timer = 0.033
 	return moved
-
-
-func snipe():
-	var play_laser_sound = false
-	if settings.top.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
-		tile_map_layer.shoot_laser(position, deg_to_rad(270.0), false, self)
-		play_laser_sound = true
-	if settings.bottom.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
-		tile_map_layer.shoot_laser(position, deg_to_rad(90.0), false, self)
-		play_laser_sound = true
-	if settings.left.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
-		tile_map_layer.shoot_laser(position, deg_to_rad(180.0), false, self)
-		play_laser_sound = true
-	if settings.right.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
-		tile_map_layer.shoot_laser(position, 0.0, false, self)
-		play_laser_sound = true
-	if play_laser_sound:
-		Jukebox.play_sound("laser")
 
 
 func player_is_in_block(check_collision: bool = false) -> bool:

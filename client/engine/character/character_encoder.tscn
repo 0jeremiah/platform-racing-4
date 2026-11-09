@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ckq0ds4mw8rww"]
+
+[ext_resource type="Script" uid="uid://bpwc8t6ktfv5y" path="res://engine/character/character_encoder.gd" id="1_dwbi2"]
+
+[node name="CharacterEncoder" type="Node2D" unique_id=2126224226]
+script = ExtResource("1_dwbi2")

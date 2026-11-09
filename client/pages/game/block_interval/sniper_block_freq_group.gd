@@ -1,0 +1,16 @@
+extends BlockFreqGroup
+class_name SniperBlockFreqGroup
+
+
+func _init(new_freq: float):
+	super(new_freq)
+
+
+func trigger_interval() -> void:
+	for block_list in block_lists:
+		block_lists[block_list].execute_snipe()
+
+
+func create_block_list(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i) -> BlockList:
+	var block_list = SniperBlockList.new(tile_map_layer, coords)
+	return block_list

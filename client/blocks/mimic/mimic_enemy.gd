@@ -48,6 +48,7 @@ func _ready() -> void:
 
 
 func _process(delta: float):
+	var sense_jump_area_just_turned_on: bool = false # needed since monitoring areas need a frame after activating to work
 	check_out_of_bounds()
 	if state == "walk":
 		velocity.x = walk_velocity
@@ -72,13 +73,18 @@ func _process(delta: float):
 	if state == "walk" or state == "run" or state == "jump":
 		attack_area.monitoring = true
 		if state != "jump":
+			if !sense_jump_area.monitoring:
+				sense_jump_area_just_turned_on = true
 			sense_jump_area.monitoring = true
 		if state == "jump" and is_on_floor():
 			if can_run:
 				state = "run"
 			else:
 				state = "walk"
-		if is_on_floor() and (state == "walk" or state == "run") and sense_jump_area.monitoring and need_to_jump():
+			if !sense_jump_area.monitoring:
+				sense_jump_area_just_turned_on = true
+			sense_jump_area.monitoring = true
+		if (state == "walk" or state == "run") and !sense_jump_area_just_turned_on and sense_jump_area.monitoring and need_to_jump():
 			state = "jump"
 			velocity.y = jump_velocity
 		if attack_timer > 0:
@@ -181,7 +187,7 @@ func maybe_run_animations():
 			mimic_display.animations.queue("run")
 		else:
 			mimic_display.animations.queue("walk")
-	elif state == "jump" and current_animation != "jump":
+	elif state == "jump" and (current_animation != "jump" and current_animation != "airborne"):
 		mimic_display.animations.clear_queue()
 		mimic_display.play("jump")
 		mimic_display.animations.queue("airborne")
@@ -199,7 +205,7 @@ func _on_animation_changed(old_name: String, new_name: String):
 			state = "run"
 		else:
 			state = "walk"
-	if state == "disguise" or previous_animation_name == "disguise_look":
+	elif state == "disguise" or previous_animation_name == "disguise_look":
 		animation_timer = randf_range(5.0, 20.0)
 	elif state == "squashed":
 		queue_free()

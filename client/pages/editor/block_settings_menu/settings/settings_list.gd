@@ -11,6 +11,7 @@ extends Control
 @onready var gear_settings = $GearSettings
 @onready var switch_settings = $SwitchSettings
 @onready var lightbreaker_settings = $LightbreakerSettings
+@onready var sniper_settings = $SniperSettings
 @onready var properties: Dictionary = {
 	"general": {"label": "General Settings", "settings": {"health": ConfigurableBlockSettings.default_block_properties.health, "coin_value": ConfigurableBlockSettings.default_block_properties.coin_value}, "node": general_settings},
 	ConfigurableBlockSettings.MOVE: {"label": "Move Settings", "settings": {"move_tick": ConfigurableBlockSettings.default_block_properties.move_tick, "move_pattern": ConfigurableBlockSettings.default_block_properties.move_pattern, "randomize_move_pattern": ConfigurableBlockSettings.default_block_properties.randomize_move_pattern, "loop_move_pattern": ConfigurableBlockSettings.default_block_properties.loop_move_pattern}, "node": move_settings},
@@ -22,5 +23,6 @@ extends Control
 	ConfigurableBlockSettings.MIMIC: {"label": "Mimic Settings", "settings": {"mimic_walk_velocity": 200.0, "mimic_run_velocity": 1200.0, "mimic_jump_velocity": -150.0, "mimic_gravity": {"x": 0.0, "y": 2250.0}, "mimic_can_run": false, "mimic_can_jump": false, "mimic_can_disguise": false, "mimic_color1": "bf1a1a", "mimic_color2": "00ff99", "mimic_randomize_color1": true, "mimic_randomize_color2": true}, "node": mimic_settings},
 	ConfigurableBlockSettings.GEAR: {"label": "Gear Settings", "settings": {"gear_rotation": ConfigurableBlockSettings.default_block_properties.gear_rotation, "gear_tick_seconds": ConfigurableBlockSettings.default_block_properties.gear_tick_seconds, "gear_tock_seconds": ConfigurableBlockSettings.default_block_properties.gear_tock_seconds, "gear_inertia": ConfigurableBlockSettings.default_block_properties.gear_inertia, "gear_auto_rotation": ConfigurableBlockSettings.default_block_properties.gear_auto_rotation}, "node": gear_settings},
 	ConfigurableBlockSettings.SWITCH: {"label": "Switch Settings", "settings": {"limit_activate_range": false, "activate_range": {"x": 10, "y": 10}}, "node": switch_settings},
-	ConfigurableBlockSettings.LIGHTBREAKER: {"label": "Lightbreaker Settings", "settings": {"light_color": ConfigurableBlockSettings.default_block_properties.light_color}, "node": lightbreaker_settings}
+	ConfigurableBlockSettings.LIGHTBREAKER: {"label": "Lightbreaker Settings", "settings": {"light_color": ConfigurableBlockSettings.default_block_properties.light_color}, "node": lightbreaker_settings},
+	ConfigurableBlockSideSettings.SNIPER: {"label": "Sniper Settings", "settings": {"sniper_tick": ConfigurableBlockSettings.default_block_properties.sniper_tick}, "node": sniper_settings}
 }
