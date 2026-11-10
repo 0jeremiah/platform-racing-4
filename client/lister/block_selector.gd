@@ -8,7 +8,7 @@ var selected_category: String = "pr4"
 var block_button = preload("res://blocks/block_button.tscn")
 var request_array: Array = []
 var custom_list: Array = []
-var block_rows: int = 4
+var block_rows: int = 3
 var block_columns: int = 10
 
 
@@ -19,7 +19,7 @@ func _ready() -> void:
 	cache_seconds = 60 * 60
 	set_columns(block_columns)
 	set_lister_width(600)
-	set_lister_height(240)
+	set_lister_height(182)
 	set_lister_h_separation(0)
 	set_lister_v_separation(0)
 	pagination.init(1, 0, 6, false)

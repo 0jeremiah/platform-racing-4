@@ -3,6 +3,7 @@ extends Node2D
 ## Allows testing different character styles with color pickers.
 
 const BODY_IDS = ['racer', 'smiler']
+const NEW_BODY_IDS = ['1', '2']
 var BASE_URL = Main.FILE_URL + "/characters"
 @onready var head_color_picker_button: ColorPickerButton = $HeadColorPickerButton
 @onready var body_color_picker_button: ColorPickerButton = $BodyColorPickerButton

@@ -354,6 +354,23 @@ func move(direction: String, param_2: bool = true) -> bool:
 	return moved
 
 
+func shoot_laser() -> bool:
+	var shot_a_laser = false
+	if settings.top.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(270.0), false, self)
+		shot_a_laser = true
+	if settings.bottom.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(90.0), false, self)
+		shot_a_laser = true
+	if settings.left.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, deg_to_rad(180.0), false, self)
+		shot_a_laser = true
+	if settings.right.type == ConfigurableBlockSideSettings.SNIPER or settings.any_side.type == ConfigurableBlockSideSettings.SNIPER:
+		tile_map_layer.shoot_laser(position, 0.0, false, self)
+		shot_a_laser = true
+	return shot_a_laser
+
+
 func player_is_in_block(check_collision: bool = false) -> bool:
 	if check_collision:
 		var character = Game.game.player_manager.get_character()

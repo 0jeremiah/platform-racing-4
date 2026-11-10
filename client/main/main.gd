@@ -57,7 +57,7 @@ func _ready():
 	BlockManager.init()
 	StampManager.init()
 	StampManager.add_block_stamps()
-
+	CharacterManager.init()
 	ParticleManager.init_particles()
 	await set_scene(TITLE)
 	PopupManager.add_message_popup("Welcome to Platform Racing 4! This game is currently in alpha status, and it's being worked on by Jiggmin and a few other contributors. If you would like to help, please go to our github!\n\nhttps://github.com/jacob-grahn/platform-racing-4", current_scene)

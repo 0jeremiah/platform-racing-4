@@ -44,6 +44,7 @@ var feet_epic_color: Color = Color("000000")
 
 
 func _ready() -> void:
+	CharacterManager.init()
 	hat_color_button.is_enabled(false)
 	hat_epic_color_button.is_enabled(false)
 	prev_hat_button.disabled = true
@@ -187,6 +188,7 @@ func _render() -> void:
 			"epic_color": feet_render_epic_color
 		}
 	}
+	var test_character_config = CharacterManager.get_part_textures("1")
 	character_display.set_style_from_path(character_config)
 	hat_label.text = part_list.hats[part_list.hats.keys()[hat]].hat_name.capitalize()
 	head_label.text = part_list.heads[part_list.heads.keys()[head]].head_name.capitalize()

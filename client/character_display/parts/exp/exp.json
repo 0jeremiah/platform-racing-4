@@ -1,7 +1,7 @@
 {
     "hat": {
+        "id": "1",
         "settings": {
-            "id": "1",
             "title": "Baseball Cap",
             "comment": "Keep the sun out of your eyes! Increases exp gain by 100%.",
             "default_color": "af831d",
@@ -9,10 +9,10 @@
             "default_epic_color": "ffffff"
         },
         "hat_image": {
-            "color_src": "exp_hat_color.png",
-            "lines_src": "exp_hat_lines.png",
-            "epic_color_src": "exp_hat_epic_color.png",
-            "misc1_src": "exp_hat_misc1.png"
+            "color_src": "res://character_display/parts/exp/exp_hat_color.png",
+            "lines_src": "res://character_display/parts/exp/exp_hat_lines.png",
+            "epic_color_src": "res://character_display/parts/exp/exp_hat_epic_color.png",
+            "misc1_src": "res://character_display/parts/exp/exp_hat_misc1.png"
         }
     }
 }
