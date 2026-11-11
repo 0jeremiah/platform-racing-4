@@ -25,10 +25,10 @@ extends Control
 
 const PARTS_PATH = "res://character_display/parts/"
 var part_list = {}
-var hat: int = 0
-var head: int = 0
-var body: int = 0
-var feet: int = 0
+var hat: String = "1"
+var head: String = "1"
+var body: String = "1"
+var feet: String = "1"
 var has_hat_epic_color: bool = true
 var hat_color: Color = Color("ffffff")
 var hat_epic_color: Color = Color("000000")
@@ -115,163 +115,190 @@ func parse_list(list_location: String) -> Dictionary:
 
 
 func _render() -> void:
-	var hat_name = part_list.hats.keys()[hat]
-	var head_name = part_list.heads.keys()[head]
-	var body_name = part_list.bodies.keys()[body]
-	var feet_name = part_list.feet.keys()[feet]
-	var hat_render_epic_color = Color("000000")
-	var head_render_epic_color = Color("000000")
-	var body_render_epic_color = Color("000000")
-	var feet_render_epic_color = Color("000000")
-	
-	if has_hat_epic_color:
-		hat_render_epic_color = hat_epic_color
-	elif part_list.hats[part_list.hats.keys()[hat]].has("hat_default_epic_color"):
-		hat_render_epic_color = part_list.hats[part_list.hats.keys()[hat]].hat_default_epic_color
-	if has_head_epic_color:
-		head_render_epic_color = head_epic_color
-	elif part_list.heads[part_list.heads.keys()[head]].has("head_default_epic_color"):
-		head_render_epic_color = part_list.heads[part_list.heads.keys()[head]].head_default_epic_color
-	if has_body_epic_color:
-		body_render_epic_color = body_epic_color
-	elif part_list.bodies[part_list.bodies.keys()[body]].has("body_default_epic_color"):
-		body_render_epic_color = part_list.bodies[part_list.bodies.keys()[body]].body_default_epic_color
-	if has_feet_epic_color:
-		feet_render_epic_color = feet_epic_color
-	elif part_list.feet[part_list.feet.keys()[feet]].has("feet_default_epic_color"):
-		feet_render_epic_color = part_list.feet[part_list.feet.keys()[feet]].feet_default_epic_color
-		
-	var character_config = {
-		"hat": {
-			"hat_color": PARTS_PATH + hat_name + "/" + hat_name + "_hat_color.png",
-			"hat_lines": PARTS_PATH + hat_name + "/" + hat_name + "_hat_lines.png",
-			"hat_epic_color": PARTS_PATH + hat_name + "/" + hat_name + "_hat_epic_color.png",
-			"hat_misc1": PARTS_PATH + hat_name + "/" + hat_name + "_hat_misc1.png",
-			"hat_misc2": PARTS_PATH + hat_name + "/" + hat_name + "_hat_misc2.png",
-			"color": hat_color,
-			"epic_color": hat_render_epic_color
-		},
-		"head": {
-			"head_color": PARTS_PATH + head_name + "/" + head_name + "_head_color.png",
-			"head_lines": PARTS_PATH + head_name + "/" + head_name + "_head_lines.png",
-			"head_epic_color": PARTS_PATH + head_name + "/" + head_name + "_head_epic_color.png",
-			"head_misc1": PARTS_PATH + head_name + "/" + head_name + "_head_misc1.png",
-			"head_misc2": PARTS_PATH + head_name + "/" + head_name + "_head_misc2.png",
-			"color": head_color,
-			"epic_color": head_render_epic_color
-		},
-		"foot_front": {
-			"foot_front_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_color.png",
-			"foot_front_lines": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_lines.png",
-			"foot_front_epic_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_epic_color.png",
-			"foot_front_misc1": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_misc1.png",
-			"foot_front_misc2": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_misc2.png",
-			"color": feet_color,
-			"epic_color": feet_render_epic_color
-		},
-		"body": {
-			"body_color": PARTS_PATH + body_name + "/" + body_name + "_body_color.png",
-			"body_lines": PARTS_PATH + body_name + "/" + body_name + "_body_lines.png",
-			"body_epic_color": PARTS_PATH + body_name + "/" + body_name + "_body_epic_color.png",
-			"body_misc1": PARTS_PATH + body_name + "/" + body_name + "_body_misc1.png",
-			"body_misc2": PARTS_PATH + body_name + "/" + body_name + "_body_misc2.png",
-			"color": body_color,
-			"epic_color": body_render_epic_color
-		},
-		"foot_back": {
-			"foot_back_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_color.png",
-			"foot_back_lines": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_lines.png",
-			"foot_back_epic_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_epic_color.png",
-			"foot_back_misc1": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_misc1.png",
-			"foot_back_misc2": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_misc2.png",
-			"color": feet_color,
-			"epic_color": feet_render_epic_color
-		}
-	}
-	var test_character_config = CharacterManager.get_part_textures("1")
-	character_display.set_style_from_path(character_config)
-	hat_label.text = part_list.hats[part_list.hats.keys()[hat]].hat_name.capitalize()
-	head_label.text = part_list.heads[part_list.heads.keys()[head]].head_name.capitalize()
-	body_label.text = part_list.bodies[part_list.bodies.keys()[body]].body_name.capitalize()
-	feet_label.text = part_list.feet[part_list.feet.keys()[feet]].feet_name.capitalize()
-	hat_description_label.text = part_list.hats[part_list.hats.keys()[hat]].hat_description
+	pass
+	#var hat_name = part_list.hats.keys()[hat]
+	#var head_name = part_list.heads.keys()[head]
+	#var body_name = part_list.bodies.keys()[body]
+	#var feet_name = part_list.feet.keys()[feet]
+	#var hat_render_epic_color = Color("000000")
+	#var head_render_epic_color = Color("000000")
+	#var body_render_epic_color = Color("000000")
+	#var feet_render_epic_color = Color("000000")
+	#
+	#if has_hat_epic_color:
+		#hat_render_epic_color = hat_epic_color
+	#elif part_list.hats[part_list.hats.keys()[hat]].has("hat_default_epic_color"):
+		#hat_render_epic_color = part_list.hats[part_list.hats.keys()[hat]].hat_default_epic_color
+	#if has_head_epic_color:
+		#head_render_epic_color = head_epic_color
+	#elif part_list.heads[part_list.heads.keys()[head]].has("head_default_epic_color"):
+		#head_render_epic_color = part_list.heads[part_list.heads.keys()[head]].head_default_epic_color
+	#if has_body_epic_color:
+		#body_render_epic_color = body_epic_color
+	#elif part_list.bodies[part_list.bodies.keys()[body]].has("body_default_epic_color"):
+		#body_render_epic_color = part_list.bodies[part_list.bodies.keys()[body]].body_default_epic_color
+	#if has_feet_epic_color:
+		#feet_render_epic_color = feet_epic_color
+	#elif part_list.feet[part_list.feet.keys()[feet]].has("feet_default_epic_color"):
+		#feet_render_epic_color = part_list.feet[part_list.feet.keys()[feet]].feet_default_epic_color
+		#
+	#var character_config = {
+		#"hat": {
+			#"hat_color": PARTS_PATH + hat_name + "/" + hat_name + "_hat_color.png",
+			#"hat_lines": PARTS_PATH + hat_name + "/" + hat_name + "_hat_lines.png",
+			#"hat_epic_color": PARTS_PATH + hat_name + "/" + hat_name + "_hat_epic_color.png",
+			#"hat_misc1": PARTS_PATH + hat_name + "/" + hat_name + "_hat_misc1.png",
+			#"hat_misc2": PARTS_PATH + hat_name + "/" + hat_name + "_hat_misc2.png",
+			#"color": hat_color,
+			#"epic_color": hat_render_epic_color
+		#},
+		#"head": {
+			#"head_color": PARTS_PATH + head_name + "/" + head_name + "_head_color.png",
+			#"head_lines": PARTS_PATH + head_name + "/" + head_name + "_head_lines.png",
+			#"head_epic_color": PARTS_PATH + head_name + "/" + head_name + "_head_epic_color.png",
+			#"head_misc1": PARTS_PATH + head_name + "/" + head_name + "_head_misc1.png",
+			#"head_misc2": PARTS_PATH + head_name + "/" + head_name + "_head_misc2.png",
+			#"color": head_color,
+			#"epic_color": head_render_epic_color
+		#},
+		#"foot_front": {
+			#"foot_front_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_color.png",
+			#"foot_front_lines": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_lines.png",
+			#"foot_front_epic_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_epic_color.png",
+			#"foot_front_misc1": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_misc1.png",
+			#"foot_front_misc2": PARTS_PATH + feet_name + "/" + feet_name + "_foot_front_misc2.png",
+			#"color": feet_color,
+			#"epic_color": feet_render_epic_color
+		#},
+		#"body": {
+			#"body_color": PARTS_PATH + body_name + "/" + body_name + "_body_color.png",
+			#"body_lines": PARTS_PATH + body_name + "/" + body_name + "_body_lines.png",
+			#"body_epic_color": PARTS_PATH + body_name + "/" + body_name + "_body_epic_color.png",
+			#"body_misc1": PARTS_PATH + body_name + "/" + body_name + "_body_misc1.png",
+			#"body_misc2": PARTS_PATH + body_name + "/" + body_name + "_body_misc2.png",
+			#"color": body_color,
+			#"epic_color": body_render_epic_color
+		#},
+		#"foot_back": {
+			#"foot_back_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_color.png",
+			#"foot_back_lines": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_lines.png",
+			#"foot_back_epic_color": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_epic_color.png",
+			#"foot_back_misc1": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_misc1.png",
+			#"foot_back_misc2": PARTS_PATH + feet_name + "/" + feet_name + "_foot_back_misc2.png",
+			#"color": feet_color,
+			#"epic_color": feet_render_epic_color
+		#}
+	#}
+	#var test_character_config = CharacterManager.get_part_textures("1", "head")
+	#character_display.set_style_from_path(character_config)
+	#hat_label.text = part_list.hats[part_list.hats.keys()[hat]].hat_name.capitalize()
+	#head_label.text = part_list.heads[part_list.heads.keys()[head]].head_name.capitalize()
+	#body_label.text = part_list.bodies[part_list.bodies.keys()[body]].body_name.capitalize()
+	#feet_label.text = part_list.feet[part_list.feet.keys()[feet]].feet_name.capitalize()
+	#hat_description_label.text = part_list.hats[part_list.hats.keys()[hat]].hat_description
 
 
 func _change_hat(by: int):
-	if hat + by >= 0 and hat + by <= part_list.hats.size() - 1:
-		hat += by
-	elif hat + by > 0:
-		hat = 0
+	var hat_keys = CharacterManager._parts_lookup.hat.keys()
+	var hat_index = hat_keys.find(hat)
+	if hat_index > -1:
+		if hat_index + by >= 0 and hat_index + by < hat_keys.size():
+			hat = hat_keys[hat_index + by]
+		elif hat_index + by > 0:
+			hat = hat_keys[0]
+		else:
+			hat = hat_keys[hat_keys.size() - 1]
 	else:
-		hat = part_list.hats.size() - 1
-	_render()
+		hat = hat_keys[0]
+	var hat_textures = CharacterManager.get_part_textures(hat, "hat")
+	character_display.set_hat_style(hat_textures)
 
 
 func _hat_color_changed(new_color: Color) -> void:
 	hat_color = new_color
-	_render()
+	character_display.set_hat_color(hat_color.to_html(false), hat_epic_color.to_html(false))
 
 
 func _hat_epic_color_changed(new_color: Color) -> void:
 	hat_epic_color = new_color
-	_render()
+	character_display.set_hat_color(hat_color.to_html(false), hat_epic_color.to_html(false))
 
 
 func _change_head(by: int):
-	if head + by >= 0 and head + by <= part_list.heads.size() - 1:
-		head += by
-	elif head + by > 0:
-		head = 0
+	var head_keys = CharacterManager._parts_lookup.head.keys()
+	var head_index = head_keys.find(head)
+	if head_index > -1:
+		if head_index + by >= 0 and head_index + by < head_keys.size():
+			head = head_keys[head_index + by]
+		elif head_index + by > 0:
+			head = head_keys[0]
+		else:
+			head = head_keys[head_keys.size() - 1]
 	else:
-		head = part_list.heads.size() - 1
-	_render()
+		head = head_keys[0]
+	var head_textures = CharacterManager.get_part_textures(head, "head")
+	character_display.set_head_style(head_textures)
 
 
 func _head_color_changed(new_color: Color) -> void:
 	head_color = new_color
-	_render()
+	character_display.set_head_color(head_color.to_html(false), head_epic_color.to_html(false))
 
 
 func _head_epic_color_changed(new_color: Color) -> void:
 	head_epic_color = new_color
-	_render()
+	character_display.set_head_color(head_color.to_html(false), head_epic_color.to_html(false))
 
 
 func _change_body(by: int):
-	if body + by >= 0 and body + by <= part_list.bodies.size() - 1:
-		body += by
-	elif body + by > 0:
-		body = 0
+	var body_keys = CharacterManager._parts_lookup.body.keys()
+	var body_index = body_keys.find(body)
+	if body_index > -1:
+		if body_index + by >= 0 and body_index + by < body_keys.size():
+			body = body_keys[body_index + by]
+		elif body_index + by > 0:
+			body = body_keys[0]
+		else:
+			body = body_keys[body_keys.size() - 1]
 	else:
-		body = part_list.bodies.size() - 1
-	_render()
+		body = body_keys[0]
+	var body_textures = CharacterManager.get_part_textures(body, "body")
+	character_display.set_body_style(body_textures)
 
 
 func _body_color_changed(new_color: Color) -> void:
 	body_color = new_color
-	_render()
+	character_display.set_body_color(body_color.to_html(false), body_epic_color.to_html(false))
 
 
 func _body_epic_color_changed(new_color: Color) -> void:
 	body_epic_color = new_color
-	_render()
+	character_display.set_body_color(body_color.to_html(false), body_epic_color.to_html(false))
 
 
 func _change_feet(by: int):
-	if feet + by >= 0 and feet + by <= part_list.feet.size() - 1:
-		feet += by
-	elif feet + by > 0:
-		feet = 0
+	var feet_keys = CharacterManager._parts_lookup.feet.keys()
+	var feet_index = feet_keys.find(feet)
+	if feet_index > -1:
+		if feet_index + by >= 0 and feet_index + by < feet_keys.size():
+			feet = feet_keys[feet_index + by]
+		elif feet_index + by > 0:
+			feet = feet_keys[0]
+		else:
+			feet = feet_keys[feet_keys.size() - 1]
 	else:
-		feet = part_list.feet.size() - 1
-	_render()
+		feet = feet_keys[0]
+	var foot_front_textures = CharacterManager.get_part_textures(feet, "foot_front")
+	var foot_back_textures = CharacterManager.get_part_textures(feet, "foot_back")
+	character_display.set_foot_front_style(foot_front_textures)
+	character_display.set_foot_back_style(foot_back_textures)
 
 
 func _feet_color_changed(new_color: Color) -> void:
 	feet_color = new_color
-	_render()
+	character_display.set_feet_color(feet_color.to_html(false), feet_epic_color.to_html(false))
 
 
 func _feet_epic_color_changed(new_color: Color) -> void:
 	feet_epic_color = new_color
-	_render()
+	character_display.set_feet_color(feet_color.to_html(false), feet_epic_color.to_html(false))

@@ -239,6 +239,68 @@ func set_style_from_path(character_config: Dictionary) -> void:
 	foot_back_misc2.texture = foot_back_misc2_texture
 
 
+func set_hat_style(part_config: Dictionary):
+	my_hat.get_node("Color").texture = part_config["color"]
+	my_hat.get_node("Lines").texture = part_config["lines"]
+	my_hat.get_node("Color2").texture = part_config["epic_color"]
+	my_hat.get_node("Misc1").texture = part_config["misc1"]
+	my_hat.get_node("Misc2").texture = part_config["misc2"]
+
+
+func set_hat_color(new_hat_color_string: String, new_hat_epic_color_string: String):
+	my_hat.get_node("Color").self_modulate = Color(new_hat_color_string)
+	my_hat.get_node("Color2").self_modulate = Color(new_hat_epic_color_string)
+
+
+func set_head_style(part_config: Dictionary):
+	head_color.texture = part_config["color"]
+	head_lines.texture = part_config["lines"]
+	head_epic_color.texture = part_config["epic_color"]
+	head_misc1.texture = part_config["misc1"]
+	head_misc2.texture = part_config["misc2"]
+
+
+func set_head_color(new_head_color_string: String, new_head_epic_color_string: String):
+	head_color.self_modulate = Color(new_head_color_string)
+	head_epic_color.self_modulate = Color(new_head_epic_color_string)
+
+
+func set_body_style(part_config: Dictionary):
+	body_color.texture = part_config["color"]
+	body_lines.texture = part_config["lines"]
+	body_epic_color.texture = part_config["epic_color"]
+	body_misc1.texture = part_config["misc1"]
+	body_misc2.texture = part_config["misc2"]
+
+
+func set_body_color(new_body_color_string: String, new_body_epic_color_string: String):
+	body_color.self_modulate = Color(new_body_color_string)
+	body_epic_color.self_modulate = Color(new_body_epic_color_string)
+
+
+func set_foot_front_style(part_config: Dictionary):
+	foot_front_color.texture = part_config["color"]
+	foot_front_lines.texture = part_config["lines"]
+	foot_front_epic_color.texture = part_config["epic_color"]
+	foot_front_misc1.texture = part_config["misc1"]
+	foot_front_misc2.texture = part_config["misc2"]
+
+
+func set_foot_back_style(part_config: Dictionary):
+	foot_back_color.texture = part_config["color"]
+	foot_back_lines.texture = part_config["lines"]
+	foot_back_epic_color.texture = part_config["epic_color"]
+	foot_back_misc1.texture = part_config["misc1"]
+	foot_back_misc2.texture = part_config["misc2"]
+
+
+func set_feet_color(new_feet_color_string: String, new_feet_epic_color_string: String):
+	foot_front_color.self_modulate = Color(new_feet_color_string)
+	foot_front_epic_color.self_modulate = Color(new_feet_epic_color_string)
+	foot_back_color.self_modulate = Color(new_feet_color_string)
+	foot_back_epic_color.self_modulate = Color(new_feet_epic_color_string)
+
+
 func play(anim: String) -> void:
 	animations.play(anim)
 

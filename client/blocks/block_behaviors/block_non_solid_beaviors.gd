@@ -59,6 +59,7 @@ func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 	if "movement" not in node or node.movement.last_touched_incoporeal_block == current_incoporeal_block:
 		return
 	var limit_activate_range = params.get("limit_activate_range", false)
+	var activate_offset = Vector2i(block_info.settings.activate_offset.x, block_info.settings.activate_offset.y)
 	var activate_range = params.get("activate_range", Vector2i(10, 10))
 	var activate_list = params.get("activate_list", {"settings": [], "side_settings": [], "blocks": []})
 	if block_info.settings != null:
@@ -76,26 +77,12 @@ func switch(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vect
 			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.VANISH, node, tile_map_layer, coords, params, normal)
 		if activate_list.side_settings.has(ConfigurableBlockSideSettings.APPEAR):
 			activate_blocks_with_side_setting(ConfigurableBlockSideSettings.APPEAR, node, tile_map_layer, coords, params, normal)
-		#for setting in activate_list.settings:
-			#var setting_coords = tile_map_layer.get_all_block_coords_containing_block_type(setting)
-			#if limit_activate_range:
-				#setting_coords.filter(func(coord): return coord >= (coords - activate_range) and coord <= (coords + activate_range))
-			#for setting_coord in setting_coords:
-				#var activatable_block_info = tile_map_layer.get_block(setting_coord)
-				#if activatable_block_info.settings != null and activatable_block_info.settings.block_type == ConfigurableBlockSettings.GEAR and tile_map_layer.get_parent() is RotationController:
-					#tile_map_layer.get_parent().enabled = true
-		#for side_setting in activate_list.side_settings:
-			#var side_setting_coords = tile_map_layer.get_all_block_coords_containing_side_type(side_setting)
-			#if limit_activate_range:
-				#side_setting_coords.filter(func(coord): return coord >= (coords - activate_range) and coord <= (coords + activate_range))
-			#for side_setting_coord in side_setting_coords:
-				#var activatable_block_info = tile_map_layer.get_block(side_setting_coord)
-				#var sides = activatable_block_info.settings.get_sides()
-				#for side in sides:
-					#var current_block_info = tile_map_layer.get_block(side_setting_coord)
-					#if current_block_info.id == "" and current_block_info.settings == null and current_block_info.node == null:
-						#break
-					#tile_map_layer.trigger_tile_behaviors(node, coords, [side], normal)
+	for block_id in activate_list.blocks:
+		var block_array = Game.game.level_manager.level_layers.get_all_blocks_with_id(block_id)
+		if limit_activate_range:
+			block_array = block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(block.coords))
+		for block in block_array:
+			activate_specific_block(node, tile_map_layer, coords, params, normal)
 
 
 func activate_gears(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, _normal: Vector2 = Vector2.ZERO):
@@ -129,7 +116,7 @@ func activate_blocks_with_side_setting(side_setting: String, node: Node2D, tile_
 		var limit_activate_range = block_info.settings.limit_activate_range
 		var activate_range = Vector2i(block_info.settings.activate_range.x, block_info.settings.activate_range.y)
 		if limit_activate_range:
-			current_block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(block.coords))
+			current_block_array = current_block_array.filter(func(block): return block.tile_map_layer == tile_map_layer and Rect2i((coords + activate_offset) - activate_range, ((activate_range + Vector2i(1, 1)) * 2) + Vector2i(signi(activate_range.x), signi(activate_range.y))).has_point(block.coords))
 		for block in current_block_array:
 			var activatable_block_info = block.tile_map_layer.get_block(block.coords)
 			if activatable_block_info.settings != null and activatable_block_info.node != null:
@@ -142,6 +129,28 @@ func activate_blocks_with_side_setting(side_setting: String, node: Node2D, tile_
 					else:
 						normal = Vector2(0, sign(direction.y))
 					block.tile_map_layer.trigger_tile_behaviors(node, block.coords, sides, normal)
+
+
+func activate_specific_block(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, _params: Dictionary, normal: Vector2 = Vector2.ZERO):
+	var block_info = tile_map_layer.get_block(coords)
+	if block_info.settings != null and block_info.node != null:
+		var shatter_sides = find_sides(block_info.settings, ConfigurableBlockSideSettings.SHATTER)
+		var mine_sides = find_sides(block_info.settings, ConfigurableBlockSideSettings.MINE)
+		var crumble_sides = find_sides(block_info.settings, ConfigurableBlockSideSettings.CRUMBLE)
+		var vanish_sides = find_sides(block_info.settings, ConfigurableBlockSideSettings.VANISH)
+		var appear_sides = find_sides(block_info.settings, ConfigurableBlockSideSettings.APPEAR)
+		if block_info.settings != null and block_info.node != null and block_info.settings.block_type == ConfigurableBlockSettings.GEAR and block_info.node.tile_map_layer.get_parent() is RotationController:
+			block_info.node.tile_map_layer.get_parent().enabled_temp = true
+		if block_info.settings != null and !shatter_sides.is_empty():
+			tile_map_layer.trigger_tile_behaviors(node, coords, shatter_sides, normal)
+		if block_info.settings != null and !mine_sides.is_empty():
+			tile_map_layer.trigger_tile_behaviors(node, coords, mine_sides, normal)
+		if block_info.settings != null and !crumble_sides.is_empty():
+			tile_map_layer.trigger_tile_behaviors(node, coords, crumble_sides, normal)
+		if block_info.settings != null and !vanish_sides.is_empty():
+			tile_map_layer.trigger_tile_behaviors(node, coords, vanish_sides, normal)
+		if block_info.settings != null and !appear_sides.is_empty():
+			tile_map_layer.trigger_tile_behaviors(node, coords, appear_sides, normal)
 
 
 # Makes the node swim

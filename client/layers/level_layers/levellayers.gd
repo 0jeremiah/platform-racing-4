@@ -141,6 +141,21 @@ func spawn_gears():
 		level_layer.tile_map_layer.spawn_gears()
 
 
+func get_all_blocks_with_id(block_id: String) -> Array:
+	var blocks_with_this_id = []
+	for level_layer in map_layers.get_children():
+		var block_id_coords = level_layer.tile_map_layer.get_all_block_coords_by_id(block_id)
+		for id_coords in block_id_coords:
+			blocks_with_this_id.append({"tile_map_layer": level_layer.tile_map_layer, "coords": id_coords, "map_layer_name": str(level_layer.name)})
+		for non_static_layer in level_layer.non_static_tile_map_layers.get_children():
+			if non_static_layer is RotationController:
+				for non_static_tile_map_layer in non_static_layer.get_children():
+					var non_static_block_id_coords = non_static_layer.tile_map_layer.get_all_block_coords_by_id(block_id)
+					for non_static_id_coords in non_static_block_id_coords:
+						blocks_with_this_id.append({"tile_map_layer": non_static_layer.tile_map_layer, "coords": non_static_id_coords, "map_layer_name": str(non_static_tile_map_layer.name)})
+	return blocks_with_this_id
+
+
 func is_out_of_bounds(body: Node, oob_block_count: Vector2i = Vector2i(15, 15)) -> bool:
 	var safe_oob_block_count = Vector2i(maxi(oob_block_count.x, 0), maxi(oob_block_count.y, 0))
 	if not Game.game:

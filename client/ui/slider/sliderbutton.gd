@@ -34,7 +34,7 @@ func set_button(label: String, new_slider_value: int, new_min_value: int, new_ma
 
 
 func _show_slider_popup():
-	PopupManager.add_custom_popup(slider_popup, {"slider_func": Callable(self, "_set_slider_value"), "slider_size": Vector2(250.0, 60.0), "init_slider_values": {"current_value": slider_value, "min_value": min_value, "max_value": max_value, "is_int": slider_value is int}, "popup_global_position": Vector2(global_position.x + size.x + 20, global_position.y)}, self)
+	PopupManager.add_custom_popup(slider_popup, {"slider_func": Callable(self, "_set_slider_value"), "slider_size": Vector2(250.0, 60.0), "init_slider_values": {"current_value": slider_value, "min_value": min_value, "max_value": max_value, "is_int": slider_value is int}, "popup_global_position": Vector2(global_position.x + size.x + 20, global_position.y)})
 
 
 func _set_slider_value(new_slider_value):

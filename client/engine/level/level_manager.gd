@@ -157,20 +157,20 @@ func unregister_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i
 					reached_finish_blocks = reached_finish_blocks.filter(func(block_type): return block_type != block_type_to_remove)
 
 
-func register_move_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_MOVE)
+#func register_move_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	#block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_MOVE)
 
 
-func remove_move_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_MOVE)
+#func remove_move_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	#block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_MOVE)
 
 
-func register_change_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
+#func register_change_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	#block_interval_manager.add_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
 
 
-func remove_change_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
-	block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
+#func remove_change_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
+	#block_interval_manager.remove_block(tile_map_layer, coords, BlockIntervalManager.TYPE_CHANGE)
 
 
 #func register_finish_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i):
