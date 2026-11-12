@@ -18,9 +18,9 @@ func _physics_process(_delta: float) -> void:
 		_detect_character_body_collisions()
 
 
-func _process(_delta: float) -> void:
-	if effect is CharacterBody2D:
-		effect.move_and_slide()
+#func _process(_delta: float) -> void:
+	#if effect is CharacterBody2D:
+		#effect.move_and_slide()
 
 
 func _detect_character_body_collisions() -> void:

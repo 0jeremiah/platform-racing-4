@@ -285,16 +285,17 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	var touching_mine: bool = false
 	if block_info.node != null and block_info.node.player_is_in_block(true):
 		touching_mine = true
-		# Push the body away
-		var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-		var direction: Vector2 = body.position - block_position
-		var push_velocity: Vector2 = direction.normalized() * push_strength
-		# Apply velocity based on body type
-		if body is RigidBody2D:
-			var rigid_body := body as RigidBody2D
-			rigid_body.linear_velocity += push_velocity
-		elif "movement" in body and "current_velocity" in body.movement:
-			body.movement.current_velocity += push_velocity
+		# Push the body away if they aren't invincible
+		if "movement" not in body or !body.movement.invincible:
+			var block_position: Vector2 = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
+			var direction: Vector2 = body.position - block_position
+			var push_velocity: Vector2 = direction.normalized() * push_strength
+			# Apply velocity based on body type
+			if body is RigidBody2D:
+				var rigid_body := body as RigidBody2D
+				rigid_body.linear_velocity += push_velocity
+			elif "movement" in body and "current_velocity" in body.movement:
+				body.movement.current_velocity += push_velocity
 	# Apply hitstun
 	if "movement" in body and body.movement.has_method("hitstun") and touching_mine:
 		body.movement.hitstun(body, hitstun_duration, hp_sap)

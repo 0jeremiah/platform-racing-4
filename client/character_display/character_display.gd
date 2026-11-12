@@ -57,7 +57,6 @@ const ANIMS := [
 @onready var head_misc1: Sprite2D = $Head/Misc1
 @onready var head_misc2: Sprite2D = $Head/Misc2
 @onready var hat_holder: Node2D = $HatHolder
-@onready var my_hat: Node2D = $HatHolder/Hat1
 @onready var item_holder: Node2D = $ItemHolder
 @onready var life_bar = $LifeBar
 @onready var life_bar_rect = $LifeBar/LifeBarRect
@@ -74,182 +73,62 @@ func _process(_delta: float) -> void:
 	played_footstep = false
 
 
-func set_style(character_config: Dictionary) -> void:
-	# colors
-	head_color.modulate = Color(character_config["head"]["color"])
-	body_color.modulate = Color(character_config["body"]["color"])
-	foot_front_color.modulate = Color(character_config["feet"]["color"])
-	foot_back_color.modulate = Color(character_config["feet"]["color"])
-	
-	# parts
-	var head_texture
-	if character_config["head"]["texture"]:
-		head_texture = character_config["head"]["texture"]
-	else:
-		head_texture = await CachingLoader.load_texture(character_config["head"]["url"])
-	
-	var body_texture
-	if character_config["body"]["texture"]:
-		body_texture = character_config["body"]["texture"]
-	else:
-		body_texture = await CachingLoader.load_texture(character_config["body"]["url"])
-	
-	var feet_texture
-	if character_config["feet"]["texture"]:
-		feet_texture = character_config["feet"]["texture"]
-	else:
-		feet_texture = await CachingLoader.load_texture(character_config["feet"]["url"])
-	
-	head_color.texture = head_texture
-	head_lines.texture = head_texture
-	body_color.texture = body_texture
-	body_lines.texture = body_texture
-	foot_front_color.texture = feet_texture
-	foot_front_lines.texture = feet_texture
-	foot_back_color.texture = feet_texture
-	foot_back_lines.texture = feet_texture
+func add_hat_display(hat_info: Dictionary, number: String = "") -> bool:
+	if hat_info.has("id"):
+		var new_hat_textures = CharacterManager.get_part_textures(hat_info.id, "hat")
+		var new_hat_color = hat_info.get("color", "FFFFFF")
+		var new_hat_epic_color = hat_info.get("epic_color", "FFFFFF")
+		var new_hat_node = Node2D.new()
+		var color_sprite = Sprite2D.new()
+		color_sprite.texture = new_hat_textures["color"]
+		color_sprite.self_modulate = Color(new_hat_color)
+		color_sprite.name = "Color"
+		new_hat_node.add_child(color_sprite)
+		var lines_sprite = Sprite2D.new()
+		lines_sprite.texture = new_hat_textures["lines"]
+		lines_sprite.name = "Lines"
+		new_hat_node.add_child(lines_sprite)
+		var color2_sprite = Sprite2D.new()
+		color2_sprite.texture = new_hat_textures["epic_color"]
+		color2_sprite.self_modulate = Color(new_hat_epic_color)
+		color2_sprite.name = "Color2"
+		new_hat_node.add_child(color2_sprite)
+		var misc1_sprite = Sprite2D.new()
+		misc1_sprite.texture = new_hat_textures["misc1"]
+		misc1_sprite.name = "Misc1"
+		new_hat_node.add_child(misc1_sprite)
+		var misc2_sprite = Sprite2D.new()
+		misc2_sprite.texture = new_hat_textures["misc2"]
+		misc2_sprite.name = "Misc2"
+		new_hat_node.add_child(misc2_sprite)
+		if number != "":
+			new_hat_node.name = "Hat" + number
+			if number.is_valid_int():
+				new_hat_node.position.y = -20.0 * (int(number) - 1)
+		hat_holder.add_child(new_hat_node)
+		return true
+	return false
 
 
-func set_style_from_path(character_config: Dictionary) -> void:
-	# colors
-	my_hat.get_node("Color").self_modulate = Color(character_config["hat"]["color"])
-	my_hat.get_node("Color2").self_modulate = Color(character_config["hat"]["epic_color"])
-	
-	head_color.self_modulate = Color(character_config["head"]["color"])
-	head_epic_color.self_modulate = Color(character_config["head"]["epic_color"])
-	
-	body_color.self_modulate = Color(character_config["body"]["color"])
-	body_epic_color.self_modulate = Color(character_config["body"]["epic_color"])
-	
-	foot_front_color.self_modulate = Color(character_config["foot_front"]["color"])
-	foot_front_epic_color.self_modulate = Color(character_config["foot_front"]["epic_color"])
-	
-	foot_back_color.self_modulate = Color(character_config["foot_back"]["color"])
-	foot_back_epic_color.self_modulate = Color(character_config["foot_back"]["epic_color"])
-	
-	# parts
-	var hat_color_texture = null
-	var hat_lines_texture = null
-	var hat_epic_color_texture = null
-	var hat_misc1_texture = null
-	var hat_misc2_texture = null
-	if character_config.has("hat") and character_config.hat.has("hat_color"):
-		hat_color_texture = load(character_config["hat"]["hat_color"])
-	if character_config.has("hat") and character_config.hat.has("hat_lines"):
-		hat_lines_texture = load(character_config["hat"]["hat_lines"])
-	if character_config.has("hat") and character_config.hat.has("hat_epic_color"):
-		hat_epic_color_texture = load(character_config["hat"]["hat_epic_color"])
-	if character_config.has("hat") and character_config.hat.has("hat_misc1"):
-		hat_misc1_texture = load(character_config["hat"]["hat_misc1"])
-	if character_config.has("hat") and character_config.hat.has("hat_misc2"):
-		hat_misc2_texture = load(character_config["hat"]["hat_misc2"])
-	
-	var head_color_texture = null
-	var head_lines_texture = null
-	var head_epic_color_texture = null
-	var head_misc1_texture = null
-	var head_misc2_texture = null
-	if character_config.has("head") and character_config.head.has("head_color"):
-		head_color_texture = load(character_config["head"]["head_color"])
-	if character_config.has("head") and character_config.head.has("head_lines"):
-		head_lines_texture = load(character_config["head"]["head_lines"])
-	if character_config.has("head") and character_config.head.has("head_epic_color"):
-		head_epic_color_texture = load(character_config["head"]["head_epic_color"])
-	if character_config.has("head") and character_config.head.has("head_misc1"):
-		head_misc1_texture = load(character_config["head"]["head_misc1"])
-	if character_config.has("head") and character_config.head.has("head_misc2"):
-		head_misc2_texture = load(character_config["head"]["head_misc2"])
-	
-	var foot_front_color_texture = null
-	var foot_front_lines_texture = null
-	var foot_front_epic_color_texture = null
-	var foot_front_misc1_texture = null
-	var foot_front_misc2_texture = null
-	if character_config.has("foot_front") and character_config.foot_front.has("foot_front_color"):
-		foot_front_color_texture = load(character_config["foot_front"]["foot_front_color"])
-	if character_config.has("foot_front") and character_config.foot_front.has("foot_front_lines"):
-		foot_front_lines_texture = load(character_config["foot_front"]["foot_front_lines"])
-	if character_config.has("foot_front") and character_config.foot_front.has("foot_front_epic_color"):
-		foot_front_epic_color_texture = load(character_config["foot_front"]["foot_front_epic_color"])
-	if character_config.has("foot_front") and character_config.foot_front.has("foot_front_misc1"):
-		foot_front_misc1_texture = load(character_config["foot_front"]["foot_front_misc1"])
-	if character_config.has("foot_front") and character_config.foot_front.has("foot_front_misc2"):
-		foot_front_misc2_texture = load(character_config["foot_front"]["foot_front_misc2"])
-	
-	var body_color_texture = null
-	var body_lines_texture = null
-	var body_epic_color_texture = null
-	var body_misc1_texture = null
-	var body_misc2_texture = null
-	if character_config.has("body") and character_config.body.has("body_color"):
-		body_color_texture = load(character_config["body"]["body_color"])
-	if character_config.has("body") and character_config.body.has("body_lines"):
-		body_lines_texture = load(character_config["body"]["body_lines"])
-	if character_config.has("body") and character_config.body.has("body_epic_color"):
-		body_epic_color_texture = load(character_config["body"]["body_epic_color"])
-	if character_config.has("body") and character_config.body.has("body_misc1"):
-		body_misc1_texture = load(character_config["body"]["body_misc1"])
-	if character_config.has("body") and character_config.body.has("body_misc2"):
-		body_misc2_texture = load(character_config["body"]["body_misc2"])
-	
-	var foot_back_color_texture = null
-	var foot_back_lines_texture = null
-	var foot_back_epic_color_texture = null
-	var foot_back_misc1_texture = null
-	var foot_back_misc2_texture = null
-	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_color"):
-		foot_back_color_texture = load(character_config["foot_back"]["foot_back_color"])
-	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_lines"):
-		foot_back_lines_texture = load(character_config["foot_back"]["foot_back_lines"])
-	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_epic_color"):
-		foot_back_epic_color_texture = load(character_config["foot_back"]["foot_back_epic_color"])
-	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_misc1"):
-		foot_back_misc1_texture = load(character_config["foot_back"]["foot_back_misc1"])
-	if character_config.has("foot_back") and character_config.foot_back.has("foot_back_misc2"):
-		foot_back_misc2_texture = load(character_config["foot_back"]["foot_back_misc2"])
-	
-	my_hat.get_node("Color").texture = hat_color_texture
-	my_hat.get_node("Lines").texture = hat_lines_texture
-	my_hat.get_node("Color2").texture = hat_epic_color_texture
-	my_hat.get_node("Misc1").texture = hat_misc1_texture
-	my_hat.get_node("Misc2").texture = hat_misc2_texture
-	
-	head_color.texture = head_color_texture
-	head_lines.texture = head_lines_texture
-	head_epic_color.texture = head_epic_color_texture
-	head_misc1.texture = head_misc1_texture
-	head_misc2.texture = head_misc2_texture
-	
-	foot_front_color.texture = foot_front_color_texture
-	foot_front_lines.texture = foot_front_lines_texture
-	foot_front_epic_color.texture = foot_front_epic_color_texture
-	foot_front_misc1.texture = foot_front_misc1_texture
-	foot_front_misc2.texture = foot_front_misc2_texture
-	
-	body_color.texture = body_color_texture
-	body_lines.texture = body_lines_texture
-	body_epic_color.texture = body_epic_color_texture
-	body_misc1.texture = body_misc1_texture
-	body_misc2.texture = body_misc2_texture
-	
-	foot_back_color.texture = foot_back_color_texture
-	foot_back_lines.texture = foot_back_lines_texture
-	foot_back_epic_color.texture = foot_back_epic_color_texture
-	foot_back_misc1.texture = foot_back_misc1_texture
-	foot_back_misc2.texture = foot_back_misc2_texture
+func set_hat_array(hat_array: Array):
+	for hat in hat_holder.get_child_count():
+		hat_holder.get_child(hat - 1).name = "removedhat" + str(hat)
+		hat_holder.get_child(hat - 1).queue_free()
+	var hat_counter = 1
+	for hat in hat_array.size():
+		if add_hat_display(hat_array[hat], str(hat_counter)):
+			hat_counter += 1
 
 
-func set_hat_style(part_config: Dictionary):
-	my_hat.get_node("Color").texture = part_config["color"]
-	my_hat.get_node("Lines").texture = part_config["lines"]
-	my_hat.get_node("Color2").texture = part_config["epic_color"]
-	my_hat.get_node("Misc1").texture = part_config["misc1"]
-	my_hat.get_node("Misc2").texture = part_config["misc2"]
-
-
-func set_hat_color(new_hat_color_string: String, new_hat_epic_color_string: String):
-	my_hat.get_node("Color").self_modulate = Color(new_hat_color_string)
-	my_hat.get_node("Color2").self_modulate = Color(new_hat_epic_color_string)
+func set_head(new_head_id: String, new_head_color: String = "", new_head_epic_color: String = ""):
+	if CharacterManager._parts_lookup.head.has(new_head_id):
+		var default_head_color = CharacterManager._parts_lookup.head.get(new_head_id, {}).get("settings", {}).get("default_color", "ffffff")
+		var default_head_epic_color = CharacterManager._parts_lookup.head.get(new_head_id, {}).get("settings", {}).get("default_epic_color", "ffffff")
+		var current_color = new_head_color if new_head_color != "" and new_head_color.is_valid_html_color() else default_head_color
+		var current_epic_color = new_head_epic_color if new_head_epic_color != "" and new_head_epic_color.is_valid_html_color() else default_head_epic_color
+		var head_textures = CharacterManager.get_part_textures(new_head_id, "head")
+		set_head_style(head_textures)
+		set_head_color(current_color, current_epic_color)
 
 
 func set_head_style(part_config: Dictionary):
@@ -265,6 +144,17 @@ func set_head_color(new_head_color_string: String, new_head_epic_color_string: S
 	head_epic_color.self_modulate = Color(new_head_epic_color_string)
 
 
+func set_body(new_body_id: String, new_body_color: String = "", new_body_epic_color: String = ""):
+	if CharacterManager._parts_lookup.body.has(new_body_id):
+		var default_body_color = CharacterManager._parts_lookup.body.get(new_body_id, {}).get("settings", {}).get("default_color", "ffffff")
+		var default_body_epic_color = CharacterManager._parts_lookup.body.get(new_body_id, {}).get("settings", {}).get("default_epic_color", "ffffff")
+		var current_color = new_body_color if new_body_color != "" and new_body_color.is_valid_html_color() else default_body_color
+		var current_epic_color = new_body_epic_color if new_body_epic_color != "" and new_body_epic_color.is_valid_html_color() else default_body_epic_color
+		var head_textures = CharacterManager.get_part_textures(new_body_id, "body")
+		set_body_style(head_textures)
+		set_body_color(current_color, current_epic_color)
+
+
 func set_body_style(part_config: Dictionary):
 	body_color.texture = part_config["color"]
 	body_lines.texture = part_config["lines"]
@@ -276,6 +166,25 @@ func set_body_style(part_config: Dictionary):
 func set_body_color(new_body_color_string: String, new_body_epic_color_string: String):
 	body_color.self_modulate = Color(new_body_color_string)
 	body_epic_color.self_modulate = Color(new_body_epic_color_string)
+
+
+func set_feet(new_feet_id: String, new_feet_color: String = "", new_feet_epic_color: String = ""):
+	if CharacterManager._parts_lookup.feet.has(new_feet_id) and (CharacterManager._parts_lookup.feet[new_feet_id].has("foot_front") or CharacterManager._parts_lookup.feet[new_feet_id].has("foot_back")):
+		var default_feet_color = CharacterManager._parts_lookup.feet.get(new_feet_id, {}).get("settings", {}).get("default_color", "ffffff")
+		var default_feet_epic_color = CharacterManager._parts_lookup.feet.get(new_feet_id, {}).get("settings", {}).get("default_epic_color", "ffffff")
+		var current_color = new_feet_color if new_feet_color != "" and new_feet_color.is_valid_html_color() else default_feet_color
+		var current_epic_color = new_feet_epic_color if new_feet_epic_color != "" and new_feet_epic_color.is_valid_html_color() else default_feet_epic_color
+		if CharacterManager._parts_lookup.feet[new_feet_id].has("foot_front"):
+			var foot_front_textures = CharacterManager.get_part_textures(new_feet_id, "foot_front")
+			set_foot_front_style(foot_front_textures)
+			if !CharacterManager._parts_lookup.feet[new_feet_id].has("foot_back"):
+				set_foot_back_style(foot_front_textures)
+		if CharacterManager._parts_lookup.feet[new_feet_id].has("foot_back"):
+			var foot_back_textures = CharacterManager.get_part_textures(new_feet_id, "foot_back")
+			set_foot_back_style(foot_back_textures)
+			if !CharacterManager._parts_lookup.feet[new_feet_id].has("foot_front"):
+				set_foot_front_style(foot_back_textures)
+		set_feet_color(current_color, current_epic_color)
 
 
 func set_foot_front_style(part_config: Dictionary):

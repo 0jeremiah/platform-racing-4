@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://vyo3tvxkkoyg"]
+
+[ext_resource type="Script" uid="uid://dcvnj4ys3kmi8" path="res://effects/hat/hat_effect.gd" id="1_usg1i"]
+[ext_resource type="Texture2D" uid="uid://bbgjieqa6of7d" path="res://character_display/parts/exp/exp_hat_lines.png" id="2_im474"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_im474"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rlya"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmtn"]
+size = Vector2(50, 50)
+
+[node name="HatEffect" type="RigidBody2D" unique_id=1156319743]
+physics_material_override = SubResource("PhysicsMaterial_im474")
+gravity_scale = 0.1
+lock_rotation = true
+script = ExtResource("1_usg1i")
+
+[node name="HatGraphic" type="Node2D" parent="." unique_id=480911781]
+position = Vector2(15, 40)
+scale = Vector2(0.65, 0.65)
+
+[node name="HatColor" type="Sprite2D" parent="HatGraphic" unique_id=1462523396]
+
+[node name="HatLines" type="Sprite2D" parent="HatGraphic" unique_id=1738134778]
+texture = ExtResource("2_im474")
+
+[node name="HatEpicColor" type="Sprite2D" parent="HatGraphic" unique_id=394876970]
+
+[node name="HatMisc1" type="Sprite2D" parent="HatGraphic" unique_id=682484789]
+
+[node name="HatMisc2" type="Sprite2D" parent="HatGraphic" unique_id=1104835771]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1317253214]
+shape = SubResource("RectangleShape2D_6rlya")
+
+[node name="DetectPlayerArea" type="Area2D" parent="." unique_id=1523719255]
+
+[node name="DetectPlayerShape" type="CollisionShape2D" parent="DetectPlayerArea" unique_id=214689642]
+shape = SubResource("RectangleShape2D_dwmtn")

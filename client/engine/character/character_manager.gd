@@ -62,6 +62,11 @@ static func get_part_for_part_lookup(config: Dictionary, part_check: String, par
 	if !config.has(part_check) or !config[part_check].has("id"):
 		return
 	var character_id: String = config[part_check].id
+	# Store the mapping
+	if !_parts_lookup.has(part_check):
+		_parts_lookup[part_check] = {}
+	if !_parts_lookup[part_check].has(character_id):
+		_parts_lookup[part_check][character_id] = {}
 	var part_path = part + "_image"
 	var custom_part_path = "custom_" + part + "_image"
 	if config[part_check].has(custom_part_path) or config[part_check].has(part_path):
@@ -72,10 +77,6 @@ static func get_part_for_part_lookup(config: Dictionary, part_check: String, par
 					var custom_part_image = _load_custom_part_image(config[part_check][custom_part_path][texture_name])
 					var custom_part_texture = null
 					custom_part_texture = ImageTexture.create_from_image(custom_part_image)
-					if !_parts_lookup.has(part_check):
-						_parts_lookup[part_check] = {}
-					if !_parts_lookup[part_check].has(character_id):
-						_parts_lookup[part_check][character_id] = {}
 					if !_parts_lookup[part_check][character_id].has(part):
 						_parts_lookup[part_check][character_id][part] = {}
 					_parts_lookup[part_check][character_id][part]["custom_" + texture_name + "_texture"] = custom_part_texture
@@ -92,34 +93,30 @@ static func get_part_for_part_lookup(config: Dictionary, part_check: String, par
 				var texture2d = load_part_texture(texture_path)
 				var exported_image_texture = texture2d.get_image()
 
-				# Store the mapping
-				if !_parts_lookup.has(part_check):
-					_parts_lookup[part_check] = {}
-				if !_parts_lookup[part_check].has(character_id):
-					_parts_lookup[part_check][character_id] = {}
+				# Store the mapping for the textures
 				if !_parts_lookup[part_check][character_id].has(part):
 					_parts_lookup[part_check][character_id][part] = {}
 				_parts_lookup[part_check][character_id][part][texture_name + "_texture_path"] = texture_path
 				_parts_lookup[part_check][character_id][part][texture_name + "_image_texture"] = exported_image_texture
 
-		var title = "Character"
-		var comment = ""
-		if config[part_check].has("settings") and config[part_check].settings.has("title"):
-			title = config[part_check].settings.title
-		if config[part_check].has("settings") and config[part_check].settings.has("comment"):
-			comment = config[part_check].settings.comment
+	var title = "Character"
+	var comment = ""
+	if config[part_check].has("settings") and config[part_check].settings.has("title"):
+		title = config[part_check].settings.title
+	if config[part_check].has("settings") and config[part_check].settings.has("comment"):
+		comment = config[part_check].settings.comment
 
-		# Assumes the character is a custom character since category is
-		# only initalized through load_default_block_configs
-		var category = "custom"
-		if config[part_check].has("category"):
-			category = config[part_check].category
+	# Assumes the character is a custom character since category is
+	# only initalized through load_default_block_configs
+	var category = "custom"
+	if config[part_check].has("category"):
+		category = config[part_check].category
 
-		# Store additional character info
-		_parts_lookup[part_check][character_id]["title"] = title
-		_parts_lookup[part_check][character_id]["comment"] = comment
-		_parts_lookup[part_check][character_id]["settings"] = config[part_check].settings
-		_parts_lookup[part_check][character_id]["category"] = category
+	# Store additional character info
+	_parts_lookup[part_check][character_id]["title"] = title
+	_parts_lookup[part_check][character_id]["comment"] = comment
+	_parts_lookup[part_check][character_id]["settings"] = config[part_check].settings
+	_parts_lookup[part_check][character_id]["category"] = category
 
 
 static func load_default_part_configs():
@@ -159,7 +156,7 @@ static func load_default_part_configs():
 								_parts_categories[part_check][config[part_check].settings.category] = []
 							_parts_categories[part_check][config[part_check].settings.category].append({"id": config[part_check].id})
 							#_parts_categories[config[part_check].settings.category].sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
-							configs.append(config)
+				configs.append(config)
 
 	if configs:
 		#configs.sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
@@ -189,13 +186,13 @@ static func get_part_textures(part_id: String, part_name: String) -> Dictionary:
 	var part_textures = character_part_textures.get(part_name, {})
 	var part_check_index = part_textures.get("index", 0)
 	part_textures.erase("index")
-	if !parts_check[parts_check_keys[part_check_index]].has(part_name) or !_parts_lookup[parts_check_keys[part_check_index]].has(part_id):
+	if !parts_check[parts_check_keys[part_check_index]].has(part_name) or !_parts_lookup.has(parts_check_keys[part_check_index]) or !_parts_lookup[parts_check_keys[part_check_index]].has(part_id):
 		return part_textures
 	for part in parts_check[parts_check_keys[part_check_index]]:
 		for part_texture in part_texture_list:
 			var custom_part_texture_path = "custom_" + part_texture + "_texture"
 			var part_texture_path = part_texture + "_image_texture"
-			if !_parts_lookup[parts_check_keys[part_check_index]][part_id][part].has(custom_part_texture_path) and !_parts_lookup[parts_check_keys[part_check_index]][part_id][part].has(part_texture_path):
+			if !_parts_lookup[parts_check_keys[part_check_index]][part_id].has(part) or (!_parts_lookup[parts_check_keys[part_check_index]][part_id][part].has(custom_part_texture_path) and !_parts_lookup[parts_check_keys[part_check_index]][part_id][part].has(part_texture_path)):
 				continue
 			if _parts_lookup[parts_check_keys[part_check_index]][part_id][part].has(custom_part_texture_path):
 				part_textures[part_texture] = _load_custom_part_image(_parts_lookup[parts_check_keys[part_check_index]][part_id][part][custom_part_texture_path])

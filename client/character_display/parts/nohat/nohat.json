@@ -1,0 +1,11 @@
+{
+    "hat": {
+        "id": "1",
+        "settings": {
+            "title": "No Hat",
+            "comment": "Your head is naked. Collect hats to unlock awesome bonuses and abilities!",
+            "default_color": "ffffff",
+            "epic_upgrade": false
+        }
+    }
+}

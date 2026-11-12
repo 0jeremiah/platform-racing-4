@@ -1,0 +1,45 @@
+{
+    "head": {
+        "id": "not_actually_being_added_cthulhu",
+        "settings": {
+            "title": "Cthulhu",
+            "comment": "Lovecraftian behemoths never looked this cuter!",
+            "default_color": "5BC8D3",
+            "epic_upgrade": false
+        },
+        "head_image": {
+            "color_src": "res://character_display/parts/cthulhu/cthulhu_head_color.png",
+            "lines_src": "res://character_display/parts/cthulhu/cthulhu_head_lines.png"
+        }
+    },
+    "body": {
+        "id": "not_actually_being_added_cthulhu",
+        "settings": {
+            "title": "Cthulhu",
+            "comment": "Lovecraftian behemoths never looked this cuter!",
+            "default_color": "5BC8D3",
+            "epic_upgrade": false
+        },
+        "body_image": {
+            "color_src": "res://character_display/parts/cthulhu/cthulhu_body_color.png",
+            "lines_src": "res://character_display/parts/cthulhu/cthulhu_body_lines.png"
+        }
+    },
+    "feet": {
+        "id": "not_actually_being_added_cthulhu",
+        "settings": {
+            "title": "Cthulhu",
+            "comment": "Lovecraftian behemoths never looked this cuter!",
+            "default_color": "5BC8D3",
+            "epic_upgrade": false
+        },
+        "foot_front_image": {
+            "color_src": "res://character_display/parts/cthulhu/cthulhu_foot_front_color.png",
+            "lines_src": "res://character_display/parts/cthulhu/cthulhu_foot_front_lines.png"
+        },
+        "foot_back_image": {
+            "color_src": "res://character_display/parts/cthulhu/cthulhu_foot_back_color.png",
+            "lines_src": "res://character_display/parts/cthulhu/cthulhu_foot_back_lines.png"
+        }
+    }
+}

@@ -7,5 +7,5 @@ func _ready():
 	animations.play("explode")
 
 
-func _finished():
+func _finished(_anim_name: String):
 	queue_free()

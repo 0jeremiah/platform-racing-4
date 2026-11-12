@@ -12,9 +12,8 @@ func _ready() -> void:
 	effect = self
 	collision_layer = BlockManager._tile_set.get_physics_layer_collision_layer(BlockManager.solid_layer_id)
 	collision_mask = BlockManager._tile_set.get_physics_layer_collision_mask(BlockManager.solid_layer_id)
-	var character = Game.game.player_manager.get_character() if Game.game else null
-	if character:
-		add_collision_exception_with(character)
+	for player in Game.game.player_manager.player_array:
+		add_collision_exception_with(player)
 	set_effect_area(coin_area)
 	effect.linear_velocity.x = randf_range(-200.0, 200.0)
 	effect.linear_velocity.y = randf_range(-200.0, 0.0)

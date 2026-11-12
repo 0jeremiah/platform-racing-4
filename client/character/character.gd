@@ -21,7 +21,7 @@ extends CharacterBody2D
 var active := false
 var item: Node2D
 var game: Node2D
-var hat_array = []
+var hat_array = [{"id": "2", "color": "FF0000", "epic_color": "FF0000"}, {"id": "2", "color": "00FF00", "epic_color": "00FF00"}, {"id": "2", "color": "0000FF", "epic_color": "0000FF"}]
 var sun_particles = null
 var moon_particles = null
 var speed_particles = null
@@ -49,6 +49,10 @@ func _ready() -> void:
 	tile_interaction = TileInteractionController.new(self, low_area, high_area)
 	tile_interaction.last_safe_position = Vector2(position)
 	item_manager.init(self)
+	display.set_hat_array(hat_array)
+	display.set_head("2")
+	display.set_body("2")
+	display.set_feet("2")
 	
 
 func _physics_process(delta: float) -> void:
@@ -178,3 +182,20 @@ func _process_items() -> void:
 	# Check item state
 	if not movement.hurt and item:
 		item_manager.check_item()
+
+
+func lose_hat() -> Dictionary:
+	var hat_info = {"id": "", "color": "FFFFFF", "epic_color": "FFFFFF"}
+	if hat_array.size() > 0:
+		hat_info = hat_array.pop_back()
+	display.set_hat_array(hat_array)
+	return hat_info
+
+
+func set_appearance(new_hat_array: Array, new_head_id: String, new_body_id: String, new_feet_id: String,
+new_head_color: String = "FFFFFF", new_body_color: String = "FFFFFF", new_feet_color: String = "FFFFFF", new_head_epic_color: String = "FFFFFF",
+new_body_epic_color: String = "FFFFFF", new_feet_epic_color: String = "FFFFFF"):
+	display.set_hat_array(new_hat_array)
+	display.set_head(new_head_id, new_head_color, new_head_epic_color)
+	display.set_body(new_body_id, new_body_color, new_body_epic_color)
+	display.set_feet(new_feet_id, new_feet_color, new_feet_epic_color)

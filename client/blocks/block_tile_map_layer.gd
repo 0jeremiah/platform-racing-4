@@ -234,11 +234,11 @@ func is_safe(coords: Vector2i) -> bool:
 	return false
 
 
-func get_block_position_at_local_position(local_position: Vector2):
+func get_block_position_at_local_position(local_position: Vector2) -> Vector2:
 	return Vector2(local_to_map(local_position)).rotated(rotation)
 
 
-func get_block_center_position(coords: Vector2i):
+func get_block_center_position(coords: Vector2i) -> Vector2:
 	return Vector2(Vector2i(coords * Settings.tile_size) + Vector2i(Settings.tile_size_half)).rotated(rotation)
 
 

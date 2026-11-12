@@ -1,6 +1,8 @@
 extends Node2D
 class_name Tester
 
+const HAT_EFFECT = preload("res://effects/hat/hat_effect.tscn")
+
 @onready var back = $UI/Container/Back
 @onready var minimap: Minimap = $UI/Container/Minimap
 @onready var game_timer: GameTimer = $UI/Container/GameTimer
@@ -84,6 +86,20 @@ func update_stats():
 		stats_panel.set_stats(editor_stats[0], editor_stats[1], editor_stats[2], editor_stats[3])
 	else:
 		stats_panel.set_stats(player_stats[0], player_stats[1], player_stats[2], player_stats[3])
+
+
+func local_lose_hat(character: Character) -> Dictionary:
+	var hat_info = character.lose_hat()
+	if CharacterManager._parts_lookup.hat.has(hat_info.id) and hat_info.id != "1":
+		var hat = HAT_EFFECT.instantiate()
+		hat.hat_id = hat_info.id
+		hat.hat_color = hat_info.color
+		hat.hat_epic_color = hat_info.epic_color
+		hat.hat_size = character.display.hat_holder.scale * character.movement.size
+		hat.position = character.position + Vector2(character.display.hat_holder.position * character.movement.size).rotated(character.rotation)
+		var tile_map_layer = Game.get_target_map_layer_node()
+		tile_map_layer.effects.add_child(hat)
+	return hat_info
 
 
 func finish():

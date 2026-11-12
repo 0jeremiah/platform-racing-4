@@ -326,6 +326,8 @@ func hitstun(character: Character, duration: float = 2.5, hp_sap: int = 20):
 			Jukebox.play_sound("ouchcute")
 		else:
 			Jukebox.play_sound("ouchmanly")
+	if !(shielded or invincible):
+		Game.game.local_lose_hat(character)
 
 
 func give_hp(hp: float, exact: bool = false):

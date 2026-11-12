@@ -5,6 +5,8 @@ static var pr2_level_id
 static var local_pr2_level
 static var game: Node2D
 
+const HAT_EFFECT = preload("res://effects/hat/hat_effect.tscn")
+
 @onready var back_button = $UI/Container/BackButton
 @onready var minimap: Minimap = $UI/Container/Minimap
 @onready var game_timer: GameTimer = $UI/Container/GameTimer
@@ -100,6 +102,20 @@ func _activate_game() -> void:
 		hp_display.visible = true
 	game_timer.set_timer(level_manager.time)
 	game_timer.start_timer()
+
+
+func local_lose_hat(character: Character) -> Dictionary:
+	var hat_info = character.lose_hat()
+	if CharacterManager._parts_lookup.hat.has(hat_info.id) and hat_info.id != "1":
+		var hat = HAT_EFFECT.instantiate()
+		hat.hat_id = hat_info.id
+		hat.hat_color = hat_info.color
+		hat.hat_epic_color = hat_info.epic_color
+		hat.hat_size = character.display.hat_holder.scale * character.movement.size
+		hat.position = character.position + Vector2(character.display.hat_holder.position * character.movement.size).rotated(character.rotation)
+		var tile_map_layer = Game.get_target_map_layer_node()
+		tile_map_layer.effects.add_child(hat)
+	return hat_info
 
 
 func finish():

@@ -17,10 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://wspnykd77ljy" path="res://character_display/parts/classic/classic_head_lines.png" id="15_pyffb"]
 [ext_resource type="Texture2D" uid="uid://qcxhpuln44ar" path="res://character_display/parts/classic/classic_head_epic_color.png" id="16_t41j5"]
 [ext_resource type="Texture2D" uid="uid://dxolbtyq2ldgf" path="res://character_display/parts/classic/classic_head_misc1.png" id="17_ld2r1"]
-[ext_resource type="Texture2D" uid="uid://g5buv3euupwb" path="res://character_display/parts/exp/exp_hat_color.png" id="18_stwk4"]
-[ext_resource type="Texture2D" uid="uid://bbgjieqa6of7d" path="res://character_display/parts/exp/exp_hat_lines.png" id="19_ttr1n"]
-[ext_resource type="Texture2D" uid="uid://b2v3c0rwpj3a" path="res://character_display/parts/exp/exp_hat_epic_color.png" id="20_fctkm"]
-[ext_resource type="Texture2D" uid="uid://b6wittahetm6l" path="res://character_display/parts/exp/exp_hat_misc1.png" id="21_fohab"]
 
 [sub_resource type="Animation" id="Animation_5crqw"]
 length = 0.001
@@ -2940,22 +2936,6 @@ texture = ExtResource("17_ld2r1")
 [node name="HatHolder" type="Node2D" parent="." unique_id=1371021751]
 position = Vector2(-4, -184)
 scale = Vector2(0.65, 0.65)
-
-[node name="Hat1" type="Node2D" parent="HatHolder" unique_id=1182018621]
-
-[node name="Color" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1014409860]
-texture = ExtResource("18_stwk4")
-
-[node name="Lines" type="Sprite2D" parent="HatHolder/Hat1" unique_id=355165914]
-texture = ExtResource("19_ttr1n")
-
-[node name="Color2" type="Sprite2D" parent="HatHolder/Hat1" unique_id=534212593]
-texture = ExtResource("20_fctkm")
-
-[node name="Misc1" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1467554520]
-texture = ExtResource("21_fohab")
-
-[node name="Misc2" type="Sprite2D" parent="HatHolder/Hat1" unique_id=1792052625]
 
 [node name="ItemHolder" type="Node2D" parent="." unique_id=2091602048]
 position = Vector2(-6, -128)
