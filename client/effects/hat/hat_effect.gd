@@ -7,7 +7,9 @@ class_name HatEffect
 @onready var hat_epic_color_graphic = $HatGraphic/HatEpicColor
 @onready var hat_misc1_graphic = $HatGraphic/HatMisc1
 @onready var hat_misc2_graphic = $HatGraphic/HatMisc2
+@onready var hat_collision_shape = $HatCollisionShape
 @onready var detect_player_area = $DetectPlayerArea
+@onready var detect_player_shape = $DetectPlayerArea/DetectPlayerShape
 
 var wait_steps: int = 30
 var tile_map_layer: ConfigurableTileMapLayer = null
@@ -27,6 +29,8 @@ func _ready() -> void:
 	set_effect_area(detect_player_area)
 	set_hat_texture()
 	hat_graphic.scale = hat_size
+	hat_collision_shape.shape.size = Vector2(65.0, 65.0) * hat_size
+	detect_player_shape.shape.size = Vector2(65.0, 65.0) * hat_size
 	effect.linear_velocity.x = randf_range(-200.0, 200.0)
 	effect.linear_velocity.y = randf_range(-200.0, 200.0)
 
@@ -53,14 +57,15 @@ func set_hat_texture():
 
 func send_hat_to_start_position(hat_effect: HatEffect):
 	var start_position = Game.game.level_manager.get_next_start_position()
-	if tile_map_layer != null and hat_effect in tile_map_layer.map_layer.effects:
+	if tile_map_layer != null and hat_effect in tile_map_layer.map_layer.effects.get_children():
 		tile_map_layer.map_layer.effects.remove_child(hat_effect)
-		start_position.tile_map_layer.effects.add_child(hat_effect)
-		start_position.tile_map_layer.get_block_center_position(start_position.coords)
+		start_position.tile_map_layer.map_layer.effects.add_child(hat_effect)
+		hat_effect.position = start_position.tile_map_layer.get_block_center_position(start_position.coords)
 	else:
 		queue_free()
 
 
 func touch_local_player(character: Character):
-	# code for local player touching the hat goes here
+	if Game.game:
+		Game.game.grab_hat(character, {"id": hat_id, "color": hat_color, "epic_color": hat_epic_color})
 	queue_free()

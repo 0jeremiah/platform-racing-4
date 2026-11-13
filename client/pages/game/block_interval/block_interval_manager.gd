@@ -50,8 +50,15 @@ func start():
 	do_intervals = true
 
 
+func pause():
+	do_intervals = false
+
+
 func stop():
 	do_intervals = false
+	step_timer = 0.0
+	step_freq = 0.0
+	clear()
 
 
 func add_block(tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, param_2: int):

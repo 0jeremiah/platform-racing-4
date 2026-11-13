@@ -177,6 +177,15 @@ func delete_block(coords: Vector2i) -> void:
 		erase_cell(coords)
 
 
+func delete_all_blocks() -> void:
+	var block_coords = get_all_block_coords()
+	for block_coord in block_coords:
+		unregister_block_type(block_coord)
+		block_dict.erase(get_block_dict_name(block_coord))
+		erase_cell(block_coord)
+	clear()
+
+
 func move_block(from_coords: Vector2i, to_coords: Vector2i):
 	var from_block_dict_name = get_block_dict_name(from_coords)
 	var from_block_dict = block_dict.get(from_block_dict_name)

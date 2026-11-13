@@ -31,3 +31,13 @@ func spawn_local_player() -> CharacterBody2D:
 	character.movement.toggle_health(character, Game.game.level_manager.level_type == LevelManager.deathmatch)
 	player_array.append(character)
 	return character
+
+
+func delete_all_players():
+	character = null
+	player_array.clear()
+	# checks for players in map layers just to be safe
+	if Game.game:
+		for map_layer in Game.game.level_manager.level_layers.map_layers.get_children():
+			for player in map_layer.players.get_children():
+				player.queue_free()

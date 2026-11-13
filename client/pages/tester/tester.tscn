@@ -79,10 +79,6 @@ offset_bottom = 0.0
 [node name="DebugDisplay" parent="UI/Container" unique_id=841413147 instance=ExtResource("10_gtifp")]
 layout_mode = 0
 
-[node name="UpdateStatsPanelTimer" type="Timer" parent="UI/Container" unique_id=1004979645]
-process_callback = 0
-wait_time = 0.25
-
 [node name="Back" type="Button" parent="UI/Container" unique_id=1258800023]
 layout_mode = 1
 anchors_preset = -1

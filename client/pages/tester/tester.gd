@@ -10,18 +10,28 @@ const HAT_EFFECT = preload("res://effects/hat/hat_effect.tscn")
 @onready var hp_display: HPDisplay = $UI/Container/HPDisplay
 @onready var stats_panel = $UI/Container/StatsPanel
 @onready var debug_display = $UI/Container/DebugDisplay
-@onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
 @onready var level_manager: LevelManager = $LevelManager
 @onready var player_manager: PlayerManager = $PlayerManager
 
 var show_debug_info: bool = true
 var current_player_layer: String = ""
+var run_update_stats_timer: bool = false
+var update_stats_timer: float = 0.25
 var used_rects: Dictionary = {}
 
 
 func _ready():
 	back.connect("pressed", _on_back_pressed)
 	Game.game = self
+
+
+func _process(delta: float) -> void:
+	if run_update_stats_timer:
+		if update_stats_timer - delta > 0.0:
+			update_stats_timer -= delta
+		else:
+			update_stats()
+			update_stats_timer = 0.25
 
 
 func _on_back_pressed():
@@ -68,8 +78,7 @@ func init(data: Dictionary):
 	debug_display.init(player_manager.get_character())
 	game_timer.set_timer(level.properties.get("time", 120))
 	game_timer.start_timer()
-	update_stats_timer.connect("timeout", update_stats)
-	update_stats_timer.start()
+	run_update_stats_timer = true
 	
 	if show_debug_info:
 		debug_display.activate()
@@ -91,15 +100,22 @@ func update_stats():
 func local_lose_hat(character: Character) -> Dictionary:
 	var hat_info = character.lose_hat()
 	if CharacterManager._parts_lookup.hat.has(hat_info.id) and hat_info.id != "1":
+		var map_layer = Game.get_target_map_layer_node()
 		var hat = HAT_EFFECT.instantiate()
+		hat.tile_map_layer = map_layer.tile_map_layer
 		hat.hat_id = hat_info.id
 		hat.hat_color = hat_info.color
 		hat.hat_epic_color = hat_info.epic_color
 		hat.hat_size = character.display.hat_holder.scale * character.movement.size
 		hat.position = character.position + Vector2(character.display.hat_holder.position * character.movement.size).rotated(character.rotation)
-		var tile_map_layer = Game.get_target_map_layer_node()
-		tile_map_layer.effects.add_child(hat)
+		map_layer.effects.add_child(hat)
 	return hat_info
+
+
+func grab_hat(character: Character, hat_info: Dictionary) -> void:
+	if CharacterManager._parts_lookup.hat.has(hat_info.id) and hat_info.id != "1":
+		character.hat_array.append(hat_info)
+		character.display.set_hat_array(character.hat_array)
 
 
 func finish():
@@ -132,3 +148,7 @@ func clear_used_rects() -> void:
 
 func _exit_tree():
 	level_manager.clear()
+
+
+func reset_level():
+	pass

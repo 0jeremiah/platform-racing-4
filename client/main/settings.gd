@@ -2,6 +2,8 @@ class_name Settings
 
 const tile_size = Vector2i(128, 128)
 const tile_size_half = Vector2i(64, 64)
+static var user_id: int = -1
+static var user_nickname: String = ""
 static var my_character: Dictionary = {
 	"rank": 0,
 	"speed": 50,
@@ -17,3 +19,5 @@ static var my_character: Dictionary = {
 	"body_color": "ffffff",
 	"feet_color": "ffffff"
 }
+static var music_on: bool = true
+static var sound_on: bool = true
