@@ -79,7 +79,6 @@ func init(data: Dictionary):
 	game_timer.set_timer(level.properties.get("time", 120))
 	game_timer.start_timer()
 	run_update_stats_timer = true
-	
 	if show_debug_info:
 		debug_display.activate()
 	else:

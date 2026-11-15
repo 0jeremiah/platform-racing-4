@@ -7,20 +7,20 @@ var time: float = 120.0
 var timer: float = 120.0
 var stopwatch: float = 0.0
 var pause: bool = true
-var game = null
-var player: Character = null
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if !pause:
-		if time > 0:
-			if timer - delta > 0:
-				timer -= delta
-			elif Game.game and Game.game is not Tester:
-				var local_player = Game.game.player_manager.get_character()
-				if local_player and !local_player.movement.finished:
-					local_player.movement.finished = true
-				Jukebox.play_sound("victory")
+		if time > 0.0:
+			if timer > 0.0:
+				if timer - delta > 0.0:
+					timer -= delta
+				elif Game.game and Game.game is not Tester:
+					var local_player = Game.game.player_manager.get_character()
+					if local_player and !local_player.movement.finished:
+						local_player.movement.finished = true
+					timer = 0.0
+					Jukebox.play_sound("victory")
 		else:
 			stopwatch += delta
 	update_display()
@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 
 func update_display():
 	var current_timer: float = 0.0
-	if time > 0:
+	if time > 0.0:
 		current_timer = timer
 	else:
 		current_timer = stopwatch
@@ -82,7 +82,7 @@ func set_timer(new_time: float):
 
 
 func inc_timer(increment: float):
-	if time > 0:
+	if time > 0.0:
 		timer += increment
 	else:
 		stopwatch += increment

@@ -1,234 +1,40 @@
-[gd_scene format=3 uid="uid://bjuks0jeca4mi"]
+[gd_scene format=3 uid="uid://d33rqer6o6gm3"]
 
-[ext_resource type="Script" uid="uid://cvuwvogyopoiy" path="res://pages/game/countdown/countdown.gd" id="1_xd5oh"]
-[ext_resource type="FontFile" uid="uid://cl1xnqde1ngys" path="res://fonts/actionman/action-man.ttf" id="2_o7kwm"]
-[ext_resource type="Texture2D" uid="uid://cic0wmqq4e5bg" path="res://pages/game/countdown/countdowntexture.png" id="3_xd5oh"]
+[ext_resource type="Script" uid="uid://cj8st6oqswse0" path="res://pages/game/countdown/countdown.gd" id="1_pbp0w"]
 
-[sub_resource type="Animation" id="Animation_o7kwm"]
-resource_name = "RESET"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("TextContainer:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("TextContainer:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("TextContainer/CountdownText3:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("TextContainer/CountdownText3:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
+[sub_resource type="Gradient" id="Gradient_pbp0w"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.49803922, 0, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_xptax"]
-resource_name = "countdown"
-step = 0.025
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextContainer:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("TextContainer:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(2, 1),
-"update": 0,
-"values": [Vector2(3, 3), Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("TextContainer:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.5, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("TextContainer/CountdownText3:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("TextContainer/CountdownText3:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dwmtn"]
+gradient = SubResource("Gradient_pbp0w")
+fill_to = Vector2(0, 1)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ough"]
-_data = {
-&"RESET": SubResource("Animation_o7kwm"),
-&"countdown": SubResource("Animation_xptax")
-}
+[sub_resource type="Gradient" id="Gradient_5ubry"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.49803922, 1, 1, 1, 0)
 
-[node name="Countdown" type="Node2D" unique_id=544283222]
-script = ExtResource("1_xd5oh")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6rlya"]
+gradient = SubResource("Gradient_5ubry")
+fill_to = Vector2(0, 1)
 
-[node name="TextContainer" type="Node2D" parent="." unique_id=274294281]
+[node name="Countdown" type="Node2D" unique_id=51648338]
+script = ExtResource("1_pbp0w")
 
-[node name="CountdownText1" type="RichTextLabel" parent="TextContainer" unique_id=2010907862]
-clip_children = 2
-offset_left = -209.0
-offset_top = -89.0
-offset_right = 191.0
-offset_bottom = 131.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.49803922)
-theme_override_constants/shadow_outline_size = 50
-theme_override_fonts/normal_font = ExtResource("2_o7kwm")
-theme_override_font_sizes/normal_font_size = 228
-text = "GO!"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CountdownBox1" type="TextureRect" parent="." unique_id=2010235157]
+offset_top = 360.0
+offset_right = 1920.0
+offset_bottom = 720.0
+texture = SubResource("GradientTexture2D_dwmtn")
 
-[node name="CountdownText2" type="RichTextLabel" parent="TextContainer" unique_id=1392275451]
-clip_children = 1
-offset_left = -209.0
-offset_top = -89.0
-offset_right = 191.0
-offset_bottom = 131.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_fonts/normal_font = ExtResource("2_o7kwm")
-theme_override_font_sizes/normal_font_size = 228
-text = "GO!"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CountdownBox2" type="TextureRect" parent="." unique_id=1813370318]
+offset_top = 387.5
+offset_right = 1920.0
+offset_bottom = 692.5
+texture = SubResource("GradientTexture2D_6rlya")
 
-[node name="TextFill" type="TextureRect" parent="TextContainer/CountdownText2" unique_id=1296658883]
-self_modulate = Color(0.45043758, 0.8570065, 0.09985284, 1)
-layout_mode = 0
-offset_top = -133.0
-offset_right = 800.0
-offset_bottom = 317.0
-texture = ExtResource("3_xd5oh")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="CountdownText3" type="RichTextLabel" parent="TextContainer" unique_id=1476082691]
-visible = false
-clip_children = 2
-offset_left = -209.0
-offset_top = -89.0
-offset_right = 191.0
-offset_bottom = 131.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.49803922)
-theme_override_constants/shadow_outline_size = 50
-theme_override_fonts/normal_font = ExtResource("2_o7kwm")
-theme_override_font_sizes/normal_font_size = 228
-text = "GO!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LevelTypeText" type="RichTextLabel" parent="TextContainer" unique_id=1684691589]
-offset_left = -300.0
-offset_top = 100.0
-offset_right = 300.0
-offset_bottom = 200.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.49803922)
-theme_override_constants/outline_size = 20
-theme_override_fonts/normal_font = ExtResource("2_o7kwm")
-theme_override_font_sizes/normal_font_size = 51
-text = "Capture the Overseer!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LevelTypeText2" type="RichTextLabel" parent="TextContainer" unique_id=412490333]
-visible = false
-offset_left = -300.0
-offset_top = 100.0
-offset_right = 300.0
-offset_bottom = 200.0
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.49803922)
-theme_override_constants/outline_size = 20
-theme_override_fonts/normal_font = ExtResource("2_o7kwm")
-theme_override_font_sizes/normal_font_size = 51
-text = "Capture the Overseer!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1319737523]
-libraries/ = SubResource("AnimationLibrary_7ough")
+[node name="CountdownBox3" type="ColorRect" parent="." unique_id=2077739382]
+offset_top = 415.0
+offset_right = 1920.0
+offset_bottom = 665.0
+color = Color(0.49803922, 0.49803922, 0.49803922, 0.49803922)

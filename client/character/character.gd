@@ -21,7 +21,7 @@ extends CharacterBody2D
 var active := false
 var item: Node2D
 var game: Node2D
-var hat_array = [{"id": "2", "color": "FF0000", "epic_color": "FF0000"}, {"id": "2", "color": "00FF00", "epic_color": "00FF00"}, {"id": "2", "color": "0000FF", "epic_color": "0000FF"}]
+var hat_array = []
 var sun_particles = null
 var moon_particles = null
 var speed_particles = null
@@ -49,14 +49,16 @@ func _ready() -> void:
 	tile_interaction = TileInteractionController.new(self, low_area, high_area)
 	tile_interaction.last_safe_position = Vector2(position)
 	item_manager.init(self)
+	if Settings.my_character.hat != "" or Settings.my_character.hat != "1":
+		hat_array.append({"id": Settings.my_character.hat, "color": Settings.my_character.hat_color, "epic_color": Settings.my_character.hat_epic_color})
 	display.set_hat_array(hat_array)
-	display.set_head("2")
-	display.set_body("2")
-	display.set_feet("2")
+	display.set_head(Settings.my_character.head, Settings.my_character.head_color, Settings.my_character.head_epic_color)
+	display.set_body(Settings.my_character.body, Settings.my_character.body_color, Settings.my_character.body_epic_color)
+	display.set_feet(Settings.my_character.feet, Settings.my_character.feet_color, Settings.my_character.feet_epic_color)
 	
 
 func _physics_process(delta: float) -> void:
-	if not active:
+	if !active:
 		return
 	
 	# Update hitbox based on crouch state and size
@@ -155,8 +157,8 @@ func _bump_tile_covering_high_area() -> void:
 					events.append("top")
 			events.append("bump")
 			events.append("any_side")
-			tile.tile_map_layer.trigger_tile_behaviors(self, tile.coords, events, normal)
 			tile_interaction.maybe_update_last_bumped_block(self, tile.tile_map_layer, tile.coords)
+			tile.tile_map_layer.trigger_tile_behaviors(self, tile.coords, events, normal)
 	else:
 		push_error("Character::bump_tile_covering_high_area - No tile covering high area")
 

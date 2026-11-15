@@ -17,7 +17,11 @@ static var my_character: Dictionary = {
 	"hat_color": "ffffff",
 	"head_color": "ffffff",
 	"body_color": "ffffff",
-	"feet_color": "ffffff"
+	"feet_color": "ffffff",
+	"hat_epic_color": "000000",
+	"head_epic_color": "000000",
+	"body_epic_color": "000000",
+	"feet_epic_color": "000000"
 }
 static var music_on: bool = true
 static var sound_on: bool = true

@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_lhgqe"]
 [ext_resource type="PackedScene" uid="uid://bfq7acty6r4e5" path="res://ui/stats_display.tscn" id="10_nlto3"]
 [ext_resource type="PackedScene" uid="uid://cld2kelekhq2w" path="res://ui/hp_display.tscn" id="11_nlto3"]
+[ext_resource type="PackedScene" uid="uid://c2bs3b11phh58" path="res://ui/debug_display.tscn" id="12_4tv3u"]
 
 [node name="Game" type="Node2D" unique_id=523546660]
 script = ExtResource("1_cq41v")
@@ -70,6 +71,9 @@ offset_left = 1640.0
 offset_top = 160.0
 offset_right = 1908.0
 offset_bottom = 210.0
+
+[node name="DebugDisplay" parent="GameUI/Container" unique_id=193317442 instance=ExtResource("12_4tv3u")]
+layout_mode = 0
 
 [node name="BackButton" type="Button" parent="GameUI/Container" unique_id=1143145236]
 layout_mode = 1

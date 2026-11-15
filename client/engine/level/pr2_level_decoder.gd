@@ -411,65 +411,50 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 		for block_string in compat_block_strings:
 			if block_string != "":
 				var block_code_array = Array(block_string.split(";"))
-				var move_coords: Vector2i = Vector2i(int(block_code_array[0]) / 30, int(block_code_array[1]) / 30)
+				var move_coords: Vector2i = Vector2i(int(block_code_array[0]) / 30, 0)
+				if block_code_array.size() > 1:
+					move_coords.y = int(block_code_array[1]) / 30
 				chunk_coords += move_coords
 				if block_code_array.size() > 2 and block_code_array[2].is_valid_int():
 					block_id = int(block_code_array[2]) + 100 if int(block_code_array[2]) < 100 else int(block_code_array[2])
 					var start_positions_blocks = [112, 113, 114]
 					if block_id in start_positions_blocks:
 						block_id = 111
-
-				#if block_code_array.size() > 3 and block_code_array.get(3) != null:
-					#var options = {}
-					#if block_code_array[0] == "110" or block_code_array[0] == "125":
-						#var items = []
-						#if block_code_array.get(3) != null:
-							#items = Array(block_code_array[3].split("-"))
-							#var converted_items = []
-							#for item in items:
-								#converted_items.append(int(item))
-							#converted_items.sort()
-							#converted_items = Items.convert_pr2_items(converted_items)
-							#options = {
-								#"item_array": converted_items
-								#}
-						#else:
-							#var converted_items = Items.convert_pr2_items([1, 2, 3, 4, 5, 6, 7, 8, 9])
-							##options = {
-								##"infinite_items": true if block_code_array[0] == "125" else false,
-								##"item_supply": 9999999 if block_code_array[0] == 1 else 1
-								##}
-							#options = {
-								#"item_array": converted_items
-								#}
-					#if block_code_array[0] == "126" or block_code_array[0] == "127":
-						#var amount = 5 if block_code_array.get(3) == null else int(block_code_array[3])
-						#options = {
-								#"amount": amount
-								#}
-					#if block_code_array[0] == "131":
-						#var reset = true if block_code_array.get(3) == "reset" else false
-						#var stats = [] if reset else Array(block_code_array[3].split("-"))
-						#var speed = 50 if stats.get(0) == null else int(stats[0])
-						#var accel = 50 if stats.get(1) == null else int(stats[1])
-						#var jump = 50 if stats.get(2) == null else int(stats[2])
-						#options = {
-							#"reset": reset,
-							#"speed": speed,
-							#"accel": accel,
-							#"jump": jump
-							#}
-					#elif block_code_array[0] == "132":
-						#var color = get_color(int(block_code_array[3])).to_html(false)
-						#options = {
-							#"teleport_color": color
-							#}
-
-				var chunk_x = (chunk_coords.x / 8) * 8
-				var chunk_y = (chunk_coords.y / 8) * 8
-				var inner_x = chunk_coords.x % 8
-				var inner_y = chunk_coords.y % 8
-				var pos = inner_y * 8 + inner_x
+				var converted_block_id = str(block_id - 99)
+				var settings = ConfigurableBlockSettings.new()
+				settings.import_settings(BlockManager._block_lookup[converted_block_id].settings)
+				if block_code_array[0] == "110" or block_code_array[0] == "125":
+					settings.bump.params["item_array"] = Items.convert_pr2_items([1, 2, 3, 4, 5, 6, 7, 8, 9])
+				if block_code_array.size() > 3 and block_code_array.get(3) != null:
+					if block_id == 110 or block_id == 125:
+						var items = []
+						items = Array(block_code_array[3].split("-"))
+						var converted_items = []
+						for item in items:
+							converted_items.append(int(item))
+						converted_items.sort()
+						converted_items = Items.convert_pr2_items(converted_items)
+						settings.bump.params["item_array"] = converted_items
+					elif block_id == 126 or block_id == 127:
+						var amount = 5 if block_code_array.get(3) == null else int(block_code_array[3])
+						settings.bump.params["amount"] = amount
+					elif block_id == 131:
+						var reset = true if block_code_array.get(3) == "reset" else false
+						var stats = [] if reset else Array(block_code_array[3].split("-"))
+						var speed = 50 if stats.get(0) == null else int(stats[0])
+						var accel = 50 if stats.get(1) == null else int(stats[1])
+						var jump = 50 if stats.get(2) == null else int(stats[2])
+						settings.bump.params["reset"] = reset
+						settings.bump.params["speed"] = speed
+						settings.bump.params["accel"] = accel
+						settings.bump.params["jump"] = jump
+					elif block_id == 132:
+						var color = get_color(int(block_code_array[3])).to_html(false)
+						settings.teleport_color = color
+				var block_edited_settings = settings.get_edited_settings()
+				var chunk_x = floori(chunk_coords.x / 8.0) * 8
+				var chunk_y = floori(chunk_coords.y / 8.0) * 8
+				var pos = (chunk_coords.y - chunk_y) * 8 + (chunk_coords.x - chunk_x)
 				var chunk_id = str(chunk_x) + "," + str(chunk_y)
 				var existing_chunk = chunk_map.get(chunk_id)
 				var chunk: Dictionary
@@ -488,7 +473,9 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 					}
 					chunks.push_back(chunk)
 					chunk_map[chunk_id] = chunk
-				chunk.data[pos] = {"id": str(block_id - 99), "settings": null}
+				chunk.data[pos] = {"id": converted_block_id}
+				if !block_edited_settings.is_empty():
+					chunk.data[pos]["edited_settings"] = block_edited_settings
 
 		if save_string != "":
 			save_string = save_string + "`" + JSON.stringify(chunks)

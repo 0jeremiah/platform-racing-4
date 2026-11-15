@@ -5,7 +5,7 @@ var game = null
 var map_layers = null
 var player = null
 var dot_size = Vector2(10, 10)
-var layer_scale = Vector2(1.0, 1.0)
+var layer_scale_array = []
 @onready var display_layers = $DisplayLayers
 
 
@@ -37,6 +37,7 @@ func _create_minimap_layer(map_layer: MapLayer):
 	if used_rect.size.y > 0:
 		scaleY = size.y / (used_rect.size.y * Settings.tile_size.y)
 	var effective_scale = min(scaleX, scaleY) * 0.9
+	layer_scale_array.append(effective_scale)
 	var minimap_width = clampi(int((used_rect.size.x * Settings.tile_size.x) * effective_scale), 1, 1280)
 	var minimap_height = clampi(int((used_rect.size.y * Settings.tile_size.y) * effective_scale), 1, 1280)
 	var minimap_x_offset = used_rect.position.x * -1
@@ -78,17 +79,17 @@ func _process(_delta):
 	
 	for child in display_layers.get_children():
 		if child.name == game.get_current_player_layer():
-			var map_layer = map_layers.get_node_or_null(game.get_current_player_layer())
-			if map_layer:
-				var used_rect = map_layer.tile_map_layer.get_used_rect()
-				var scaleX = 1.0
-				if used_rect.size.x > 0:
-					scaleX = size.x / (used_rect.size.x * Settings.tile_size.x)
-				var scaleY = 1.0
-				if used_rect.size.y > 0:
-					scaleY = size.y / (used_rect.size.y * Settings.tile_size.y)
-				var effective_scale = min(scaleX, scaleY) * 0.9
-				layer_scale = effective_scale
+			#var map_layer = map_layers.get_node_or_null(game.get_current_player_layer())
+			#if map_layer:
+				#var used_rect = map_layer.tile_map_layer.get_used_rect()
+				#var scaleX = 1.0
+				#if used_rect.size.x > 0:
+					#scaleX = size.x / (used_rect.size.x * Settings.tile_size.x)
+				#var scaleY = 1.0
+				#if used_rect.size.y > 0:
+					#scaleY = size.y / (used_rect.size.y * Settings.tile_size.y)
+				#var effective_scale = min(scaleX, scaleY) * 0.9
+				#layer_scale = effective_scale
 			child.visible = true
 			var player_marker = child.get_node_or_null("PlayerMarker")
 			if not player_marker:
@@ -97,8 +98,10 @@ func _process(_delta):
 				player_marker.color = Color.RED
 				player_marker.size = dot_size * (Vector2.ONE * child.scale)
 				child.add_child(player_marker)
-			
-			player_marker.position = player.position - (player_marker.size / 2)
+			var layer_scale = layer_scale_array.get(child.get_index())
+			if layer_scale == null:
+				layer_scale = 1.0
+			player_marker.position = ((player.position * layer_scale) - (child.texture.get_size() / 2)) - (player_marker.size / 2)
 		else:
 			child.visible = false
 			var player_marker = child.get_node_or_null("PlayerMarker")

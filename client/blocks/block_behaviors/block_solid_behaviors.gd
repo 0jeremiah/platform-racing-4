@@ -14,16 +14,11 @@ func appear(_node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vec
 func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, params: Dictionary, normal: Vector2 = Vector2.ZERO) -> void:
 	if node is not PhysicsBody2D or "movement" not in node:
 		return
-
 	var direction := Vector2(params.get("direction", {"x": 0.0, "y": 0.0}).x, params.get("direction", {"x": 0.0, "y": 0.0}).y)
 	var horizontal_force: float = params.get("horizontal_force", 1250.0)
 	var vertical_force: float = params.get("vertical_force", 1100.0)
 	var rotated_push_dir := direction.rotated(tile_map_layer.global_rotation)
-	var target_global_position := tile_map_layer.to_global((coords * 128) + Vector2i(64, 64))
-	var player_global_position := node.to_global(Vector2(0, -100))
-	var player_dir := (player_global_position - target_global_position).normalized()
-	var cross := rotated_push_dir.cross(player_dir)
-
+	
 	var push_force: float
 	# changes "push_force" depending on whether player is on the horizontal or vertical side
 	if abs(normal.x) > abs(normal.y):
@@ -32,23 +27,18 @@ func arrow(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vecto
 		push_force = horizontal_force
 	
 	var push_velocity: Vector2
-	# player is perpendicular, running across or sliding up/down
-	if abs(cross) > 0.5:
-		push_velocity = rotated_push_dir * push_force
-
 	# player is standing or bumping on the block
-	else:
-		if abs(normal.rotated(-node.rotation).x) < abs(normal.rotated(-node.rotation).y):
-			if node is CharacterBody2D and node.is_on_floor():
-				if node.movement.up_pressed:
-					push_velocity = (rotated_push_dir * push_force) * 25
-				else:
-					push_velocity = (rotated_push_dir * push_force) * 10
+	if abs(normal.rotated(-node.rotation).x) < abs(normal.rotated(-node.rotation).y) and rotated_push_dir.y < 0.0:
+		if node is CharacterBody2D and node.is_on_floor():
+			if node.movement.up_pressed:
+				push_velocity = (rotated_push_dir * push_force) * 22.5
 			else:
-				if !node.movement.down_pressed:
-					push_velocity = (rotated_push_dir * push_force) * 15
+				push_velocity = (rotated_push_dir * push_force) * 10
 		else:
-			push_velocity = rotated_push_dir * push_force
+			if !node.movement.down_pressed:
+				push_velocity = (rotated_push_dir * push_force) * 12.5
+	else:
+		push_velocity = rotated_push_dir * push_force
 	
 	if node is RigidBody2D:
 		var rigid_body := node as RigidBody2D
@@ -283,7 +273,7 @@ func mine(body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords:
 	var hp_sap: int = params.get("hp_sap", 20)
 	var block_info = tile_map_layer.get_block(coords)
 	var touching_mine: bool = false
-	if block_info.node != null and block_info.node.player_is_in_block(true):
+	if (block_info.node != null and block_info.node.player_is_in_block(true)) or ("movement" in body and body.movement.last_bumped_block == {"tile_map_layer": tile_map_layer, "coords": coords, "block_id": block_info.id}):
 		touching_mine = true
 		# Push the body away if they aren't invincible
 		if "movement" not in body or !body.movement.invincible:

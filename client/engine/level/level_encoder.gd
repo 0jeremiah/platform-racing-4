@@ -160,7 +160,7 @@ func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) ->
 		chunk_map = {}
 		for coords in compat_coords:
 			var block_id = configurable_tile_map_layer.get_block(coords).id
-			var block_settings = configurable_tile_map_layer.get_block_settings_info(coords)
+			var block_edited_settings = configurable_tile_map_layer.get_block_settings_info(coords).edited_settings
 			var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 			var chunk_data_coords = coords - (chunk_coords * chunk_size)
 			var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
@@ -183,8 +183,8 @@ func new_encode_chunks(configurable_tile_map_layer: ConfigurableTileMapLayer) ->
 				chunks.push_back(chunk)
 				chunk_map[chunk_name] = chunk
 			chunk.data[chunk_data_index] = {"id": block_id}
-			if !block_settings.is_empty():
-				chunk.data[chunk_data_index]["settings"] = block_settings
+			if !block_edited_settings.is_empty():
+				chunk.data[chunk_data_index]["edited_settings"] = block_edited_settings
 		#mega_chunks[mega_chunk_name] = chunks
 		if save_string != "":
 			save_string = save_string + "`" + JSON.stringify(chunks)

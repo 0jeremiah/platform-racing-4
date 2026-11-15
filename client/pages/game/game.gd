@@ -3,7 +3,7 @@ class_name Game
 
 static var pr2_level_id = null
 static var local_pr2_level = null
-static var game: Node2D
+static var game: Node2D = null
 
 const HAT_EFFECT = preload("res://effects/hat/hat_effect.tscn")
 
@@ -16,9 +16,11 @@ const HAT_EFFECT = preload("res://effects/hat/hat_effect.tscn")
 @onready var hp_display: HPDisplay = $GameUI/Container/HPDisplay
 @onready var level_manager: LevelManager = $LevelManager
 @onready var player_manager: PlayerManager = $PlayerManager
+@onready var debug_display = $GameUI/Container/DebugDisplay
 
 var used_rects: Dictionary = {}
 var current_player_layer: String = ""
+var show_debug_info: bool = true
 
 
 func _ready():
@@ -29,8 +31,8 @@ func _ready():
 	
 	editor_events.connect_to([level_manager.level_decoder])
 	penciler.init(level_manager.level_layers, editor_events)
-	load_level()
 	Game.game = self
+	load_level()
 
 
 func load_level():
@@ -108,6 +110,11 @@ func _activate_game() -> void:
 		hp_display.visible = true
 	game_timer.set_timer(level_manager.time)
 	game_timer.start_timer()
+	debug_display.init(player_manager.get_character())
+	if show_debug_info:
+		debug_display.activate()
+	else:
+		debug_display.deactivate()
 
 
 func local_lose_hat(character: Character) -> Dictionary:

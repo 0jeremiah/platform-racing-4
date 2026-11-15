@@ -176,7 +176,7 @@ func maybe_run_animations():
 		mimic_display.play("walk")
 	elif state == "run" and current_animation != "run":
 		mimic_display.animations.clear_queue()
-		mimic_display.play("walk")
+		mimic_display.play("run")
 	elif state == "disguise" and (current_animation != "disguise" and current_animation != "disguise_look"):
 		mimic_display.animations.clear_queue()
 		mimic_display.animations.play("disguise")

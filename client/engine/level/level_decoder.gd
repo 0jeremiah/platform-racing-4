@@ -404,8 +404,8 @@ func new_decode_chunks(encoded_layer_name: String, chunks_container: String) -> 
 					var tile_settings = ConfigurableBlockSettings.new()
 					if tile_id in BlockManager._block_lookup and BlockManager._block_lookup[tile_id].has("settings"):
 						tile_settings.import_settings(BlockManager._block_lookup[tile_id].settings)
-					if chunk.data[i].has("settings") and chunk.data[i].settings != null:
-						tile_settings.import_edited_settings(chunk.data[i].settings)
+					if chunk.data[i].has("edited_settings") and chunk.data[i].edited_settings != null:
+						tile_settings.import_edited_settings(chunk.data[i].edited_settings)
 					
 					# Emit set tile event
 					emit_signal("editor_event", {

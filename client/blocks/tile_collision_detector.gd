@@ -114,24 +114,24 @@ func _notify_collision(body: Node, tile_map_layer: ConfigurableTileMapLayer, coo
 			events.append("bottom")
 		else:
 			events.append("top")
-	if abs(normal.rotated(-_parent.rotation).x) < abs(normal.rotated(-_parent.rotation).y):
-		if _parent is CharacterBody2D and !_parent.is_on_floor() and normal.rotated(-body.rotation).y > 0:
+	if abs(normal.rotated(-body.rotation).x) < abs(normal.rotated(-body.rotation).y):
+		if body is CharacterBody2D and !body.is_on_floor() and normal.rotated(-body.rotation).y > 0:
 			events.append("bump")
-			if "tile_interaction" in _parent:
-				_parent.tile_interaction.maybe_update_last_bumped_block(_parent, tile_map_layer, coords)
-			if "movement" in _parent:
-				_parent.movement.attempting_bump = true
-				_parent.movement.jumped = false
-				_parent.movement.jump_timer = 0
-				var oriented_velocity = _parent.movement.current_velocity.rotated(-_parent.rotation)
+			if "tile_interaction" in body:
+				body.tile_interaction.maybe_update_last_bumped_block(body, tile_map_layer, coords)
+			if "movement" in body:
+				body.movement.attempting_bump = true
+				body.movement.jumped = false
+				body.movement.jump_timer = 0
+				var oriented_velocity = body.movement.current_velocity.rotated(-body.rotation)
 				oriented_velocity.y = 0.0
-				_parent.movement.current_velocity = oriented_velocity.rotated(_parent.rotation)
+				body.movement.current_velocity = oriented_velocity.rotated(body.rotation)
 		else:
-			if _parent is CharacterBody2D and _parent.is_on_floor():
+			if body is CharacterBody2D and body.is_on_floor():
 				events.append("stand")
-				if "movement" in _parent and "tile_interaction" in _parent:
-					_parent.tile_interaction.maybe_mark_safe_block(_parent, tile_map_layer, coords)
+				if "movement" in body and "tile_interaction" in body:
+					body.tile_interaction.maybe_mark_safe_block(body, tile_map_layer, coords)
 	events.append("any_side")
 
 	# Delegate to the tile map layer to handle behaviors
-	tile_map_layer.trigger_tile_behaviors(_parent, coords, events, normal)
+	tile_map_layer.trigger_tile_behaviors(body, coords, events, normal)
