@@ -60,6 +60,10 @@ var pr2_objects: Dictionary = {
 }
 var pr2_to_pr4_scale_ratio: float = 128.0 / 30.0
 var seg_size: int = 30
+var shift_to_default_position: Vector2 = Vector2(-447.0, -337.0)
+var start_positions: Array = [] # first 4 blocks in blockstring are always start positions, but using a trick, a block can
+# be placed on them if the relative coords land on those blocks' position. this is included in the exported level dict to
+# let level decoder know to make start positions there
 
 
 func clear():
@@ -136,227 +140,236 @@ func decode_pr2_level(pr2_level: String) -> Dictionary:
 			#draw = draw (raster line in pr2)
 			data_array.remove_at(0)
 			data_array[0] = data_array[0].hex_to_int()
-			data_array[1] = decode_pr2_blocks(data_array[1], version)
 			if version == "m1":
-				#data_array[1] = decode_objectstring(data_array[1])
-				data_array[2] = decode_objectstring(data_array[2])
-				data_array[3] = decode_objectstring(data_array[3])
-				data_array[4] = decode_objectstring(data_array[4])
+				if data_array.get(1) != null and data_array.get(1) != "":
+					data_array[1] = decode_objectstring(data_array[1])
+				if data_array.get(2) != null and data_array.get(2) != "":
+					data_array[2] = decode_objectstring(data_array[2])
+				if data_array.get(3) != null and data_array.get(3) != "":
+					data_array[3] = decode_objectstring(data_array[3])
+				if data_array.get(4) != null and data_array.get(4) != "":
+					data_array[4] = decode_objectstring(data_array[4])
 				decoded_level = convert_pr2_level_to_pr4(pr2_level_data, data_array)
 			elif version == "m2" or version == "m3" or version == "m4":
-				#if version == "m2":
-					#data_array[1] = decode_objectstring2(data_array[1])
-				#elif version == "m3":
-					#data_array[1] = decode_objectstring2(data_array[1], seg_size)
-				#else:
-					#data_array[1] = decode_blockstring(data_array[1])
-				data_array[2] = decode_objectstring2(data_array[2])
-				data_array[3] = decode_objectstring2(data_array[3])
-				data_array[4] = decode_objectstring2(data_array[4])
-				if data_array.get(9) != null:
+				if version == "m2":
+					if data_array.get(1) != null and data_array.get(1) != "":
+						data_array[1] = decode_objectstring2(data_array[1])
+				elif version == "m3":
+					if data_array.get(1) != null and data_array.get(1) != "":
+						data_array[1] = decode_objectstring2(data_array[1], seg_size)
+				else:
+					if data_array.get(1) != null and data_array.get(1) != "":
+						data_array[1] = decode_blockstring(data_array[1])
+				if data_array.get(2) != null and data_array.get(2) != "":
+					data_array[2] = decode_objectstring2(data_array[2])
+				if data_array.get(3) != null and data_array.get(3) != "":
+					data_array[3] = decode_objectstring2(data_array[3])
+				if data_array.get(4) != null and data_array.get(4) != "":
+					data_array[4] = decode_objectstring2(data_array[4])
+				if data_array.get(9) != null and data_array.get(9) != "":
 					data_array[9] = decode_objectstring2(data_array[9])
-				if data_array.get(10) != null:
+				if data_array.get(10) != null and data_array.get(10) != "":
 					data_array[10] = decode_objectstring2(data_array[10])
 				decoded_level = convert_pr2_level_to_pr4(pr2_level_data, data_array)
 	clear()
 	return decoded_level
 
 
-#func decode_objectstring(objectstring: String) -> String:
-	#var loc_7: int = 0
-	#var loc_8: int = NAN
-	#var loc_9: int = NAN
-	#var loc_10: int = NAN
-	#var loc_11: int = NAN
-	#var loc_2: Array = Array(objectstring.split(","))
-	#var loc_3: Array = loc_2.pop_front().split(";")
-	#var loc_4: int = loc_3[0].hex_to_int()
-	#var loc_5: int = loc_3[1].hex_to_int()
-	#var loc_6: int = 0
-	#while loc_6 < loc_2.size():
-		#loc_3 = loc_2[loc_6].split(";")
-		#loc_7 = loc_3[0].hex_to_int()
-		#loc_8 = loc_3[1].hex_to_int() + loc_4
-		#loc_9 = loc_3[2].hex_to_int() + loc_5
-		#loc_2[loc_6] = "o" + str(loc_7) + ";" + str(loc_8) + ";" + str(loc_9)
-		#if loc_3.get(3) != null:
-			#loc_10 = int(loc_3[3].hex_to_int() / 100)
-			#loc_11 = int(loc_3[4].hex_to_int() / 100)
-			#loc_2[loc_6] = loc_2[loc_6] + ";" + str(loc_10) + ";" + str(loc_11)
-		#loc_6 += 1
-	#return ",".join(loc_2)
-
-
 func decode_objectstring(objectstring: String) -> String:
-	var data_array = Array(objectstring.split(","))
-	var this_obj = Array(data_array[0].split(";"))
-	data_array.pop_front()
-	var local_4 = ("0x" + this_obj[0]).hex_to_int()
-	var local_5 = ("0x" + this_obj[1]).hex_to_int()
-	for i in data_array.size():
-		this_obj = data_array[i].split(";")
-		var local_13 = ("0x" + this_obj[0]).hex_to_int()
-		var local_9 = ("0x" + this_obj[1]).hex_to_int()
-		local_9 += local_4
-		var local_10 = ("0x" + this_obj[2]).hex_to_int()
-		local_10 += local_5
-		data_array[i] = "o" + str(local_13) + ";" + str(local_9) + ";" + str(local_10)
-		if this_obj.size() > 3:
-			var local_11 = ("0x" + this_obj[3]).hex_to_int()
-			var local_12 = ("0x" + this_obj[4]).hex_to_int()
-			var local_11f = float(local_11)
-			var local_12f = float(local_12)
-			data_array[i] = data_array[i] + ";" + str(local_11f) + ";" + str(local_12f)
-	return ",".join(data_array)
+	var loc_7: int = 0
+	var loc_8: int = NAN
+	var loc_9: int = NAN
+	var loc_10: int = NAN
+	var loc_11: int = NAN
+	var loc_2: Array = Array(objectstring.split(","))
+	var loc_3: Array = loc_2.pop_front().split(";")
+	var loc_4: int = loc_3[0].hex_to_int()
+	var loc_5: int = loc_3[1].hex_to_int()
+	var loc_6: int = 0
+	while loc_6 < loc_2.size():
+		loc_3 = loc_2[loc_6].split(";")
+		loc_7 = loc_3[0].hex_to_int()
+		loc_8 = loc_3[1].hex_to_int() + loc_4
+		loc_9 = loc_3[2].hex_to_int() + loc_5
+		loc_2[loc_6] = "o" + str(loc_7) + ";" + str(loc_8) + ";" + str(loc_9)
+		if loc_3.get(3) != null:
+			loc_10 = int(loc_3[3].hex_to_int() / 100)
+			loc_11 = int(loc_3[4].hex_to_int() / 100)
+			loc_2[loc_6] = loc_2[loc_6] + ";" + str(loc_10) + ";" + str(loc_11)
+		loc_6 += 1
+	return ",".join(loc_2)
 
 
-#func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
-	#var loc_3: int = NAN
-	#var loc_4: int = NAN
-	#var loc_6: String = ""
-	#var loc_7: int = 0
-	#var loc_10: int = 0
-	#var loc_11: Array = []
-	#var loc_12: int = 0
-	#var loc_13: int = 0
-	#var loc_14: String = ""
-	#var loc_15: int = 0
-	#var loc_5: Array = objectstring.split(",") if objectstring != "" else []
-	#var loc_8: int = 0
-	#var loc_9: int = 0
-	#if loc_5.size() > 0:
-		#loc_10 = 0
-		#while loc_10 < loc_5.size():
-			#loc_3 = 0
-			#loc_4 = 0
-			#loc_11 = loc_5[loc_10].split(";")
-			#loc_12 = int(loc_11[0])
-			#loc_13 = int(loc_11[1])
-			#loc_8 += loc_12
-			#loc_9 += loc_13
-			#if loc_11.get(2) == "t":
-				#loc_14 = loc_11[3]
-				#loc_15 = int(loc_11[4])
-				#loc_3 = int(loc_11[5])
-				#loc_4 = int(loc_11[6])
-				#loc_5[loc_10] = "u" + str(loc_14) + ";" + str(loc_8) + ";" + str(loc_9) + ";" + str(loc_15) + ";" + str(loc_3) + ";" + str(loc_4)
-			#else:
-				#if loc_11.get(4) != null:
-					#loc_7 = int(loc_11[2])
-					#loc_3 = int(loc_11[3]) / 100
-					#loc_4 = int(loc_11[4]) / 100
-				#elif loc_11.get(3) != null:
-					#loc_3 = int(loc_11[2]) / 100
-					#loc_4 = int(loc_11[3]) / 100
-				#elif loc_11.get(2) != null:
-					#loc_7 = int(loc_11[2])
-				#loc_5[loc_10] = "o" + str(loc_7) + ";" + str(loc_8 * param2) + ";" + str(loc_9 * param2)
-				#if loc_3 != 0 and loc_4 != 0:
-					#loc_5[loc_10] = loc_5[loc_10] + ";" + str(loc_3) + ";" + str(loc_4)
-			#loc_10 += 1
-		#loc_6 = ",".join(loc_5)
-	#return loc_6
+#func decode_objectstring(objectstring: String) -> String:
+	#var data_array = Array(objectstring.split(","))
+	#var this_obj = Array(data_array[0].split(";"))
+	#data_array.pop_front()
+	#var local_4 = ("0x" + this_obj[0]).hex_to_int()
+	#var local_5 = ("0x" + this_obj[1]).hex_to_int()
+	#for i in data_array.size():
+		#this_obj = data_array[i].split(";")
+		#var local_13 = ("0x" + this_obj[0]).hex_to_int()
+		#var local_9 = ("0x" + this_obj[1]).hex_to_int()
+		#local_9 += local_4
+		#var local_10 = ("0x" + this_obj[2]).hex_to_int()
+		#local_10 += local_5
+		#data_array[i] = "o" + str(local_13) + ";" + str(local_9) + ";" + str(local_10)
+		#if this_obj.size() > 3:
+			#var local_11 = ("0x" + this_obj[3]).hex_to_int()
+			#var local_12 = ("0x" + this_obj[4]).hex_to_int()
+			#var local_11f = float(local_11)
+			#var local_12f = float(local_12)
+			#data_array[i] = data_array[i] + ";" + str(local_11f) + ";" + str(local_12f)
+	#return ",".join(data_array)
 
 
-func decode_objectstring2(objectstring: String, seg_mult: int = 1) -> String:
-	var width_perc: float
-	var height_perc: float
-	var data_array = []
-	if objectstring != "":
-		data_array = Array(objectstring.split(","))
-	var decoded_string: String = ""
-	var object_code: int = 0
-	var current_x: int = 0
-	var current_y: int = 0
-	if data_array.size() > 0:
-		for i in data_array.size():
-			width_perc = 0.0
-			height_perc = 0.0
-			var this_obj = Array(data_array[i].split(";"))
-			var rel_x = int(this_obj[0])
-			var rel_y = int(this_obj[1])
-			current_x += rel_x
-			current_y += rel_y
-			if this_obj.size() > 3 and this_obj[2] == "t":
-				var text_content = this_obj[3]
-				var text_color = int(this_obj[4])
-				width_perc = float(this_obj[5])
-				height_perc = float(this_obj[6])
-				data_array[i] = "u" + text_content + ";" + str(current_x) + ";" + str(current_y) + ";" + str(text_color) + ";" + str(width_perc) + ";" + str(height_perc)
+func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
+	var loc_3: int = NAN
+	var loc_4: int = NAN
+	var loc_6: String = ""
+	var loc_7: int = 0
+	var loc_10: int = 0
+	var loc_11: Array = []
+	var loc_12: int = 0
+	var loc_13: int = 0
+	var loc_14: String = ""
+	var loc_15: int = 0
+	var loc_5: Array = objectstring.split(",") if objectstring != "" else []
+	var loc_8: int = 0
+	var loc_9: int = 0
+	if loc_5.size() > 0:
+		loc_10 = 0
+		while loc_10 < loc_5.size():
+			loc_3 = 0
+			loc_4 = 0
+			loc_11 = loc_5[loc_10].split(";")
+			loc_12 = int(loc_11[0])
+			loc_13 = int(loc_11[1])
+			loc_8 += loc_12
+			loc_9 += loc_13
+			if loc_11.get(2) == "t":
+				loc_14 = loc_11[3]
+				loc_15 = int(loc_11[4])
+				loc_3 = int(loc_11[5])
+				loc_4 = int(loc_11[6])
+				loc_5[loc_10] = "u" + str(loc_14) + ";" + str(loc_8) + ";" + str(loc_9) + ";" + str(loc_15) + ";" + str(loc_3) + ";" + str(loc_4)
 			else:
-				if this_obj.size() > 4:
-					object_code = this_obj[2]
-					width_perc = float(this_obj[3])
-					width_perc /= 100
-					height_perc = float(this_obj[4])
-					height_perc /= 100
-				elif this_obj.size() > 3:
-					width_perc = float(this_obj[2])
-					width_perc /= 100
-					height_perc = float(this_obj[3])
-					height_perc /= 100
-				elif this_obj.size() > 2:
-					object_code = int(this_obj[2])
-				data_array[i] = "o" + str(object_code) + ";" + str(current_x * seg_mult) + ";" + str(current_y * seg_mult)
-				if width_perc != 0 and height_perc != 0:
-					data_array[i] = data_array[i] + ";" + str(width_perc) + ";" + str(height_perc)
-		decoded_string = ",".join(data_array)
-	return decoded_string
+				if loc_11.get(4) != null:
+					loc_7 = int(loc_11[2])
+					loc_3 = int(loc_11[3]) / 100
+					loc_4 = int(loc_11[4]) / 100
+				elif loc_11.get(3) != null:
+					loc_3 = int(loc_11[2]) / 100
+					loc_4 = int(loc_11[3]) / 100
+				elif loc_11.get(2) != null:
+					loc_7 = int(loc_11[2])
+				loc_5[loc_10] = "o" + str(loc_7) + ";" + str(loc_8 * param2) + ";" + str(loc_9 * param2)
+				if loc_3 != 0 and loc_4 != 0:
+					loc_5[loc_10] = loc_5[loc_10] + ";" + str(loc_3) + ";" + str(loc_4)
+			loc_10 += 1
+		loc_6 = ",".join(loc_5)
+	return loc_6
 
 
-#func decode_blockstring(blockstring: String) -> String:
-	#var loc_3: String = ""
-	#var loc_4: int = 0
-	#var loc_7: int = 0
-	#var loc_8: Array = []
-	#var loc_9: int = 0
-	#var loc_10: int = 0
-	#var loc_11: String = ""
-	#var loc_2: Array = [] if blockstring == "" else blockstring.split(",")
-	#var loc_5: int = 0
-	#var loc_6: int = 0
-	#if loc_2.size() > 0:
-		#loc_7 = 0
-		#while loc_7 < loc_2.size():
-			#loc_8 = loc_2[loc_7].split(";")
-			#loc_9 = int(loc_8[0])
-			#loc_10 = int(loc_8[1])
-			#loc_5 += loc_9
-			#loc_6 += loc_10
-			#if loc_8.get(2) != null:
-				#loc_4 = int(loc_8[2])
-			#loc_11 = ""
-			#if loc_8.get(3) != null:
-				#loc_11 = ";" + loc_8[3]
-			#loc_2[loc_7] = "o" + str(loc_4) + ";" + str(loc_5 * seg_size) + ";" + str(loc_6 * seg_size) + str(loc_11)
-			#loc_7 += 1
-		#loc_3 = ",".join(loc_2)
-	#return loc_3
+#func decode_objectstring2(objectstring: String, seg_mult: int = 1) -> String:
+	#var width_perc: float
+	#var height_perc: float
+	#var data_array = []
+	#if objectstring != "":
+		#data_array = Array(objectstring.split(","))
+	#var decoded_string: String = ""
+	#var object_code: int = 0
+	#var current_x: int = 0
+	#var current_y: int = 0
+	#if data_array.size() > 0:
+		#for i in data_array.size():
+			#width_perc = 0.0
+			#height_perc = 0.0
+			#var this_obj = Array(data_array[i].split(";"))
+			#var rel_x = int(this_obj[0])
+			#var rel_y = int(this_obj[1])
+			#current_x += rel_x
+			#current_y += rel_y
+			#if this_obj.size() > 3 and this_obj[2] == "t":
+				#var text_content = this_obj[3]
+				#var text_color = int(this_obj[4])
+				#width_perc = float(this_obj[5])
+				#height_perc = float(this_obj[6])
+				#data_array[i] = "u" + text_content + ";" + str(current_x) + ";" + str(current_y) + ";" + str(text_color) + ";" + str(width_perc) + ";" + str(height_perc)
+			#else:
+				#if this_obj.size() > 4:
+					#object_code = this_obj[2]
+					#width_perc = float(this_obj[3])
+					#width_perc /= 100
+					#height_perc = float(this_obj[4])
+					#height_perc /= 100
+				#elif this_obj.size() > 3:
+					#width_perc = float(this_obj[2])
+					#width_perc /= 100
+					#height_perc = float(this_obj[3])
+					#height_perc /= 100
+				#elif this_obj.size() > 2:
+					#object_code = int(this_obj[2])
+				#data_array[i] = "o" + str(object_code) + ";" + str(current_x * seg_mult) + ";" + str(current_y * seg_mult)
+				#if width_perc != 0 and height_perc != 0:
+					#data_array[i] = data_array[i] + ";" + str(width_perc) + ";" + str(height_perc)
+		#decoded_string = ",".join(data_array)
+	#return decoded_string
 
 
 func decode_blockstring(blockstring: String) -> String:
-	var data_array = []
-	if blockstring != "":
-		data_array = Array(blockstring.split(","))
-	var decoded_string: String = ""
-	var block_code: int = 0
-	var current_x: int = 0
-	var current_y: int = 0
-	if data_array.size() > 0:
-		for i in data_array.size():
-			var this_block = data_array[i].split(";")
-			var rel_x = int(this_block[0])
-			var rel_y = int(this_block[1])
-			current_x += rel_x
-			current_y += rel_y
-			if this_block.size() > 2 and this_block[2] != "":
-				block_code = int(this_block[2])
-			var options = ""
-			if this_block.size() > 3 and this_block[3] != "":
-				options = ";" + this_block[3]
-			data_array[i] = "o" + str(block_code) + ";" + str(current_x * seg_size) + ";" + str(current_y * seg_size) + options
-		decoded_string = ",".join(data_array)
-	return decoded_string
+	var loc_3: String = ""
+	var loc_4: int = 0
+	var loc_7: int = 0
+	var loc_8: Array = []
+	var loc_9: int = 0
+	var loc_10: int = 0
+	var loc_11: String = ""
+	var loc_2: Array = [] if blockstring == "" else blockstring.split(",")
+	var loc_5: int = 0
+	var loc_6: int = 0
+	if loc_2.size() > 0:
+		loc_7 = 0
+		while loc_7 < loc_2.size():
+			loc_8 = loc_2[loc_7].split(";")
+			loc_9 = int(loc_8[0])
+			loc_10 = int(loc_8[1])
+			loc_5 += loc_9
+			loc_6 += loc_10
+			if loc_8.get(2) != null:
+				loc_4 = int(loc_8[2])
+			loc_11 = ""
+			if loc_8.get(3) != null:
+				loc_11 = ";" + loc_8[3]
+			loc_2[loc_7] = "o" + str(loc_4) + ";" + str(loc_5 * seg_size) + ";" + str(loc_6 * seg_size) + str(loc_11)
+			loc_7 += 1
+		loc_3 = ",".join(loc_2)
+	return loc_3
+
+
+#func decode_blockstring(blockstring: String) -> String:
+	#var data_array = []
+	#if blockstring != "":
+		#data_array = Array(blockstring.split(","))
+	#var decoded_string: String = ""
+	#var block_code: int = 0
+	#var current_x: int = 0
+	#var current_y: int = 0
+	#if data_array.size() > 0:
+		#for i in data_array.size():
+			#var this_block = data_array[i].split(";")
+			#var rel_x = int(this_block[0])
+			#var rel_y = int(this_block[1])
+			#current_x += rel_x
+			#current_y += rel_y
+			#if this_block.size() > 2 and this_block[2] != "":
+				#block_code = int(this_block[2])
+			#var options = ""
+			#if this_block.size() > 3 and this_block[3] != "":
+				#options = ";" + this_block[3]
+			#data_array[i] = "o" + str(block_code) + ";" + str(current_x * seg_size) + ";" + str(current_y * seg_size) + options
+		#decoded_string = ",".join(data_array)
+	#return decoded_string
 
 
 func decode_pr2_blocks(pr2_blocks_string: String, version: String) -> String:
@@ -403,7 +416,7 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 			array_counter += 1
 	else:
 		compat_pr2_block_string_array = [pr2_block_string_array]
-	var chunk_coords: Vector2i = Vector2i(0, 0)
+	var chunk_coords: Vector2i = Vector2i(shift_to_default_position)
 	var block_id = 0
 	for compat_block_strings in compat_pr2_block_string_array:
 		chunks = []
@@ -411,71 +424,70 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 		for block_string in compat_block_strings:
 			if block_string != "":
 				var block_code_array = Array(block_string.split(";"))
-				var move_coords: Vector2i = Vector2i(int(block_code_array[0]) / 30, 0)
-				if block_code_array.size() > 1:
-					move_coords.y = int(block_code_array[1]) / 30
-				chunk_coords += move_coords
-				if block_code_array.size() > 2 and block_code_array[2].is_valid_int():
-					block_id = int(block_code_array[2]) + 100 if int(block_code_array[2]) < 100 else int(block_code_array[2])
+				if block_code_array.get(0) != null and block_code_array[0].begins_with("o"):
+					block_code_array[0] = block_code_array[0].substr(1)
+					block_id = int(block_code_array[0]) + 100 if int(block_code_array[0]) < 100 else int(block_code_array[0])
 					var start_positions_blocks = [112, 113, 114]
 					if block_id in start_positions_blocks:
 						block_id = 111
-				var converted_block_id = str(block_id - 99)
-				var settings = ConfigurableBlockSettings.new()
-				settings.import_settings(BlockManager._block_lookup[converted_block_id].settings)
-				if block_code_array[0] == "110" or block_code_array[0] == "125":
-					settings.bump.params["item_array"] = Items.convert_pr2_items([1, 2, 3, 4, 5, 6, 7, 8, 9])
-				if block_code_array.size() > 3 and block_code_array.get(3) != null:
-					if block_id == 110 or block_id == 125:
-						var items = []
-						items = Array(block_code_array[3].split("-"))
-						var converted_items = []
-						for item in items:
-							converted_items.append(int(item))
-						converted_items.sort()
-						converted_items = Items.convert_pr2_items(converted_items)
-						settings.bump.params["item_array"] = converted_items
-					elif block_id == 126 or block_id == 127:
-						var amount = 5 if block_code_array.get(3) == null else int(block_code_array[3])
-						settings.bump.params["amount"] = amount
-					elif block_id == 131:
-						var reset = true if block_code_array.get(3) == "reset" else false
-						var stats = [] if reset else Array(block_code_array[3].split("-"))
-						var speed = 50 if stats.get(0) == null else int(stats[0])
-						var accel = 50 if stats.get(1) == null else int(stats[1])
-						var jump = 50 if stats.get(2) == null else int(stats[2])
-						settings.bump.params["reset"] = reset
-						settings.bump.params["speed"] = speed
-						settings.bump.params["accel"] = accel
-						settings.bump.params["jump"] = jump
-					elif block_id == 132:
-						var color = get_color(int(block_code_array[3])).to_html(false)
-						settings.teleport_color = color
-				var block_edited_settings = settings.get_edited_settings()
-				var chunk_x = floori(chunk_coords.x / 8.0) * 8
-				var chunk_y = floori(chunk_coords.y / 8.0) * 8
-				var pos = (chunk_coords.y - chunk_y) * 8 + (chunk_coords.x - chunk_x)
-				var chunk_id = str(chunk_x) + "," + str(chunk_y)
-				var existing_chunk = chunk_map.get(chunk_id)
-				var chunk: Dictionary
-				if existing_chunk:
-					chunk = existing_chunk
-				else:
-					var data = []
-					data.resize(8 * 8)
-					data.fill({})
-					chunk = {
-						"x": chunk_x,
-						"y": chunk_y,
-						"width": 8,
-						"height": 8,
-						"data": data
-					}
-					chunks.push_back(chunk)
-					chunk_map[chunk_id] = chunk
-				chunk.data[pos] = {"id": converted_block_id}
-				if !block_edited_settings.is_empty():
-					chunk.data[pos]["edited_settings"] = block_edited_settings
+					chunk_coords = Vector2i((int(block_code_array[1]) / seg_size) + int(shift_to_default_position.x), (int(block_code_array[2]) / seg_size) + int(shift_to_default_position.y))
+					if pr2_objects.has(block_id) and pr2_objects[block_id].type == "block":
+						var converted_block_id = str(block_id - 99)
+						var settings = ConfigurableBlockSettings.new()
+						settings.import_settings(BlockManager._block_lookup[converted_block_id].settings)
+						if block_code_array[0] == "110" or block_code_array[0] == "125":
+							settings.bump.params["item_array"] = Items.convert_pr2_items([1, 2, 3, 4, 5, 6, 7, 8, 9])
+						if block_code_array.size() > 3 and block_code_array.get(3) != null:
+							if block_id == 110 or block_id == 125:
+								var items = []
+								items = Array(block_code_array[3].split("-"))
+								var converted_items = []
+								for item in items:
+									converted_items.append(int(item))
+								converted_items.sort()
+								converted_items = Items.convert_pr2_items(converted_items)
+								settings.bump.params["item_array"] = converted_items
+							elif block_id == 126 or block_id == 127:
+								var amount = 5 if block_code_array.get(3) == null else int(block_code_array[3])
+								settings.bump.params["amount"] = amount
+							elif block_id == 131:
+								var reset = true if block_code_array.get(3) == "reset" else false
+								var stats = [] if reset else Array(block_code_array[3].split("-"))
+								var speed = 50 if stats.get(0) == null else int(stats[0])
+								var accel = 50 if stats.get(1) == null else int(stats[1])
+								var jump = 50 if stats.get(2) == null else int(stats[2])
+								settings.bump.params["reset"] = reset
+								settings.bump.params["speed"] = speed
+								settings.bump.params["accel"] = accel
+								settings.bump.params["jump"] = jump
+							elif block_id == 132:
+								var color = get_color(int(block_code_array[3])).to_html(false)
+								settings.teleport_color = color
+						var block_edited_settings = settings.get_edited_settings()
+						var chunk_x = floori(chunk_coords.x / 8.0) * 8
+						var chunk_y = floori(chunk_coords.y / 8.0) * 8
+						var pos = (chunk_coords.y - chunk_y) * 8 + (chunk_coords.x - chunk_x)
+						var chunk_id = str(chunk_x) + "," + str(chunk_y)
+						var existing_chunk = chunk_map.get(chunk_id)
+						var chunk: Dictionary
+						if existing_chunk:
+							chunk = existing_chunk
+						else:
+							var data = []
+							data.resize(8 * 8)
+							data.fill({})
+							chunk = {
+								"x": chunk_x,
+								"y": chunk_y,
+								"width": 8,
+								"height": 8,
+								"data": data
+							}
+							chunks.push_back(chunk)
+							chunk_map[chunk_id] = chunk
+						chunk.data[pos] = {"id": converted_block_id}
+						if !block_edited_settings.is_empty():
+							chunk.data[pos]["edited_settings"] = block_edited_settings
 
 		if save_string != "":
 			save_string = save_string + "`" + JSON.stringify(chunks)
@@ -499,13 +511,14 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 	var pr2_drawbg_string_array = Array(pr2_drawbg_string.split(","))
 	var stamp = preload("res://engine/stamp/stamp.tscn")
 	var text = preload("res://engine/textbox.tscn")
+	# shift drawbg to default camera position
 	for drawbg_string in pr2_drawbg_string_array:
 		var drawbg_code = drawbg_string.substr(0, 1)
 		var drawbg_params = drawbg_string.substr(1)
 		var draw_lines = []
 		if drawbg_code.begins_with("d"):
 			var stroke_array = Array(drawbg_params.split(";"))
-			brush_position = Vector2(float(stroke_array[0]) * pr2_to_pr4_scale_ratio, float(stroke_array[1]) * pr2_to_pr4_scale_ratio)
+			brush_position = Vector2((((float(stroke_array[0]) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, (((float(stroke_array[1]) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio)
 			var stroke_position = Vector2(0.0, 0.0)
 			var stroke_increment: int = 2
 			draw_lines.append(Vector2(0, 0))
@@ -526,18 +539,18 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 			if object_id != null and (object_id.type == "stamp" or object_id.type == "block"):
 				var stamp_object = stamp.instantiate()
 				stamps.add_child(stamp_object)
-				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": float(drawbg_params.get(1)) * pr2_to_pr4_scale_ratio, "y": float(drawbg_params.get(2)) * pr2_to_pr4_scale_ratio}})
+				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": (((float(drawbg_params.get(1)) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, "y": (((float(drawbg_params.get(2)) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio}})
 				var object_scale_x = 1.0 if object_array.get(3) == null or !object_array.get(3).is_valid_float() else float(object_array.get(3))
 				var object_scale_y = 1.0 if object_array.get(4) == null or !object_array.get(4).is_valid_float() else float(object_array.get(4))
-				if object_id.compat_id in Stamps.stamp_dictionary and "pr2_scale" in Stamps.stamp_dictionary[object_id.compat_id]:
-					object_scale_x *= Stamps.stamp_dictionary[object_id.compat_id].pr2_scale.x
-					object_scale_y *= Stamps.stamp_dictionary[object_id.compat_id].pr2_scale.y
-				stamp_object.set_stamp_scale(Vector2(object_scale_x, object_scale_y))
+				if StampManager._stamp_lookup.has(object_id.compat_id) and StampManager._stamp_lookup[object_id.compat_id]["settings"].has("pr2_scale"):
+					object_scale_x *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x
+					object_scale_y *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y
+				stamp_object.set_stamp_scale(Vector2(object_scale_x * pr2_to_pr4_scale_ratio, object_scale_y * pr2_to_pr4_scale_ratio))
 		elif drawbg_code.begins_with("u"):
 			var text_array = Array(drawbg_params.split(";"))
 			var text_string = text_array.get(0)
-			var text_x = int(text_array.get(1))
-			var text_y = int(text_array.get(2))
+			var text_x = ((int(text_array.get(1)) / seg_size) + int(shift_to_default_position.x)) * seg_size
+			var text_y = ((int(text_array.get(2)) / seg_size) + int(shift_to_default_position.y)) * seg_size
 			var text_color = get_color(int(text_array.get(3)))
 			var text_scale_x = float(text_array.get(4)) / 100.0
 			var text_scale_y = float(text_array.get(5)) / 100.0
@@ -587,19 +600,19 @@ func convert_objbg(pr2_objbg_string: String):
 			if object_id != null and (object_id.type == "stamp" or object_id.type == "block"):
 				var stamp_object = stamp.instantiate()
 				stamps.add_child(stamp_object)
-				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": float(object_array.get(1)) * pr2_to_pr4_scale_ratio, "y": float(object_array.get(2)) * pr2_to_pr4_scale_ratio}})
+				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": (((float(object_array.get(1)) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, "y": (((float(object_array.get(2)) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio}})
 				var object_scale_x = 1.0 if object_array.get(3) == null or !object_array.get(3).is_valid_float() else float(object_array.get(3))
 				var object_scale_y = 1.0 if object_array.get(4) == null or !object_array.get(4).is_valid_float() else float(object_array.get(4))
-				if object_id.compat_id in Stamps.stamp_dictionary and "pr2_scale" in Stamps.stamp_dictionary[object_id.compat_id]:
-					object_scale_x *= Stamps.stamp_dictionary[object_id.compat_id].pr2_scale.x
-					object_scale_y *= Stamps.stamp_dictionary[object_id.compat_id].pr2_scale.y
+				if StampManager._stamp_lookup.has(object_id.compat_id) and StampManager._stamp_lookup[object_id.compat_id]["settings"].has("pr2_scale"):
+					object_scale_x *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x
+					object_scale_y *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y
 				stamp_object.set_stamp_scale(Vector2(object_scale_x, object_scale_y))
 				objects_array.push_back(stamp_object)
 		elif objbg_code.begins_with("m"):
 			var object_array = Array(objbg_params.split(";"))
 			var stamp_object = objects_array.get(int(object_array.get(0)))
 			if stamp_object != null:
-				stamp_object.position = Vector2(float(object_array.get(1)), float(object_array.get(2)))
+				stamp_object.position = Vector2(((float(object_array.get(1)) / seg_size) + shift_to_default_position.x) * seg_size, ((float(object_array.get(2)) / seg_size) + shift_to_default_position.y) * seg_size)
 		elif objbg_code.begins_with("d"):
 			var stamp_object = objects_array.get(int(objbg_params))
 			if stamp_object:
@@ -612,8 +625,8 @@ func convert_objbg(pr2_objbg_string: String):
 		elif objbg_code.begins_with("u"):
 			var object_array = Array(objbg_params.split(";"))
 			var text_string = object_array.get(0)
-			var text_x = int(object_array.get(1))
-			var text_y = int(object_array.get(2))
+			var text_x = ((int(object_array.get(1)) / seg_size) + int(shift_to_default_position.x) * seg_size)
+			var text_y = ((int(object_array.get(2)) / seg_size) + int(shift_to_default_position.y) * seg_size)
 			var text_color = get_color(("0x" + object_array.get(3)).hex_to_int())
 			var text_scale_x = float(object_array.get(4)) / 100.0
 			var text_scale_y = float(object_array.get(5)) / 100.0
@@ -677,7 +690,7 @@ func convert_pr2_level_to_pr4(pr2_level_data: Dictionary, pr2_level_data_array: 
 			"wind_chance": 0,
 			"snow_chance": 0,
 			"alien_chance": 0,
-			"items": Items.convert_pr2_items(get_items(pr2_level_data.get("items", ""))),
+			"items": Items.convert_pr2_items([1, 2, 3, 4, 5, 6, 7, 8, 9]) if pr2_level_data.get("items") == null else Items.convert_pr2_items(get_items(pr2_level_data.get("items", ""))),
 			"game_config_overrides": {}
 		},
 	}
@@ -721,5 +734,6 @@ func get_color(color_int: int) -> Color:
 func get_items(items_string: String) -> Array:
 	var item_array = Array(items_string.split("`"))
 	for item in item_array.size():
-		item_array[item] = int(item_array[item])
+		if item_array[item].is_valid_int():
+			item_array[item] = int(item_array[item])
 	return item_array

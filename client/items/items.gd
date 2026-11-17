@@ -48,15 +48,16 @@ static func convert_pr2_items(pr2_items: Array) -> Array:
 	for item in pr2_items:
 		var converted_item = 0
 		match item:
-			1: converted_item = items.laser_gun.id
-			2: converted_item = items.portable_mine.id
-			3: converted_item = items.lightning.id
-			4: converted_item = items.teleport.id
-			5: converted_item = items.super_jump.id
-			6: converted_item = items.jetpack.id
-			7: converted_item = items.speed_burst.id
-			8: converted_item = items.sword.id
-			9: converted_item = items.ice_wave.id
+			1, "Laser Gun": converted_item = items.laser_gun.id
+			2, "Mine": converted_item = items.portable_mine.id
+			3, "Lightning": converted_item = items.lightning.id
+			4, "Teleport": converted_item = items.teleport.id
+			5, "Super Jump": converted_item = items.super_jump.id
+			6, "Jetpack": converted_item = items.jetpack.id
+			7, "Speed Burst": converted_item = items.speed_burst.id
+			8, "Sword": converted_item = items.sword.id
+			9, "Ice Wave": converted_item = items.ice_wave.id
+			# ice wave probably didnt exist in m1/m2/m3 levels but just in case
 		if converted_item > 0:
 			converted_items.append(converted_item)
 	return converted_items

@@ -450,3 +450,8 @@ static func block_has_textures(block_id: String) -> Dictionary:
 # Therefore, the formula should give numbers like this:
 # (b1-99 = classic, b100-199 = desert, b200-299 = industrial, b300-399 = jungle,
 # b400-499 = space, b500-599 = underwater.)
+
+# pr4's (0, 0) vector is somewhere in the middle of the screen
+# pr2's player1start block (in level version m4 at least, idk if previous versions keep its player1start block there)
+# is defaulted at (444, 335), to shift to default camera position, shift blocks (-447, -337) coordinates
+# pr3's (0, 0) is in it's top-left screen; to shift to default camera position, shift blocks (-8, -6)

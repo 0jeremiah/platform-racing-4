@@ -28,14 +28,14 @@ anchors_preset = 0
 offset_transform_enabled = true
 offset_transform_visual_only = false
 
-[node name="LinesHolder" type="Node2D" parent="LinesViewpointContainer/LinesViewport/LinesContainer" unique_id=471571880]
+[node name="LinesHolder" type="Node2D" parent="LinesViewpointContainer/LinesViewport/LinesContainer" unique_id=1153959989]
 
 [node name="StampsContainer" type="Control" parent="." unique_id=1906271399]
 anchors_preset = 0
 
-[node name="Stamps" type="Node2D" parent="StampsContainer" unique_id=353124072]
+[node name="Stamps" type="Node2D" parent="StampsContainer" unique_id=1064662580]
 
 [node name="TextsContainer" type="Control" parent="." unique_id=606070480]
 anchors_preset = 0
 
-[node name="Texts" type="Node2D" parent="TextsContainer" unique_id=887767443]
+[node name="Texts" type="Node2D" parent="TextsContainer" unique_id=84013323]

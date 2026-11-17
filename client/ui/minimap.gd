@@ -5,7 +5,7 @@ var game = null
 var map_layers = null
 var player = null
 var dot_size = Vector2(10, 10)
-var layer_scale_array = []
+var layer_array = []
 @onready var display_layers = $DisplayLayers
 
 
@@ -37,7 +37,7 @@ func _create_minimap_layer(map_layer: MapLayer):
 	if used_rect.size.y > 0:
 		scaleY = size.y / (used_rect.size.y * Settings.tile_size.y)
 	var effective_scale = min(scaleX, scaleY) * 0.9
-	layer_scale_array.append(effective_scale)
+	layer_array.append({"position": Vector2(used_rect.position), "scale": effective_scale})
 	var minimap_width = clampi(int((used_rect.size.x * Settings.tile_size.x) * effective_scale), 1, 1280)
 	var minimap_height = clampi(int((used_rect.size.y * Settings.tile_size.y) * effective_scale), 1, 1280)
 	var minimap_x_offset = used_rect.position.x * -1
@@ -98,10 +98,10 @@ func _process(_delta):
 				player_marker.color = Color.RED
 				player_marker.size = dot_size * (Vector2.ONE * child.scale)
 				child.add_child(player_marker)
-			var layer_scale = layer_scale_array.get(child.get_index())
-			if layer_scale == null:
-				layer_scale = 1.0
-			player_marker.position = ((player.position * layer_scale) - (child.texture.get_size() / 2)) - (player_marker.size / 2)
+			var layer_info = layer_array.get(child.get_index())
+			var layer_position = layer_info.position if layer_info != null else Vector2(0.0, 0.0)
+			var layer_scale = layer_info.scale if layer_info != null else 1.0
+			player_marker.position = (((player.position - (layer_position * Vector2(Settings.tile_size))) * layer_scale) - (child.texture.get_size() / 2)) - (player_marker.size / 2)
 		else:
 			child.visible = false
 			var player_marker = child.get_node_or_null("PlayerMarker")

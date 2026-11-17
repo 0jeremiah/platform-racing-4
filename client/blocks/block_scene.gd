@@ -343,7 +343,7 @@ func move(direction: String, param_2: bool = true) -> bool:
 						moved_adjacent_block = block_info.node.execute_move_block_command()
 					else:
 						var block_side_settings = block_info.settings.get(side_name)
-						if block_side_settings and block_side_settings.type == ConfigurableBlockSideSettings.PUSH:
+						if (block_side_settings and block_side_settings.type == ConfigurableBlockSideSettings.PUSH) or block_info.settings.any_side.type == ConfigurableBlockSideSettings.PUSH:
 							moved_adjacent_block = block_node.move(direction)
 					if moved_adjacent_block:
 						tile_map_layer.move_block(my_coords, adjacent_coords)
