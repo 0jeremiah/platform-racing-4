@@ -224,8 +224,8 @@ func decode_objectstring(objectstring: String) -> String:
 
 
 func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
-	var loc_3: int = NAN
-	var loc_4: int = NAN
+	var loc_3: int = 0
+	var loc_4: int = 0
 	var loc_6: String = ""
 	var loc_7: int = 0
 	var loc_10: int = 0
@@ -234,7 +234,7 @@ func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
 	var loc_13: int = 0
 	var loc_14: String = ""
 	var loc_15: int = 0
-	var loc_5: Array = objectstring.split(",") if objectstring != "" else []
+	var loc_5: Array = [] if objectstring == null or objectstring == "" else Array(objectstring.split(","))
 	var loc_8: int = 0
 	var loc_9: int = 0
 	if loc_5.size() > 0:
@@ -503,7 +503,7 @@ func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:
 			}
 
 
-func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
+func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1.0):
 	var brush_position = Vector2(0.0, 0.0)
 	var brush_size: float = 8.0
 	var brush_color: Color = Color("000000")
@@ -511,6 +511,7 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 	var pr2_drawbg_string_array = Array(pr2_drawbg_string.split(","))
 	var stamp = preload("res://engine/stamp/stamp.tscn")
 	var text = preload("res://engine/textbox.tscn")
+	var object_position = Vector2(shift_to_default_position)
 	# shift drawbg to default camera position
 	for drawbg_string in pr2_drawbg_string_array:
 		var drawbg_code = drawbg_string.substr(0, 1)
@@ -518,14 +519,13 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 		var draw_lines = []
 		if drawbg_code.begins_with("d"):
 			var stroke_array = Array(drawbg_params.split(";"))
-			brush_position = Vector2((((float(stroke_array[0]) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, (((float(stroke_array[1]) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio)
+			brush_position = Vector2((((float(stroke_array[0]) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, (((float(stroke_array[1]) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio) * layer_scale
 			var stroke_position = Vector2(0.0, 0.0)
 			var stroke_increment: int = 2
-			draw_lines.append(Vector2(0, 0))
+			draw_lines.append(stroke_position)
 			while stroke_increment < stroke_array.size():
-				if float(stroke_array[stroke_increment]) != 0 and float(stroke_array[stroke_increment + 1]) != 0:
-					stroke_position += Vector2(float(stroke_array[stroke_increment]) * pr2_to_pr4_scale_ratio, float(stroke_array[stroke_increment + 1]) * pr2_to_pr4_scale_ratio)
-					draw_lines.append(stroke_position)
+				stroke_position += Vector2(float(stroke_array[stroke_increment]) * pr2_to_pr4_scale_ratio, float(stroke_array[stroke_increment + 1]) * pr2_to_pr4_scale_ratio) * layer_scale
+				draw_lines.append(stroke_position)
 				stroke_increment += 2
 		elif drawbg_code.begins_with("c"):
 			brush_color = get_color(drawbg_params.hex_to_int())
@@ -537,26 +537,31 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 			var object_array = Array(drawbg_params.split(";"))
 			var object_id = pr2_objects.get(int(object_array.get(0)))
 			if object_id != null and (object_id.type == "stamp" or object_id.type == "block"):
-				var stamp_object = stamp.instantiate()
-				stamps.add_child(stamp_object)
-				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": (((float(drawbg_params.get(1)) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, "y": (((float(drawbg_params.get(2)) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio}})
-				var object_scale_x = 1.0 if object_array.get(3) == null or !object_array.get(3).is_valid_float() else float(object_array.get(3))
-				var object_scale_y = 1.0 if object_array.get(4) == null or !object_array.get(4).is_valid_float() else float(object_array.get(4))
+				var object_scale = Vector2(1.0, 1.0)
 				if StampManager._stamp_lookup.has(object_id.compat_id) and StampManager._stamp_lookup[object_id.compat_id]["settings"].has("pr2_scale"):
-					object_scale_x *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x
-					object_scale_y *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y
-				stamp_object.set_stamp_scale(Vector2(object_scale_x * pr2_to_pr4_scale_ratio, object_scale_y * pr2_to_pr4_scale_ratio))
+					object_scale *= Vector2(StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x, StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y)
+				if (object_array.get(3) != null and object_array.get(3).is_valid_float()) and (object_array.get(4) != null and object_array.get(4).is_valid_float()):
+					object_scale *= Vector2(float(object_array.get(3)), float(object_array.get(4)))
+				object_position += Vector2(float(object_array.get(1)) / seg_size, float(object_array.get(2)) / seg_size)
+				if layer_scale != 0.0:
+					object_position /= layer_scale
+					object_scale /= layer_scale
+				var stamp_object = stamp.instantiate()
+				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": object_position.x, "y": object_position.y}, "scale": {"x": object_scale.x, "y": object_scale.y}})
+				stamps.add_child(stamp_object)
+				#stamp_object.set_stamp_scale(object_scale)
 		elif drawbg_code.begins_with("u"):
 			var text_array = Array(drawbg_params.split(";"))
-			var text_string = text_array.get(0)
-			var text_x = ((int(text_array.get(1)) / seg_size) + int(shift_to_default_position.x)) * seg_size
-			var text_y = ((int(text_array.get(2)) / seg_size) + int(shift_to_default_position.y)) * seg_size
+			var text_string = parse_text(text_array.get(0))
+			object_position += Vector2(int(text_array.get(1)), int(text_array.get(2)))
 			var text_color = get_color(int(text_array.get(3)))
-			var text_scale_x = float(text_array.get(4)) / 100.0
-			var text_scale_y = float(text_array.get(5)) / 100.0
+			var text_scale = Vector2(float(text_array.get(4)) / 100.0, float(text_array.get(5)) / 100.0)
+			if layer_scale != 0.0:
+				object_position /= layer_scale
+				text_scale /= layer_scale
 			var text_object = text.instantiate()
 			texts.add_child(text)
-			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x * layer_scale, "y": text_y * layer_scale}, "scale": {"x": text_scale_x * layer_scale, "y": text_scale_y * layer_scale}, "color": text_color})
+			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": object_position.x, "y": object_position.y}, "scale": {"x": text_scale.x, "y": text_scale.y}, "color": text_color})
 		if mode == "erase":
 			if !draw_lines.is_empty():
 				var line2d = Line2D.new()
@@ -567,7 +572,7 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 				line2d.end_cap_mode = Line2D.LINE_CAP_ROUND
 				line2d.begin_cap_mode = Line2D.LINE_CAP_ROUND
 				line2d.width = brush_size
-				line2d.default_color = Color("000000")
+				line2d.default_color = Color("ffffffff")
 				line2d.material = CanvasItemMaterial.new()
 				line2d.material.blend_mode = CanvasItemMaterial.BLEND_MODE_SUB
 				draw_lines = []
@@ -586,11 +591,12 @@ func convert_drawbg(pr2_drawbg_string: String, layer_scale: float = 1):
 				draw_lines = []
 
 
-func convert_objbg(pr2_objbg_string: String):
+func convert_objbg(pr2_objbg_string: String, layer_scale: float = 1.0):
 	var pr2_objbg_string_array = Array(pr2_objbg_string.split(","))
 	var objects_array = []
 	var stamp = preload("res://engine/stamp/stamp.tscn")
 	var text = preload("res://engine/textbox.tscn")
+	var object_position = Vector2(shift_to_default_position)
 	for objbg_string in pr2_objbg_string_array:
 		var objbg_code = objbg_string.substr(0, 1)
 		var objbg_params = objbg_string.substr(1)
@@ -598,48 +604,59 @@ func convert_objbg(pr2_objbg_string: String):
 			var object_array = Array(objbg_params.split(";"))
 			var object_id = pr2_objects.get(int(object_array.get(0)))
 			if object_id != null and (object_id.type == "stamp" or object_id.type == "block"):
-				var stamp_object = stamp.instantiate()
-				stamps.add_child(stamp_object)
-				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": (((float(object_array.get(1)) / seg_size) + shift_to_default_position.x) * seg_size) * pr2_to_pr4_scale_ratio, "y": (((float(object_array.get(2)) / seg_size) + shift_to_default_position.y) * seg_size) * pr2_to_pr4_scale_ratio}})
-				var object_scale_x = 1.0 if object_array.get(3) == null or !object_array.get(3).is_valid_float() else float(object_array.get(3))
-				var object_scale_y = 1.0 if object_array.get(4) == null or !object_array.get(4).is_valid_float() else float(object_array.get(4))
+				var object_scale = Vector2(1.0, 1.0)
 				if StampManager._stamp_lookup.has(object_id.compat_id) and StampManager._stamp_lookup[object_id.compat_id]["settings"].has("pr2_scale"):
-					object_scale_x *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x
-					object_scale_y *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y
-				stamp_object.set_stamp_scale(Vector2(object_scale_x, object_scale_y))
-				objects_array.push_back(stamp_object)
+					object_scale *= Vector2(StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x, StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y)
+				if (object_array.get(3) != null and object_array.get(3).is_valid_float()) and (object_array.get(4) != null and object_array.get(4).is_valid_float()):
+					object_scale *= Vector2(float(object_array.get(3)), float(object_array.get(4)))
+				object_position += Vector2(float(object_array.get(1)) / seg_size, float(object_array.get(2)) / seg_size)
+				if layer_scale != 0.0:
+					object_position /= layer_scale
+					object_scale /= layer_scale
+				var stamp_object = stamp.instantiate()
+				stamp_object.set_stamp_properties({"id": object_id.compat_id, "position": {"x": object_position.x, "y": object_position.y}, "scale": {"x": object_scale.x, "y": object_scale.y}})
+				stamps.add_child(stamp_object)
+				#stamp_object.set_stamp_scale(object_scale)
 		elif objbg_code.begins_with("m"):
 			var object_array = Array(objbg_params.split(";"))
 			var stamp_object = objects_array.get(int(object_array.get(0)))
 			if stamp_object != null:
-				stamp_object.position = Vector2(((float(object_array.get(1)) / seg_size) + shift_to_default_position.x) * seg_size, ((float(object_array.get(2)) / seg_size) + shift_to_default_position.y) * seg_size)
+				stamp_object.position = Vector2(float(object_array.get(1)) / seg_size, float(object_array.get(2)) / seg_size)
 		elif objbg_code.begins_with("d"):
 			var stamp_object = objects_array.get(int(objbg_params))
 			if stamp_object:
 				stamp_object.free()
 		elif objbg_code.begins_with("r"):
 			var object_array = Array(objbg_params.split(";"))
+			var object_id = pr2_objects.get(int(object_array.get(0)))
 			var stamp_object = objects_array.get(int(object_array.get(0)))
 			if stamp_object != null:
-				stamp_object.scale = Vector2(float(object_array.get(1)), float(object_array.get(2)))
+				stamp_object.scale = Vector2(float(object_array.get(1) / 100), float(object_array.get(2) / 100))
+				if StampManager._stamp_lookup.has(object_id.compat_id) and StampManager._stamp_lookup[object_id.compat_id]["settings"].has("pr2_scale"):
+					stamp_object.scale *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.x
+					stamp_object.scale *= StampManager._stamp_lookup[object_id.compat_id]["settings"].pr2_scale.y
+				if layer_scale != 0.0:
+					object_position /= layer_scale
+					stamp_object.scale /= layer_scale
+				stamp_object.scale *= pr2_to_pr4_scale_ratio
 		elif objbg_code.begins_with("u"):
 			var object_array = Array(objbg_params.split(";"))
-			var text_string = object_array.get(0)
-			var text_x = ((int(object_array.get(1)) / seg_size) + int(shift_to_default_position.x) * seg_size)
-			var text_y = ((int(object_array.get(2)) / seg_size) + int(shift_to_default_position.y) * seg_size)
-			var text_color = get_color(("0x" + object_array.get(3)).hex_to_int())
-			var text_scale_x = float(object_array.get(4)) / 100.0
-			var text_scale_y = float(object_array.get(5)) / 100.0
+			var text_string = parse_text(object_array.get(0))
+			object_position += Vector2(int(object_array.get(1)), int(object_array.get(2)))
+			var text_color = get_color(int(object_array.get(3)))
+			var text_scale = Vector2(float(object_array.get(4)) / 100.0, float(object_array.get(5)) / 100.0)
+			if layer_scale != 0.0:
+				object_position /= layer_scale
+				text_scale /= layer_scale
 			var text_object = text.instantiate()
-			texts.add_child(text_object)
-			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": text_x, "y": text_y}, "color": text_color})
-			text_object.set_text_scale(Vector2(text_scale_x, text_scale_y))
+			texts.add_child(text)
+			text_object.set_text_properties({"text": text_string, "font": "verdana", "font_size": 36, "position": {"x": object_position.x, "y": object_position.y}, "scale": {"x": text_scale.x, "y": text_scale.y}, "color": text_color})
 			objects_array.push_back(text_object)
 		elif objbg_code.begins_with("y"):
 			var object_array = Array(objbg_params.split(";"))
 			var text_object = objects_array.get(int(object_array.get(0)))
 			if text_object and text_object.has_method("set_text_properties"):
-				var text_string = object_array.get(1)
+				var text_string = parse_text(object_array.get(1))
 				var text_color = get_color(("0x" + object_array.get(2)).hex_to_int())
 				text_object.set_text_string(text_string)
 				text_object.set_text_color(text_color)
@@ -648,7 +665,7 @@ func convert_objbg(pr2_objbg_string: String):
 func convert_pr2_art_to_pr4(pr2_drawbg_string: String, pr2_objbg_string: String, layer_z_axis: float, layer_z_index: int, layer_name: String = "Layer 1"):
 	clear()
 	convert_drawbg(pr2_drawbg_string, layer_z_axis / 10.0)
-	convert_objbg(pr2_objbg_string)
+	convert_objbg(pr2_objbg_string, layer_z_axis / 10.0)
 	return {
 		"name": layer_name,
 		"lines": GeneralEncoder.new_encode_lines(lines),
@@ -694,6 +711,16 @@ func convert_pr2_level_to_pr4(pr2_level_data: Dictionary, pr2_level_data_array: 
 			"game_config_overrides": {}
 		},
 	}
+
+
+func parse_text(unparsed_text: String) -> String:
+	unparsed_text.replace("#96", "`")
+	unparsed_text.replace("#38", "&")
+	unparsed_text.replace("#44", ",")
+	unparsed_text.replace("#59", ";")
+	unparsed_text.replace("#43", "+")
+	unparsed_text.replace("#45", "-")
+	return unparsed_text.replace("#35", "#")
 
 
 func get_music(id: String = "") -> String:
