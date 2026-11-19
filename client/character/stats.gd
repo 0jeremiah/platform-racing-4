@@ -73,5 +73,33 @@ func set_stats(newspeed: int, newaccel: int, newjump: int, newskill: int, reset:
 		skill = clamp(newskill, 0, 100)
 
 
+func set_speed(newspeed: int, reset: bool = false) -> void:
+	if reset:
+		speed = clamp(start_speed, 0, 100)
+	else:
+		speed = clamp(newspeed, 0, 100)
+
+
+func set_accel(newaccel: int, reset: bool = false) -> void:
+	if reset:
+		accel = clamp(start_accel, 0, 100)
+	else:
+		accel = clamp(newaccel, 0, 100)
+
+
+func set_jump(newjump: int, reset: bool = false) -> void:
+	if reset:
+		jump = clamp(start_jump, 0, 100)
+	else:
+		jump = clamp(newjump, 0, 100)
+
+
+func set_skill(newskill: int, reset: bool = false) -> void:
+	if reset:
+		skill = clamp(start_skill, 0, 100)
+	else:
+		skill = clamp(newskill, 0, 100)
+
+
 func get_total() -> Array:
 	return [speed, accel, jump, skill]

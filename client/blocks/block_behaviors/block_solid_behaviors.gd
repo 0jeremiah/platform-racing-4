@@ -130,11 +130,18 @@ func custom_stats(node: Node2D, tile_map_layer: ConfigurableTileMapLayer, coords
 		return
 	if block_info.settings.can_give_stats:
 		var reset = params.get("reset", false)
-		var speed = params.get("speed", 50)
-		var accel = params.get("accel", 50)
-		var jump = params.get("jump", 50)
-		var skill = params.get("skill", 50)
-		node.stats.set_stats(speed, accel, jump, skill, reset)
+		var speed = params.get("speed")
+		var accel = params.get("accel")
+		var jump = params.get("jump")
+		var skill = params.get("skill")
+		if speed != null:
+			node.stats.set_speed(speed, reset)
+		if accel != null:
+			node.stats.set_accel(accel, reset)
+		if jump != null:
+			node.stats.set_jump(jump, reset)
+		if skill != null:
+			node.stats.set_skill(skill, reset)
 		if !block_info.settings.infinite_stats and block_info.settings.stat_supply - 1 <= 0:
 			block_info.settings.stat_supply = 0
 			block_info.settings.can_give_stats = false
