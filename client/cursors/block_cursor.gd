@@ -4,7 +4,9 @@ signal editor_event
 
 @onready var eraser_icon = $EraserIcon
 @onready var block_icon = $BlockIcon
-@onready var teleport_colorin = $BlockIcon/TeleportColorin
+@onready var teleport_color = $BlockIcon/TeleportColor
+@onready var mimic_color1 = $BlockIcon/MimicColor1
+@onready var mimic_color2 = $BlockIcon/MimicColor2
 
 var active: bool = false
 var level_layers: LevelLayers
@@ -33,7 +35,9 @@ func _process(_delta):
 		visible = true
 		eraser_icon.visible = false
 		block_icon.visible = false
-		teleport_colorin.visible = false
+		teleport_color.visible = false
+		mimic_color1.visible = false
+		mimic_color2.visible = false
 		var touching_gui: bool = get_parent().touching_gui
 		if touching_gui:
 			if mode == "erase":
@@ -47,9 +51,16 @@ func _process(_delta):
 					current_block_settings = grabbed_block_settings
 				block_icon.texture = BlockManager.get_block_texture(current_block_id)
 				if current_block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-					teleport_colorin.texture = BlockManager.get_block_teleport_texture(current_block_id)
-					teleport_colorin.self_modulate = current_block_settings.teleport_color
-					teleport_colorin.visible = true
+					teleport_color.texture = BlockManager.get_block_teleport_texture(current_block_id)
+					teleport_color.self_modulate = current_block_settings.teleport_color
+					teleport_color.visible = true
+				if current_block_settings.block_type == ConfigurableBlockSettings.MIMIC:
+					mimic_color1.texture = BlockManager.get_block_mimic_color1_texture(current_block_id)
+					mimic_color1.self_modulate = current_block_settings.mimic_color1
+					mimic_color1.visible = true
+					mimic_color2.texture = BlockManager.get_block_mimic_color2_texture(current_block_id)
+					mimic_color2.self_modulate = current_block_settings.mimic_color2
+					mimic_color2.visible = true
 			update_display()
 	else:
 		visible = false
@@ -69,9 +80,6 @@ func _on_control_event(event: Dictionary) -> void:
 		print("BlockCursor::_on_control_event", event)
 		if event.type == EditorEvents.SELECT_BLOCK_MODE:
 			mode = event.mode
-		if event.type == EditorEvents.SELECT_BLOCK:
-			block_id = event.block_id
-			block_settings = event.block_settings
 
 
 func get_mouse_to_tilemap_coords() -> Vector2:

@@ -70,6 +70,70 @@ func _ready():
 	# sound_list_request.request(base_url + "/00_sound_list.json")
 
 
+func _process(delta):
+	# process music
+	if music_volume_db != music_target_db:
+		if music_volume_db < music_target_db:
+			if music_volume_db + (db_per_sec * delta) < music_target_db:
+				music_volume_db += db_per_sec * delta
+			else:
+				music_volume_db = music_target_db
+		if music_volume_db > music_target_db:
+			if music_volume_db + (db_per_sec * delta) > music_target_db:
+				music_volume_db -= db_per_sec * delta
+			else:
+				music_volume_db = music_target_db
+	
+	if (end_music and music_volume_db <= off_volume_db) or stop_music:
+		music_audio.stop()
+		music_current_stream = null
+		stop_music = false
+		end_music = false
+	
+	if !music_current_stream and music_next_stream:
+		music_audio.stream = music_next_stream
+		music_current_stream = music_next_stream
+		music_next_stream = null
+		music_audio.play()
+	
+	if mute_music:
+		music_audio.volume_db = off_volume_db
+	else:
+		music_audio.volume_db = music_volume_db
+
+	# process sound
+	if sound_volume_db != sound_target_db:
+		if sound_volume_db < sound_target_db:
+			if sound_volume_db + (db_per_sec * delta) < sound_target_db:
+				sound_volume_db += db_per_sec * delta
+			else:
+				sound_volume_db = sound_target_db
+		if sound_volume_db > sound_target_db:
+			if sound_volume_db + (db_per_sec * delta) > sound_target_db:
+				sound_volume_db -= db_per_sec * delta
+			else:
+				sound_volume_db = sound_target_db
+	
+	if stop_sound:
+		sound_audio.stop()
+		sound_current_stream = null
+		stop_sound = false
+	
+	if !sound_next_stream.is_empty():
+		for sound in sound_next_stream.size():
+			sound_current_stream = sound_next_stream[0]
+			sound_current_stream.loop = false
+			sound_playback.play_stream(sound_current_stream)
+			sound_next_stream.remove_at(0)
+		sound_current_stream = null
+	
+	if mute_sound:
+		sound_audio.volume_db = off_volume_db
+	else:
+		sound_audio.volume_db = sound_volume_db
+
+
+
 func parse_list(list_location: String) -> Dictionary:
 	var list_string = FileAccess.get_file_as_string(list_location)
 	var json = JSON.new()
@@ -281,66 +345,3 @@ func get_music_list() -> Dictionary:
 		return music_list
 	else:
 		return local_music_list
-
-
-func _process(delta):
-	# process music
-	if music_volume_db != music_target_db:
-		if music_volume_db < music_target_db:
-			if music_volume_db + (db_per_sec * delta) < music_target_db:
-				music_volume_db += db_per_sec * delta
-			else:
-				music_volume_db = music_target_db
-		if music_volume_db > music_target_db:
-			if music_volume_db + (db_per_sec * delta) > music_target_db:
-				music_volume_db -= db_per_sec * delta
-			else:
-				music_volume_db = music_target_db
-	
-	if (end_music and music_volume_db <= off_volume_db) or stop_music:
-		music_audio.stop()
-		music_current_stream = null
-		stop_music = false
-		end_music = false
-	
-	if !music_current_stream and music_next_stream:
-		music_audio.stream = music_next_stream
-		music_current_stream = music_next_stream
-		music_next_stream = null
-		music_audio.play()
-	
-	if mute_music:
-		music_audio.volume_db = off_volume_db
-	else:
-		music_audio.volume_db = music_volume_db
-
-	# process sound
-	if sound_volume_db != sound_target_db:
-		if sound_volume_db < sound_target_db:
-			if sound_volume_db + (db_per_sec * delta) < sound_target_db:
-				sound_volume_db += db_per_sec * delta
-			else:
-				sound_volume_db = sound_target_db
-		if sound_volume_db > sound_target_db:
-			if sound_volume_db + (db_per_sec * delta) > sound_target_db:
-				sound_volume_db -= db_per_sec * delta
-			else:
-				sound_volume_db = sound_target_db
-	
-	if stop_sound:
-		sound_audio.stop()
-		sound_current_stream = null
-		stop_sound = false
-	
-	if !sound_next_stream.is_empty():
-		for sound in sound_next_stream.size():
-			sound_current_stream = sound_next_stream[0]
-			sound_current_stream.loop = false
-			sound_playback.play_stream(sound_current_stream)
-			sound_next_stream.remove_at(0)
-		sound_current_stream = null
-	
-	if mute_sound:
-		sound_audio.volume_db = off_volume_db
-	else:
-		sound_audio.volume_db = sound_volume_db

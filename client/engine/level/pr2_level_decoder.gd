@@ -200,32 +200,9 @@ func decode_objectstring(objectstring: String) -> String:
 	return ",".join(loc_2)
 
 
-#func decode_objectstring(objectstring: String) -> String:
-	#var data_array = Array(objectstring.split(","))
-	#var this_obj = Array(data_array[0].split(";"))
-	#data_array.pop_front()
-	#var local_4 = ("0x" + this_obj[0]).hex_to_int()
-	#var local_5 = ("0x" + this_obj[1]).hex_to_int()
-	#for i in data_array.size():
-		#this_obj = data_array[i].split(";")
-		#var local_13 = ("0x" + this_obj[0]).hex_to_int()
-		#var local_9 = ("0x" + this_obj[1]).hex_to_int()
-		#local_9 += local_4
-		#var local_10 = ("0x" + this_obj[2]).hex_to_int()
-		#local_10 += local_5
-		#data_array[i] = "o" + str(local_13) + ";" + str(local_9) + ";" + str(local_10)
-		#if this_obj.size() > 3:
-			#var local_11 = ("0x" + this_obj[3]).hex_to_int()
-			#var local_12 = ("0x" + this_obj[4]).hex_to_int()
-			#var local_11f = float(local_11)
-			#var local_12f = float(local_12)
-			#data_array[i] = data_array[i] + ";" + str(local_11f) + ";" + str(local_12f)
-	#return ",".join(data_array)
-
-
 func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
-	var loc_3: int = 0
-	var loc_4: int = 0
+	var loc_3: int = NAN
+	var loc_4: int = NAN
 	var loc_6: String = ""
 	var loc_7: int = 0
 	var loc_10: int = 0
@@ -271,52 +248,6 @@ func decode_objectstring2(objectstring: String, param2: int = 1) -> String:
 	return loc_6
 
 
-#func decode_objectstring2(objectstring: String, seg_mult: int = 1) -> String:
-	#var width_perc: float
-	#var height_perc: float
-	#var data_array = []
-	#if objectstring != "":
-		#data_array = Array(objectstring.split(","))
-	#var decoded_string: String = ""
-	#var object_code: int = 0
-	#var current_x: int = 0
-	#var current_y: int = 0
-	#if data_array.size() > 0:
-		#for i in data_array.size():
-			#width_perc = 0.0
-			#height_perc = 0.0
-			#var this_obj = Array(data_array[i].split(";"))
-			#var rel_x = int(this_obj[0])
-			#var rel_y = int(this_obj[1])
-			#current_x += rel_x
-			#current_y += rel_y
-			#if this_obj.size() > 3 and this_obj[2] == "t":
-				#var text_content = this_obj[3]
-				#var text_color = int(this_obj[4])
-				#width_perc = float(this_obj[5])
-				#height_perc = float(this_obj[6])
-				#data_array[i] = "u" + text_content + ";" + str(current_x) + ";" + str(current_y) + ";" + str(text_color) + ";" + str(width_perc) + ";" + str(height_perc)
-			#else:
-				#if this_obj.size() > 4:
-					#object_code = this_obj[2]
-					#width_perc = float(this_obj[3])
-					#width_perc /= 100
-					#height_perc = float(this_obj[4])
-					#height_perc /= 100
-				#elif this_obj.size() > 3:
-					#width_perc = float(this_obj[2])
-					#width_perc /= 100
-					#height_perc = float(this_obj[3])
-					#height_perc /= 100
-				#elif this_obj.size() > 2:
-					#object_code = int(this_obj[2])
-				#data_array[i] = "o" + str(object_code) + ";" + str(current_x * seg_mult) + ";" + str(current_y * seg_mult)
-				#if width_perc != 0 and height_perc != 0:
-					#data_array[i] = data_array[i] + ";" + str(width_perc) + ";" + str(height_perc)
-		#decoded_string = ",".join(data_array)
-	#return decoded_string
-
-
 func decode_blockstring(blockstring: String) -> String:
 	var loc_3: String = ""
 	var loc_4: int = 0
@@ -345,61 +276,6 @@ func decode_blockstring(blockstring: String) -> String:
 			loc_7 += 1
 		loc_3 = ",".join(loc_2)
 	return loc_3
-
-
-#func decode_blockstring(blockstring: String) -> String:
-	#var data_array = []
-	#if blockstring != "":
-		#data_array = Array(blockstring.split(","))
-	#var decoded_string: String = ""
-	#var block_code: int = 0
-	#var current_x: int = 0
-	#var current_y: int = 0
-	#if data_array.size() > 0:
-		#for i in data_array.size():
-			#var this_block = data_array[i].split(";")
-			#var rel_x = int(this_block[0])
-			#var rel_y = int(this_block[1])
-			#current_x += rel_x
-			#current_y += rel_y
-			#if this_block.size() > 2 and this_block[2] != "":
-				#block_code = int(this_block[2])
-			#var options = ""
-			#if this_block.size() > 3 and this_block[3] != "":
-				#options = ";" + this_block[3]
-			#data_array[i] = "o" + str(block_code) + ";" + str(current_x * seg_size) + ";" + str(current_y * seg_size) + options
-		#decoded_string = ",".join(data_array)
-	#return decoded_string
-
-
-func decode_pr2_blocks(pr2_blocks_string: String, version: String) -> String:
-	var decoded_string = ""
-	if pr2_blocks_string != "" and version in ["m1", "m2", "m3", "m4"]:
-		var pr2_blocks_array = Array(pr2_blocks_string.split(","))
-		var seg_mult = 30
-		var block_code: String
-		var options = ""
-		if version == "m1" or version == "m2":
-			seg_mult = 1
-		for i in pr2_blocks_array.size():
-			var block_array = Array(pr2_blocks_array[i].split(";"))
-			var relative_x = 0
-			var relative_y = 0
-			if version == "m1":
-				relative_x = ("0x" + block_array[0]).hex_to_int()
-				relative_y = ("0x" + block_array[1]).hex_to_int()
-			else:
-				relative_x = int(block_array[0])
-				relative_y = int(block_array[1])
-			pr2_blocks_array[i] = str(relative_x * seg_mult) + ";" + str(relative_y * seg_mult)
-			if block_array.size() > 2 and block_array[2] != "":
-				block_code = block_array[2]
-				pr2_blocks_array[i] = pr2_blocks_array[i] + ";" + block_code
-				if version == "m4" and block_array.size() > 3 and block_array[3] != "":
-					options = block_array[3]
-					pr2_blocks_array[i] = pr2_blocks_array[i] + ";" + options
-		decoded_string = ",".join(pr2_blocks_array)
-	return decoded_string
 
 
 func convert_pr2_blocks_to_pr4(pr2_block_string: String) -> Dictionary:

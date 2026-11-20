@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://joknjf6qnfx5"]
+[gd_scene format=3 uid="uid://joknjf6qnfx5"]
 
 [ext_resource type="Script" uid="uid://x88pj3yeqmpe" path="res://cursors/cursor.gd" id="1_bnky5"]
 [ext_resource type="PackedScene" uid="uid://capwvms00utqf" path="res://cursors/block_cursor.tscn" id="2_7h2ej"]
@@ -8,22 +8,22 @@
 [ext_resource type="PackedScene" uid="uid://db753dcpsi48c" path="res://cursors/stamp_cursor.tscn" id="4_1xtjb"]
 [ext_resource type="PackedScene" uid="uid://jjmfqdooq1yd" path="res://cursors/text_cursor.tscn" id="5_5xoxa"]
 
-[node name="Cursor" type="Node2D"]
+[node name="Cursor" type="Node2D" unique_id=1218510121]
 script = ExtResource("1_bnky5")
 
-[node name="CursorIcon" type="Node2D" parent="."]
+[node name="CursorIcon" type="Node2D" parent="." unique_id=823948734]
 z_index = 4096
 
-[node name="CursorColorIn" type="Sprite2D" parent="CursorIcon"]
+[node name="CursorColor" type="Sprite2D" parent="CursorIcon" unique_id=1387802804]
 texture = ExtResource("2_tar8l")
 offset = Vector2(6.5, 9)
 
-[node name="CursorOutline" type="Sprite2D" parent="CursorIcon"]
+[node name="CursorOutline" type="Sprite2D" parent="CursorIcon" unique_id=1217589715]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("3_lj3du")
 offset = Vector2(6.5, 9)
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=664788401]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -2526.0
@@ -31,10 +31,10 @@ offset_top = -1880.0
 offset_right = 4432.0
 offset_bottom = 3454.0
 
-[node name="BlockCursor" parent="." instance=ExtResource("2_7h2ej")]
+[node name="BlockCursor" parent="." unique_id=1406298005 instance=ExtResource("2_7h2ej")]
 
-[node name="DrawCursor" parent="." instance=ExtResource("3_egyd5")]
+[node name="DrawCursor" parent="." unique_id=1498841777 instance=ExtResource("3_egyd5")]
 
-[node name="StampCursor" parent="." instance=ExtResource("4_1xtjb")]
+[node name="StampCursor" parent="." unique_id=1976258697 instance=ExtResource("4_1xtjb")]
 
-[node name="TextCursor" parent="." instance=ExtResource("5_5xoxa")]
+[node name="TextCursor" parent="." unique_id=1544752408 instance=ExtResource("5_5xoxa")]

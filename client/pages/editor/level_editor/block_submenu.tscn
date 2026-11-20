@@ -207,7 +207,22 @@ scale = Vector2(0.375, 0.375)
 focus_mode = 1
 button_mask = 3
 
-[node name="TeleportColorin" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton" unique_id=89538633]
+[node name="TeleportColor" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton" unique_id=89538633]
+visible = false
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="MimicColor1" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton" unique_id=1108797886]
+visible = false
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="MimicColor2" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton" unique_id=1219603897]
+visible = false
 show_behind_parent = true
 layout_mode = 0
 offset_right = 128.0

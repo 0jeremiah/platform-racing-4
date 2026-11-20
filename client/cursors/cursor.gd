@@ -17,13 +17,13 @@ var editor_menu: EditorMenu
 @onready var stamp_cursor = $StampCursor
 @onready var text_cursor = $TextCursor
 @onready var cursor_icon = $CursorIcon
-@onready var cursor_colorin = $CursorIcon/CursorColorIn
+@onready var cursor_color = $CursorIcon/CursorColor
 @onready var cursor_outline = $CursorIcon/CursorOutline
 
 
 func _ready():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	cursor_colorin.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
+	cursor_color.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
 	cursor_outline.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
 	cursor_icon.visible = false
 
@@ -112,6 +112,8 @@ func _on_control_event(event: Dictionary) -> void:
 			if current_cursor:
 				current_cursor.deactivate()
 			current_cursor = block_cursor
+			current_cursor.block_id = event.block_id
+			current_cursor.block_settings = event.block_settings
 			current_cursor.activate()
 		elif event.type == EditorEvents.SELECT_TOOL:
 			$Control.mouse_filter = 0
@@ -130,32 +132,32 @@ func _on_control_event(event: Dictionary) -> void:
 		elif event.type == EditorEvents.SELECT_DRAW_SIZE and current_cursor == draw_cursor:
 			draw_cursor.set_draw_size(event.size)
 		elif event.type == EditorEvents.SELECT_DRAW_COLOR and current_cursor == draw_cursor:
-				# Convert hex string to Color object
-				draw_cursor.set_draw_color(event.color)
+			# Convert hex string to Color object
+			draw_cursor.set_draw_color(event.color)
 		elif event.type == EditorEvents.SELECT_DRAW_ALPHA and current_cursor == draw_cursor:
-				# Convert hex string to Color object
-				draw_cursor.set_draw_alpha(event.alpha)
+			# Convert hex string to Color object
+			draw_cursor.set_draw_alpha(event.alpha)
 		elif event.type == EditorEvents.SELECT_ERASE_SIZE and current_cursor == draw_cursor:
-				draw_cursor.set_erase_size(event.size)
+			draw_cursor.set_erase_size(event.size)
 		elif event.type == EditorEvents.SELECT_ERASE_ALPHA and current_cursor == draw_cursor:
-				# Convert hex string to Color object
-				draw_cursor.set_erase_alpha(event.alpha)
+			# Convert hex string to Color object
+			draw_cursor.set_erase_alpha(event.alpha)
 		elif event.type == EditorEvents.SELECT_STAMP and current_cursor == stamp_cursor:
-				stamp_cursor.set_stamp_id(event.stamp)
+			stamp_cursor.set_stamp_id(event.stamp)
 		elif event.type == EditorEvents.SELECT_STAMP_SIZE and current_cursor == stamp_cursor:
-				stamp_cursor.set_stamp_size(event.size)
+			stamp_cursor.set_stamp_size(event.size)
 		elif event.type == EditorEvents.SELECT_STAMP_ROTATION and current_cursor == stamp_cursor:
-				stamp_cursor.set_stamp_rotation(event.rotation)
+			stamp_cursor.set_stamp_rotation(event.rotation)
 		elif event.type == EditorEvents.SELECT_STAMP_MODE and current_cursor == stamp_cursor:
-				stamp_cursor.set_stamp_mode(event.mode)
+			stamp_cursor.set_stamp_mode(event.mode)
 		elif event.type == EditorEvents.SELECT_TEXT_SIZE and current_cursor == text_cursor:
-				text_cursor.set_text_font_size(event.size)
+			text_cursor.set_text_font_size(event.size)
 		elif event.type == EditorEvents.SELECT_TEXT_COLOR and current_cursor == text_cursor:
-				text_cursor.set_text_color(event.color)
+			text_cursor.set_text_color(event.color)
 		elif event.type == EditorEvents.SELECT_TEXT_ROTATION and current_cursor == text_cursor:
-				text_cursor.set_text_rotation(event.rotation)
+			text_cursor.set_text_rotation(event.rotation)
 		elif event.type == EditorEvents.SELECT_TEXT_FONT and current_cursor == text_cursor:
-				text_cursor.set_text_font(event.font)
+			text_cursor.set_text_font(event.font)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

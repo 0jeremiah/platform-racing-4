@@ -6,7 +6,9 @@ signal block_list_changed
 @onready var scroll_container = $ScrollContainer
 @onready var blocks_container = $ScrollContainer/BlocksContainer
 @onready var selected_block_texture = $SelectedBlockTexture
-@onready var teleport_colorin_texture = $SelectedBlockTexture/TeleportColorinTexture
+@onready var teleport_color_texture = $SelectedBlockTexture/TeleportColorTexture
+@onready var mimic_color1_texture = $SelectedBlockTexture/MimicColor1Texture
+@onready var mimic_color2_texture = $SelectedBlockTexture/MimicColor1Texture
 
 var block_button = preload("res://blocks/block_button.tscn")
 var block_list_size: Vector2 = Vector2(430.0, 248.0)
@@ -48,7 +50,9 @@ func _process(delta: float) -> void:
 					_maybe_add_block(selected_block_id, block_index)
 				else:
 					_maybe_add_block(selected_block_id)
-			teleport_colorin_texture.visible = false
+			teleport_color_texture.visible = false
+			mimic_color1_texture.visible = false
+			mimic_color2_texture.visible = false
 			selected_block_texture.visible = false
 			check_if_not_clicking = false
 			quick_click_timer = 0.3
@@ -97,14 +101,23 @@ func _drag_block(block_data: Dictionary, _from_block_picker: bool = true) -> voi
 
 func update_block_icon(block_id: String):
 	selected_block_texture.global_position = get_global_mouse_position() - Vector2(selected_block_texture.size.x / 2, selected_block_texture.size.y / 2)
-	teleport_colorin_texture.visible = false
+	teleport_color_texture.visible = false
+	mimic_color1_texture.visible = false
+	mimic_color2_texture.visible = false
 	selected_block_texture.visible = true
 	selected_block_texture.texture = BlockManager.get_block_texture(block_id)
 	var block_instance = BlockManager._blocks[block_id] if block_id in BlockManager._blocks else null
 	if block_instance and block_instance.settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		teleport_colorin_texture.visible = true
-		teleport_colorin_texture.texture = BlockManager.get_block_teleport_texture(block_id)
-		teleport_colorin_texture.self_modulate = Color( block_instance.settings.teleport_color + "7F")
+		teleport_color_texture.texture = BlockManager.get_block_teleport_texture(block_id)
+		teleport_color_texture.self_modulate = Color(block_instance.settings.teleport_color)
+		teleport_color_texture.visible = true
+	if block_instance and block_instance.settings.block_type == ConfigurableBlockSettings.MIMIC:
+		mimic_color1_texture.texture = BlockManager.get_block_mimic_color1_texture(block_id)
+		mimic_color1_texture.self_modulate = Color(block_instance.settings.mimic_color1)
+		mimic_color2_texture.texture = BlockManager.get_block_mimic_color2_texture(block_id)
+		mimic_color2_texture.self_modulate = Color(block_instance.settings.mimic_color2)
+		mimic_color1_texture.visible = true
+		mimic_color2_texture.visible = true
 
 
 func _maybe_add_block(id: String, index: int = block_list.size()):

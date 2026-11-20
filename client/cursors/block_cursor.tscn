@@ -15,6 +15,14 @@ texture = ExtResource("2_8ga0u")
 self_modulate = Color(1, 1, 1, 0.498039)
 scale = Vector2(0.5, 0.5)
 
-[node name="TeleportColorin" type="Sprite2D" parent="BlockIcon" unique_id=1651167975]
+[node name="TeleportColor" type="Sprite2D" parent="BlockIcon" unique_id=1651167975]
+self_modulate = Color(1, 1, 1, 0.498039)
+show_behind_parent = true
+
+[node name="MimicColor1" type="Sprite2D" parent="BlockIcon" unique_id=1887238614]
+self_modulate = Color(1, 1, 1, 0.498039)
+show_behind_parent = true
+
+[node name="MimicColor2" type="Sprite2D" parent="BlockIcon" unique_id=1301385385]
 self_modulate = Color(1, 1, 1, 0.498039)
 show_behind_parent = true

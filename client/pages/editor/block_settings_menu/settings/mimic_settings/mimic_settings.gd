@@ -44,9 +44,11 @@ func _ready() -> void:
 	mimic_can_disguise_check_box.pressed.connect(_toggle_mimic_can_disguise)
 	mimic_color1_button.set_color_button_scale(Vector2(0.625, 0.625))
 	mimic_color1_button.set_color(mimic_color1)
+	mimic_color1_button.parent = self
 	mimic_color1_button.colorbutton_color_changed.connect(_change_mimic_color1)
 	mimic_color2_button.set_color_button_scale(Vector2(0.625, 0.625))
 	mimic_color2_button.set_color(mimic_color2)
+	mimic_color2_button.parent = self
 	mimic_color2_button.colorbutton_color_changed.connect(_change_mimic_color2)
 	mimic_randomize_color1_check_box.pressed.connect(_toggle_mimic_randomize_color1)
 	mimic_randomize_color2_check_box.pressed.connect(_toggle_mimic_randomize_color2)

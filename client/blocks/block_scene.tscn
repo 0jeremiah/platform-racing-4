@@ -34,14 +34,14 @@ texture = ExtResource("2_aqaxj")
 texture = ExtResource("2_1f6pq")
 metadata/_edit_use_anchors_ = true
 
-[node name="TeleportColorinTexture" type="Sprite2D" parent="BlockTexture" unique_id=90420942]
+[node name="TeleportColorTexture" type="Sprite2D" parent="BlockTexture" unique_id=90420942]
 visible = false
 show_behind_parent = true
 clip_children = 2
 texture = ExtResource("2_1f6pq")
 metadata/_edit_use_anchors_ = true
 
-[node name="DullSquareGraphic" type="ColorRect" parent="BlockTexture/TeleportColorinTexture" unique_id=1609651343]
+[node name="DullSquareGraphic" type="ColorRect" parent="BlockTexture/TeleportColorTexture" unique_id=1609651343]
 visible = false
 self_modulate = Color(1, 1, 1, 0.49803922)
 offset_left = -64.0

@@ -279,7 +279,7 @@ static func load_default_block_configs():
 						config.image.src = src
 					_blocks_categories[category].append({"id": config.id})
 					configs.append(config)
-					#print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
+					print("Loaded config: %s (id: %s)" % [file_name, config.get("id", "unknown")])
 			file_name = dir.get_next()
 		dir.list_dir_end()
 		_blocks_categories[category].sort_custom(func(a, b): return str(a.id).naturalnocasecmp_to(str(b.id)) < 0)
@@ -317,7 +317,7 @@ static func get_block_texture(block_id: String) -> Texture2D:
 
 static func get_block_teleport_texture(block_id: String) -> Texture2D:
 	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		return not_found_block_texture
+		return null
 	var texture = null
 	if _block_lookup[block_id].has("custom_teleport_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_teleport_texture"])
@@ -333,7 +333,7 @@ static func get_block_teleport_texture(block_id: String) -> Texture2D:
 
 static func get_block_mimic_color1_texture(block_id: String) -> Texture2D:
 	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.MIMIC:
-		return not_found_block_texture
+		return null
 	var texture = null
 	if _block_lookup[block_id].has("custom_mimic_color1_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color1_texture"])
@@ -349,7 +349,7 @@ static func get_block_mimic_color1_texture(block_id: String) -> Texture2D:
 
 static func get_block_mimic_color2_texture(block_id: String) -> Texture2D:
 	if block_id not in _block_lookup or block_id not in _blocks or !_blocks[block_id].settings.block_type == ConfigurableBlockSettings.MIMIC:
-		return not_found_block_texture
+		return null
 	var texture = null
 	if _block_lookup[block_id].has("custom_mimic_color2_texture"):
 		texture = _load_custom_block_image(_block_lookup[block_id]["custom_mimic_color2_texture"])

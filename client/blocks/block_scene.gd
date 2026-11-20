@@ -3,8 +3,8 @@ class_name BlockScene
 
 @onready var block_light = $BlockLight
 @onready var block_texture = $BlockTexture
-@onready var teleport_colorin_texture = $BlockTexture/TeleportColorinTexture
-@onready var dull_square_graphic = $BlockTexture/TeleportColorinTexture/DullSquareGraphic
+@onready var teleport_color_texture = $BlockTexture/TeleportColorTexture
+@onready var dull_square_graphic = $BlockTexture/TeleportColorTexture/DullSquareGraphic
 @onready var mimic_color1_texture = $BlockTexture/MimicColor1Texture
 @onready var mimic_color2_texture = $BlockTexture/MimicColor2Texture
 @onready var frozen_texture = $BlockTexture/FrozenTexture
@@ -205,12 +205,12 @@ func get_coords() -> Vector2i:
 
 
 func set_block_texture():
-	teleport_colorin_texture.visible = false
+	teleport_color_texture.visible = false
 	block_texture.texture = BlockManager.get_block_texture(id)
 	if settings.block_type != ConfigurableBlockSettings.MIMIC and settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		teleport_colorin_texture.texture = BlockManager.get_block_teleport_texture(id)
-		teleport_colorin_texture.self_modulate = Color(settings.teleport_color)
-		teleport_colorin_texture.visible = true
+		teleport_color_texture.texture = BlockManager.get_block_teleport_texture(id)
+		teleport_color_texture.self_modulate = Color(settings.teleport_color)
+		teleport_color_texture.visible = true
 	elif settings.block_type == ConfigurableBlockSettings.MIMIC:
 		mimic_color1_texture.texture = BlockManager.get_block_mimic_color1_texture(id)
 		mimic_color1_texture.self_modulate = Color(settings.mimic_color1)

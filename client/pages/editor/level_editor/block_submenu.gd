@@ -11,7 +11,9 @@ signal control_event
 @onready var block_draw_panel = $BlockMenu/BlockDrawPanel
 @onready var block_dropper_button = $BlockMenu/BlockDropper/TextureButton
 @onready var block_draw_button = $BlockMenu/BlockDraw/TextureButton
-@onready var block_draw_teleport_colorin = $BlockMenu/BlockDraw/TextureButton/TeleportColorin
+@onready var block_draw_teleport_color = $BlockMenu/BlockDraw/TextureButton/TeleportColor
+@onready var block_draw_mimic_color1 = $BlockMenu/BlockDraw/TextureButton/MimicColor1
+@onready var block_draw_mimic_color2 = $BlockMenu/BlockDraw/TextureButton/MimicColor2
 @onready var block_options_panel = $BlockMenu/BlockOptionsPanel
 @onready var block_options_node = $BlockMenu/BlockOptions
 @onready var block_options_button = $BlockMenu/BlockOptions/TextureButton
@@ -36,7 +38,6 @@ func _ready() -> void:
 		if selected_block_id in BlockManager._block_lookup:
 			settings = BlockManager._block_lookup[selected_block_id].settings
 		selected_block_settings.import_settings(settings)
-	_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
 	block_draw_button.pressed.connect(_show_block_picker)
 	block_options_button.pressed.connect(_show_block_options)
 	_click_block_menu(block_dropper_button)
@@ -45,7 +46,7 @@ func _ready() -> void:
 func init() -> void:
 	layer_panel.init(current_editor, current_layers, "blocks")
 	editor_events.connect_to([layer_panel])
-	#_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings()})
+	_set_current_block({"id": selected_block_id, "settings": selected_block_settings.get_settings(), "edited_settings": selected_block_settings.get_edited_settings()})
 	if active:
 		layer_panel._render()
 
@@ -89,14 +90,22 @@ func _process(_delta: float) -> void:
 			set_selection_glow()
 	else:
 		visible = false
-	if selected_block_settings and block_draw_teleport_colorin.visible:
-		block_draw_teleport_colorin.self_modulate = selected_block_settings.teleport_color
+	if selected_block_settings and block_draw_teleport_color.visible:
+		block_draw_teleport_color.self_modulate = selected_block_settings.teleport_color
+	if selected_block_settings and block_draw_mimic_color1.visible:
+		block_draw_mimic_color1.self_modulate = selected_block_settings.mimic_color1
+	if selected_block_settings and block_draw_mimic_color2.visible:
+		block_draw_mimic_color2.self_modulate = selected_block_settings.mimic_color2
 
 
 func _set_current_block(block_data: Dictionary) -> void:
 	selected_block_id = block_data.id
 	selected_block_settings.import_settings(block_data.settings)
-	block_draw_teleport_colorin.visible = false
+	if block_data.has("edited_settings"):
+		selected_block_settings.import_edited_settings(block_data.edited_settings)
+	block_draw_teleport_color.visible = false
+	block_draw_mimic_color1.visible = false
+	block_draw_mimic_color2.visible = false
 	emit_signal("control_event", {
 			"type": EditorEvents.SELECT_BLOCK,
 			"block_id": selected_block_id,
@@ -105,8 +114,14 @@ func _set_current_block(block_data: Dictionary) -> void:
 		})
 	block_draw_button.texture_normal = BlockManager.get_block_texture(selected_block_id)
 	if selected_block_settings.has_side_type(ConfigurableBlockSideSettings.TELEPORT):
-		block_draw_teleport_colorin.texture = BlockManager.get_block_teleport_texture(selected_block_id)
-		block_draw_teleport_colorin.visible = true
+		block_draw_teleport_color.texture = BlockManager.get_block_teleport_texture(selected_block_id)
+		block_draw_teleport_color.visible = true
+	if selected_block_settings.block_type == ConfigurableBlockSettings.MIMIC:
+		block_draw_mimic_color1.texture = BlockManager.get_block_mimic_color1_texture(selected_block_id)
+		block_draw_mimic_color2.texture = BlockManager.get_block_mimic_color2_texture(selected_block_id)
+		block_draw_mimic_color1.visible = true
+		block_draw_mimic_color2.visible = true
+
 
 
 func _check_clicked_button(node: Node):
@@ -166,10 +181,6 @@ func _show_block_picker():
 
 func _show_block_options():
 	PopupManager.add_custom_popup(blocksettingsmenu_popup, {"block_settings": selected_block_settings, "popup_global_position": Vector2(block_options_button.global_position.x + (block_options_button.size.x + 20), block_options_button.global_position.y)}, self)
-	#if block_options_popup.get_node("PopupHolder").get_child_count() > 0:
-		#block_options_popup.size = block_options_popup.get_node("PopupHolder").get_child(0).size
-		#block_options_popup.position = Vector2(block_options_panel.global_position.x + block_options_panel.size.x + 10, block_options_panel.global_position.y)
-		#block_options_popup.show()
 
 
 func set_selection_glow():

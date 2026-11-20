@@ -13,13 +13,11 @@ var _config: Dictionary
 
 
 func init(config: Dictionary) -> void:
-	#print("Block::init ", config)
 	_config = config
 	settings.import_settings(_config.settings)
 
 
 func on(event: String, body: PhysicsBody2D, tile_map_layer: ConfigurableTileMapLayer, coords: Vector2i, normal: Vector2 = Vector2.ZERO) -> void:
-	#print("Block::on " + event)
 	var block_info = tile_map_layer.get_block(coords)
 	if block_info.id == "" or block_info.settings == null:
 		return

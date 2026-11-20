@@ -23,7 +23,7 @@ texture_normal = ExtResource("2_dkg43")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Colorin" type="TextureRect" parent="TextureButton" unique_id=902196834]
+[node name="ColorTexture" type="TextureRect" parent="TextureButton" unique_id=902196834]
 show_behind_parent = true
 layout_mode = 0
 offset_right = 48.0

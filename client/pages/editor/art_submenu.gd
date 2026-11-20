@@ -23,8 +23,6 @@ signal control_event
 @onready var art_settings = $ArtSettings
 @onready var art_settings_panel = $ArtSettings/ArtSettingsPanel
 @onready var color_box_button = $ArtSettings/ColorBox
-@onready var color_picker_texture = $ArtSettings/ColorBox/TextureButton/ColorPicker
-@onready var color_picker_colorin = $ArtSettings/ColorBox/TextureButton/ColorPickerColorin
 @onready var stamp_texture = $ArtSettings/SelectedStampBox/StampTexture
 @onready var selected_stamp_box = $ArtSettings/SelectedStampBox
 @onready var selected_stamp_texture = $ArtSettings/SelectedStampBox/StampTexture

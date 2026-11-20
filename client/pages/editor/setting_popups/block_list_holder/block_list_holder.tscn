@@ -28,14 +28,26 @@ columns = 6
 
 [node name="SelectedBlockTexture" type="TextureRect" parent="." unique_id=2124128093]
 visible = false
-self_modulate = Color(1, 1, 1, 0.7490196)
+modulate = Color(1, 1, 1, 0.7490196)
 z_index = 10
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 expand_mode = 1
 
-[node name="TeleportColorinTexture" type="TextureRect" parent="SelectedBlockTexture" unique_id=1811243988]
+[node name="TeleportColorTexture" type="TextureRect" parent="SelectedBlockTexture" unique_id=1811243988]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="MimicColor1Texture" type="TextureRect" parent="SelectedBlockTexture" unique_id=1904449758]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="MimicColor1Texture2" type="TextureRect" parent="SelectedBlockTexture" unique_id=1784456138]
 show_behind_parent = true
 layout_mode = 0
 offset_right = 128.0
